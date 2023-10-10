@@ -3,6 +3,7 @@ import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeTo
 import { ActionIcon, AppShell, Burger, Button, Card, Chip, Divider, Flex, Group, Input, List, Menu, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
+import { Navbar } from '../components/Navbar/Navbar';
 
 export function HomePage() {
   const [opened, { toggle }] = useDisclosure();
@@ -52,73 +53,12 @@ export function HomePage() {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <AppShell.Section hiddenFrom='sm' grow mb={'xl'}>
-          <Group justify='space-between'>
-            <Group>
-              <Burger
-                opened={opened}
-                onClick={toggle}
-                hiddenFrom="sm"
-                size="sm"
-              />
-              <Title order={2}>
-                EasyPrompt
-              </Title>
-            </Group>
-            <ColorSchemeToggle />
-          </Group>
-        </AppShell.Section>
-        <AppShell.Section grow component={ScrollArea}>
-          <Stack>
-            <Stack gap={'md'}>
-              <Select
-                placeholder="Pick value"
-                data={['Text Generation', 'Image Generation', 'Text to Speech']}
-                defaultValue={'Text Generation'}
-                allowDeselect={false}
-                checkIconPosition='right'
-                size='sm'
-              />
-              <Select
-                placeholder="Pick value"
-                data={['Chat GPT3.5', 'Google', 'Amazon', 'Microsoft']}
-                defaultValue={'Chat GPT3.5'}
-                allowDeselect={false}
-                checkIconPosition='right'
-                size='sm'
-              />
-            </Stack>
-            <Stack>
-              <NavbarFiltersCard placeholder="Search Templates" items={templates} />
-              <NavbarFiltersCard placeholder="Search Filters" items={filters} />
-            </Stack>
-          </Stack>
-        </AppShell.Section>
-        <AppShell.Section>
-          <Divider my="xs" />
-          <Menu shadow="md" width={'target'}>
-            <Menu.Target>
-              <Button fullWidth={true} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} >Options</Button>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Label>Application</Menu.Label>
-              <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                About
-              </Menu.Item>
-              <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                How to use
-              </Menu.Item>
-              <Menu.Divider />
-
-              <Menu.Label>Administration</Menu.Label>
-              <Menu.Item
-                leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}
-              >
-                Configure Filters
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </AppShell.Section>
+        <Navbar
+          opened={opened}
+          toggle={toggle}
+          templates={templates}
+          filters={filters}
+        />
       </AppShell.Navbar>
       <AppShell.Main>
         <Tabs variant='default' radius={'sm'} defaultValue="create">
