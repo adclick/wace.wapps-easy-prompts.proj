@@ -1,6 +1,5 @@
-import { NavbarFiltersCard } from '../components/NavbarFiltersCard/NavbarFiltersCard';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import { ActionIcon, AppShell, Burger, Button, Card, Chip, Divider, Flex, Group, Input, List, Menu, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, rem } from '@mantine/core';
+import { ActionIcon, AppShell, Burger, Button, Card, Chip, Divider, Flex, Grid, Group, Input, List, Menu, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
 import { Navbar } from '../components/Navbar/Navbar';
@@ -36,8 +35,8 @@ export function HomePage() {
       }}
       padding="md"
     >
-      <AppShell.Header withBorder={false} mx={'md'} my={'md'}>
-        <Group justify="space-between">
+      <AppShell.Header withBorder={true}>
+        <Group h={"100%"} px={"md"} justify="space-between">
           <Group>
             <Burger
               opened={opened}
@@ -124,33 +123,28 @@ export function HomePage() {
         </Tabs>
 
       </AppShell.Main>
-      <AppShell.Footer withBorder={false} mx={'md'} my={'md'}>
-        <Flex
+      <AppShell.Footer withBorder={false}>
+        <Group
+          wrap='nowrap'
           align={'center'}
           gap={'sm'}
-          styles={{
-            root: {
-              position: "absolute",
-              bottom: "0",
-              width: "100%"
-            }
-          }}
+          pos={"absolute"}
+          bottom={"0"}
+          w={"100%"}
+          py={"md"}
+          px={"md"}
         >
           <Textarea
             placeholder="Write something"
             autosize
-            size='sm'
+            autoFocus
             minRows={1}
-            styles={{
-              root: {
-                width: "100%",
-              }
-            }}
+            w={"100%"}
           />
           <ActionIcon variant="filled" size="md" aria-label="Settings">
             <IconArrowRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
-        </Flex>
+        </Group>
       </AppShell.Footer>
     </AppShell>
   );
