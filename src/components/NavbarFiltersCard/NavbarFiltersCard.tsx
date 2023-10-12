@@ -42,16 +42,8 @@ export function NavbarFiltersCard({ placeholder, items }: Props) {
                                     )
                                 })
                             }
-
                         </Stack>
                     </ScrollArea>
-                    <Stack gap={'xs'}>
-                        <Divider />
-                        <Group justify='space-between'>
-                            <Button size='xs' variant='transparent'>Clear</Button>
-                            <Button size='xs' variant='transparent'>Apply</Button>
-                        </Group>
-                    </Stack>
                 </Stack>
             </Card>
         </>

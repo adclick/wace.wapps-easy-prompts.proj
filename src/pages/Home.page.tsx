@@ -3,6 +3,9 @@ import { ActionIcon, AppShell, Burger, Button, Card, Chip, Divider, Flex, Grid, 
 import { useDisclosure } from '@mantine/hooks';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
 import { Navbar } from '../components/Navbar/Navbar';
+import { Header } from '../components/Header/Header';
+
+const NOT_AVAILABLE = "Not available yet";
 
 export function HomePage() {
   const [opened, { toggle }] = useDisclosure();
@@ -35,24 +38,12 @@ export function HomePage() {
       }}
       padding="md"
     >
-      <AppShell.Header withBorder={true}>
-        <Group h={"100%"} px={"md"} justify="space-between">
-          <Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <Title order={2}>
-              EasyPrompts
-            </Title>
-          </Group>
-          <ColorSchemeToggle />
-        </Group>
+      <AppShell.Header withBorder={false} p={"md"}>
+        <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar p="md">
         <Navbar
+          notAvailable={NOT_AVAILABLE}
           opened={opened}
           toggle={toggle}
           templates={templates}
@@ -140,8 +131,20 @@ export function HomePage() {
             autoFocus
             minRows={1}
             w={"100%"}
+            size={'lg'}
+            styles={{
+              input: {
+                paddingRight: "50px"
+              }
+            }}
           />
-          <ActionIcon variant="filled" size="md" aria-label="Settings">
+          <ActionIcon 
+            variant="filled" 
+            size="lg" 
+            aria-label="Submit"
+            pos={"absolute"}
+            right={"25px"}
+          >
             <IconArrowRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
         </Group>

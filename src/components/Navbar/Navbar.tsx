@@ -1,8 +1,9 @@
-import { AppShell, Burger, Button, Divider, Group, Menu, ScrollArea, Select, Stack, Title, rem } from "@mantine/core";
+import { AppShell, Burger, Button, Divider, Group, Menu, ScrollArea, Select, Stack, Title, Tooltip, rem } from "@mantine/core";
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 import { NavbarFiltersCard } from "../NavbarFiltersCard/NavbarFiltersCard";
-import { IconFilter, IconInfoCircle, IconQuestionMark, IconSettings } from "@tabler/icons-react";
+import { IconCheck, IconClearAll, IconFilter, IconInfoCircle, IconQuestionMark, IconSettings } from "@tabler/icons-react";
 import { MouseEventHandler } from "react";
+import { Header } from "../Header/Header";
 
 interface Template {
     name: string,
@@ -15,30 +16,18 @@ interface Filters {
 }
 
 interface Props {
+    notAvailable: string
     opened: boolean,
     toggle: MouseEventHandler<HTMLButtonElement>,
     templates: Array<Template>
     filters: Array<Filters>
 }
 
-export function Navbar({ opened, toggle, templates, filters }: Props) {
+export function Navbar({ notAvailable, opened, toggle, templates, filters }: Props) {
     return (
         <>
             <AppShell.Section hiddenFrom='sm' grow mb={'xl'}>
-                <Group justify='space-between'>
-                    <Group>
-                        <Burger
-                            opened={opened}
-                            onClick={toggle}
-                            hiddenFrom="sm"
-                            size="sm"
-                        />
-                        <Title order={2}>
-                            EasyPrompt
-                        </Title>
-                    </Group>
-                    <ColorSchemeToggle />
-                </Group>
+                <Header opened={opened} toggle={toggle} />
             </AppShell.Section>
             <AppShell.Section grow component={ScrollArea}>
                 <Stack>
@@ -61,33 +50,45 @@ export function Navbar({ opened, toggle, templates, filters }: Props) {
                         />
                     </Stack>
                     <Stack>
-                        <NavbarFiltersCard placeholder="Search Templates" items={templates} />
                         <NavbarFiltersCard placeholder="Search Filters" items={filters} />
+                        <NavbarFiltersCard placeholder="Search Templates" items={templates} />
                     </Stack>
                 </Stack>
             </AppShell.Section>
             <AppShell.Section>
                 <Divider my="xs" />
+                <Group grow justify="space-between">
+                    <Button size="compact-md" variant="subtle" leftSection={<IconClearAll style={{ width: rem(14), height: rem(14)}}/>}>Clear</Button>
+                    <Button size="compact-md" leftSection={<IconCheck style={{ width: rem(14), height: rem(14)}} />}>Apply</Button>
+                </Group>
+                <Divider my="xs" />
                 <Menu shadow="md" width={'target'}>
                     <Menu.Target>
-                        <Button fullWidth={true} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} >Options</Button>
+                        <Button variant="subtle" size="compact-md" fullWidth={true} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} >Options</Button>
                     </Menu.Target>
                     <Menu.Dropdown>
                         <Menu.Label>Application</Menu.Label>
-                        <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                            About
-                        </Menu.Item>
-                        <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                            How to use
-                        </Menu.Item>
+                        <Tooltip label={notAvailable}>
+                            <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
+                                About
+                            </Menu.Item>
+                        </Tooltip>
+                        <Tooltip label={notAvailable}>
+
+                            <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                                How to use
+                            </Menu.Item>
+                        </Tooltip>
                         <Menu.Divider />
 
                         <Menu.Label>Administration</Menu.Label>
-                        <Menu.Item
-                            leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}
-                        >
-                            Configure Filters
-                        </Menu.Item>
+                        <Tooltip label={notAvailable}>
+                            <Menu.Item
+                                leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}
+                            >
+                                Configure Filters
+                            </Menu.Item>
+                        </Tooltip>
                     </Menu.Dropdown>
                 </Menu>
             </AppShell.Section>
