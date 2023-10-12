@@ -4,6 +4,8 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
 import { Navbar } from '../components/Navbar/Navbar';
 import { Header } from '../components/Header/Header';
+import { EasyPromptsApiClient } from '../clients/EasyPromptsApiClient';
+import { useEffect } from 'react';
 
 const NOT_AVAILABLE = "Not available yet";
 
@@ -22,6 +24,12 @@ export function HomePage() {
     { name: "Answser me as a SEO expert", help: "" },
   ]
 
+  useEffect(() => {
+    const apiClient = new EasyPromptsApiClient();
+
+    apiClient.getAllPromptTypes().then(r => console.log(r));
+  }, [])
+
   return (
     <AppShell
       layout='alt'
@@ -34,7 +42,7 @@ export function HomePage() {
         collapsed: { mobile: !opened },
       }}
       footer={{
-        height: { base: 60 }
+        height: { base: 90 }
       }}
       padding="md"
     >
@@ -99,6 +107,13 @@ export function HomePage() {
               <List.Item>Run tests to make sure your changes do not break the build</List.Item>
               <List.Item>Run tests to make sure your changes do not break the build</List.Item>
               <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
+              <List.Item>Run tests to make sure your changes do not break the build</List.Item>
               <List.Item
                 icon={
                   <ThemeIcon color="blue" size={24} radius="xl">
@@ -137,6 +152,7 @@ export function HomePage() {
                 paddingRight: "50px"
               }
             }}
+            radius={'xl'}
           />
           <ActionIcon 
             variant="filled" 
