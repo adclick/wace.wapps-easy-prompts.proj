@@ -17,7 +17,7 @@ export function NavbarFiltersCard({ placeholder, items }: Props) {
             <Card shadow="md" withBorder={true}>
                 <Stack gap={'sm'}>
                     <Input size='sm' placeholder={placeholder}></Input>
-                    <ScrollArea h={150} offsetScrollbars>
+                    <ScrollArea offsetScrollbars>
                         <Stack gap={'xs'}>
                             {
                                 items.map(item => {

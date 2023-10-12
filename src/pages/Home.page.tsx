@@ -1,34 +1,35 @@
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import { ActionIcon, AppShell, Burger, Button, Card, Chip, Divider, Flex, Grid, Group, Input, List, Menu, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, rem } from '@mantine/core';
+import { ActionIcon, AppShell, Button, Divider, Group, Input, List, Menu, ScrollArea, Select, Space, Stack, Tabs, Textarea, ThemeIcon, Tooltip, rem } from '@mantine/core';
+import { IconArrowRight, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
-import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
-import { Navbar } from '../components/Navbar/Navbar';
+import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
-import { EasyPromptsApiClient } from '../clients/EasyPromptsApiClient';
-import { useEffect } from 'react';
+import { NavbarFiltersCard } from '../components/NavbarFiltersCard/NavbarFiltersCard';
+import { EasyPromptsApiClient, PromptType } from '../clients/EasyPromptsApiClient';
 
+// Message used for not yet implemented components
 const NOT_AVAILABLE = "Not available yet";
 
 export function HomePage() {
+  // Setting state vars
+  const [promptTypes, setPromptTypes] = useState<{value: string, label: string}[]>([{value: "", label: ""}]);
+
+  // Setting hooks
   const [opened, { toggle }] = useDisclosure();
 
-  const templates = [
-    { name: "SEO Report", help: "SEO" },
-    { name: "Best Portugal's beaches images", help: "SEO" },
-    { name: "Keywords extraction", help: "SEO" },
-  ];
+  // Init logic
+  useEffect(() => {
+    const client = new EasyPromptsApiClient();
+    client.getAllPromptTypes().then((promptType: PromptType[]) => {
+      const types = promptType.map((item: PromptType) => ({ value: item.slug, label: item.name }));
+      setPromptTypes(types);
+    });
+  }, []);
 
   const filters = [
     { name: "Act like a Cardiologist", help: "" },
     { name: "Assume you're a security reviewer", help: "" },
     { name: "Answser me as a SEO expert", help: "" },
   ]
-
-  useEffect(() => {
-    const apiClient = new EasyPromptsApiClient();
-
-    apiClient.getAllPromptTypes().then(r => console.log(r));
-  }, [])
 
   return (
     <AppShell
@@ -50,13 +51,71 @@ export function HomePage() {
         <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <Navbar
-          notAvailable={NOT_AVAILABLE}
-          opened={opened}
-          toggle={toggle}
-          templates={templates}
-          filters={filters}
-        />
+        <AppShell.Section hiddenFrom='sm' grow mb={'xl'}>
+          <Header opened={opened} toggle={toggle} />
+        </AppShell.Section>
+        <AppShell.Section grow component={ScrollArea}>
+          <Stack>
+            <Stack gap={'md'}>
+              <Select
+                placeholder="Select the type of prompt"
+                data={promptTypes}
+                value={promptTypes[0].value}
+                allowDeselect={false}
+                checkIconPosition='right'
+                size='sm'
+              />
+              <Select
+                placeholder="Choose a provider"
+                data={['Chat GPT3.5', 'Google', 'Amazon', 'Microsoft']}
+                defaultValue={'Chat GPT3.5'}
+                allowDeselect={false}
+                checkIconPosition='right'
+                size='sm'
+              />
+            </Stack>
+            <Stack>
+              <NavbarFiltersCard placeholder="Search Filters" items={filters} />
+            </Stack>
+          </Stack>
+        </AppShell.Section>
+        <AppShell.Section>
+          <Divider my="xs" />
+          <Group grow justify="space-between">
+            <Button size="compact-md" variant="subtle" leftSection={<IconClearAll style={{ width: rem(14), height: rem(14) }} />}>Clear</Button>
+            <Button size="compact-md" leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />}>Apply</Button>
+          </Group>
+          <Divider my="xs" />
+          <Menu shadow="md" width={'target'}>
+            <Menu.Target>
+              <Button variant="subtle" size="compact-md" fullWidth={true} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} >Options</Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>Application</Menu.Label>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
+                  About
+                </Menu.Item>
+              </Tooltip>
+              <Tooltip label={NOT_AVAILABLE}>
+
+                <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                  How to use
+                </Menu.Item>
+              </Tooltip>
+              <Menu.Divider />
+
+              <Menu.Label>Administration</Menu.Label>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item
+                  leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Configure Filters
+                </Menu.Item>
+              </Tooltip>
+            </Menu.Dropdown>
+          </Menu>
+        </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
         <Tabs variant='default' radius={'sm'} defaultValue="create">
@@ -154,9 +213,9 @@ export function HomePage() {
             }}
             radius={'xl'}
           />
-          <ActionIcon 
-            variant="filled" 
-            size="lg" 
+          <ActionIcon
+            variant="filled"
+            size="lg"
             aria-label="Submit"
             pos={"absolute"}
             right={"25px"}
