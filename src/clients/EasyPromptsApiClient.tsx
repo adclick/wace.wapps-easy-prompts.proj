@@ -4,6 +4,8 @@ export class EasyPromptsApiClient {
     constructor() {}
 
     async getAllPromptTypes() {
-        return await axios.get("https://easyprompts.wacestudio.pt/ai/prompt/prompt-type");
+        const {data} = await axios.get("https://easyprompts.wacestudio.pt/ai/prompt/prompt-type");
+
+        return data.map((d: any) => d.name);
     }
 }

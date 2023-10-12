@@ -2,8 +2,9 @@ import { AppShell, Burger, Button, Divider, Group, Menu, ScrollArea, Select, Sta
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 import { NavbarFiltersCard } from "../NavbarFiltersCard/NavbarFiltersCard";
 import { IconCheck, IconClearAll, IconFilter, IconInfoCircle, IconQuestionMark, IconSettings } from "@tabler/icons-react";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { Header } from "../Header/Header";
+import { EasyPromptsApiClient } from "../../clients/EasyPromptsApiClient";
 
 interface Template {
     name: string,
@@ -24,6 +25,13 @@ interface Props {
 }
 
 export function Navbar({ notAvailable, opened, toggle, templates, filters }: Props) {
+    const [promptTypes, setPromptTypes] = useState([]);
+
+    useEffect(() => {
+        const client = new EasyPromptsApiClient();
+        client.getAllPromptTypes().then(types => setPromptTypes(types));
+    });
+
     return (
         <>
             <AppShell.Section hiddenFrom='sm' grow mb={'xl'}>
@@ -34,8 +42,8 @@ export function Navbar({ notAvailable, opened, toggle, templates, filters }: Pro
                     <Stack gap={'md'}>
                         <Select
                             placeholder="Pick value"
-                            data={['Text Generation', 'Image Generation', 'Text to Speech']}
-                            defaultValue={'Text Generation'}
+                            data={promptTypes}
+                            defaultValue={promptTypes[0]}
                             allowDeselect={false}
                             checkIconPosition='right'
                             size='sm'
