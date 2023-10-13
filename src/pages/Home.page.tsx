@@ -11,8 +11,13 @@ const NOT_AVAILABLE = "Not available yet";
 
 export function HomePage() {
   // Setting state vars
-  const [promptTypes, setPromptTypes] = useState<{ value: string, label: string }[]>([{ value: "", label: "" }]);
+  const [promptTypes, setPromptTypes] = useState<PromptType[]>([]);
+  const [promptType, setPromptType] = useState("");
+  const [selectBoxPromptTypes, setSelectBoxPromptTypes] = useState<{value: string, label: string}[]>([]);
+
   const [providers, setProviders] = useState<{ value: string, label: string }[]>([{ value: "", label: "" }]);
+  const [provider, setProvider] = useState("");
+  const [selectBoxProviders, setSelectBoxProviders] = useState<{value: string, label: string}[]>([]);
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
@@ -22,17 +27,32 @@ export function HomePage() {
   // Init logic
   useEffect(() => {
     const client = new EasyPromptsApiClient();
-    client.getAllPromptTypes().then((promptType: PromptType[]) => {
-      const promptTypes = promptType.map((item: PromptType) => ({ value: item.slug, label: item.name }));
+    client.getAllPromptTypes().then((promptTypes: PromptType[]) => {
       setPromptTypes(promptTypes);
+      const selectBoxPromptTypes = promptTypes.map(promptType => {
+        return {
+          value: promptType.prompt_type_slug,
+          label: promptType.prompt_type_name
+        };
+      });
+      setSelectBoxPromptTypes(selectBoxPromptTypes);
     });
   }, []);
 
   // Update providers based on the PromptType choosen by the user
   const updateProviders = async (value: any) => {
     const client = new EasyPromptsApiClient();
-    const results = await client.getProvidersByPromptType(value);
-    setProviders(results.map((item: Provider) => ({ value: item.slug, label: item.name })));
+    const providersByPromptType = await client.getProvidersByPromptType(value);
+    setProviders(providersByPromptType);
+
+    const selectBoxProviders = providersByPromptType.map(providerByPromptType => {
+      return {
+        value: providerByPromptType.slug,
+        label: providerByPromptType.name
+      }
+    });
+    setSelectBoxPromptTypes(selectBoxPromptTypes);
+
   }
 
   // Temp filters
@@ -77,7 +97,8 @@ export function HomePage() {
             <Stack gap={'md'}>
               <Select
                 placeholder="Select the type of prompt"
-                data={promptTypes}
+                data={selectBoxPromptTypes}
+                value={promptType}
                 allowDeselect={false}
                 checkIconPosition='right'
                 size='sm'
@@ -85,8 +106,8 @@ export function HomePage() {
               />
               <Select
                 placeholder="Choose a provider"
-                data={providers}
-                value={providers[0].value}
+                data={selectBoxProviders}
+                value={provider}
                 allowDeselect={false}
                 checkIconPosition='right'
                 size='sm'

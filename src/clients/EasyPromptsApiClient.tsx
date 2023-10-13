@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export interface PromptType {
-    id: number,
-    name: string,
-    slug: string
+    prompt_type_name: string,
+    prompt_type_slug: string,
+    provider_name: string,
+    provider_slug_: string
 };
 
 export interface Provider {
@@ -24,9 +25,9 @@ export class EasyPromptsApiClient {
 
     /**
      * Get all the types of prompts
-     * @returns Array
+     * @returns 
      */
-    async getAllPromptTypes(): Promise<Array<PromptType>> {
+    async getAllPromptTypes(): Promise<PromptType[]> {
         const { data } = await axios.get(`${this.baseUrl}/ai/prompt/prompt-type`);
 
         return data;
