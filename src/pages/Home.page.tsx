@@ -1,5 +1,5 @@
-import { ActionIcon, AppShell, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Textarea, ThemeIcon, Tooltip, rem } from '@mantine/core';
-import { IconArrowRight, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconTemplate, IconUpload } from '@tabler/icons-react';
+import { ActionIcon, AppShell, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
+import { IconArrowRight, IconBrandGravatar, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconInfoCircle, IconList, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconTemplate, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
@@ -110,6 +110,7 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <Stack>
+            <Title order={3}>Options</Title>
             <Stack gap={'md'}>
               <Select
                 placeholder="Select the type of prompt"
@@ -155,14 +156,11 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section>
           <Divider my="xs" />
-          <Group grow justify="space-between">
-            <Button size="compact-md" variant="subtle" leftSection={<IconClearAll style={{ width: rem(14), height: rem(14) }} />}>Clear</Button>
-            <Button size="compact-md" leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />}>Apply</Button>
-          </Group>
-          <Divider my="xs" />
           <Menu shadow="md" width={'target'}>
             <Menu.Target>
-              <Button variant="subtle" size="compact-md" fullWidth={true} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} >Options</Button>
+              <Button variant="filled" size="md" fullWidth={true} leftSection={<IconMenu style={{ width: rem(14), height: rem(14) }} />} >
+                Account
+              </Button>
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Label>Application</Menu.Label>
