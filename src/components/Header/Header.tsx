@@ -1,4 +1,4 @@
-import { Burger, Group, Title } from "@mantine/core";
+import { Badge, Burger, Divider, Group, Title } from "@mantine/core";
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 import { MouseEventHandler } from "react";
 
@@ -7,7 +7,7 @@ interface Props {
     toggle: MouseEventHandler<HTMLButtonElement>
 }
 
-export function Header({opened, toggle}: Props) {
+export function Header({ opened, toggle }: Props) {
     return (
         <Group h={"100%"} px={"md"} justify="space-between">
             <Group>
@@ -20,6 +20,7 @@ export function Header({opened, toggle}: Props) {
                 <Title order={2}>
                     EasyPrompts
                 </Title>
+                <Badge size="xs">Beta</Badge>
             </Group>
             <ColorSchemeToggle />
         </Group>

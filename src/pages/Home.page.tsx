@@ -1,5 +1,5 @@
-import { ActionIcon, AppShell, Button, Divider, Group, Input, List, Menu, ScrollArea, Select, Space, Stack, Tabs, Textarea, ThemeIcon, Tooltip, rem } from '@mantine/core';
-import { IconArrowRight, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings } from '@tabler/icons-react';
+import { ActionIcon, AppShell, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Textarea, ThemeIcon, Tooltip, rem } from '@mantine/core';
+import { IconArrowRight, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconInfoCircle, IconList, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconTemplate, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
@@ -11,10 +11,12 @@ const NOT_AVAILABLE = "Not available yet";
 
 export function HomePage() {
   // Setting state vars
-  const [promptTypes, setPromptTypes] = useState<{value: string, label: string}[]>([{value: "", label: ""}]);
+  const [promptTypes, setPromptTypes] = useState<{ value: string, label: string }[]>([{ value: "", label: "" }]);
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
+  const [openedPrompts, { open, close }] = useDisclosure(false);
+
 
   // Init logic
   useEffect(() => {
@@ -25,10 +27,18 @@ export function HomePage() {
     });
   }, []);
 
+  // Temp filters
   const filters = [
     { name: "Act like a Cardiologist", help: "" },
     { name: "Assume you're a security reviewer", help: "" },
     { name: "Answser me as a SEO expert", help: "" },
+  ]
+
+  // Temp Templates
+  const templates = [
+    { name: "SEO Report", help: "" },
+    { name: "Images for Portugal Tourism", help: "" },
+    { name: "Copy about Finance", help: "" },
   ]
 
   return (
@@ -51,7 +61,7 @@ export function HomePage() {
         <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <AppShell.Section hiddenFrom='sm' grow mb={'xl'}>
+        <AppShell.Section hiddenFrom='sm' mb={'xl'}>
           <Header opened={opened} toggle={toggle} />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
@@ -75,7 +85,26 @@ export function HomePage() {
               />
             </Stack>
             <Stack>
-              <NavbarFiltersCard placeholder="Search Filters" items={filters} />
+
+              <Tabs radius={"sm"} defaultValue="filters">
+                <Tabs.List grow>
+                  <Tabs.Tab value="filters" leftSection={<IconFilter style={{ width: rem(12), height: rem(12) }} />}>
+                    Filters
+                  </Tabs.Tab>
+                  <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(12), height: rem(12) }} />}>
+                    Templates
+                  </Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel value="filters" py={"md"}>
+                  <NavbarFiltersCard placeholder="Search Filters" items={filters} />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="templates" py={"md"}>
+                  <NavbarFiltersCard placeholder="Search Templates" items={templates} />
+                </Tabs.Panel>
+              </Tabs>
+
             </Stack>
           </Stack>
         </AppShell.Section>
@@ -118,23 +147,12 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Tabs variant='default' radius={'sm'} defaultValue="create">
-          <Tabs.List grow justify='space-between'>
-            <Tabs.Tab value="create" leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}>
-              Create
-            </Tabs.Tab>
-            <Tabs.Tab value="prompts" leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
-              Prompts
-            </Tabs.Tab>
-          </Tabs.List>
 
-          <Tabs.Panel value="create">
-          </Tabs.Panel>
-
-          <Tabs.Panel value="prompts">
-            <Space h={"sm"} />
+      </AppShell.Main>
+      <AppShell.Footer withBorder={false}>
+        <Modal size={"xl"} opened={openedPrompts} onClose={close} title={"Optimized Prompts"}>
+          <Stack gap={"md"}>
             <Input placeholder="Search" leftSection={<IconSearch size={16} />} />
-            <Space h={"sm"} />
             <List
               spacing="xs"
               size="sm"
@@ -183,12 +201,9 @@ export function HomePage() {
                 Submit a pull request once you are done
               </List.Item>
             </List>
-          </Tabs.Panel>
+          </Stack>
 
-        </Tabs>
-
-      </AppShell.Main>
-      <AppShell.Footer withBorder={false}>
+        </Modal>
         <Group
           wrap='nowrap'
           align={'center'}
@@ -199,8 +214,24 @@ export function HomePage() {
           py={"md"}
           px={"md"}
         >
+          <ActionIcon
+            variant="filled"
+            size="lg"
+            aria-label="Submit"
+            pos={"absolute"}
+            left={"25px"}
+            styles={{
+              root: {
+                zIndex: "1"
+              }
+            }}
+            onClick={open}
+          >
+            <IconSearch style={{ width: '70%', height: '70%' }} stroke={1.5} />
+          </ActionIcon>
+
           <Textarea
-            placeholder="Write something"
+            placeholder="Write an amazing prompt"
             autosize
             autoFocus
             minRows={1}
@@ -208,6 +239,7 @@ export function HomePage() {
             size={'lg'}
             styles={{
               input: {
+                paddingLeft: "60px",
                 paddingRight: "50px"
               }
             }}
