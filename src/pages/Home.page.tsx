@@ -15,7 +15,7 @@ export function HomePage() {
   const [promptType, setPromptType] = useState("");
   const [selectBoxPromptTypes, setSelectBoxPromptTypes] = useState<{value: string, label: string}[]>([]);
 
-  const [providers, setProviders] = useState<{ value: string, label: string }[]>([{ value: "", label: "" }]);
+  const [providers, setProviders] = useState<Provider[]>([]);
   const [provider, setProvider] = useState("");
   const [selectBoxProviders, setSelectBoxProviders] = useState<{value: string, label: string}[]>([]);
 
@@ -26,6 +26,7 @@ export function HomePage() {
 
   // Init logic
   useEffect(() => {
+    console.log('useEffect');
     const client = new EasyPromptsApiClient();
     client.getAllPromptTypes().then((promptTypes: PromptType[]) => {
       setPromptTypes(promptTypes);
@@ -36,11 +37,13 @@ export function HomePage() {
         };
       });
       setSelectBoxPromptTypes(selectBoxPromptTypes);
+      setPromptType(promptTypes[0].prompt_type_slug);
     });
   }, []);
 
   // Update providers based on the PromptType choosen by the user
   const updateProviders = async (value: any) => {
+    console.log('updateProviders');
     const client = new EasyPromptsApiClient();
     const providersByPromptType = await client.getProvidersByPromptType(value);
     setProviders(providersByPromptType);
@@ -51,8 +54,14 @@ export function HomePage() {
         label: providerByPromptType.name
       }
     });
-    setSelectBoxPromptTypes(selectBoxPromptTypes);
+    setSelectBoxProviders(selectBoxProviders);
 
+    const provider: PromptType|undefined = promptTypes.find((promptType: PromptType) => {
+      return promptType.prompt_type_slug = value;
+    });
+    if (provider !== undefined) {
+      setProvider(provider.provider_slug);
+    }
   }
 
   // Temp filters
