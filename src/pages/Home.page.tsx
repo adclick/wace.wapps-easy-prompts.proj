@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
 import { NavbarFiltersCard } from '../components/NavbarFiltersCard/NavbarFiltersCard';
-import { EasyPromptsApiClient, PromptType } from '../clients/EasyPromptsApiClient';
+import { EasyPromptsApiClient, PromptType, Provider } from '../clients/EasyPromptsApiClient';
 
 // Message used for not yet implemented components
 const NOT_AVAILABLE = "Not available yet";
@@ -12,6 +12,7 @@ const NOT_AVAILABLE = "Not available yet";
 export function HomePage() {
   // Setting state vars
   const [promptTypes, setPromptTypes] = useState<{ value: string, label: string }[]>([{ value: "", label: "" }]);
+  const [providers, setProviders] = useState<{ value: string, label: string }[]>([{ value: "", label: "" }]);
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
@@ -22,10 +23,17 @@ export function HomePage() {
   useEffect(() => {
     const client = new EasyPromptsApiClient();
     client.getAllPromptTypes().then((promptType: PromptType[]) => {
-      const types = promptType.map((item: PromptType) => ({ value: item.slug, label: item.name }));
-      setPromptTypes(types);
+      const promptTypes = promptType.map((item: PromptType) => ({ value: item.slug, label: item.name }));
+      setPromptTypes(promptTypes);
     });
   }, []);
+
+  // Update providers based on the PromptType choosen by the user
+  const updateProviders = async (value: any) => {
+    const client = new EasyPromptsApiClient();
+    const results = await client.getProvidersByPromptType(value);
+    setProviders(results.map((item: Provider) => ({ value: item.slug, label: item.name })));
+  }
 
   // Temp filters
   const filters = [
@@ -70,15 +78,15 @@ export function HomePage() {
               <Select
                 placeholder="Select the type of prompt"
                 data={promptTypes}
-                value={promptTypes[0].value}
                 allowDeselect={false}
                 checkIconPosition='right'
                 size='sm'
+                onChange={updateProviders}
               />
               <Select
                 placeholder="Choose a provider"
-                data={['Chat GPT3.5', 'Google', 'Amazon', 'Microsoft']}
-                defaultValue={'Chat GPT3.5'}
+                data={providers}
+                value={providers[0].value}
                 allowDeselect={false}
                 checkIconPosition='right'
                 size='sm'
