@@ -13,20 +13,22 @@ export function HomePage() {
   // Setting state vars
   const [promptTypes, setPromptTypes] = useState<PromptType[]>([]);
   const [promptType, setPromptType] = useState("");
-  const [selectBoxPromptTypes, setSelectBoxPromptTypes] = useState<{value: string, label: string}[]>([]);
+  const [selectBoxPromptTypes, setSelectBoxPromptTypes] = useState<{ value: string, label: string }[]>([]);
 
   const [providers, setProviders] = useState<Provider[]>([]);
   const [provider, setProvider] = useState("");
-  const [selectBoxProviders, setSelectBoxProviders] = useState<{value: string, label: string}[]>([]);
+  const [selectBoxProviders, setSelectBoxProviders] = useState<{ value: string, label: string }[]>([]);
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
   const [openedPrompts, { open, close }] = useDisclosure(false);
 
-
   // Init logic
   useEffect(() => {
-    console.log('useEffect');
+    updatePromptTypes();
+  }, []);
+
+  const updatePromptTypes = () => {
     const client = new EasyPromptsApiClient();
     client.getAllPromptTypes().then((promptTypes: PromptType[]) => {
       setPromptTypes(promptTypes);
@@ -37,15 +39,14 @@ export function HomePage() {
         };
       });
       setSelectBoxPromptTypes(selectBoxPromptTypes);
-      setPromptType(promptTypes[0].prompt_type_slug);
+      setPromptType(promptTypes[1].prompt_type_slug);
+      updateProviders(promptTypes, promptTypes[1].prompt_type_slug);
     });
-  }, []);
+  }
 
-  // Update providers based on the PromptType choosen by the user
-  const updateProviders = async (value: any) => {
-    console.log('updateProviders');
+  const updateProviders = async (promptTypes: PromptType[], promptTypeSlug: string) => {
     const client = new EasyPromptsApiClient();
-    const providersByPromptType = await client.getProvidersByPromptType(value);
+    const providersByPromptType = await client.getProvidersByPromptType(promptTypeSlug);
     setProviders(providersByPromptType);
 
     const selectBoxProviders = providersByPromptType.map(providerByPromptType => {
@@ -56,12 +57,18 @@ export function HomePage() {
     });
     setSelectBoxProviders(selectBoxProviders);
 
-    const provider: PromptType|undefined = promptTypes.find((promptType: PromptType) => {
-      return promptType.prompt_type_slug = value;
+    const provider: PromptType | undefined = promptTypes.find((promptType: PromptType) => {
+      return promptType.prompt_type_slug === promptTypeSlug;
     });
     if (provider !== undefined) {
       setProvider(provider.provider_slug);
     }
+  }
+
+  // Update providers based on the PromptType choosen by the user
+  const handlePromptTypesOnChange = async (promptTypeSlug: string) => {
+    setPromptType(promptTypeSlug)
+    await updateProviders(promptTypes, promptTypeSlug)
   }
 
   // Temp filters
@@ -111,7 +118,7 @@ export function HomePage() {
                 allowDeselect={false}
                 checkIconPosition='right'
                 size='sm'
-                onChange={updateProviders}
+                onChange={handlePromptTypesOnChange}
               />
               <Select
                 placeholder="Choose a provider"
