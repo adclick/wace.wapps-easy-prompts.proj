@@ -1,5 +1,5 @@
 import { ActionIcon, AppShell, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
-import { IconArrowRight, IconBrandGravatar, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconInfoCircle, IconList, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconTemplate, IconUpload } from '@tabler/icons-react';
+import { IconArrowRight, IconBrandGravatar, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconTemplate, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
@@ -164,17 +164,37 @@ export function HomePage() {
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Label>Application</Menu.Label>
+
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
+                  Give Feedback
+                </Menu.Item>
+              </Tooltip>
+
               <Tooltip label={NOT_AVAILABLE}>
                 <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
                   About
                 </Menu.Item>
               </Tooltip>
-              <Tooltip label={NOT_AVAILABLE}>
 
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
+                  Whats new
+                </Menu.Item>
+              </Tooltip>
+
+              <Tooltip label={NOT_AVAILABLE}>
                 <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
                   How to use
                 </Menu.Item>
               </Tooltip>
+
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
+                  Language
+                </Menu.Item>
+              </Tooltip>
+
               <Menu.Divider />
 
               <Menu.Label>Administration</Menu.Label>
@@ -193,7 +213,15 @@ export function HomePage() {
 
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
-        <Modal size={"xl"} opened={openedPrompts} onClose={close} title={"Optimized Prompts"}>
+        <Modal
+          size={"xl"}
+          opened={openedPrompts}
+          onClose={close}
+          title={"Optimized Prompts"}
+          transitionProps={{
+            duration: 100
+          }}
+        >
           <Stack gap={"md"}>
             <Input placeholder="Search" leftSection={<IconSearch size={16} />} />
             <List
@@ -257,21 +285,23 @@ export function HomePage() {
           py={"md"}
           px={"md"}
         >
-          <ActionIcon
-            variant="filled"
-            size="lg"
-            aria-label="Submit"
-            pos={"absolute"}
-            left={"25px"}
-            styles={{
-              root: {
-                zIndex: "1"
-              }
-            }}
-            onClick={open}
-          >
-            <IconSearch style={{ width: '70%', height: '70%' }} stroke={1.5} />
-          </ActionIcon>
+          <Tooltip label="Search Optimized Prompts">
+            <ActionIcon
+              variant="filled"
+              size="lg"
+              aria-label="Submit"
+              pos={"absolute"}
+              left={"25px"}
+              styles={{
+                root: {
+                  zIndex: "1"
+                }
+              }}
+              onClick={open}
+            >
+              <IconSearch style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+          </Tooltip>
 
           <Textarea
             placeholder="Write an amazing prompt"
