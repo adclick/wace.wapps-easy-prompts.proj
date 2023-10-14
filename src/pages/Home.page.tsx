@@ -151,6 +151,9 @@ export function HomePage() {
                 </Tabs.Panel>
               </Tabs>
 
+              <Button variant='outline' onClick={toggle} hiddenFrom='md'>
+                Apply
+              </Button>
             </Stack>
           </Stack>
         </AppShell.Section>
