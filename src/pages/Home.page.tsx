@@ -1,5 +1,5 @@
-import { ActionIcon, AppShell, Avatar, Burger, Button, Card, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
-import { IconArrowRight, IconBrandGravatar, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconCopy, IconDeviceFloppy, IconDots, IconEye, IconFileZip, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload } from '@tabler/icons-react';
+import { ActionIcon, AppShell, Burger, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
+import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
@@ -75,9 +75,10 @@ export function HomePage() {
 
   // Temp filters
   const filters = [
-    { name: "Act like a Cardiologist", help: "" },
+    { name: "Act like a Content Manager", help: "" },
     { name: "Assume you're a security reviewer", help: "" },
     { name: "Answser me as a SEO expert", help: "" },
+    { name: "Evaluate images like a desiner", help: "" },
   ]
 
   // Temp Templates
@@ -152,11 +153,11 @@ export function HomePage() {
                 </Tabs.List>
 
                 <Tabs.Panel value="filters" py={"md"}>
-                  <NavbarFiltersCard placeholder="Search Filters" items={filters} />
+                  <NavbarFiltersCard items={filters} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="templates" py={"md"}>
-                  <NavbarFiltersCard placeholder="Search Templates" items={templates} />
+                  <NavbarFiltersCard items={templates} />
                 </Tabs.Panel>
               </Tabs>
 

@@ -11,12 +11,12 @@ interface Props {
     items: Array<Item>
 }
 
-export function NavbarFiltersCard({ placeholder, items }: Props) {
+export function NavbarFiltersCard({ items }: Props) {
     return (
         <>
             <Card shadow="md" withBorder={true}>
                 <Stack gap={'sm'}>
-                    <Input size='sm' placeholder={placeholder}></Input>
+                    <Input size='sm' placeholder={"Search"}></Input>
                     <ScrollArea offsetScrollbars>
                         <Stack gap={'xs'}>
                             {
