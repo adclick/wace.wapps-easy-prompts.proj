@@ -1,4 +1,4 @@
-import { ActionIcon, AppShell, Burger, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
+import { ActionIcon, AppShell, Burger, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
@@ -7,6 +7,8 @@ import { NavbarFiltersCard } from '../components/NavbarFiltersCard/NavbarFilters
 import { EasyPromptsApiClient, PromptType, Provider } from '../clients/EasyPromptsApiClient';
 import { ResponseCard } from '../components/ResponseCard/ResponseCard';
 import { RequestCard } from '../components/RequestCard/RequestCard';
+import classes from './Home.page.module.css';
+import cx from 'clsx';
 
 // Message used for not yet implemented components
 const NOT_AVAILABLE = "Not available yet";
@@ -20,6 +22,10 @@ export function HomePage() {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [provider, setProvider] = useState("");
   const [selectBoxProviders, setSelectBoxProviders] = useState<{ value: string, label: string }[]>([]);
+
+  // Color schema
+  const computedColorScheme = useComputedColorScheme('dark');
+
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
@@ -78,7 +84,7 @@ export function HomePage() {
     { name: "Act like a Content Manager", help: "" },
     { name: "Assume you're a security reviewer", help: "" },
     { name: "Answser me as a SEO expert", help: "" },
-    { name: "Evaluate images like a desiner", help: "" },
+    { name: "Evaluate images like a designer", help: "" },
   ]
 
   // Temp Templates
@@ -87,6 +93,8 @@ export function HomePage() {
     { name: "Images for Portugal Tourism", help: "" },
     { name: "Copy about Finance", help: "" },
   ]
+
+  console.log(computedColorScheme);
 
   return (
     <AppShell
@@ -101,6 +109,9 @@ export function HomePage() {
       }}
       footer={{
         height: { base: 90 }
+      }}
+      classNames={{
+        navbar: cx(classes.navbar, computedColorScheme)
       }}
     >
       <AppShell.Header withBorder={false} p={"md"} >
