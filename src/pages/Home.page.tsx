@@ -116,7 +116,6 @@ export function HomePage() {
             />
             <Title order={3}>Options</Title>
           </Group>
-          {/* <Header opened={opened} toggle={toggle} /> */}
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <Stack>
@@ -223,6 +222,8 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main >
+        <RequestCard />
+        <ResponseCard />
         <RequestCard />
         <ResponseCard />
       </AppShell.Main>
