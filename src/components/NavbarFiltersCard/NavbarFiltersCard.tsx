@@ -7,7 +7,6 @@ interface Item {
 }
 
 interface Props {
-    placeholder: string,
     items: Array<Item>
 }
 
