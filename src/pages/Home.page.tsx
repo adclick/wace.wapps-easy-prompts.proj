@@ -1,4 +1,4 @@
-import { ActionIcon, AppShell, Button, Card, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
+import { ActionIcon, AppShell, Avatar, Burger, Button, Card, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem } from '@mantine/core';
 import { IconArrowRight, IconBrandGravatar, IconCheck, IconCircleCheck, IconCircleDashed, IconClearAll, IconCopy, IconDeviceFloppy, IconDots, IconEye, IconFileZip, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
@@ -89,7 +89,7 @@ export function HomePage() {
     <AppShell
       layout='alt'
       header={{
-        height: { base: 60 },
+        height: { base: 80 },
       }}
       navbar={{
         width: { base: 400 },
@@ -99,18 +99,26 @@ export function HomePage() {
       footer={{
         height: { base: 90 }
       }}
-      padding="md"
     >
-      <AppShell.Header withBorder={false} p={"md"}>
+      <AppShell.Header withBorder={false} p={"md"} >
         <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <AppShell.Section hiddenFrom='sm' mb={'xl'}>
-          <Header opened={opened} toggle={toggle} />
+        <AppShell.Section hiddenFrom='sm' mb={'xl'} mt={"0"}>
+          <Group>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <Title order={3}>Options</Title>
+          </Group>
+          {/* <Header opened={opened} toggle={toggle} /> */}
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <Stack>
-            <Title order={3}>Options</Title>
+            <Title visibleFrom='md' order={3} my={"xs"}>Options</Title>
             <Stack gap={'md'}>
               <Select
                 placeholder="Select the type of prompt"
@@ -212,11 +220,11 @@ export function HomePage() {
           </Menu>
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main>
-        <Card withBorder shadow="sm" radius="md">
+      <AppShell.Main >
+        <Card withBorder shadow="sm" radius="0" my={"lg"}>
           <Card.Section withBorder inheritPadding py="xs">
             <Group justify="space-between">
-              <Text fw={500}>Response</Text>
+              <Avatar src={null} alt="no image here" color="teal" />
               <Menu withinPortal position="bottom-end" shadow="sm">
                 <Menu.Target>
                   <ActionIcon variant="subtle" color="gray">
