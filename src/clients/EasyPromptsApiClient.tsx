@@ -28,9 +28,7 @@ export class EasyPromptsApiClient {
      * @returns 
      */
     async getAllPromptTypes(): Promise<PromptType[]> {
-        const { data } = await axios.get(`${this.baseUrl}/ai/prompt/prompt-type`);
-
-        return data;
+        return await this.get('/ai/prompt/prompt-type');
     }
 
     /**
@@ -40,9 +38,9 @@ export class EasyPromptsApiClient {
      * @returns 
      */
     async getProvidersByPromptType(promptType: string): Promise<Provider[]> {
-        const { data } = await axios.get(`${this.baseUrl}/ai/prompt/provider?promptType=${promptType}`);
-
-        return data;
+        return await this.get('/ai/prompt/provider', {
+            promptType
+        })
     }
 
     /**
@@ -53,7 +51,23 @@ export class EasyPromptsApiClient {
      */
     async submitPrompt(promptTypeSlug: string, providerSlug: string, promptText: string) {
         const { data } = await axios.get(`${this.baseUrl}/ai/text/generate/?text=${promptText}`);
-        
+
         return data;
+    }
+
+    /**
+     * 
+     * @param path 
+     * @param params 
+     * @returns 
+     */
+    async get(path: string, params: any = {}) {
+        const { data } = await axios.get(`${this.baseUrl}${path}`, {
+            params
+        });
+
+        const { body } = data;
+
+        return body;
     }
 }
