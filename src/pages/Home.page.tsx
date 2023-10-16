@@ -1,5 +1,5 @@
-import { ActionIcon, AppShell, Burger, Button, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
-import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload } from '@tabler/icons-react';
+import { ActionIcon, AppShell, Avatar, Burger, Button, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
+import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconLanguageHiragana, IconLanguageOff, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload, IconUser } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
@@ -146,7 +146,7 @@ export function HomePage() {
   const submitPrompt = async () => {
     setRequestLoading(true);
     const result = await apiClient.submitPrompt(promptType, provider, prompt);
-    
+
     const request: Request = {
       id: (requests.length + 1),
       prompt,
@@ -265,60 +265,83 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section>
           <Divider my="xs" />
-          <Menu shadow="md" width={'target'}>
-            <Menu.Target>
-              <Button variant="filled" size="md" fullWidth={true} leftSection={<IconMenu style={{ width: rem(14), height: rem(14) }} />} >
-                Account
-              </Button>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Label>Application</Menu.Label>
+          <Group justify='space-between'>
+            <Menu>
+              <Menu.Target>
+                <Button variant='subtle' leftSection={<IconUser />}>
+                  <Text>Welcome User</Text>
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+              </Menu.Dropdown>
+            </Menu>
+            <Group justify='flex-end'>
+              <Menu>
+                <Menu.Target>
+                  <ActionIcon variant='subtle' size={"lg"}>
+                    <Text>EN</Text>
+                  </ActionIcon>
+                </Menu.Target>
+                <Menu.Dropdown>
+                </Menu.Dropdown>
+              </Menu>
+              <Menu shadow="md" >
+                <Menu.Target>
+                  <Group justify='space-between'>
+                    <ActionIcon variant='subtle' size={"lg"}>
+                      <IconSettings style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
+                  </Group>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Label>Application</Menu.Label>
+                  <Tooltip label={NOT_AVAILABLE}>
+                    <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
+                      Give Feedback
+                    </Menu.Item>
+                  </Tooltip>
 
-              <Tooltip label={NOT_AVAILABLE}>
-                <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
-                  Give Feedback
-                </Menu.Item>
-              </Tooltip>
+                  <Tooltip label={NOT_AVAILABLE}>
+                    <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
+                      About
+                    </Menu.Item>
+                  </Tooltip>
 
-              <Tooltip label={NOT_AVAILABLE}>
-                <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                  About
-                </Menu.Item>
-              </Tooltip>
+                  <Tooltip label={NOT_AVAILABLE}>
+                    <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
+                      Whats new
+                    </Menu.Item>
+                  </Tooltip>
 
-              <Tooltip label={NOT_AVAILABLE}>
-                <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
-                  Whats new
-                </Menu.Item>
-              </Tooltip>
+                  <Tooltip label={NOT_AVAILABLE}>
+                    <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                      How to use
+                    </Menu.Item>
+                  </Tooltip>
 
-              <Tooltip label={NOT_AVAILABLE}>
-                <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                  How to use
-                </Menu.Item>
-              </Tooltip>
+                  <Tooltip label={NOT_AVAILABLE}>
+                    <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
+                      Language
+                    </Menu.Item>
+                  </Tooltip>
 
-              <Tooltip label={NOT_AVAILABLE}>
-                <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
-                  Language
-                </Menu.Item>
-              </Tooltip>
+                  <Menu.Divider />
 
-              <Menu.Divider />
-
-              <Menu.Label>Administration</Menu.Label>
-              <Tooltip label={NOT_AVAILABLE}>
-                <Menu.Item
-                  leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Configure Filters
-                </Menu.Item>
-              </Tooltip>
-            </Menu.Dropdown>
-          </Menu>
+                  <Menu.Label>Administration</Menu.Label>
+                  <Tooltip label={NOT_AVAILABLE}>
+                    <Menu.Item
+                      leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
+                    >
+                      Configure Filters
+                    </Menu.Item>
+                  </Tooltip>
+                </Menu.Dropdown>
+              </Menu>
+            </Group>
+          </Group>
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main >
+      <AppShell.Main>
         <ResponseContainer requests={requests} requestLoading={requestLoading} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
@@ -428,7 +451,7 @@ export function HomePage() {
             radius={'xl'}
             value={prompt}
             onChange={e => setPrompt(e.target.value)}
-            onKeyUp={submitPromptByTextArea}
+            onKeyDown={submitPromptByTextArea}
           />
           <ActionIcon
             variant="filled"

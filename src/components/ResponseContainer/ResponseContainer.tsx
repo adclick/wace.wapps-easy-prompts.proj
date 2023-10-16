@@ -1,7 +1,4 @@
-import { ResponseCard } from "./ResponseCard/ResponseCard";
 import { Box, LoadingOverlay } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { RequestCard } from "./RequestCard/RequestCard";
 import { Request } from "./Request";
 
 interface ResponseContainerParams {
@@ -14,9 +11,12 @@ export function ResponseContainer({ requests, requestLoading }: ResponseContaine
         <Box>
             {
                 requestLoading
-                    ? <LoadingOverlay visible={requestLoading} zIndex={10000} overlayProps={{ radius: "sm", blur: 2 }} />
-                    : requests.map((request: Request) => <Request key={request.id} prompt={request.prompt} result={request.result} />)
-
+                    ? <LoadingOverlay visible={requestLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+                    : requests.map((request: Request) => {
+                        return (
+                            <Request key={request.id} prompt={request.prompt} result={request.result} />
+                        )
+                    })
             }
         </Box>
     )
