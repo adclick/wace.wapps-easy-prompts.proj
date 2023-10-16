@@ -1,22 +1,73 @@
-import { ActionIcon, AppShell, Burger, Button, Divider, Group, Input, List, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Burger, Button, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
 import { NavbarFiltersCard } from '../components/NavbarFiltersCard/NavbarFiltersCard';
 import { EasyPromptsApiClient, PromptType, Provider } from '../clients/EasyPromptsApiClient';
-import { ResponseCard } from '../components/ResponseCard/ResponseCard';
-import { RequestCard } from '../components/RequestCard/RequestCard';
+import { ResponseCard } from '../components/ResponseContainer/ResponseCard/ResponseCard';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
+import { useAuth0 } from '@auth0/auth0-react';
+import { ResponseContainer } from '../components/ResponseContainer/ResponseContainer';
+import { RequestCard } from '../components/ResponseContainer/RequestCard/RequestCard';
+import { Request } from '../components/ResponseContainer/Request';
 
 // Message used for not yet implemented components
 const NOT_AVAILABLE = "Not available yet";
 
+
+type Auth0ParamError = {
+  message: string
+}
+
+type Auth0ParamUser = {
+  name: string
+}
+
+interface Auth0Params {
+  isLoading: boolean,
+  isAuthenticated: boolean,
+  error: Auth0ParamError,
+  user: Auth0ParamUser,
+  loginWithRedirect: CallableFunction,
+  logout: CallableFunction
+}
+
 export function HomePage() {
+  // API Client
+  const apiClient = new EasyPromptsApiClient();
+
+  // Auth0
+  const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } = useAuth0();
+
+  const getAuth0Button = () => {
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+    if (error) {
+      return <div>Oops... {error.message}</div>;
+    }
+
+    if (isAuthenticated) {
+      return (
+        user &&
+        <div>
+          Hello {user.name}{' '}
+          <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+            Log out
+          </button>
+        </div>
+      );
+    } else {
+      return <button onClick={() => loginWithRedirect()}>Log in</button>;
+    }
+  }
+
+
   // Getting color schema
   const computedColorScheme = useComputedColorScheme('dark');
-  
+
   // Setting state vars
   const [promptTypes, setPromptTypes] = useState<PromptType[]>([]);
   const [promptType, setPromptType] = useState("");
@@ -25,6 +76,10 @@ export function HomePage() {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [provider, setProvider] = useState("");
   const [selectBoxProviders, setSelectBoxProviders] = useState<{ value: string, label: string }[]>([]);
+
+  const [prompt, setPrompt] = useState("");
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [requestLoading, setRequestLoading] = useState(false);
 
 
   // Setting hooks
@@ -88,6 +143,21 @@ export function HomePage() {
     await updateProviders(promptTypes, promptTypeSlug)
   }
 
+  const submitPrompt = async () => {
+    setRequestLoading(true);
+    const result = await apiClient.submitPrompt(promptType, provider, prompt);
+    
+    const request: Request = {
+      id: (requests.length + 1),
+      prompt,
+      result
+    };
+
+    setRequests([...requests, request]);
+    setPrompt("");
+    setRequestLoading(false);
+  }
+
   // Temp filters
   const filters = [
     { name: "Act like a Content Manager", help: "" },
@@ -126,6 +196,7 @@ export function HomePage() {
     >
       <AppShell.Header withBorder={false} p={"md"} >
         <Header opened={opened} toggle={toggle} />
+        {getAuth0Button()}
       </AppShell.Header>
       <AppShell.Navbar p="md">
         <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'xl'} mt={"0"}>
@@ -241,8 +312,7 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main >
-        <RequestCard />
-        <ResponseCard />
+        <ResponseContainer requests={requests} requestLoading={requestLoading} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
         <Modal
@@ -349,6 +419,8 @@ export function HomePage() {
               }
             }}
             radius={'xl'}
+            value={prompt}
+            onChange={e => setPrompt(e.target.value)}
           />
           <ActionIcon
             variant="filled"
@@ -356,6 +428,7 @@ export function HomePage() {
             aria-label="Submit"
             pos={"absolute"}
             right={"25px"}
+            onClick={submitPrompt}
           >
             <IconArrowRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
