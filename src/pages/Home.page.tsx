@@ -203,7 +203,7 @@ export function HomePage() {
     >
       <AppShell.Header withBorder={false} p={"md"} >
         <Header opened={opened} toggle={toggle} />
-        {getAuth0Button()}
+        {/* {getAuth0Button()} */}
       </AppShell.Header>
       <AppShell.Navbar p="md">
         <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'xl'} mt={"0"}>
