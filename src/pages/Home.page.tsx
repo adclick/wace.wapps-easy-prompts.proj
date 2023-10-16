@@ -14,6 +14,9 @@ import cx from 'clsx';
 const NOT_AVAILABLE = "Not available yet";
 
 export function HomePage() {
+  // Getting color schema
+  const computedColorScheme = useComputedColorScheme('dark');
+  
   // Setting state vars
   const [promptTypes, setPromptTypes] = useState<PromptType[]>([]);
   const [promptType, setPromptType] = useState("");
@@ -22,9 +25,6 @@ export function HomePage() {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [provider, setProvider] = useState("");
   const [selectBoxProviders, setSelectBoxProviders] = useState<{ value: string, label: string }[]>([]);
-
-  // Color schema
-  const computedColorScheme = useComputedColorScheme('dark');
 
 
   // Setting hooks
@@ -36,6 +36,7 @@ export function HomePage() {
     updatePromptTypes();
   }, []);
 
+  // Update promptTypes
   const updatePromptTypes = () => {
     const client = new EasyPromptsApiClient();
     client.getAllPromptTypes().then((promptTypes: PromptType[]) => {
@@ -46,12 +47,20 @@ export function HomePage() {
           label: promptType.prompt_type_name
         };
       });
+
+      // Get default promptType
+      let defaultPromptType = promptTypes.find(p => p.prompt_type_default === true);
+      if (defaultPromptType === undefined) {
+        defaultPromptType = promptTypes[0];
+      }
+
       setSelectBoxPromptTypes(selectBoxPromptTypes);
-      setPromptType(promptTypes[1].prompt_type_slug);
+      setPromptType(defaultPromptType.prompt_type_slug);
       updateProviders(promptTypes, promptTypes[1].prompt_type_slug);
     });
   }
 
+  // Update providers
   const updateProviders = async (promptTypes: PromptType[], promptTypeSlug: string) => {
     const client = new EasyPromptsApiClient();
     const providersByPromptType = await client.getProvidersByPromptType(promptTypeSlug);
@@ -59,8 +68,8 @@ export function HomePage() {
 
     const selectBoxProviders = providersByPromptType.map(providerByPromptType => {
       return {
-        value: providerByPromptType.slug,
-        label: providerByPromptType.name
+        value: providerByPromptType.provider_slug,
+        label: providerByPromptType.provider_name
       }
     });
     setSelectBoxProviders(selectBoxProviders);
@@ -93,8 +102,6 @@ export function HomePage() {
     { name: "Images for Portugal Tourism", help: "" },
     { name: "Copy about Finance", help: "" },
   ]
-
-  console.log(computedColorScheme);
 
   return (
     <AppShell
