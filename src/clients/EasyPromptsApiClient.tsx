@@ -50,9 +50,9 @@ export class EasyPromptsApiClient {
      * @param promptText 
      */
     async submitPrompt(promptTypeSlug: string, providerSlug: string, promptText: string) {
-        const { data } = await axios.get(`${this.baseUrl}/ai/text/generate/?text=${promptText}`);
-
-        return data;
+        return await this.get('/ai/text/generate', {
+            text: promptText
+        });
     }
 
     /**

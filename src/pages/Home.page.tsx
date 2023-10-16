@@ -158,6 +158,13 @@ export function HomePage() {
     setRequestLoading(false);
   }
 
+  const submitPromptByTextArea = async (e: any) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      await submitPrompt();
+    }
+  }
+
   // Temp filters
   const filters = [
     { name: "Act like a Content Manager", help: "" },
@@ -421,6 +428,7 @@ export function HomePage() {
             radius={'xl'}
             value={prompt}
             onChange={e => setPrompt(e.target.value)}
+            onKeyUp={submitPromptByTextArea}
           />
           <ActionIcon
             variant="filled"
