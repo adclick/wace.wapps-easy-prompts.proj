@@ -111,15 +111,18 @@ export function HomePage() {
         height: { base: 90 }
       }}
       classNames={{
-        navbar: cx(classes.navbar, computedColorScheme)
+        header: cx(classes.header, classes[computedColorScheme]),
+        footer: cx(classes.footer, classes[computedColorScheme]),
+        main: cx(classes.main, classes[computedColorScheme]),
+        navbar: cx(classes.navbar, classes[computedColorScheme])
       }}
     >
       <AppShell.Header withBorder={false} p={"md"} >
         <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <AppShell.Section hiddenFrom='sm' mb={'xl'} mt={"0"}>
-          <Group>
+        <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'xl'} mt={"0"}>
+          <Group h={"100%"} px={"md"}>
             <Burger
               opened={opened}
               onClick={toggle}
@@ -130,7 +133,7 @@ export function HomePage() {
           </Group>
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          <Stack>
+          <Stack gap={"lg"}>
             <Title visibleFrom='md' order={3} my={"xs"}>Options</Title>
             <Stack gap={'md'}>
               <Select
@@ -151,31 +154,28 @@ export function HomePage() {
                 size='sm'
               />
             </Stack>
-            <Stack>
+            <Tabs radius={"sm"} defaultValue="filters">
+              <Tabs.List grow>
+                <Tabs.Tab value="filters" leftSection={<IconFilter style={{ width: rem(12), height: rem(12) }} />}>
+                  Filters
+                </Tabs.Tab>
+                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(12), height: rem(12) }} />}>
+                  Templates
+                </Tabs.Tab>
+              </Tabs.List>
 
-              <Tabs radius={"sm"} defaultValue="filters">
-                <Tabs.List grow>
-                  <Tabs.Tab value="filters" leftSection={<IconFilter style={{ width: rem(12), height: rem(12) }} />}>
-                    Filters
-                  </Tabs.Tab>
-                  <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(12), height: rem(12) }} />}>
-                    Templates
-                  </Tabs.Tab>
-                </Tabs.List>
+              <Tabs.Panel value="filters" py={"md"}>
+                <NavbarFiltersCard items={filters} />
+              </Tabs.Panel>
 
-                <Tabs.Panel value="filters" py={"md"}>
-                  <NavbarFiltersCard items={filters} />
-                </Tabs.Panel>
+              <Tabs.Panel value="templates" py={"md"}>
+                <NavbarFiltersCard items={templates} />
+              </Tabs.Panel>
+            </Tabs>
 
-                <Tabs.Panel value="templates" py={"md"}>
-                  <NavbarFiltersCard items={templates} />
-                </Tabs.Panel>
-              </Tabs>
-
-              <Button variant='outline' onClick={toggle} hiddenFrom='md'>
-                Apply
-              </Button>
-            </Stack>
+            <Button variant='outline' onClick={toggle} hiddenFrom='md'>
+              Apply
+            </Button>
           </Stack>
         </AppShell.Section>
         <AppShell.Section>
@@ -234,8 +234,6 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main >
-        <RequestCard />
-        <ResponseCard />
         <RequestCard />
         <ResponseCard />
       </AppShell.Main>

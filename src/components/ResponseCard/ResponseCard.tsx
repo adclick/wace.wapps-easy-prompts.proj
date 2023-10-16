@@ -1,5 +1,5 @@
-import { ActionIcon, Avatar, Card, Group, Menu, Text, rem } from "@mantine/core";
-import { IconCopy, IconDeviceFloppy, IconDots, IconShare, IconThumbDown, IconThumbUp, IconTrash } from "@tabler/icons-react";
+import { ActionIcon, Avatar, Card, CopyButton, Group, Menu, Text, Tooltip, rem } from "@mantine/core";
+import { IconCheck, IconCopy, IconDeviceFloppy, IconDots, IconShare, IconThumbDown, IconThumbUp, IconTrash } from "@tabler/icons-react";
 
 export function ResponseCard() {
     return (
@@ -42,9 +42,19 @@ export function ResponseCard() {
 
             <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
                 <Group justify='space-between'>
-                    <ActionIcon variant='subtle'>
-                        <IconCopy size={"18"} />
-                    </ActionIcon>
+                    <CopyButton value="https://mantine.dev" timeout={2000}>
+                        {({ copied, copy }) => (
+                            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                                <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+                                    {copied ? (
+                                        <IconCheck style={{ width: rem(16) }} />
+                                    ) : (
+                                        <IconCopy style={{ width: rem(16) }} />
+                                    )}
+                                </ActionIcon>
+                            </Tooltip>
+                        )}
+                    </CopyButton>
                     <Group justify='flex-end'>
                         <ActionIcon color='red' variant='subtle'>
                             <IconThumbDown size={"18"} />
