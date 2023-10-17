@@ -302,8 +302,11 @@ export function HomePage() {
           <Group justify='space-between'>
             <Menu width={"target"}>
               <Menu.Target>
-                <Button size="lg" variant="transparent" leftSection={<Avatar src={user?.picture} />}>
-                  <Text>{user !== undefined ? user.nickname : "User"}</Text>
+                <Button size="lg" variant="transparent" px={"xs"}>
+                  <Group>
+                    <Avatar src={user?.picture} />
+                    <Text>{user !== undefined ? user.nickname : "User"}</Text>
+                  </Group>
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
