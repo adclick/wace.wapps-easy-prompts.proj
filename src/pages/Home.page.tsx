@@ -226,7 +226,7 @@ export function HomePage() {
         <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'xl'} mt={"0"}>
+        <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'md'} mt={"0"}>
           <Group h={"100%"} px={"md"}>
             <Burger
               opened={opened}
@@ -234,13 +234,12 @@ export function HomePage() {
               hiddenFrom="sm"
               size="sm"
             />
-            <Title order={3}>Options</Title>
           </Group>
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <Tabs radius={"sm"} defaultValue="options">
             <Tabs.List grow>
-              <Tabs.Tab value="options" leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}>
+              <Tabs.Tab value="options" leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
                 <Title order={5}>Options</Title>
               </Tabs.Tab>
               <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
@@ -282,7 +281,7 @@ export function HomePage() {
                   }
 
                   <NavbarFiltersCard items={filters} />
-                  <Button variant='outline' onClick={toggle} hiddenFrom='md'>
+                  <Button variant='outline' onClick={toggle} hiddenFrom='sm'>
                     Apply
                   </Button>
                 </Stack>
@@ -352,7 +351,7 @@ export function HomePage() {
                 <Menu.Item
                   leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
                 >
-                  Configure Filters
+                  Configure Options
                 </Menu.Item>
               </Tooltip>
             </Menu.Dropdown>
