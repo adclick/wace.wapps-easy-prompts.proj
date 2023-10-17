@@ -239,149 +239,126 @@ export function HomePage() {
           </Group>
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          <Stack gap={"lg"}>
-            <Title visibleFrom='md' order={3} my={"xs"}>Options</Title>
-            <Stack gap={'md'}>
-              <Select
-                placeholder="Select the type of prompt"
-                data={selectBoxPromptTypes}
-                value={promptType}
-                allowDeselect={false}
-                checkIconPosition='right'
-                size='sm'
-                onChange={handlePromptTypesOnChange}
-              />
-              <Select
-                placeholder="Choose a provider"
-                data={selectBoxProviders}
-                value={provider}
-                allowDeselect={false}
-                checkIconPosition='right'
-                size='sm'
-                onChange={handleProviderOnChange}
-              />
-              {
-                needImageSizesOption &&
-                <Select
-                  placeholder='Choose a size'
-                  data={selectBoxImageSizes}
-                  value={imageSize}
-                  allowDeselect={false}
-                  checkIconPosition='right'
-                  size='sm'
-                />
-              }
+          <Tabs radius={"sm"} defaultValue="options">
+            <Tabs.List grow>
+              <Tabs.Tab value="options" leftSection={<IconFilter style={{ width: rem(14), height: rem(14) }} />}>
+                <Title order={5}>Options</Title>
+              </Tabs.Tab>
+              <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
+                <Title order={5}>Templates</Title>
+              </Tabs.Tab>
+            </Tabs.List>
 
-            </Stack>
-            <Tabs radius={"sm"} defaultValue="filters">
-              <Tabs.List grow>
-                <Tabs.Tab value="filters" leftSection={<IconFilter style={{ width: rem(12), height: rem(12) }} />}>
-                  Filters
-                </Tabs.Tab>
-                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(12), height: rem(12) }} />}>
-                  Templates
-                </Tabs.Tab>
-              </Tabs.List>
+            <Tabs.Panel value="options" py={"md"}>
+              <Stack gap={"lg"} py={"md"}>
+                <Stack gap={'md'}>
+                  <Title order={5}>Response Type</Title>
+                  <Select
+                    placeholder="Select the type of prompt"
+                    data={selectBoxPromptTypes}
+                    value={promptType}
+                    allowDeselect={false}
+                    checkIconPosition='right'
+                    size='sm'
+                    onChange={handlePromptTypesOnChange}
+                  />
+                  <Title order={5}>Provider</Title>
+                  <Select
+                    placeholder="Choose a provider"
+                    data={selectBoxProviders}
+                    value={provider}
+                    allowDeselect={false}
+                    checkIconPosition='right'
+                    size='sm'
+                    onChange={handleProviderOnChange}
+                  />
+                  {
+                    needImageSizesOption &&
+                    <Select
+                      placeholder='Choose a size'
+                      data={selectBoxImageSizes}
+                      value={imageSize}
+                      allowDeselect={false}
+                      checkIconPosition='right'
+                      size='sm'
+                    />
+                  }
 
-              <Tabs.Panel value="filters" py={"md"}>
+                </Stack>
+                <Title order={5}>
+                  Prompt Modifiers
+                </Title>
                 <NavbarFiltersCard items={filters} />
-              </Tabs.Panel>
+                <Button variant='outline' onClick={toggle} hiddenFrom='md'>
+                  Apply
+                </Button>
+              </Stack>
+            </Tabs.Panel>
 
-              <Tabs.Panel value="templates" py={"md"}>
-                <NavbarFiltersCard items={templates} />
-              </Tabs.Panel>
-            </Tabs>
+            <Tabs.Panel value="templates" py={"md"}>
+              <NavbarFiltersCard items={templates} />
+            </Tabs.Panel>
+          </Tabs>
 
-            <Button variant='outline' onClick={toggle} hiddenFrom='md'>
-              Apply
-            </Button>
-          </Stack>
         </AppShell.Section>
         <AppShell.Section>
           <Divider my="xs" />
-          <Group justify='space-between'>
-            <Menu width={"target"}>
-              <Menu.Target>
-                <Button size="lg" variant="transparent" px={"xs"}>
-                  <Group>
-                    <Avatar src={user?.picture} />
-                    <Text>{user !== undefined ? user.nickname : "User"}</Text>
-                  </Group>
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
-                  Logout
+          <Menu width={"target"}>
+            <Menu.Target>
+              <Button fullWidth justify='flex-start' size="lg" variant="subtle" px={"xs"}>
+                <Group>
+                  <Avatar src={user?.picture} />
+                  <Text>{user !== undefined ? user.nickname : "User"}</Text>
+                </Group>
+              </Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
+                Logout
+              </Menu.Item>
+              <Menu.Label>Application</Menu.Label>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
+                  Give Feedback
                 </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-            <Group justify='flex-end'>
-              <Menu>
-                <Menu.Target>
-                  <ActionIcon variant='transparent' size={"lg"}>
-                    <Text size='sm'>EN</Text>
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item>
-                    PT
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-              <Menu position='top-end' >
-                <Menu.Target>
-                  <Group justify='space-between'>
-                    <ActionIcon variant='transparent' size={"lg"}>
-                      <IconSettings style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                    </ActionIcon>
-                  </Group>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Application</Menu.Label>
-                  <Tooltip label={NOT_AVAILABLE}>
-                    <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
-                      Give Feedback
-                    </Menu.Item>
-                  </Tooltip>
+              </Tooltip>
 
-                  <Tooltip label={NOT_AVAILABLE}>
-                    <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                      About
-                    </Menu.Item>
-                  </Tooltip>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
+                  About
+                </Menu.Item>
+              </Tooltip>
 
-                  <Tooltip label={NOT_AVAILABLE}>
-                    <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
-                      Whats new
-                    </Menu.Item>
-                  </Tooltip>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
+                  Whats new
+                </Menu.Item>
+              </Tooltip>
 
-                  <Tooltip label={NOT_AVAILABLE}>
-                    <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                      How to use
-                    </Menu.Item>
-                  </Tooltip>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                  How to use
+                </Menu.Item>
+              </Tooltip>
 
-                  <Tooltip label={NOT_AVAILABLE}>
-                    <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
-                      Language
-                    </Menu.Item>
-                  </Tooltip>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
+                  Language
+                </Menu.Item>
+              </Tooltip>
 
-                  <Menu.Divider />
+              <Menu.Divider />
 
-                  <Menu.Label>Administration</Menu.Label>
-                  <Tooltip label={NOT_AVAILABLE}>
-                    <Menu.Item
-                      leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
-                    >
-                      Configure Filters
-                    </Menu.Item>
-                  </Tooltip>
-                </Menu.Dropdown>
-              </Menu>
-            </Group>
-          </Group>
+              <Menu.Label>Administration</Menu.Label>
+              <Tooltip label={NOT_AVAILABLE}>
+                <Menu.Item
+                  leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Configure Filters
+                </Menu.Item>
+              </Tooltip>
+            </Menu.Dropdown>
+          </Menu>
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
