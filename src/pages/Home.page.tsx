@@ -224,7 +224,6 @@ export function HomePage() {
     >
       <AppShell.Header withBorder={false} p={"md"} >
         <Header opened={opened} toggle={toggle} />
-        {/* {getAuth0Button()} */}
       </AppShell.Header>
       <AppShell.Navbar p="md">
         <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'xl'} mt={"0"}>
@@ -252,9 +251,8 @@ export function HomePage() {
             <Tabs.Panel value="options" py={"md"}>
               <Stack gap={"lg"} py={"md"}>
                 <Stack gap={'md'}>
-                  <Title order={5}>Response Type</Title>
                   <Select
-                    placeholder="Select the type of prompt"
+                    placeholder="Response Type"
                     data={selectBoxPromptTypes}
                     value={promptType}
                     allowDeselect={false}
@@ -262,9 +260,8 @@ export function HomePage() {
                     size='sm'
                     onChange={handlePromptTypesOnChange}
                   />
-                  <Title order={5}>Provider</Title>
                   <Select
-                    placeholder="Choose a provider"
+                    placeholder="Provider"
                     data={selectBoxProviders}
                     value={provider}
                     allowDeselect={false}
@@ -284,14 +281,11 @@ export function HomePage() {
                     />
                   }
 
+                  <NavbarFiltersCard items={filters} />
+                  <Button variant='outline' onClick={toggle} hiddenFrom='md'>
+                    Apply
+                  </Button>
                 </Stack>
-                <Title order={5}>
-                  Prompt Modifiers
-                </Title>
-                <NavbarFiltersCard items={filters} />
-                <Button variant='outline' onClick={toggle} hiddenFrom='md'>
-                  Apply
-                </Button>
               </Stack>
             </Tabs.Panel>
 
@@ -313,6 +307,7 @@ export function HomePage() {
               </Button>
             </Menu.Target>
             <Menu.Dropdown>
+              <Menu.Label>Account</Menu.Label>
               <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
                 Logout
               </Menu.Item>
