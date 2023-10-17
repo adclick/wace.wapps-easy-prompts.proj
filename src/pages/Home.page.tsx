@@ -156,6 +156,10 @@ export function HomePage() {
     }
   }
 
+  const handleProviderOnChange = async (providerSlug: string) => {
+    setProvider(providerSlug);
+  }
+
   const submitPrompt = async () => {
     if (prompt.length <= 0) return;
 
@@ -252,6 +256,7 @@ export function HomePage() {
                 allowDeselect={false}
                 checkIconPosition='right'
                 size='sm'
+                onChange={handleProviderOnChange}
               />
               {
                 needImageSizesOption &&
@@ -296,11 +301,11 @@ export function HomePage() {
             <Menu width={"target"}>
               <Menu.Target>
                 <Button variant='transparent' leftSection={<IconUser />}>
-                  <Text>Welcome Wace</Text>
+                  <Text size='sm'>{user !== undefined ? user.name : "User"}</Text>
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
+                <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
                   Logout
                 </Menu.Item>
               </Menu.Dropdown>
