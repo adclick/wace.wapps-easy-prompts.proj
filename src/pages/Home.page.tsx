@@ -1,5 +1,5 @@
 import { ActionIcon, AppShell, Avatar, Burger, Button, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
-import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconLanguageHiragana, IconLanguageOff, IconList, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload, IconUser } from '@tabler/icons-react';
+import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconLanguageHiragana, IconLanguageOff, IconList, IconLogout, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload, IconUser } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
@@ -81,6 +81,9 @@ export function HomePage() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
 
+  const [needImageSizesOption, setNeedImageSizesOption] = useState(false);
+  const [selectBoxImageSizes, setSelectBoxImageSizes] = useState<{ value: string, label: string }[]>([]);
+  const [imageSize, setImageSize] = useState("");
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
@@ -139,11 +142,23 @@ export function HomePage() {
 
   // Update providers based on the PromptType choosen by the user
   const handlePromptTypesOnChange = async (promptTypeSlug: string) => {
-    setPromptType(promptTypeSlug)
-    await updateProviders(promptTypes, promptTypeSlug)
+    setPromptType(promptTypeSlug);
+    await updateProviders(promptTypes, promptTypeSlug);
+
+    // Temp
+    if (promptTypeSlug === 'image-generation') {
+      setNeedImageSizesOption(true);
+      setSelectBoxImageSizes([
+        {label: "300x300", value: "300x300"},
+        {label: "512x512", value: "512x512"},
+        {label: "1024x1024", value: "1024x1024"},
+      ])
+    }
   }
 
   const submitPrompt = async () => {
+    if (prompt.length <= 0) return;
+
     setRequestLoading(true);
     const result = await apiClient.submitPrompt(promptType, provider, prompt);
 
@@ -238,6 +253,18 @@ export function HomePage() {
                 checkIconPosition='right'
                 size='sm'
               />
+              {
+                needImageSizesOption &&
+                <Select
+                  placeholder='Choose a size'
+                  data={selectBoxImageSizes}
+                  value={imageSize}
+                  allowDeselect={false}
+                  checkIconPosition='right'
+                  size='sm'
+                />
+              }
+
             </Stack>
             <Tabs radius={"sm"} defaultValue="filters">
               <Tabs.List grow>
@@ -266,29 +293,35 @@ export function HomePage() {
         <AppShell.Section>
           <Divider my="xs" />
           <Group justify='space-between'>
-            <Menu>
+            <Menu width={"target"}>
               <Menu.Target>
-                <Button variant='subtle' leftSection={<IconUser />}>
-                  <Text>Welcome User</Text>
+                <Button variant='transparent' leftSection={<IconUser />}>
+                  <Text>Welcome Wace</Text>
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
+                <Menu.Item leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
+                  Logout
+                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
             <Group justify='flex-end'>
               <Menu>
                 <Menu.Target>
-                  <ActionIcon variant='subtle' size={"lg"}>
+                  <ActionIcon variant='transparent' size={"lg"}>
                     <Text>EN</Text>
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
+                  <Menu.Item>
+                    PT
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
-              <Menu shadow="md" >
+              <Menu position='top-end' >
                 <Menu.Target>
                   <Group justify='space-between'>
-                    <ActionIcon variant='subtle' size={"lg"}>
+                    <ActionIcon variant='transparent' size={"lg"}>
                       <IconSettings style={{ width: '70%', height: '70%' }} stroke={1.5} />
                     </ActionIcon>
                   </Group>

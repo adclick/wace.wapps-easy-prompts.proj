@@ -15,7 +15,7 @@ export interface Request {
 
 export function Request({prompt, result}: RequestParams) {
     return (
-        <Stack>
+        <Stack my={"xl"}>
             <RequestCard prompt={prompt} />
             <ResponseCard result={result} />
         </Stack>
