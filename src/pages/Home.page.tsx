@@ -302,7 +302,10 @@ export function HomePage() {
               <Button fullWidth justify='flex-start' size="lg" variant="subtle" px={"xs"}>
                 <Group>
                   <Avatar src={user?.picture} />
-                  <Text>{user !== undefined ? user.nickname : "User"}</Text>
+                  <Stack align='flex-start' gap={0}>
+                    <Title order={6}>{user !== undefined ? user.nickname : "User"}</Title>
+                    <Text size='xs'>{user !== undefined ? user.email : "User"}</Text>
+                  </Stack>
                 </Group>
               </Button>
             </Menu.Target>
