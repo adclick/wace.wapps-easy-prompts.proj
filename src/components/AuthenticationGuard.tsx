@@ -1,4 +1,5 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
+import { LoadingOverlay } from "@mantine/core";
 import { ComponentType } from "react";
 
 interface Props {
@@ -8,9 +9,7 @@ interface Props {
 export const AuthenticationGuard = ({ component }: Props) => {
     const Component = withAuthenticationRequired(component, {
         onRedirecting: () => (
-            <div className="page-layout">
-                Loged out
-            </div>
+            <LoadingOverlay visible={true} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
         ),
     });
 

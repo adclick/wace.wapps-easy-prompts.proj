@@ -41,6 +41,8 @@ export function HomePage() {
   // Auth0
   const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } = useAuth0();
 
+  console.log(user);
+
   const getAuth0Button = () => {
     if (isLoading) {
       return <div>Loading...</div>;
@@ -149,9 +151,9 @@ export function HomePage() {
     if (promptTypeSlug === 'image-generation') {
       setNeedImageSizesOption(true);
       setSelectBoxImageSizes([
-        {label: "300x300", value: "300x300"},
-        {label: "512x512", value: "512x512"},
-        {label: "1024x1024", value: "1024x1024"},
+        { label: "300x300", value: "300x300" },
+        { label: "512x512", value: "512x512" },
+        { label: "1024x1024", value: "1024x1024" },
       ])
     }
   }
@@ -300,8 +302,8 @@ export function HomePage() {
           <Group justify='space-between'>
             <Menu width={"target"}>
               <Menu.Target>
-                <Button variant='transparent' leftSection={<IconUser />}>
-                  <Text size='sm'>{user !== undefined ? user.name : "User"}</Text>
+                <Button size="lg" variant="transparent" leftSection={<Avatar src={user?.picture} />}>
+                  <Text>{user !== undefined ? user.nickname : "User"}</Text>
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
@@ -314,7 +316,7 @@ export function HomePage() {
               <Menu>
                 <Menu.Target>
                   <ActionIcon variant='transparent' size={"lg"}>
-                    <Text>EN</Text>
+                    <Text size='sm'>EN</Text>
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
