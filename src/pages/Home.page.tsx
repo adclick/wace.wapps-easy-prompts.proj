@@ -303,7 +303,7 @@ export function HomePage() {
                 <Group>
                   <Avatar src={user?.picture} />
                   <Stack align='flex-start' gap={0}>
-                    <Title order={6}>{user !== undefined ? user.nickname : "User"}</Title>
+                    <Text size='md' fw={600}>{user !== undefined ? user.nickname : "User"}</Text>
                     <Text size='xs'>{user !== undefined ? user.email : "User"}</Text>
                   </Stack>
                 </Group>
