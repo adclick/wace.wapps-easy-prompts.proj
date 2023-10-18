@@ -1,6 +1,6 @@
 import { AppShell, Badge, Burger, Group, ScrollArea, Tabs, Title, rem, useComputedColorScheme } from '@mantine/core';
 import { IconList, IconTemplate } from '@tabler/icons-react';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { useState } from 'react';
 import { EasyPromptsApiClient } from '../clients/EasyPromptsApiClient';
 import { PromptOptionsPanel } from '../components/PromptOptionsPanel/PromptOptionsPanel';
@@ -27,6 +27,7 @@ export function HomePage() {
   // Setting hooks
   const computedColorScheme = useComputedColorScheme('dark');
   const [opened, { toggle }] = useDisclosure();
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
   return (
     <AppShell
@@ -40,7 +41,7 @@ export function HomePage() {
         collapsed: { mobile: !opened },
       }}
       footer={{
-        height: { base: 90 }
+        height: { base: 110 }
       }}
       classNames={{
         header: cx(classes.header, classes[computedColorScheme]),
@@ -103,7 +104,7 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <RequestsPanel requests={requests} requestLoading={requestLoading} />
+        <RequestsPanel requests={requests} requestLoading={requestLoading} targetRef={targetRef} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
         <Prompt
@@ -112,6 +113,8 @@ export function HomePage() {
           setRequestLoading={setRequestLoading}
           requests={requests}
           setRequests={setRequests}
+          requestLoading={requestLoading}
+          scrollIntoView={scrollIntoView}
         />
       </AppShell.Footer>
     </AppShell>

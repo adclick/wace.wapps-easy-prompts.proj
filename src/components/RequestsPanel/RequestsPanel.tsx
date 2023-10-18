@@ -1,15 +1,17 @@
-import { Box, LoadingOverlay } from "@mantine/core";
+import { Box, VisuallyHidden } from "@mantine/core";
 import { Request } from "./Request";
+import { useScrollIntoView } from "@mantine/hooks";
 
 interface ResponseContainerParams {
     requests: Request[],
-    requestLoading: boolean
+    requestLoading: boolean,
+    targetRef: any
 }
 
-export function RequestsPanel({ requests, requestLoading }: ResponseContainerParams) {
+export function RequestsPanel({ requests, requestLoading, targetRef }: ResponseContainerParams) {
+
     return (
         <Box>
-            <LoadingOverlay visible={requestLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             {
                 requests.map((request: Request) => {
                     return (
@@ -17,6 +19,7 @@ export function RequestsPanel({ requests, requestLoading }: ResponseContainerPar
                     )
                 })
             }
+            <VisuallyHidden ref={targetRef}>Anchor</VisuallyHidden>
         </Box>
     )
 }

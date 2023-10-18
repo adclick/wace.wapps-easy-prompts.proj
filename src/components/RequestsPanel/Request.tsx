@@ -16,26 +16,29 @@ export function Request({ prompt, result }: RequestParams) {
     return (
         <Stack my={"xl"} gap={0}>
             <Card withBorder shadow="sm" radius="0">
-                <Stack>
-                    <Group justify="flex-end">
-                        <Text>You</Text>
-                        <Avatar src={null} alt="no image here" />
-                    </Group>
-                    <Text mt="sm" c="dimmed" size="sm">
-                        {prompt}
-                    </Text>
-                </Stack>
-            </Card>
-            <Card withBorder shadow="sm" radius="0">
-                <Stack>
-                    <Group>
-                        <Avatar variant="" src={null} alt="no image here" />
-                        <Text>AI Assistant</Text>
-                    </Group>
-                    <Text mt="sm" c="dimmed" size="sm">
-                        {result}
-                    </Text>
-                </Stack>
+                <Card.Section withBorder inheritPadding py={"xs"}>
+                    <Stack>
+                        <Group justify="flex-end">
+                            <Text>You</Text>
+                            <Avatar src={null} alt="no image here" />
+                        </Group>
+                        <Text mt="sm" c="dimmed" size="sm">
+                            {prompt}
+                        </Text>
+                    </Stack>
+                </Card.Section>
+
+                <Card.Section withBorder inheritPadding py={"xs"}>
+                    <Stack>
+                        <Group>
+                            <Avatar variant="" src={null} alt="no image here" />
+                            <Text>AI Assistant</Text>
+                        </Group>
+                        <Text mt="sm" c="dimmed" size="sm">
+                            {result}
+                        </Text>
+                    </Stack>
+                </Card.Section>
 
                 <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
                     <Group justify='space-between'>

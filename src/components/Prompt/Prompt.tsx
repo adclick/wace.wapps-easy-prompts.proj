@@ -1,6 +1,6 @@
 import { EasyPromptsApiClient } from "@/clients/EasyPromptsApiClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { ActionIcon, Box, Group, Input, List, Modal, Stack, Textarea, ThemeIcon, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Center, Group, Input, List, Loader, Modal, Stack, Textarea, ThemeIcon, Tooltip, VisuallyHidden } from "@mantine/core";
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
@@ -12,9 +12,11 @@ interface PromptParams {
     requests: Request[],
     setRequests: any,
     setRequestLoading: any,
+    requestLoading: boolean,
+    scrollIntoView: any
 }
 
-export function Prompt({ apiClient, userPromptOptions, setRequestLoading, requests, setRequests }: PromptParams) {
+export function Prompt({ apiClient, userPromptOptions, setRequestLoading, requests, setRequests, requestLoading, scrollIntoView }: PromptParams) {
     const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
 
@@ -35,6 +37,8 @@ export function Prompt({ apiClient, userPromptOptions, setRequestLoading, reques
         setRequests([...requests, request]);
 
         setRequestLoading(false);
+
+        scrollIntoView({});
     }
 
     const submitPromptByTextArea = async (e: any) => {
@@ -108,63 +112,82 @@ export function Prompt({ apiClient, userPromptOptions, setRequestLoading, reques
                 </Stack>
 
             </Modal>
-            <Group
-                wrap='nowrap'
-                align={'center'}
-                gap={'sm'}
-                pos={"absolute"}
-                bottom={"0"}
-                w={"100%"}
-                py={"md"}
-                px={"md"}
-            >
-                <Tooltip label="Search Optimized Prompts">
+            <Stack>
+                <Group
+                    wrap='nowrap'
+                    align={'center'}
+                    gap={'sm'}
+                    pos={"absolute"}
+                    bottom={"0"}
+                    w={"100%"}
+                    py={"md"}
+                    px={"md"}
+                >
+                    {
+                        requestLoading &&
+                        <Center
+                            styles={{
+                                root: {
+                                    width: "100%",
+                                    position: "absolute",
+                                    left: "0",
+                                    bottom: "100px"
+                                }
+                            }}
+                        >
+                            <Loader size={"sm"} type="bars" />
+                        </Center>
+                    }
+                    <Tooltip label="Search Optimized Prompts">
+                        <ActionIcon
+                            variant="filled"
+                            size="lg"
+                            aria-label="Submit"
+                            pos={"absolute"}
+                            left={"25px"}
+                            styles={{
+                                root: {
+                                    zIndex: "1"
+                                }
+                            }}
+                            onClick={open}
+                        >
+                            <IconSearch style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
+
+                    <Textarea
+                        placeholder="Ask me something"
+                        autosize
+                        disabled={requestLoading}
+                        autoFocus
+                        minRows={1}
+                        w={"100%"}
+                        size={'lg'}
+                        styles={{
+                            input: {
+                                paddingLeft: "60px",
+                                paddingRight: "50px"
+                            }
+                        }}
+                        radius={'xl'}
+                        value={userPrompt}
+                        onChange={e => setUserPrompt(e.target.value)}
+                        onKeyDown={submitPromptByTextArea}
+                    />
                     <ActionIcon
                         variant="filled"
                         size="lg"
+                        disabled={requestLoading}
                         aria-label="Submit"
                         pos={"absolute"}
-                        left={"25px"}
-                        styles={{
-                            root: {
-                                zIndex: "1"
-                            }
-                        }}
-                        onClick={open}
+                        right={"25px"}
+                        onClick={submitPrompt}
                     >
-                        <IconSearch style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        <IconArrowRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
                     </ActionIcon>
-                </Tooltip>
-
-                <Textarea
-                    placeholder="Ask me something"
-                    autosize
-                    autoFocus
-                    minRows={1}
-                    w={"100%"}
-                    size={'lg'}
-                    styles={{
-                        input: {
-                            paddingLeft: "60px",
-                            paddingRight: "50px"
-                        }
-                    }}
-                    radius={'xl'}
-                    value={userPrompt}
-                    onChange={e => setUserPrompt(e.target.value)}
-                    onKeyDown={submitPromptByTextArea}
-                />
-                <ActionIcon
-                    variant="filled"
-                    size="lg"
-                    aria-label="Submit"
-                    pos={"absolute"}
-                    right={"25px"}
-                    onClick={submitPrompt}
-                >
-                    <IconArrowRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-            </Group>
+                </Group>
+            </Stack>
         </Box>
     )
 }
