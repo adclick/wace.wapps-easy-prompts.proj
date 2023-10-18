@@ -29,9 +29,9 @@ export class EasyPromptsApiClient {
     }
 
     async submitPrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/text/generate', {
-            text: userPrompt,
-            options: userPromptOptions.toJson()
+        return await this.post('/ai/prompt/submit', {
+            userPrompt,
+            userPromptOptions: userPromptOptions.toJson()
         });
     }
 
@@ -52,10 +52,12 @@ export class EasyPromptsApiClient {
     }
 
     async post(path: string, params: any = {}) {
-        const {data} = await axios.post(`${this.baseUrl}${path}`, {
+        const { data } = await axios.post(`${this.baseUrl}${path}`, {
             params
         });
 
-        console.log(data)
+        const { body } = data;
+
+        return body;
     }
 }
