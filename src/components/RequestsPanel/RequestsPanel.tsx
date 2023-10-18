@@ -6,7 +6,7 @@ interface ResponseContainerParams {
     requestLoading: boolean
 }
 
-export function ResponseContainer({ requests, requestLoading }: ResponseContainerParams) {
+export function RequestsPanel({ requests, requestLoading }: ResponseContainerParams) {
     return (
         <Box>
             <LoadingOverlay visible={requestLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
