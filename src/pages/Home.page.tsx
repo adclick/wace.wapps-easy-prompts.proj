@@ -1,16 +1,13 @@
-import { ActionIcon, AppShell, Avatar, Burger, Button, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Avatar, Burger, Button, Card, Chip, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme, useMantineTheme } from '@mantine/core';
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconLanguageHiragana, IconLanguageOff, IconList, IconLogout, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload, IconUser } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
-import { NavbarFiltersCard } from '../components/NavbarFiltersCard/NavbarFiltersCard';
 import { EasyPromptsApiClient, PromptType, Provider } from '../clients/EasyPromptsApiClient';
-import { ResponseCard } from '../components/ResponseContainer/ResponseCard/ResponseCard';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ResponseContainer } from '../components/ResponseContainer/ResponseContainer';
-import { RequestCard } from '../components/ResponseContainer/RequestCard/RequestCard';
 import { Request } from '../components/ResponseContainer/Request';
 
 // Message used for not yet implemented components
@@ -35,6 +32,8 @@ interface Auth0Params {
 }
 
 export function HomePage() {
+  const theme = useMantineTheme();
+
   // API Client
   const apiClient = new EasyPromptsApiClient();
 
@@ -280,7 +279,42 @@ export function HomePage() {
                     />
                   }
 
-                  <NavbarFiltersCard items={filters} />
+
+                  <Card shadow="md" withBorder={true}>
+                    <Stack gap={'sm'}>
+                      <Input size='sm' placeholder={"Search"}></Input>
+                      <ScrollArea offsetScrollbars>
+                        <Stack gap={'xs'}>
+                          {
+                            filters.map(item => {
+                              return (
+                                <Group key={item.name} justify="space-between">
+                                  <Chip size='sm' variant='light'>
+                                    {item.name}
+                                  </Chip>
+                                  <Popover width={200} position="bottom" withArrow shadow="md">
+                                    <Popover.Target>
+                                      <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
+                                        <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                      </ActionIcon>
+                                    </Popover.Target>
+                                    <Popover.Dropdown>
+                                      <Text size="xs">
+                                        {item.help}
+                                      </Text>
+                                    </Popover.Dropdown>
+                                  </Popover>
+                                </Group>
+                              )
+                            })
+                          }
+                        </Stack>
+                      </ScrollArea>
+                    </Stack>
+                  </Card>
+
+
+
                   <Button variant='outline' onClick={toggle} hiddenFrom='sm'>
                     Apply
                   </Button>
@@ -289,7 +323,38 @@ export function HomePage() {
             </Tabs.Panel>
 
             <Tabs.Panel value="templates" py={"md"}>
-              <NavbarFiltersCard items={templates} />
+              <Card shadow="md" withBorder={true}>
+                <Stack gap={'sm'}>
+                  <Input size='sm' placeholder={"Search"}></Input>
+                  <ScrollArea offsetScrollbars>
+                    <Stack gap={'xs'}>
+                      {
+                        templates.map(item => {
+                          return (
+                            <Group key={item.name} justify="space-between">
+                              <Chip size='sm' variant='light'>
+                                {item.name}
+                              </Chip>
+                              <Popover width={200} position="bottom" withArrow shadow="md">
+                                <Popover.Target>
+                                  <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
+                                    <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                  </ActionIcon>
+                                </Popover.Target>
+                                <Popover.Dropdown>
+                                  <Text size="xs">
+                                    {item.help}
+                                  </Text>
+                                </Popover.Dropdown>
+                              </Popover>
+                            </Group>
+                          )
+                        })
+                      }
+                    </Stack>
+                  </ScrollArea>
+                </Stack>
+              </Card>
             </Tabs.Panel>
           </Tabs>
 
@@ -302,8 +367,8 @@ export function HomePage() {
                 <Group>
                   <Avatar src={user?.picture} />
                   <Stack align='flex-start' gap={0}>
-                    <Text size='md' fw={600}>{user !== undefined ? user.nickname : "User"}</Text>
-                    <Text size='xs'>{user !== undefined ? user.email : "User"}</Text>
+                    <Text style={{ color: 'var(--mantine-color-text)' }} size='md' fw={600}>{user !== undefined ? user.nickname : "User"}</Text>
+                    <Text style={{ color: 'var(--mantine-color-text)' }} size='xs'>{user !== undefined ? user.email : "User"}</Text>
                   </Stack>
                 </Group>
               </Button>
