@@ -136,7 +136,7 @@ export function Prompt({ apiClient, userPromptOptions, setRequestLoading, reques
                 </Tooltip>
 
                 <Textarea
-                    placeholder="Write an amazing prompt"
+                    placeholder="Ask me something"
                     autosize
                     autoFocus
                     minRows={1}

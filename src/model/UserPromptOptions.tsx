@@ -14,4 +14,11 @@ export class UserPromptOptions {
     setProvider(provider: string) {
         this.provider = provider;
     }
+
+    toJson() {
+        return {
+            responseType: this.responseType,
+            provider: this.provider
+        }
+    }
 }
