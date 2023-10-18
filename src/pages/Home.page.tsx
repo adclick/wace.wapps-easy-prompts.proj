@@ -48,17 +48,9 @@ export function HomePage() {
 
   // Setting state vars
 
-  const [prompt, setPrompt] = useState("");
+  const [userPrompt, setUserPrompt] = useState("");
   const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
-
-  // New state (tmp)
-  const promptOptionsObj = new PromptOptions();
-  const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
-  const [responseTypes, setResponseTypes] = useState<{ label: string, value: string }[]>(promptOptionsObj.getResponseTypesForSelectBox());
-  const [currentResponseType, setCurrentResponseType] = useState(promptOptionsObj.getDefaultResponseTypeForSelectBox());
-  const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptionsObj.getProvidersForSelectBox());
-  const [currentProvider, setCurrentProvider] = useState(promptOptionsObj.getDefaultProviderForSelectBox());
 
   const userPromptOptionsObj = new UserPromptOptions();
   const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(userPromptOptionsObj);
@@ -67,67 +59,23 @@ export function HomePage() {
   const [opened, { toggle }] = useDisclosure();
   const [openedPrompts, { open, close }] = useDisclosure(false);
 
-  // Init logic
-  useEffect(() => {
-    fetchPromptOptions();
-  }, []);
-
-  // Initialize all options
-  const fetchPromptOptions = async () => {
-    const client = new EasyPromptsApiClient();
-    const promptOptions = await client.getPromptOptions();
-    const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
-
-    const currentResponseType = promptOptionsObj.getDefaultResponseTypeForSelectBox();
-    const currentProvider = promptOptionsObj.getDefaultProviderForSelectBox();
-
-    // Initialize prompt options default values
-    setPromptOptions(promptOptionsObj);
-    setResponseTypes(promptOptionsObj.getResponseTypesForSelectBox());
-    setProviders(promptOptionsObj.getProvidersForSelectBox());
-    setCurrentResponseType(currentResponseType);
-    setCurrentProvider(currentProvider);
-
-    // Initialize user prompt options
-    const newUserPromptOptions = userPromptOptions;
-    newUserPromptOptions.setResponseType(currentResponseType);
-    newUserPromptOptions.setProvider(currentProvider);
-    setUserPromptOptions(newUserPromptOptions);
-  }
-
-  // OnChange response-type
-  const handleOnChangeResponseType = (currentResponseType: string) => {
-    setCurrentResponseType(currentResponseType);
-    setCurrentProvider(promptOptions.getDefaultProviderForSelectBoxByResponseTypeSlug(currentResponseType));
-
-    // Update user prompt options
-    const newUserPromptOptions = userPromptOptions;
-    newUserPromptOptions.setResponseType(currentResponseType);
-    setUserPromptOptions(newUserPromptOptions);
-  }
-
-  // OnChange Provider
-  const handleOnChangeProvider = (currentProvider: string) => {
-    setCurrentProvider(currentProvider);
-
-    // Update user prompt options
-    const newUserPromptOptions = userPromptOptions;
-    newUserPromptOptions.setProvider(currentProvider);
-    setUserPromptOptions(newUserPromptOptions);
-  }
 
   // Submit prompt
   const submitPrompt = async () => {
-    if (prompt.length <= 0) return;
+    if (userPrompt.length <= 0) return;
+
     setRequestLoading(true);
-    setPrompt("");
+    setUserPrompt("");
     
-    const result = await apiClient.submitPrompt(prompt, userPromptOptions);
-    console.log(result);
-
+    const result = await apiClient.submitPrompt(userPrompt, userPromptOptions);
+    const request: Request = {
+      id: requests.length + 1,
+      prompt: userPrompt,
+      result: result
+    };
+    setRequests([...requests, request]);
+    
     setRequestLoading(false);
-
-    console.log(userPromptOptions);
   }
 
   const submitPromptByTextArea = async (e: any) => {
@@ -136,14 +84,6 @@ export function HomePage() {
       await submitPrompt();
     }
   }
-
-  // Temp filters
-  const filters = [
-    { name: "Act like a Content Manager", help: "" },
-    { name: "Assume you're a security reviewer", help: "" },
-    { name: "Answser me as a SEO expert", help: "" },
-    { name: "Evaluate images like a designer", help: "" },
-  ]
 
   // Temp Templates
   const templates = [
@@ -199,68 +139,10 @@ export function HomePage() {
             </Tabs.List>
 
             <Tabs.Panel value="options" py={"md"}>
-              <Stack gap={"lg"} py={"md"}>
-                <Stack gap={'md'}>
-                  <Select
-                    placeholder="Response Type"
-                    data={responseTypes}
-                    value={currentResponseType}
-                    allowDeselect={false}
-                    checkIconPosition='right'
-                    size='sm'
-                    onChange={handleOnChangeResponseType}
-                  />
-                  <Select
-                    placeholder="Provider"
-                    data={providers}
-                    value={currentProvider}
-                    allowDeselect={false}
-                    checkIconPosition='right'
-                    size='sm'
-                    onChange={handleOnChangeProvider}
-                  />
-
-
-                  <Card shadow="md" withBorder={true}>
-                    <Stack gap={'sm'}>
-                      <Input size='sm' placeholder={"Search"}></Input>
-                      <ScrollArea offsetScrollbars>
-                        <Stack gap={'xs'}>
-                          {
-                            filters.map(item => {
-                              return (
-                                <Group key={item.name} justify="space-between">
-                                  <Chip size='sm' variant='light'>
-                                    {item.name}
-                                  </Chip>
-                                  <Popover width={200} position="bottom" withArrow shadow="md">
-                                    <Popover.Target>
-                                      <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
-                                        <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                      </ActionIcon>
-                                    </Popover.Target>
-                                    <Popover.Dropdown>
-                                      <Text size="xs">
-                                        {item.help}
-                                      </Text>
-                                    </Popover.Dropdown>
-                                  </Popover>
-                                </Group>
-                              )
-                            })
-                          }
-                        </Stack>
-                      </ScrollArea>
-                    </Stack>
-                  </Card>
-
-
-
-                  <Button variant='outline' onClick={toggle} hiddenFrom='sm'>
-                    Apply
-                  </Button>
-                </Stack>
-              </Stack>
+              <PromptOptionsPanel
+                userPromptOptions={userPromptOptions}
+                setUserPromptOptions={setUserPromptOptions}
+                />
             </Tabs.Panel>
 
             <Tabs.Panel value="templates" py={"md"}>
@@ -298,7 +180,6 @@ export function HomePage() {
               </Card>
             </Tabs.Panel>
           </Tabs>
-
         </AppShell.Section>
         <AppShell.Section>
           <Divider my="xs" />
@@ -365,7 +246,6 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <PromptOptionsPanel promptOptions={promptOptions} />
         <ResponseContainer requests={requests} requestLoading={requestLoading} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
@@ -473,8 +353,8 @@ export function HomePage() {
               }
             }}
             radius={'xl'}
-            value={prompt}
-            onChange={e => setPrompt(e.target.value)}
+            value={userPrompt}
+            onChange={e => setUserPrompt(e.target.value)}
             onKeyDown={submitPromptByTextArea}
           />
           <ActionIcon
