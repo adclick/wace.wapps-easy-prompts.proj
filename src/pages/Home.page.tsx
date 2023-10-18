@@ -67,7 +67,7 @@ export function HomePage() {
           <ColorSchemeToggle />
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar withBorder={false} p="md">
         <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'md'} mt={"0"}>
           <Group h={"100%"} px={"md"}>
             <Burger

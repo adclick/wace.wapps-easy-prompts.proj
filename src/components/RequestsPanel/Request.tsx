@@ -15,7 +15,7 @@ export interface Request {
 export function Request({ prompt, result }: RequestParams) {
     return (
         <Stack my={"xl"} gap={0}>
-            <Card withBorder shadow="sm" radius="0">
+            <Card  shadow="sm" radius="0">
                 <Card.Section withBorder inheritPadding py={"xs"}>
                     <Stack>
                         <Group justify="flex-end">

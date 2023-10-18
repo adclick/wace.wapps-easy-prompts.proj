@@ -1,5 +1,15 @@
+.main, .header, .footer {
+    &.light {
+        background-color: var(--mantine-color-gray-3);
+    }
+
+    &.dark {
+    }
+}
+
 .navbar {
     &.light {
+        background-color: var(--mantine-color-gray-4);
     }
 
     &.dark {
