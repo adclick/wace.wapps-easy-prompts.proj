@@ -11,6 +11,7 @@ import { ResponseContainer } from '../components/ResponseContainer/ResponseConta
 import { Request } from '../components/ResponseContainer/Request';
 import { PromptOptionsPanel } from '../components/PromptOptionsPanel/PromptOptionsPanel';
 import { PromptOptions, ResponseType } from '../model/PromptOptions';
+import { UserPromptOptions } from '../model/UserPromptOptions';
 
 // Message used for not yet implemented components
 const NOT_AVAILABLE = "Not available yet";
@@ -59,6 +60,9 @@ export function HomePage() {
   const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptionsObj.getProvidersForSelectBox());
   const [currentProvider, setCurrentProvider] = useState(promptOptionsObj.getDefaultProviderForSelectBox());
 
+  const userPromptOptionsObj = new UserPromptOptions();
+  const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(userPromptOptionsObj);
+
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
   const [openedPrompts, { open, close }] = useDisclosure(false);
@@ -74,11 +78,42 @@ export function HomePage() {
     const promptOptions = await client.getPromptOptions();
     const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
+    const currentResponseType = promptOptionsObj.getDefaultResponseTypeForSelectBox();
+    const currentProvider = promptOptionsObj.getDefaultProviderForSelectBox();
+
+    // Initialize prompt options default values
     setPromptOptions(promptOptionsObj);
     setResponseTypes(promptOptionsObj.getResponseTypesForSelectBox());
-    setCurrentResponseType(promptOptionsObj.getDefaultResponseTypeForSelectBox());
     setProviders(promptOptionsObj.getProvidersForSelectBox());
-    setCurrentProvider(promptOptionsObj.getDefaultProviderForSelectBox());
+    setCurrentResponseType(currentResponseType);
+    setCurrentProvider(currentProvider);
+
+    // Initialize user prompt options
+    const newUserPromptOptions = userPromptOptions;
+    newUserPromptOptions.setResponseType(currentResponseType);
+    newUserPromptOptions.setProvider(currentProvider);
+    setUserPromptOptions(newUserPromptOptions);
+  }
+
+  // OnChange response-type
+  const handleOnChangeResponseType = (currentResponseType: string) => {
+    setCurrentResponseType(currentResponseType);
+    setCurrentProvider(promptOptions.getDefaultProviderForSelectBoxByResponseTypeSlug(currentResponseType));
+
+    // Update user prompt options
+    const newUserPromptOptions = userPromptOptions;
+    newUserPromptOptions.setResponseType(currentResponseType);
+    setUserPromptOptions(newUserPromptOptions);
+  }
+
+  // OnChange Provider
+  const handleOnChangeProvider = (currentProvider: string) => {
+    setCurrentProvider(currentProvider);
+
+    // Update user prompt options
+    const newUserPromptOptions = userPromptOptions;
+    newUserPromptOptions.setProvider(currentProvider);
+    setUserPromptOptions(newUserPromptOptions);
   }
 
   // Submit prompt
@@ -86,7 +121,13 @@ export function HomePage() {
     if (prompt.length <= 0) return;
     setRequestLoading(true);
     setPrompt("");
+    
+    const result = await apiClient.submitPrompt(prompt, userPromptOptions);
+    console.log(result);
+
     setRequestLoading(false);
+
+    console.log(userPromptOptions);
   }
 
   const submitPromptByTextArea = async (e: any) => {
@@ -167,6 +208,7 @@ export function HomePage() {
                     allowDeselect={false}
                     checkIconPosition='right'
                     size='sm'
+                    onChange={handleOnChangeResponseType}
                   />
                   <Select
                     placeholder="Provider"
@@ -175,6 +217,7 @@ export function HomePage() {
                     allowDeselect={false}
                     checkIconPosition='right'
                     size='sm'
+                    onChange={handleOnChangeProvider}
                   />
 
 

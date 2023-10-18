@@ -1,3 +1,4 @@
+import { UserPromptOptions } from "@/model/UserPromptOptions";
 import axios from "axios";
 
 export interface PromptType {
@@ -27,35 +28,9 @@ export class EasyPromptsApiClient {
         return await this.get('/ai/prompt/options');
     }
 
-    /**
-     * Get all the prompt_types
-     * @returns 
-     */
-    async getAllPromptTypes(): Promise<PromptType[]> {
-        return await this.get('/ai/prompt/prompt-type');
-    }
-
-    /**
-     * Get all the providers from a given prompt_type
-     * 
-     * @param promptType
-     * @returns 
-     */
-    async getProvidersByPromptType(promptType: string): Promise<Provider[]> {
-        return await this.get('/ai/prompt/provider', {
-            promptType
-        })
-    }
-
-    /**
-     * 
-     * @param promptTypeSlug 
-     * @param providerSlug 
-     * @param promptText 
-     */
-    async submitPrompt(promptTypeSlug: string, providerSlug: string, promptText: string) {
+    async submitPrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.get('/ai/text/generate', {
-            text: promptText
+            text: userPrompt
         });
     }
 

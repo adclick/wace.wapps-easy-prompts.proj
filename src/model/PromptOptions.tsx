@@ -35,6 +35,9 @@ export class PromptOptions {
         this.promptModifiers = [];
     }
 
+    /**
+     * Build a new object from the API response
+     */
     static buildFromApi(promptOptions: PromptOptions) {
         const newObj = new PromptOptions();
 
@@ -46,14 +49,28 @@ export class PromptOptions {
         return newObj;
     }
 
-    getResponseTypesForSelectBox() {
+    /**
+     * Get the response-types for the respective select-box
+     * @returns {label: string, value: string}[]
+     */
+    getResponseTypesForSelectBox(): {label: string, value: string}[] {
         return this.responseTypes.map(responseType => this.formatForSelectBox(responseType));
     }
 
-    getProvidersForSelectBox() {
+    /**
+     * Get the providers for the respective select-box
+     * 
+     * @returns {label: string, value: string}[]
+     */
+    getProvidersForSelectBox(): {label: string, value: string}[] {
         return this.providers.map(provider => this.formatForSelectBox(provider));
     }
 
+    /**
+     * Get the default response type
+     * 
+     * @returns ResponseType|null
+     */
     getDefaultResponseType(): ResponseType|null {
         if (this.responseTypes.length === 0) return null;
 
@@ -64,7 +81,12 @@ export class PromptOptions {
             : defaultResponseType
     }
 
-    getDefaultResponseTypeForSelectBox() {
+    /**
+     * Get the default response-tive for the respective select-box
+     * 
+     * @returns string 
+     */
+    getDefaultResponseTypeForSelectBox(): string {
         const defaultResponseType: ResponseType|null = this.getDefaultResponseType();
 
         if (defaultResponseType === null) return "";
@@ -72,6 +94,11 @@ export class PromptOptions {
         return defaultResponseType.slug;
     }
 
+    /**
+     * Get the default provider for the respective select-box
+     * 
+     * @returns string
+     */
     getDefaultProviderForSelectBox() {
         const defaultResponseType: ResponseType|null = this.getDefaultResponseType();
 
@@ -80,6 +107,27 @@ export class PromptOptions {
         return defaultResponseType.defaultProvider;
     }
 
+    /**
+     * Get the default provider for the respective select-box given a response-type
+     * @param responseTypeSlug string
+     * @returns string
+     */
+    getDefaultProviderForSelectBoxByResponseTypeSlug(responseTypeSlug: string) : string {
+        const responseType = this.responseTypes.find(rt => rt.slug === responseTypeSlug);
+
+        if (responseType === undefined) {
+            return "";
+        }
+
+        return responseType.defaultProvider;
+    }
+
+    /**
+     * Format a given object to the mantine select-box data prop
+     * 
+     * @param object 
+     * @returns {label: string, value: string}
+     */
     formatForSelectBox(object: { name: string, slug: string }) {
         return {
             label: object.name,
