@@ -2,9 +2,9 @@ import { EasyPromptsApiClient } from "@/clients/EasyPromptsApiClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ActionIcon, Box, Group, Input, List, Modal, Stack, Textarea, ThemeIcon, Tooltip } from "@mantine/core";
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconSearch } from "@tabler/icons-react";
-import { Request } from "../ResponseContainer/Request";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
+import { Request } from "../RequestsPanel/Request";
 
 interface PromptParams {
     apiClient: EasyPromptsApiClient,
@@ -26,6 +26,7 @@ export function Prompt({ apiClient, userPromptOptions, setRequestLoading, reques
         setUserPrompt("");
 
         const result = await apiClient.submitPrompt(userPrompt, userPromptOptions);
+        console.log(result);
         const request: Request = {
             id: requests.length + 1,
             prompt: userPrompt,

@@ -9,7 +9,7 @@ interface RequestParams {
 export interface Request {
     id: number
     prompt: string,
-    result: string
+    result: any
 }
 
 export function Request({ prompt, result }: RequestParams) {
