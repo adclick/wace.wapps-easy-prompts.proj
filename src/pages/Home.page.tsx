@@ -1,14 +1,16 @@
-import { ActionIcon, AppShell, Avatar, Burger, Button, Card, Chip, Divider, Group, Input, List, LoadingOverlay, Menu, Modal, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme, useMantineTheme } from '@mantine/core';
-import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFilter, IconFlag, IconInfoCircle, IconLanguage, IconLanguageHiragana, IconLanguageOff, IconList, IconLogout, IconMail, IconMenu, IconPencil, IconQuestionMark, IconSearch, IconSettings, IconShare, IconTemplate, IconThumbDown, IconThumbUp, IconTrash, IconUpload, IconUser } from '@tabler/icons-react';
+import { ActionIcon, AppShell, Avatar, Burger, Button, Card, Chip, Divider, Group, Input, List, Menu, Modal, Popover, ScrollArea, Select, Space, Stack, Tabs, Text, Textarea, ThemeIcon, Title, Tooltip, rem, useComputedColorScheme, useMantineTheme } from '@mantine/core';
+import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconFlag, IconInfoCircle, IconLanguage, IconList, IconLogout, IconMail, IconQuestionMark, IconSearch, IconSettings, IconTemplate } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
-import { EasyPromptsApiClient, PromptType, Provider } from '../clients/EasyPromptsApiClient';
+import { EasyPromptsApiClient } from '../clients/EasyPromptsApiClient';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ResponseContainer } from '../components/ResponseContainer/ResponseContainer';
 import { Request } from '../components/ResponseContainer/Request';
+import { PromptOptionsPanel } from '../components/PromptOptionsPanel/PromptOptionsPanel';
+import { PromptOptions, ResponseType } from '../model/PromptOptions';
 
 // Message used for not yet implemented components
 const NOT_AVAILABLE = "Not available yet";
@@ -38,53 +40,24 @@ export function HomePage() {
   const apiClient = new EasyPromptsApiClient();
 
   // Auth0
-  const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } = useAuth0();
-
-  console.log(user);
-
-  const getAuth0Button = () => {
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-    if (error) {
-      return <div>Oops... {error.message}</div>;
-    }
-
-    if (isAuthenticated) {
-      return (
-        user &&
-        <div>
-          Hello {user.name}{' '}
-          <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-            Log out
-          </button>
-        </div>
-      );
-    } else {
-      return <button onClick={() => loginWithRedirect()}>Log in</button>;
-    }
-  }
-
+  const { user, logout } = useAuth0();
 
   // Getting color schema
   const computedColorScheme = useComputedColorScheme('dark');
 
   // Setting state vars
-  const [promptTypes, setPromptTypes] = useState<PromptType[]>([]);
-  const [promptType, setPromptType] = useState("");
-  const [selectBoxPromptTypes, setSelectBoxPromptTypes] = useState<{ value: string, label: string }[]>([]);
-
-  const [providers, setProviders] = useState<Provider[]>([]);
-  const [provider, setProvider] = useState("");
-  const [selectBoxProviders, setSelectBoxProviders] = useState<{ value: string, label: string }[]>([]);
 
   const [prompt, setPrompt] = useState("");
   const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
 
-  const [needImageSizesOption, setNeedImageSizesOption] = useState(false);
-  const [selectBoxImageSizes, setSelectBoxImageSizes] = useState<{ value: string, label: string }[]>([]);
-  const [imageSize, setImageSize] = useState("");
+  // New state (tmp)
+  const promptOptionsObj = new PromptOptions();
+  const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
+  const [responseTypes, setResponseTypes] = useState<{ label: string, value: string }[]>(promptOptionsObj.getResponseTypesForSelectBox());
+  const [currentResponseType, setCurrentResponseType] = useState(promptOptionsObj.getDefaultResponseTypeForSelectBox());
+  const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptionsObj.getProvidersForSelectBox());
+  const [currentProvider, setCurrentProvider] = useState(promptOptionsObj.getDefaultProviderForSelectBox());
 
   // Setting hooks
   const [opened, { toggle }] = useDisclosure();
@@ -92,88 +65,26 @@ export function HomePage() {
 
   // Init logic
   useEffect(() => {
-    updatePromptTypes();
+    fetchPromptOptions();
   }, []);
 
-  // Update promptTypes
-  const updatePromptTypes = () => {
+  // Initialize all options
+  const fetchPromptOptions = async () => {
     const client = new EasyPromptsApiClient();
-    client.getAllPromptTypes().then((promptTypes: PromptType[]) => {
-      setPromptTypes(promptTypes);
-      const selectBoxPromptTypes = promptTypes.map(promptType => {
-        return {
-          value: promptType.prompt_type_slug,
-          label: promptType.prompt_type_name
-        };
-      });
+    const promptOptions = await client.getPromptOptions();
+    const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
-      // Get default promptType
-      let defaultPromptType = promptTypes.find(p => p.prompt_type_default === true);
-      if (defaultPromptType === undefined) {
-        defaultPromptType = promptTypes[0];
-      }
-
-      setSelectBoxPromptTypes(selectBoxPromptTypes);
-      setPromptType(defaultPromptType.prompt_type_slug);
-      updateProviders(promptTypes, promptTypes[1].prompt_type_slug);
-    });
+    setPromptOptions(promptOptionsObj);
+    setResponseTypes(promptOptionsObj.getResponseTypesForSelectBox());
+    setCurrentResponseType(promptOptionsObj.getDefaultResponseTypeForSelectBox());
+    setProviders(promptOptionsObj.getProvidersForSelectBox());
+    setCurrentProvider(promptOptionsObj.getDefaultProviderForSelectBox());
   }
 
-  // Update providers
-  const updateProviders = async (promptTypes: PromptType[], promptTypeSlug: string) => {
-    const client = new EasyPromptsApiClient();
-    const providersByPromptType = await client.getProvidersByPromptType(promptTypeSlug);
-    setProviders(providersByPromptType);
-
-    const selectBoxProviders = providersByPromptType.map(providerByPromptType => {
-      return {
-        value: providerByPromptType.provider_slug,
-        label: providerByPromptType.provider_name
-      }
-    });
-    setSelectBoxProviders(selectBoxProviders);
-
-    const provider: PromptType | undefined = promptTypes.find((promptType: PromptType) => {
-      return promptType.prompt_type_slug === promptTypeSlug;
-    });
-    if (provider !== undefined) {
-      setProvider(provider.provider_slug);
-    }
-  }
-
-  // Update providers based on the PromptType choosen by the user
-  const handlePromptTypesOnChange = async (promptTypeSlug: string) => {
-    setPromptType(promptTypeSlug);
-    await updateProviders(promptTypes, promptTypeSlug);
-
-    // Temp
-    if (promptTypeSlug === 'image-generation') {
-      setNeedImageSizesOption(true);
-      setSelectBoxImageSizes([
-        { label: "300x300", value: "300x300" },
-        { label: "512x512", value: "512x512" },
-        { label: "1024x1024", value: "1024x1024" },
-      ])
-    }
-  }
-
-  const handleProviderOnChange = async (providerSlug: string) => {
-    setProvider(providerSlug);
-  }
-
+  // Submit prompt
   const submitPrompt = async () => {
     if (prompt.length <= 0) return;
-
     setRequestLoading(true);
-    const result = await apiClient.submitPrompt(promptType, provider, prompt);
-
-    const request: Request = {
-      id: (requests.length + 1),
-      prompt,
-      result
-    };
-
-    setRequests([...requests, request]);
     setPrompt("");
     setRequestLoading(false);
   }
@@ -251,33 +162,20 @@ export function HomePage() {
                 <Stack gap={'md'}>
                   <Select
                     placeholder="Response Type"
-                    data={selectBoxPromptTypes}
-                    value={promptType}
+                    data={responseTypes}
+                    value={currentResponseType}
                     allowDeselect={false}
                     checkIconPosition='right'
                     size='sm'
-                    onChange={handlePromptTypesOnChange}
                   />
                   <Select
                     placeholder="Provider"
-                    data={selectBoxProviders}
-                    value={provider}
+                    data={providers}
+                    value={currentProvider}
                     allowDeselect={false}
                     checkIconPosition='right'
                     size='sm'
-                    onChange={handleProviderOnChange}
                   />
-                  {
-                    needImageSizesOption &&
-                    <Select
-                      placeholder='Choose a size'
-                      data={selectBoxImageSizes}
-                      value={imageSize}
-                      allowDeselect={false}
-                      checkIconPosition='right'
-                      size='sm'
-                    />
-                  }
 
 
                   <Card shadow="md" withBorder={true}>
@@ -424,6 +322,7 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
+        <PromptOptionsPanel promptOptions={promptOptions} />
         <ResponseContainer requests={requests} requestLoading={requestLoading} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>

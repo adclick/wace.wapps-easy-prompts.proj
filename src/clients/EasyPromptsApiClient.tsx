@@ -23,6 +23,10 @@ export class EasyPromptsApiClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
+    async getPromptOptions() {
+        return await this.get('/ai/prompt/options');
+    }
+
     /**
      * Get all the prompt_types
      * @returns 
