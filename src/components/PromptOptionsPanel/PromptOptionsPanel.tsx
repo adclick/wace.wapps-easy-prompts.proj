@@ -75,7 +75,12 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
         const newUserPromptOptions = userPromptOptions;
         newUserPromptOptions.setProvider(newProvider);
         setUserPromptOptions(newUserPromptOptions);
-        console.log(newProvider);
+    }
+
+    const handleOnChangePromptModifier = (newPromptModifiers: any) => {
+        const newUserPromptOptions = userPromptOptions;
+        newUserPromptOptions.setPromptModifiers(newPromptModifiers);
+        setUserPromptOptions(newUserPromptOptions);
     }
 
     return (
@@ -132,29 +137,31 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                         <Input size='sm' placeholder={"Search"}></Input>
                         <ScrollArea offsetScrollbars>
                             <Stack gap={'xs'}>
-                                {
-                                    promptModifiers.map(item => {
-                                        return (
-                                            <Group key={item.value} justify="space-between">
-                                                <Chip size='sm' variant='light'>
-                                                    {item.label}
-                                                </Chip>
-                                                <Popover width={200} position="bottom" withArrow shadow="md">
-                                                    <Popover.Target>
-                                                        <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
-                                                            <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                        </ActionIcon>
-                                                    </Popover.Target>
-                                                    <Popover.Dropdown>
-                                                        <Text size="xs">
-                                                            Some description
-                                                        </Text>
-                                                    </Popover.Dropdown>
-                                                </Popover>
-                                            </Group>
-                                        )
-                                    })
-                                }
+                                <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
+                                    {
+                                        promptModifiers.map(item => {
+                                            return (
+                                                <Group key={item.value} justify="space-between">
+                                                    <Chip size='sm' variant='light' value={item.value}>
+                                                        {item.label}
+                                                    </Chip>
+                                                    <Popover width={200} position="bottom" withArrow shadow="md">
+                                                        <Popover.Target>
+                                                            <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
+                                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                            </ActionIcon>
+                                                        </Popover.Target>
+                                                        <Popover.Dropdown>
+                                                            <Text size="xs">
+                                                                Some description
+                                                            </Text>
+                                                        </Popover.Dropdown>
+                                                    </Popover>
+                                                </Group>
+                                            )
+                                        })
+                                    }
+                                </Chip.Group>
                             </Stack>
                         </ScrollArea>
                     </Stack>
