@@ -1,19 +1,23 @@
+import { PromptOptions } from "@/model/PromptOptions"
+import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Card, CopyButton, Group, Menu, Stack, Text, Tooltip, rem } from "@mantine/core"
+import { ActionIcon, Avatar, Card, Chip, CopyButton, Group, Menu, Stack, Text, Tooltip, rem } from "@mantine/core"
 import { IconCheck, IconCopy, IconDeviceFloppy, IconDots, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
 
 interface RequestParams {
-    prompt: string,
+    userPrompt: string,
+    userPrmptOptions: UserPromptOptions,
     result: string
 }
 
 export interface Request {
     id: number
-    prompt: string,
+    userPrompt: string,
+    userPromptOptions: UserPromptOptions
     result: any
 }
 
-export function Request({ prompt, result }: RequestParams) {
+export function Request({ userPrompt, userPrmptOptions, result }: RequestParams) {
     const { user } = useAuth0();
 
     return (
@@ -22,9 +26,16 @@ export function Request({ prompt, result }: RequestParams) {
                 <Group>
                     <Avatar src={user?.picture} size={"sm"} />
                     <Text c="dimmed" size="sm">
-                        {prompt}
+                        {userPrompt}
                     </Text>
                 </Group>
+                <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
+                    <Group>
+                        <Text size="xs">
+                            {userPrmptOptions.responseType} by {userPrmptOptions.provider}
+                        </Text>
+                    </Group>
+                </Card.Section>
             </Card>
             <Card shadow="sm" radius="0">
                 <Group justify="space-between">

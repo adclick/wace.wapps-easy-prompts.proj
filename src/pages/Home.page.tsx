@@ -104,7 +104,7 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <RequestsPanel requests={requests} requestLoading={requestLoading} targetRef={targetRef} />
+        <RequestsPanel requests={requests} targetRef={targetRef} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
         <Prompt

@@ -78,13 +78,6 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
         console.log(newProvider);
     }
 
-    const filters = [
-        { name: "Act like a Content Manager", help: "" },
-        { name: "Assume you're a security reviewer", help: "" },
-        { name: "Answser me as a SEO expert", help: "" },
-        { name: "Evaluate images like a designer", help: "" },
-    ]
-
     return (
         <Stack gap={"lg"} py={"md"}>
             <Stack gap={'md'}>

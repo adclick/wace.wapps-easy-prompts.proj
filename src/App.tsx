@@ -17,8 +17,5 @@ export default function App() {
         <Router />
       </MantineProvider>
     </Auth0Provider>
-    // <MantineProvider defaultColorScheme='dark' theme={theme}>
-    //   <Router />
-    // </MantineProvider>
   );
 }

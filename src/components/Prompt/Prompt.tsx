@@ -33,21 +33,18 @@ export function Prompt({ apiClient, userPromptOptions, setRequestLoading, reques
 
         setRequestLoading(true);
         setUserPrompt("");
-
+        
         const result = await apiClient.submitPrompt(userPrompt, userPromptOptions);
-        console.log(result);
         const request: Request = {
             id: requests.length + 1,
-            prompt: userPrompt,
-            result: result
+            userPrompt,
+            userPromptOptions,
+            result
         };
+        console.log(request);
         setRequests([...requests, request]);
-
         setRequestLoading(false);
-
-        scrollIntoView({
-            alignment: 'start'
-        });
+        scrollIntoView({ alignment: 'start' });
     }
 
     const submitPromptByTextArea = async (e: any) => {
