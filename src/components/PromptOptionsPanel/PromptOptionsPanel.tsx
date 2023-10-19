@@ -15,10 +15,17 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
     const [opened, { toggle }] = useDisclosure();
     const promptOptionsObj = new PromptOptions();
     const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
+
+    // response-types
     const [responseTypes, setResponseTypes] = useState<{ label: string, value: string }[]>(promptOptionsObj.getResponseTypesForSelectBox());
     const [currentResponseType, setCurrentResponseType] = useState(promptOptionsObj.getDefaultResponseTypeForSelectBox());
+
+    // providers
     const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptionsObj.getProvidersForSelectBox());
     const [currentProvider, setCurrentProvider] = useState(promptOptionsObj.getDefaultProviderForSelectBox());
+
+    // modifiers
+    const [promptModifiers, setPromptModifiers] = useState<{ label: string, value: string }[]>(promptOptions.getPromtModifiersForSelectBox());
 
     // Init logic
     useEffect(() => {
@@ -37,6 +44,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
         setPromptOptions(promptOptionsObj);
         setResponseTypes(promptOptionsObj.getResponseTypesForSelectBox());
         setProviders(promptOptionsObj.getProvidersForSelectBox());
+        setPromptModifiers(promptOptionsObj.getPromtModifiersForSelectBox());
         setCurrentResponseType(currentResponseType);
         setCurrentProvider(currentProvider);
 
@@ -50,7 +58,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
     const handleOnChangeResponseType = (newResponseType: string) => {
         setCurrentResponseType(newResponseType);
 
-        const newProvider = promptOptions.getDefaultProviderForSelectBoxByResponseTypeSlug(newResponseType); 
+        const newProvider = promptOptions.getDefaultProviderForSelectBoxByResponseTypeSlug(newResponseType);
         setCurrentProvider(newProvider);
 
         // Update user prompt options
@@ -88,7 +96,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
                     checkIconPosition='right'
                     size='sm'
                     onChange={handleOnChangeResponseType}
-                  />
+                />
                 <Select
                     placeholder="Provider"
                     data={providers}
@@ -97,7 +105,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
                     checkIconPosition='right'
                     size='sm'
                     onChange={handleOnChangeProvider}
-                  />
+                />
 
 
                 <Card shadow="md" withBorder={true}>
@@ -106,11 +114,11 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
                         <ScrollArea offsetScrollbars>
                             <Stack gap={'xs'}>
                                 {
-                                    filters.map(item => {
+                                    promptModifiers.map(item => {
                                         return (
-                                            <Group key={item.name} justify="space-between">
+                                            <Group key={item.value} justify="space-between">
                                                 <Chip size='sm' variant='light'>
-                                                    {item.name}
+                                                    {item.label}
                                                 </Chip>
                                                 <Popover width={200} position="bottom" withArrow shadow="md">
                                                     <Popover.Target>
@@ -120,7 +128,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
                                                     </Popover.Target>
                                                     <Popover.Dropdown>
                                                         <Text size="xs">
-                                                            {item.help}
+                                                            Some description
                                                         </Text>
                                                     </Popover.Dropdown>
                                                 </Popover>

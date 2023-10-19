@@ -67,6 +67,14 @@ export class PromptOptions {
     }
 
     /**
+     * 
+     * @returns {label: string, value: string}[]
+     */
+    getPromtModifiersForSelectBox(): {label: string, value: string}[] {
+        return this.promptModifiers.map(modifier => this.formatForSelectBox(modifier));
+    }
+
+    /**
      * Get the default response type
      * 
      * @returns ResponseType|null
