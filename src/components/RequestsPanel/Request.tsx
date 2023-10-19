@@ -1,5 +1,6 @@
-import { ActionIcon, Avatar, Card, CopyButton, Group, Stack, Text, Tooltip, rem } from "@mantine/core"
-import { IconCheck, IconCopy, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
+import { useAuth0 } from "@auth0/auth0-react"
+import { ActionIcon, Avatar, Card, CopyButton, Group, Menu, Stack, Text, Tooltip, rem } from "@mantine/core"
+import { IconCheck, IconCopy, IconDeviceFloppy, IconDots, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
 
 interface RequestParams {
     prompt: string,
@@ -13,36 +14,46 @@ export interface Request {
 }
 
 export function Request({ prompt, result }: RequestParams) {
-    return (
-        <Stack my={"xl"} gap={0}>
-            <Card  shadow="sm" radius="0">
-                <Card.Section withBorder inheritPadding py={"xs"}>
-                    <Stack>
-                        <Group justify="flex-end">
-                            <Text>You</Text>
-                            <Avatar src={null} alt="no image here" />
-                        </Group>
-                        <Text mt="sm" c="dimmed" size="sm">
-                            {prompt}
-                        </Text>
-                    </Stack>
-                </Card.Section>
+    const { user } = useAuth0();
 
-                <Card.Section withBorder inheritPadding py={"xs"}>
-                    <Stack>
-                        <Group>
-                            <Avatar variant="" src={null} alt="no image here" />
-                            <Text>AI Assistant</Text>
-                        </Group>
-                        <Text mt="sm" c="dimmed" size="sm">
+    return (
+        <Stack my={"xl"}>
+            <Card radius={"0"} shadow="sm">
+                <Group>
+                    <Avatar src={user?.picture} size={"sm"} />
+                    <Text c="dimmed" size="sm">
+                        {prompt}
+                    </Text>
+                </Group>
+            </Card>
+            <Card shadow="sm" radius="0">
+                <Group justify="space-between">
+                    <Group>
+                        <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
+                        <Text c="dimmed" size="sm">
                             {result}
                         </Text>
-                    </Stack>
-                </Card.Section>
+                    </Group>
+                    <Menu withinPortal position="bottom-end" shadow="sm">
+                        <Menu.Target>
+                            <ActionIcon variant="subtle" color="gray">
+                                <IconDots style={{ width: rem(16), height: rem(16) }} />
+                            </ActionIcon>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                            <Menu.Item leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
+                                Save
+                            </Menu.Item>
+                            <Menu.Item leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}>
+                                Share
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
+                </Group>
 
                 <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
                     <Group justify='space-between'>
-                        <CopyButton value="https://mantine.dev" timeout={2000}>
+                        <CopyButton value={result} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
                                     <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
@@ -57,10 +68,10 @@ export function Request({ prompt, result }: RequestParams) {
                         </CopyButton>
                         <Group justify='flex-end'>
                             <ActionIcon color='red' variant='subtle'>
-                                <IconThumbDown size={"18"} />
+                                <IconMoodSad size={"18"} />
                             </ActionIcon>
                             <ActionIcon variant='subtle'>
-                                <IconThumbUp size={"18"} />
+                                <IconMoodSmile size={"18"} />
                             </ActionIcon>
                         </Group>
                     </Group>

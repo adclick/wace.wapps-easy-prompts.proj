@@ -132,7 +132,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
                         </ScrollArea>
                     </Stack>
                 </Card>
-                <Button variant='outline' onClick={toggle} hiddenFrom='sm'>
+                <Button onClick={toggle} hiddenFrom='sm'>
                     Apply
                 </Button>
             </Stack>

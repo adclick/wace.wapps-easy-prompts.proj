@@ -12,7 +12,7 @@ export function UserMenu() {
             <Divider my="xs" />
             <Menu width={"target"}>
                 <Menu.Target>
-                    <Button fullWidth justify='flex-start' size="lg" variant="subtle" px={"xs"}>
+                    <Button fullWidth justify='flex-start' size="lg" variant="transparent" px={"xs"}>
                         <Group>
                             <Avatar src={user?.picture} />
                             <Stack align='flex-start' gap={0}>
