@@ -52,28 +52,26 @@ export function Request({ prompt, result }: RequestParams) {
                 </Group>
 
                 <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
-                    <Group justify='space-between'>
+                    <Group justify='flex-end'>
+                        <ActionIcon color='red' variant='subtle'>
+                            <IconMoodSad size={"18"} />
+                        </ActionIcon>
+                        <ActionIcon variant='subtle'>
+                            <IconMoodSmile size={"18"} />
+                        </ActionIcon>
                         <CopyButton value={result} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
                                     <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
                                         {copied ? (
-                                            <IconCheck style={{ width: rem(16) }} />
+                                            <IconCheck size={18} />
                                         ) : (
-                                            <IconCopy style={{ width: rem(16) }} />
+                                            <IconCopy size={18} />
                                         )}
                                     </ActionIcon>
                                 </Tooltip>
                             )}
                         </CopyButton>
-                        <Group justify='flex-end'>
-                            <ActionIcon color='red' variant='subtle'>
-                                <IconMoodSad size={"18"} />
-                            </ActionIcon>
-                            <ActionIcon variant='subtle'>
-                                <IconMoodSmile size={"18"} />
-                            </ActionIcon>
-                        </Group>
                     </Group>
                 </Card.Section>
             </Card>
