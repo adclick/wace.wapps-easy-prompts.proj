@@ -1,4 +1,4 @@
-import { EasyPromptsApiClient } from "@/clients/EasyPromptsApiClient";
+import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ActionIcon, Box, Center, Group, Input, List, Loader, Modal, Stack, Textarea, ThemeIcon, Tooltip, VisuallyHidden } from "@mantine/core";
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconSearch } from "@tabler/icons-react";
@@ -8,7 +8,7 @@ import { Request } from "../RequestsPanel/Request";
 import { PromptsModal } from "./PromptsModal";
 
 interface PromptParams {
-    apiClient: EasyPromptsApiClient,
+    aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
     requests: Request[],
     setRequests: any,
@@ -17,7 +17,7 @@ interface PromptParams {
     scrollIntoView: any
 }
 
-export function Prompt({ apiClient, userPromptOptions, setRequestLoading, requests, setRequests, requestLoading, scrollIntoView }: PromptParams) {
+export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading, requests, setRequests, requestLoading, scrollIntoView }: PromptParams) {
     const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
     const focusTrapRef = useFocusTrap();
@@ -34,7 +34,7 @@ export function Prompt({ apiClient, userPromptOptions, setRequestLoading, reques
         setRequestLoading(true);
         setUserPrompt("");
         
-        const result = await apiClient.submitPrompt(userPrompt, userPromptOptions);
+        const result = await aIMediatorClient.submitPrompt(userPrompt, userPromptOptions);
         const request: Request = {
             id: requests.length + 1,
             userPrompt,

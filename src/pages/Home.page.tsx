@@ -2,7 +2,7 @@ import { AppShell, Badge, Burger, Group, ScrollArea, Tabs, Title, rem, useComput
 import { IconList, IconTemplate } from '@tabler/icons-react';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { useState } from 'react';
-import { EasyPromptsApiClient } from '../clients/EasyPromptsApiClient';
+import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { PromptOptionsPanel } from '../components/PromptOptionsPanel/PromptOptionsPanel';
 import { UserPromptOptions } from '../model/UserPromptOptions';
 import { Prompt } from '../components/Prompt/Prompt';
@@ -16,7 +16,7 @@ import { Request } from '../components/RequestsPanel/Request';
 
 export function HomePage() {
   // API Client
-  const apiClient = new EasyPromptsApiClient();
+  const aIMediatorClient = new AIMediatorClient();
 
   // Setting state
   const [requests, setRequests] = useState<Request[]>([]);
@@ -109,7 +109,7 @@ export function HomePage() {
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
         <Prompt
-          apiClient={apiClient}
+          aIMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
           setRequestLoading={setRequestLoading}
           requests={requests}

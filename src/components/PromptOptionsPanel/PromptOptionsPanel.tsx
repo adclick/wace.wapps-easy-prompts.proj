@@ -2,7 +2,7 @@ import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { PromptOptions } from "../../model/PromptOptions";
 import { ActionIcon, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
 import { useEffect, useState } from "react"
-import { EasyPromptsApiClient } from "../../clients/EasyPromptsApiClient";
+import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { IconQuestionMark } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -33,8 +33,8 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
     }, []);
 
     const fetchPromptOptions = async () => {
-        const client = new EasyPromptsApiClient();
-        const promptOptions = await client.getPromptOptions();
+        const aIMediatorClient = new AIMediatorClient();
+        const promptOptions = await aIMediatorClient.getPromptOptions();
         const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
         const currentResponseType = promptOptionsObj.getDefaultResponseTypeForSelectBox();

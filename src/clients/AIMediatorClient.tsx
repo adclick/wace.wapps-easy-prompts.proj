@@ -14,7 +14,7 @@ export interface Provider {
     provider_slug: string,
 }
 
-export class EasyPromptsApiClient {
+export class AIMediatorClient {
     baseUrl: string;
 
     /**
@@ -29,10 +29,18 @@ export class EasyPromptsApiClient {
     }
 
     async submitPrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/prompt/submit', {
-            userPrompt,
-            userPromptOptions: userPromptOptions.toJson()
-        });
+        const { responseType } = userPromptOptions;
+
+        switch (responseType) {
+            case 'text-generation':
+                return await this.post('/ai/text/text-generation', {
+                    userPrompt,
+                    userPromptOptions: userPromptOptions.toJson()
+                });
+            default: {
+                return null;
+            }
+        }
     }
 
     /**

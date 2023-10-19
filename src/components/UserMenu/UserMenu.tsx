@@ -7,8 +7,6 @@ const NOT_AVAILABLE = "Not available yet";
 export function UserMenu() {
     const { user, logout } = useAuth0();
 
-    console.log(user);
-
     return (
         <Box>
             <Divider my="xs" />
