@@ -92,6 +92,7 @@ export function HomePage() {
               <PromptOptionsPanel
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}
+                toggle={toggle}
               />
             </Tabs.Panel>
             <Tabs.Panel value="templates" py={"md"}>

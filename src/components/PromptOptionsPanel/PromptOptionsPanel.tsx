@@ -1,6 +1,6 @@
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { PromptOptions } from "../../model/PromptOptions";
-import { ActionIcon, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Stack, Text } from "@mantine/core"
+import { ActionIcon, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { EasyPromptsApiClient } from "../../clients/EasyPromptsApiClient";
 import { IconQuestionMark } from "@tabler/icons-react";
@@ -8,11 +8,11 @@ import { useDisclosure } from "@mantine/hooks";
 
 interface PromptOptionsPanelParams {
     userPromptOptions: UserPromptOptions,
-    setUserPromptOptions: any
+    setUserPromptOptions: any,
+    toggle: any
 }
 
-export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: PromptOptionsPanelParams) {
-    const [opened, { toggle }] = useDisclosure();
+export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, toggle }: PromptOptionsPanelParams) {
     const promptOptionsObj = new PromptOptions();
     const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
 
@@ -79,28 +79,54 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
     }
 
     return (
-        <Stack gap={"lg"} py={"md"}>
-            <Stack gap={'md'}>
+        <Stack gap={'xl'} py={"lg"}>
+            <Stack>
+                <Title order={6}>Technology</Title>
                 <Select
                     placeholder="Response Type"
                     data={responseTypes}
                     value={currentResponseType}
                     allowDeselect={false}
                     checkIconPosition='right'
-                    size='sm'
                     onChange={handleOnChangeResponseType}
                 />
+            </Stack>
+            <Stack>
+                <Title order={6}>Provider</Title>
                 <Select
                     placeholder="Provider"
                     data={providers}
                     value={currentProvider}
                     allowDeselect={false}
                     checkIconPosition='right'
-                    size='sm'
                     onChange={handleOnChangeProvider}
                 />
-
-
+            </Stack>
+            <Stack>
+                <Title order={6}>Image Resolution</Title>
+                <Select
+                    placeholder="Image Resolution"
+                    allowDeselect={false}
+                    checkIconPosition='right'
+                />
+            </Stack>
+            <Stack>
+                <Title order={6}>Number of images</Title>
+                <Slider
+                    mb={"lg"}
+                    defaultValue={1}
+                    min={1}
+                    max={4}
+                    marks={[
+                        { value: 1, label: "1" },
+                        { value: 2, label: "2" },
+                        { value: 3, label: "3" },
+                        { value: 4, label: "4" }
+                    ]}
+                />
+            </Stack>
+            <Stack>
+                <Title order={6}>Prompt Modifiers</Title>
                 <Card shadow="md" withBorder={true}>
                     <Stack gap={'sm'}>
                         <Input size='sm' placeholder={"Search"}></Input>
@@ -133,10 +159,10 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions }: 
                         </ScrollArea>
                     </Stack>
                 </Card>
-                <Button onClick={toggle} hiddenFrom='sm'>
-                    Apply
-                </Button>
             </Stack>
+            <Button onClick={toggle} hiddenFrom='sm'>
+                Apply
+            </Button>
         </Stack>
     )
 }
