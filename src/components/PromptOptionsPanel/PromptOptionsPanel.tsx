@@ -80,7 +80,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
 
     return (
         <Stack gap={'xl'} py={"lg"}>
-            <Stack>
+            <Stack gap={'xs'}>
                 <Title order={6}>Technology</Title>
                 <Select
                     placeholder="Response Type"
@@ -91,7 +91,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                     onChange={handleOnChangeResponseType}
                 />
             </Stack>
-            <Stack>
+            <Stack gap={'xs'}>
                 <Title order={6}>Provider</Title>
                 <Select
                     placeholder="Provider"
@@ -102,7 +102,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                     onChange={handleOnChangeProvider}
                 />
             </Stack>
-            <Stack>
+            <Stack gap={'xs'}>
                 <Title order={6}>Image Resolution</Title>
                 <Select
                     placeholder="Image Resolution"
@@ -110,7 +110,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                     checkIconPosition='right'
                 />
             </Stack>
-            <Stack>
+            <Stack gap={'xs'}>
                 <Title order={6}>Number of images</Title>
                 <Slider
                     mb={"lg"}
@@ -125,7 +125,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                     ]}
                 />
             </Stack>
-            <Stack>
+            <Stack gap={'xs'}>
                 <Title order={6}>Prompt Modifiers</Title>
                 <Card shadow="md" withBorder={true}>
                     <Stack gap={'sm'}>

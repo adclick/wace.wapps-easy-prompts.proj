@@ -1,8 +1,9 @@
 import { PromptOptions } from "@/model/PromptOptions"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Card, Chip, CopyButton, Group, Menu, Stack, Text, Tooltip, rem } from "@mantine/core"
+import { ActionIcon, Avatar, Card, Chip, CopyButton, Group, Menu, Stack, Text, Tooltip, Transition, rem } from "@mantine/core"
 import { IconCheck, IconCopy, IconDeviceFloppy, IconDots, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
+import { useState } from "react"
 
 interface RequestParams {
     userPrompt: string,
