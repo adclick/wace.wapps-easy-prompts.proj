@@ -41,7 +41,6 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
             userPromptOptions,
             result
         };
-        console.log(request);
         setRequests([...requests, request]);
         setRequestLoading(false);
         scrollIntoView({ alignment: 'start' });
