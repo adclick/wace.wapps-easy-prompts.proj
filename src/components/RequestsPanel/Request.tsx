@@ -1,8 +1,9 @@
 import { PromptOptions } from "@/model/PromptOptions"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Card, Chip, CopyButton, Group, Menu, Stack, Text, Tooltip, Transition, rem } from "@mantine/core"
-import { IconCheck, IconCopy, IconDeviceFloppy, IconDots, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
+import { ActionIcon, Avatar, Button, Card, Center, Chip, Collapse, CopyButton, Group, Menu, Stack, Text, Tooltip, Transition, rem } from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks"
+import { IconCheck, IconCopy, IconDetails, IconDeviceFloppy, IconDots, IconInfoCircle, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
 import { useState } from "react"
 
 interface RequestParams {
@@ -20,51 +21,39 @@ export interface Request {
 
 export function Request({ userPrompt, userPrmptOptions, result }: RequestParams) {
     const { user } = useAuth0();
+    const [opened, { toggle }] = useDisclosure(false);
+
 
     return (
-        <Stack my={"xl"}>
-            <Card radius={"0"} shadow="sm">
-                <Group>
-                    <Avatar src={user?.picture} size={"sm"} />
-                    <Text c="dimmed" size="sm">
-                        {userPrompt}
-                    </Text>
-                </Group>
-                <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
+        <Stack my={"md"}>
+            <Card style={{cursor: "pointer"}} onClick={toggle} radius={"0"} shadow="sm">
+                <Group justify="space-between">
                     <Group>
-                        <Text size="xs">
-                            {userPrmptOptions.responseType} by {userPrmptOptions.provider}
+                        <Avatar src={user?.picture} size={"sm"} />
+                        <Text size="md">
+                            {userPrompt}
                         </Text>
                     </Group>
-                </Card.Section>
+                </Group>
+                <Collapse in={opened}>
+                    <Card.Section inheritPadding mt={"md"}>
+                        <Group>
+                            <Text size="xs">
+                                {userPrmptOptions.responseType} by {userPrmptOptions.provider}
+                            </Text>
+                        </Group>
+                    </Card.Section>
+                </Collapse>
             </Card>
             <Card shadow="sm" radius="0">
                 <Group justify="space-between">
                     <Group>
                         <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
-                        <Text c="dimmed" size="sm">
+                        <Text size="md">
                             {result}
                         </Text>
                     </Group>
-                    <Menu withinPortal position="bottom-end" shadow="sm">
-                        <Menu.Target>
-                            <ActionIcon variant="subtle" color="gray">
-                                <IconDots style={{ width: rem(16), height: rem(16) }} />
-                            </ActionIcon>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Item leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
-                                Save
-                            </Menu.Item>
-                            <Menu.Item leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}>
-                                Share
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
-                </Group>
-
-                <Card.Section withBorder inheritPadding py={"xs"} mt={"md"}>
-                    <Group justify='flex-end'>
+                    <Group gap={"xs"}>
                         <ActionIcon color='red' variant='subtle'>
                             <IconMoodSad size={"18"} />
                         </ActionIcon>
@@ -85,7 +74,7 @@ export function Request({ userPrompt, userPrmptOptions, result }: RequestParams)
                             )}
                         </CopyButton>
                     </Group>
-                </Card.Section>
+                </Group>
             </Card>
         </Stack>
     )

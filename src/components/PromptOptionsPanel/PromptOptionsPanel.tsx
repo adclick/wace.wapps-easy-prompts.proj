@@ -84,9 +84,8 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
     }
 
     return (
-        <Stack gap={'xl'} py={"lg"}>
+        <Stack gap={'md'} py={"lg"}>
             <Stack gap={'xs'}>
-                <Title order={6}>Technology</Title>
                 <Select
                     placeholder="Response Type"
                     data={responseTypes}
@@ -97,7 +96,6 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                 />
             </Stack>
             <Stack gap={'xs'}>
-                <Title order={6}>Provider</Title>
                 <Select
                     placeholder="Provider"
                     data={providers}
@@ -108,7 +106,6 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                 />
             </Stack>
             <Stack gap={'xs'}>
-                <Title order={6}>Image Resolution</Title>
                 <Select
                     placeholder="Image Resolution"
                     allowDeselect={false}
@@ -116,22 +113,22 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
                 />
             </Stack>
             <Stack gap={'xs'}>
-                <Title order={6}>Number of images</Title>
                 <Slider
                     mb={"lg"}
                     defaultValue={1}
                     min={1}
-                    max={4}
+                    max={6}
                     marks={[
                         { value: 1, label: "1" },
                         { value: 2, label: "2" },
                         { value: 3, label: "3" },
-                        { value: 4, label: "4" }
+                        { value: 4, label: "4" },
+                        { value: 5, label: "5" },
+                        { value: 6, label: "6" }
                     ]}
                 />
             </Stack>
             <Stack gap={'xs'}>
-                <Title order={6}>Prompt Modifiers</Title>
                 <Card shadow="md" withBorder={true}>
                     <Stack gap={'sm'}>
                         <Input size='sm' placeholder={"Search"}></Input>
