@@ -4,7 +4,6 @@ import { ActionIcon, Button, Card, Chip, Group, Input, Popover, ScrollArea, Sele
 import { useEffect, useState } from "react"
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { IconQuestionMark } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
 
 interface PromptOptionsPanelParams {
     userPromptOptions: UserPromptOptions,

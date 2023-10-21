@@ -1,10 +1,10 @@
-import { PromptOptions } from "@/model/PromptOptions"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Button, Card, Center, Chip, Collapse, CopyButton, Group, Menu, Stack, Text, Tooltip, Transition, rem, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Avatar, Button, Card, Center, Chip, Collapse, CopyButton, Group, Menu, Stack, Text, Tooltip, Transition, rem, useComputedColorScheme, useMantineTheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { IconCheck, IconCopy, IconDetails, IconDeviceFloppy, IconDots, IconInfoCircle, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
-import { useState } from "react"
+import classes from "./Request.module.css"
+import cx from "clsx";
 
 interface RequestParams {
     userPrompt: string,
@@ -24,10 +24,21 @@ export function Request({ userPrompt, userPrmptOptions, result }: RequestParams)
     const [opened, { toggle }] = useDisclosure(false);
     const theme = useMantineTheme();
 
+    const computedColorScheme = useComputedColorScheme("dark");
+    console.log(classes);
 
     return (
         <Stack gap={0}>
-            <Card style={{cursor: "pointer"}} bg={theme.colors.dark[8]} onClick={toggle} radius={"0"} shadow="sm" py={"xl"}>
+            <Card
+                style={{ cursor: "pointer" }}
+                onClick={toggle}
+                radius={"0"}
+                shadow="sm"
+                py={"xl"}
+                classNames={{
+                    root: cx(classes["request-card"], classes[computedColorScheme])
+                }}
+            >
                 <Group justify="space-between">
                     <Group>
                         <Avatar src={user?.picture} size={"sm"} />
