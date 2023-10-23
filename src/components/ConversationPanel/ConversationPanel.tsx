@@ -1,4 +1,3 @@
-import { Stack } from "@mantine/core";
 import { Thread } from "../Threads/Thread";
 
 interface ConversationPanelParams {
@@ -7,12 +6,5 @@ interface ConversationPanelParams {
 
 export function ConversionPanel({ threads }: ConversationPanelParams) {
     return (
-        threads.map(thread => {
-            return (
-                <Stack>
-                    {thread}
-                </Stack>
-            )
-        })
     )
 }

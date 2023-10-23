@@ -1,3 +1,11 @@
+export interface Technology {
+    name: string,
+    slug: string,
+    default: boolean,
+    providers: Provider[],
+    promptModifiers: PromptModifier[]
+}
+
 export interface ResponseType {
     name: string,
     slug: string,
@@ -23,12 +31,14 @@ export interface PromptModifier {
 }
 
 export class PromptOptions {
+    technologies: Technology[];
     responseTypes: ResponseType[];
     providers: Provider[];
     responseImageSizes: ResponseImageSize[];
     promptModifiers: PromptModifier[];
 
     constructor() {
+        this.technologies = [];
         this.responseTypes = [];
         this.providers = [];
         this.responseImageSizes = [];
@@ -40,6 +50,8 @@ export class PromptOptions {
      */
     static buildFromApi(promptOptions: PromptOptions) {
         const newObj = new PromptOptions();
+
+        newObj.technologies = promptOptions.technologies;
 
         newObj.responseTypes = promptOptions.responseTypes;
         newObj.providers = promptOptions.providers;

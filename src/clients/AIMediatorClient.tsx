@@ -25,7 +25,7 @@ export class AIMediatorClient {
     }
 
     async getPromptOptions() {
-        return await this.get('/ai/prompt/options');
+        return await this.get('/ai/prompt/options?version=2');
     }
 
     async submitPrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
