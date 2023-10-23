@@ -15,9 +15,9 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
     const promptOptionsObj = new PromptOptions();
     const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
 
-    // response-types
-    const [responseTypes, setResponseTypes] = useState<{ label: string, value: string }[]>(promptOptionsObj.getResponseTypesForSelectBox());
-    const [currentResponseType, setCurrentResponseType] = useState(promptOptionsObj.getDefaultResponseTypeForSelectBox());
+    // technologies
+    const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptionsObj.getTechnologiesForSelectBox());
+    const [currentTechnology, setCurrentTechnology] = useState(promptOptionsObj.getDefaultTechnologyForSelectBox());
 
     // providers
     const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptionsObj.getProvidersForSelectBox());
@@ -36,33 +36,33 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
         const promptOptions = await aIMediatorClient.getPromptOptions();
         const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
-        const currentResponseType = promptOptionsObj.getDefaultResponseTypeForSelectBox();
+        const currentTechnology = promptOptionsObj.getDefaultTechnologyForSelectBox();
         const currentProvider = promptOptionsObj.getDefaultProviderForSelectBox();
 
         // Initialize prompt options default values
         setPromptOptions(promptOptionsObj);
-        setResponseTypes(promptOptionsObj.getResponseTypesForSelectBox());
+        setTechnologies(promptOptionsObj.getTechnologiesForSelectBox());
         setProviders(promptOptionsObj.getProvidersForSelectBox());
         setPromptModifiers(promptOptionsObj.getPromtModifiersForSelectBox());
-        setCurrentResponseType(currentResponseType);
+        setCurrentTechnology(currentTechnology);
         setCurrentProvider(currentProvider);
 
         // Initialize user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setResponseType(currentResponseType);
+        newUserPromptOptions.setTechnology(currentTechnology);
         newUserPromptOptions.setProvider(currentProvider);
         setUserPromptOptions(newUserPromptOptions);
     }
 
-    const handleOnChangeResponseType = (newResponseType: string) => {
-        setCurrentResponseType(newResponseType);
+    const handleOnChangeTechnology = (newTechnology: string) => {
+        setCurrentTechnology(newTechnology);
 
-        const newProvider = promptOptions.getDefaultProviderForSelectBoxByResponseTypeSlug(newResponseType);
+        const newProvider = promptOptions.getDefaultProviderForSelectBoxByTechnologySlug(newTechnology);
         setCurrentProvider(newProvider);
 
         // Update user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setResponseType(newResponseType);
+        newUserPromptOptions.setTechnology(newTechnology);
         newUserPromptOptions.setProvider(newProvider)
         setUserPromptOptions(newUserPromptOptions);
     }
@@ -86,12 +86,12 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
         <Stack gap={'md'} py={"lg"}>
             <Stack gap={'xs'}>
                 <Select
-                    placeholder="Response Type"
-                    data={responseTypes}
-                    value={currentResponseType}
+                    placeholder="Technology"
+                    data={technologies}
+                    value={currentTechnology}
                     allowDeselect={false}
                     checkIconPosition='right'
-                    onChange={handleOnChangeResponseType}
+                    onChange={handleOnChangeTechnology}
                 />
             </Stack>
             <Stack gap={'xs'}>

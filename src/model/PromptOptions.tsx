@@ -6,13 +6,6 @@ export interface Technology {
     promptModifiers: PromptModifier[]
 }
 
-export interface ResponseType {
-    name: string,
-    slug: string,
-    default: boolean,
-    defaultProvider: string
-}
-
 export interface Provider {
     name: string,
     slug: string,
@@ -32,17 +25,9 @@ export interface PromptModifier {
 
 export class PromptOptions {
     technologies: Technology[];
-    responseTypes: ResponseType[];
-    providers: Provider[];
-    responseImageSizes: ResponseImageSize[];
-    promptModifiers: PromptModifier[];
 
     constructor() {
         this.technologies = [];
-        this.responseTypes = [];
-        this.providers = [];
-        this.responseImageSizes = [];
-        this.promptModifiers = [];
     }
 
     /**
@@ -53,20 +38,15 @@ export class PromptOptions {
 
         newObj.technologies = promptOptions.technologies;
 
-        newObj.responseTypes = promptOptions.responseTypes;
-        newObj.providers = promptOptions.providers;
-        newObj.responseImageSizes = promptOptions.responseImageSizes;
-        newObj.promptModifiers = promptOptions.promptModifiers;
-
         return newObj;
     }
 
     /**
-     * Get the response-types for the respective select-box
+     * Get the technologies for the respective select-box
      * @returns {label: string, value: string}[]
      */
-    getResponseTypesForSelectBox(): {label: string, value: string}[] {
-        return this.responseTypes.map(responseType => this.formatForSelectBox(responseType));
+    getTechnologiesForSelectBox(): {label: string, value: string}[] {
+        return this.technologies.map(technologiy => this.formatForSelectBox(technologiy));
     }
 
     /**
@@ -75,7 +55,21 @@ export class PromptOptions {
      * @returns {label: string, value: string}[]
      */
     getProvidersForSelectBox(): {label: string, value: string}[] {
-        return this.providers.map(provider => this.formatForSelectBox(provider));
+        const providers: Provider[] = [];
+
+        for (const technology of this.technologies) {
+            const tProviders = technology.providers;
+            
+            for (const tp of tProviders) {
+                if (providers.find(p => p.slug === tp.slug)) {
+                    continue;
+                }
+
+                providers.push(tp);
+            }
+        }
+
+        return providers.map(provider => this.formatForSelectBox(provider));
     }
 
     /**
@@ -83,35 +77,50 @@ export class PromptOptions {
      * @returns {label: string, value: string}[]
      */
     getPromtModifiersForSelectBox(): {label: string, value: string}[] {
-        return this.promptModifiers.map(modifier => this.formatForSelectBox(modifier));
+        const promptModifiers: PromptModifier[] = [];
+
+        for (const technology of this.technologies) {
+            const tPromptModifiers = technology.promptModifiers;
+
+            for (const tpm of tPromptModifiers) {
+                if (promptModifiers.find(pm => pm.slug === tpm.slug)) {
+                    continue;
+                }
+
+                promptModifiers.push(tpm);
+            }
+            promptModifiers.push(...technology.promptModifiers);
+        }
+
+        return promptModifiers.map(modifier => this.formatForSelectBox(modifier));
     }
 
     /**
-     * Get the default response type
+     * Get the default technology
      * 
-     * @returns ResponseType|null
+     * @returns Technology|null
      */
-    getDefaultResponseType(): ResponseType|null {
-        if (this.responseTypes.length === 0) return null;
+    getDefaultTechnology(): Technology|null {
+        if (this.technologies.length === 0) return null;
 
-        const defaultResponseType = this.responseTypes.find(responseType => responseType.default === true);
+        const defaultTechnology = this.technologies.find(technology => technology.default === true);
 
-        return defaultResponseType === undefined
-            ? this.responseTypes[0]
-            : defaultResponseType
+        return defaultTechnology === undefined
+            ? this.technologies[0]
+            : defaultTechnology;
     }
 
     /**
-     * Get the default response-tive for the respective select-box
+     * Get the default technology for the respective select-box
      * 
      * @returns string 
      */
-    getDefaultResponseTypeForSelectBox(): string {
-        const defaultResponseType: ResponseType|null = this.getDefaultResponseType();
+    getDefaultTechnologyForSelectBox(): string {
+        const defaultTechnology: Technology|null = this.getDefaultTechnology();
 
-        if (defaultResponseType === null) return "";
+        if (defaultTechnology === null) return "";
 
-        return defaultResponseType.slug;
+        return defaultTechnology.slug;
     }
 
     /**
@@ -120,26 +129,34 @@ export class PromptOptions {
      * @returns string
      */
     getDefaultProviderForSelectBox() {
-        const defaultResponseType: ResponseType|null = this.getDefaultResponseType();
+        const defaultTechnology: Technology|null = this.getDefaultTechnology();
 
-        if (defaultResponseType === null) return "";
+        if (defaultTechnology === null) return "";
 
-        return defaultResponseType.defaultProvider;
+        const defaultProvider = defaultTechnology.providers.find(provider => provider.default === true);
+
+        return defaultProvider === undefined
+            ? defaultTechnology.providers[0].slug
+            : defaultProvider.slug;
     }
 
     /**
-     * Get the default provider for the respective select-box given a response-type
-     * @param responseTypeSlug string
+     * Get the default provider for the respective select-box given a technology
+     * @param technologySlug string
      * @returns string
      */
-    getDefaultProviderForSelectBoxByResponseTypeSlug(responseTypeSlug: string) : string {
-        const responseType = this.responseTypes.find(rt => rt.slug === responseTypeSlug);
+    getDefaultProviderForSelectBoxByTechnologySlug(technologySlug: string) : string {
+        const technology = this.technologies.find(t => t.slug === technologySlug);
 
-        if (responseType === undefined) {
+        if (technology === undefined) {
             return "";
         }
 
-        return responseType.defaultProvider;
+        const defaultProvider = technology.providers.find(provider => provider.default === true);
+
+        return defaultProvider === undefined
+            ? technology.providers[0].slug
+            : defaultProvider.slug;
     }
 
     /**

@@ -9,7 +9,7 @@ export class UserPromptOptions {
         this.promptModifiers = [];
     }
 
-    setResponseType(responseType: string) {
+    setTechnology(responseType: string) {
         this.responseType = responseType;
     }
 
