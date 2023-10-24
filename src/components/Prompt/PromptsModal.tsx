@@ -1,12 +1,23 @@
-import { Input, List, Modal, Stack, ThemeIcon } from "@mantine/core";
-import { IconCircleCheck, IconCircleDashed, IconSearch } from "@tabler/icons-react";
+import { Group, Input, List, Modal, Rating, Stack, Text, ThemeIcon } from "@mantine/core";
+import { IconBalloon, IconCircleCheck, IconCircleDashed, IconPrompt, IconSearch, IconTex } from "@tabler/icons-react";
 
 interface PromptsModalProps {
     openedPrompts: any;
     close: any
 }
 
-export function PromptsModal({openedPrompts, close}: PromptsModalProps) {
+export function PromptsModal({ openedPrompts, close }: PromptsModalProps) {
+    const prompts = [
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+        { name: "Run tests to make sure your changes do" },
+    ];
+
     return (
         <Modal
             size={"xl"}
@@ -24,48 +35,23 @@ export function PromptsModal({openedPrompts, close}: PromptsModalProps) {
                     size="sm"
                     center
                     icon={
-                        <ThemeIcon color="teal" size={24} radius="xl">
-                            <IconCircleCheck size="1rem" />
+                        <ThemeIcon size={24}>
+                            <IconPrompt size="1rem" />
                         </ThemeIcon>
                     }
                 >
-                    <List.Item>Clone or download repository from GitHub</List.Item>
-                    <List.Item>Install dependencies with yarn</List.Item>
-                    <List.Item>To start development server run npm start command</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                    <List.Item
-                        icon={
-                            <ThemeIcon color="blue" size={24} radius="xl">
-                                <IconCircleDashed size="1rem" />
-                            </ThemeIcon>
-                        }
-                    >
-                        Submit a pull request once you are done
-                    </List.Item>
+                    {
+                        prompts.map(prompt => {
+                            return (
+                                <List.Item >
+                                    <Group justify="space-between">
+                                        <Text>{prompt.name}</Text>
+                                        <Rating defaultValue={2} />
+                                    </Group>
+                                </List.Item>
+                            )
+                        })
+                    }
                 </List>
             </Stack>
 
