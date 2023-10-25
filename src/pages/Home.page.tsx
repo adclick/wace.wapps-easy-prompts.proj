@@ -21,8 +21,7 @@ export function HomePage() {
   // Setting state
   const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
-  const userPromptOptionsObj = new UserPromptOptions();
-  const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(userPromptOptionsObj);
+  const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
 
   // Setting hooks
   const computedColorScheme = useComputedColorScheme('dark');

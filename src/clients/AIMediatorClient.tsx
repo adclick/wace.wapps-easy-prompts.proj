@@ -29,17 +29,17 @@ export class AIMediatorClient {
     }
 
     async submitPrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        const { responseType } = userPromptOptions;
+        const { technology: responseType } = userPromptOptions;
 
         const queryParameters = new URLSearchParams(window.location.search);
-        const sandbox = queryParameters.get("sandbox") !== null;
+        const live = queryParameters.get("live") !== null;
 
         switch (responseType) {
             case 'text-generation':
                 return await this.post('/ai/text/text-generation', {
                     userPrompt,
                     userPromptOptions: userPromptOptions.toJson(),
-                    sandbox: sandbox
+                    sandbox: !live
                 });
             default: {
                 return null;

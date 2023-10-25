@@ -51,7 +51,7 @@ export function Request({ userPrompt, userPrmptOptions, result }: RequestParams)
                     <Card.Section inheritPadding mt={"md"}>
                         <Group>
                             <Text size="xs">
-                                {userPrmptOptions.responseType} by {userPrmptOptions.provider}
+                                {userPrmptOptions.getTechnologyName()} by {userPrmptOptions.getProviderName()}
                             </Text>
                         </Group>
                     </Card.Section>

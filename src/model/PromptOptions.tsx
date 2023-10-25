@@ -171,4 +171,20 @@ export class PromptOptions {
             value: object.slug
         };
     }
+
+    getTechnologyBySlug(slug: string) {
+        return this.technologies.find(t => t.slug === slug);
+    }
+
+    getProviderBySlug(slug: string) {
+        for (const technology of this.technologies) {
+            const provider = technology.providers.find(p => p.slug === slug);
+
+            if (provider !== undefined) {
+                return provider;
+            }
+        }
+
+        return null;
+    }
 }

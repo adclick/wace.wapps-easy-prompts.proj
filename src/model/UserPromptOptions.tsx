@@ -1,16 +1,25 @@
+import { PromptOptions } from "./PromptOptions";
+
 export class UserPromptOptions {
-    responseType: string;
+    promptOptions: PromptOptions;
+    technology: string;
     provider: string;
     promptModifiers: string[]
     
     constructor() {
-        this.responseType = "";
+        this.promptOptions = new PromptOptions();
+
+        this.technology = "";
         this.provider = "";
         this.promptModifiers = [];
     }
 
-    setTechnology(responseType: string) {
-        this.responseType = responseType;
+    setPromptOptions(promptOptions: PromptOptions) {
+        this.promptOptions = promptOptions;
+    }
+
+    setTechnology(technology: string) {
+        this.technology = technology;
     }
 
     setProvider(provider: string) {
@@ -21,10 +30,18 @@ export class UserPromptOptions {
         this.promptModifiers = promptMOdifiers;
     }
 
+    getTechnologyName() {
+        return this.promptOptions.getTechnologyBySlug(this.technology)?.name;
+    }
+
+    getProviderName() {
+        return this.promptOptions.getProviderBySlug(this.provider)?.name;
+    }
+
     toJson() {
         return {
-            responseType: this.responseType,
-            provider: this.provider,
+            technology: this.promptOptions.getTechnologyBySlug(this.technology),
+            provider: this.promptOptions.getProviderBySlug(this.provider),
             promptModifiers: this.promptModifiers
         }
     }

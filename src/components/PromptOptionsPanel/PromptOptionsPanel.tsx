@@ -49,6 +49,7 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
 
         // Initialize user prompt options
         const newUserPromptOptions = userPromptOptions;
+        newUserPromptOptions.setPromptOptions(promptOptionsObj);
         newUserPromptOptions.setTechnology(currentTechnology);
         newUserPromptOptions.setProvider(currentProvider);
         setUserPromptOptions(newUserPromptOptions);
