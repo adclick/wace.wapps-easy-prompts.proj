@@ -6,22 +6,21 @@ import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { IconQuestionMark } from "@tabler/icons-react";
 
 interface PromptOptionsPanelParams {
+    promptOptions: PromptOptions,
+    setPromptOptions: any,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
     toggle: any
 }
 
-export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, toggle }: PromptOptionsPanelParams) {
-    const promptOptionsObj = new PromptOptions();
-    const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
-
+export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPromptOptions, setUserPromptOptions, toggle }: PromptOptionsPanelParams) {
     // technologies
-    const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptionsObj.getTechnologiesForSelectBox());
-    const [currentTechnology, setCurrentTechnology] = useState(promptOptionsObj.getDefaultTechnologyForSelectBox());
+    const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptions.getTechnologiesForSelectBox());
+    const [currentTechnology, setCurrentTechnology] = useState(promptOptions.getDefaultTechnologyForSelectBox());
 
     // providers
-    const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptionsObj.getProvidersForSelectBox());
-    const [currentProvider, setCurrentProvider] = useState(promptOptionsObj.getDefaultProviderForSelectBox());
+    const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptions.getProvidersForSelectBox());
+    const [currentProvider, setCurrentProvider] = useState(promptOptions.getDefaultProviderForSelectBox());
 
     // modifiers
     const [promptModifiers, setPromptModifiers] = useState<{ label: string, value: string }[]>(promptOptions.getPromtModifiersForSelectBox());
@@ -49,7 +48,6 @@ export function PromptOptionsPanel({ userPromptOptions, setUserPromptOptions, to
 
         // Initialize user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setPromptOptions(promptOptionsObj);
         newUserPromptOptions.setTechnology(currentTechnology);
         newUserPromptOptions.setProvider(currentProvider);
         setUserPromptOptions(newUserPromptOptions);

@@ -13,14 +13,17 @@ import { RequestsPanel } from '../components/RequestsPanel/RequestsPanel';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
 import { Request } from '../components/RequestsPanel/Request';
+import { PromptOptions } from '../model/PromptOptions';
 
 export function HomePage() {
   // API Client
   const aIMediatorClient = new AIMediatorClient();
+  const promptOptionsObj = new PromptOptions();
 
   // Setting state
   const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
+  const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
   const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
 
   // Setting hooks
@@ -89,6 +92,8 @@ export function HomePage() {
             </Tabs.List>
             <Tabs.Panel value="options" py={"md"}>
               <PromptOptionsPanel
+                promptOptions={promptOptions}
+                setPromptOptions={setPromptOptions}
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}
                 toggle={toggle}
@@ -104,7 +109,11 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <RequestsPanel requests={requests} targetRef={targetRef} />
+        <RequestsPanel
+          promptOptions={promptOptions}
+          requests={requests}
+          targetRef={targetRef}
+        />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
         <Prompt

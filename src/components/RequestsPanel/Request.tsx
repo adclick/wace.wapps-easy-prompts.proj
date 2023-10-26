@@ -1,12 +1,14 @@
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Button, Card, Center, Chip, Collapse, CopyButton, Group, Menu, Stack, Text, Tooltip, Transition, rem, useComputedColorScheme, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Button, Card, Center, Chip, Collapse, CopyButton, Divider, Group, Menu, Stack, Text, Tooltip, Transition, rem, useComputedColorScheme, useMantineTheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { IconCheck, IconCopy, IconDetails, IconDeviceFloppy, IconDots, IconInfoCircle, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
 import classes from "./Request.module.css"
 import cx from "clsx";
+import { PromptOptions } from "../../model/PromptOptions"
 
 interface RequestParams {
+    promptOptions: PromptOptions
     userPrompt: string,
     userPrmptOptions: UserPromptOptions,
     result: string
@@ -19,7 +21,7 @@ export interface Request {
     result: any
 }
 
-export function Request({ userPrompt, userPrmptOptions, result }: RequestParams) {
+export function Request({ promptOptions, userPrompt, userPrmptOptions, result }: RequestParams) {
     const { user } = useAuth0();
     const [opened, { toggle }] = useDisclosure(false);
     const theme = useMantineTheme();
@@ -51,15 +53,32 @@ export function Request({ userPrompt, userPrmptOptions, result }: RequestParams)
                     <Card.Section inheritPadding mt={"md"}>
                         <Group>
                             <Text size="xs">
-                                {userPrmptOptions.getTechnologyName()} by {userPrmptOptions.getProviderName()}
+                                {promptOptions.getTechnologyBySlug(userPrmptOptions.technology)?.name} | {promptOptions.getProviderBySlug(userPrmptOptions.provider)?.name}
                             </Text>
                         </Group>
+                        {
+                            userPrmptOptions.promptModifiers.length > 0 &&
+                            <Box>
+                                <Divider my={"xs"} />
+                                <Group>
+                                    {
+                                        userPrmptOptions.promptModifiers.map(promptModifier => {
+                                            return (
+                                                <Chip checked size="xs" variant="light" value={promptModifier}>
+                                                    {promptModifier}
+                                                </Chip>
+                                            )
+                                        })
+                                    }
+                                </Group>
+                            </Box>
+                        }
                     </Card.Section>
                 </Collapse>
             </Card>
             <Card shadow="sm" radius="0" py={"xl"}>
-                <Group justify="space-between" wrap="nowrap" align="flex-start" gap={"xl"}>
-                    <Group wrap="nowrap" align="flex-start" gap={"xl"}>
+                <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
+                    <Group wrap="nowrap" align="flex-start">
                         <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
                         <Text size="md">
                             {result}

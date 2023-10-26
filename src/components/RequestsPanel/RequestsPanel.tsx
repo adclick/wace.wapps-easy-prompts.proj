@@ -1,13 +1,14 @@
 import { Box, Divider, VisuallyHidden } from "@mantine/core";
 import { Request } from "./Request";
-import { useScrollIntoView } from "@mantine/hooks";
+import { PromptOptions } from "../../model/PromptOptions";
 
 interface ResponseContainerParams {
+    promptOptions: PromptOptions
     requests: Request[],
     targetRef: any
 }
 
-export function RequestsPanel({ requests, targetRef }: ResponseContainerParams) {
+export function RequestsPanel({ promptOptions, requests, targetRef }: ResponseContainerParams) {
 
     return (
         <Box>
@@ -16,6 +17,7 @@ export function RequestsPanel({ requests, targetRef }: ResponseContainerParams) 
                     return (
                         <Request
                             key={request.id}
+                            promptOptions={promptOptions}
                             userPrompt={request.userPrompt}
                             userPrmptOptions={request.userPromptOptions}
                             result={request.result}
