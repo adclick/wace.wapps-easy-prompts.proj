@@ -1,6 +1,6 @@
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Box, Button, Card, Center, Chip, Collapse, CopyButton, Divider, Group, Menu, Stack, Text, Tooltip, Transition, rem, useComputedColorScheme, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Button, Card, Center, Chip, Collapse, CopyButton, Divider, Group, Image, Menu, SimpleGrid, Stack, Text, Tooltip, Transition, rem, useComputedColorScheme, useMantineTheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { IconCheck, IconCopy, IconDetails, IconDeviceFloppy, IconDots, IconInfoCircle, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
 import classes from "./Request.module.css"
@@ -80,9 +80,65 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                 <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                     <Group wrap="nowrap" align="flex-start">
                         <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
-                        <Text size="md">
+                        <SimpleGrid cols={3}>
+                            <Stack>
+                                <Image
+                                    radius="md"
+                                    h={150}
+                                    w="auto"
+                                    fit="contain"
+                                    src="https://placehold.co/400x400?text=Placeholder"
+                                />
+                            </Stack>
+                            <Stack>
+                                <Image
+                                    radius="md"
+                                    h={150}
+                                    w="auto"
+                                    fit="contain"
+                                    src="https://placehold.co/400x400?text=Placeholder"
+                                />
+                            </Stack>
+                            <Stack>
+                                <Image
+                                    radius="md"
+                                    h={150}
+                                    w="auto"
+                                    fit="contain"
+                                    src="https://placehold.co/400x400?text=Placeholder"
+                                />
+                            </Stack>
+                            <Stack>
+                                <Image
+                                    radius="md"
+                                    h={150}
+                                    w="auto"
+                                    fit="contain"
+                                    src="https://placehold.co/400x400?text=Placeholder"
+                                />
+                            </Stack>
+                            <Stack>
+                                <Image
+                                    radius="md"
+                                    h={150}
+                                    w="auto"
+                                    fit="contain"
+                                    src="https://placehold.co/400x400?text=Placeholder"
+                                />
+                            </Stack>
+                            <Stack>
+                                <Image
+                                    radius="md"
+                                    h={150}
+                                    w="auto"
+                                    fit="contain"
+                                    src="https://placehold.co/400x400?text=Placeholder"
+                                />
+                            </Stack>
+                        </SimpleGrid>
+                        {/* <Text size="md">
                             {result}
-                        </Text>
+                        </Text> */}
                     </Group>
                     <Group gap={"xs"} wrap="nowrap">
                         <ActionIcon color='red' variant='subtle'>
