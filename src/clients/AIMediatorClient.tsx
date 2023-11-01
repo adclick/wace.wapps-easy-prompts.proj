@@ -25,7 +25,7 @@ export class AIMediatorClient {
     }
 
     async getPromptOptions() {
-        return await this.get('/ai/prompt/options?version=2');
+        return await this.get('/ai/prompt/options');
     }
 
     async submitPrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
@@ -63,6 +63,12 @@ export class AIMediatorClient {
         return body;
     }
 
+    /**
+     * 
+     * @param path 
+     * @param params 
+     * @returns 
+     */
     async post(path: string, params: any = {}) {
         const { data } = await axios.post(`${this.baseUrl}${path}`, {
             params

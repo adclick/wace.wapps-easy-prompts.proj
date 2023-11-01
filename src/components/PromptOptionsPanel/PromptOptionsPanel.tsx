@@ -1,6 +1,6 @@
 import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { PromptOptions } from "../../model/PromptOptions";
-import { ActionIcon, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
+import { Parameter, PromptOptions } from "../../model/PromptOptions";
+import { ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { IconQuestionMark } from "@tabler/icons-react";
@@ -15,15 +15,20 @@ interface PromptOptionsPanelParams {
 
 export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPromptOptions, setUserPromptOptions, toggle }: PromptOptionsPanelParams) {
     // technologies
-    const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptions.getTechnologiesForSelectBox());
-    const [currentTechnology, setCurrentTechnology] = useState(promptOptions.getDefaultTechnologyForSelectBox());
+    const defaultTechnologySlug = promptOptions.getDefaultTechnologySlug();
+    const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptions.getTechnologies());
+    const [currentTechnology, setCurrentTechnology] = useState(defaultTechnologySlug);
 
     // providers
-    const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptions.getProvidersForSelectBox());
-    const [currentProvider, setCurrentProvider] = useState(promptOptions.getDefaultProviderForSelectBox());
+    const defaultProviderSlug = promptOptions.getDefaultProviderSlug(defaultTechnologySlug);
+    const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptions.getProviders(defaultTechnologySlug));
+    const [currentProvider, setCurrentProvider] = useState(promptOptions.getDefaultProviderSlug(defaultTechnologySlug));
+
+    const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnologySlug, defaultProviderSlug));
+
 
     // modifiers
-    const [promptModifiers, setPromptModifiers] = useState<{ label: string, value: string }[]>(promptOptions.getPromtModifiersForSelectBox());
+    const [modifiers, setModifiers] = useState<{ label: string, value: string }[]>(promptOptions.getModifiers(defaultTechnologySlug));
 
     // Init logic
     useEffect(() => {
@@ -35,34 +40,44 @@ export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPrompt
         const promptOptions = await aIMediatorClient.getPromptOptions();
         const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
-        const currentTechnology = promptOptionsObj.getDefaultTechnologyForSelectBox();
-        const currentProvider = promptOptionsObj.getDefaultProviderForSelectBox();
+        const currentTechnologySlug = promptOptionsObj.getDefaultTechnologySlug();
+        const currentProviderSlug = promptOptionsObj.getDefaultProviderSlug(currentTechnologySlug);
 
         // Initialize prompt options default values
         setPromptOptions(promptOptionsObj);
-        setTechnologies(promptOptionsObj.getTechnologiesForSelectBox());
-        setProviders(promptOptionsObj.getProvidersForSelectBox());
-        setPromptModifiers(promptOptionsObj.getPromtModifiersForSelectBox());
-        setCurrentTechnology(currentTechnology);
-        setCurrentProvider(currentProvider);
+        setTechnologies(promptOptionsObj.getTechnologies());
+        setProviders(promptOptionsObj.getProviders(currentTechnologySlug));
+        setParameters(promptOptionsObj.getParameters(currentTechnologySlug, currentProviderSlug));
+        setModifiers(promptOptionsObj.getModifiers(currentTechnologySlug));
+        setCurrentTechnology(currentTechnologySlug);
+        setCurrentProvider(currentProviderSlug);
 
         // Initialize user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setTechnology(currentTechnology);
-        newUserPromptOptions.setProvider(currentProvider);
+        newUserPromptOptions.setTechnology(currentTechnologySlug);
+        newUserPromptOptions.setProvider(currentProviderSlug);
         setUserPromptOptions(newUserPromptOptions);
     }
 
-    const handleOnChangeTechnology = (newTechnology: string) => {
-        setCurrentTechnology(newTechnology);
+    const handleOnChangeTechnology = (newTechnologySlug: string) => {
+        setCurrentTechnology(newTechnologySlug);
 
-        const newProvider = promptOptions.getDefaultProviderForSelectBoxByTechnologySlug(newTechnology);
-        setCurrentProvider(newProvider);
+        const providers = promptOptions.getProviders(newTechnologySlug);
+        setProviders(providers);
+
+        const newProviderSlug = promptOptions.getDefaultProviderSlug(newTechnologySlug);
+        setCurrentProvider(newProviderSlug);
+
+        const parameters = promptOptions.getParameters(newTechnologySlug, newProviderSlug);
+        setParameters(parameters);
+
+        const modifiers = promptOptions.getModifiers(newTechnologySlug);
+        setModifiers(modifiers);
 
         // Update user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setTechnology(newTechnology);
-        newUserPromptOptions.setProvider(newProvider)
+        newUserPromptOptions.setTechnology(newTechnologySlug);
+        newUserPromptOptions.setProvider(newProviderSlug)
         setUserPromptOptions(newUserPromptOptions);
     }
 
@@ -104,27 +119,30 @@ export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPrompt
                 />
             </Stack>
             <Stack gap={'xs'}>
-                <Select
-                    placeholder="Image Resolution"
-                    allowDeselect={false}
-                    checkIconPosition='right'
-                />
-            </Stack>
-            <Stack gap={'xs'}>
-                <Slider
-                    mb={"lg"}
-                    defaultValue={1}
-                    min={1}
-                    max={6}
-                    marks={[
-                        { value: 1, label: "1" },
-                        { value: 2, label: "2" },
-                        { value: 3, label: "3" },
-                        { value: 4, label: "4" },
-                        { value: 5, label: "5" },
-                        { value: 6, label: "6" }
-                    ]}
-                />
+                {
+                    parameters.map(parameter => {
+                        switch (parameter.slug) {
+                            case "max-images":
+                                const marks = [];
+                                for (let i = 1; i <= parseInt(parameter.content); i++) {
+                                    marks.push({value: i, label: i});
+                                }
+                                return (
+                                    <Box key={parameter.slug}>
+                                        <Slider
+                                            mb={"lg"}
+                                            defaultValue={1}
+                                            min={1}
+                                            max={parseInt(parameter.content)}
+                                            marks={marks}
+                                        />
+                                    </Box>
+                                )
+                            default:
+                                break;
+                        }
+                    })
+                }
             </Stack>
             <Stack gap={'xs'}>
                 <Card shadow="md" withBorder={true}>
@@ -134,7 +152,7 @@ export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPrompt
                             <Stack gap={'xs'}>
                                 <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
                                     {
-                                        promptModifiers.map(item => {
+                                        modifiers.map(item => {
                                             return (
                                                 <Group key={item.value} justify="space-between">
                                                     <Chip size='sm' variant='light' value={item.value}>

@@ -3,21 +3,22 @@ export interface Technology {
     slug: string,
     default: boolean,
     providers: Provider[],
-    promptModifiers: PromptModifier[]
+    modifiers: Modifier[]
 }
 
 export interface Provider {
     name: string,
     slug: string,
-    default: boolean
+    default: boolean,
+    parameters: Parameter[]
 }
 
-export interface ResponseImageSize {
+export interface Modifier {
     name: string,
     slug: string
 }
 
-export interface PromptModifier {
+export interface Parameter {
     name: string,
     slug: string,
     content: string
@@ -44,9 +45,9 @@ export class PromptOptions {
     /**
      * Get the technologies for the respective select-box
      * @returns {label: string, value: string}[]
-     */
-    getTechnologiesForSelectBox(): {label: string, value: string}[] {
-        return this.technologies.map(technologiy => this.formatForSelectBox(technologiy));
+    */
+   getTechnologies(): {label: string, value: string}[] {
+       return this.technologies.map(technologiy => this.formatToKeyValue(technologiy));
     }
 
     /**
@@ -54,45 +55,47 @@ export class PromptOptions {
      * 
      * @returns {label: string, value: string}[]
      */
-    getProvidersForSelectBox(): {label: string, value: string}[] {
-        const providers: Provider[] = [];
+    getProviders(technologySlug: string): {label: string, value: string}[] {
+        const technology = this.technologies.find(t => t.slug === technologySlug);
 
-        for (const technology of this.technologies) {
-            const tProviders = technology.providers;
-            
-            for (const tp of tProviders) {
-                if (providers.find(p => p.slug === tp.slug)) {
-                    continue;
-                }
+        if (technology === undefined) return [];
 
-                providers.push(tp);
-            }
-        }
+        const providers = technology.providers;
 
-        return providers.map(provider => this.formatForSelectBox(provider));
+        return providers.map(p => this.formatToKeyValue(p));
     }
 
     /**
      * 
-     * @returns {label: string, value: string}[]
+     * @param technologySlug 
+     * @returns 
      */
-    getPromtModifiersForSelectBox(): {label: string, value: string}[] {
-        const promptModifiers: PromptModifier[] = [];
+    getModifiers(technologySlug: string): {label: string, value: string}[] {
+        const technology = this.technologies.find(t => t.slug === technologySlug);
 
-        for (const technology of this.technologies) {
-            const tPromptModifiers = technology.promptModifiers;
+        if (technology === undefined) return [];
 
-            for (const tpm of tPromptModifiers) {
-                if (promptModifiers.find(pm => pm.slug === tpm.slug)) {
-                    continue;
-                }
+        const modifiers = technology.modifiers;
 
-                promptModifiers.push(tpm);
-            }
-            promptModifiers.push(...technology.promptModifiers);
-        }
+        return modifiers.map(m => this.formatToKeyValue(m));
+    }
 
-        return promptModifiers.map(modifier => this.formatForSelectBox(modifier));
+    /**
+     * 
+     * @param technologySlug 
+     * @param providerSlug 
+     * @returns 
+     */
+    getParameters(technologySlug: string, providerSlug: string): Parameter[] {
+        const technology = this.technologies.find(t => t.slug === technologySlug);
+
+        if (technology === undefined) return [];
+
+        const provider = technology.providers.find(p => p.slug === providerSlug);
+
+        if (provider === undefined) return [];
+
+        return provider.parameters;
     }
 
     /**
@@ -100,27 +103,14 @@ export class PromptOptions {
      * 
      * @returns Technology|null
      */
-    getDefaultTechnology(): Technology|null {
-        if (this.technologies.length === 0) return null;
+    getDefaultTechnologySlug(): string {
+        if (this.technologies.length === 0) return "";
 
         const defaultTechnology = this.technologies.find(technology => technology.default === true);
 
         return defaultTechnology === undefined
-            ? this.technologies[0]
-            : defaultTechnology;
-    }
-
-    /**
-     * Get the default technology for the respective select-box
-     * 
-     * @returns string 
-     */
-    getDefaultTechnologyForSelectBox(): string {
-        const defaultTechnology: Technology|null = this.getDefaultTechnology();
-
-        if (defaultTechnology === null) return "";
-
-        return defaultTechnology.slug;
+            ? this.technologies[0].slug
+            : defaultTechnology.slug;
     }
 
     /**
@@ -128,54 +118,33 @@ export class PromptOptions {
      * 
      * @returns string
      */
-    getDefaultProviderForSelectBox() {
-        const defaultTechnology: Technology|null = this.getDefaultTechnology();
-
-        if (defaultTechnology === null) return "";
-
-        const defaultProvider = defaultTechnology.providers.find(provider => provider.default === true);
-
-        return defaultProvider === undefined
-            ? defaultTechnology.providers[0].slug
-            : defaultProvider.slug;
-    }
-
-    /**
-     * Get the default provider for the respective select-box given a technology
-     * @param technologySlug string
-     * @returns string
-     */
-    getDefaultProviderForSelectBoxByTechnologySlug(technologySlug: string) : string {
+    getDefaultProviderSlug(technologySlug: string): string {
         const technology = this.technologies.find(t => t.slug === technologySlug);
 
-        if (technology === undefined) {
-            return "";
-        }
+        if (technology === undefined) return "";
 
-        const defaultProvider = technology.providers.find(provider => provider.default === true);
+        const providers = technology.providers;
+        const defaultProvider = providers.find(p => p.default === true);
 
         return defaultProvider === undefined
-            ? technology.providers[0].slug
+            ? providers[0].slug
             : defaultProvider.slug;
     }
 
     /**
-     * Format a given object to the mantine select-box data prop
      * 
-     * @param object 
-     * @returns {label: string, value: string}
+     * @param slug 
+     * @returns 
      */
-    formatForSelectBox(object: { name: string, slug: string }) {
-        return {
-            label: object.name,
-            value: object.slug
-        };
-    }
-
     getTechnologyBySlug(slug: string) {
         return this.technologies.find(t => t.slug === slug);
     }
 
+    /**
+     * 
+     * @param slug 
+     * @returns 
+     */
     getProviderBySlug(slug: string) {
         for (const technology of this.technologies) {
             const provider = technology.providers.find(p => p.slug === slug);
@@ -186,5 +155,18 @@ export class PromptOptions {
         }
 
         return null;
+    }
+
+    /**
+     * Format a given object to the mantine select-box data prop
+     * 
+     * @param object 
+     * @returns {label: string, value: string}
+     */
+    formatToKeyValue(object: { name: string, slug: string }) {
+        return {
+            label: object.name,
+            value: object.slug
+        };
     }
 }
