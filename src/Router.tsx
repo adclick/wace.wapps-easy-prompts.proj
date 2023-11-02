@@ -5,8 +5,7 @@ import { AuthenticationGuard } from './components/AuthenticationGuard';
 const router = createBrowserRouter([
   {
     path: '/',
-    // element: <AuthenticationGuard component={HomePage} />,
-    element: <HomePage />,
+    element: <AuthenticationGuard component={HomePage} />,
   },
 ]);
 

@@ -3,7 +3,7 @@ import { IconList, IconTemplate } from '@tabler/icons-react';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { useState } from 'react';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
-import { PromptOptionsPanel } from '../components/PromptOptionsPanel/PromptOptionsPanel';
+import { OptionsPanel } from '../components/OptionsPanel/OptionsPanel';
 import { UserPromptOptions } from '../model/UserPromptOptions';
 import { Prompt } from '../components/Prompt/Prompt';
 import { TemplatesPanel } from '../components/TemplatesPanel/TemplatesPanel';
@@ -91,7 +91,7 @@ export function HomePage() {
               </Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="options" py={"md"}>
-              <PromptOptionsPanel
+              <OptionsPanel
                 promptOptions={promptOptions}
                 setPromptOptions={setPromptOptions}
                 userPromptOptions={userPromptOptions}

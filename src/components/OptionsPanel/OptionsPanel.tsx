@@ -1,11 +1,13 @@
-import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { Parameter, PromptOptions } from "../../model/PromptOptions";
-import { ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
 import { useEffect, useState } from "react"
+import { ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
+import { UserPromptOptions } from "../../model/UserPromptOptions";
+import { Parameter, PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { IconQuestionMark } from "@tabler/icons-react";
+import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
+import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
 
-interface PromptOptionsPanelParams {
+interface OptionsPanelParams {
     promptOptions: PromptOptions,
     setPromptOptions: any,
     userPromptOptions: UserPromptOptions,
@@ -13,7 +15,7 @@ interface PromptOptionsPanelParams {
     toggle: any
 }
 
-export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPromptOptions, setUserPromptOptions, toggle }: PromptOptionsPanelParams) {
+export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOptions, setUserPromptOptions, toggle }: OptionsPanelParams) {
     // technologies
     const defaultTechnologySlug = promptOptions.getDefaultTechnologySlug();
     const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptions.getTechnologies());
@@ -24,8 +26,8 @@ export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPrompt
     const [providers, setProviders] = useState<{ label: string, value: string }[]>(promptOptions.getProviders(defaultTechnologySlug));
     const [currentProvider, setCurrentProvider] = useState(promptOptions.getDefaultProviderSlug(defaultTechnologySlug));
 
+    // parameters
     const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnologySlug, defaultProviderSlug));
-
 
     // modifiers
     const [modifiers, setModifiers] = useState<{ label: string, value: string }[]>(promptOptions.getModifiers(defaultTechnologySlug));
@@ -123,23 +125,21 @@ export function PromptOptionsPanel({ promptOptions, setPromptOptions, userPrompt
                     parameters.map(parameter => {
                         switch (parameter.slug) {
                             case "max-images":
-                                const marks = [];
-                                for (let i = 1; i <= parseInt(parameter.content); i++) {
-                                    marks.push({value: i, label: i});
-                                }
-                                return (
-                                    <Box key={parameter.slug}>
-                                        <Slider
-                                            mb={"lg"}
-                                            defaultValue={1}
-                                            min={1}
-                                            max={parseInt(parameter.content)}
-                                            marks={marks}
-                                        />
-                                    </Box>
-                                )
+                                return <MaxImagesParameters
+                                    key={parameter.slug}
+                                    name={parameter.name}
+                                    slug={parameter.slug}
+                                    content={parameter.content}
+                                />
+                            case "image-resolutions":
+                                return <ImageResolutionsParameter
+                                    key={parameter.slug}
+                                    name={parameter.name}
+                                    slug={parameter.slug}
+                                    content={parameter.content}
+                                />
                             default:
-                                break;
+                                return "";
                         }
                     })
                 }
