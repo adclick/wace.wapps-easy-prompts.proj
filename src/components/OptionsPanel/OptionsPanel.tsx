@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title } from "@mantine/core"
+import { Accordion, ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title, rem } from "@mantine/core"
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Parameter, PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
-import { IconQuestionMark } from "@tabler/icons-react";
+import { IconBulb, IconListDetails, IconQuestionMark, IconSettings } from "@tabler/icons-react";
 import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
 import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
 
@@ -100,86 +100,101 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
 
     return (
         <Stack gap={'md'} py={"lg"}>
-            <Stack gap={'xs'}>
-                <Select
-                    placeholder="Technology"
-                    data={technologies}
-                    value={currentTechnology}
-                    allowDeselect={false}
-                    checkIconPosition='right'
-                    onChange={handleOnChangeTechnology}
-                />
-            </Stack>
-            <Stack gap={'xs'}>
-                <Select
-                    placeholder="Provider"
-                    data={providers}
-                    value={currentProvider}
-                    allowDeselect={false}
-                    checkIconPosition='right'
-                    onChange={handleOnChangeProvider}
-                />
-            </Stack>
-            <Stack gap={'xs'}>
-                {
-                    parameters.map(parameter => {
-                        switch (parameter.slug) {
-                            case "max-images":
-                                return <MaxImagesParameters
-                                    key={parameter.slug}
-                                    name={parameter.name}
-                                    slug={parameter.slug}
-                                    content={parameter.content}
-                                />
-                            case "image-resolutions":
-                                return <ImageResolutionsParameter
-                                    key={parameter.slug}
-                                    name={parameter.name}
-                                    slug={parameter.slug}
-                                    content={parameter.content}
-                                />
-                            default:
-                                return "";
-                        }
-                    })
-                }
-            </Stack>
-            <Stack gap={'xs'}>
-                <Card shadow="md" withBorder={true}>
-                    <Stack gap={'sm'}>
-                        <Input size='sm' placeholder={"Search"}></Input>
-                        <ScrollArea offsetScrollbars>
-                            <Stack gap={'xs'}>
-                                <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
-                                    {
-                                        modifiers.map(item => {
-                                            return (
-                                                <Group key={item.value} justify="space-between">
-                                                    <Chip size='sm' variant='light' value={item.value}>
-                                                        {item.label}
-                                                    </Chip>
-                                                    <Popover width={200} position="bottom" withArrow shadow="md">
-                                                        <Popover.Target>
-                                                            <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
-                                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                            </ActionIcon>
-                                                        </Popover.Target>
-                                                        <Popover.Dropdown>
-                                                            <Text size="xs">
-                                                                Some description
-                                                            </Text>
-                                                        </Popover.Dropdown>
-                                                    </Popover>
-                                                </Group>
-                                            )
-                                        })
+            <Accordion multiple={true} variant="separated">
+                <Accordion.Item key={"technology"} value="technology">
+                    <Accordion.Control icon={<IconBulb style={{width: rem(20)}} />}>Technology</Accordion.Control>
+                    <Accordion.Panel>
+                        <Stack>
+                            <Select
+                                placeholder="Technology"
+                                data={technologies}
+                                value={currentTechnology}
+                                allowDeselect={false}
+                                checkIconPosition='right'
+                                onChange={handleOnChangeTechnology}
+                            />
+                            <Select
+                                placeholder="Provider"
+                                data={providers}
+                                value={currentProvider}
+                                allowDeselect={false}
+                                checkIconPosition='right'
+                                onChange={handleOnChangeProvider}
+                            />
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item key={"parameters"} value="parameters">
+                    <Accordion.Control icon={<IconListDetails style={{width: rem(20)}} />}>Parameters</Accordion.Control>
+                    <Accordion.Panel>
+                        <Stack gap={'xl'}>
+                            {
+                                parameters.map(parameter => {
+                                    switch (parameter.slug) {
+                                        case "max-images":
+                                            return <MaxImagesParameters
+                                                key={parameter.slug}
+                                                name={parameter.name}
+                                                slug={parameter.slug}
+                                                content={parameter.content}
+                                            />
+                                        case "image-resolutions":
+                                            return <ImageResolutionsParameter
+                                                key={parameter.slug}
+                                                name={parameter.name}
+                                                slug={parameter.slug}
+                                                content={parameter.content}
+                                            />
+                                        default:
+                                            return "";
                                     }
-                                </Chip.Group>
-                            </Stack>
-                        </ScrollArea>
-                    </Stack>
-                </Card>
-            </Stack>
+                                })
+                            }
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item key={"modifiers"} value="modifiers">
+                    <Accordion.Control icon={<IconSettings style={{width: rem(20)}} />}>Modifiers</Accordion.Control>
+                    <Accordion.Panel>
+                        <Stack>
+                            <Card shadow="md" withBorder={true}>
+                                <Stack gap={'sm'}>
+                                    <Input size='sm' placeholder={"Search"}></Input>
+                                    <ScrollArea offsetScrollbars>
+                                        <Stack gap={'xs'}>
+                                            <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
+                                                {
+                                                    modifiers.map(item => {
+                                                        return (
+                                                            <Group key={item.value} justify="space-between">
+                                                                <Chip size='sm' variant='light' value={item.value}>
+                                                                    {item.label}
+                                                                </Chip>
+                                                                <Popover width={200} position="bottom" withArrow shadow="md">
+                                                                    <Popover.Target>
+                                                                        <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
+                                                                            <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                                        </ActionIcon>
+                                                                    </Popover.Target>
+                                                                    <Popover.Dropdown>
+                                                                        <Text size="xs">
+                                                                            Some description
+                                                                        </Text>
+                                                                    </Popover.Dropdown>
+                                                                </Popover>
+                                                            </Group>
+                                                        )
+                                                    })
+                                                }
+                                            </Chip.Group>
+                                        </Stack>
+                                    </ScrollArea>
+                                </Stack>
+                            </Card>
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+            </Accordion>
             <Button onClick={toggle} hiddenFrom='sm'>
                 Apply
             </Button>

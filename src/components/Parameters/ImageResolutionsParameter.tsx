@@ -1,9 +1,11 @@
-import { Select, Slider } from "@mantine/core";
+import { Select, Slider, Stack, Title } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 
 export function ImageResolutionsParameter({ name, slug, content }: Parameter) {
-    console.log(content);
     return (
-        <Select data={content} />
+        <Stack>
+            <Title order={6}>Image Resolutions</Title>
+            <Select data={content} defaultValue={content[0]} />
+        </Stack>
     )
 }

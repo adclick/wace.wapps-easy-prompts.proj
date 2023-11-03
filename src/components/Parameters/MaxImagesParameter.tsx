@@ -1,4 +1,4 @@
-import { Slider } from "@mantine/core";
+import { Slider, Stack, Title } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 
 export function MaxImagesParameters({ name, slug, content }: Parameter) {
@@ -7,12 +7,15 @@ export function MaxImagesParameters({ name, slug, content }: Parameter) {
         marks.push({ value: i, label: i });
     }
     return (
-        <Slider
-            mb={"lg"}
-            defaultValue={1}
-            min={1}
-            max={parseInt(content)}
-            marks={marks}
-        />
+        <Stack>
+            <Title order={6}>Max Images</Title>
+            <Slider
+                defaultValue={1}
+                min={1}
+                max={parseInt(content)}
+                marks={marks}
+                mx={"xs"}
+            />
+        </Stack>
     )
 }
