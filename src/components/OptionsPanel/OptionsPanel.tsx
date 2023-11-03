@@ -102,7 +102,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
         <Stack gap={'md'} py={"lg"}>
             <Accordion multiple={true} variant="separated">
                 <Accordion.Item key={"technology"} value="technology">
-                    <Accordion.Control icon={<IconBulb style={{width: rem(20)}} />}>Technology</Accordion.Control>
+                    <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>Technology</Accordion.Control>
                     <Accordion.Panel>
                         <Stack>
                             <Select
@@ -125,7 +125,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item key={"parameters"} value="parameters">
-                    <Accordion.Control icon={<IconListDetails style={{width: rem(20)}} />}>Parameters</Accordion.Control>
+                    <Accordion.Control icon={<IconListDetails style={{ width: rem(20) }} />}>Parameters</Accordion.Control>
                     <Accordion.Panel>
                         <Stack gap={'xl'}>
                             {
@@ -154,43 +154,40 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item key={"modifiers"} value="modifiers">
-                    <Accordion.Control icon={<IconSettings style={{width: rem(20)}} />}>Modifiers</Accordion.Control>
+                    <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>Modifiers</Accordion.Control>
                     <Accordion.Panel>
-                        <Stack>
-                            <Card shadow="md" withBorder={true}>
-                                <Stack gap={'sm'}>
-                                    <Input size='sm' placeholder={"Search"}></Input>
-                                    <ScrollArea offsetScrollbars>
-                                        <Stack gap={'xs'}>
-                                            <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
-                                                {
-                                                    modifiers.map(item => {
-                                                        return (
-                                                            <Group key={item.value} justify="space-between">
-                                                                <Chip size='sm' variant='light' value={item.value}>
-                                                                    {item.label}
-                                                                </Chip>
-                                                                <Popover width={200} position="bottom" withArrow shadow="md">
-                                                                    <Popover.Target>
-                                                                        <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
-                                                                            <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                                        </ActionIcon>
-                                                                    </Popover.Target>
-                                                                    <Popover.Dropdown>
-                                                                        <Text size="xs">
-                                                                            Some description
-                                                                        </Text>
-                                                                    </Popover.Dropdown>
-                                                                </Popover>
-                                                            </Group>
-                                                        )
-                                                    })
-                                                }
-                                            </Chip.Group>
-                                        </Stack>
-                                    </ScrollArea>
+                        <Stack gap={"lg"}>
+                            <Input size='sm' placeholder={"Search"}></Input>
+                            <ScrollArea offsetScrollbars>
+                                <Stack gap={'xs'}>
+                                    <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
+                                        {
+                                            modifiers.map(item => {
+                                                return (
+                                                    <Group key={item.value} justify="space-between">
+                                                        <Chip size='sm' variant='light' value={item.value}>
+                                                            {item.label}
+                                                        </Chip>
+                                                        <Popover width={200} position="bottom" withArrow shadow="md">
+                                                            <Popover.Target>
+                                                                <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
+                                                                    <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                                </ActionIcon>
+                                                            </Popover.Target>
+                                                            <Popover.Dropdown>
+                                                                <Text size="xs">
+                                                                    Some description
+                                                                </Text>
+                                                            </Popover.Dropdown>
+                                                        </Popover>
+                                                    </Group>
+                                                )
+                                            })
+                                        }
+                                    </Chip.Group>
                                 </Stack>
-                            </Card>
+                            </ScrollArea>
+                            <Button variant="outline">Add new</Button>
                         </Stack>
                     </Accordion.Panel>
                 </Accordion.Item>
