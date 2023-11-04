@@ -9,24 +9,19 @@ export function UserMenu() {
 
     return (
         <Box>
-            <Divider my="xs" />
-            <Menu width={"target"}>
+            <Menu position="bottom-end">
                 <Menu.Target>
                     <Button fullWidth justify='flex-start' size="lg" variant="transparent" px={"xs"}>
                         <Group>
                             <Avatar src={user?.picture} />
-                            <Stack align='flex-start' gap={0}>
+                            {/* <Stack align='flex-start' gap={0}>
                                 <Text style={{ color: 'var(--mantine-color-text)' }} size='md' fw={600}>{user !== undefined ? user.nickname : "User"}</Text>
                                 <Text style={{ color: 'var(--mantine-color-text)' }} size='xs'>{user !== undefined ? user.email : "User"}</Text>
-                            </Stack>
+                            </Stack> */}
                         </Group>
                     </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
-                    <Menu.Label>Account</Menu.Label>
-                    <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
-                        Logout
-                    </Menu.Item>
                     <Menu.Label>Application</Menu.Label>
                     <Tooltip label={NOT_AVAILABLE}>
                         <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
@@ -68,6 +63,10 @@ export function UserMenu() {
                             Configure Options
                         </Menu.Item>
                     </Tooltip>
+                    <Menu.Label>Account</Menu.Label>
+                    <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
+                        Logout
+                    </Menu.Item>
                 </Menu.Dropdown>
             </Menu>
         </Box>

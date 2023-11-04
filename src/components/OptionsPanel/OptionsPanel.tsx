@@ -3,9 +3,10 @@ import { Accordion, ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, 
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Parameter, PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
-import { IconBulb, IconListDetails, IconQuestionMark, IconSettings } from "@tabler/icons-react";
+import { IconAdjustmentsHorizontal, IconBulb, IconListDetails, IconQuestionMark, IconSettings } from "@tabler/icons-react";
 import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
 import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
+import { CharactersLimitParameter } from "../Parameters/CharactersLimitParameter";
 
 interface OptionsPanelParams {
     promptOptions: PromptOptions,
@@ -100,11 +101,11 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
 
     return (
         <Stack gap={'md'} py={"lg"}>
-            <Accordion multiple={true} variant="separated">
+            <Accordion variant="separated">
                 <Accordion.Item key={"technology"} value="technology">
                     <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>Technology</Accordion.Control>
                     <Accordion.Panel>
-                        <Stack>
+                        <Stack gap={"lg"} my={"xs"}>
                             <Select
                                 placeholder="Technology"
                                 data={technologies}
@@ -125,7 +126,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item key={"parameters"} value="parameters">
-                    <Accordion.Control icon={<IconListDetails style={{ width: rem(20) }} />}>Parameters</Accordion.Control>
+                    <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>Parameters</Accordion.Control>
                     <Accordion.Panel>
                         <Stack gap={'xl'}>
                             {
@@ -140,6 +141,13 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                             />
                                         case "image-resolutions":
                                             return <ImageResolutionsParameter
+                                                key={parameter.slug}
+                                                name={parameter.name}
+                                                slug={parameter.slug}
+                                                content={parameter.content}
+                                            />
+                                        case "characters-limit":
+                                            return <CharactersLimitParameter
                                                 key={parameter.slug}
                                                 name={parameter.name}
                                                 slug={parameter.slug}
