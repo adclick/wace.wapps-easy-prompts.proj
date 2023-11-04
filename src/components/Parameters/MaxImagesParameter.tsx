@@ -8,7 +8,6 @@ export function MaxImagesParameters({ name, slug, content }: Parameter) {
     }
     return (
         <Stack>
-            <Title order={6}>Max Images</Title>
             <Slider
                 defaultValue={1}
                 min={1}

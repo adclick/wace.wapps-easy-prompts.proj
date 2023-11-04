@@ -125,42 +125,56 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                         </Stack>
                     </Accordion.Panel>
                 </Accordion.Item>
-                <Accordion.Item key={"parameters"} value="parameters">
-                    <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>Parameters</Accordion.Control>
-                    <Accordion.Panel>
-                        <Stack gap={'xl'}>
-                            {
-                                parameters.map(parameter => {
-                                    switch (parameter.slug) {
-                                        case "max-images":
-                                            return <MaxImagesParameters
+                {
+                    parameters.map(parameter => {
+                        switch (parameter.slug) {
+                            case "max-images":
+                                return (
+                                    <Accordion.Item key={"max-images"} value="max-images">
+                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>Max Images</Accordion.Control>
+                                        <Accordion.Panel>
+                                            <MaxImagesParameters
                                                 key={parameter.slug}
                                                 name={parameter.name}
                                                 slug={parameter.slug}
                                                 content={parameter.content}
                                             />
-                                        case "image-resolutions":
-                                            return <ImageResolutionsParameter
+                                        </Accordion.Panel>
+                                    </Accordion.Item>
+                                )
+                            case "image-resolutions":
+                                return (
+                                    <Accordion.Item key={"image-resolutions"} value="image-resolutions">
+                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>Image Resolutions</Accordion.Control>
+                                        <Accordion.Panel>
+                                            <ImageResolutionsParameter
                                                 key={parameter.slug}
                                                 name={parameter.name}
                                                 slug={parameter.slug}
                                                 content={parameter.content}
                                             />
-                                        case "characters-limit":
-                                            return <CharactersLimitParameter
+                                        </Accordion.Panel>
+                                    </Accordion.Item>
+                                )
+                            case "characters-limit":
+                                return (
+                                    <Accordion.Item key={"characters-limit"} value="characters-limit">
+                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>Characters Limit</Accordion.Control>
+                                        <Accordion.Panel>
+                                            <CharactersLimitParameter
                                                 key={parameter.slug}
                                                 name={parameter.name}
                                                 slug={parameter.slug}
                                                 content={parameter.content}
                                             />
-                                        default:
-                                            return "";
-                                    }
-                                })
-                            }
-                        </Stack>
-                    </Accordion.Panel>
-                </Accordion.Item>
+                                        </Accordion.Panel>
+                                    </Accordion.Item>
+                                )
+                            default:
+                                return "";
+                        }
+                    })
+                }
                 <Accordion.Item key={"modifiers"} value="modifiers">
                     <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>Modifiers</Accordion.Control>
                     <Accordion.Panel>

@@ -11,9 +11,8 @@ export function CharactersLimitParameter({ name, slug, content }: Parameter) {
     }
     return (
         <Stack>
-            <Title order={6}>{name}</Title>
             <Slider
-                defaultValue={1}
+                defaultValue={parseInt(content)}
                 min={parts}
                 max={parseInt(content)}
                 marks={marks}
