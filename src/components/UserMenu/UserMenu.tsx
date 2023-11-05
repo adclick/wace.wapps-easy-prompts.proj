@@ -4,7 +4,7 @@ import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconQuest
 
 const NOT_AVAILABLE = "Not available yet";
 
-export function UserMenu() {
+export function     UserMenu() {
     const { user, logout } = useAuth0();
 
     return (

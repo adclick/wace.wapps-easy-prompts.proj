@@ -14,6 +14,7 @@ export function MaxImagesParameters({ name, slug, content, value, setValue }: Pa
                 max={parseInt(content)}
                 marks={marks}
                 mx={"xs"}
+                my={"md"}
                 value={value}
                 onChange={setValue}
             />

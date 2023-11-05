@@ -1,5 +1,5 @@
-import { AppShell, Badge, Burger, Button, Divider, Group, Popover, ScrollArea, Stack, Tabs, Text, Title, rem, useComputedColorScheme } from '@mantine/core';
-import { IconList, IconTemplate } from '@tabler/icons-react';
+import { AppShell, Badge, Box, Burger, Button, Divider, Group, Popover, ScrollArea, Stack, Tabs, Text, Title, rem, useComputedColorScheme } from '@mantine/core';
+import { IconList, IconMail, IconTemplate } from '@tabler/icons-react';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { useState } from 'react';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
@@ -66,18 +66,32 @@ export function HomePage() {
             </Title>
             <Badge size="xs">Beta</Badge>
           </Group>
-          <UserMenu />
+          <Group>
+            <Group visibleFrom='sm'>
+              <Button variant='subtle' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
+                Give feedback
+              </Button>
+              <ColorSchemeToggle />
+            </Group>
+            <UserMenu />
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar withBorder={false} p="md">
         <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'md'} mt={"0"}>
-          <Group h={"100%"} px={"md"}>
+          <Group h={"100%"} px={"md"} justify='space-between'>
             <Burger
               opened={opened}
               onClick={toggle}
               hiddenFrom="sm"
               size="sm"
             />
+            <Group hiddenFrom='sm'>
+              <Button variant='subtle' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
+                Give feedback
+              </Button>
+              <ColorSchemeToggle />
+            </Group>
           </Group>
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
