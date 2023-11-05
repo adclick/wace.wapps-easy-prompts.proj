@@ -1,4 +1,4 @@
-import { AppShell, Badge, Burger, Button, Group, Popover, ScrollArea, Stack, Tabs, Text, Title, rem, useComputedColorScheme } from '@mantine/core';
+import { AppShell, Badge, Burger, Button, Divider, Group, Popover, ScrollArea, Stack, Tabs, Text, Title, rem, useComputedColorScheme } from '@mantine/core';
 import { IconList, IconTemplate } from '@tabler/icons-react';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { useState } from 'react';
@@ -105,26 +105,11 @@ export function HomePage() {
           </Tabs>
         </AppShell.Section>
         <AppShell.Section>
-          <Popover position='top' width={"target"}>
-            <Popover.Target>
-              <Group justify='space-between' my={"sm"}>
-                <Title order={4}>Operation Cost</Title>
-                <Title order={4} c={"teal"}>Free</Title>
-              </Group>
-            </Popover.Target>
-            <Popover.Dropdown>
-              <Stack>
-                <Group justify='space-between'>
-                  <Text>Technology</Text>
-                  <Text>Text Generation</Text>
-                </Group>
-                <Group justify='space-between'>
-                  <Text>Provider</Text>
-                  <Text>Openai</Text>
-                </Group>
-              </Stack>
-            </Popover.Dropdown>
-          </Popover>
+          <Divider h={'xs'} />
+          <Group justify='space-between' my={"sm"}>
+            <Title order={4}>Operation Cost</Title>
+            <Title order={4} c={"teal"}>Free</Title>
+          </Group>
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>

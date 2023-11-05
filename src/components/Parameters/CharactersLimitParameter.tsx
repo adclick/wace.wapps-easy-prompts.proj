@@ -1,7 +1,7 @@
 import { Slider, Stack, Title } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 
-export function CharactersLimitParameter({ name, slug, content }: Parameter) {
+export function CharactersLimitParameter({ name, slug, content, value, setValue }: Parameter) {
     const marks = [];
     const parts = parseInt(content) / 4;
 
@@ -18,6 +18,8 @@ export function CharactersLimitParameter({ name, slug, content }: Parameter) {
                 marks={marks}
                 mx={"xs"}
                 my={"md"}
+                value={value}
+                onChange={setValue}
             />
         </Stack>
     )

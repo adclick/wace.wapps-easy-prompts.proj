@@ -1,7 +1,7 @@
 import { Slider, Stack, Title } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 
-export function MaxImagesParameters({ name, slug, content }: Parameter) {
+export function MaxImagesParameters({ name, slug, content, value, setValue }: Parameter) {
     const marks = [];
     for (let i = 1; i <= parseInt(content); i++) {
         marks.push({ value: i, label: i });
@@ -14,6 +14,8 @@ export function MaxImagesParameters({ name, slug, content }: Parameter) {
                 max={parseInt(content)}
                 marks={marks}
                 mx={"xs"}
+                value={value}
+                onChange={setValue}
             />
         </Stack>
     )

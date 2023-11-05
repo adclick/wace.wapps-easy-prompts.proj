@@ -21,7 +21,9 @@ export interface Modifier {
 export interface Parameter {
     name: string,
     slug: string,
-    content: any
+    content: any,
+    value: any,
+    setValue: any
 }
 
 export class PromptOptions {
