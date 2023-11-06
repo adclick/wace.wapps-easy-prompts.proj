@@ -1,7 +1,7 @@
 import { Select, Slider, Stack, Title } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 
-export function ImageResolutionsParameter({ name, slug, content, value, setValue }: Parameter) {
+export function LanguageParameter({ name, slug, content, value, setValue }: Parameter) {
     return (
         <Select
             variant="unstyled"

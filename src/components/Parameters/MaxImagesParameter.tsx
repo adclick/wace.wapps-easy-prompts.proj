@@ -7,17 +7,15 @@ export function MaxImagesParameters({ name, slug, content, value, setValue }: Pa
         marks.push({ value: i, label: i });
     }
     return (
-        <Stack>
-            <Slider
-                defaultValue={1}
-                min={1}
-                max={parseInt(content)}
-                marks={marks}
-                mx={"xs"}
-                my={"md"}
-                value={value}
-                onChange={setValue}
-            />
-        </Stack>
+        <Slider
+            defaultValue={1}
+            min={1}
+            max={parseInt(content)}
+            marks={marks}
+            mx={"xs"}
+            my={"md"}
+            value={value}
+            onChange={setValue}
+        />
     )
 }

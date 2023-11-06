@@ -10,17 +10,15 @@ export function CharactersLimitParameter({ name, slug, content, value, setValue 
         marks.push({ value: value, label: value });
     }
     return (
-        <Stack>
-            <Slider
-                defaultValue={parseInt(content)}
-                min={parts}
-                max={parseInt(content)}
-                marks={marks}
-                mx={"xs"}
-                my={"md"}
-                value={value}
-                onChange={setValue}
-            />
-        </Stack>
+        <Slider
+            defaultValue={parseInt(content)}
+            min={parts}
+            max={parseInt(content)}
+            marks={marks}
+            mx={"xs"}
+            my={"md"}
+            value={value}
+            onChange={setValue}
+        />
     )
 }

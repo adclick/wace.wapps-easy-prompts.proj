@@ -30,8 +30,9 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
     // parameters
     const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnologySlug, defaultProviderSlug));
     const [characteresLimitValue, setCharacteresLimitValue] = useState(1000);
-    const [imageResolutionsValue, setImageResolutionsValue] = useState(null);
+    const [imageResolutionsValue, setImageResolutionsValue] = useState("1024x1024");
     const [maxImagesValue, setMaxImagesValue] = useState(4)
+    const [languageValue, setLanguageValue] = useState("PT");
 
     // modifiers
     const [modifiers, setModifiers] = useState<{ label: string, value: string }[]>(promptOptions.getModifiers(defaultTechnologySlug));
@@ -108,7 +109,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                 <Accordion.Item key={"technology"} value="technology">
                     <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>
                         <Group align="baseline" justify="space-between">
-                            <Title order={5}>Technology</Title>
+                            <Title order={6}>Technology</Title>
                             <Text size="xs">{promptOptions.getTechnologyBySlug(currentTechnology)?.name}</Text>
                         </Group>
                     </Accordion.Control>
@@ -121,13 +122,14 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             checkIconPosition='right'
                             onChange={handleOnChangeTechnology}
                             variant="unstyled"
+                            my={"xs"}
                             />
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item key={"provider"} value="provider">
                     <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
                         <Group align="baseline" justify="space-between">
-                            <Title order={5}>Provider</Title>
+                            <Title order={6}>Provider</Title>
                             <Text size="xs">{promptOptions.getProviderBySlug(currentProvider)?.name}</Text>
                         </Group>
                     </Accordion.Control>
@@ -140,6 +142,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             checkIconPosition='right'
                             onChange={handleOnChangeProvider}
                             variant="unstyled"
+                            my={"xs"}
                             />
                     </Accordion.Panel>
                 </Accordion.Item>
@@ -151,7 +154,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                     <Accordion.Item key={"characters-limit"} value="characters-limit">
                                         <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                                             <Group align="baseline" justify="space-between">
-                                                <Title order={5}>Characters Limit</Title>
+                                                <Title order={6}>Characters Limit</Title>
                                                 <Text size="xs">{characteresLimitValue}</Text>
                                             </Group>
                                         </Accordion.Control>
@@ -172,7 +175,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                     <Accordion.Item key={"max-images"} value="max-images">
                                         <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                                             <Group align="baseline" justify="space-between">
-                                                <Title order={5}>Max Images</Title>
+                                                <Title order={6}>Max Images</Title>
                                                 <Text size="xs">{maxImagesValue}</Text>
                                             </Group>
                                         </Accordion.Control>
@@ -193,7 +196,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                     <Accordion.Item key={"image-resolutions"} value="image-resolutions">
                                         <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                                             <Group align="baseline" justify="space-between">
-                                                <Title order={5}>Resolution</Title>
+                                                <Title order={6}>Resolution</Title>
                                                 <Text size="xs">{imageResolutionsValue}</Text>
                                             </Group>
                                         </Accordion.Control>
@@ -205,6 +208,27 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                                 content={parameter.content}
                                                 value={imageResolutionsValue}
                                                 setValue={setImageResolutionsValue}
+                                            />
+                                        </Accordion.Panel>
+                                    </Accordion.Item>
+                                )
+                            case "language":
+                                return (
+                                    <Accordion.Item key={"language"} value="language">
+                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
+                                            <Group align="baseline" justify="space-between">
+                                                <Title order={6}>Language</Title>
+                                                <Text size="xs">{languageValue}</Text>
+                                            </Group>
+                                        </Accordion.Control>
+                                        <Accordion.Panel>
+                                            <ImageResolutionsParameter
+                                                key={parameter.slug}
+                                                name={parameter.name}
+                                                slug={parameter.slug}
+                                                content={parameter.content}
+                                                value={languageValue}
+                                                setValue={setLanguageValue}
                                             />
                                         </Accordion.Panel>
                                     </Accordion.Item>
