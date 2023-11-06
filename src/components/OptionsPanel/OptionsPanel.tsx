@@ -104,7 +104,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
 
     return (
         <Stack gap={'md'}>
-            <Accordion variant="filled" chevron="">
+            <Accordion variant="default" chevron="">
                 <Accordion.Item key={"technology"} value="technology">
                     <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>
                         <Group align="baseline" justify="space-between">
