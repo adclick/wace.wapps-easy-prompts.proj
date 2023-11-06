@@ -4,7 +4,7 @@ import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconQuest
 
 const NOT_AVAILABLE = "Not available yet";
 
-export function     UserMenu() {
+export function UserMenu() {
     const { user, logout } = useAuth0();
 
     return (
@@ -12,13 +12,7 @@ export function     UserMenu() {
             <Menu position="bottom-end">
                 <Menu.Target>
                     <Button fullWidth justify='flex-start' size="lg" variant="transparent" px={"xs"}>
-                        <Group>
-                            <Avatar src={user?.picture} />
-                            {/* <Stack align='flex-start' gap={0}>
-                                <Text style={{ color: 'var(--mantine-color-text)' }} size='md' fw={600}>{user !== undefined ? user.nickname : "User"}</Text>
-                                <Text style={{ color: 'var(--mantine-color-text)' }} size='xs'>{user !== undefined ? user.email : "User"}</Text>
-                            </Stack> */}
-                        </Group>
+                        <Avatar src={user?.picture} />
                     </Button>
                 </Menu.Target>
                 <Menu.Dropdown>

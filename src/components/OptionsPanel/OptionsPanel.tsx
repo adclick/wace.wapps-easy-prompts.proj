@@ -3,7 +3,7 @@ import { Accordion, ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, 
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Parameter, PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
-import { IconAdjustmentsHorizontal, IconAffiliate, IconBulb, IconListDetails, IconQuestionMark, IconSettings, IconUsers } from "@tabler/icons-react";
+import { IconAdjustmentsHorizontal, IconAffiliate, IconBulb, IconListDetails, IconPencilUp, IconQuestionMark, IconSettings, IconUsers } from "@tabler/icons-react";
 import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
 import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
 import { CharactersLimitParameter } from "../Parameters/CharactersLimitParameter";
@@ -103,8 +103,8 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
     }
 
     return (
-        <Stack gap={'md'} py={"lg"}>
-            <Accordion variant="separated" chevron="">
+        <Stack gap={'md'}>
+            <Accordion variant="filled" chevron="">
                 <Accordion.Item key={"technology"} value="technology">
                     <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>
                         <Group align="baseline" justify="space-between">
@@ -120,11 +120,12 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             allowDeselect={false}
                             checkIconPosition='right'
                             onChange={handleOnChangeTechnology}
-                        />
+                            variant="unstyled"
+                            />
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item key={"provider"} value="provider">
-                    <Accordion.Control icon={<IconUsers style={{ width: rem(20) }} />}>
+                    <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
                         <Group align="baseline" justify="space-between">
                             <Title order={5}>Provider</Title>
                             <Text size="xs">{promptOptions.getProviderBySlug(currentProvider)?.name}</Text>
@@ -138,7 +139,8 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             allowDeselect={false}
                             checkIconPosition='right'
                             onChange={handleOnChangeProvider}
-                        />
+                            variant="unstyled"
+                            />
                     </Accordion.Panel>
                 </Accordion.Item>
                 {
@@ -213,7 +215,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                     })
                 }
                 <Accordion.Item key={"modifiers"} value="modifiers">
-                    <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>Modifiers</Accordion.Control>
+                    <Accordion.Control icon={<IconPencilUp style={{ width: rem(20) }} />}>Modifiers</Accordion.Control>
                     <Accordion.Panel>
                         <Stack gap={"lg"}>
                             <Input size='sm' placeholder={"Search"}></Input>
@@ -246,7 +248,6 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                     </Chip.Group>
                                 </Stack>
                             </ScrollArea>
-                            <Button variant="outline">Add new</Button>
                         </Stack>
                     </Accordion.Panel>
                 </Accordion.Item>

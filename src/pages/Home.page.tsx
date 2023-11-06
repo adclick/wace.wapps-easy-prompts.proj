@@ -14,6 +14,7 @@ import classes from './Home.page.module.css';
 import cx from 'clsx';
 import { Request } from '../components/RequestsPanel/Request';
 import { PromptOptions } from '../model/PromptOptions';
+import { FeedbackButton } from '../components/FeedbackButton/FeedbackButton';
 
 export function HomePage() {
   // API Client
@@ -68,17 +69,17 @@ export function HomePage() {
           </Group>
           <Group>
             <Group visibleFrom='sm'>
-              <Button variant='subtle' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
-                Give feedback
-              </Button>
-              <ColorSchemeToggle />
+              <FeedbackButton />
             </Group>
-            <UserMenu />
+            <ColorSchemeToggle />
+            <Box visibleFrom='sm'>
+              <UserMenu />
+            </Box>
           </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar withBorder={false} p="md">
-        <AppShell.Section hiddenFrom='sm' pt={"sm"} mb={'md'} mt={"0"}>
+        <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
           <Group h={"100%"} px={"md"} justify='space-between'>
             <Burger
               opened={opened}
@@ -87,10 +88,8 @@ export function HomePage() {
               size="sm"
             />
             <Group hiddenFrom='sm'>
-              <Button variant='subtle' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
-                Give feedback
-              </Button>
-              <ColorSchemeToggle />
+              <FeedbackButton />
+              <UserMenu />
             </Group>
           </Group>
         </AppShell.Section>

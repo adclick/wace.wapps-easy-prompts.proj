@@ -63,6 +63,7 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
                     gap={'sm'}
                     pos={"absolute"}
                     bottom={"0"}
+                    right={"0"}
                     w={"100%"}
                     py={"md"}
                     px={"md"}
@@ -107,6 +108,7 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
                         autoFocus
                         disabled={requestLoading}
                         minRows={1}
+                        maxRows={6}
                         w={"100%"}
                         size={'lg'}
                         styles={{
