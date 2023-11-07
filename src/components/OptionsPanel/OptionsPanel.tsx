@@ -122,6 +122,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             checkIconPosition='right'
                             onChange={handleOnChangeTechnology}
                             variant="unstyled"
+                            maxDropdownHeight={"500"}
                             my={"xs"}
                             />
                     </Accordion.Panel>
@@ -129,7 +130,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                 <Accordion.Item key={"provider"} value="provider">
                     <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
                         <Group align="baseline" justify="space-between">
-                            <Title order={6}>Provider</Title>
+                            <Title order={6}>Engine</Title>
                             <Text size="xs">{promptOptions.getProviderBySlug(currentProvider)?.name}</Text>
                         </Group>
                     </Accordion.Control>

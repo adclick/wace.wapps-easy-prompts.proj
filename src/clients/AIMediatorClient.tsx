@@ -1,19 +1,6 @@
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import axios from "axios";
 
-export interface PromptType {
-    prompt_type_name: string,
-    prompt_type_slug: string,
-    prompt_type_default: boolean,
-    provider_name: string,
-    provider_slug: string,
-};
-
-export interface Provider {
-    provider_name: string,
-    provider_slug: string,
-}
-
 export class AIMediatorClient {
     baseUrl: string;
 

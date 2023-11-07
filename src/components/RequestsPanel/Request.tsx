@@ -24,10 +24,8 @@ export interface Request {
 export function Request({ promptOptions, userPrompt, userPrmptOptions, result }: RequestParams) {
     const { user } = useAuth0();
     const [opened, { toggle }] = useDisclosure(false);
-    const theme = useMantineTheme();
 
     const computedColorScheme = useComputedColorScheme("dark");
-    console.log(classes);
 
     return (
         <Stack gap={0}>
@@ -80,65 +78,9 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                 <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                     <Group wrap="nowrap" align="flex-start">
                         <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
-                        <SimpleGrid cols={3}>
-                            <Stack>
-                                <Image
-                                    radius="md"
-                                    h={150}
-                                    w="auto"
-                                    fit="contain"
-                                    src="https://placehold.co/400x400?text=Placeholder"
-                                />
-                            </Stack>
-                            <Stack>
-                                <Image
-                                    radius="md"
-                                    h={150}
-                                    w="auto"
-                                    fit="contain"
-                                    src="https://placehold.co/400x400?text=Placeholder"
-                                />
-                            </Stack>
-                            <Stack>
-                                <Image
-                                    radius="md"
-                                    h={150}
-                                    w="auto"
-                                    fit="contain"
-                                    src="https://placehold.co/400x400?text=Placeholder"
-                                />
-                            </Stack>
-                            <Stack>
-                                <Image
-                                    radius="md"
-                                    h={150}
-                                    w="auto"
-                                    fit="contain"
-                                    src="https://placehold.co/400x400?text=Placeholder"
-                                />
-                            </Stack>
-                            <Stack>
-                                <Image
-                                    radius="md"
-                                    h={150}
-                                    w="auto"
-                                    fit="contain"
-                                    src="https://placehold.co/400x400?text=Placeholder"
-                                />
-                            </Stack>
-                            <Stack>
-                                <Image
-                                    radius="md"
-                                    h={150}
-                                    w="auto"
-                                    fit="contain"
-                                    src="https://placehold.co/400x400?text=Placeholder"
-                                />
-                            </Stack>
-                        </SimpleGrid>
-                        {/* <Text size="md">
+                        <Text size="md">
                             {result}
-                        </Text> */}
+                        </Text>
                     </Group>
                     <Group gap={"xs"} wrap="nowrap">
                         <ActionIcon color='red' variant='subtle'>

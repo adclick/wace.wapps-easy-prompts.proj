@@ -2,8 +2,8 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ActionIcon, Box, Center, Group, Input, List, Loader, Modal, Stack, Textarea, ThemeIcon, Tooltip, VisuallyHidden } from "@mantine/core";
 import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
-import { useDisclosure, useFocusReturn, useFocusTrap } from "@mantine/hooks";
+import { useRef, useState } from "react";
+import { useDisclosure, useFocusReturn, useFocusTrap, useMergedRef } from "@mantine/hooks";
 import { Request } from "../RequestsPanel/Request";
 import { PromptsModal } from "./PromptsModal";
 
@@ -20,12 +20,6 @@ interface PromptParams {
 export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading, requests, setRequests, requestLoading, scrollIntoView }: PromptParams) {
     const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
-    const focusTrapRef = useFocusTrap();
-
-    useFocusReturn({
-        opened: true,
-        shouldReturnFocus: true
-    });
 
     // Submit prompt
     const submitPrompt = async () => {
@@ -33,7 +27,7 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
 
         setRequestLoading(true);
         setUserPrompt("");
-        
+
         const result = await aIMediatorClient.submitPrompt(userPrompt, userPromptOptions);
         const request: Request = {
             id: requests.length + 1,

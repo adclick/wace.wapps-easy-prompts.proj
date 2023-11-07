@@ -15,6 +15,9 @@ import cx from 'clsx';
 import { Request } from '../components/RequestsPanel/Request';
 import { PromptOptions } from '../model/PromptOptions';
 import { FeedbackButton } from '../components/FeedbackButton/FeedbackButton';
+import { Header } from '../components/Layout/Header';
+import { Main } from '../components/Layout/Main';
+import { Footer } from '../components/Layout/Footer';
 
 export function HomePage() {
   // API Client
@@ -54,29 +57,7 @@ export function HomePage() {
       }}
     >
       <AppShell.Header withBorder={false} p={"md"} >
-        <Group h={"100%"} px={"md"} justify="space-between">
-          <Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <Title order={2}>
-              EasyPrompts
-            </Title>
-            <Badge size="xs">Beta</Badge>
-          </Group>
-          <Group>
-            <Group visibleFrom='sm'>
-              <FeedbackButton />
-            </Group>
-            <ColorSchemeToggle />
-            <Box visibleFrom='sm'>
-              <UserMenu />
-            </Box>
-          </Group>
-        </Group>
+        <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar withBorder={false} p="md">
         <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
@@ -126,15 +107,11 @@ export function HomePage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <RequestsPanel
-          promptOptions={promptOptions}
-          requests={requests}
-          targetRef={targetRef}
-        />
+        <Main promptOptions={promptOptions} requests={requests} targetRef={targetRef} />
       </AppShell.Main>
       <AppShell.Footer withBorder={false}>
-        <Prompt
-          aIMediatorClient={aIMediatorClient}
+        <Footer
+          aiMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
           setRequestLoading={setRequestLoading}
           requests={requests}
