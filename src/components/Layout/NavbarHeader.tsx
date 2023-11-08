@@ -1,6 +1,6 @@
 import { Burger, Group } from "@mantine/core";
-import { UserMenu } from "../UserMenu/UserMenu";
-import { FeedbackButton } from "../FeedbackButton/FeedbackButton";
+import { UserMenu } from "../Elements/UserMenu/UserMenu";
+import { FeedbackButton } from "../Elements/FeedbackButton/FeedbackButton";
 
 interface NavbarHeader {
     opened: boolean,

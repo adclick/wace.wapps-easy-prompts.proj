@@ -51,13 +51,18 @@ export function HomePage() {
         navbar: cx(classes.navbar, classes[computedColorScheme])
       }}
     >
+      {/* HEADER */}
       <AppShell.Header withBorder={false} p={"md"} >
         <Header opened={opened} toggle={toggle} />
       </AppShell.Header>
+
+      {/* NAVBAR */}
       <AppShell.Navbar withBorder={false} p="md">
+        {/* NAVBAR HEADER */}
         <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
           <NavbarHeader opened={opened} toggle={toggle} />
         </AppShell.Section>
+        {/* NAVBAR */}
         <AppShell.Section grow component={ScrollArea}>
           <Navbar
             promptOptions={promptOptions}
@@ -67,13 +72,18 @@ export function HomePage() {
             toggle={toggle}
           />
         </AppShell.Section>
+        {/* NAVBAR BOTTOM */}
         <AppShell.Section>
           <NavbarFooter />
         </AppShell.Section>
       </AppShell.Navbar>
+
+      {/* MAIN */}
       <AppShell.Main>
         <Main promptOptions={promptOptions} requests={requests} targetRef={targetRef} />
       </AppShell.Main>
+
+      {/* FOOTER */}
       <AppShell.Footer withBorder={false}>
         <Footer
           aiMediatorClient={aIMediatorClient}

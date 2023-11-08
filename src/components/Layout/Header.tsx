@@ -1,7 +1,7 @@
 import { Badge, Box, Burger, Group, Title } from "@mantine/core";
-import { FeedbackButton } from "../FeedbackButton/FeedbackButton";
-import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
-import { UserMenu } from "../UserMenu/UserMenu";
+import { FeedbackButton } from "../Elements/FeedbackButton/FeedbackButton";
+import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle/ColorSchemeToggle";
+import { UserMenu } from "../Elements/UserMenu/UserMenu";
 
 interface Header {
     opened: boolean,
