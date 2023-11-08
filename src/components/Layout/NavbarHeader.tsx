@@ -1,18 +1,18 @@
 import { Burger, Group } from "@mantine/core";
-import { UserMenu } from "../Elements/UserMenu/UserMenu";
-import { FeedbackButton } from "../Elements/FeedbackButton/FeedbackButton";
+import { UserMenu } from "../Elements/UserMenu";
+import { FeedbackButton } from "../Elements/FeedbackButton";
 
 interface NavbarHeader {
-    opened: boolean,
-    toggle: any
+    navbarOpened: boolean,
+    navbarToggle: any
 }
 
-export function NavbarHeader({ opened, toggle }: NavbarHeader) {
+export function NavbarHeader({ navbarOpened, navbarToggle }: NavbarHeader) {
     return (
         <Group h={"100%"} px={"md"} justify='space-between'>
             <Burger
-                opened={opened}
-                onClick={toggle}
+                opened={navbarOpened}
+                onClick={navbarToggle}
                 hiddenFrom="sm"
                 size="sm"
             />

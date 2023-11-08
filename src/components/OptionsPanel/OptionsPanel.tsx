@@ -3,20 +3,26 @@ import { Accordion, ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, 
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Parameter, PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
-import { IconAdjustmentsHorizontal, IconAffiliate, IconBulb, IconListDetails, IconPencilUp, IconQuestionMark, IconSettings, IconUsers } from "@tabler/icons-react";
+import { IconAdjustmentsHorizontal, IconAffiliate, IconBulb, IconLanguage, IconListDetails, IconPencilUp, IconQuestionMark, IconSettings, IconUsers } from "@tabler/icons-react";
 import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
 import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
 import { CharactersLimitParameter } from "../Parameters/CharactersLimitParameter";
 
-interface OptionsPanelParams {
+interface OptionsPanel {
     promptOptions: PromptOptions,
     setPromptOptions: any,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    toggle: any
+    navbarToggle: any
 }
 
-export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOptions, setUserPromptOptions, toggle }: OptionsPanelParams) {
+export function OptionsPanel({
+    promptOptions,
+    setPromptOptions,
+    userPromptOptions,
+    setUserPromptOptions,
+    navbarToggle
+}: OptionsPanel) {
     // technologies
     const defaultTechnologySlug = promptOptions.getDefaultTechnologySlug();
     const [technologies, setTechnologies] = useState<{ label: string, value: string }[]>(promptOptions.getTechnologies());
@@ -124,7 +130,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             variant="unstyled"
                             maxDropdownHeight={"500"}
                             my={"xs"}
-                            />
+                        />
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item key={"provider"} value="provider">
@@ -144,7 +150,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                             onChange={handleOnChangeProvider}
                             variant="unstyled"
                             my={"xs"}
-                            />
+                        />
                     </Accordion.Panel>
                 </Accordion.Item>
                 {
@@ -213,32 +219,29 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                                         </Accordion.Panel>
                                     </Accordion.Item>
                                 )
-                            case "language":
-                                return (
-                                    <Accordion.Item key={"language"} value="language">
-                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
-                                            <Group align="baseline" justify="space-between">
-                                                <Title order={6}>Language</Title>
-                                                <Text size="xs">{languageValue}</Text>
-                                            </Group>
-                                        </Accordion.Control>
-                                        <Accordion.Panel>
-                                            <ImageResolutionsParameter
-                                                key={parameter.slug}
-                                                name={parameter.name}
-                                                slug={parameter.slug}
-                                                content={parameter.content}
-                                                value={languageValue}
-                                                setValue={setLanguageValue}
-                                            />
-                                        </Accordion.Panel>
-                                    </Accordion.Item>
-                                )
                             default:
                                 return "";
                         }
                     })
                 }
+                <Accordion.Item key={"language"} value="language">
+                    <Accordion.Control icon={<IconLanguage style={{ width: rem(20) }} />}>
+                        <Group align="baseline" justify="space-between">
+                            <Title order={6}>Language</Title>
+                            <Text size="xs">{languageValue}</Text>
+                        </Group>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <ImageResolutionsParameter
+                            key={"language"}
+                            name={"Language"}
+                            slug={"language"}
+                            content={["PT", "EN"]}
+                            value={languageValue}
+                            setValue={setLanguageValue}
+                        />
+                    </Accordion.Panel>
+                </Accordion.Item>
                 <Accordion.Item key={"modifiers"} value="modifiers">
                     <Accordion.Control icon={<IconPencilUp style={{ width: rem(20) }} />}>Modifiers</Accordion.Control>
                     <Accordion.Panel>
@@ -277,7 +280,7 @@ export function OptionsPanel({ promptOptions, setPromptOptions, userPromptOption
                     </Accordion.Panel>
                 </Accordion.Item>
             </Accordion>
-            <Button onClick={toggle} hiddenFrom='sm'>
+            <Button onClick={navbarToggle} hiddenFrom='sm'>
                 Apply
             </Button>
         </Stack>

@@ -10,7 +10,7 @@ interface Navbar {
     setPromptOptions: any,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    toggle: any
+    navbarToggle: any
 }
 
 export function Navbar({
@@ -18,7 +18,7 @@ export function Navbar({
     setPromptOptions,
     userPromptOptions,
     setUserPromptOptions,
-    toggle
+    navbarToggle
 }: Navbar) {
     return (
         <Tabs radius={"sm"} defaultValue="options">
@@ -36,7 +36,7 @@ export function Navbar({
                     setPromptOptions={setPromptOptions}
                     userPromptOptions={userPromptOptions}
                     setUserPromptOptions={setUserPromptOptions}
-                    toggle={toggle}
+                    navbarToggle={navbarToggle}
                 />
             </Tabs.Panel>
             <Tabs.Panel value="templates" py={"md"}>

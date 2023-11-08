@@ -53,14 +53,14 @@ export function HomePage() {
     >
       {/* HEADER */}
       <AppShell.Header withBorder={false} p={"md"} >
-        <Header opened={opened} toggle={toggle} />
+        <Header navbarOpened={opened} navbarToggle={toggle} />
       </AppShell.Header>
 
       {/* NAVBAR */}
       <AppShell.Navbar withBorder={false} p="md">
         {/* NAVBAR HEADER */}
         <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
-          <NavbarHeader opened={opened} toggle={toggle} />
+          <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
         </AppShell.Section>
         {/* NAVBAR */}
         <AppShell.Section grow component={ScrollArea}>
@@ -69,7 +69,7 @@ export function HomePage() {
             setPromptOptions={setPromptOptions}
             userPromptOptions={userPromptOptions}
             setUserPromptOptions={setUserPromptOptions}
-            toggle={toggle}
+            navbarToggle={toggle}
           />
         </AppShell.Section>
         {/* NAVBAR BOTTOM */}

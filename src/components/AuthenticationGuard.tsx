@@ -8,9 +8,7 @@ interface Props {
 
 export const AuthenticationGuard = ({ component }: Props) => {
     const Component = withAuthenticationRequired(component, {
-        onRedirecting: () => (
-            <LoadingOverlay visible={true} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-        ),
+        onRedirecting: () => <LoadingOverlay visible />,
     });
 
     return <Component />;

@@ -1,20 +1,20 @@
 import { Badge, Box, Burger, Group, Title } from "@mantine/core";
-import { FeedbackButton } from "../Elements/FeedbackButton/FeedbackButton";
-import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle/ColorSchemeToggle";
-import { UserMenu } from "../Elements/UserMenu/UserMenu";
+import { FeedbackButton } from "../Elements/FeedbackButton";
+import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
+import { UserMenu } from "../Elements/UserMenu";
 
 interface Header {
-    opened: boolean,
-    toggle: any
+    navbarOpened: boolean,
+    navbarToggle: any
 }
 
-export function Header({ opened, toggle }: Header) {
+export function Header({ navbarOpened, navbarToggle }: Header) {
     return (
         <Group h={"100%"} px={"md"} justify="space-between">
             <Group>
                 <Burger
-                    opened={opened}
-                    onClick={toggle}
+                    opened={navbarOpened}
+                    onClick={navbarToggle}
                     hiddenFrom="sm"
                     size="sm"
                 />
