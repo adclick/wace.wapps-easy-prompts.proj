@@ -1,23 +1,18 @@
-import { AppShell, Badge, Box, Burger, Button, Divider, Group, Popover, ScrollArea, Stack, Tabs, Text, Title, rem, useComputedColorScheme } from '@mantine/core';
-import { IconList, IconMail, IconTemplate } from '@tabler/icons-react';
-import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { useState } from 'react';
+import { AppShell, ScrollArea, useComputedColorScheme } from '@mantine/core';
+import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
-import { OptionsPanel } from '../components/OptionsPanel/OptionsPanel';
 import { UserPromptOptions } from '../model/UserPromptOptions';
-import { Prompt } from '../components/Prompt/Prompt';
-import { TemplatesPanel } from '../components/TemplatesPanel/TemplatesPanel';
-import { UserMenu } from '../components/UserMenu/UserMenu';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import { RequestsPanel } from '../components/RequestsPanel/RequestsPanel';
-import classes from './Home.page.module.css';
-import cx from 'clsx';
 import { Request } from '../components/RequestsPanel/Request';
 import { PromptOptions } from '../model/PromptOptions';
-import { FeedbackButton } from '../components/FeedbackButton/FeedbackButton';
 import { Header } from '../components/Layout/Header';
 import { Main } from '../components/Layout/Main';
 import { Footer } from '../components/Layout/Footer';
+import { NavbarHeader } from '../components/Layout/NavbarHeader';
+import { NavbarFooter } from '../components/Layout/NavbarFooter';
+import { Navbar } from '../components/Layout/Navbar';
+import classes from './Home.page.module.css';
+import cx from 'clsx';
 
 export function HomePage() {
   // API Client
@@ -61,49 +56,19 @@ export function HomePage() {
       </AppShell.Header>
       <AppShell.Navbar withBorder={false} p="md">
         <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
-          <Group h={"100%"} px={"md"} justify='space-between'>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <Group hiddenFrom='sm'>
-              <FeedbackButton />
-              <UserMenu />
-            </Group>
-          </Group>
+          <NavbarHeader opened={opened} toggle={toggle} />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          <Tabs radius={"sm"} defaultValue="options">
-            <Tabs.List grow>
-              <Tabs.Tab value="options" leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
-                <Title order={5}>Options</Title>
-              </Tabs.Tab>
-              <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                <Title order={5}>Templates</Title>
-              </Tabs.Tab>
-            </Tabs.List>
-            <Tabs.Panel value="options" py={"md"}>
-              <OptionsPanel
-                promptOptions={promptOptions}
-                setPromptOptions={setPromptOptions}
-                userPromptOptions={userPromptOptions}
-                setUserPromptOptions={setUserPromptOptions}
-                toggle={toggle}
-              />
-            </Tabs.Panel>
-            <Tabs.Panel value="templates" py={"md"}>
-              <TemplatesPanel />
-            </Tabs.Panel>
-          </Tabs>
+          <Navbar
+            promptOptions={promptOptions}
+            setPromptOptions={setPromptOptions}
+            userPromptOptions={userPromptOptions}
+            setUserPromptOptions={setUserPromptOptions}
+            toggle={toggle}
+          />
         </AppShell.Section>
         <AppShell.Section>
-          <Divider h={'xs'} />
-          <Group justify='space-between' my={"sm"}>
-            <Title order={4}>Operation Cost</Title>
-            <Title order={4} c={"teal"}>Free</Title>
-          </Group>
+          <NavbarFooter />
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
