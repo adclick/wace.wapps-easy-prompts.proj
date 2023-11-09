@@ -7,6 +7,10 @@ import { IconAdjustmentsHorizontal, IconAffiliate, IconBulb, IconLanguage, IconL
 import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
 import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
 import { CharactersLimitParameter } from "../Parameters/CharactersLimitParameter";
+import { TechnologyOption } from "../Options/TechnologyOption";
+import { ProviderOption } from "../Options/ProviderOption";
+import { LanguageOption } from "../Options/LanguageOption";
+import { ParameterOption } from "../Options/ParameterOption";
 
 interface OptionsPanel {
     promptOptions: PromptOptions,
@@ -112,77 +116,30 @@ export function OptionsPanel({
     return (
         <Stack gap={'md'}>
             <Accordion variant="default" chevron="">
-                <Accordion.Item key={"technology"} value="technology">
-                    <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>
-                        <Group align="baseline" justify="space-between">
-                            <Title order={6}>Technology</Title>
-                            <Text size="xs">{promptOptions.getTechnologyBySlug(currentTechnology)?.name}</Text>
-                        </Group>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <Select
-                            placeholder="Technology"
-                            data={technologies}
-                            value={currentTechnology}
-                            allowDeselect={false}
-                            checkIconPosition='right'
-                            onChange={handleOnChangeTechnology}
-                            variant="unstyled"
-                            maxDropdownHeight={"500"}
-                            my={"xs"}
-                        />
-                    </Accordion.Panel>
-                </Accordion.Item>
-                <Accordion.Item key={"provider"} value="provider">
-                    <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
-                        <Group align="baseline" justify="space-between">
-                            <Title order={6}>Engine</Title>
-                            <Text size="xs">{promptOptions.getProviderBySlug(currentProvider)?.name}</Text>
-                        </Group>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <Select
-                            placeholder="Provider"
-                            data={providers}
-                            value={currentProvider}
-                            allowDeselect={false}
-                            checkIconPosition='right'
-                            onChange={handleOnChangeProvider}
-                            variant="unstyled"
-                            my={"xs"}
-                        />
-                    </Accordion.Panel>
-                </Accordion.Item>
+                <TechnologyOption
+                    promptOptions={promptOptions}
+                    currentTechnology={currentTechnology}
+                    technologies={technologies}
+                    handleOnChangeTechnology={handleOnChangeTechnology}
+                />
+                <ProviderOption
+                    promptOptions={promptOptions}
+                    currentProvider={currentProvider}
+                    providers={providers}
+                    handleOnChangeProvider={handleOnChangeProvider}
+                />
                 {
                     parameters.map(parameter => {
+
                         switch (parameter.slug) {
                             case "characters-limit":
-                                return (
-                                    <Accordion.Item key={"characters-limit"} value="characters-limit">
-                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
-                                            <Group align="baseline" justify="space-between">
-                                                <Title order={6}>Characters Limit</Title>
-                                                <Text size="xs">{characteresLimitValue}</Text>
-                                            </Group>
-                                        </Accordion.Control>
-                                        <Accordion.Panel>
-                                            <CharactersLimitParameter
-                                                key={parameter.slug}
-                                                name={parameter.name}
-                                                slug={parameter.slug}
-                                                content={parameter.content}
-                                                value={characteresLimitValue}
-                                                setValue={setCharacteresLimitValue}
-                                            />
-                                        </Accordion.Panel>
-                                    </Accordion.Item>
-                                )
+                                return <CharactersLimitParameter args={parameter} />;
                             case "max-images":
                                 return (
                                     <Accordion.Item key={"max-images"} value="max-images">
                                         <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                                             <Group align="baseline" justify="space-between">
-                                                <Title order={6}>Max Images</Title>
+                                                <Title order={5}>Max Images</Title>
                                                 <Text size="xs">{maxImagesValue}</Text>
                                             </Group>
                                         </Accordion.Control>
@@ -203,7 +160,7 @@ export function OptionsPanel({
                                     <Accordion.Item key={"image-resolutions"} value="image-resolutions">
                                         <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                                             <Group align="baseline" justify="space-between">
-                                                <Title order={6}>Resolution</Title>
+                                                <Title order={5}>Resolution</Title>
                                                 <Text size="xs">{imageResolutionsValue}</Text>
                                             </Group>
                                         </Accordion.Control>
@@ -224,26 +181,16 @@ export function OptionsPanel({
                         }
                     })
                 }
-                <Accordion.Item key={"language"} value="language">
-                    <Accordion.Control icon={<IconLanguage style={{ width: rem(20) }} />}>
-                        <Group align="baseline" justify="space-between">
-                            <Title order={6}>Language</Title>
-                            <Text size="xs">{languageValue}</Text>
-                        </Group>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <ImageResolutionsParameter
-                            key={"language"}
-                            name={"Language"}
-                            slug={"language"}
-                            content={["PT", "EN"]}
-                            value={languageValue}
-                            setValue={setLanguageValue}
-                        />
-                    </Accordion.Panel>
-                </Accordion.Item>
+                <LanguageOption
+                    languages={["PT", "EN"]}
+                    defaultLanguage={"PT"}
+                    currentLanguage={languageValue}
+                    setLanguage={setLanguageValue}
+                />
                 <Accordion.Item key={"modifiers"} value="modifiers">
-                    <Accordion.Control icon={<IconPencilUp style={{ width: rem(20) }} />}>Modifiers</Accordion.Control>
+                    <Accordion.Control icon={<IconPencilUp style={{ width: rem(20) }} />}>
+                        <Title order={5}>Modifiers</Title>
+                    </Accordion.Control>
                     <Accordion.Panel>
                         <Stack gap={"lg"}>
                             <Input size='sm' placeholder={"Search"}></Input>

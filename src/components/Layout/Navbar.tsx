@@ -24,10 +24,10 @@ export function Navbar({
         <Tabs radius={"sm"} defaultValue="options">
             <Tabs.List grow>
                 <Tabs.Tab value="options" leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
-                    <Title order={5}>Options</Title>
+                    <Title order={4}>Options</Title>
                 </Tabs.Tab>
                 <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                    <Title order={5}>Templates</Title>
+                    <Title order={4}>Templates</Title>
                 </Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="options" py={"md"}>
