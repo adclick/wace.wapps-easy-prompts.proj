@@ -1,44 +1,50 @@
-import { Accordion, Group, Select, Slider, Stack, Text, Title, rem } from "@mantine/core";
+import { Accordion, Group, Slider, Stack, Text, Title, rem } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { useState } from "react";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 
-interface ImageResolutionsParameter {
+interface MaxImageOption {
     parameter: Parameter,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any
 }
 
-export function ImageResolutionsParameter({
+export function MaxImageOption({
     parameter,
     userPromptOptions,
     setUserPromptOptions
-}: ImageResolutionsParameter) {
-    const [value, setValue] = useState(parameter.content[0]);
+}: MaxImageOption) {
+    const [value, setValue] = useState(1);
 
-    const handleOnChange = (value: string) => {
+    const handleOnChange = (value: number) => {
         setValue(value);
 
-         // update userPromptOptions
+        // update userPromptOptions
     }
 
+    const marks = [];
+    for (let i = 1; i <= parseInt(parameter.content); i++) {
+        marks.push({ value: i, label: i });
+    }
     return (
-        <Accordion.Item key={"image-resolutions"} value="image-resolutions">
+        <Accordion.Item key={"max-images"} value="max-images">
             <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
-                    <Title order={5}>Resolution</Title>
+                    <Title order={5}>Max Images</Title>
                     <Text size="xs">{value}</Text>
                 </Group>
             </Accordion.Control>
             <Accordion.Panel>
-                <Select
-                    variant="unstyled"
-                    data={parameter.content}
-                    defaultValue={parameter.content[0]}
+                <Slider
+                    defaultValue={1}
+                    min={1}
+                    max={parseInt(parameter.content)}
+                    marks={marks}
+                    mx={"xs"}
+                    my={"md"}
                     value={value}
                     onChange={handleOnChange}
-                    my={"xs"}
                 />
             </Accordion.Panel>
         </Accordion.Item>

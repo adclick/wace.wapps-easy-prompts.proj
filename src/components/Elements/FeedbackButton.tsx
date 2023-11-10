@@ -13,9 +13,9 @@ export function FeedbackButton() {
 
     return (
         <Box>
-            <Modal opened={opened} onClose={close} title={"Give feedback"}>
+            <Modal size={"lg"} opened={opened} onClose={close} title={"Give feedback"}>
                 <Stack>
-                    <Textarea autosize maxRows={10} minRows={3} value={feedback} onChange={e => setFeedback(e.target.value)} />
+                    <Textarea autosize maxRows={10} minRows={5} value={feedback} onChange={e => setFeedback(e.target.value)} />
                     <Button onClick={send}>Send</Button>
                 </Stack>
 

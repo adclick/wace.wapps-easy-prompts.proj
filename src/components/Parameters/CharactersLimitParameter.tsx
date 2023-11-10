@@ -7,23 +7,23 @@ import { UserPromptOptions } from "@/model/UserPromptOptions";
 const PARTS = 4;
 
 interface CharactersLimitParameter {
-    args: Parameter,
+    parameter: Parameter,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any
 }
 
 export function CharactersLimitParameter({
-    args,
+    parameter,
     userPromptOptions,
     setUserPromptOptions
 }: CharactersLimitParameter) {
     const [value, setValue] = useState(1000);
-    const { name, content } = args;
+    const { name, content } = parameter;
 
     const handleOnChange = (value: number) => {
         setValue(value);
 
-        const newUserPromptOptions = userPromptOptions;
+        // update userPromptOptions
     }
 
     // Construct slider marks

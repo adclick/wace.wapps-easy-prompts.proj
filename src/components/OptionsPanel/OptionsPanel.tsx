@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react"
-import { Accordion, ActionIcon, Box, Button, Card, Chip, Group, Input, Popover, ScrollArea, Select, Slider, Stack, Text, Title, rem } from "@mantine/core"
+import { Accordion, ActionIcon,Button, Chip, Group, Input, Popover, ScrollArea, Stack, Text, Title, rem } from "@mantine/core"
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Parameter, PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
-import { IconAdjustmentsHorizontal, IconAffiliate, IconBulb, IconLanguage, IconListDetails, IconPencilUp, IconQuestionMark, IconSettings, IconUsers } from "@tabler/icons-react";
-import { MaxImagesParameters } from "../Parameters/MaxImagesParameter";
-import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
-import { CharactersLimitParameter } from "../Parameters/CharactersLimitParameter";
+import { IconPencilUp, IconQuestionMark } from "@tabler/icons-react";
 import { TechnologyOption } from "../Options/TechnologyOption";
 import { ProviderOption } from "../Options/ProviderOption";
 import { LanguageOption } from "../Options/LanguageOption";
@@ -129,62 +126,14 @@ export function OptionsPanel({
                 />
                 {
                     parameters.map(parameter => {
-
-                        switch (parameter.slug) {
-                            case "characters-limit":
-                                return (
-                                    <CharactersLimitParameter
-                                        key={parameter.slug}
-                                        userPromptOptions={userPromptOptions}
-                                        setUserPromptOptions={setUserPromptOptions}
-                                        args={parameter}
-                                    />
-                                );
-                            case "max-images":
-                                return (
-                                    <Accordion.Item key={"max-images"} value="max-images">
-                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
-                                            <Group align="baseline" justify="space-between">
-                                                <Title order={5}>Max Images</Title>
-                                                <Text size="xs">{maxImagesValue}</Text>
-                                            </Group>
-                                        </Accordion.Control>
-                                        <Accordion.Panel>
-                                            <MaxImagesParameters
-                                                key={parameter.slug}
-                                                name={parameter.name}
-                                                slug={parameter.slug}
-                                                content={parameter.content}
-                                                value={maxImagesValue}
-                                                setValue={setMaxImagesValue}
-                                            />
-                                        </Accordion.Panel>
-                                    </Accordion.Item>
-                                )
-                            case "image-resolutions":
-                                return (
-                                    <Accordion.Item key={"image-resolutions"} value="image-resolutions">
-                                        <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
-                                            <Group align="baseline" justify="space-between">
-                                                <Title order={5}>Resolution</Title>
-                                                <Text size="xs">{imageResolutionsValue}</Text>
-                                            </Group>
-                                        </Accordion.Control>
-                                        <Accordion.Panel>
-                                            <ImageResolutionsParameter
-                                                key={parameter.slug}
-                                                name={parameter.name}
-                                                slug={parameter.slug}
-                                                content={parameter.content}
-                                                value={imageResolutionsValue}
-                                                setValue={setImageResolutionsValue}
-                                            />
-                                        </Accordion.Panel>
-                                    </Accordion.Item>
-                                )
-                            default:
-                                return "";
-                        }
+                        return (
+                            <ParameterOption
+                                type={parameter.slug    }
+                                parameter={parameter}
+                                userPromptOptions={userPromptOptions}
+                                setUserPromptOptions={setUserPromptOptions}
+                            />
+                        )
                     })
                 }
                 <LanguageOption

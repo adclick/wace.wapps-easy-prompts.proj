@@ -1,3 +1,5 @@
+import { Parameter } from "./PromptOptions";
+
 interface UserTechnology {
     slug: string
 }
@@ -36,6 +38,25 @@ export class UserPromptOptions {
 
     setProvider(provider: string) {
         this.provider.slug = provider;
+    }
+
+    setParameter(parameter: Parameter) {
+        const currentParameter = this.parameters.find(p => p.slug == parameter.slug);
+
+        // New parameter
+        if (currentParameter === undefined) {
+            this.parameters.push({
+                slug: parameter.slug,
+                type: parameter.slug,
+                value: ""
+            });
+        } else {
+            // Existing parameter
+            
+            
+        }
+
+        
     }
 
     setPromptModifier(slug: string, value: string) {
