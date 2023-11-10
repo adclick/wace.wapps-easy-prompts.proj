@@ -1,21 +1,39 @@
 import { Accordion, Group, Slider, Stack, Text, Title, rem } from "@mantine/core";
 import { Parameter } from "../../model/PromptOptions";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
+import { useState } from "react";
+import { UserPromptOptions } from "@/model/UserPromptOptions";
+
+const PARTS = 4;
 
 interface CharactersLimitParameter {
-    args: Parameter
+    args: Parameter,
+    userPromptOptions: UserPromptOptions,
+    setUserPromptOptions: any
 }
 
-export function CharactersLimitParameter({ args }: CharactersLimitParameter) {
-    const { name, slug, content, value, setValue } = args;
+export function CharactersLimitParameter({
+    args,
+    userPromptOptions,
+    setUserPromptOptions
+}: CharactersLimitParameter) {
+    const [value, setValue] = useState(1000);
+    const { name, content } = args;
 
+    const handleOnChange = (value: number) => {
+        setValue(value);
+
+        const newUserPromptOptions = userPromptOptions;
+    }
+
+    // Construct slider marks
     const marks = [];
-    const parts = parseInt(content) / 4;
-
-    for (let i = 1; i <= 4; i++) {
-        const v = parts * i
+    const portion = Math.floor(parseInt(content) / PARTS);
+    for (let i = 1; i <= PARTS; i++) {
+        const v = portion * i
         marks.push({ value: v, label: v });
     }
+
     return (
         <Accordion.Item key={"characters-limit"} value="characters-limit">
             <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
@@ -27,13 +45,13 @@ export function CharactersLimitParameter({ args }: CharactersLimitParameter) {
             <Accordion.Panel>
                 <Slider
                     defaultValue={parseInt(content)}
-                    min={parts}
+                    min={portion}
                     max={parseInt(content)}
                     marks={marks}
                     mx={"xs"}
                     my={"md"}
                     value={value}
-                    onChange={setValue}
+                    onChange={value => handleOnChange(value)}
                 />
             </Accordion.Panel>
         </Accordion.Item>

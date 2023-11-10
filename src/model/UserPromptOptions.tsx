@@ -1,24 +1,45 @@
+interface UserTechnology {
+    slug: string
+}
+
+interface UserProvider {
+    slug: string
+}
+
+interface UserParameter {
+    slug: string,
+    type: string,
+    value: string
+}
+
+interface UserModifier {
+    slug: string,
+    value: string
+}
+
 export class UserPromptOptions {
-    technology: string;
-    provider: string;
-    promptModifiers: string[]
-    
+    technology: UserTechnology;
+    provider: UserProvider;
+    parameters: UserParameter[];
+    promptModifiers: UserModifier[];
+
     constructor() {
-        this.technology = "";
-        this.provider = "";
+        this.technology = { slug: "" };
+        this.provider = { slug: "" };
+        this.parameters = [];
         this.promptModifiers = [];
     }
 
     setTechnology(technology: string) {
-        this.technology = technology;
+        this.technology.slug = technology;
     }
 
     setProvider(provider: string) {
-        this.provider = provider;
+        this.provider.slug = provider;
     }
 
-    setPromptModifiers(promptMOdifiers: string[]) {
-        this.promptModifiers = promptMOdifiers;
+    setPromptModifier(slug: string, value: string) {
+        this.promptModifiers.push({ slug, value });
     }
 
     toJson() {

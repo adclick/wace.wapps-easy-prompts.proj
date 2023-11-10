@@ -39,7 +39,6 @@ export function OptionsPanel({
 
     // parameters
     const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnologySlug, defaultProviderSlug));
-    const [characteresLimitValue, setCharacteresLimitValue] = useState(1000);
     const [imageResolutionsValue, setImageResolutionsValue] = useState("1024x1024");
     const [maxImagesValue, setMaxImagesValue] = useState(4)
     const [languageValue, setLanguageValue] = useState("PT");
@@ -109,7 +108,7 @@ export function OptionsPanel({
 
     const handleOnChangePromptModifier = (newPromptModifiers: any) => {
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setPromptModifiers(newPromptModifiers);
+        // newUserPromptOptions.setPromptModifiers(newPromptModifiers);
         setUserPromptOptions(newUserPromptOptions);
     }
 
@@ -133,7 +132,11 @@ export function OptionsPanel({
 
                         switch (parameter.slug) {
                             case "characters-limit":
-                                return <CharactersLimitParameter args={parameter} />;
+                                return <CharactersLimitParameter
+                                    userPromptOptions={userPromptOptions}
+                                    setUserPromptOptions={setUserPromptOptions}
+                                    args={parameter}
+                                />;
                             case "max-images":
                                 return (
                                     <Accordion.Item key={"max-images"} value="max-images">
