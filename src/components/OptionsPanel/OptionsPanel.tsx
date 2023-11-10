@@ -132,11 +132,14 @@ export function OptionsPanel({
 
                         switch (parameter.slug) {
                             case "characters-limit":
-                                return <CharactersLimitParameter
-                                    userPromptOptions={userPromptOptions}
-                                    setUserPromptOptions={setUserPromptOptions}
-                                    args={parameter}
-                                />;
+                                return (
+                                    <CharactersLimitParameter
+                                        key={parameter.slug}
+                                        userPromptOptions={userPromptOptions}
+                                        setUserPromptOptions={setUserPromptOptions}
+                                        args={parameter}
+                                    />
+                                );
                             case "max-images":
                                 return (
                                     <Accordion.Item key={"max-images"} value="max-images">

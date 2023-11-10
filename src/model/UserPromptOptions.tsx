@@ -46,6 +46,7 @@ export class UserPromptOptions {
         return {
             technology: this.technology,
             provider: this.provider,
+            parameters: this.parameters,
             promptModifiers: this.promptModifiers
         }
     }
