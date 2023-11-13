@@ -51,7 +51,7 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                     <Card.Section inheritPadding mt={"md"}>
                         <Group>
                             <Text size="xs">
-                                {promptOptions.getTechnologyBySlug(userPrmptOptions.technology)?.name} | {promptOptions.getProviderBySlug(userPrmptOptions.provider)?.name}
+                                {promptOptions.getTechnologyBySlug(userPrmptOptions.technology.slug)?.name} | {promptOptions.getProviderBySlug(userPrmptOptions.provider.slug)?.name}
                             </Text>
                         </Group>
                         {
@@ -62,8 +62,8 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                                     {
                                         userPrmptOptions.promptModifiers.map(promptModifier => {
                                             return (
-                                                <Chip checked size="xs" variant="light" value={promptModifier}>
-                                                    {promptModifier}
+                                                <Chip checked size="xs" variant="light" value={promptModifier.slug}>
+                                                    {promptModifier.value}
                                                 </Chip>
                                             )
                                         })

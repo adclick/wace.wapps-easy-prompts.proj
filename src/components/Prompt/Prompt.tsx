@@ -1,7 +1,7 @@
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ActionIcon, Box, Center, Group, Input, List, Loader, Modal, Stack, Textarea, ThemeIcon, Tooltip, VisuallyHidden } from "@mantine/core";
-import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconSearch } from "@tabler/icons-react";
+import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconList, IconSearch } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 import { useDisclosure, useFocusReturn, useFocusTrap, useMergedRef } from "@mantine/hooks";
 import { Request } from "../RequestsPanel/Request";
@@ -92,7 +92,7 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
                             }}
                             onClick={open}
                         >
-                            <IconSearch style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                            <IconList style={{ width: '70%', height: '70%' }} stroke={1.5} />
                         </ActionIcon>
                     </Tooltip>
 
