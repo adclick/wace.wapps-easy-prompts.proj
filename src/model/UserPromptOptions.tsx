@@ -1,12 +1,5 @@
 import { Parameter } from "./PromptOptions";
 
-interface UserTechnology {
-    slug: string
-}
-
-interface UserProvider {
-    slug: string
-}
 
 interface UserParameter {
     slug: string,
@@ -20,24 +13,24 @@ interface UserModifier {
 }
 
 export class UserPromptOptions {
-    technology: UserTechnology;
-    provider: UserProvider;
+    technology: string;
+    provider: string;
     parameters: UserParameter[];
     promptModifiers: UserModifier[];
 
     constructor() {
-        this.technology = { slug: "" };
-        this.provider = { slug: "" };
+        this.technology = "";
+        this.provider = "";
         this.parameters = [];
         this.promptModifiers = [];
     }
 
     setTechnology(technology: string) {
-        this.technology.slug = technology;
+        this.technology = technology;
     }
 
     setProvider(provider: string) {
-        this.provider.slug = provider;
+        this.provider = provider;
     }
 
     setParameter(parameter: Parameter) {

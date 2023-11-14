@@ -51,7 +51,7 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                     <Card.Section inheritPadding mt={"md"}>
                         <Group>
                             <Text size="xs">
-                                {promptOptions.getTechnologyBySlug(userPrmptOptions.technology.slug)?.name} | {promptOptions.getProviderBySlug(userPrmptOptions.provider.slug)?.name}
+                                {promptOptions.getTechnologyBySlug(userPrmptOptions.technology)?.name} | {promptOptions.getProviderBySlug(userPrmptOptions.provider)?.name}
                             </Text>
                         </Group>
                         {
@@ -78,7 +78,7 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                 <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                     <Group wrap="nowrap" align="flex-start">
                         <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
-                        <Text size="md">
+                        <Text size="md" style={{whiteSpace: "pre-line"}}>
                             {result}
                         </Text>
                     </Group>

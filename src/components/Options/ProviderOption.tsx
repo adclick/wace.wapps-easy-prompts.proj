@@ -26,7 +26,7 @@ export function ProviderOption({
         <Accordion.Item key={"provider"} value="provider">
             <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
-                    <Title order={5}>Engine</Title>
+                    <Title order={5}>Provider</Title>
                     <Text size="xs">{promptOptions.getProviderBySlug(currentProvider)?.name}</Text>
                 </Group>
             </Accordion.Control>

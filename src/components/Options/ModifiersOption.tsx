@@ -1,5 +1,5 @@
 import { Accordion, ActionIcon, Chip, Group, Input, Popover, ScrollArea, Stack, Text, Title, rem } from "@mantine/core"
-import { IconPencilUp, IconQuestionMark } from "@tabler/icons-react"
+import { IconPencilUp, IconQuestionMark, IconSparkles, IconStars } from "@tabler/icons-react"
 import { Modifier, PromptOptions } from "../../model/PromptOptions"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useState } from "react"
@@ -27,11 +27,11 @@ export function ModifiersOption({
 
     return (
         <Accordion.Item key={"modifiers"} value="modifiers">
-            <Accordion.Control icon={<IconPencilUp style={{ width: rem(20) }} />}>
+            <Accordion.Control icon={<IconSparkles style={{ width: rem(20) }} />}>
                 <Title order={5}>Modifiers</Title>
             </Accordion.Control>
             <Accordion.Panel>
-                <Stack gap={"lg"}>
+                <Stack gap={"lg"} my={"xs"}>
                     <Input size='sm' placeholder={"Search"}></Input>
                     <ScrollArea offsetScrollbars>
                         <Stack gap={'xs'}>

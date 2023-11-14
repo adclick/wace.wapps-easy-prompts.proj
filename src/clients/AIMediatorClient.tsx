@@ -27,7 +27,7 @@ export class AIMediatorClient {
             sandbox: !live
         };
 
-        switch (technology.slug) {
+        switch (technology) {
             case 'text-generation':
                 return await this.post('/ai/text/text-generation', requestParameters);
             case 'image-generation':
