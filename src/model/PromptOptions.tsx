@@ -26,6 +26,14 @@ export interface Parameter {
     setValue: any
 }
 
+const emptyTechnology: Technology = {
+    name: "",
+    slug: "",
+    default: true,
+    providers: [],
+    modifiers: []
+};
+
 export class PromptOptions {
     technologies: Technology[];
 
@@ -46,25 +54,20 @@ export class PromptOptions {
 
     /**
      * Get the technologies for the respective select-box
-     * @returns {label: string, value: string}[]
     */
-   getTechnologies(): {label: string, value: string}[] {
-       return this.technologies.map(technologiy => this.formatToKeyValue(technologiy));
+    getTechnologies(): Technology[] {
+        return this.technologies;
     }
 
     /**
      * Get the providers for the respective select-box
-     * 
-     * @returns {label: string, value: string}[]
      */
-    getProviders(technologySlug: string): {label: string, value: string}[] {
+    getProviders(technologySlug: string): Provider[] {
         const technology = this.technologies.find(t => t.slug === technologySlug);
 
         if (technology === undefined) return [];
 
-        const providers = technology.providers;
-
-        return providers.map(p => this.formatToKeyValue(p));
+        return technology.providers;
     }
 
     /**
@@ -72,14 +75,12 @@ export class PromptOptions {
      * @param technologySlug 
      * @returns 
      */
-    getModifiers(technologySlug: string): {label: string, value: string}[] {
+    getModifiers(technologySlug: string): Modifier[] {
         const technology = this.technologies.find(t => t.slug === technologySlug);
 
         if (technology === undefined) return [];
 
-        const modifiers = technology.modifiers;
-
-        return modifiers.map(m => this.formatToKeyValue(m));
+        return technology.modifiers;
     }
 
     /**
@@ -105,14 +106,14 @@ export class PromptOptions {
      * 
      * @returns Technology|null
      */
-    getDefaultTechnologySlug(): string {
-        if (this.technologies.length === 0) return "";
+    getDefaultTechnology(): Technology {
+        if (this.technologies.length === 0) return emptyTechnology;
 
         const defaultTechnology = this.technologies.find(technology => technology.default === true);
 
         return defaultTechnology === undefined
-            ? this.technologies[0].slug
-            : defaultTechnology.slug;
+            ? this.technologies[0]
+            : defaultTechnology;
     }
 
     /**
@@ -139,7 +140,11 @@ export class PromptOptions {
      * @returns 
      */
     getTechnologyBySlug(slug: string) {
-        return this.technologies.find(t => t.slug === slug);
+        const technology = this.technologies.find(t => t.slug === slug);
+
+        return technology === undefined 
+            ? emptyTechnology
+            : technology;
     }
 
     /**

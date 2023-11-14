@@ -1,11 +1,11 @@
-import { PromptOptions } from "@/model/PromptOptions";
+import { PromptOptions, Provider } from "@/model/PromptOptions";
 import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 
 interface ProviderOption {
     promptOptions: PromptOptions,
     currentProvider: string
-    providers: { label: string, value: string }[],
+    providers: Provider[],
     handleOnChangeProvider: any
 }
 
@@ -15,6 +15,13 @@ export function ProviderOption({
     providers,
     handleOnChangeProvider
 }: ProviderOption) {
+    const providersData = providers.map(p => {
+        return {
+            label: p.name,
+            value: p.slug
+        }
+    });
+
     return (
         <Accordion.Item key={"provider"} value="provider">
             <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
@@ -26,7 +33,7 @@ export function ProviderOption({
             <Accordion.Panel>
                 <Select
                     placeholder="Provider"
-                    data={providers}
+                    data={providersData}
                     value={currentProvider}
                     allowDeselect={false}
                     checkIconPosition='right'

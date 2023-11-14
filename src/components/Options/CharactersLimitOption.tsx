@@ -6,17 +6,17 @@ import { UserPromptOptions } from "@/model/UserPromptOptions";
 
 const PARTS = 4;
 
-interface CharactersLimitParameter {
+interface CharactersLimitOption {
     parameter: Parameter,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any
 }
 
-export function CharactersLimitParameter({
+export function CharactersLimitOption({
     parameter,
     userPromptOptions,
     setUserPromptOptions
-}: CharactersLimitParameter) {
+}: CharactersLimitOption) {
     const [value, setValue] = useState(1000);
     const { name, content } = parameter;
 

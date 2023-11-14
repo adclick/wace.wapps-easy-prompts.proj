@@ -21,13 +21,17 @@ export class AIMediatorClient {
         const queryParameters = new URLSearchParams(window.location.search);
         const live = queryParameters.get("live") !== null;
 
+        const requestParameters = {
+            userPrompt: userPrompt,
+            userPromptOptions: userPromptOptions.toJson(),
+            sandbox: !live
+        };
+
         switch (technology.slug) {
             case 'text-generation':
-                return await this.post('/ai/text/text-generation', {
-                    userPrompt,
-                    userPromptOptions: userPromptOptions.toJson(),
-                    sandbox: !live
-                });
+                return await this.post('/ai/text/text-generation', requestParameters);
+            case 'image-generation':
+                return await this.post('/ai/image/image-generation', requestParameters);
             default: {
                 return null;
             }

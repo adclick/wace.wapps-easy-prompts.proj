@@ -1,7 +1,7 @@
-import { CharactersLimitParameter } from "../Parameters/CharactersLimitParameter";
+import { CharactersLimitOption } from "./CharactersLimitOption";
 import { Parameter } from "../../model/PromptOptions";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { ImageResolutionsParameter } from "../Parameters/ImageResolutionsParameter";
+import { ImageResolutionsOption } from "./ImageResolutionsOption";
 import { MaxImageOption } from "./MaxImagesOption";
 
 interface ParameterOption {
@@ -19,13 +19,13 @@ export function ParameterOption({
 }: ParameterOption) {
     switch (type) {
         case "characters-limit":
-            return <CharactersLimitParameter
+            return <CharactersLimitOption
                 parameter={parameter}
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}
             />;
         case "image-resolutions":
-            return <ImageResolutionsParameter
+            return <ImageResolutionsOption
                 parameter={parameter}
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}

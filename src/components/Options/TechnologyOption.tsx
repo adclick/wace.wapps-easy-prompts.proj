@@ -1,11 +1,11 @@
 import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
 import { IconBulb } from "@tabler/icons-react";
-import { PromptOptions } from "../../model/PromptOptions";
+import { PromptOptions, Technology } from "../../model/PromptOptions";
 
 interface TechnologyOption {
     promptOptions: PromptOptions,
-    currentTechnology: string,
-    technologies: { label: string, value: string }[],
+    currentTechnology: Technology,
+    technologies: Technology[],
     handleOnChangeTechnology: any
 }
 
@@ -15,19 +15,26 @@ export function TechnologyOption({
     technologies,
     handleOnChangeTechnology
 }: TechnologyOption) {
+    const technologiesData = technologies.map(t => {
+        return {
+            label: t.name,
+            value: t.slug
+        }
+    });
+
     return (
         <Accordion.Item key={"technology"} value="technology">
             <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Technology</Title>
-                    <Text size="xs">{promptOptions.getTechnologyBySlug(currentTechnology)?.name}</Text>
+                    <Text size="xs">{currentTechnology.name}</Text>
                 </Group>
             </Accordion.Control>
             <Accordion.Panel>
                 <Select
                     placeholder="Technology"
-                    data={technologies}
-                    value={currentTechnology}
+                    data={technologiesData}
+                    value={currentTechnology.slug}
                     allowDeselect={false}
                     checkIconPosition='right'
                     onChange={handleOnChangeTechnology}
