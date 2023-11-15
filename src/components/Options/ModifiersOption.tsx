@@ -34,10 +34,6 @@ export function ModifiersOption({
         setUserPromptOptions(newUserPromptOptions);
     }
 
-    const handleOnChangeSearch = (term: string) => {
-        setSearchTerm(term);
-    }
-
     const getModifiersToShow = () => {
         modifiers.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -70,7 +66,7 @@ export function ModifiersOption({
                         size='sm'
                         placeholder={"Search"}
                         value={searchTerm}
-                        onChange={e => handleOnChangeSearch(e.target.value)}
+                        onChange={e => setSearchTerm(e.target.value)}
                     />
                     <ScrollArea offsetScrollbars h={220}>
                         <Stack gap={'xs'}>
@@ -90,7 +86,7 @@ export function ModifiersOption({
                                                     </Popover.Target>
                                                     <Popover.Dropdown>
                                                         <Text size="xs">
-                                                            Some description
+                                                            {item.description}
                                                         </Text>
                                                     </Popover.Dropdown>
                                                 </Popover>

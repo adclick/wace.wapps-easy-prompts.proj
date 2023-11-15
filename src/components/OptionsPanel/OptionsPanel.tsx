@@ -93,6 +93,7 @@ export function OptionsPanel({
 
         const modifiers = promptOptions.getModifiers(newTechnologySlug);
         setModifiers(modifiers);
+        setActiveModifiers([]);
 
         // Update user prompt options
         const newUserPromptOptions = userPromptOptions;
