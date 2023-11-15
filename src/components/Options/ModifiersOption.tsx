@@ -1,11 +1,14 @@
 import { Accordion, ActionIcon, Chip, Group, Input, Popover, ScrollArea, Stack, Text, Title, rem } from "@mantine/core"
-import { IconPencilUp, IconQuestionMark, IconSparkles, IconStars } from "@tabler/icons-react"
-import { Modifier, PromptOptions } from "../../model/PromptOptions"
-import { UserPromptOptions } from "@/model/UserPromptOptions"
+import { IconQuestionMark, IconSparkles } from "@tabler/icons-react"
+import { PromptOptions } from "../../model/PromptOptions"
+import { UserPromptOptions } from "../../model/UserPromptOptions"
 import { useState } from "react"
+import { Modifier } from "../../model/Modifier"
 
 interface ModificersOptions {
     modifiers: Modifier[],
+    activeModifiers: Modifier[],
+    setActiveModifiers: any,
     promptOptions: PromptOptions,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
@@ -14,21 +17,28 @@ interface ModificersOptions {
 
 export function ModifiersOption({
     modifiers,
+    activeModifiers,
+    setActiveModifiers,
     promptOptions,
     userPromptOptions,
     setUserPromptOptions,
-    currentTechnologySlug
 }: ModificersOptions) {
-    const handleOnChangePromptModifier = (newPromptModifiers: any) => {
+    const handleOnChangePromptModifier = (newModifiersSlugs: string[]) => {
+        const newModifiers = newModifiersSlugs.map(slug => promptOptions.getModifierBySlug(slug));
+        setActiveModifiers(newModifiers);
+
         const newUserPromptOptions = userPromptOptions;
-        // newUserPromptOptions.setPromptModifiers(newPromptModifiers);
+        newUserPromptOptions.setModifiers(newModifiers);
         setUserPromptOptions(newUserPromptOptions);
     }
 
     return (
         <Accordion.Item key={"modifiers"} value="modifiers">
             <Accordion.Control icon={<IconSparkles style={{ width: rem(20) }} />}>
-                <Title order={5}>Modifiers</Title>
+                <Group align="baseline" justify="space-between">
+                    <Title order={5}>Modifiers</Title>
+                    <Text size="xs">{activeModifiers.length} / {modifiers.length}</Text>
+                </Group>
             </Accordion.Control>
             <Accordion.Panel>
                 <Stack gap={"lg"} my={"xs"}>

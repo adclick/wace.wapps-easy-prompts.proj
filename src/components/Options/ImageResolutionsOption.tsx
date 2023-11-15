@@ -1,8 +1,8 @@
-import { Accordion, Group, Select, Slider, Stack, Text, Title, rem } from "@mantine/core";
-import { Parameter } from "../../model/PromptOptions";
-import { UserPromptOptions } from "@/model/UserPromptOptions";
+import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
+import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { useState } from "react";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
+import { Parameter } from "../../model/Parameter";
 
 interface ImageResolutionsOption {
     parameter: Parameter,
@@ -23,6 +23,15 @@ export function ImageResolutionsOption({
          // update userPromptOptions
     }
 
+    const resolutions: string[] = parameter.content;
+
+    const data = resolutions.map((i: string) => {
+        return {
+            label: i,
+            value: i
+        }
+    });
+
     return (
         <Accordion.Item key={"image-resolutions"} value="image-resolutions">
             <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
@@ -34,7 +43,7 @@ export function ImageResolutionsOption({
             <Accordion.Panel>
                 <Select
                     variant="unstyled"
-                    data={parameter.content}
+                    data={data}
                     defaultValue={parameter.content[0]}
                     value={value}
                     onChange={handleOnChange}

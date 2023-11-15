@@ -1,8 +1,8 @@
 import { Accordion, Group, Slider, Stack, Text, Title, rem } from "@mantine/core";
-import { Parameter } from "../../model/PromptOptions";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { useState } from "react";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
+import { Parameter } from "../../model/Parameter";
 
 const PARTS = 4;
 
@@ -24,6 +24,9 @@ export function CharactersLimitOption({
         setValue(value);
 
         // update userPromptOptions
+        const newUserPromptOptions = userPromptOptions;
+        newUserPromptOptions.setParameter(parameter.slug, value);
+        setUserPromptOptions(newUserPromptOptions);
     }
 
     // Construct slider marks

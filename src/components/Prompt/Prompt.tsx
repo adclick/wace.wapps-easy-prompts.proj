@@ -1,9 +1,9 @@
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { ActionIcon, Box, Button, Center, Grid, Group, Input, List, Loader, Modal, Paper, SimpleGrid, Stack, Textarea, ThemeIcon, Tooltip, VisuallyHidden } from "@mantine/core";
-import { IconArrowRight, IconCircleCheck, IconCircleDashed, IconList, IconSearch } from "@tabler/icons-react";
-import { useRef, useState } from "react";
-import { useDisclosure, useFocusReturn, useFocusTrap, useMergedRef } from "@mantine/hooks";
+import { ActionIcon, Box, Center, Group, Loader, Stack, Textarea, Tooltip } from "@mantine/core";
+import { IconArrowRight, IconList } from "@tabler/icons-react";
+import { useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
 import { Request } from "../RequestsPanel/Request";
 import { PromptsModal } from "./PromptsModal";
 
@@ -23,6 +23,11 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
 
     // Submit prompt
     const submitPrompt = async () => {
+        // Temp
+        // console.log('submitting');
+        // console.log(userPromptOptions);
+        // return;
+
         if (userPrompt.length <= 0) return;
 
         setRequestLoading(true);

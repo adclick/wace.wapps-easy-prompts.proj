@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react"
-import { Accordion, ActionIcon, Button, Chip, Group, Input, Popover, ScrollArea, Stack, Text, Title, rem } from "@mantine/core"
+import { Accordion, Button, Stack } from "@mantine/core"
 import { UserPromptOptions } from "../../model/UserPromptOptions";
-import { Modifier, Parameter, PromptOptions, Provider, Technology } from "../../model/PromptOptions";
+import { PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { TechnologyOption } from "../Options/TechnologyOption";
 import { ProviderOption } from "../Options/ProviderOption";
 import { LanguageOption } from "../Options/LanguageOption";
 import { ParameterOption } from "../Options/ParameterOption";
 import { ModifiersOption } from "../Options/ModifiersOption";
+import { Technology } from "../../model/Technology";
+import { Provider } from "../../model/Provider";
+import { Parameter } from "../../model/Parameter";
+import { Modifier } from "../../model/Modifier";
+import { Language } from "../../model/Language";
 
 interface OptionsPanel {
     promptOptions: PromptOptions,
@@ -30,16 +35,19 @@ export function OptionsPanel({
     const [technology, setTechnology] = useState<Technology>(defaultTechnology);
 
     // providers
-    const defaultProvider = promptOptions.getDefaultProviderSlug(defaultTechnology.slug);
+    const defaultProvider = promptOptions.getDefaultProvider(defaultTechnology.slug);
     const [providers, setProviders] = useState<Provider[]>(promptOptions.getProviders(defaultTechnology.slug));
-    const [provider, setProvider] = useState(promptOptions.getDefaultProviderSlug(defaultTechnology.slug));
+    const [provider, setProvider] = useState(promptOptions.getDefaultProvider(defaultTechnology.slug));
 
     // parameters
-    const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnology.slug, defaultProvider));
-    const [languageValue, setLanguageValue] = useState("PT");
+    const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug));
+
+    // languange
+    const [language, setLanguage] = useState<Language>(new Language());
 
     // modifiers
     const [modifiers, setModifiers] = useState<Modifier[]>(promptOptions.getModifiers(defaultTechnology.slug));
+    const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
     // Init logic
     useEffect(() => {
@@ -52,21 +60,21 @@ export function OptionsPanel({
         const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
         const currentTechnology = promptOptionsObj.getDefaultTechnology();
-        const currentProviderSlug = promptOptionsObj.getDefaultProviderSlug(currentTechnology.slug);
+        const currentProvider = promptOptionsObj.getDefaultProvider(currentTechnology.slug);
 
         // Initialize prompt options default values
         setPromptOptions(promptOptionsObj);
         setTechnologies(promptOptionsObj.getTechnologies());
         setProviders(promptOptionsObj.getProviders(currentTechnology.slug));
-        setParameters(promptOptionsObj.getParameters(currentTechnology.slug, currentProviderSlug));
+        setParameters(promptOptionsObj.getParameters(currentTechnology.slug, currentProvider.slug));
         setModifiers(promptOptionsObj.getModifiers(currentTechnology.slug));
         setTechnology(currentTechnology);
-        setProvider(currentProviderSlug);
+        setProvider(currentProvider);
 
         // Initialize user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setTechnology(currentTechnology.slug);
-        newUserPromptOptions.setProvider(currentProviderSlug);
+        newUserPromptOptions.setTechnology(currentTechnology);
+        newUserPromptOptions.setProvider(currentProvider);
         setUserPromptOptions(newUserPromptOptions);
     }
 
@@ -77,10 +85,10 @@ export function OptionsPanel({
         const providers = promptOptions.getProviders(newTechnologySlug);
         setProviders(providers);
 
-        const newProviderSlug = promptOptions.getDefaultProviderSlug(newTechnologySlug);
-        setProvider(newProviderSlug);
+        const newProvider = promptOptions.getDefaultProvider(newTechnologySlug);
+        setProvider(newProvider);
 
-        const parameters = promptOptions.getParameters(newTechnologySlug, newProviderSlug);
+        const parameters = promptOptions.getParameters(newTechnologySlug, newProvider.slug);
         setParameters(parameters);
 
         const modifiers = promptOptions.getModifiers(newTechnologySlug);
@@ -88,12 +96,13 @@ export function OptionsPanel({
 
         // Update user prompt options
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setTechnology(newTechnologySlug);
-        newUserPromptOptions.setProvider(newProviderSlug)
+        newUserPromptOptions.setTechnology(technology);
+        newUserPromptOptions.setProvider(newProvider)
         setUserPromptOptions(newUserPromptOptions);
     }
 
-    const handleOnChangeProvider = (newProvider: string) => {
+    const handleOnChangeProvider = (newProviderSlug: string) => {
+        const newProvider = promptOptions.getProviderBySlug(newProviderSlug);
         setProvider(newProvider);
 
         // Update user prompt options
@@ -121,6 +130,7 @@ export function OptionsPanel({
                     parameters.map(parameter => {
                         return (
                             <ParameterOption
+                                key={parameter.slug}
                                 type={parameter.slug}
                                 parameter={parameter}
                                 userPromptOptions={userPromptOptions}
@@ -130,13 +140,14 @@ export function OptionsPanel({
                     })
                 }
                 <LanguageOption
-                    languages={["PT", "EN"]}
-                    defaultLanguage={"PT"}
-                    currentLanguage={languageValue}
-                    setLanguage={setLanguageValue}
+                    setLanguage={setLanguage}
+                    userPromptOptions={userPromptOptions}
+                    setUserPromptOptions={setUserPromptOptions}
                 />
                 <ModifiersOption
                     modifiers={modifiers}
+                    activeModifiers={activeModifiers}
+                    setActiveModifiers={setActiveModifiers}
                     promptOptions={promptOptions}
                     userPromptOptions={userPromptOptions}
                     setUserPromptOptions={setUserPromptOptions}

@@ -1,8 +1,8 @@
 import { CharactersLimitOption } from "./CharactersLimitOption";
-import { Parameter } from "../../model/PromptOptions";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ImageResolutionsOption } from "./ImageResolutionsOption";
 import { MaxImageOption } from "./MaxImagesOption";
+import { Parameter } from "../../model/Parameter";
 
 interface ParameterOption {
     type: string,

@@ -1,8 +1,8 @@
 import { Accordion, Group, Slider, Stack, Text, Title, rem } from "@mantine/core";
-import { Parameter } from "../../model/PromptOptions";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { useState } from "react";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
+import { Parameter } from "../../model/Parameter";
 
 interface MaxImageOption {
     parameter: Parameter,

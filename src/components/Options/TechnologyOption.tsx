@@ -1,6 +1,7 @@
 import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
 import { IconBulb } from "@tabler/icons-react";
-import { PromptOptions, Technology } from "../../model/PromptOptions";
+import { PromptOptions } from "../../model/PromptOptions";
+import { Technology } from "../../model/Technology";
 
 interface TechnologyOption {
     promptOptions: PromptOptions,

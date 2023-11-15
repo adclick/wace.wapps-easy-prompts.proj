@@ -1,38 +1,7 @@
-export interface Technology {
-    name: string,
-    slug: string,
-    default: boolean,
-    providers: Provider[],
-    modifiers: Modifier[]
-}
-
-export interface Provider {
-    name: string,
-    slug: string,
-    default: boolean,
-    parameters: Parameter[]
-}
-
-export interface Modifier {
-    name: string,
-    slug: string
-}
-
-export interface Parameter {
-    name: string,
-    slug: string,
-    content: any,
-    value: any,
-    setValue: any
-}
-
-const emptyTechnology: Technology = {
-    name: "",
-    slug: "",
-    default: true,
-    providers: [],
-    modifiers: []
-};
+import { Modifier } from "./Modifier";
+import { Parameter } from "./Parameter";
+import { Provider } from "./Provider";
+import { Technology } from "./Technology";
 
 export class PromptOptions {
     technologies: Technology[];
@@ -107,7 +76,7 @@ export class PromptOptions {
      * @returns Technology|null
      */
     getDefaultTechnology(): Technology {
-        if (this.technologies.length === 0) return emptyTechnology;
+        if (this.technologies.length === 0) return new Technology();
 
         const defaultTechnology = this.technologies.find(technology => technology.default === true);
 
@@ -121,17 +90,17 @@ export class PromptOptions {
      * 
      * @returns string
      */
-    getDefaultProviderSlug(technologySlug: string): string {
+    getDefaultProvider(technologySlug: string): Provider {
         const technology = this.technologies.find(t => t.slug === technologySlug);
 
-        if (technology === undefined) return "";
+        if (technology === undefined) return new Provider();
 
         const providers = technology.providers;
         const defaultProvider = providers.find(p => p.default === true);
 
         return defaultProvider === undefined
-            ? providers[0].slug
-            : defaultProvider.slug;
+            ? providers[0]
+            : defaultProvider;
     }
 
     /**
@@ -139,11 +108,11 @@ export class PromptOptions {
      * @param slug 
      * @returns 
      */
-    getTechnologyBySlug(slug: string) {
+    getTechnologyBySlug(slug: string): Technology {
         const technology = this.technologies.find(t => t.slug === slug);
 
         return technology === undefined 
-            ? emptyTechnology
+            ? new Technology()
             : technology;
     }
 
@@ -152,7 +121,7 @@ export class PromptOptions {
      * @param slug 
      * @returns 
      */
-    getProviderBySlug(slug: string) {
+    getProviderBySlug(slug: string): Provider {
         for (const technology of this.technologies) {
             const provider = technology.providers.find(p => p.slug === slug);
 
@@ -161,7 +130,24 @@ export class PromptOptions {
             }
         }
 
-        return null;
+        return new Provider();
+    }
+
+    /**
+     * 
+     * @param slug 
+     * @returns 
+     */
+    getModifierBySlug(slug: string): Modifier {
+        for (const technology of this.technologies) {
+            const modifier = technology.modifiers.find(m => m.slug === slug);
+
+            if (modifier !== undefined) {
+                return modifier;
+            }
+        }
+
+        return new Modifier();
     }
 
     /**
