@@ -1,8 +1,8 @@
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { useAuth0 } from "@auth0/auth0-react"
-import { ActionIcon, Avatar, Box, Button, Card, Center, Chip, Collapse, CopyButton, Divider, Group, Image, Menu, SimpleGrid, Stack, Text, Tooltip, Transition, rem, useComputedColorScheme, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Card, Chip, Collapse, CopyButton, Divider, Group, Stack, Text, Tooltip, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { IconCheck, IconCopy, IconDetails, IconDeviceFloppy, IconDots, IconInfoCircle, IconMoodSad, IconMoodSmile, IconShare, IconThumbDown, IconThumbUp } from "@tabler/icons-react"
+import { IconCheck, IconCopy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
 import classes from "./Request.module.css"
 import cx from "clsx";
 import { PromptOptions } from "../../model/PromptOptions"
@@ -51,19 +51,19 @@ export function Request({ promptOptions, userPrompt, userPrmptOptions, result }:
                     <Card.Section inheritPadding mt={"md"}>
                         <Group>
                             <Text size="xs">
-                                {promptOptions.getTechnologyBySlug(userPrmptOptions.technology)?.name} | {promptOptions.getProviderBySlug(userPrmptOptions.provider)?.name}
+                                {userPrmptOptions.technology.name} | {userPrmptOptions.provider.name}
                             </Text>
                         </Group>
                         {
-                            userPrmptOptions.promptModifiers.length > 0 &&
+                            userPrmptOptions.modifiers.length > 0 &&
                             <Box>
                                 <Divider my={"xs"} />
                                 <Group>
                                     {
-                                        userPrmptOptions.promptModifiers.map(promptModifier => {
+                                        userPrmptOptions.modifiers.map(modifier => {
                                             return (
-                                                <Chip checked size="xs" variant="light" value={promptModifier.slug}>
-                                                    {promptModifier.value}
+                                                <Chip checked size="xs" variant="light" value={modifier.slug}>
+                                                    {modifier.name}
                                                 </Chip>
                                             )
                                         })
