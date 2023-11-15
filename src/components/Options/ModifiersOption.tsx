@@ -23,6 +23,8 @@ export function ModifiersOption({
     userPromptOptions,
     setUserPromptOptions,
 }: ModificersOptions) {
+    const [searchTerm, setSearchTerm] = useState('');
+
     const handleOnChangePromptModifier = (newModifiersSlugs: string[]) => {
         const newModifiers = newModifiersSlugs.map(slug => promptOptions.getModifierBySlug(slug));
         setActiveModifiers(newModifiers);
@@ -30,6 +32,28 @@ export function ModifiersOption({
         const newUserPromptOptions = userPromptOptions;
         newUserPromptOptions.setModifiers(newModifiers);
         setUserPromptOptions(newUserPromptOptions);
+    }
+
+    const handleOnChangeSearch = (term: string) => {
+        setSearchTerm(term);
+    }
+
+    const getModifiersToShow = () => {
+        modifiers.sort((a, b) => a.name.localeCompare(b.name));
+
+        modifiers.sort((a, b) => {
+            const foundA = activeModifiers.find(am => am.slug === a.slug);
+            const foundB = activeModifiers.find(am => am.slug === b.slug);
+
+            if (foundA && !foundB) return -1;
+            if (!foundA && foundB) return 1;
+
+            return 0;
+        })
+
+        return modifiers.filter(m => {
+            return m.name.includes(searchTerm);
+        })
     }
 
     return (
@@ -42,12 +66,17 @@ export function ModifiersOption({
             </Accordion.Control>
             <Accordion.Panel>
                 <Stack gap={"lg"} my={"xs"}>
-                    <Input size='sm' placeholder={"Search"}></Input>
-                    <ScrollArea offsetScrollbars>
+                    <Input
+                        size='sm'
+                        placeholder={"Search"}
+                        value={searchTerm}
+                        onChange={e => handleOnChangeSearch(e.target.value)}
+                    />
+                    <ScrollArea offsetScrollbars h={220}>
                         <Stack gap={'xs'}>
                             <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
                                 {
-                                    modifiers.map(item => {
+                                    getModifiersToShow().map(item => {
                                         return (
                                             <Group key={item.slug} justify="space-between">
                                                 <Chip size='sm' variant='light' value={item.slug}>

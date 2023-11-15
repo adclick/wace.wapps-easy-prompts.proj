@@ -1,11 +1,11 @@
-import { AIMediatorClient } from "@/clients/AIMediatorClient";
-import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { ActionIcon, Box, Center, Group, Loader, Stack, Textarea, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Center, Group, Loader, Stack, Text, Textarea, Tooltip } from "@mantine/core";
 import { IconArrowRight, IconList } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Request } from "../RequestsPanel/Request";
 import { PromptsModal } from "./PromptsModal";
+import { AIMediatorClient } from "../../clients/AIMediatorClient";
+import { UserPromptOptions } from "../../model/UserPromptOptions";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
@@ -17,16 +17,26 @@ interface PromptParams {
     scrollIntoView: any
 }
 
-export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading, requests, setRequests, requestLoading, scrollIntoView }: PromptParams) {
+export function Prompt({
+    aIMediatorClient,
+    userPromptOptions,
+    setRequestLoading,
+    requests,
+    setRequests,
+    requestLoading,
+    scrollIntoView
+}: PromptParams) {
     const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
 
     // Submit prompt
     const submitPrompt = async () => {
         // Temp
-        // console.log('submitting');
-        // console.log(userPromptOptions);
-        // return;
+        console.log('submitting');
+        console.log(userPromptOptions);
+        const promptOptimized = await aIMediatorClient.optimizePrompt(userPrompt, userPromptOptions);
+        console.log("promptOptimized: ", promptOptimized);
+        return;
 
         if (userPrompt.length <= 0) return;
 
