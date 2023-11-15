@@ -4,13 +4,16 @@ import { TemplatesPanel } from "../TemplatesPanel/TemplatesPanel";
 import { IconList, IconTemplate } from "@tabler/icons-react";
 import { PromptOptions } from "../../model/PromptOptions";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
+import { Language } from "../../model/Language";
 
 interface Navbar {
     promptOptions: PromptOptions,
     setPromptOptions: any,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    navbarToggle: any
+    navbarToggle: any,
+    language: Language,
+    setLanguage: any
 }
 
 export function Navbar({
@@ -18,7 +21,9 @@ export function Navbar({
     setPromptOptions,
     userPromptOptions,
     setUserPromptOptions,
-    navbarToggle
+    navbarToggle,
+    language,
+    setLanguage
 }: Navbar) {
     return (
         <Tabs radius={"sm"} defaultValue="options">
@@ -37,6 +42,8 @@ export function Navbar({
                     userPromptOptions={userPromptOptions}
                     setUserPromptOptions={setUserPromptOptions}
                     navbarToggle={navbarToggle}
+                    language={language}
+                    setLanguage={setLanguage}
                 />
             </Tabs.Panel>
             <Tabs.Panel value="templates" py={"md"}>

@@ -1,8 +1,16 @@
 import { SegmentedControl } from "@mantine/core";
 import { Language } from "../../model/Language";
 
-export function LanguageSwitcher() {
+interface LanguageSwitcher {
+    language: Language,
+    setLanguage: any
+}
+
+export function LanguageSwitcher({
+    language,
+    setLanguage
+}: LanguageSwitcher) {
     return (
-        <SegmentedControl fullWidth size="md" data={Language.getAll()} />
+        <SegmentedControl fullWidth size="md" data={Language.getAll()} onChange={setLanguage} />
     )
 }

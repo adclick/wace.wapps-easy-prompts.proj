@@ -19,7 +19,9 @@ interface OptionsPanel {
     setPromptOptions: any,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    navbarToggle: any
+    navbarToggle: any,
+    language: Language,
+    setLanguage: any
 }
 
 export function OptionsPanel({
@@ -27,7 +29,9 @@ export function OptionsPanel({
     setPromptOptions,
     userPromptOptions,
     setUserPromptOptions,
-    navbarToggle
+    navbarToggle,
+    language,
+    setLanguage
 }: OptionsPanel) {
     // technologies
     const defaultTechnology = promptOptions.getDefaultTechnology();
@@ -41,9 +45,6 @@ export function OptionsPanel({
 
     // parameters
     const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug));
-
-    // languange
-    const [language, setLanguage] = useState<Language>(new Language());
 
     // modifiers
     const [modifiers, setModifiers] = useState<Modifier[]>(promptOptions.getModifiers(defaultTechnology.slug));
@@ -140,11 +141,6 @@ export function OptionsPanel({
                         )
                     })
                 }
-                <LanguageOption
-                    setLanguage={setLanguage}
-                    userPromptOptions={userPromptOptions}
-                    setUserPromptOptions={setUserPromptOptions}
-                />
                 <ModifiersOption
                     modifiers={modifiers}
                     activeModifiers={activeModifiers}

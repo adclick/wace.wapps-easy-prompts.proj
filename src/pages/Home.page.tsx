@@ -14,6 +14,7 @@ import { Navbar } from '../components/Layout/Navbar';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
 import { Thread } from '../model/Thread';
+import { Language } from '../model/Language';
 
 export function HomePage() {
   // API Client
@@ -26,6 +27,7 @@ export function HomePage() {
   const [requestLoading, setRequestLoading] = useState(false);
   const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
   const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
+  const [language, setLanguage] = useState<Language>(new Language());
 
   // Setting hooks
   const computedColorScheme = useComputedColorScheme('dark');
@@ -72,11 +74,16 @@ export function HomePage() {
             userPromptOptions={userPromptOptions}
             setUserPromptOptions={setUserPromptOptions}
             navbarToggle={toggle}
+            language={language}
+            setLanguage={setLanguage}
           />
         </AppShell.Section>
         {/* NAVBAR BOTTOM */}
         <AppShell.Section>
-          <NavbarFooter />
+          <NavbarFooter
+            language={language}
+            setLanguage={setLanguage}
+           />
         </AppShell.Section>
       </AppShell.Navbar>
 
