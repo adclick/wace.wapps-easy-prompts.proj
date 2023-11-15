@@ -1,19 +1,22 @@
-import { PromptOptions } from "../../model/PromptOptions";
-import { RequestsPanel } from "../RequestsPanel/RequestsPanel";
-import { Request } from "../RequestsPanel/Request";
+import { ThreadsPanel } from "../Panels/ThreadsPanel";
+import { Thread } from "../../model/Thread";
+import { AIMediatorClient } from "@/clients/AIMediatorClient";
+import { UserPromptOptions } from "@/model/UserPromptOptions";
 
 interface Main {
-    promptOptions: PromptOptions,
-    requests: Request[],
-    targetRef: any
+    threads: Thread[],
+    targetRef: any,
+    aIMediatorClient: AIMediatorClient,
+    userPromptOptions: UserPromptOptions
 }
 
-export function Main({ promptOptions, requests, targetRef }: Main) {
+export function Main({ threads, targetRef, aIMediatorClient, userPromptOptions }: Main) {
     return (
-        <RequestsPanel
-            promptOptions={promptOptions}
-            requests={requests}
+        <ThreadsPanel
+            threads={threads}
             targetRef={targetRef}
+            aIMediatorClient={aIMediatorClient}
+            userPromptOptions={userPromptOptions}
         />
     )
 }

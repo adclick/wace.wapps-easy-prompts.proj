@@ -31,7 +31,7 @@ export function LanguageOption({
 
     return (
         <Accordion.Item key={"language"} value="language">
-            <Accordion.Control icon={<IconLanguage style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconLanguage style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Language</Title>
                     <Text size="xs">{value}</Text>

@@ -21,6 +21,9 @@ export function ImageResolutionsOption({
         setValue(value);
 
          // update userPromptOptions
+        const newUserPromptOptions = userPromptOptions;
+        newUserPromptOptions.setParameter(parameter.slug, value);
+        setUserPromptOptions(newUserPromptOptions);
     }
 
     const resolutions: string[] = parameter.content;
@@ -34,7 +37,7 @@ export function ImageResolutionsOption({
 
     return (
         <Accordion.Item key={"image-resolutions"} value="image-resolutions">
-            <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Resolution</Title>
                     <Text size="xs">{value}</Text>

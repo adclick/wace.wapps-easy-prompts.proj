@@ -13,6 +13,7 @@ import { NavbarFooter } from '../components/Layout/NavbarFooter';
 import { Navbar } from '../components/Layout/Navbar';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
+import { Thread } from '../model/Thread';
 
 export function HomePage() {
   // API Client
@@ -20,6 +21,7 @@ export function HomePage() {
   const promptOptionsObj = new PromptOptions();
 
   // Setting state
+  const [threads, setThreads] = useState<Thread[]>([]);
   const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
   const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
@@ -80,7 +82,12 @@ export function HomePage() {
 
       {/* MAIN */}
       <AppShell.Main>
-        <Main promptOptions={promptOptions} requests={requests} targetRef={targetRef} />
+        <Main
+          threads={threads}
+          targetRef={targetRef}
+          aIMediatorClient={aIMediatorClient}
+          userPromptOptions={userPromptOptions}
+        />
       </AppShell.Main>
 
       {/* FOOTER */}
@@ -93,6 +100,8 @@ export function HomePage() {
           setRequests={setRequests}
           requestLoading={requestLoading}
           scrollIntoView={scrollIntoView}
+          threads={threads}
+          setThreads={setThreads}
         />
       </AppShell.Footer>
     </AppShell>

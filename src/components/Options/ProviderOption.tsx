@@ -25,7 +25,7 @@ export function ProviderOption({
 
     return (
         <Accordion.Item key={"provider"} value="provider">
-            <Accordion.Control icon={<IconSettings style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconSettings style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Provider</Title>
                     <Text size="xs">{currentProvider.name}</Text>

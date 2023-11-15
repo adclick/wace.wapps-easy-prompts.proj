@@ -25,7 +25,7 @@ export function TechnologyOption({
 
     return (
         <Accordion.Item key={"technology"} value="technology">
-            <Accordion.Control icon={<IconBulb style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconBulb style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Technology</Title>
                     <Text size="xs">{currentTechnology.name}</Text>

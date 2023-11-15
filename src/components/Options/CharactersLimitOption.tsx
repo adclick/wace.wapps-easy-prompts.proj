@@ -39,7 +39,7 @@ export function CharactersLimitOption({
 
     return (
         <Accordion.Item key={"characters-limit"} value="characters-limit">
-            <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>{name}</Title>
                     <Text size="xs">{value}</Text>

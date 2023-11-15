@@ -48,13 +48,13 @@ export function ModifiersOption({
         })
 
         return modifiers.filter(m => {
-            return m.name.includes(searchTerm);
+            return m.name.toLowerCase().includes(searchTerm.toLowerCase());
         })
     }
 
     return (
         <Accordion.Item key={"modifiers"} value="modifiers">
-            <Accordion.Control icon={<IconSparkles style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconSparkles style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Modifiers</Title>
                     <Text size="xs">{activeModifiers.length} / {modifiers.length}</Text>
@@ -68,35 +68,33 @@ export function ModifiersOption({
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
                     />
-                    <ScrollArea offsetScrollbars h={220}>
-                        <Stack gap={'xs'}>
-                            <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
-                                {
-                                    getModifiersToShow().map(item => {
-                                        return (
-                                            <Group key={item.slug} justify="space-between">
-                                                <Chip size='sm' variant='light' value={item.slug}>
-                                                    {item.name}
-                                                </Chip>
-                                                <Popover width={200} position="bottom" withArrow shadow="md">
-                                                    <Popover.Target>
-                                                        <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
-                                                            <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                        </ActionIcon>
-                                                    </Popover.Target>
-                                                    <Popover.Dropdown>
-                                                        <Text size="xs">
-                                                            {item.description}
-                                                        </Text>
-                                                    </Popover.Dropdown>
-                                                </Popover>
-                                            </Group>
-                                        )
-                                    })
-                                }
-                            </Chip.Group>
-                        </Stack>
-                    </ScrollArea>
+                    <Stack gap={'xs'}>
+                        <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
+                            {
+                                getModifiersToShow().map(item => {
+                                    return (
+                                        <Group key={item.slug} justify="space-between">
+                                            <Chip size='sm' variant='light' value={item.slug}>
+                                                {item.name}
+                                            </Chip>
+                                            <Popover width={200} position="bottom" withArrow shadow="md">
+                                                <Popover.Target>
+                                                    <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
+                                                        <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                    </ActionIcon>
+                                                </Popover.Target>
+                                                <Popover.Dropdown>
+                                                    <Text size="xs">
+                                                        {item.description}
+                                                    </Text>
+                                                </Popover.Dropdown>
+                                            </Popover>
+                                        </Group>
+                                    )
+                                })
+                            }
+                        </Chip.Group>
+                    </Stack>
                 </Stack>
             </Accordion.Panel>
         </Accordion.Item>

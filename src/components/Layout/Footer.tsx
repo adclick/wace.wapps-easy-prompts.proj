@@ -2,6 +2,7 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { Prompt } from "../Prompt/Prompt";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { Request } from "../RequestsPanel/Request";
+import { Thread } from "../../model/Thread";
 
 interface Footer {
     aiMediatorClient: AIMediatorClient,
@@ -10,7 +11,9 @@ interface Footer {
     requests: Request[],
     setRequests: any,
     requestLoading: boolean,
-    scrollIntoView: any
+    scrollIntoView: any,
+    threads: Thread[],
+    setThreads: any
 }
 
 export function Footer({
@@ -20,17 +23,20 @@ export function Footer({
     requests,
     setRequests,
     requestLoading,
-    scrollIntoView
+    scrollIntoView,
+    threads,
+    setThreads
 }: Footer) {
     return (
         <Prompt
             aIMediatorClient={aiMediatorClient}
             userPromptOptions={userPromptOptions}
             setRequestLoading={setRequestLoading}
-            requests={requests}
             setRequests={setRequests}
             requestLoading={requestLoading}
             scrollIntoView={scrollIntoView}
+            threads={threads}
+            setThreads={setThreads}
         />
     )
 }

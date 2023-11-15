@@ -2,55 +2,55 @@ import { ActionIcon, Box, Center, Group, Loader, Stack, Text, Textarea, Tooltip 
 import { IconArrowRight, IconList } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Request } from "../RequestsPanel/Request";
 import { PromptsModal } from "./PromptsModal";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
+import { Thread } from "../../model/Thread";
+import { Request } from "../../model/Request";
+import { Response } from "../../model/Response";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
-    requests: Request[],
     setRequests: any,
     setRequestLoading: any,
     requestLoading: boolean,
-    scrollIntoView: any
+    scrollIntoView: any,
+    threads: Thread[],
+    setThreads: any
 }
 
 export function Prompt({
     aIMediatorClient,
     userPromptOptions,
     setRequestLoading,
-    requests,
-    setRequests,
     requestLoading,
-    scrollIntoView
+    scrollIntoView,
+    threads,
+    setThreads
 }: PromptParams) {
     const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
 
     // Submit prompt
     const submitPrompt = async () => {
-        // Temp
-        console.log('submitting');
-        console.log(userPromptOptions);
-        const promptOptimized = await aIMediatorClient.optimizePrompt(userPrompt, userPromptOptions);
-        console.log("promptOptimized: ", promptOptimized);
-        return;
-
         if (userPrompt.length <= 0) return;
+
+        const request = new Request();
+        request.setText(userPrompt);
 
         setRequestLoading(true);
         setUserPrompt("");
 
-        const result = await aIMediatorClient.submitPrompt(userPrompt, userPromptOptions);
-        const request: Request = {
-            id: requests.length + 1,
-            userPrompt,
-            userPromptOptions,
-            result
-        };
-        setRequests([...requests, request]);
+        const response = new Response();
+
+        const thread = new Thread();
+        thread.setRequest(request);
+        thread.setResponse(response);
+
+        setThreads([...threads, thread]);
+
+
         setRequestLoading(false);
         scrollIntoView({ alignment: 'start' });
     }

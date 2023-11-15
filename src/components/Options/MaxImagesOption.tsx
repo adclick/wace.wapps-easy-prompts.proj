@@ -21,6 +21,9 @@ export function MaxImageOption({
         setValue(value);
 
         // update userPromptOptions
+        const newUserPromptOptions = userPromptOptions;
+        newUserPromptOptions.setParameter(parameter.slug, value);
+        setUserPromptOptions(newUserPromptOptions);
     }
 
     const marks = [];
@@ -29,7 +32,7 @@ export function MaxImageOption({
     }
     return (
         <Accordion.Item key={"max-images"} value="max-images">
-            <Accordion.Control icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
+            <Accordion.Control py={"xs"} icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
                     <Title order={5}>Max Images</Title>
                     <Text size="xs">{value}</Text>
