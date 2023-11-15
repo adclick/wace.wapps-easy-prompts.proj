@@ -83,6 +83,8 @@ export function HomePage() {
           <NavbarFooter
             language={language}
             setLanguage={setLanguage}
+            userPromptOptions={userPromptOptions}
+            setUserPromptOptions={setUserPromptOptions}
            />
         </AppShell.Section>
       </AppShell.Navbar>

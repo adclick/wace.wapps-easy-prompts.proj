@@ -54,13 +54,4 @@ export class UserPromptOptions {
         newParameter.setValue(value);
         this.parameters.push(newParameter);
     }
-
-    toJson() {
-        return {
-            technology: this.technology,
-            provider: this.provider,
-            parameters: this.parameters,
-            modifiers: this.modifiers
-        }
-    }
 }

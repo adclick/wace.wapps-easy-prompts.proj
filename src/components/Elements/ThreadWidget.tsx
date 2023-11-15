@@ -25,6 +25,7 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
 
     // Once loaded, get the response from the user request
     useEffect(() => {
+        console.log("submitting", request.text, userPromptOptions);
         aIMediatorClient.submitPrompt(request.text, userPromptOptions).then(r => {
             setResult(r);
         });
@@ -66,7 +67,7 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                                     {
                                         userPromptOptions.modifiers.map(modifier => {
                                             return (
-                                                <Chip checked size="xs" variant="light" value={modifier.slug}>
+                                                <Chip key={modifier.slug} checked size="xs" variant="light" value={modifier.slug}>
                                                     {modifier.name}
                                                 </Chip>
                                             )

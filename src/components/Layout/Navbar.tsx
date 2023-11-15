@@ -5,6 +5,7 @@ import { IconList, IconTemplate } from "@tabler/icons-react";
 import { PromptOptions } from "../../model/PromptOptions";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Language } from "../../model/Language";
+import { useTranslation } from 'react-i18next';
 
 interface Navbar {
     promptOptions: PromptOptions,
@@ -25,11 +26,13 @@ export function Navbar({
     language,
     setLanguage
 }: Navbar) {
+    const { t } = useTranslation();
+
     return (
         <Tabs radius={"sm"} defaultValue="options">
             <Tabs.List grow>
                 <Tabs.Tab value="options" leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
-                    <Title order={4}>Options</Title>
+                    <Title order={4}>{t('options')}</Title>
                 </Tabs.Tab>
                 <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
                     <Title order={4}>Templates</Title>
