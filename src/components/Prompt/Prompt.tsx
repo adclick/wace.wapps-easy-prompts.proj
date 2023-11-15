@@ -56,24 +56,6 @@ export function Prompt({ aIMediatorClient, userPromptOptions, setRequestLoading,
                     align={'center'}
                     gap={'sm'}
                     pos={"absolute"}
-                    bottom={"75px"}
-                    right={"0"}
-                    w={"100%"}
-                    py={"md"}
-                    px={"md"}
-                >
-                    <SimpleGrid cols={{base: 1, md: 2}} w={"100%"}>
-                        <Button variant="default" size="md">Prompt 1</Button>
-                        <Button variant="default" size="md">Prompt 2</Button>
-                        <Button variant="default" size="md">Prompt 3</Button>
-                        <Button variant="default" size="md">Prompt 4</Button>
-                    </SimpleGrid>
-                </Group>
-                <Group
-                    wrap='nowrap'
-                    align={'center'}
-                    gap={'sm'}
-                    pos={"absolute"}
                     bottom={"0"}
                     right={"0"}
                     w={"100%"}
