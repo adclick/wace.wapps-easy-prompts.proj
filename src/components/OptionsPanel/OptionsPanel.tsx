@@ -5,7 +5,6 @@ import { PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { TechnologyOption } from "../Options/TechnologyOption";
 import { ProviderOption } from "../Options/ProviderOption";
-import { LanguageOption } from "../Options/LanguageOption";
 import { ParameterOption } from "../Options/ParameterOption";
 import { ModifiersOption } from "../Options/ModifiersOption";
 import { Technology } from "../../model/Technology";

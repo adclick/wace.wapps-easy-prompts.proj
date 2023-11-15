@@ -23,6 +23,7 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
     const [result, setResult] = useState("");
     const computedColorScheme = useComputedColorScheme("dark");
 
+    // Once loaded, get the response from the user request
     useEffect(() => {
         aIMediatorClient.submitPrompt(request.text, userPromptOptions).then(r => {
             setResult(r);

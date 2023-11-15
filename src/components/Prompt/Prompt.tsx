@@ -6,8 +6,6 @@ import { PromptsModal } from "./PromptsModal";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Thread } from "../../model/Thread";
-import { Request } from "../../model/Request";
-import { Response } from "../../model/Response";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
@@ -36,20 +34,13 @@ export function Prompt({
     const submitPrompt = async () => {
         if (userPrompt.length <= 0) return;
 
-        const request = new Request();
-        request.setText(userPrompt);
-
         setRequestLoading(true);
         setUserPrompt("");
 
-        const response = new Response();
-
         const thread = new Thread();
-        thread.setRequest(request);
-        thread.setResponse(response);
+        thread.request.setText(userPrompt)
 
         setThreads([...threads, thread]);
-
 
         setRequestLoading(false);
         scrollIntoView({ alignment: 'start' });
