@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
-    setRequests: any,
     setRequestLoading: any,
     requestLoading: boolean,
     scrollIntoView: any,
