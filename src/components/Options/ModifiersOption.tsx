@@ -4,6 +4,7 @@ import { PromptOptions } from "../../model/PromptOptions"
 import { UserPromptOptions } from "../../model/UserPromptOptions"
 import { useState } from "react"
 import { Modifier } from "../../model/Modifier"
+import { useTranslation } from "react-i18next"
 
 interface ModificersOptions {
     modifiers: Modifier[],
@@ -23,6 +24,7 @@ export function ModifiersOption({
     userPromptOptions,
     setUserPromptOptions,
 }: ModificersOptions) {
+    const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleOnChangePromptModifier = (newModifiersSlugs: string[]) => {
@@ -56,7 +58,7 @@ export function ModifiersOption({
         <Accordion.Item key={"modifiers"} value="modifiers">
             <Accordion.Control py={"xs"} icon={<IconSparkles style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
-                    <Title order={5}>Modifiers</Title>
+                    <Title order={5}>{t('modifiers')}</Title>
                     <Text size="xs">{activeModifiers.length} / {modifiers.length}</Text>
                 </Group>
             </Accordion.Control>

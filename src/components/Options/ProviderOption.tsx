@@ -2,6 +2,7 @@ import { PromptOptions } from "@/model/PromptOptions";
 import { Provider } from "../../model/Provider";
 import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 interface ProviderOption {
     promptOptions: PromptOptions,
@@ -16,6 +17,8 @@ export function ProviderOption({
     providers,
     handleOnChangeProvider
 }: ProviderOption) {
+    const { t } = useTranslation();
+    
     const providersData = providers.map(p => {
         return {
             label: p.name,
@@ -27,7 +30,7 @@ export function ProviderOption({
         <Accordion.Item key={"provider"} value="provider">
             <Accordion.Control py={"xs"} icon={<IconSettings style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
-                    <Title order={5}>Provider</Title>
+                    <Title order={5}>{t('provider')}</Title>
                     <Text size="xs">{currentProvider.name}</Text>
                 </Group>
             </Accordion.Control>

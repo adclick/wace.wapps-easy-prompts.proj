@@ -31,6 +31,6 @@ export function LanguageSwitcher({
     }
 
     return (
-        <SegmentedControl fullWidth size="md" data={Language.getAll()} onChange={handleOnChange} />
+        <SegmentedControl transitionDuration={100} fullWidth size="md" data={Language.getAll()} onChange={handleOnChange} />
     )
 }

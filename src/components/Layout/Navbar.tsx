@@ -35,7 +35,7 @@ export function Navbar({
                     <Title order={4}>{t('options')}</Title>
                 </Tabs.Tab>
                 <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                    <Title order={4}>Templates</Title>
+                    <Title order={4}>{t('templates')}</Title>
                 </Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="options" py={"md"}>

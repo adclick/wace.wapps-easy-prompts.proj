@@ -29,11 +29,12 @@ export class AIMediatorClient {
         const live = queryParameters.get("live") !== null;
 
         const requestParameters = {
-            userPrompt: userPrompt,
-            userPromptOptions: userPromptOptions.toJson(),
+            userPrompt,
+            userPromptOptions,
             sandbox: !live
         };
 
+        
         switch (technology.slug) {
             case 'text-generation':
                 return await this.post('/ai/text/text-generation', requestParameters);

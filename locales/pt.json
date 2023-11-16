@@ -1,3 +1,11 @@
 {
-    "options": "Opções"
+    "options": "Opções",
+    "templates": "Modelos",
+    "technology": "Tecnologia",
+    "provider": "Fornecedor",
+    "modifiers": "Modificadores",
+    "charaters_limit": "Limite de Caracteres",
+    "max_images": "Número de Imagens",
+    "resolution": "Resolução",
+    "give_feedback": "Enviar Feedback"
 }

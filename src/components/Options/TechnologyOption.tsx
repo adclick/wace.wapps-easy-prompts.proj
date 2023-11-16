@@ -2,6 +2,8 @@ import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
 import { IconBulb } from "@tabler/icons-react";
 import { PromptOptions } from "../../model/PromptOptions";
 import { Technology } from "../../model/Technology";
+import { useTranslation } from 'react-i18next';
+
 
 interface TechnologyOption {
     promptOptions: PromptOptions,
@@ -16,6 +18,8 @@ export function TechnologyOption({
     technologies,
     handleOnChangeTechnology
 }: TechnologyOption) {
+    const { t } = useTranslation();
+
     const technologiesData = technologies.map(t => {
         return {
             label: t.name,
@@ -27,7 +31,7 @@ export function TechnologyOption({
         <Accordion.Item key={"technology"} value="technology">
             <Accordion.Control py={"xs"} icon={<IconBulb style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
-                    <Title order={5}>Technology</Title>
+                    <Title order={5}>{t('technology')}</Title>
                     <Text size="xs">{currentTechnology.name}</Text>
                 </Group>
             </Accordion.Control>
