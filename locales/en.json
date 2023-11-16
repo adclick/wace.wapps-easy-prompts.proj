@@ -4,11 +4,9 @@
     "technology": "Technology",
     "provider": "Provider",
     "modifiers": "Modifiers",
-    "charaters_limit": "Characters Limit",
-    "max_images": "Max Images",
-    "resolution": "Resolution",
     "give_feedback": "Give Feedback",
     "search": "Search",
     "application": "Application",
-    "apply": "Apply"
+    "apply": "Apply",
+    "write_a_message": "Write a message"
 }

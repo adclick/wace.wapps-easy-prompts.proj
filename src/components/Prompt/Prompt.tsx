@@ -6,6 +6,7 @@ import { PromptsModal } from "./PromptsModal";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Thread } from "../../model/Thread";
+import { useTranslation } from "react-i18next";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
@@ -27,6 +28,7 @@ export function Prompt({
     threads,
     setThreads
 }: PromptParams) {
+    const { t } = useTranslation();
     const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
 
@@ -83,27 +85,25 @@ export function Prompt({
                             <Loader size={"sm"} type="bars" />
                         </Center>
                     }
-                    <Tooltip label="Search Optimized Prompts">
-                        <ActionIcon
-                            variant="filled"
-                            size="lg"
-                            disabled={requestLoading}
-                            aria-label="Submit"
-                            pos={"absolute"}
-                            left={"25px"}
-                            styles={{
-                                root: {
-                                    zIndex: "1"
-                                }
-                            }}
-                            onClick={open}
-                        >
-                            <IconList style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                        </ActionIcon>
-                    </Tooltip>
+                    <ActionIcon
+                        variant="filled"
+                        size="lg"
+                        disabled={requestLoading}
+                        aria-label="Submit"
+                        pos={"absolute"}
+                        left={"25px"}
+                        styles={{
+                            root: {
+                                zIndex: "1"
+                            }
+                        }}
+                        onClick={open}
+                    >
+                        <IconList style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
 
                     <Textarea
-                        placeholder="Ask me anything"
+                        placeholder={t("write_a_message")}
                         autosize
                         autoFocus
                         disabled={requestLoading}

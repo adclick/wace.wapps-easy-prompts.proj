@@ -1,8 +1,11 @@
 import { ActionIcon, Button, Card, CardSection, Chip, Group, Input, Paper, Popover, Rating, ScrollArea, Stack, Text, Title } from "@mantine/core"
 import { IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function TemplatesPanel() {
+    const { t } = useTranslation();
+
     const [searchTerm, setSearchTerm] = useState('');
 
     // Temp Templates
@@ -25,7 +28,7 @@ export function TemplatesPanel() {
         <Stack gap={'xl'} my={"md"}>
             <Input
                 size='sm'
-                placeholder={"Search"}
+                placeholder={t("search")}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
             />

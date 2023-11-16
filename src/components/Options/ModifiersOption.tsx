@@ -66,7 +66,7 @@ export function ModifiersOption({
                 <Stack gap={"lg"} my={"xs"}>
                     <Input
                         size='sm'
-                        placeholder={"Search"}
+                        placeholder={(t("search"))}
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
                     />

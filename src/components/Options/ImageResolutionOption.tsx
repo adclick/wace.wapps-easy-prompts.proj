@@ -45,7 +45,7 @@ export function ImageResolutionOption({
         <Accordion.Item key={parameter.slug} value={parameter.slug}>
             <Accordion.Control py={"xs"} icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
                 <Group align="baseline" justify="space-between">
-                    <Title order={5}>Resolution</Title>
+                    <Title order={5}>{parameter.name}</Title>
                     <Text size="xs">{value}</Text>
                 </Group>
             </Accordion.Control>

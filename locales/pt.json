@@ -4,11 +4,9 @@
     "technology": "Tecnologia",
     "provider": "Fornecedor",
     "modifiers": "Modificadores",
-    "charaters_limit": "Limite de Caracteres",
-    "max_images": "Número de Imagens",
-    "resolution": "Resolução",
     "give_feedback": "Enviar Feedback",
     "search": "Procurar",
     "application": "Aplicação",
-    "apply": "Aplicar"
+    "apply": "Aplicar",
+    "write_a_message": "Escreve uma mensagem"
 }
