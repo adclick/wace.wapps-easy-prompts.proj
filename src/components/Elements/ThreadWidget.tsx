@@ -9,6 +9,8 @@ import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
+import { ThreadResponseTextWidget } from "./ThreadResponseTextWidget";
+import { ThreadResponseImageWidget } from "./ThreadResponseImageWidget";
 
 interface ThreadWidget {
     request: Request,
@@ -20,17 +22,31 @@ interface ThreadWidget {
 export function ThreadWidget({ request, response, aIMediatorClient, userPromptOptions }: ThreadWidget) {
     const { user } = useAuth0();
     const [opened, { toggle }] = useDisclosure(false);
-    const [result, setResult] = useState("");
+    const [result, setResult] = useState(<Loader type="dots" />);
     const computedColorScheme = useComputedColorScheme("dark");
 
     // Once loaded, get the response from the user request
     useEffect(() => {
-        console.log("submitting", request.text, userPromptOptions);
-        aIMediatorClient.submitPrompt(request.text, userPromptOptions).then(r => {
-            setResult(r);
-        });
+        switch (userPromptOptions.technology.slug) {
+            case 'text-generation':
+                aIMediatorClient.generateText(request.text, userPromptOptions).then(text => {
+                    setResult(<ThreadResponseTextWidget text={text} />);
+                }).catch((e) => {
+                    setResult(<Text>{e.message}</Text>)
+                })
+                break;
+            case 'image-generation':
+                aIMediatorClient.generateImage(request.text, userPromptOptions).then((images: string[]) => {
+                    setResult(<ThreadResponseImageWidget images={images} />);
+                }).catch((e) => {
+                    setResult(<Text>{e.message}</Text>)
+                })
+                break;
+            default:
+                setResult(<Text>Error</Text>);
+                break;
+        }
     }, [])
-
 
     return (
         <Stack gap={0}>
@@ -83,11 +99,7 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                 <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                     <Group wrap="nowrap" align="flex-start">
                         <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
-                        {
-                            result
-                                ? <Text size="md" style={{ whiteSpace: "pre-line" }}>{result.trim()}</Text>
-                                : <Loader type="dots" />
-                        }
+                        {result}
                     </Group>
                     <Group gap={"xs"} wrap="nowrap">
                         <ActionIcon color='red' variant='subtle'>

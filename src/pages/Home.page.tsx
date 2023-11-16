@@ -3,7 +3,6 @@ import { AppShell, ScrollArea, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
-import { Request } from '../components/RequestsPanel/Request';
 import { PromptOptions } from '../model/PromptOptions';
 import { Header } from '../components/Layout/Header';
 import { Main } from '../components/Layout/Main';

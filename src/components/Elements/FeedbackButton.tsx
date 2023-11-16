@@ -2,8 +2,10 @@ import { Box, Button, Modal, Stack, Textarea, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconMail } from "@tabler/icons-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function FeedbackButton() {
+    const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const [feedback, setFeedback] = useState("");
 
@@ -21,7 +23,7 @@ export function FeedbackButton() {
 
             </Modal>
             <Button onClick={open} variant='subtle' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
-                Give feedback
+                {(t('give_feedback'))}
             </Button>
         </Box>
     )

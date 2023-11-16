@@ -21,7 +21,7 @@ export function Header({ navbarOpened, navbarToggle }: Header) {
                 <Title order={2}>
                     EasyPrompts
                 </Title>
-                <Badge size="xs">Beta</Badge>
+                <Badge size="xs">Alpha</Badge>
             </Group>
             <Group>
                 <Group visibleFrom='sm'>

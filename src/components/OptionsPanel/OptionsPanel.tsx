@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Accordion, Button, Stack } from "@mantine/core"
+import { Accordion, Button, Stack, Tabs } from "@mantine/core"
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";

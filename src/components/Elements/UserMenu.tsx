@@ -1,10 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Box, Button, Divider, Group, Menu, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconQuestionMark, IconSettings } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 const NOT_AVAILABLE = "Not available yet";
 
 export function UserMenu() {
+    const { t } = useTranslation();
     const { user, logout } = useAuth0();
 
     return (
@@ -16,7 +18,7 @@ export function UserMenu() {
                     </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
-                    <Menu.Label>Application</Menu.Label>
+                    <Menu.Label>{t('application')}</Menu.Label>
                     <Tooltip label={NOT_AVAILABLE}>
                         <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
                             Give Feedback

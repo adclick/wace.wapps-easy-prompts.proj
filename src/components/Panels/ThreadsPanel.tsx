@@ -13,7 +13,6 @@ interface ThreadsPanel {
 }
 
 export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptOptions }: ThreadsPanel) {
-    console.log(threads);
     return (
         <Box>
             {
