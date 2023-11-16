@@ -104,7 +104,6 @@ export function HomePage() {
           aiMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
           setRequestLoading={setRequestLoading}
-          requests={requests}
           setRequests={setRequests}
           requestLoading={requestLoading}
           scrollIntoView={scrollIntoView}
