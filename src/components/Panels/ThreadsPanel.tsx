@@ -9,10 +9,11 @@ interface ThreadsPanel {
     threads: Thread[],
     targetRef: Ref<HTMLDivElement> | undefined
     aIMediatorClient: AIMediatorClient,
-    userPromptOptions: UserPromptOptions
+    userPromptOptions: UserPromptOptions,
+    setUserPromptOptions: any
 }
 
-export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptOptions }: ThreadsPanel) {
+export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptOptions, setUserPromptOptions }: ThreadsPanel) {
     return (
         <Box>
             {
@@ -24,6 +25,7 @@ export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptO
                             response={thread.response}
                             aIMediatorClient={aIMediatorClient}
                             userPromptOptions={userPromptOptions}
+                            setUserPromptOptions={setUserPromptOptions}
                         />
                     )
                 })

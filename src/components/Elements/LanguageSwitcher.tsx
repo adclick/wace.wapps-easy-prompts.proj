@@ -3,7 +3,6 @@ import { Language } from "../../model/Language";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { useTranslation } from 'react-i18next';
 
-
 interface LanguageSwitcher {
     language: Language,
     setLanguage: any,
@@ -19,7 +18,6 @@ export function LanguageSwitcher({
 }: LanguageSwitcher) {
     const { i18n } = useTranslation();
 
-
     const handleOnChange = (code: string) => {
         setLanguage(code);
 
@@ -30,7 +28,9 @@ export function LanguageSwitcher({
         i18n.changeLanguage(code.toLowerCase());
     }
 
+    const languages = Language.getAll().map(l => l.toUpperCase());
+
     return (
-        <SegmentedControl transitionDuration={100} fullWidth size="md" data={Language.getAll()} onChange={handleOnChange} />
+        <SegmentedControl transitionDuration={100} fullWidth size="md" data={languages} onChange={handleOnChange} />
     )
 }

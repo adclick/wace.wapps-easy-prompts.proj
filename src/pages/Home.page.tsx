@@ -95,6 +95,7 @@ export function HomePage() {
           targetRef={targetRef}
           aIMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
+          setUserPromptOptions={setUserPromptOptions}
         />
       </AppShell.Main>
 

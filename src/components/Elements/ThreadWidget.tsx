@@ -11,16 +11,17 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ThreadResponseTextWidget } from "./ThreadResponseTextWidget";
 import { ThreadResponseImageWidget } from "./ThreadResponseImageWidget";
-import { ThreadResponseAudioWidget } from "./ThreadResponseAudioWidget";
+import { Language } from "../../model/Language";
 
 interface ThreadWidget {
     request: Request,
     response: Response,
     aIMediatorClient: AIMediatorClient,
-    userPromptOptions: UserPromptOptions
+    userPromptOptions: UserPromptOptions,
+    setUserPromptOptions: any
 }
 
-export function ThreadWidget({ request, response, aIMediatorClient, userPromptOptions }: ThreadWidget) {
+export function ThreadWidget({ request, response, aIMediatorClient, userPromptOptions, setUserPromptOptions }: ThreadWidget) {
     const { user } = useAuth0();
     const [opened, { toggle }] = useDisclosure(false);
     const [result, setResult] = useState(<Loader type="dots" />);
@@ -28,32 +29,33 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
 
     // Once loaded, get the response from the user request
     useEffect(() => {
-        switch (userPromptOptions.technology.slug) {
-            case 'text-generation':
-                aIMediatorClient.generateText(request.text, userPromptOptions).then(text => {
-                    setResult(<ThreadResponseTextWidget text={text} />);
-                }).catch((e) => {
-                    setResult(<Text>{e.message}</Text>)
-                })
-                break;
-            case 'image-generation':
-                aIMediatorClient.generateImage(request.text, userPromptOptions).then((images: string[]) => {
-                    setResult(<ThreadResponseImageWidget images={images} />);
-                }).catch((e) => {
-                    setResult(<Text>{e.message}</Text>)
-                })
-                break;
-            case 'audio-generation':
-                aIMediatorClient.generateAudio(request.text, userPromptOptions).then((audio: string) => {
-                    setResult(<ThreadResponseAudioWidget audio={audio} />);
-                }).catch(e => {
-                    setResult(<Text>{e.message}</Text>)
-                });
-                break;
-            default:
-                setResult(<Text>Error</Text>);
-                break;
-        }
+        aIMediatorClient.detectLanguage(request.text, userPromptOptions).then(detectedLanguage => {
+            const validLanguage = Language.getValidLanguage(detectedLanguage);
+
+            const newUserPromptOptions = userPromptOptions;
+            newUserPromptOptions.setLanguage(validLanguage);
+            setUserPromptOptions(newUserPromptOptions);
+
+            switch (newUserPromptOptions.technology.slug) {
+                case 'text-generation':
+                    aIMediatorClient.generateText(request.text, newUserPromptOptions).then(text => {
+                        setResult(<ThreadResponseTextWidget text={text} />);
+                    }).catch((e) => {
+                        setResult(<Text>{e.message}</Text>)
+                    })
+                    break;
+                case 'image-generation':
+                    aIMediatorClient.generateImage(request.text, newUserPromptOptions).then((images: string[]) => {
+                        setResult(<ThreadResponseImageWidget images={images} />);
+                    }).catch((e) => {
+                        setResult(<Text>{e.message}</Text>)
+                    })
+                    break;
+                default:
+                    setResult(<Text>Error</Text>);
+                    break;
+            }
+        })
     }, [])
 
     return (

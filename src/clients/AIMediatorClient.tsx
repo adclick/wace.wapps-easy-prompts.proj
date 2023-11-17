@@ -19,6 +19,10 @@ export class AIMediatorClient {
         return await this.get('/ai/prompt/options');
     }
 
+    async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {
+        return await this.post('/ai/prompt/language-detection', this.getParams(userPrompt, userPromptOptions));
+    }
+
     async optimizePrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/prompt/optimization', this.getParams(userPrompt, userPromptOptions));
     }
@@ -30,13 +34,7 @@ export class AIMediatorClient {
     async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions) {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', this.getParams(userPrompt, userPromptOptions));
 
-        return images.map(image => {
-            return image.image_resource_url;
-        });
-    }
-
-    async generateAudio(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/audio/text-to-speech', this.getParams(userPrompt, userPromptOptions));
+        return images.map(image => image.image_resource_url);
     }
 
     getParams(userPrompt: string, userPromptOptions: UserPromptOptions) {

@@ -7,16 +7,18 @@ interface Main {
     threads: Thread[],
     targetRef: any,
     aIMediatorClient: AIMediatorClient,
-    userPromptOptions: UserPromptOptions
+    userPromptOptions: UserPromptOptions,
+    setUserPromptOptions: any
 }
 
-export function Main({ threads, targetRef, aIMediatorClient, userPromptOptions }: Main) {
+export function Main({ threads, targetRef, aIMediatorClient, userPromptOptions, setUserPromptOptions }: Main) {
     return (
         <ThreadsPanel
             threads={threads}
             targetRef={targetRef}
             aIMediatorClient={aIMediatorClient}
             userPromptOptions={userPromptOptions}
+            setUserPromptOptions={setUserPromptOptions}
         />
     )
 }
