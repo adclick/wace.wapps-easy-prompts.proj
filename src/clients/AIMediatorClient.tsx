@@ -1,4 +1,5 @@
-import { UserPromptOptions } from "@/model/UserPromptOptions";
+import { Language } from "../model/Language";
+import { UserPromptOptions } from "../model/UserPromptOptions";
 import axios from "axios";
 
 type GeneratedImage = {
@@ -15,8 +16,10 @@ export class AIMediatorClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
-    async getPromptOptions() {
-        return await this.get('/ai/prompt/options');
+    async getPromptOptions(language: Language) {
+        return await this.get('/ai/prompt/options', {
+            language: language.code
+        });
     }
 
     async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {

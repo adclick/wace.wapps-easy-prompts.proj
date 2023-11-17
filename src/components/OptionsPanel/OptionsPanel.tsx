@@ -56,7 +56,7 @@ export function OptionsPanel({
 
     const fetchPromptOptions = async () => {
         const aIMediatorClient = new AIMediatorClient();
-        const promptOptions = await aIMediatorClient.getPromptOptions();
+        const promptOptions = await aIMediatorClient.getPromptOptions(language);
         const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
         const currentTechnology = promptOptionsObj.getDefaultTechnology();
