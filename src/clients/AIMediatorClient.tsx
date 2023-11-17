@@ -35,6 +35,10 @@ export class AIMediatorClient {
         });
     }
 
+    async generateAudio(userPrompt: string, userPromptOptions: UserPromptOptions) {
+        return await this.post('/ai/audio/text-to-speech', this.getParams(userPrompt, userPromptOptions));
+    }
+
     getParams(userPrompt: string, userPromptOptions: UserPromptOptions) {
         const queryParameters = new URLSearchParams(window.location.search);
         const live = queryParameters.get("live") !== null;

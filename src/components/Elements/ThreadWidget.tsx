@@ -11,6 +11,7 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ThreadResponseTextWidget } from "./ThreadResponseTextWidget";
 import { ThreadResponseImageWidget } from "./ThreadResponseImageWidget";
+import { ThreadResponseAudioWidget } from "./ThreadResponseAudioWidget";
 
 interface ThreadWidget {
     request: Request,
@@ -41,6 +42,13 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                 }).catch((e) => {
                     setResult(<Text>{e.message}</Text>)
                 })
+                break;
+            case 'audio-generation':
+                aIMediatorClient.generateAudio(request.text, userPromptOptions).then((audio: string) => {
+                    setResult(<ThreadResponseAudioWidget audio={audio} />);
+                }).catch(e => {
+                    setResult(<Text>{e.message}</Text>)
+                });
                 break;
             default:
                 setResult(<Text>Error</Text>);

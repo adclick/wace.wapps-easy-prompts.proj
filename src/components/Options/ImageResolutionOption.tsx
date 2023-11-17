@@ -57,6 +57,7 @@ export function ImageResolutionOption({
                     value={value}
                     onChange={handleOnChange}
                     my={"xs"}
+                    size="md"
                 />
             </Accordion.Panel>
         </Accordion.Item>
