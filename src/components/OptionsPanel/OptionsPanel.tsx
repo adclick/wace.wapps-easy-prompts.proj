@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Accordion, Button, Stack, Tabs } from "@mantine/core"
+import { Accordion, Box, Button, LoadingOverlay, Overlay, Stack, Tabs } from "@mantine/core"
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { PromptOptions } from "../../model/PromptOptions";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
@@ -12,6 +12,7 @@ import { Provider } from "../../model/Provider";
 import { Parameter } from "../../model/Parameter";
 import { Modifier } from "../../model/Modifier";
 import { Language } from "../../model/Language";
+import { LanguageSwitcher } from "../Elements/LanguageSwitcher";
 
 interface OptionsPanel {
     promptOptions: PromptOptions,
@@ -20,7 +21,21 @@ interface OptionsPanel {
     setUserPromptOptions: any,
     navbarToggle: any,
     language: Language,
-    setLanguage: any
+    setLanguage: any,
+    technologies: Technology[],
+    setTechnologies: any,
+    technology: Technology,
+    setTechnology: any
+    providers: Provider[]
+    setProviders: any
+    provider: Provider
+    setProvider: any
+    parameters: Parameter[]
+    setParameters: any
+    modifiers: Modifier[]
+    setModifiers: any
+    activeModifiers: Modifier[]
+    setActiveModifiers: any
 }
 
 export function OptionsPanel({
@@ -30,54 +45,22 @@ export function OptionsPanel({
     setUserPromptOptions,
     navbarToggle,
     language,
-    setLanguage
+    setLanguage,
+    technologies,
+    setTechnologies,
+    technology,
+    setTechnology,
+    providers,
+    setProviders,
+    provider,
+    setProvider,
+    parameters,
+    setParameters,
+    modifiers,
+    setModifiers,
+    activeModifiers,
+    setActiveModifiers
 }: OptionsPanel) {
-    // technologies
-    const defaultTechnology = promptOptions.getDefaultTechnology();
-    const [technologies, setTechnologies] = useState<Technology[]>(promptOptions.getTechnologies());
-    const [technology, setTechnology] = useState<Technology>(defaultTechnology);
-
-    // providers
-    const defaultProvider = promptOptions.getDefaultProvider(defaultTechnology.slug);
-    const [providers, setProviders] = useState<Provider[]>(promptOptions.getProviders(defaultTechnology.slug));
-    const [provider, setProvider] = useState(promptOptions.getDefaultProvider(defaultTechnology.slug));
-
-    // parameters
-    const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug));
-
-    // modifiers
-    const [modifiers, setModifiers] = useState<Modifier[]>(promptOptions.getModifiers(defaultTechnology.slug));
-    const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
-
-    // Init logic
-    useEffect(() => {
-        fetchPromptOptions();
-    }, []);
-
-    const fetchPromptOptions = async () => {
-        const aIMediatorClient = new AIMediatorClient();
-        const promptOptions = await aIMediatorClient.getPromptOptions(language);
-        const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
-
-        const currentTechnology = promptOptionsObj.getDefaultTechnology();
-        const currentProvider = promptOptionsObj.getDefaultProvider(currentTechnology.slug);
-
-        // Initialize prompt options default values
-        setPromptOptions(promptOptionsObj);
-        setTechnologies(promptOptionsObj.getTechnologies());
-        setProviders(promptOptionsObj.getProviders(currentTechnology.slug));
-        setParameters(promptOptionsObj.getParameters(currentTechnology.slug, currentProvider.slug));
-        setModifiers(promptOptionsObj.getModifiers(currentTechnology.slug));
-        setTechnology(currentTechnology);
-        setProvider(currentProvider);
-
-        // Initialize user prompt options
-        const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setTechnology(currentTechnology);
-        newUserPromptOptions.setProvider(currentProvider);
-        setUserPromptOptions(newUserPromptOptions);
-    }
-
     const handleOnChangeTechnology = (newTechnologySlug: string) => {
         const technology = promptOptions.getTechnologyBySlug(newTechnologySlug);
         setTechnology(technology);
@@ -153,6 +136,7 @@ export function OptionsPanel({
             <Button onClick={navbarToggle} hiddenFrom='sm'>
                 Apply
             </Button>
+
         </Stack>
     )
 }

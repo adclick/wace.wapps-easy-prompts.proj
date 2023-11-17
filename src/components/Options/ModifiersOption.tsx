@@ -54,6 +54,10 @@ export function ModifiersOption({
         })
     }
 
+    const isChecked = (slug: string) => {
+        return activeModifiers.find(m => m.slug === slug) ? true : false;
+    }
+
     return (
         <Accordion.Item key={"modifiers"} value="modifiers">
             <Accordion.Control py={"xs"} icon={<IconSparkles style={{ width: rem(20) }} />}>
@@ -76,7 +80,7 @@ export function ModifiersOption({
                                 getModifiersToShow().map(item => {
                                     return (
                                         <Group key={item.slug} justify="space-between">
-                                            <Chip size='sm' variant='light' value={item.slug}>
+                                            <Chip checked={isChecked(item.slug)} size='sm' variant='light' value={item.slug}>
                                                 {item.name}
                                             </Chip>
                                             <Popover width={200} position="bottom" withArrow shadow="md">

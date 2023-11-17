@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { AppShell, ScrollArea, useComputedColorScheme } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { AppShell, LoadingOverlay, ScrollArea, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -10,10 +10,14 @@ import { Footer } from '../components/Layout/Footer';
 import { NavbarHeader } from '../components/Layout/NavbarHeader';
 import { NavbarFooter } from '../components/Layout/NavbarFooter';
 import { Navbar } from '../components/Layout/Navbar';
-import classes from './Home.page.module.css';
-import cx from 'clsx';
 import { Thread } from '../model/Thread';
 import { Language } from '../model/Language';
+import { Technology } from '../model/Technology';
+import { Provider } from '../model/Provider';
+import { Parameter } from '../model/Parameter';
+import { Modifier } from '../model/Modifier';
+import classes from './Home.page.module.css';
+import cx from 'clsx';
 
 export function HomePage() {
   // API Client
@@ -22,8 +26,8 @@ export function HomePage() {
 
   // Setting state
   const [threads, setThreads] = useState<Thread[]>([]);
-  const [requests, setRequests] = useState<Request[]>([]);
   const [requestLoading, setRequestLoading] = useState(false);
+  const [optionsPanelLoading, setOptionsPanelLoading] = useState(false);
   const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
   const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
   const [language, setLanguage] = useState<Language>(new Language());
@@ -33,85 +37,147 @@ export function HomePage() {
   const [opened, { toggle }] = useDisclosure();
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
+  // technologies
+  const defaultTechnology = promptOptions.getDefaultTechnology();
+  const [technologies, setTechnologies] = useState<Technology[]>(promptOptions.getTechnologies());
+  const [technology, setTechnology] = useState<Technology>(defaultTechnology);
+
+  // providers
+  const defaultProvider = promptOptions.getDefaultProvider(defaultTechnology.slug);
+  const [providers, setProviders] = useState<Provider[]>(promptOptions.getProviders(defaultTechnology.slug));
+  const [provider, setProvider] = useState(promptOptions.getDefaultProvider(defaultTechnology.slug));
+
+  // parameters
+  const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug));
+
+  // modifiers
+  const [modifiers, setModifiers] = useState<Modifier[]>(promptOptions.getModifiers(defaultTechnology.slug));
+  const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
+
+  useEffect(() => {
+    refreshPromptOptions(Language.getDefault());
+  }, []);
+
+  const refreshPromptOptions = async (language: string) => {
+    setOptionsPanelLoading(true);
+    const aIMediatorClient = new AIMediatorClient();
+    const promptOptions = await aIMediatorClient.getPromptOptions(language);
+    const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
+
+    const currentTechnology = promptOptionsObj.getDefaultTechnology();
+    const currentProvider = promptOptionsObj.getDefaultProvider(currentTechnology.slug);
+
+    // Initialize prompt options default values
+    setPromptOptions(promptOptionsObj);
+    setTechnologies(promptOptionsObj.getTechnologies());
+    setProviders(promptOptionsObj.getProviders(currentTechnology.slug));
+    setParameters(promptOptionsObj.getParameters(currentTechnology.slug, currentProvider.slug));
+    setModifiers(promptOptionsObj.getModifiers(currentTechnology.slug));
+    setActiveModifiers([]);
+    setTechnology(currentTechnology);
+    setProvider(currentProvider);
+
+    // Initialize user prompt options
+    const newUserPromptOptions = userPromptOptions;
+    newUserPromptOptions.setTechnology(currentTechnology);
+    newUserPromptOptions.setProvider(currentProvider);
+    setUserPromptOptions(newUserPromptOptions);
+    setOptionsPanelLoading(false);
+  }
+
   return (
-    <AppShell
-      layout='alt'
-      header={{
-        height: { base: 80 },
-      }}
-      navbar={{
-        width: { base: 400 },
-        breakpoint: 'sm',
-        collapsed: { mobile: !opened },
-      }}
-      footer={{
-        height: { base: 110 }
-      }}
-      classNames={{
-        header: cx(classes.header, classes[computedColorScheme]),
-        footer: cx(classes.footer, classes[computedColorScheme]),
-        main: cx(classes.main, classes[computedColorScheme]),
-        navbar: cx(classes.navbar, classes[computedColorScheme])
-      }}
-    >
-      {/* HEADER */}
-      <AppShell.Header withBorder={false} p={"md"} >
-        <Header navbarOpened={opened} navbarToggle={toggle} />
-      </AppShell.Header>
+      <AppShell
+        layout='alt'
+        header={{
+          height: { base: 80 },
+        }}
+        navbar={{
+          width: { base: 400 },
+          breakpoint: 'sm',
+          collapsed: { mobile: !opened },
+        }}
+        footer={{
+          height: { base: 110 }
+        }}
+        classNames={{
+          header: cx(classes.header, classes[computedColorScheme]),
+          footer: cx(classes.footer, classes[computedColorScheme]),
+          main: cx(classes.main, classes[computedColorScheme]),
+          navbar: cx(classes.navbar, classes[computedColorScheme])
+        }}
+      >
+        {/* HEADER */}
+        <AppShell.Header withBorder={false} p={"md"} >
+          <Header navbarOpened={opened} navbarToggle={toggle} />
+        </AppShell.Header>
 
-      {/* NAVBAR */}
-      <AppShell.Navbar withBorder={false} p="md">
-        {/* NAVBAR HEADER */}
-        <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
-          <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
-        </AppShell.Section>
         {/* NAVBAR */}
-        <AppShell.Section grow component={ScrollArea}>
-          <Navbar
-            promptOptions={promptOptions}
-            setPromptOptions={setPromptOptions}
+        <AppShell.Navbar withBorder={false} p="md">
+          {/* NAVBAR HEADER */}
+          <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
+            <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
+          </AppShell.Section>
+          {/* NAVBAR */}
+          <AppShell.Section grow component={ScrollArea}>
+            <Navbar
+              promptOptions={promptOptions}
+              setPromptOptions={setPromptOptions}
+              userPromptOptions={userPromptOptions}
+              setUserPromptOptions={setUserPromptOptions}
+              navbarToggle={toggle}
+              language={language}
+              setLanguage={setLanguage}
+              technologies={technologies}
+              setTechnologies={setTechnologies}
+              technology={technology}
+              setTechnology={setTechnology}
+              providers={providers}
+              setProviders={setProviders}
+              provider={provider}
+              setProvider={setProvider}
+              parameters={parameters}
+              setParameters={setParameters}
+              modifiers={modifiers}
+              setModifiers={setModifiers}
+              activeModifiers={activeModifiers}
+              setActiveModifiers={setActiveModifiers}
+            />
+          </AppShell.Section>
+          {/* NAVBAR BOTTOM */}
+          <AppShell.Section>
+            <NavbarFooter
+              language={language}
+              setLanguage={setLanguage}
+              userPromptOptions={userPromptOptions}
+              setUserPromptOptions={setUserPromptOptions}
+              refreshPromptOptions={refreshPromptOptions}
+            />
+          </AppShell.Section>
+        </AppShell.Navbar>
+
+        {/* MAIN */}
+        <AppShell.Main>
+          <Main
+            threads={threads}
+            targetRef={targetRef}
+            aIMediatorClient={aIMediatorClient}
             userPromptOptions={userPromptOptions}
             setUserPromptOptions={setUserPromptOptions}
-            navbarToggle={toggle}
-            language={language}
-            setLanguage={setLanguage}
           />
-        </AppShell.Section>
-        {/* NAVBAR BOTTOM */}
-        <AppShell.Section>
-          <NavbarFooter
-            language={language}
-            setLanguage={setLanguage}
+        </AppShell.Main>
+
+        {/* FOOTER */}
+        <AppShell.Footer withBorder={false}>
+          <Footer
+            aiMediatorClient={aIMediatorClient}
             userPromptOptions={userPromptOptions}
-            setUserPromptOptions={setUserPromptOptions}
-           />
-        </AppShell.Section>
-      </AppShell.Navbar>
-
-      {/* MAIN */}
-      <AppShell.Main>
-        <Main
-          threads={threads}
-          targetRef={targetRef}
-          aIMediatorClient={aIMediatorClient}
-          userPromptOptions={userPromptOptions}
-          setUserPromptOptions={setUserPromptOptions}
-        />
-      </AppShell.Main>
-
-      {/* FOOTER */}
-      <AppShell.Footer withBorder={false}>
-        <Footer
-          aiMediatorClient={aIMediatorClient}
-          userPromptOptions={userPromptOptions}
-          setRequestLoading={setRequestLoading}
-          setRequests={setRequests}
-          requestLoading={requestLoading}
-          scrollIntoView={scrollIntoView}
-          threads={threads}
-          setThreads={setThreads}
-        />
-      </AppShell.Footer>
-    </AppShell>
+            setRequestLoading={setRequestLoading}
+            requestLoading={requestLoading}
+            scrollIntoView={scrollIntoView}
+            threads={threads}
+            setThreads={setThreads}
+          />
+        </AppShell.Footer>
+      </AppShell>
   );
 }

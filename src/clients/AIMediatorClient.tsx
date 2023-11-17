@@ -1,4 +1,3 @@
-import { Language } from "../model/Language";
 import { UserPromptOptions } from "../model/UserPromptOptions";
 import axios from "axios";
 
@@ -16,10 +15,8 @@ export class AIMediatorClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
-    async getPromptOptions(language: Language) {
-        return await this.get('/ai/prompt/options', {
-            language: language.code
-        });
+    async getPromptOptions(language: string) {
+        return await this.get('/ai/prompt/options', { language: language.toLowerCase() });
     }
 
     async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {
@@ -79,9 +76,9 @@ export class AIMediatorClient {
             const { data } = await axios.post(`${this.baseUrl}${path}`, {
                 params
             });
-    
+
             const { body } = data;
-    
+
             return body;
         } catch (e) {
             console.log(e);

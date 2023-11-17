@@ -7,14 +7,16 @@ interface LanguageSwitcher {
     language: Language,
     setLanguage: any,
     userPromptOptions: UserPromptOptions,
-    setUserPromptOptions: any
+    setUserPromptOptions: any,
+    refreshPromptOptions: any
 }
 
 export function LanguageSwitcher({
     language,
     setLanguage,
     userPromptOptions,
-    setUserPromptOptions
+    setUserPromptOptions,
+    refreshPromptOptions
 }: LanguageSwitcher) {
     const { i18n } = useTranslation();
 
@@ -25,7 +27,9 @@ export function LanguageSwitcher({
         newUserPromptOptions.setLanguage(code);
         setUserPromptOptions(newUserPromptOptions);
 
-        i18n.changeLanguage(code.toLowerCase());
+        i18n.changeLanguage(code.toLowerCase()).then(() => {
+            refreshPromptOptions(code);
+        });
     }
 
     const languages = Language.getAll().map(l => l.toUpperCase());
