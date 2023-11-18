@@ -13,6 +13,6 @@
     }
 
     &.dark {
-        background-color: var(--mantine-color-dark-8);
+        background-color: var(--mantine-color-dark-9);
     }
 }

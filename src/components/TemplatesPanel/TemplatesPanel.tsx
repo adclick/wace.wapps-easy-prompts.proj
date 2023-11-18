@@ -56,7 +56,7 @@ export function TemplatesPanel() {
                                 </Group>
                                 <Card.Section withBorder inheritPadding py={"xs"}>
                                     <Group justify="space-between">
-                                        <Rating readOnly color="teal" value={3} />
+                                        <Rating readOnly color="blue" value={3} />
                                         <Button variant="transparent" size="compact-xs">Apply</Button>
                                     </Group>
                                 </Card.Section>
