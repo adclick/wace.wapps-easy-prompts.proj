@@ -1,7 +1,8 @@
-import { ActionIcon, Button, Card, CardSection, Chip, Group, Input, Paper, Popover, Rating, ScrollArea, Stack, Text, Title } from "@mantine/core"
+import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Group, Input, Paper, Popover, Rating, ScrollArea, Stack, Text, Title } from "@mantine/core"
 import { IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Suggestion } from "../Elements/Suggestion";
 
 export function SuggestionsPanel() {
     const { t } = useTranslation();
@@ -26,39 +27,30 @@ export function SuggestionsPanel() {
 
     return (
         <Stack gap={'xl'} my={"md"}>
-            <Title order={4}>Suggestions</Title>
+            <Title order={3}>Suggestions</Title>
+            <Input
+                hiddenFrom="sm"
+                size='sm'
+                placeholder={t("search")}
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+            />
             <Stack gap={'md'}>
-                {
-                    getTemplatesToShow().map(item => {
-                        return (
-                            <Card key={item.name} withBorder p={"xs"}>
-                                <Group mb={"lg"} justify="space-between">
-                                    <Title order={6}>
-                                        {item.name}
-                                    </Title>
-                                    <Popover width={200} position="bottom" withArrow shadow="md">
-                                        <Popover.Target>
-                                            <ActionIcon size={'xs'} variant="outline" aria-label="Settings">
-                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                            </ActionIcon>
-                                        </Popover.Target>
-                                        <Popover.Dropdown>
-                                            <Text size="xs">
-                                                {item.help}
-                                            </Text>
-                                        </Popover.Dropdown>
-                                    </Popover>
-                                </Group>
-                                <Card.Section withBorder inheritPadding py={"xs"}>
-                                    <Group justify="space-between">
-                                        <Rating size="xs" readOnly color="blue" value={3} />
-                                        <Button variant="transparent" size="compact-xs">Apply</Button>
-                                    </Group>
-                                </Card.Section>
-                            </Card>
-                        )
-                    })
-                }
+                <Accordion variant="" chevron="" styles={{
+                    content: {
+                        paddingLeft: "0",
+                        paddingRight: "0"
+                    }
+                }}>
+                    {
+                        getTemplatesToShow().map(item => {
+                            return (
+                                <Suggestion name={item.name} />
+                            )
+                        })
+                    }
+                </Accordion>
+
             </Stack>
         </Stack>
     )

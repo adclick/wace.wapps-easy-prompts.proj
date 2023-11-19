@@ -223,6 +223,7 @@ export function HomePage() {
           activeModifiers={activeModifiers}
           setActiveModifiers={setActiveModifiers}
           setUserPromptOptions={setUserPromptOptions}
+          parameters={parameters}
         />
       </AppShell.Footer>
     </AppShell>

@@ -39,26 +39,20 @@ export function NumImagesOption({
         marks.push({ value: i, label: i });
     }
     return (
-        <Accordion.Item key={parameter.slug} value={parameter.slug}>
-            <Accordion.Control py={"xs"} icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
-                <Group align="baseline" justify="space-between">
-                    <Title order={5}>{parameter.name}</Title>
-                    <Text size="xs">{value}</Text>
-                </Group>
-            </Accordion.Control>
-            <Accordion.Panel>
-                <Slider
-                    defaultValue={1}
-                    min={defaultNumImages}
-                    max={parseInt(parameter.content)}
-                    marks={marks}
-                    mx={"xs"}
-                    my={"md"}
-                    value={value}
-                    onChange={handleOnChange}
-                />
-            </Accordion.Panel>
-        </Accordion.Item>
+        <Stack mb={"xl"}>
+            <Group>
+                <Text size="sm" fw={700}>{parameter.name}</Text>
+            </Group>
+            <Slider
+                defaultValue={1}
+                min={defaultNumImages}
+                max={parseInt(parameter.content)}
+                marks={marks}
+                mx={"xs"}
+                value={value}
+                onChange={handleOnChange}
+            />
+        </Stack>
 
     )
 }

@@ -12,6 +12,7 @@ import { PromptOptions } from "../../model/PromptOptions";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 import { Modifier } from "../../model/Modifier";
+import { Parameter } from "../../model/Parameter";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
@@ -31,7 +32,8 @@ interface PromptParams {
     modifiers: Modifier[],
     activeModifiers: Modifier[],
     setActiveModifiers: any
-    setUserPromptOptions: any
+    setUserPromptOptions: any,
+    parameters: Parameter[]
 }
 
 export function Prompt({
@@ -52,7 +54,8 @@ export function Prompt({
     activeModifiers,
     setActiveModifiers,
     userPromptOptions,
-    setUserPromptOptions
+    setUserPromptOptions,
+    parameters
 }: PromptParams) {
     const { t } = useTranslation();
     const [userPrompt, setUserPrompt] = useState("");
@@ -125,6 +128,7 @@ export function Prompt({
                             setActiveModifiers={setActiveModifiers}
                             userPromptOptions={userPromptOptions}
                             setUserPromptOptions={setUserPromptOptions}
+                            parameters={parameters}
                             
                     />
                     {/* <ActionIcon

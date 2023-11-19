@@ -34,9 +34,10 @@ export function ProviderOption({
             allowDeselect={false}
             checkIconPosition='right'
             onChange={handleOnChangeProvider}
+            comboboxProps={{ withinPortal: false }}
             variant="unstyled"
             my={"xs"}
-            size="md"
+            fw={700}
         />
     )
 }

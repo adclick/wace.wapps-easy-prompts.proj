@@ -37,8 +37,9 @@ export function TechnologyOption({
             onChange={handleOnChangeTechnology}
             variant="unstyled"
             maxDropdownHeight={"500"}
+            comboboxProps={{ withinPortal: false }}
             my={"xs"}
-            size="md"
+            fw={700}
         />
     )
 }

@@ -1,4 +1,4 @@
-import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
+import { Accordion, Group, Select, Stack, Text, Title, rem } from "@mantine/core";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { useEffect, useState } from "react";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
@@ -26,7 +26,7 @@ export function ImageResolutionOption({
     const handleOnChange = (value: string) => {
         setValue(value);
 
-         // update userPromptOptions
+        // update userPromptOptions
         const newUserPromptOptions = userPromptOptions;
         newUserPromptOptions.setParameter(parameter.slug, value);
         setUserPromptOptions(newUserPromptOptions);
@@ -42,25 +42,19 @@ export function ImageResolutionOption({
     });
 
     return (
-        <Accordion.Item key={parameter.slug} value={parameter.slug}>
-            <Accordion.Control py={"xs"} icon={<IconAdjustmentsHorizontal style={{ width: rem(20) }} />}>
-                <Group align="baseline" justify="space-between">
-                    <Title order={5}>{parameter.name}</Title>
-                    <Text size="xs">{value}</Text>
-                </Group>
-            </Accordion.Control>
-            <Accordion.Panel>
-                <Select
-                    variant="unstyled"
-                    data={data}
-                    defaultValue={parameter.content[0]}
-                    value={value}
-                    onChange={handleOnChange}
-                    my={"xs"}
-                    size="md"
-                />
-            </Accordion.Panel>
-        </Accordion.Item>
+        <Stack mb={"xl"}>
+            <Group>
+                <Text size="sm" fw={700}>{parameter.name}</Text>
+            </Group>
+            <Select
+                variant="unstyled"
+                data={data}
+                defaultValue={parameter.content[0]}
+                value={value}
+                onChange={handleOnChange}
+                size="sm"
+            />
+        </Stack>
 
     )
 }

@@ -6,6 +6,7 @@ import { PromptOptions } from "../../model/PromptOptions";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 import { Modifier } from "../../model/Modifier";
+import { Parameter } from "../../model/Parameter";
 
 interface Footer {
     aiMediatorClient: AIMediatorClient,
@@ -26,6 +27,7 @@ interface Footer {
     activeModifiers: Modifier[],
     setActiveModifiers: any
     setUserPromptOptions: any,
+    parameters: Parameter[]
 }
 
 export function Footer({
@@ -46,7 +48,8 @@ export function Footer({
     modifiers,
     activeModifiers,
     setActiveModifiers,
-    setUserPromptOptions
+    setUserPromptOptions,
+    parameters
 }: Footer) {
     return (
         <Prompt
@@ -68,6 +71,7 @@ export function Footer({
             activeModifiers={activeModifiers}
             setActiveModifiers={setActiveModifiers}
             setUserPromptOptions={setUserPromptOptions}
+            parameters={parameters}
         />
     )
 }
