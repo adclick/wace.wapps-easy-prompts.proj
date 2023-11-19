@@ -1,4 +1,4 @@
-import { Accordion, AccordionControl, AccordionItem, Box, Button, Collapse, Group, Paper, Rating, Text } from "@mantine/core";
+import { Accordion, AccordionControl, AccordionItem, Box, Button, Collapse, Divider, Group, Paper, Rating, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 interface Suggestion {
@@ -10,14 +10,14 @@ export function Suggestion({ name }: Suggestion) {
         <AccordionItem value={name}>
             <AccordionControl px={0}>
                 <Group justify="space-between">
-                    <Text>{name}</Text>
-                    <Rating size="sm" readOnly color="blue" value={3} />
+                    <Text fw={600} size="sm">{name}</Text>
+                    <Rating size="xs" readOnly color="blue" value={3} />
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>
                 <Group px={0} py={"xs"} justify="space-between">
-                    <Text>help</Text>
-                    <Button variant="transparent" size="compact-sm">Apply</Button>
+                    <Text size="sm">help</Text>
+                    <Button variant="transparent" size="xs">Apply</Button>
                 </Group>
             </Accordion.Panel>
         </AccordionItem>

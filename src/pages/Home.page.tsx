@@ -126,7 +126,7 @@ export function HomePage() {
         height: { base: 80 },
       }}
       navbar={{
-        width: { base: 400 },
+        width: { base: 350 },
         breakpoint: 'sm',
         collapsed: { mobile: !opened },
       }}

@@ -2,6 +2,7 @@ import { Box, Button, Divider, Group, Title, rem } from "@mantine/core";
 import { Language } from "../../model/Language";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { IconArrowBack, IconPlus, IconReload } from "@tabler/icons-react";
+import { LanguageSwitcher } from "../Elements/LanguageSwitcher";
 
 interface NavbarFooter {
     language: Language,
@@ -23,11 +24,10 @@ export function NavbarFooter({
     }
 
     return (
-        <Group >
+        <Group justify="space-between">
             <Button
                 leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
-                variant="subtle"
-                fullWidth
+                variant="transparent"
                 onClick={reset}
                 size="md"
             >

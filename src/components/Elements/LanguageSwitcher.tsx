@@ -35,6 +35,6 @@ export function LanguageSwitcher({
     const languages = Language.getAll().map(l => l.toUpperCase());
 
     return (
-        <SegmentedControl transitionDuration={100} fullWidth size="md" data={languages} onChange={handleOnChange} />
+        <SegmentedControl transitionDuration={100} size="sm" color={""} data={languages} onChange={handleOnChange} />
     )
 }

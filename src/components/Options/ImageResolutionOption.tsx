@@ -53,6 +53,7 @@ export function ImageResolutionOption({
                 value={value}
                 onChange={handleOnChange}
                 size="sm"
+                comboboxProps={{ withinPortal: false }}
             />
         </Stack>
 
