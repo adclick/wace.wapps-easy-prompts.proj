@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Group, Title, rem } from "@mantine/core";
 import { Language } from "../../model/Language";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { IconArrowBack, IconReload } from "@tabler/icons-react";
+import { IconArrowBack, IconPlus, IconReload } from "@tabler/icons-react";
 
 interface NavbarFooter {
     language: Language,
@@ -23,17 +23,16 @@ export function NavbarFooter({
     }
 
     return (
-        <Box>
-            <Divider h={'xs'} />
+        <Group >
             <Button
-                leftSection={<IconReload style={{ width: rem(18), height: rem(18) }} />}
-                fullWidth
+                leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
                 variant="subtle"
+                fullWidth
                 onClick={reset}
                 size="md"
             >
-                RESET
+                New Chat
             </Button>
-        </Box>
+        </Group>
     )
 }

@@ -85,99 +85,146 @@ export function HomePage() {
     setOptionsPanelLoading(false);
   }
 
+  const handleOnChangeTechnology = (newTechnologySlug: string) => {
+    const technology = promptOptions.getTechnologyBySlug(newTechnologySlug);
+    setTechnology(technology);
+
+    const providers = promptOptions.getProviders(newTechnologySlug);
+    setProviders(providers);
+
+    const newProvider = promptOptions.getDefaultProvider(newTechnologySlug);
+    setProvider(newProvider);
+
+    const parameters = promptOptions.getParameters(newTechnologySlug, newProvider.slug);
+    setParameters(parameters);
+
+    const modifiers = promptOptions.getModifiers(newTechnologySlug);
+    setModifiers(modifiers);
+    setActiveModifiers([]);
+
+    // Update user prompt options
+    const newUserPromptOptions = userPromptOptions;
+    newUserPromptOptions.setTechnology(technology);
+    newUserPromptOptions.setProvider(newProvider)
+    setUserPromptOptions(newUserPromptOptions);
+  }
+
+  const handleOnChangeProvider = (newProviderSlug: string) => {
+    const newProvider = promptOptions.getProviderBySlug(newProviderSlug);
+    setProvider(newProvider);
+
+    // Update user prompt options
+    const newUserPromptOptions = userPromptOptions;
+    newUserPromptOptions.setProvider(newProvider);
+    setUserPromptOptions(newUserPromptOptions);
+  }
+
   return (
-      <AppShell
-        layout='alt'
-        header={{
-          height: { base: 80 },
-        }}
-        navbar={{
-          width: { base: 400 },
-          breakpoint: 'sm',
-          collapsed: { mobile: !opened },
-        }}
-        footer={{
-          height: { base: 110 }
-        }}
-        classNames={{
-          header: cx(classes.header, classes[computedColorScheme]),
-          footer: cx(classes.footer, classes[computedColorScheme]),
-          main: cx(classes.main, classes[computedColorScheme]),
-          navbar: cx(classes.navbar, classes[computedColorScheme])
-        }}
-      >
-        {/* HEADER */}
-        <AppShell.Header withBorder={false} p={"md"} >
-          <Header navbarOpened={opened} navbarToggle={toggle} />
-        </AppShell.Header>
+    <AppShell
+      layout='alt'
+      header={{
+        height: { base: 80 },
+      }}
+      navbar={{
+        width: { base: 400 },
+        breakpoint: 'sm',
+        collapsed: { mobile: !opened },
+      }}
+      footer={{
+        height: { base: 110 }
+      }}
+      classNames={{
+        header: cx(classes.header, classes[computedColorScheme]),
+        footer: cx(classes.footer, classes[computedColorScheme]),
+        main: cx(classes.main, classes[computedColorScheme]),
+        navbar: cx(classes.navbar, classes[computedColorScheme])
+      }}
+    >
+      {/* HEADER */}
+      <AppShell.Header withBorder={false} p={"md"} >
+        <Header navbarOpened={opened} navbarToggle={toggle} />
+      </AppShell.Header>
 
+      {/* NAVBAR */}
+      <AppShell.Navbar withBorder={false} p="md">
+        {/* NAVBAR HEADER */}
+        <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
+          <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
+        </AppShell.Section>
         {/* NAVBAR */}
-        <AppShell.Navbar withBorder={false} p="md">
-          {/* NAVBAR HEADER */}
-          <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
-            <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
-          </AppShell.Section>
-          {/* NAVBAR */}
-          <AppShell.Section grow component={ScrollArea}>
-            <Navbar
-              promptOptions={promptOptions}
-              setPromptOptions={setPromptOptions}
-              userPromptOptions={userPromptOptions}
-              setUserPromptOptions={setUserPromptOptions}
-              navbarToggle={toggle}
-              language={language}
-              setLanguage={setLanguage}
-              technologies={technologies}
-              setTechnologies={setTechnologies}
-              technology={technology}
-              setTechnology={setTechnology}
-              providers={providers}
-              setProviders={setProviders}
-              provider={provider}
-              setProvider={setProvider}
-              parameters={parameters}
-              setParameters={setParameters}
-              modifiers={modifiers}
-              setModifiers={setModifiers}
-              activeModifiers={activeModifiers}
-              setActiveModifiers={setActiveModifiers}
-            />
-          </AppShell.Section>
-          {/* NAVBAR BOTTOM */}
-          <AppShell.Section>
-            <NavbarFooter
-              language={language}
-              setLanguage={setLanguage}
-              userPromptOptions={userPromptOptions}
-              setUserPromptOptions={setUserPromptOptions}
-              refreshPromptOptions={refreshPromptOptions}
-            />
-          </AppShell.Section>
-        </AppShell.Navbar>
-
-        {/* MAIN */}
-        <AppShell.Main>
-          <Main
-            threads={threads}
-            targetRef={targetRef}
-            aIMediatorClient={aIMediatorClient}
+        <AppShell.Section grow component={ScrollArea}>
+          <Navbar
+            promptOptions={promptOptions}
+            setPromptOptions={setPromptOptions}
             userPromptOptions={userPromptOptions}
             setUserPromptOptions={setUserPromptOptions}
+            navbarToggle={toggle}
+            language={language}
+            setLanguage={setLanguage}
+            technologies={technologies}
+            setTechnologies={setTechnologies}
+            technology={technology}
+            setTechnology={setTechnology}
+            providers={providers}
+            setProviders={setProviders}
+            provider={provider}
+            setProvider={setProvider}
+            parameters={parameters}
+            setParameters={setParameters}
+            modifiers={modifiers}
+            setModifiers={setModifiers}
+            activeModifiers={activeModifiers}
+            setActiveModifiers={setActiveModifiers}
+            handleOnChangeTechnology={handleOnChangeTechnology}
+            handleOnChangeProvider={handleOnChangeProvider}
           />
-        </AppShell.Main>
-
-        {/* FOOTER */}
-        <AppShell.Footer withBorder={false}>
-          <Footer
-            aiMediatorClient={aIMediatorClient}
+        </AppShell.Section>
+        {/* NAVBAR BOTTOM */}
+        <AppShell.Section>
+          <NavbarFooter
+            language={language}
+            setLanguage={setLanguage}
             userPromptOptions={userPromptOptions}
-            setRequestLoading={setRequestLoading}
-            requestLoading={requestLoading}
-            scrollIntoView={scrollIntoView}
-            threads={threads}
-            setThreads={setThreads}
+            setUserPromptOptions={setUserPromptOptions}
+            refreshPromptOptions={refreshPromptOptions}
           />
-        </AppShell.Footer>
-      </AppShell>
+        </AppShell.Section>
+      </AppShell.Navbar>
+
+      {/* MAIN */}
+      <AppShell.Main>
+        <Main
+          threads={threads}
+          targetRef={targetRef}
+          aIMediatorClient={aIMediatorClient}
+          userPromptOptions={userPromptOptions}
+          setUserPromptOptions={setUserPromptOptions}
+        />
+      </AppShell.Main>
+
+      {/* FOOTER */}
+      <AppShell.Footer withBorder={false}>
+        <Footer
+          aiMediatorClient={aIMediatorClient}
+          userPromptOptions={userPromptOptions}
+          setRequestLoading={setRequestLoading}
+          requestLoading={requestLoading}
+          scrollIntoView={scrollIntoView}
+          threads={threads}
+          setThreads={setThreads}
+          promptOptions={promptOptions}
+          technology={technology}
+          technologies={technologies}
+          handleOnChangeTechnology={handleOnChangeTechnology}
+          provider={provider}
+          providers={providers}
+          handleOnChangeProvider={handleOnChangeProvider}
+          modifiers={modifiers}
+          activeModifiers={activeModifiers}
+          setActiveModifiers={setActiveModifiers}
+          setUserPromptOptions={setUserPromptOptions}
+        />
+      </AppShell.Footer>
+    </AppShell>
   );
 }

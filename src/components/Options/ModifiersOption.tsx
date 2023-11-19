@@ -1,5 +1,5 @@
-import { Accordion, ActionIcon, Chip, Group, Input, Popover, ScrollArea, Stack, Text, Title, rem } from "@mantine/core"
-import { IconQuestionMark, IconSparkles } from "@tabler/icons-react"
+import { Accordion, ActionIcon, Button, Chip, Group, Input, Popover, ScrollArea, Stack, Text, Title, rem } from "@mantine/core"
+import { IconPlus, IconQuestionMark, IconSparkles } from "@tabler/icons-react"
 import { PromptOptions } from "../../model/PromptOptions"
 import { UserPromptOptions } from "../../model/UserPromptOptions"
 import { useState } from "react"
@@ -59,50 +59,44 @@ export function ModifiersOption({
     }
 
     return (
-        <Accordion.Item key={"modifiers"} value="modifiers">
-            <Accordion.Control py={"xs"} icon={<IconSparkles style={{ width: rem(20) }} />}>
-                <Group align="baseline" justify="space-between">
-                    <Title order={5}>{t('modifiers')}</Title>
-                    <Text size="xs">{activeModifiers.length} / {modifiers.length}</Text>
-                </Group>
-            </Accordion.Control>
-            <Accordion.Panel>
-                <Stack gap={"lg"} my={"xs"}>
-                    <Input
-                        size='sm'
-                        placeholder={(t("search"))}
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
-                    />
-                    <Stack gap={'xs'}>
-                        <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
-                            {
-                                getModifiersToShow().map(item => {
-                                    return (
-                                        <Group key={item.slug} justify="space-between">
-                                            <Chip checked={isChecked(item.slug)} size='sm' variant='light' value={item.slug}>
-                                                {item.name}
-                                            </Chip>
-                                            <Popover width={200} position="bottom" withArrow shadow="md">
-                                                <Popover.Target>
-                                                    <ActionIcon size={'sm'} variant="outline" aria-label="Settings">
-                                                        <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                    </ActionIcon>
-                                                </Popover.Target>
-                                                <Popover.Dropdown>
-                                                    <Text size="xs">
-                                                        {item.description}
-                                                    </Text>
-                                                </Popover.Dropdown>
-                                            </Popover>
-                                        </Group>
-                                    )
-                                })
-                            }
-                        </Chip.Group>
-                    </Stack>
-                </Stack>
-            </Accordion.Panel>
-        </Accordion.Item>
+        <Stack gap={"lg"} my={"xs"}>
+            <Group justify="space-between">
+                <Title order={6}>Modifiers</Title>
+                <ActionIcon size={"xs"} variant="transparent"><IconPlus /></ActionIcon>
+            </Group>
+            <Input
+                size='xs'
+                placeholder={(t("search"))}
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+            />
+            <Stack gap={'xs'}>
+                <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
+                    {
+                        getModifiersToShow().map(item => {
+                            return (
+                                <Group key={item.slug} justify="space-between">
+                                    <Chip checked={isChecked(item.slug)} size='sm' variant='light' value={item.slug}>
+                                        {item.name}
+                                    </Chip>
+                                    <Popover width={200} position="bottom" withArrow shadow="md">
+                                        <Popover.Target>
+                                            <ActionIcon size={'xs'} variant="outline" aria-label="Settings">
+                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                            </ActionIcon>
+                                        </Popover.Target>
+                                        <Popover.Dropdown>
+                                            <Text size="xs">
+                                                {item.description}
+                                            </Text>
+                                        </Popover.Dropdown>
+                                    </Popover>
+                                </Group>
+                            )
+                        })
+                    }
+                </Chip.Group>
+            </Stack>
+        </Stack>
     )
 }

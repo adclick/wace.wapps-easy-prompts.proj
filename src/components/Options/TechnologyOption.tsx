@@ -28,27 +28,17 @@ export function TechnologyOption({
     });
 
     return (
-        <Accordion.Item key={"technology"} value="technology">
-            <Accordion.Control py={"xs"} icon={<IconBulb style={{ width: rem(20) }} />}>
-                <Group align="baseline" justify="space-between">
-                    <Title order={5}>{t('technology')}</Title>
-                    <Text size="xs">{currentTechnology.name}</Text>
-                </Group>
-            </Accordion.Control>
-            <Accordion.Panel>
-                <Select
-                    placeholder="Technology"
-                    data={technologiesData}
-                    value={currentTechnology.slug}
-                    allowDeselect={false}
-                    checkIconPosition='right'
-                    onChange={handleOnChangeTechnology}
-                    variant="unstyled"
-                    maxDropdownHeight={"500"}
-                    my={"xs"}
-                    size="md"
-                />
-            </Accordion.Panel>
-        </Accordion.Item>
+        <Select
+            placeholder="Technology"
+            data={technologiesData}
+            value={currentTechnology.slug}
+            allowDeselect={false}
+            checkIconPosition='right'
+            onChange={handleOnChangeTechnology}
+            variant="unstyled"
+            maxDropdownHeight={"500"}
+            my={"xs"}
+            size="md"
+        />
     )
 }

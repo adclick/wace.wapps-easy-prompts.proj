@@ -35,7 +35,9 @@ interface OptionsPanel {
     modifiers: Modifier[]
     setModifiers: any
     activeModifiers: Modifier[]
-    setActiveModifiers: any
+    setActiveModifiers: any,
+    handleOnChangeTechnology: any,
+    handleOnChangeProvider: any
 }
 
 export function OptionsPanel({
@@ -59,57 +61,14 @@ export function OptionsPanel({
     modifiers,
     setModifiers,
     activeModifiers,
-    setActiveModifiers
+    setActiveModifiers,
+    handleOnChangeTechnology,
+    handleOnChangeProvider
+
 }: OptionsPanel) {
-    const handleOnChangeTechnology = (newTechnologySlug: string) => {
-        const technology = promptOptions.getTechnologyBySlug(newTechnologySlug);
-        setTechnology(technology);
-
-        const providers = promptOptions.getProviders(newTechnologySlug);
-        setProviders(providers);
-
-        const newProvider = promptOptions.getDefaultProvider(newTechnologySlug);
-        setProvider(newProvider);
-
-        const parameters = promptOptions.getParameters(newTechnologySlug, newProvider.slug);
-        setParameters(parameters);
-
-        const modifiers = promptOptions.getModifiers(newTechnologySlug);
-        setModifiers(modifiers);
-        setActiveModifiers([]);
-
-        // Update user prompt options
-        const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setTechnology(technology);
-        newUserPromptOptions.setProvider(newProvider)
-        setUserPromptOptions(newUserPromptOptions);
-    }
-
-    const handleOnChangeProvider = (newProviderSlug: string) => {
-        const newProvider = promptOptions.getProviderBySlug(newProviderSlug);
-        setProvider(newProvider);
-
-        // Update user prompt options
-        const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setProvider(newProvider);
-        setUserPromptOptions(newUserPromptOptions);
-    }
-
     return (
         <Stack gap={'md'}>
-            <Accordion variant="default" chevron="">
-                <TechnologyOption
-                    promptOptions={promptOptions}
-                    currentTechnology={technology}
-                    technologies={technologies}
-                    handleOnChangeTechnology={handleOnChangeTechnology}
-                />
-                <ProviderOption
-                    promptOptions={promptOptions}
-                    currentProvider={provider}
-                    providers={providers}
-                    handleOnChangeProvider={handleOnChangeProvider}
-                />
+            <Accordion variant="" chevron="">
                 {
                     parameters.map(parameter => {
                         return (

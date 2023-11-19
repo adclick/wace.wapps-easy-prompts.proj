@@ -10,6 +10,7 @@ import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 import { Parameter } from "../../model/Parameter";
 import { Modifier } from "../../model/Modifier";
+import { SuggestionsPanel } from "../Panels/SuggestionsPanel";
 
 interface Navbar {
     promptOptions: PromptOptions,
@@ -33,6 +34,8 @@ interface Navbar {
     setModifiers: any
     activeModifiers: Modifier[]
     setActiveModifiers: any
+    handleOnChangeTechnology: any
+    handleOnChangeProvider: any
 }
 
 export function Navbar({
@@ -56,48 +59,14 @@ export function Navbar({
     modifiers,
     setModifiers,
     activeModifiers,
-    setActiveModifiers
+    setActiveModifiers,
+    handleOnChangeTechnology,
+    handleOnChangeProvider
+
 }: Navbar) {
     const { t } = useTranslation();
 
     return (
-        <Tabs radius={"sm"} defaultValue="options">
-            <Tabs.List grow>
-                <Tabs.Tab value="options" leftSection={<IconList style={{ width: rem(18), height: rem(18) }} />}>
-                    <Title order={4}>{t('options')}</Title>
-                </Tabs.Tab>
-                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(18), height: rem(18) }} />}>
-                    <Title order={4}>{t('templates')}</Title>
-                </Tabs.Tab>
-            </Tabs.List>
-            <Tabs.Panel value="options" py={"md"}>
-                <OptionsPanel
-                    promptOptions={promptOptions}
-                    setPromptOptions={setPromptOptions}
-                    userPromptOptions={userPromptOptions}
-                    setUserPromptOptions={setUserPromptOptions}
-                    navbarToggle={navbarToggle}
-                    language={language}
-                    setLanguage={setLanguage}
-                    technologies={technologies}
-                    setTechnologies={setTechnologies}
-                    technology={technology}
-                    setTechnology={setTechnology}
-                    providers={providers}
-                    setProviders={setProviders}
-                    provider={provider}
-                    setProvider={setProvider}
-                    parameters={parameters}
-                    setParameters={setParameters}
-                    modifiers={modifiers}
-                    setModifiers={setModifiers}
-                    activeModifiers={activeModifiers}
-                    setActiveModifiers={setActiveModifiers}
-                />
-            </Tabs.Panel>
-            <Tabs.Panel value="templates" py={"md"}>
-                <TemplatesPanel />
-            </Tabs.Panel>
-        </Tabs>
+        <SuggestionsPanel />
     )
 }

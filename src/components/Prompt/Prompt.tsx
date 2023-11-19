@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Center, Group, Loader, Stack, Text, Textarea, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Center, Group, Loader, Stack, Text, Textarea, Title, Tooltip } from "@mantine/core";
 import { IconArrowRight, IconList } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
@@ -7,6 +7,11 @@ import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Thread } from "../../model/Thread";
 import { useTranslation } from "react-i18next";
+import { ModeButton } from "../Elements/ModeButton";
+import { PromptOptions } from "../../model/PromptOptions";
+import { Technology } from "../../model/Technology";
+import { Provider } from "../../model/Provider";
+import { Modifier } from "../../model/Modifier";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
@@ -15,17 +20,39 @@ interface PromptParams {
     requestLoading: boolean,
     scrollIntoView: any,
     threads: Thread[],
-    setThreads: any
+    setThreads: any,
+    promptOptions: PromptOptions,
+    technology: Technology,
+    technologies: Technology[],
+    handleOnChangeTechnology: any,
+    provider: Provider,
+    providers: Provider[],
+    handleOnChangeProvider: any,
+    modifiers: Modifier[],
+    activeModifiers: Modifier[],
+    setActiveModifiers: any
+    setUserPromptOptions: any
 }
 
 export function Prompt({
     aIMediatorClient,
-    userPromptOptions,
     setRequestLoading,
     requestLoading,
     scrollIntoView,
     threads,
-    setThreads
+    setThreads,
+    promptOptions,
+    technology,
+    technologies,
+    handleOnChangeTechnology,
+    provider,
+    providers,
+    handleOnChangeProvider,
+    modifiers,
+    activeModifiers,
+    setActiveModifiers,
+    userPromptOptions,
+    setUserPromptOptions
 }: PromptParams) {
     const { t } = useTranslation();
     const [userPrompt, setUserPrompt] = useState("");
@@ -70,21 +97,37 @@ export function Prompt({
                     px={"md"}
                 >
                     {
-                        requestLoading &&
                         <Center
                             styles={{
                                 root: {
                                     width: "100%",
                                     position: "absolute",
                                     left: "0",
-                                    bottom: "100px"
+                                    bottom: "80px"
                                 }
                             }}
                         >
-                            <Loader size={"sm"} type="bars" />
+                            <Title c={"blue"} order={6}>
+                                {technology.name} | {provider.name}
+                            </Title>
                         </Center>
                     }
-                    <ActionIcon
+                    <ModeButton
+                            promptOptions={promptOptions}
+                            technology={technology}
+                            technologies={technologies}
+                            handleOnChangeTechnology={handleOnChangeTechnology}
+                            provider={provider}
+                            providers={providers}
+                            handleOnChangeProvider={handleOnChangeProvider}
+                            modifiers={modifiers}
+                            activeModifiers={activeModifiers}
+                            setActiveModifiers={setActiveModifiers}
+                            userPromptOptions={userPromptOptions}
+                            setUserPromptOptions={setUserPromptOptions}
+                            
+                    />
+                    {/* <ActionIcon
                         variant="filled"
                         size="lg"
                         disabled={requestLoading}
@@ -99,7 +142,7 @@ export function Prompt({
                         onClick={open}
                     >
                         <IconList style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                    </ActionIcon>
+                    </ActionIcon> */}
 
                     <Textarea
                         placeholder={t("write_a_message")}
