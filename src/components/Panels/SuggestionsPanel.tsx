@@ -48,6 +48,7 @@ export function SuggestionsPanel({
                         getPromptsToShow().map(usedPrompt => {
                             return (
                                 <Suggestion
+                                    key={usedPrompt.prompt}
                                     usedPrompt={usedPrompt}
                                     setUserPrompt={setUserPrompt}
                                 />

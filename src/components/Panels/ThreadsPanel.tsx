@@ -10,10 +10,18 @@ interface ThreadsPanel {
     targetRef: Ref<HTMLDivElement> | undefined
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
-    setUserPromptOptions: any
+    setUserPromptOptions: any,
+    refreshPromptOptions: any
 }
 
-export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptOptions, setUserPromptOptions }: ThreadsPanel) {
+export function ThreadsPanel({
+    threads,
+    targetRef,
+    aIMediatorClient,
+    userPromptOptions,
+    setUserPromptOptions,
+    refreshPromptOptions
+}: ThreadsPanel) {
     return (
         <Stack gap={"md"}>
             {
@@ -26,6 +34,7 @@ export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptO
                             aIMediatorClient={aIMediatorClient}
                             userPromptOptions={userPromptOptions}
                             setUserPromptOptions={setUserPromptOptions}
+                            refreshPromptOptions={refreshPromptOptions}
                         />
                     )
                 })

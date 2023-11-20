@@ -2,8 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
-import cx from "clsx";
-import classes from "./ThreadWidget.module.css"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -18,45 +16,54 @@ interface ThreadWidget {
     response: Response,
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
-    setUserPromptOptions: any
+    setUserPromptOptions: any,
+    refreshPromptOptions: any
 }
 
-export function ThreadWidget({ request, response, aIMediatorClient, userPromptOptions, setUserPromptOptions }: ThreadWidget) {
+export function ThreadWidget({
+    request,
+    response,
+    aIMediatorClient,
+    userPromptOptions,
+    setUserPromptOptions,
+    refreshPromptOptions
+}: ThreadWidget) {
     const { user } = useAuth0();
     const [opened, { toggle }] = useDisclosure(false);
     const [result, setResult] = useState(<Loader type="dots" />);
-    const computedColorScheme = useComputedColorScheme("dark");
 
     // Once loaded, get the response from the user request
     useEffect(() => {
-        aIMediatorClient.detectLanguage(request.text, userPromptOptions).then(detectedLanguage => {
-            const validLanguage = Language.getValidLanguage(detectedLanguage);
+        switch (userPromptOptions.technology.slug) {
+            case 'text-generation':
+                aIMediatorClient.generateText(request.text, userPromptOptions).then(text => {
+                    setResult(<ThreadResponseTextWidget text={text} />);
+                }).catch((e) => {
+                    setResult(<Text>{e.message}</Text>)
+                })
+                break;
+            case 'image-generation':
+                aIMediatorClient.generateImage(request.text, userPromptOptions).then((images: string[]) => {
+                    setResult(<ThreadResponseImageWidget images={images} />);
+                }).catch((e) => {
+                    setResult(<Text>{e.message}</Text>)
+                })
+                break;
+            default:
+                setResult(<Text>Error</Text>);
+                break;
+        }
+    }, []);
 
-            const newUserPromptOptions = userPromptOptions;
-            newUserPromptOptions.setLanguage(validLanguage);
-            setUserPromptOptions(newUserPromptOptions);
+    const savePrompt = async () => {
+        await aIMediatorClient.upvotePrompt(
+            request.text,
+            userPromptOptions.technology,
+            userPromptOptions.provider
+        );
 
-            switch (newUserPromptOptions.technology.slug) {
-                case 'text-generation':
-                    aIMediatorClient.generateText(request.text, newUserPromptOptions).then(text => {
-                        setResult(<ThreadResponseTextWidget text={text} />);
-                    }).catch((e) => {
-                        setResult(<Text>{e.message}</Text>)
-                    })
-                    break;
-                case 'image-generation':
-                    aIMediatorClient.generateImage(request.text, newUserPromptOptions).then((images: string[]) => {
-                        setResult(<ThreadResponseImageWidget images={images} />);
-                    }).catch((e) => {
-                        setResult(<Text>{e.message}</Text>)
-                    })
-                    break;
-                default:
-                    setResult(<Text>Error</Text>);
-                    break;
-            }
-        })
-    }, [])
+        await refreshPromptOptions();
+    }
 
     return (
         <Card mx={"xl"} p={"md"}>
@@ -65,7 +72,6 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                     style={{ cursor: "pointer" }}
                     onClick={toggle}
                     radius={"0"}
-                    shadow="sm"
                     px={0}
                 >
                     <Group justify="space-between">
@@ -103,7 +109,11 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                         </Card.Section>
                     </Collapse>
                 </Card>
-                <Card shadow="sm" radius="0" py={"xl"} px={0}>
+                <Card
+                    radius="0"
+                    py={"xl"}
+                    px={0}
+                >
                     <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                         <Group wrap="nowrap" align="flex-start">
                             <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
@@ -139,7 +149,8 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                     </Group>
                     <Group>
                         <Button
-                            leftSection={<IconDeviceFloppy style={{width: rem(16), height: rem(16)}} />}
+                            onClick={savePrompt}
+                            leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}
                             variant="transparent"
                         >Save
                         </Button>

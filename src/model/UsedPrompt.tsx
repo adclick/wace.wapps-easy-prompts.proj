@@ -19,4 +19,18 @@ export class UsedPrompt {
         this.parameters = [];
         this.modifiers = [];
     }
+
+    static buildFromApi(usedPrompts: any): UsedPrompt[] {
+        const objs: UsedPrompt[] = [];
+
+        for (const up of usedPrompts) {
+            const obj = new UsedPrompt();
+
+            obj.prompt = up.content;
+
+            objs.push(obj);
+        }
+
+        return objs;
+    }
 }

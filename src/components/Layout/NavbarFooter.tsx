@@ -24,7 +24,7 @@ export function NavbarFooter({
     }
 
     return (
-        <Group justify="space-between" pt={"xs"}>
+        <Group justify="space-between" py={"xs"}>
             {/* <LanguageSwitcher
                 language={language}
                 setLanguage={setLanguage}

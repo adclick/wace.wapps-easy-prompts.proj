@@ -105,7 +105,7 @@ export function ModeButton({
                             {
                                 parameters.map(parameter => {
                                     return (
-                                        <Box>
+                                        <Box key={parameter.slug}>
                                             <Divider h={"xs"} />
                                             <ParameterOption
                                                 key={parameter.slug}
@@ -150,7 +150,7 @@ export function ModeButton({
                             {
                                 templates.map(template => {
                                     return (
-                                        <Group justify="space-between">
+                                        <Group key={template.name} justify="space-between">
                                             <Text size="xs">{template.name}</Text>
                                             <Button variant="transparent" size="xs">Use</Button>
                                         </Group>

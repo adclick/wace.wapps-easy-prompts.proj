@@ -45,7 +45,7 @@ export function HomePage() {
     new UsedPrompt("Consider the consequences of developing AI systems with emotions. How might this change the way humans interact with machines."),
   ];
   
-  const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>(dummyPrompts);
+  const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>([]);
   const [userPrompt, setUserPrompt] = useState("");
 
   // API Client
@@ -89,6 +89,10 @@ export function HomePage() {
   const refreshPromptOptions = async (language: string) => {
     setOptionsPanelLoading(true);
     const aIMediatorClient = new AIMediatorClient();
+    const usedPrompts = await aIMediatorClient.getUsedPrompts();
+    const usedPromptsObjs = UsedPrompt.buildFromApi(usedPrompts);
+    setUsedPrompts(usedPromptsObjs);
+
     const promptOptions = await aIMediatorClient.getPromptOptions(language);
     const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
 
@@ -182,29 +186,6 @@ export function HomePage() {
         {/* NAVBAR */}
         <AppShell.Section grow component={ScrollArea}>
           <Navbar
-            promptOptions={promptOptions}
-            setPromptOptions={setPromptOptions}
-            userPromptOptions={userPromptOptions}
-            setUserPromptOptions={setUserPromptOptions}
-            navbarToggle={toggle}
-            language={language}
-            setLanguage={setLanguage}
-            technologies={technologies}
-            setTechnologies={setTechnologies}
-            technology={technology}
-            setTechnology={setTechnology}
-            providers={providers}
-            setProviders={setProviders}
-            provider={provider}
-            setProvider={setProvider}
-            parameters={parameters}
-            setParameters={setParameters}
-            modifiers={modifiers}
-            setModifiers={setModifiers}
-            activeModifiers={activeModifiers}
-            setActiveModifiers={setActiveModifiers}
-            handleOnChangeTechnology={handleOnChangeTechnology}
-            handleOnChangeProvider={handleOnChangeProvider}
             usedPrompts={usedPrompts}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
@@ -230,6 +211,7 @@ export function HomePage() {
           aIMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
           setUserPromptOptions={setUserPromptOptions}
+          refreshPromptOptions={refreshPromptOptions}
         />
       </AppShell.Main>
 

@@ -1,5 +1,7 @@
-import { UserPromptOptions } from "../model/UserPromptOptions";
 import axios from "axios";
+import { UserPromptOptions } from "../model/UserPromptOptions";
+import { Technology } from "../model/Technology";
+import { Provider } from "../model/Provider";
 
 type GeneratedImage = {
     image_resource_url: string
@@ -19,12 +21,30 @@ export class AIMediatorClient {
         return await this.get('/ai/prompt/options', { language: language.toLowerCase() });
     }
 
+    async getUsedPrompts() {
+        return await this.get('/ai/prompt/get', {
+            prompt: "",
+            technology: "",
+            provider: "",
+            limit: 4,
+            offset: 4
+        });
+    }
+
     async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/prompt/language-detection', this.getParams(userPrompt, userPromptOptions));
     }
 
     async optimizePrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/prompt/optimization', this.getParams(userPrompt, userPromptOptions));
+    }
+
+    async upvotePrompt(prompt: string, technology: Technology, provider: Provider) {
+        return await this.post('/ai/prompt/upvote', {
+            prompt,
+            technology: technology.slug,
+            provider: provider.slug
+        })
     }
 
     async generateText(userPrompt: string, userPromptOptions: UserPromptOptions) {
