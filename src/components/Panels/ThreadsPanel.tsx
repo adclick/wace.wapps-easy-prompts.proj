@@ -11,7 +11,8 @@ interface ThreadsPanel {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    scrollIntoView: any
 }
 
 export function ThreadsPanel({
@@ -20,7 +21,8 @@ export function ThreadsPanel({
     aIMediatorClient,
     userPromptOptions,
     setUserPromptOptions,
-    refreshPromptOptions
+    refreshPromptOptions,
+    scrollIntoView
 }: ThreadsPanel) {
     return (
         <Stack gap={"md"}>
@@ -35,6 +37,7 @@ export function ThreadsPanel({
                             userPromptOptions={userPromptOptions}
                             setUserPromptOptions={setUserPromptOptions}
                             refreshPromptOptions={refreshPromptOptions}
+                            scrollIntoView={scrollIntoView}
                         />
                     )
                 })

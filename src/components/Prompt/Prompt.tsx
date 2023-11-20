@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Center, Group, Loader, Stack, Text, Textarea, Title, Tooltip } from "@mantine/core";
-import { IconArrowRight, IconList } from "@tabler/icons-react";
+import { IconArrowRight, IconList, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptsModal } from "./PromptsModal";
@@ -167,7 +167,7 @@ export function Prompt({
                         right={"25px"}
                         onClick={submitPrompt}
                     >
-                        <IconArrowRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        <IconPlayerPlayFilled style={{ width: '60%', height: '60%' }} stroke={1.5} />
                     </ActionIcon>
                 </Group>
             </Stack>

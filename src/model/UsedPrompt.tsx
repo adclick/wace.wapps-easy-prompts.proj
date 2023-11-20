@@ -27,6 +27,7 @@ export class UsedPrompt {
             const obj = new UsedPrompt();
 
             obj.prompt = up.content;
+            obj.score = up.score;
 
             objs.push(obj);
         }

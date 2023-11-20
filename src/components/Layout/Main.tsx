@@ -10,7 +10,8 @@ interface Main {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    scrollIntoView: any
 }
 
 export function Main({
@@ -19,7 +20,8 @@ export function Main({
     aIMediatorClient,
     userPromptOptions,
     setUserPromptOptions,
-    refreshPromptOptions
+    refreshPromptOptions,
+    scrollIntoView
 }: Main) {
     return (
         <ThreadsPanel
@@ -29,6 +31,7 @@ export function Main({
             userPromptOptions={userPromptOptions}
             setUserPromptOptions={setUserPromptOptions}
             refreshPromptOptions={refreshPromptOptions}
+            scrollIntoView={scrollIntoView}
         />
     )
 }

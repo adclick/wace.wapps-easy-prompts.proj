@@ -19,8 +19,6 @@ export function SuggestionsPanel({
     const { t } = useTranslation();
 
     const getPromptsToShow = () => {
-        usedPrompts.sort((a, b) => a.prompt.localeCompare(b.prompt));
-
         return usedPrompts.filter(usedPrompt => {
             return usedPrompt.prompt.toLowerCase().includes(userPrompt.toLocaleLowerCase());
         })

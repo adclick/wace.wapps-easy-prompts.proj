@@ -6,8 +6,12 @@ interface ThreadResponseTextWidget {
 
 export function ThreadResponseTextWidget({ text }: ThreadResponseTextWidget) {
     return (
-        <Text size="md" style={{ whiteSpace: "pre-line" }}>
-            {text.trim()}
+        <Text size="sm" style={{ whiteSpace: "pre-line" }}>
+            {
+                text !== undefined 
+                    ? text.trim()
+                    : "Error"
+            }
         </Text>
     )
 }

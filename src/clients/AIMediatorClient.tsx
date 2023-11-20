@@ -36,7 +36,10 @@ export class AIMediatorClient {
     }
 
     async optimizePrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/prompt/optimization', this.getParams(userPrompt, userPromptOptions));
+        return await this.post('/ai/prompt/optimization', {
+            prompt: userPrompt,
+            promptOptions: userPromptOptions
+        });
     }
 
     async upvotePrompt(prompt: string, technology: Technology, provider: Provider) {

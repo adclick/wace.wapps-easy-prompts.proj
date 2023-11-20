@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Paper, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
@@ -17,7 +17,8 @@ interface ThreadWidget {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    scrollIntoView: any
 }
 
 export function ThreadWidget({
@@ -26,33 +27,38 @@ export function ThreadWidget({
     aIMediatorClient,
     userPromptOptions,
     setUserPromptOptions,
-    refreshPromptOptions
+    refreshPromptOptions,
+    scrollIntoView
 }: ThreadWidget) {
     const { user } = useAuth0();
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
 
     // Once loaded, get the response from the user request
     useEffect(() => {
-        switch (userPromptOptions.technology.slug) {
-            case 'text-generation':
-                aIMediatorClient.generateText(request.text, userPromptOptions).then(text => {
-                    setResult(<ThreadResponseTextWidget text={text} />);
-                }).catch((e) => {
-                    setResult(<Text>{e.message}</Text>)
-                })
-                break;
-            case 'image-generation':
-                aIMediatorClient.generateImage(request.text, userPromptOptions).then((images: string[]) => {
-                    setResult(<ThreadResponseImageWidget images={images} />);
-                }).catch((e) => {
-                    setResult(<Text>{e.message}</Text>)
-                })
-                break;
-            default:
-                setResult(<Text>Error</Text>);
-                break;
-        }
-    }, []);
+        aIMediatorClient.optimizePrompt(request.text, userPromptOptions).then(optimizedPrompt => {
+            switch (userPromptOptions.technology.slug) {
+                case 'text-generation':
+                    aIMediatorClient.generateText(optimizedPrompt, userPromptOptions).then(text => {
+                        setResult(<ThreadResponseTextWidget text={text} />);
+                        scrollIntoView({ alignment: 'start' });
+                    }).catch((e) => {
+                        setResult(<Text>{e.message}</Text>)
+                    })
+                    break;
+                case 'image-generation':
+                    aIMediatorClient.generateImage(optimizedPrompt, userPromptOptions).then((images: string[]) => {
+                        setResult(<ThreadResponseImageWidget images={images} />);
+                        scrollIntoView({ alignment: 'start' });
+                    }).catch((e) => {
+                        setResult(<Text>{e.message}</Text>)
+                    })
+                    break;
+                default:
+                    setResult(<Text>Error</Text>);
+                    break;
+            }
+        })
+    }, [scrollIntoView]);
 
     const savePrompt = async () => {
         await aIMediatorClient.upvotePrompt(
@@ -74,7 +80,7 @@ export function ThreadWidget({
                 >
                     <Group>
                         <Avatar src={user?.picture} size={"sm"} />
-                        <Text size="md">
+                        <Text size="sm">
                             {request.text}
                         </Text>
                     </Group>
@@ -97,12 +103,12 @@ export function ThreadWidget({
                     <Group gap={"xs"} wrap="nowrap">
                         <Tooltip label="Good Response" withArrow>
                             <ActionIcon variant='subtle'>
-                                <IconMoodSmile size={"18"} />
+                                <IconMoodSmile size={"16"} />
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Bad Response" withArrow>
                             <ActionIcon color='red' variant='subtle'>
-                                <IconMoodSad size={"18"} />
+                                <IconMoodSad size={"16"} />
                             </ActionIcon>
                         </Tooltip>
                         <CopyButton value={response.data} timeout={2000}>
@@ -110,9 +116,9 @@ export function ThreadWidget({
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
                                     <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
                                         {copied ? (
-                                            <IconCheck size={18} />
+                                            <IconCheck size={16} />
                                         ) : (
-                                            <IconCopy size={18} />
+                                            <IconCopy size={16} />
                                         )}
                                     </ActionIcon>
                                 </Tooltip>
@@ -120,9 +126,9 @@ export function ThreadWidget({
                         </CopyButton>
                         <Button
                             onClick={savePrompt}
-                            leftSection={<IconDeviceFloppy style={{ width: rem(18), height: rem(18) }} />}
+                            leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}
                             variant="subtle"
-                            size="compact-sm"
+                            size="compact-xs"
                         >Save
                         </Button>
                     </Group>

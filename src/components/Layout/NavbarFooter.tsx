@@ -9,7 +9,8 @@ interface NavbarFooter {
     setLanguage: any,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    setThreads: any
 }
 
 export function NavbarFooter({
@@ -17,10 +18,11 @@ export function NavbarFooter({
     setLanguage,
     userPromptOptions,
     setUserPromptOptions,
-    refreshPromptOptions
+    refreshPromptOptions,
+    setThreads
 }: NavbarFooter) {
     const reset = () => {
-        refreshPromptOptions(Language.getDefault());
+        setThreads([])
     }
 
     return (

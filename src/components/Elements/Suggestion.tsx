@@ -1,7 +1,7 @@
 import { UsedPrompt } from "../../model/UsedPrompt";
-import { Accordion, AccordionControl, AccordionItem, Box, Button, Chip, Collapse, Divider, Group, Paper, Rating, Spoiler, Stack, Text, rem } from "@mantine/core";
+import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Button, Chip, Collapse, Divider, Group, Paper, Rating, Spoiler, Stack, Text, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconArrowLeft, IconArrowRight, IconCheck } from "@tabler/icons-react";
+import { IconArrowLeft, IconArrowRight, IconCheck, IconPlayerPlayFilled } from "@tabler/icons-react";
 
 interface Suggestion {
     usedPrompt: UsedPrompt,
@@ -18,10 +18,10 @@ export function Suggestion({
         setUserPrompt(usedPrompt.prompt)
     }
     return (
-        <AccordionItem value={usedPrompt.prompt}>
+        <AccordionItem value={usedPrompt.prompt} py={"xs"}>
             <AccordionControl px={0}>
                 <Group justify="space-between">
-                    <Text size="sm">{usedPrompt.prompt}</Text>
+                    <Text size="xs">{usedPrompt.prompt}</Text>
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>
@@ -50,16 +50,11 @@ export function Suggestion({
                         </Stack>
                     </Collapse>
 
-                    <Group px={0} py={"xs"} justify="space-between">
-                        <Rating size="xs" readOnly color="blue" value={3} />
-                        <Button
-                            variant="subtle"
-                            size="xs"
-                            leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />}
-                            onClick={use}
-                        >
-                            USE
-                        </Button>
+                    <Group px={0} py={"xs"} justify="space-between" align="baseline">
+                        <Rating size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} />
+                        <ActionIcon variant="subtle" size={"md"} onClick={use} mx={"md"}>
+                            <IconPlayerPlayFilled style={{ width: "70%", height: "70%" }} />
+                        </ActionIcon>
                     </Group>
                 </Stack>
             </Accordion.Panel>

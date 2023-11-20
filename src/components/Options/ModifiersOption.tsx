@@ -51,7 +51,7 @@ export function ModifiersOption({
 
         return modifiers.filter(m => {
             return m.name.toLowerCase().includes(searchTerm.toLowerCase());
-        })
+        }).splice(0, 4)
     }
 
     const isChecked = (slug: string) => {
@@ -59,7 +59,7 @@ export function ModifiersOption({
     }
 
     return (
-        <Stack>
+        <Stack my={"md"}>
             <Group justify="space-between">
                 <Group >
                     <Text size="sm" fw={700}>
@@ -86,7 +86,7 @@ export function ModifiersOption({
                                     <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug}>
                                         {item.name}
                                     </Chip>
-                                    <Popover width={200} position="bottom" withArrow shadow="md">
+                                    <Popover width={200} position="top" withArrow shadow="md">
                                         <Popover.Target>
                                             <ActionIcon size={'xs'} variant="outline" aria-label="Settings">
                                                 <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
