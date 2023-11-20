@@ -131,10 +131,10 @@ export function ModeButton({
                         </ScrollAreaAutosize>
                         <Divider h={"xs"} />
                         <Group justify="space-between">
-                            <Button variant="transparent" size="xs" leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}>
-                                RESET
+                            <Button variant="transparent" size="xs" leftSection={<IconReload style={{ width: rem(14), height: rem(14) }} />}>
+                                Reset
                             </Button>
-                            <Button variant="transparent" size="xs" leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}>
+                            <Button variant="transparent" size="xs" leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
                                 Save Template
                             </Button>
 

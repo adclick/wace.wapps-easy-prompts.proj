@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Paper, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
@@ -29,7 +29,6 @@ export function ThreadWidget({
     refreshPromptOptions
 }: ThreadWidget) {
     const { user } = useAuth0();
-    const [opened, { toggle }] = useDisclosure(false);
     const [result, setResult] = useState(<Loader type="dots" />);
 
     // Once loaded, get the response from the user request
@@ -66,51 +65,21 @@ export function ThreadWidget({
     }
 
     return (
-        <Card mx={"xl"} p={"md"}>
+        <Card mx={"xl"} p={"md"} shadow="sm">
             <Stack gap={0}>
-                <Card
+                <Box
                     style={{ cursor: "pointer" }}
-                    onClick={toggle}
-                    radius={"0"}
                     px={0}
+                    py={"xs"}
                 >
-                    <Group justify="space-between">
-                        <Group>
-                            <Avatar src={user?.picture} size={"sm"} />
-                            <Text size="md">
-                                {request.text}
-                            </Text>
-                        </Group>
+                    <Group>
+                        <Avatar src={user?.picture} size={"sm"} />
+                        <Text size="md">
+                            {request.text}
+                        </Text>
                     </Group>
-                    <Collapse in={opened}>
-                        <Card.Section inheritPadding mt={"md"}>
-                            <Group>
-                                <Text size="xs">
-                                    {userPromptOptions.technology.name} | {userPromptOptions.provider.name}
-                                </Text>
-                            </Group>
-                            {
-                                userPromptOptions.modifiers.length > 0 &&
-                                <Box>
-                                    <Divider my={"xs"} />
-                                    <Group>
-                                        {
-                                            userPromptOptions.modifiers.map(modifier => {
-                                                return (
-                                                    <Chip key={modifier.slug} checked size="xs" variant="light" value={modifier.slug}>
-                                                        {modifier.name}
-                                                    </Chip>
-                                                )
-                                            })
-                                        }
-                                    </Group>
-                                </Box>
-                            }
-                        </Card.Section>
-                    </Collapse>
-                </Card>
-                <Card
-                    radius="0"
+                </Box>
+                <Box
                     py={"xl"}
                     px={0}
                 >
@@ -121,21 +90,24 @@ export function ThreadWidget({
                         </Group>
 
                     </Group>
-                </Card>
+                </Box>
             </Stack>
-            <Card.Section inheritPadding py={"xs"}>
-                <Group justify="space-between">
-
+            <Card.Section inheritPadding mt={"lg"} mb={0}>
+                <Group justify="space-between" wrap="wrap">
                     <Group gap={"xs"} wrap="nowrap">
-                        <ActionIcon variant='subtle'>
-                            <IconMoodSmile size={"18"} />
-                        </ActionIcon>
-                        <ActionIcon color='red' variant='subtle'>
-                            <IconMoodSad size={"18"} />
-                        </ActionIcon>
+                        <Tooltip label="Good Response" withArrow>
+                            <ActionIcon variant='subtle'>
+                                <IconMoodSmile size={"18"} />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Bad Response" withArrow>
+                            <ActionIcon color='red' variant='subtle'>
+                                <IconMoodSad size={"18"} />
+                            </ActionIcon>
+                        </Tooltip>
                         <CopyButton value={response.data} timeout={2000}>
                             {({ copied, copy }) => (
-                                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
                                     <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
                                         {copied ? (
                                             <IconCheck size={18} />
@@ -146,14 +118,18 @@ export function ThreadWidget({
                                 </Tooltip>
                             )}
                         </CopyButton>
-                    </Group>
-                    <Group>
                         <Button
                             onClick={savePrompt}
-                            leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}
-                            variant="transparent"
+                            leftSection={<IconDeviceFloppy style={{ width: rem(18), height: rem(18) }} />}
+                            variant="subtle"
+                            size="compact-sm"
                         >Save
                         </Button>
+                    </Group>
+                    <Group>
+                        <Text size="xs" fw={700}>
+                            {userPromptOptions.technology.name} | {userPromptOptions.provider.name}
+                        </Text>
                     </Group>
                 </Group>
             </Card.Section>
