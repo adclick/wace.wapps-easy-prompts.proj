@@ -1,4 +1,4 @@
-import { SegmentedControl } from "@mantine/core";
+import { SegmentedControl, Select } from "@mantine/core";
 import { Language } from "../../model/Language";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { useTranslation } from 'react-i18next';
@@ -35,6 +35,11 @@ export function LanguageSwitcher({
     const languages = Language.getAll().map(l => l.toUpperCase());
 
     return (
-        <SegmentedControl transitionDuration={100} size="sm" color={""} data={languages} onChange={handleOnChange} />
+        <SegmentedControl
+            transitionDuration={100}
+            size="sm"
+            data={languages}
+            onChange={handleOnChange}
+        />
     )
 }

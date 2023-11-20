@@ -59,7 +59,7 @@ export function ModifiersOption({
     }
 
     return (
-        <Stack my={"xs"}>
+        <Stack my={"md"}>
             <Group justify="space-between">
                 <Group >
                     <Text size="sm" fw={700}>
@@ -77,33 +77,31 @@ export function ModifiersOption({
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
             />
-            <Stack>
+            <Stack gap={"xs"}>
                 <Chip.Group multiple={true} onChange={handleOnChangePromptModifier}>
-                    <ScrollArea h={100} offsetScrollbars>
-                        {
-                            getModifiersToShow().map(item => {
-                                return (
-                                    <Group my={"xs"} key={item.slug} justify="space-between">
-                                        <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug}>
-                                            {item.name}
-                                        </Chip>
-                                        <Popover width={200} position="bottom" withArrow shadow="md">
-                                            <Popover.Target>
-                                                <ActionIcon size={'xs'} variant="outline" aria-label="Settings">
-                                                    <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                </ActionIcon>
-                                            </Popover.Target>
-                                            <Popover.Dropdown>
-                                                <Text size="xs">
-                                                    {item.description}
-                                                </Text>
-                                            </Popover.Dropdown>
-                                        </Popover>
-                                    </Group>
-                                )
-                            })
-                        }
-                    </ScrollArea>
+                    {
+                        getModifiersToShow().map(item => {
+                            return (
+                                <Group key={item.slug} justify="space-between">
+                                    <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug}>
+                                        {item.name}
+                                    </Chip>
+                                    <Popover width={200} position="bottom" withArrow shadow="md">
+                                        <Popover.Target>
+                                            <ActionIcon size={'xs'} variant="outline" aria-label="Settings">
+                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                            </ActionIcon>
+                                        </Popover.Target>
+                                        <Popover.Dropdown>
+                                            <Text size="xs">
+                                                {item.description}
+                                            </Text>
+                                        </Popover.Dropdown>
+                                    </Popover>
+                                </Group>
+                            )
+                        })
+                    }
                 </Chip.Group>
             </Stack>
         </Stack>

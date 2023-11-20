@@ -22,7 +22,7 @@ export function Suggestion({ name }: Suggestion) {
                     <Group px={0} py={"xs"} justify="space-between">
                         <Rating size="xs" readOnly color="blue" value={3} />
                         <Button
-                            variant="transparent"
+                            variant="subtle"
                             size="xs"
                             leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />}
                         >

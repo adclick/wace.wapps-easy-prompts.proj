@@ -25,11 +25,18 @@ export function NavbarFooter({
 
     return (
         <Group justify="space-between">
+            {/* <LanguageSwitcher
+                language={language}
+                setLanguage={setLanguage}
+                userPromptOptions={userPromptOptions}
+                setUserPromptOptions={setUserPromptOptions}
+                refreshPromptOptions={refreshPromptOptions}
+            /> */}
             <Button
                 leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
                 variant="transparent"
                 onClick={reset}
-                size="md"
+                size="sm"
             >
                 New Chat
             </Button>

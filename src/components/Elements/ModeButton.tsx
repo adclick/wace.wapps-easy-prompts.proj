@@ -1,4 +1,4 @@
-import { ActionIcon, ActionIconGroup, Box, Button, Divider, Group, Input, Popover, Stack, Tabs, Text, TextInput, rem, useComputedColorScheme } from "@mantine/core";
+import { ActionIcon, ActionIconGroup, Box, Button, Divider, Group, Input, Popover, ScrollAreaAutosize, Stack, Tabs, Text, TextInput, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustments, IconAdjustmentsHorizontal, IconArrowBackUp, IconDeviceFloppy, IconList, IconRefresh, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { TechnologyOption } from "../Options/TechnologyOption";
 import { ProviderOption } from "../Options/ProviderOption";
@@ -12,6 +12,7 @@ import { Parameter } from "../../model/Parameter";
 import { ParameterOption } from "../Options/ParameterOption";
 import classes from './ModeButton.module.css';
 import cx from 'clsx';
+import { useRef } from "react";
 
 
 interface ModeButton {
@@ -53,6 +54,8 @@ export function ModeButton({
         { name: "Copy about Finance", help: "" },
     ]
 
+    const viewportRef = useRef<HTMLDivElement>(null);
+
     return (
         <Popover width={300} trapFocus position="top-start" withArrow shadow="md" classNames={{
             dropdown: cx(classes.modeButton, classes[computedColorScheme]),
@@ -74,6 +77,7 @@ export function ModeButton({
                 </ActionIcon>
             </Popover.Target>
             <Popover.Dropdown>
+
                 <Tabs defaultValue="options" variant="default">
                     <Tabs.List grow>
                         <Tabs.Tab value="options" leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
@@ -85,44 +89,46 @@ export function ModeButton({
                     </Tabs.List>
 
                     <Tabs.Panel value="options">
-                        <TechnologyOption
-                            promptOptions={promptOptions}
-                            currentTechnology={technology}
-                            technologies={technologies}
-                            handleOnChangeTechnology={handleOnChangeTechnology}
-                        />
-                        <ProviderOption
-                            promptOptions={promptOptions}
-                            currentProvider={provider}
-                            providers={providers}
-                            handleOnChangeProvider={handleOnChangeProvider}
-                        />
-                        {
-                            parameters.map(parameter => {
-                                return (
-                                    <Box>
-                                        <Divider h={"xs"} />
-                                        <ParameterOption
-                                            key={parameter.slug}
-                                            type={parameter.slug}
-                                            parameter={parameter}
-                                            userPromptOptions={userPromptOptions}
-                                            setUserPromptOptions={setUserPromptOptions}
-                                        />
-                                    </Box>
-                                )
-                            })
-                        }
-                        <Divider h={"xs"} />
-                        <ModifiersOption
-                            modifiers={modifiers}
-                            activeModifiers={activeModifiers}
-                            setActiveModifiers={setActiveModifiers}
-                            promptOptions={promptOptions}
-                            userPromptOptions={userPromptOptions}
-                            setUserPromptOptions={setUserPromptOptions}
-                            currentTechnologySlug={technology.slug}
-                        />
+                        <ScrollAreaAutosize viewportRef={viewportRef} mah={500} type="hover">
+                            <TechnologyOption
+                                promptOptions={promptOptions}
+                                currentTechnology={technology}
+                                technologies={technologies}
+                                handleOnChangeTechnology={handleOnChangeTechnology}
+                            />
+                            <ProviderOption
+                                promptOptions={promptOptions}
+                                currentProvider={provider}
+                                providers={providers}
+                                handleOnChangeProvider={handleOnChangeProvider}
+                            />
+                            {
+                                parameters.map(parameter => {
+                                    return (
+                                        <Box>
+                                            <Divider h={"xs"} />
+                                            <ParameterOption
+                                                key={parameter.slug}
+                                                type={parameter.slug}
+                                                parameter={parameter}
+                                                userPromptOptions={userPromptOptions}
+                                                setUserPromptOptions={setUserPromptOptions}
+                                            />
+                                        </Box>
+                                    )
+                                })
+                            }
+                            <Divider h={"xs"} />
+                            <ModifiersOption
+                                modifiers={modifiers}
+                                activeModifiers={activeModifiers}
+                                setActiveModifiers={setActiveModifiers}
+                                promptOptions={promptOptions}
+                                userPromptOptions={userPromptOptions}
+                                setUserPromptOptions={setUserPromptOptions}
+                                currentTechnologySlug={technology.slug}
+                            />
+                        </ScrollAreaAutosize>
                         <Divider h={"xs"} />
                         <Group justify="space-between">
                             <Button variant="transparent" size="xs" leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}>
