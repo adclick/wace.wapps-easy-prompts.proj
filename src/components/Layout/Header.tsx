@@ -24,7 +24,7 @@ export function Header({ navbarOpened, navbarToggle }: Header) {
                 <Badge size="xs">Alpha</Badge>
             </Group>
             <Group>
-                <Group visibleFrom='sm'>
+                <Group visibleFrom='md'>
                     <FeedbackButton />
                 </Group>
                 <ColorSchemeToggle />

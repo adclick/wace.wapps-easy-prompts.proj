@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
-import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
+import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -32,6 +32,7 @@ export function ThreadWidget({
 }: ThreadWidget) {
     const { user } = useAuth0();
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
+    const [vote, setVote] = useState(0);
 
     // Once loaded, get the response from the user request
     useEffect(() => {
@@ -70,6 +71,10 @@ export function ThreadWidget({
         await refreshPromptOptions();
     }
 
+    const handleVote = (vote: number) => {
+        setVote(vote);
+    }
+
     return (
         <Card mx={"xl"} p={"md"} shadow="sm">
             <Stack gap={0}>
@@ -102,13 +107,22 @@ export function ThreadWidget({
                 <Group justify="space-between" wrap="wrap">
                     <Group gap={"xs"} wrap="nowrap">
                         <Tooltip label="Good Response" withArrow>
-                            <ActionIcon variant='subtle'>
-                                <IconMoodSmile size={"16"} />
+                            <ActionIcon variant='subtle' onClick={() => handleVote(1)}>
+                                {
+                                    vote > 0 
+                                        ? <IconMoodSmileFilled size={"16"} />
+                                        : <IconMoodSmile size={"16"} />
+                                }
+                                
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Bad Response" withArrow>
-                            <ActionIcon color='red' variant='subtle'>
-                                <IconMoodSad size={"16"} />
+                            <ActionIcon color='red' variant='subtle' onClick={() => handleVote(-1)}>
+                            {
+                                    vote < 0 
+                                        ? <IconMoodSadFilled size={"16"} />
+                                        : <IconMoodSad size={"16"} />
+                                }
                             </ActionIcon>
                         </Tooltip>
                         <CopyButton value={response.data} timeout={2000}>
