@@ -42,7 +42,9 @@ export function ThreadsPanel({
                     )
                 })
             }
-            <VisuallyHidden ref={targetRef}>Anchor</VisuallyHidden>
+            <Box pos={"relative"}>
+                <VisuallyHidden ref={targetRef}>Anchor</VisuallyHidden>
+            </Box>
         </Stack>
     )
 }

@@ -68,15 +68,12 @@ export function Prompt({
     const submitPrompt = async () => {
         if (userPrompt.length <= 0) return;
 
-        setRequestLoading(true);
         setUserPrompt("");
 
         const thread = new Thread();
         thread.request.setText(userPrompt)
-
         setThreads([...threads, thread]);
 
-        setRequestLoading(false);
         scrollIntoView({ alignment: 'start' });
     }
 
