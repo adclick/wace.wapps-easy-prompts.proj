@@ -42,7 +42,7 @@ export function ImageResolutionOption({
     });
 
     return (
-        <Stack mb={"xl"}>
+        <Stack gap={"xs"}>
             <Group>
                 <Text size="sm" fw={700}>{parameter.name}</Text>
             </Group>
@@ -52,7 +52,6 @@ export function ImageResolutionOption({
                 defaultValue={parameter.content[0]}
                 value={value}
                 onChange={handleOnChange}
-                size="sm"
                 comboboxProps={{ withinPortal: false }}
             />
         </Stack>

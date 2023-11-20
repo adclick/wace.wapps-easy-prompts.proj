@@ -29,7 +29,7 @@ export function ThreadWidget({
     refreshPromptOptions
 }: ThreadWidget) {
     const { user } = useAuth0();
-    const [result, setResult] = useState(<Loader type="dots" />);
+    const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
 
     // Once loaded, get the response from the user request
     useEffect(() => {

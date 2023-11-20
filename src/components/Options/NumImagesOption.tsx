@@ -39,7 +39,7 @@ export function NumImagesOption({
         marks.push({ value: i, label: i });
     }
     return (
-        <Stack mb={"xl"}>
+        <Stack gap={"xs"}>
             <Group>
                 <Text size="sm" fw={700}>{parameter.name}</Text>
             </Group>
@@ -50,6 +50,7 @@ export function NumImagesOption({
                 marks={marks}
                 mx={"xs"}
                 value={value}
+                size={"sm"}
                 onChange={handleOnChange}
             />
         </Stack>

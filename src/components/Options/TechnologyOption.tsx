@@ -38,7 +38,6 @@ export function TechnologyOption({
             variant="unstyled"
             maxDropdownHeight={"500"}
             comboboxProps={{ withinPortal: false }}
-            my={"xs"}
             fw={700}
         />
     )

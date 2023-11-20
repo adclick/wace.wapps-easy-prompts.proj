@@ -91,7 +91,7 @@ export class AIMediatorClient {
      * @returns 
      */
     async post(path: string, params: any = {}) {
-        axios.defaults.timeout = 5000;
+        axios.defaults.timeout = 10000;
         try {
             const { data } = await axios.post(`${this.baseUrl}${path}`, {
                 params
