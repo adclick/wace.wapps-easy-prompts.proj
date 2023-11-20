@@ -3,24 +3,26 @@ import { IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Suggestion } from "../Elements/Suggestion";
+import { UsedPrompt } from "../../model/UsedPrompt";
 
-export function SuggestionsPanel() {
+interface SuggestionsPanel {
+    usedPrompts: UsedPrompt[],
+    userPrompt: string,
+    setUserPrompt: any
+}
+
+export function SuggestionsPanel({
+    usedPrompts,
+    userPrompt,
+    setUserPrompt
+}: SuggestionsPanel) {
     const { t } = useTranslation();
 
-    const [searchTerm, setSearchTerm] = useState('');
+    const getPromptsToShow = () => {
+        usedPrompts.sort((a, b) => a.prompt.localeCompare(b.prompt));
 
-    // Temp Templates
-    const templates = [
-        { name: "SEO Report", help: "" },
-        { name: "Images for Portugal Tourism", help: "" },
-        { name: "Copy about Finance", help: "" },
-    ]
-
-    const getTemplatesToShow = () => {
-        templates.sort((a, b) => a.name.localeCompare(b.name));
-
-        return templates.filter(t => {
-            return t.name.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+        return usedPrompts.filter(usedPrompt => {
+            return usedPrompt.prompt.toLowerCase().includes(userPrompt.toLocaleLowerCase());
         })
     }
 
@@ -32,8 +34,8 @@ export function SuggestionsPanel() {
                 hiddenFrom="sm"
                 size='sm'
                 placeholder={t("search")}
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                value={userPrompt}
+                onChange={e => setUserPrompt(e.target.value)}
             />
             <Stack gap={'md'}>
                 <Accordion variant="" chevron="" styles={{
@@ -43,9 +45,12 @@ export function SuggestionsPanel() {
                     }
                 }}>
                     {
-                        getTemplatesToShow().map(item => {
+                        getPromptsToShow().map(usedPrompt => {
                             return (
-                                <Suggestion name={item.name} />
+                                <Suggestion
+                                    usedPrompt={usedPrompt}
+                                    setUserPrompt={setUserPrompt}
+                                />
                             )
                         })
                     }

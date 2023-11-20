@@ -2,6 +2,7 @@ import { ThreadsPanel } from "../Panels/ThreadsPanel";
 import { Thread } from "../../model/Thread";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
+import { Card } from "@mantine/core";
 
 interface Main {
     threads: Thread[],

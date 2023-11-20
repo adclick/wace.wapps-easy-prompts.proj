@@ -33,7 +33,9 @@ interface PromptParams {
     activeModifiers: Modifier[],
     setActiveModifiers: any
     setUserPromptOptions: any,
-    parameters: Parameter[]
+    parameters: Parameter[],
+    userPrompt: string,
+    setUserPrompt: any
 }
 
 export function Prompt({
@@ -55,10 +57,11 @@ export function Prompt({
     setActiveModifiers,
     userPromptOptions,
     setUserPromptOptions,
-    parameters
+    parameters,
+    userPrompt,
+    setUserPrompt
 }: PromptParams) {
     const { t } = useTranslation();
-    const [userPrompt, setUserPrompt] = useState("");
     const [openedPrompts, { open, close }] = useDisclosure(false);
 
     // Submit prompt
@@ -110,43 +113,30 @@ export function Prompt({
                                 }
                             }}
                         >
-                            <Title c={"blue"} order={6}>
-                                {technology.name} | {provider.name}
-                            </Title>
+                            {
+                                technology.name !== "" &&
+                                <Title order={6}>
+                                    {technology.name} by {provider.name} using {activeModifiers.length} modifiers
+                                </Title>
+                            }
                         </Center>
                     }
                     <ModeButton
-                            promptOptions={promptOptions}
-                            technology={technology}
-                            technologies={technologies}
-                            handleOnChangeTechnology={handleOnChangeTechnology}
-                            provider={provider}
-                            providers={providers}
-                            handleOnChangeProvider={handleOnChangeProvider}
-                            modifiers={modifiers}
-                            activeModifiers={activeModifiers}
-                            setActiveModifiers={setActiveModifiers}
-                            userPromptOptions={userPromptOptions}
-                            setUserPromptOptions={setUserPromptOptions}
-                            parameters={parameters}
-                            
+                        promptOptions={promptOptions}
+                        technology={technology}
+                        technologies={technologies}
+                        handleOnChangeTechnology={handleOnChangeTechnology}
+                        provider={provider}
+                        providers={providers}
+                        handleOnChangeProvider={handleOnChangeProvider}
+                        modifiers={modifiers}
+                        activeModifiers={activeModifiers}
+                        setActiveModifiers={setActiveModifiers}
+                        userPromptOptions={userPromptOptions}
+                        setUserPromptOptions={setUserPromptOptions}
+                        parameters={parameters}
+
                     />
-                    {/* <ActionIcon
-                        variant="filled"
-                        size="lg"
-                        disabled={requestLoading}
-                        aria-label="Submit"
-                        pos={"absolute"}
-                        left={"25px"}
-                        styles={{
-                            root: {
-                                zIndex: "1"
-                            }
-                        }}
-                        onClick={open}
-                    >
-                        <IconList style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                    </ActionIcon> */}
 
                     <Textarea
                         placeholder={t("write_a_message")}

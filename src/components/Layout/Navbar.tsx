@@ -11,6 +11,7 @@ import { Provider } from "../../model/Provider";
 import { Parameter } from "../../model/Parameter";
 import { Modifier } from "../../model/Modifier";
 import { SuggestionsPanel } from "../Panels/SuggestionsPanel";
+import { UsedPrompt } from "@/model/UsedPrompt";
 
 interface Navbar {
     promptOptions: PromptOptions,
@@ -35,7 +36,10 @@ interface Navbar {
     activeModifiers: Modifier[]
     setActiveModifiers: any
     handleOnChangeTechnology: any
-    handleOnChangeProvider: any
+    handleOnChangeProvider: any,
+    usedPrompts: UsedPrompt[],
+    userPrompt: string,
+    setUserPrompt: any
 }
 
 export function Navbar({
@@ -61,12 +65,18 @@ export function Navbar({
     activeModifiers,
     setActiveModifiers,
     handleOnChangeTechnology,
-    handleOnChangeProvider
-
+    handleOnChangeProvider,
+    usedPrompts,
+    userPrompt,
+    setUserPrompt
 }: Navbar) {
     const { t } = useTranslation();
 
     return (
-        <SuggestionsPanel />
+        <SuggestionsPanel
+            usedPrompts={usedPrompts}
+            userPrompt={userPrompt}
+            setUserPrompt={setUserPrompt}
+        />
     )
 }

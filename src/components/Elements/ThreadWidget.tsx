@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Box, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Stack, Text, Tooltip, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
-import { IconCheck, IconCopy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
+import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSmile } from "@tabler/icons-react"
 import cx from "clsx";
 import classes from "./ThreadWidget.module.css"
 import { Request } from "../../model/Request";
@@ -59,64 +59,69 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
     }, [])
 
     return (
-        <Stack gap={0}>
-            <Card
-                style={{ cursor: "pointer" }}
-                onClick={toggle}
-                radius={"0"}
-                shadow="sm"
-                py={"xl"}
-                classNames={{
-                    root: cx(classes["request-card"], classes[computedColorScheme])
-                }}
-            >
-                <Group justify="space-between">
-                    <Group>
-                        <Avatar src={user?.picture} size={"sm"} />
-                        <Text size="md">
-                            {request.text}
-                        </Text>
-                    </Group>
-                </Group>
-                <Collapse in={opened}>
-                    <Card.Section inheritPadding mt={"md"}>
+        <Card mx={"xl"} p={"md"}>
+            <Stack gap={0}>
+                <Card
+                    style={{ cursor: "pointer" }}
+                    onClick={toggle}
+                    radius={"0"}
+                    shadow="sm"
+                    px={0}
+                >
+                    <Group justify="space-between">
                         <Group>
-                            <Text size="xs">
-                                {userPromptOptions.technology.name} | {userPromptOptions.provider.name}
+                            <Avatar src={user?.picture} size={"sm"} />
+                            <Text size="md">
+                                {request.text}
                             </Text>
                         </Group>
-                        {
-                            userPromptOptions.modifiers.length > 0 &&
-                            <Box>
-                                <Divider my={"xs"} />
-                                <Group>
-                                    {
-                                        userPromptOptions.modifiers.map(modifier => {
-                                            return (
-                                                <Chip key={modifier.slug} checked size="xs" variant="light" value={modifier.slug}>
-                                                    {modifier.name}
-                                                </Chip>
-                                            )
-                                        })
-                                    }
-                                </Group>
-                            </Box>
-                        }
-                    </Card.Section>
-                </Collapse>
-            </Card>
-            <Card shadow="sm" radius="0" py={"xl"}>
-                <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
-                    <Group wrap="nowrap" align="flex-start">
-                        <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
-                        {result}
                     </Group>
+                    <Collapse in={opened}>
+                        <Card.Section inheritPadding mt={"md"}>
+                            <Group>
+                                <Text size="xs">
+                                    {userPromptOptions.technology.name} | {userPromptOptions.provider.name}
+                                </Text>
+                            </Group>
+                            {
+                                userPromptOptions.modifiers.length > 0 &&
+                                <Box>
+                                    <Divider my={"xs"} />
+                                    <Group>
+                                        {
+                                            userPromptOptions.modifiers.map(modifier => {
+                                                return (
+                                                    <Chip key={modifier.slug} checked size="xs" variant="light" value={modifier.slug}>
+                                                        {modifier.name}
+                                                    </Chip>
+                                                )
+                                            })
+                                        }
+                                    </Group>
+                                </Box>
+                            }
+                        </Card.Section>
+                    </Collapse>
+                </Card>
+                <Card shadow="sm" radius="0" py={"xl"} px={0}>
+                    <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
+                        <Group wrap="nowrap" align="flex-start">
+                            <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
+                            {result}
+                        </Group>
+
+                    </Group>
+                </Card>
+            </Stack>
+            <Card.Section inheritPadding py={"xs"}>
+                <Group justify="space-between">
+
                     <Group gap={"xs"} wrap="nowrap">
-                        <ActionIcon color='red' variant='subtle'>
-                            <IconMoodSad size={"18"} />
-                        </ActionIcon>
                         <ActionIcon variant='subtle'>
                             <IconMoodSmile size={"18"} />
+                        </ActionIcon>
+                        <ActionIcon color='red' variant='subtle'>
+                            <IconMoodSad size={"18"} />
                         </ActionIcon>
                         <CopyButton value={response.data} timeout={2000}>
                             {({ copied, copy }) => (
@@ -132,8 +137,15 @@ export function ThreadWidget({ request, response, aIMediatorClient, userPromptOp
                             )}
                         </CopyButton>
                     </Group>
+                    <Group>
+                        <Button
+                            leftSection={<IconDeviceFloppy style={{width: rem(16), height: rem(16)}} />}
+                            variant="transparent"
+                        >Save
+                        </Button>
+                    </Group>
                 </Group>
-            </Card>
-        </Stack>
+            </Card.Section>
+        </Card>
     )
 }

@@ -1,4 +1,4 @@
-import { Box, VisuallyHidden } from "@mantine/core"
+import { Box, Stack, VisuallyHidden } from "@mantine/core"
 import { Thread } from "../../model/Thread"
 import { ThreadWidget } from "../Elements/ThreadWidget"
 import { Ref } from "react"
@@ -15,7 +15,7 @@ interface ThreadsPanel {
 
 export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptOptions, setUserPromptOptions }: ThreadsPanel) {
     return (
-        <Box>
+        <Stack gap={"md"}>
             {
                 threads.map((thread: Thread) => {
                     return (
@@ -31,6 +31,6 @@ export function ThreadsPanel({ threads, targetRef, aIMediatorClient, userPromptO
                 })
             }
             <VisuallyHidden ref={targetRef}>Anchor</VisuallyHidden>
-        </Box>
+        </Stack>
     )
 }

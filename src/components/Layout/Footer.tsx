@@ -27,7 +27,9 @@ interface Footer {
     activeModifiers: Modifier[],
     setActiveModifiers: any
     setUserPromptOptions: any,
-    parameters: Parameter[]
+    parameters: Parameter[],
+    userPrompt: string,
+    setUserPrompt: any
 }
 
 export function Footer({
@@ -49,7 +51,9 @@ export function Footer({
     activeModifiers,
     setActiveModifiers,
     setUserPromptOptions,
-    parameters
+    parameters,
+    userPrompt,
+    setUserPrompt
 }: Footer) {
     return (
         <Prompt
@@ -72,6 +76,8 @@ export function Footer({
             setActiveModifiers={setActiveModifiers}
             setUserPromptOptions={setUserPromptOptions}
             parameters={parameters}
+            userPrompt={userPrompt}
+            setUserPrompt={setUserPrompt}
         />
     )
 }

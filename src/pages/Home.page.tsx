@@ -18,8 +18,36 @@ import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
+import { UsedPrompt } from '../model/UsedPrompt';
 
 export function HomePage() {
+  
+  const dummyPrompts: UsedPrompt[] = [
+    new UsedPrompt("Describe the concept of time travel and its potential implications on the fabric of reality."),
+    new UsedPrompt("Create a fictional dialogue between a sentient robot and a curious child discussing the meaning of emotions."),
+    new UsedPrompt("Explore the ethical considerations of using advanced AI in medical diagnosis and treatment."),
+    new UsedPrompt("Imagine a world where humans coexist with intelligent extraterrestrial beings. Describe a typical day in this alternate reality."),
+    new UsedPrompt("Develop a short story set in a future society where personal privacy is virtually non-existent due to advanced surveillance technology."),
+    new UsedPrompt("Discuss the impact of widespread automation on employment and propose innovative solutions for a workforce in transition."),
+    new UsedPrompt("Write a poem that captures the essence of a futuristic cityscape illuminated by neon lights and bustling with technological marvels."),
+    new UsedPrompt("Design an AI-driven virtual reality experience that helps users overcome their greatest fears and anxieties."),
+    new UsedPrompt("Consider the societal implications of achieving technological immortality and its effects on interpersonal relationships."),
+    new UsedPrompt("Invent a new form of communication for a species with a non-humanoid anatomy, and describe how it influences their culture."),
+    new UsedPrompt("Explore the role of AI in addressing environmental challenges and promoting sustainability on a global scale."),
+    new UsedPrompt("Craft a short story in which an AI gains self-awareness and grapples with the meaning of its existence."),
+    new UsedPrompt("Imagine a future where humans can upload their consciousness into a digital realm. Discuss the philosophical dilemmas surrounding this concept."),
+    new UsedPrompt("Create a dialogue between two AI entities discussing the nature of creativity and the potential for machines to be truly creative."),
+    new UsedPrompt("Consider the implications of a society where memories can be selectively erased and manipulated. How does this impact personal identity and relationships?"),
+    new UsedPrompt("Describe the cultural impact of a worldwide internet outage lasting for an entire week."),
+    new UsedPrompt("Explore the challenges and opportunities presented by the integration of AI in education, focusing on personalized learning experiences."),
+    new UsedPrompt("Invent a new form of transportation that relies on cutting-edge technology, addressing both efficiency and environmental sustainability."),
+    new UsedPrompt("Write a futuristic news article detailing the discovery of an ancient alien artifact and the scientific community's efforts to decipher its meaning."),
+    new UsedPrompt("Consider the consequences of developing AI systems with emotions. How might this change the way humans interact with machines."),
+  ];
+  
+  const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>(dummyPrompts);
+  const [userPrompt, setUserPrompt] = useState("");
+
   // API Client
   const aIMediatorClient = new AIMediatorClient();
   const promptOptionsObj = new PromptOptions();
@@ -177,6 +205,9 @@ export function HomePage() {
             setActiveModifiers={setActiveModifiers}
             handleOnChangeTechnology={handleOnChangeTechnology}
             handleOnChangeProvider={handleOnChangeProvider}
+            usedPrompts={usedPrompts}
+            userPrompt={userPrompt}
+            setUserPrompt={setUserPrompt}
           />
         </AppShell.Section>
         {/* NAVBAR BOTTOM */}
@@ -224,6 +255,8 @@ export function HomePage() {
           setActiveModifiers={setActiveModifiers}
           setUserPromptOptions={setUserPromptOptions}
           parameters={parameters}
+          userPrompt={userPrompt}
+          setUserPrompt={setUserPrompt}
         />
       </AppShell.Footer>
     </AppShell>
