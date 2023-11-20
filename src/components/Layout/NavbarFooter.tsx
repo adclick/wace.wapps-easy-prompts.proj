@@ -10,7 +10,8 @@ interface NavbarFooter {
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
     refreshPromptOptions: any,
-    setThreads: any
+    setThreads: any,
+    navbarToggle: any
 }
 
 export function NavbarFooter({
@@ -19,14 +20,16 @@ export function NavbarFooter({
     userPromptOptions,
     setUserPromptOptions,
     refreshPromptOptions,
+    navbarToggle,
     setThreads
 }: NavbarFooter) {
     const reset = () => {
-        setThreads([])
+        setThreads([]);
+        navbarToggle();
     }
 
     return (
-        <Group justify="space-between" py={"xs"}>
+        <Group justify="space-between" pt={"lg"} pb={"xs"}>
             {/* <LanguageSwitcher
                 language={language}
                 setLanguage={setLanguage}

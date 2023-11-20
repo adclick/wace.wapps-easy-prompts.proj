@@ -8,13 +8,15 @@ import { UsedPrompt } from "../../model/UsedPrompt";
 interface SuggestionsPanel {
     usedPrompts: UsedPrompt[],
     userPrompt: string,
-    setUserPrompt: any
+    setUserPrompt: any,
+    navbarToggle: any
 }
 
 export function SuggestionsPanel({
     usedPrompts,
     userPrompt,
-    setUserPrompt
+    setUserPrompt,
+    navbarToggle
 }: SuggestionsPanel) {
     const { t } = useTranslation();
 
@@ -49,6 +51,7 @@ export function SuggestionsPanel({
                                     key={usedPrompt.prompt}
                                     usedPrompt={usedPrompt}
                                     setUserPrompt={setUserPrompt}
+                                    navbarToggle={navbarToggle}
                                 />
                             )
                         })

@@ -165,6 +165,7 @@ export function HomePage() {
             usedPrompts={usedPrompts}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
+            navbarToggle={toggle}
           />
         </AppShell.Section>
         {/* NAVBAR BOTTOM */}
@@ -176,6 +177,7 @@ export function HomePage() {
             setUserPromptOptions={setUserPromptOptions}
             refreshPromptOptions={refreshPromptOptions}
             setThreads={setThreads}
+            navbarToggle={toggle}
           />
         </AppShell.Section>
       </AppShell.Navbar>

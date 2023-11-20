@@ -5,17 +5,20 @@ import { IconArrowLeft, IconArrowRight, IconCheck, IconPlayerPlayFilled } from "
 
 interface Suggestion {
     usedPrompt: UsedPrompt,
-    setUserPrompt: any
+    setUserPrompt: any,
+    navbarToggle: any
 }
 
 export function Suggestion({
     usedPrompt,
-    setUserPrompt
+    setUserPrompt,
+    navbarToggle
 }: Suggestion) {
     const [opened, { toggle }] = useDisclosure(false);
 
     const use = () => {
         setUserPrompt(usedPrompt.prompt)
+        navbarToggle();
     }
     return (
         <AccordionItem value={usedPrompt.prompt} py={"xs"}>
