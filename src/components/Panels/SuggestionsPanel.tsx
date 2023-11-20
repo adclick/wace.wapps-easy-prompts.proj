@@ -1,4 +1,4 @@
-import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Group, Input, Paper, Popover, Rating, ScrollArea, Stack, Text, Title } from "@mantine/core"
+import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Group, Input, Paper, Popover, Rating, ScrollArea, Stack, Text, Textarea, Title } from "@mantine/core"
 import { IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,10 +30,13 @@ export function SuggestionsPanel({
     return (
         <Stack gap={'xl'} my={"md"}>
             <Title order={3}>Suggestions</Title>
-            <Input
-                hiddenFrom="sm"
-                size='sm'
-                placeholder={t("search")}
+            <Textarea
+                placeholder={"Search"}
+                autosize
+                autoFocus
+                minRows={1}
+                maxRows={6}
+                radius={'xl'}
                 value={userPrompt}
                 onChange={e => setUserPrompt(e.target.value)}
             />
