@@ -28,9 +28,9 @@ export function Header({ navbarOpened, navbarToggle }: Header) {
                     <FeedbackButton />
                 </Group>
                 <Box visibleFrom='sm'>
-                    <ColorSchemeToggle />
+                    <UserMenu />
                 </Box>
-                <UserMenu />
+                <ColorSchemeToggle />
             </Group>
         </Group>
     );
