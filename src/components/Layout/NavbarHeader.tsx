@@ -1,6 +1,7 @@
 import { Burger, Group } from "@mantine/core";
 import { UserMenu } from "../Elements/UserMenu";
 import { FeedbackButton } from "../Elements/FeedbackButton";
+import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
 
 interface NavbarHeader {
     navbarOpened: boolean,
@@ -18,7 +19,7 @@ export function NavbarHeader({ navbarOpened, navbarToggle }: NavbarHeader) {
             />
             <Group hiddenFrom='sm'>
                 <FeedbackButton />
-                <UserMenu />
+                <ColorSchemeToggle />
             </Group>
         </Group>
     )

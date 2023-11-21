@@ -147,7 +147,8 @@ export function Prompt({
                         styles={{
                             input: {
                                 paddingLeft: "60px",
-                                paddingRight: "50px"
+                                paddingRight: "50px",
+                                backgroundColor: "var(--mantine-color-dark-9)"
                             }
                         }}
                         radius={'xl'}

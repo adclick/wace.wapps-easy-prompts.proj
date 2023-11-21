@@ -72,7 +72,7 @@ export function ModifiersOption({
                 <ActionIcon size={"xs"} variant="transparent"><IconPlus /></ActionIcon>
             </Group>
             <Input
-                size='sm'
+                size='xs'
                 placeholder={(t("search"))}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
@@ -83,7 +83,7 @@ export function ModifiersOption({
                         getModifiersToShow().map(item => {
                             return (
                                 <Group key={item.slug} justify="space-between">
-                                    <Chip checked={isChecked(item.slug)} size='sm' variant='light' value={item.slug}>
+                                    <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug}>
                                         {item.name}
                                     </Chip>
                                     <Popover width={200} position="top" withArrow shadow="md">

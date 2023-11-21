@@ -57,11 +57,9 @@ export function Suggestion({
                         <Tooltip label={`${usedPrompt.score}/100`}>
                             <Rating size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} />
                         </Tooltip>
-                        <Tooltip label={"Run this prompt"}>
-                            <ActionIcon variant="subtle" size={"md"} onClick={use} mx={"md"}>
-                                <IconPlayerPlayFilled style={{ width: "70%", height: "70%" }} />
-                            </ActionIcon>
-                        </Tooltip>
+                        <ActionIcon variant="filled" size={"md"} onClick={use} mx={"md"}>
+                            <IconPlayerPlayFilled style={{ width: "60%", height: "60%" }} />
+                        </ActionIcon>
                     </Group>
                 </Stack>
             </Accordion.Panel>

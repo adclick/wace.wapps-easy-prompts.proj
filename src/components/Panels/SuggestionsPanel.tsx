@@ -36,9 +36,9 @@ export function SuggestionsPanel({
                 autoFocus
                 minRows={1}
                 maxRows={6}
-                radius={'xl'}
                 value={userPrompt}
                 onChange={e => setUserPrompt(e.target.value)}
+                hiddenFrom="sm"
             />
             <Stack gap={'md'}>
                 <Accordion variant="" chevron="" styles={{

@@ -48,16 +48,13 @@ export function ModeButton({
 }: ModeButton) {
     const computedColorScheme = useComputedColorScheme('dark');
 
-    const templates = [
-        { name: "SEO Report", help: "" },
-        { name: "Images for Portugal Tourism", help: "" },
-        { name: "Copy about Finance", help: "" },
+    const templates: any[] = [
     ]
 
     const viewportRef = useRef<HTMLDivElement>(null);
 
     return (
-        <Popover  trapFocus position="top-start" withArrow shadow="md" classNames={{
+        <Popover trapFocus position="top-start" withArrow shadow="md" classNames={{
             dropdown: cx(classes.modeButton, classes[computedColorScheme]),
         }}>
             <Popover.Target >
@@ -147,23 +144,26 @@ export function ModeButton({
 
                     <Tabs.Panel value="templates">
                         <Stack py={"md"} gap={"md"}>
-                            <Input
-                                size='xs'
-                                placeholder={"Search"}
-                            />
-                            <Stack gap={"xs"}>
-                                {
-                                    templates.map(template => {
-                                        return (
-                                            <Group key={template.name} justify="space-between">
-                                                <Text size="sm">{template.name}</Text>
-                                                <Button leftSection={<IconCheck style={{width: rem(14), height: rem(14)}} />} variant="subtle" size="compact-xs">Use</Button>
-                                            </Group>
-                                        )
-                                    })
-                                }
-                            </Stack>
+                            {
+
+                                templates.length > 0
+                                    ? 
+                                    <Stack gap={"xs"}>
+                                        {
+                                            templates.map(template => {
+                                                return (
+                                                    <Group key={template.name} justify="space-between">
+                                                        <Text size="sm">{template.name}</Text>
+                                                        <Button leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />} variant="subtle" size="compact-xs">Use</Button>
+                                                    </Group>
+                                                )
+                                            })
+                                        }
+                                    </Stack>
+                                    : <Text>Not available yet</Text>
+                            }
                         </Stack>
+
                     </Tabs.Panel>
 
                 </Tabs>

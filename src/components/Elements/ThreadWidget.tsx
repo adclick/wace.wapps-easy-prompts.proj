@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
-import { IconCheck, IconCopy, IconDeviceFloppy, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled } from "@tabler/icons-react"
+import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconShare, IconTrash } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -107,19 +107,19 @@ export function ThreadWidget({
                 <Group justify="space-between" wrap="wrap">
                     <Group gap={"xs"} wrap="nowrap">
                         <Tooltip label="Good Response" withArrow>
-                            <ActionIcon variant='subtle' onClick={() => handleVote(1)}>
+                            <ActionIcon variant='transparent' onClick={() => handleVote(1)}>
                                 {
-                                    vote > 0 
+                                    vote > 0
                                         ? <IconMoodSmileFilled size={"16"} />
                                         : <IconMoodSmile size={"16"} />
                                 }
-                                
+
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Bad Response" withArrow>
-                            <ActionIcon color='red' variant='subtle' onClick={() => handleVote(-1)}>
-                            {
-                                    vote < 0 
+                            <ActionIcon color='red' variant='transparent' onClick={() => handleVote(-1)}>
+                                {
+                                    vote < 0
                                         ? <IconMoodSadFilled size={"16"} />
                                         : <IconMoodSad size={"16"} />
                                 }
@@ -128,7 +128,7 @@ export function ThreadWidget({
                         <CopyButton value={response.data} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
-                                    <ActionIcon color={copied ? 'blue' : 'gray'} variant="subtle" onClick={copy}>
+                                    <ActionIcon color={copied ? 'blue' : 'gray'} variant="transparent" onClick={copy}>
                                         {copied ? (
                                             <IconCheck size={16} />
                                         ) : (
@@ -138,13 +138,28 @@ export function ThreadWidget({
                                 </Tooltip>
                             )}
                         </CopyButton>
-                        <Button
-                            onClick={savePrompt}
-                            leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}
-                            variant="subtle"
-                            size="compact-xs"
-                        >Save
-                        </Button>
+                        <Menu withinPortal position="bottom-end" shadow="sm">
+                            <Menu.Target>
+                                <ActionIcon variant="subtle" color="gray">
+                                    <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
+                                </ActionIcon>
+                            </Menu.Target>
+
+                            <Menu.Dropdown>
+                                <Menu.Item onClick={savePrompt} leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
+                                    Save Prompt
+                                </Menu.Item>
+                                <Menu.Item leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}>
+                                    Share
+                                </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                                    color="red"
+                                >
+                                    Remove
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
                     </Group>
                     <Group>
                         <Text size="xs" fw={700}>

@@ -1,6 +1,6 @@
-import { Box, Button, Modal, Stack, Textarea, rem } from "@mantine/core";
+import { Box, Button, Group, Modal, Stack, Textarea, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconMail } from "@tabler/icons-react";
+import { IconMail, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -18,11 +18,20 @@ export function FeedbackButton() {
             <Modal size={"lg"} opened={opened} onClose={close} title={"Give feedback"}>
                 <Stack>
                     <Textarea autosize maxRows={10} minRows={5} value={feedback} onChange={e => setFeedback(e.target.value)} />
-                    <Button onClick={send}>Send</Button>
+                    <Group>
+                        <Button
+                            size="compact-md"
+                            variant="transparent"
+                            leftSection={<IconSend style={{ width: rem(14), height: rem(14) }} />}
+                            onClick={send}
+                        >
+                            Send
+                        </Button>
+                    </Group>
                 </Stack>
 
             </Modal>
-            <Button onClick={open} variant='subtle' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
+            <Button onClick={open} variant='transparent' leftSection={<IconMail style={{ width: rem(16), height: rem(16) }} />}>
                 {(t('give_feedback'))}
             </Button>
         </Box>

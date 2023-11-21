@@ -156,7 +156,7 @@ export function HomePage() {
       {/* NAVBAR */}
       <AppShell.Navbar withBorder={false} p="md">
         {/* NAVBAR HEADER */}
-        <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"0"}>
+        <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"xs"}>
           <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
         </AppShell.Section>
         {/* NAVBAR */}

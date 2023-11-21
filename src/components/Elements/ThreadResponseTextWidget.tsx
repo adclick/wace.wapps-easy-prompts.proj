@@ -8,7 +8,7 @@ export function ThreadResponseTextWidget({ text }: ThreadResponseTextWidget) {
     return (
         <Text size="md" style={{ whiteSpace: "pre-line" }}>
             {
-                text !== undefined 
+                typeof text === "string"
                     ? text.trim()
                     : "Error"
             }
