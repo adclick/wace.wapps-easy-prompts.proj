@@ -1,6 +1,5 @@
 import { ActionIcon, Box, Center, Group, Loader, Stack, Text, Textarea, Title, Tooltip } from "@mantine/core";
-import { IconArrowRight, IconList, IconPlayerPlayFilled } from "@tabler/icons-react";
-import { useState } from "react";
+import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptsModal } from "./PromptsModal";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
@@ -17,8 +16,6 @@ import { Parameter } from "../../model/Parameter";
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
-    setRequestLoading: any,
-    requestLoading: boolean,
     scrollIntoView: any,
     threads: Thread[],
     setThreads: any,
@@ -41,8 +38,6 @@ interface PromptParams {
 
 export function Prompt({
     aIMediatorClient,
-    setRequestLoading,
-    requestLoading,
     scrollIntoView,
     threads,
     setThreads,
@@ -143,7 +138,6 @@ export function Prompt({
                         placeholder={t("write_a_message")}
                         autosize
                         autoFocus
-                        disabled={requestLoading}
                         minRows={1}
                         maxRows={6}
                         w={"100%"}
@@ -163,7 +157,6 @@ export function Prompt({
                     <ActionIcon
                         variant="filled"
                         size="lg"
-                        disabled={requestLoading}
                         aria-label="Submit"
                         pos={"absolute"}
                         right={"25px"}

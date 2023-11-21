@@ -1,22 +1,32 @@
+import { Code } from "@mantine/core";
+
+const CODES = {
+    EN: "en",
+    PT: "pt"
+}
+
+const DEFAULT_CODE = CODES.EN;
+
 export class Language {
     code: string;
 
+
     constructor() {
-        this.code = "en";
+        this.code = DEFAULT_CODE;
     }
 
     static getAll() {
-        return ["en", "pt"];
+        return Code;
     }
 
-    static getDefault() {
-        return "en";
+    static getDefaultCode() {
+        return DEFAULT_CODE;
     }
 
     static getValidLanguage(detectedLanguage: string) {
-        return this.getAll().includes(detectedLanguage)
+        return Object.values(CODES).includes(detectedLanguage)
             ? detectedLanguage
-            : this.getDefault();
+            : this.getDefaultCode();
     }
 
     setCode(code: string) {

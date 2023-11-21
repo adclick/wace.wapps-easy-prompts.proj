@@ -1,9 +1,6 @@
-import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
-import { IconBulb } from "@tabler/icons-react";
+import { Select } from "@mantine/core";
 import { PromptOptions } from "../../model/PromptOptions";
 import { Technology } from "../../model/Technology";
-import { useTranslation } from 'react-i18next';
-
 
 interface TechnologyOption {
     promptOptions: PromptOptions,
@@ -13,14 +10,11 @@ interface TechnologyOption {
 }
 
 export function TechnologyOption({
-    promptOptions,
     currentTechnology,
     technologies,
     handleOnChangeTechnology
 }: TechnologyOption) {
-    const { t } = useTranslation();
-
-    const technologiesData = technologies.map(t => {
+    const data = technologies.map(t => {
         return {
             label: t.name,
             value: t.slug
@@ -30,7 +24,7 @@ export function TechnologyOption({
     return (
         <Select
             placeholder="Technology"
-            data={technologiesData}
+            data={data}
             value={currentTechnology.slug}
             allowDeselect={false}
             checkIconPosition='right'

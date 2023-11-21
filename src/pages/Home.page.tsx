@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AppShell, LoadingOverlay, ScrollArea, useComputedColorScheme } from '@mantine/core';
+import { AppShell, ScrollArea, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -21,76 +21,86 @@ import cx from 'clsx';
 import { UsedPrompt } from '../model/UsedPrompt';
 
 export function HomePage() {
-  const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>([]);
-  const [userPrompt, setUserPrompt] = useState("");
-
   // API Client
   const aIMediatorClient = new AIMediatorClient();
-  const promptOptionsObj = new PromptOptions();
 
-  // Setting state
-  const [threads, setThreads] = useState<Thread[]>([]);
-  const [requestLoading, setRequestLoading] = useState(false);
-  const [optionsPanelLoading, setOptionsPanelLoading] = useState(false);
-  const [promptOptions, setPromptOptions] = useState<PromptOptions>(promptOptionsObj);
-  const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
-  const [language, setLanguage] = useState<Language>(new Language());
-
-  // Setting hooks
+  // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
   const [opened, { toggle }] = useDisclosure();
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
+  // User Prompt
+  const [userPrompt, setUserPrompt] = useState("");
+
+  // Suggestions
+  const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>([]);
+
+  // Setting state
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [promptOptions, setPromptOptions] = useState<PromptOptions>(new PromptOptions());
+  const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
+  const [language, setLanguage] = useState<Language>(new Language());
   // technologies
   const defaultTechnology = promptOptions.getDefaultTechnology();
   const [technologies, setTechnologies] = useState<Technology[]>(promptOptions.getTechnologies());
   const [technology, setTechnology] = useState<Technology>(defaultTechnology);
-
   // providers
   const defaultProvider = promptOptions.getDefaultProvider(defaultTechnology.slug);
   const [providers, setProviders] = useState<Provider[]>(promptOptions.getProviders(defaultTechnology.slug));
-  const [provider, setProvider] = useState(promptOptions.getDefaultProvider(defaultTechnology.slug));
-
+  const [provider, setProvider] = useState(defaultProvider);
   // parameters
-  const [parameters, setParameters] = useState<Parameter[]>(promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug));
-
+  const defaultParameters = promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug);
+  const [parameters, setParameters] = useState<Parameter[]>(defaultParameters);
   // modifiers
-  const [modifiers, setModifiers] = useState<Modifier[]>(promptOptions.getModifiers(defaultTechnology.slug));
+  const defaultModifiers = promptOptions.getModifiers(defaultTechnology.slug);
+  const [modifiers, setModifiers] = useState<Modifier[]>(defaultModifiers);
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
   useEffect(() => {
-    refreshPromptOptions(Language.getDefault());
+    refreshPromptOptions(Language.getDefaultCode());
   }, []);
 
-  const refreshPromptOptions = async (language: string) => {
-    setOptionsPanelLoading(true);
-    const aIMediatorClient = new AIMediatorClient();
-    const usedPrompts = await aIMediatorClient.getUsedPrompts();
+  const refreshPromptOptions = async (languageCode: string) => {
+    // Init AI Client
+    const aiMediatorClient = new AIMediatorClient();
+
+    // Refresh Suggestions
+    const usedPrompts = await aiMediatorClient.getUsedPrompts();
     const usedPromptsObjs = UsedPrompt.buildFromApi(usedPrompts);
     setUsedPrompts(usedPromptsObjs);
 
-    const promptOptions = await aIMediatorClient.getPromptOptions(language);
+    // Refresh Options
+    const promptOptions = await aiMediatorClient.getPromptOptions(languageCode);
     const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
-
-    const currentTechnology = promptOptionsObj.getDefaultTechnology();
-    const currentProvider = promptOptionsObj.getDefaultProvider(currentTechnology.slug);
-
-    // Initialize prompt options default values
     setPromptOptions(promptOptionsObj);
-    setTechnologies(promptOptionsObj.getTechnologies());
-    setProviders(promptOptionsObj.getProviders(currentTechnology.slug));
-    setParameters(promptOptionsObj.getParameters(currentTechnology.slug, currentProvider.slug));
-    setModifiers(promptOptionsObj.getModifiers(currentTechnology.slug));
-    setActiveModifiers([]);
+    
+    // Refresh Technologies
+    const currentTechnology = promptOptionsObj.getDefaultTechnology();
     setTechnology(currentTechnology);
-    setProvider(currentProvider);
+    setTechnologies(promptOptionsObj.getTechnologies());
 
-    // Initialize user prompt options
+    // Refresh Providers
+    const currentProvider = promptOptionsObj.getDefaultProvider(currentTechnology.slug);
+    setProvider(currentProvider);
+    setProviders(promptOptionsObj.getProviders(currentTechnology.slug));
+
+    // Refresh Parameters
+    const parameters = promptOptionsObj.getParameters(currentTechnology.slug, currentProvider.slug);
+    setParameters(parameters);
+
+    // Refresh Modifiers
+    const modifiers = promptOptionsObj.getModifiers(currentTechnology.slug); 
+    setModifiers(modifiers);
+    setActiveModifiers([]);
+
+    // Refresh User Options
     const newUserPromptOptions = userPromptOptions;
     newUserPromptOptions.setTechnology(currentTechnology);
     newUserPromptOptions.setProvider(currentProvider);
+    newUserPromptOptions.setLanguage(languageCode);
+    newUserPromptOptions.setParameters(parameters);
+    newUserPromptOptions.setModifiers(modifiers)
     setUserPromptOptions(newUserPromptOptions);
-    setOptionsPanelLoading(false);
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {
@@ -200,8 +210,6 @@ export function HomePage() {
         <Footer
           aiMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
-          setRequestLoading={setRequestLoading}
-          requestLoading={requestLoading}
           scrollIntoView={scrollIntoView}
           threads={threads}
           setThreads={setThreads}

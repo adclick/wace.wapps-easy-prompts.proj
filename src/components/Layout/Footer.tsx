@@ -11,8 +11,6 @@ import { Parameter } from "../../model/Parameter";
 interface Footer {
     aiMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
-    setRequestLoading: any,
-    requestLoading: boolean,
     scrollIntoView: any,
     threads: Thread[],
     setThreads: any,
@@ -36,8 +34,6 @@ interface Footer {
 export function Footer({
     aiMediatorClient,
     userPromptOptions,
-    setRequestLoading,
-    requestLoading,
     scrollIntoView,
     threads,
     setThreads,
@@ -61,8 +57,6 @@ export function Footer({
         <Prompt
             aIMediatorClient={aiMediatorClient}
             userPromptOptions={userPromptOptions}
-            setRequestLoading={setRequestLoading}
-            requestLoading={requestLoading}
             scrollIntoView={scrollIntoView}
             threads={threads}
             setThreads={setThreads}
