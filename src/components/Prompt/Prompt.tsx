@@ -35,7 +35,8 @@ interface PromptParams {
     setUserPromptOptions: any,
     parameters: Parameter[],
     userPrompt: string,
-    setUserPrompt: any
+    setUserPrompt: any,
+    refreshPromptOptions: any
 }
 
 export function Prompt({
@@ -59,7 +60,8 @@ export function Prompt({
     setUserPromptOptions,
     parameters,
     userPrompt,
-    setUserPrompt
+    setUserPrompt,
+    refreshPromptOptions
 }: PromptParams) {
     const { t } = useTranslation();
     const [openedPrompts, { open, close }] = useDisclosure(false);
@@ -132,6 +134,8 @@ export function Prompt({
                         userPromptOptions={userPromptOptions}
                         setUserPromptOptions={setUserPromptOptions}
                         parameters={parameters}
+                        aIMediatorClient={aIMediatorClient}
+                        refreshPromptOptions={refreshPromptOptions}
 
                     />
 

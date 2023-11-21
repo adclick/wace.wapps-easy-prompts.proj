@@ -42,6 +42,14 @@ export class AIMediatorClient {
         });
     }
 
+    async saveModifier(name: string, content: string, technology: Technology) {
+        return await this.post('/ai/prompt/add-modifier', {
+            name,
+            content,
+            technology: technology.slug
+        });
+    }
+
     async upvotePrompt(prompt: string, technology: Technology, provider: Provider) {
         return await this.post('/ai/prompt/upvote', {
             prompt,

@@ -219,6 +219,7 @@ export function HomePage() {
           parameters={parameters}
           userPrompt={userPrompt}
           setUserPrompt={setUserPrompt}
+          refreshPromptOptions={refreshPromptOptions}
         />
       </AppShell.Footer>
     </AppShell>

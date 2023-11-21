@@ -29,7 +29,8 @@ interface Footer {
     setUserPromptOptions: any,
     parameters: Parameter[],
     userPrompt: string,
-    setUserPrompt: any
+    setUserPrompt: any,
+    refreshPromptOptions: any
 }
 
 export function Footer({
@@ -53,7 +54,8 @@ export function Footer({
     setUserPromptOptions,
     parameters,
     userPrompt,
-    setUserPrompt
+    setUserPrompt,
+    refreshPromptOptions
 }: Footer) {
     return (
         <Prompt
@@ -78,6 +80,7 @@ export function Footer({
             parameters={parameters}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
+            refreshPromptOptions={refreshPromptOptions}
         />
     )
 }

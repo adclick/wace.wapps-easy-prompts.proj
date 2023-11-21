@@ -13,6 +13,7 @@ import { ParameterOption } from "../Options/ParameterOption";
 import classes from './ModeButton.module.css';
 import cx from 'clsx';
 import { useRef } from "react";
+import { AIMediatorClient } from "@/clients/AIMediatorClient";
 
 
 interface ModeButton {
@@ -28,7 +29,9 @@ interface ModeButton {
     setActiveModifiers: any
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
-    parameters: Parameter[]
+    parameters: Parameter[],
+    aIMediatorClient: AIMediatorClient,
+    refreshPromptOptions: any
 }
 
 export function ModeButton({
@@ -44,7 +47,9 @@ export function ModeButton({
     setActiveModifiers,
     userPromptOptions,
     setUserPromptOptions,
-    parameters
+    parameters,
+    aIMediatorClient,
+    refreshPromptOptions
 }: ModeButton) {
     const computedColorScheme = useComputedColorScheme('dark');
 
@@ -127,6 +132,9 @@ export function ModeButton({
                                     userPromptOptions={userPromptOptions}
                                     setUserPromptOptions={setUserPromptOptions}
                                     currentTechnologySlug={technology.slug}
+                                    aIMediatorClient={aIMediatorClient}
+                                    technology={technology}
+                                    refreshPromptOptions={refreshPromptOptions}
                                 />
                             </Stack>
                         </ScrollAreaAutosize>
@@ -145,7 +153,6 @@ export function ModeButton({
                     <Tabs.Panel value="templates">
                         <Stack py={"md"} gap={"md"}>
                             {
-
                                 templates.length > 0
                                     ? 
                                     <Stack gap={"xs"}>
@@ -163,11 +170,8 @@ export function ModeButton({
                                     : <Text>Not available yet</Text>
                             }
                         </Stack>
-
                     </Tabs.Panel>
-
                 </Tabs>
-
             </Popover.Dropdown>
         </Popover>
     )
