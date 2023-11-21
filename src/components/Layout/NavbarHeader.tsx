@@ -1,5 +1,4 @@
 import { Burger, Group } from "@mantine/core";
-import { UserMenu } from "../Elements/UserMenu";
 import { FeedbackButton } from "../Elements/FeedbackButton";
 import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
 

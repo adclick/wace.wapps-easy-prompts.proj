@@ -49,13 +49,15 @@ export function ModifiersOption({
     }
 
     const saveModifier = async () => {
-        await aIMediatorClient.saveModifier(
-            newModifierName,
-            newModifierContent,
-            technology
-        );
-
-        await refreshPromptOptions();
+        if (newModifierName !== "" && newModifierContent !== "") {
+            await aIMediatorClient.saveModifier(
+                newModifierName,
+                newModifierContent,
+                technology
+            );
+    
+            await refreshPromptOptions();
+        }
     }
 
     const getModifiersToShow = () => {
