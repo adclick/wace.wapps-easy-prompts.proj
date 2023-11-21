@@ -83,7 +83,7 @@ export function ModifiersOption({
     }
 
     return (
-        <Stack my={"md"}>
+        <Stack mb={"md"}>
             <Group justify="space-between">
                 <Group >
                     <Text size="sm" fw={700}>

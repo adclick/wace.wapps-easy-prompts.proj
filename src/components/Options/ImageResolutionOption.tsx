@@ -55,6 +55,5 @@ export function ImageResolutionOption({
                 comboboxProps={{ withinPortal: false }}
             />
         </Stack>
-
     )
 }

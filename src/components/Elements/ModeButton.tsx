@@ -91,7 +91,7 @@ export function ModeButton({
 
                     <Tabs.Panel value="options">
                         <ScrollAreaAutosize viewportRef={viewportRef} mah={500} type="hover">
-                            <Stack my={"xs"} gap={"xs"}>
+                            <Stack my={"xs"} gap={"md"}>
                                 <TechnologyOption
                                     promptOptions={promptOptions}
                                     currentTechnology={technology}
@@ -106,7 +106,7 @@ export function ModeButton({
                                 />
                                 {
                                     parameters.length > 0 &&
-                                    <Divider h={"xs"} />
+                                    <Divider />
                                 }
                                 {
                                     parameters.map(parameter => {
@@ -123,7 +123,7 @@ export function ModeButton({
                                         )
                                     })
                                 }
-                                <Divider h={"xs"} />
+                                <Divider  />
                                 <ModifiersOption
                                     modifiers={modifiers}
                                     activeModifiers={activeModifiers}
@@ -138,12 +138,12 @@ export function ModeButton({
                                 />
                             </Stack>
                         </ScrollAreaAutosize>
-                        <Divider h={"xs"} />
-                        <Group justify="space-between">
-                            <Button variant="transparent" size="sm" leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}>
+                        <Divider />
+                        <Group mt={"xs"} justify="space-between">
+                            <Button px={0} variant="transparent" size="xs" leftSection={<IconReload style={{ width: rem(14), height: rem(14) }} />}>
                                 Reset
                             </Button>
-                            <Button variant="transparent" size="sm" leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}>
+                            <Button px={0} variant="transparent" size="xs" leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
                                 Save Template
                             </Button>
 

@@ -39,7 +39,7 @@ export function NumImagesOption({
         marks.push({ value: i, label: i });
     }
     return (
-        <Stack gap={"xs"}>
+        <Stack gap={"md"}>
             <Group>
                 <Text size="sm" fw={700}>{parameter.name}</Text>
             </Group>
