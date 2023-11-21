@@ -1,7 +1,8 @@
-import { Badge, Box, Burger, Group, Title } from "@mantine/core";
+import { Badge, Box, Burger, Group, Title, em } from "@mantine/core";
 import { FeedbackButton } from "../Elements/FeedbackButton";
 import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
 import { UserMenu } from "../Elements/UserMenu";
+import { useMediaQuery } from "@mantine/hooks";
 
 interface Header {
     navbarOpened: boolean,
@@ -9,8 +10,10 @@ interface Header {
 }
 
 export function Header({ navbarOpened, navbarToggle }: Header) {
+    const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
+
     return (
-        <Group h={"100%"} px={"md"} justify="space-between">
+        <Group h={"100%"} px={"md"} justify="space-between" align="center">
             <Group>
                 <Burger
                     opened={navbarOpened}
@@ -18,19 +21,19 @@ export function Header({ navbarOpened, navbarToggle }: Header) {
                     hiddenFrom="sm"
                     size="sm"
                 />
-                <Title order={2}>
+                <Title order={isMobile ? 3 : 2}>
                     EasyPrompts
                 </Title>
                 <Badge size="xs">Alpha</Badge>
             </Group>
             <Group>
-                <Group visibleFrom='md'>
+                <Box visibleFrom='md'>
                     <FeedbackButton />
-                </Group>
-                <Box visibleFrom='sm'>
-                    <UserMenu />
                 </Box>
-                <ColorSchemeToggle />
+                <Box visibleFrom='sm'>
+                    <ColorSchemeToggle />
+                </Box>
+                <UserMenu />
             </Group>
         </Group>
     );

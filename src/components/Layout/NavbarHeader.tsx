@@ -19,7 +19,7 @@ export function NavbarHeader({ navbarOpened, navbarToggle }: NavbarHeader) {
             />
             <Group hiddenFrom='sm'>
                 <FeedbackButton />
-                <UserMenu />
+                <ColorSchemeToggle />
             </Group>
         </Group>
     )
