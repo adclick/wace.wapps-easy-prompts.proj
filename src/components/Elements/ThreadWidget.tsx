@@ -85,7 +85,7 @@ export function ThreadWidget({
                 >
                     <Group>
                         <Avatar src={user?.picture} size={"sm"} />
-                        <Text size="sm">
+                        <Text size="md">
                             {request.text}
                         </Text>
                     </Group>
@@ -128,7 +128,7 @@ export function ThreadWidget({
                         <CopyButton value={response.data} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
-                                    <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+                                    <ActionIcon color={copied ? 'blue' : 'gray'} variant="subtle" onClick={copy}>
                                         {copied ? (
                                             <IconCheck size={16} />
                                         ) : (

@@ -24,7 +24,7 @@ export function Suggestion({
         <AccordionItem value={usedPrompt.prompt} py={"xs"}>
             <AccordionControl px={0}>
                 <Group justify="space-between">
-                    <Text size="xs">{usedPrompt.prompt}</Text>
+                    <Text size="sm">{usedPrompt.prompt}</Text>
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>
