@@ -4,5 +4,5 @@ export const theme = createTheme({
   /** Put your mantine theme override here */
   defaultRadius: "lg",
   primaryColor: "blue",
-  white: "#F8F9FA"
+  white: "#F8F9FA",
 });

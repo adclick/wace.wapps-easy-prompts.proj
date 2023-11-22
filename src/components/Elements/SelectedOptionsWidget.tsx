@@ -2,7 +2,7 @@ import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { Provider } from "../../model/Provider";
 import { Technology } from "../../model/Technology";
-import { Badge, Text } from "@mantine/core";
+import { Badge, Chip, Popover, Text } from "@mantine/core";
 
 interface SelectedOptionsWidget {
     technology: Technology,
@@ -18,12 +18,27 @@ export function SelectedOptionsWidget({
     modifiers
 }: SelectedOptionsWidget) {
     return (
-        // <Badge size="sm" variant="outline">
-        //     {technology.name} |  {provider.name}
-        // </Badge>
+        modifiers.length > 0
+            ? <Popover>
+                <Popover.Target>
+                    <Text size="xs">
+                        {technology.name} |  {provider.name}
+                    </Text>
 
-        <Text size="xs" >
-            {technology.name} |  {provider.name} | Modifiers({modifiers.length})
-        </Text>
+                </Popover.Target>
+                <Popover.Dropdown>
+                    {
+                        modifiers.map(m => {
+                            return (
+                                <Chip size="xs" readOnly checked variant="outline" key={m.slug}>{m.name}</Chip>
+                            )
+                        })
+                    }
+                </Popover.Dropdown>
+            </Popover>
+            : <Text size="xs">
+                {technology.name} |  {provider.name}
+            </Text>
+
     )
 }

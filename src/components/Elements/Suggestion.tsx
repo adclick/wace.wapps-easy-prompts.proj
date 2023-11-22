@@ -1,7 +1,6 @@
 import { UsedPrompt } from "../../model/UsedPrompt";
-import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Button, Chip, Collapse, Divider, Group, Paper, Rating, Spoiler, Stack, Text, Tooltip, rem } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconArrowLeft, IconArrowRight, IconCheck, IconPlayerPlayFilled } from "@tabler/icons-react";
+import { Accordion, AccordionControl, AccordionItem, ActionIcon, Group, Rating, Stack, Text, Tooltip } from "@mantine/core";
+import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
@@ -17,7 +16,6 @@ export function Suggestion({
     setUserPrompt,
     navbarToggle
 }: Suggestion) {
-    const [opened, { toggle }] = useDisclosure(false);
 
     const use = () => {
         setUserPrompt(usedPrompt.prompt)
@@ -27,7 +25,7 @@ export function Suggestion({
         <AccordionItem value={usedPrompt.prompt} py={"xs"}>
             <AccordionControl px={0}>
                 <Group justify="space-between">
-                    <Text size="sm">{usedPrompt.prompt}</Text>
+                    <Text size="sm" fw={500}>{usedPrompt.prompt}</Text>
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>

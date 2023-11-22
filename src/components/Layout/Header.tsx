@@ -1,8 +1,9 @@
-import { Badge, Box, Burger, Group, Title, em } from "@mantine/core";
+import { Badge, Box, Burger, Group, Image, Title, em } from "@mantine/core";
 import { FeedbackButton } from "../Elements/FeedbackButton";
 import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
 import { UserMenu } from "../Elements/UserMenu";
 import { useMediaQuery } from "@mantine/hooks";
+import logo from "../../favicon.svg";
 
 interface Header {
     navbarOpened: boolean,
@@ -21,6 +22,7 @@ export function Header({ navbarOpened, navbarToggle }: Header) {
                     hiddenFrom="sm"
                     size="sm"
                 />
+                <Image src={logo} h={30} />
                 <Title order={isMobile ? 3 : 2}>
                     EasyPrompts
                 </Title>

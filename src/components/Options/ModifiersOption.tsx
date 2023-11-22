@@ -132,7 +132,7 @@ export function ModifiersOption({
                                     </Chip>
                                     <Popover width={200} position="top" withArrow shadow="md">
                                         <Popover.Target>
-                                            <ActionIcon mx={"sm"} size={'xs'} variant="outline" aria-label="Settings">
+                                            <ActionIcon mx={"sm"} size={'sm'} variant="outline" aria-label="Settings">
                                                 <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
                                             </ActionIcon>
                                         </Popover.Target>
