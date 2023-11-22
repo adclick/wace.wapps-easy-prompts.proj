@@ -1,5 +1,5 @@
-import { Accordion, ActionIcon, Box, Button, Chip, Collapse, Group, Input, Paper, Popover, ScrollArea, Stack, Text, TextInput, Textarea, Title, rem } from "@mantine/core"
-import { IconPlus, IconQuestionMark, IconSparkles } from "@tabler/icons-react"
+import { Accordion, ActionIcon, Box, Button, Card, Chip, Collapse, Group, Input, Paper, Popover, ScrollArea, Stack, Text, TextInput, Textarea, Title, rem } from "@mantine/core"
+import { IconDeviceFloppy, IconPlus, IconQuestionMark, IconSparkles } from "@tabler/icons-react"
 import { PromptOptions } from "../../model/PromptOptions"
 import { UserPromptOptions } from "../../model/UserPromptOptions"
 import { useState } from "react"
@@ -55,9 +55,9 @@ export function ModifiersOption({
                 newModifierContent,
                 technology
             );
-    
+
             toggle();
-            
+
             await refreshPromptOptions();
 
         }
@@ -89,28 +89,32 @@ export function ModifiersOption({
         <Stack mb={"md"}>
             <Group justify="space-between">
                 <Group >
-                    <Text size="sm" fw={700}>
+                    <Text size="md">
                         Modifiers
                     </Text>
-                    <Text size="xs">
+                    <Text size="sm">
                         {activeModifiers.length} / {modifiers.length}
                     </Text>
                 </Group>
                 <Box mx={"sm"}>
                     <ActionIcon onClick={toggle} size={"xs"} variant="transparent">
-                        <IconPlus />
+                        <IconPlus style={{ width: rem(16), height: rem(16) }} />
                     </ActionIcon>
                 </Box>
             </Group>
             <Collapse in={opened}>
-                <Paper p={"sm"}>
-                    <TextInput onChange={(e: any) => setNewModifierName(e.target.value)} value={newModifierName} label="Name" placeholder="Name" size="xs" />
-                    <Textarea onChange={(e: any) => setNewModifierContent(e.target.value)} value={newModifierContent} label="Content" placeholder="" size="xs" mt="xs" />
-                    <Button size="compact-xs" onClick={saveModifier}>Save</Button>
-                </Paper>
+                <Card p={"sm"}>
+                    <Stack>
+                        <TextInput onChange={(e: any) => setNewModifierName(e.target.value)} value={newModifierName} label="Name" placeholder="Name" size="xs" />
+                        <Textarea onChange={(e: any) => setNewModifierContent(e.target.value)} value={newModifierContent} label="Content" placeholder="" size="xs" mt="xs" />
+                        <Group>
+                            <Button leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />} variant="transparent" size="compact-xs" onClick={saveModifier}>Save</Button>
+                        </Group>
+                    </Stack>
+                </Card>
             </Collapse>
             <Input
-                size='xs'
+                size='sm'
                 placeholder={(t("search"))}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
@@ -122,7 +126,9 @@ export function ModifiersOption({
                             return (
                                 <Group key={item.slug} justify="space-between">
                                     <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug}>
-                                        {item.name}
+                                        <Text size="xs" truncate>
+                                            {item.name}
+                                        </Text>
                                     </Chip>
                                     <Popover width={200} position="top" withArrow shadow="md">
                                         <Popover.Target>

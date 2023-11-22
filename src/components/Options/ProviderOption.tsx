@@ -36,7 +36,7 @@ export function ProviderOption({
             onChange={handleOnChangeProvider}
             comboboxProps={{ withinPortal: false }}
             variant="unstyled"
-            fw={700}
+            size="md"
         />
     )
 }

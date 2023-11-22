@@ -46,7 +46,7 @@ export function NumImagesOption({
     return (
         <Stack gap={"md"}>
             <Group>
-                <Text size="sm" fw={700}>{parameter.name}</Text>
+                <Text size="md">{parameter.name}</Text>
             </Group>
             <Slider
                 defaultValue={1}
@@ -55,7 +55,6 @@ export function NumImagesOption({
                 marks={marks}
                 mx={"xs"}
                 value={value}
-                size={"sm"}
                 onChange={handleOnChange}
             />
         </Stack>

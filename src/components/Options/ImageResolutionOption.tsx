@@ -48,7 +48,7 @@ export function ImageResolutionOption({
     return (
         <Stack gap={"xs"}>
             <Group>
-                <Text size="sm" fw={700}>{parameter.name}</Text>
+                <Text size="md">{parameter.name}</Text>
             </Group>
             <Select
                 variant="unstyled"

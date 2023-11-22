@@ -94,19 +94,19 @@ export function Prompt({
 
     return (
         <Box>
-            <Drawer opened={opened} onClose={close} title="Options" size={"350px"}>
-                <Tabs defaultValue="options" variant="default">
+            <Drawer opened={opened} onClose={close} title={<IconAdjustmentsHorizontal style={{width: rem(20), height: rem(20)}} />} size={"350px"}>
+                <Tabs defaultValue="options" variant="default" radius={"xs"}>
                     <Tabs.List grow>
                         <Tabs.Tab value="options" leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                            <Text size="sm" fw={700}>Options</Text>
+                            <Text size="md" fw={700}>Options</Text>
                         </Tabs.Tab>
                         <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                            <Text size="sm" fw={700}>Templates</Text>
+                            <Text size="md" fw={700}>Templates</Text>
                         </Tabs.Tab>
                     </Tabs.List>
 
                     <Tabs.Panel value="options">
-                        <Stack my={"xs"} gap={"md"}>
+                        <Stack my={"md"} gap={"md"}>
                             <TechnologyOption
                                 promptOptions={promptOptions}
                                 currentTechnology={technology}
@@ -154,10 +154,10 @@ export function Prompt({
                         </Stack>
                         <Divider />
                         <Group mt={"xs"} justify="space-between">
-                            <Button px={0} variant="transparent" size="xs" leftSection={<IconReload style={{ width: rem(14), height: rem(14) }} />}>
+                            <Button px={0} variant="transparent" size="sm" leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}>
                                 Reset
                             </Button>
-                            <Button px={0} variant="transparent" size="xs" leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
+                            <Button px={0} variant="transparent" size="sm" leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}>
                                 Save Template
                             </Button>
 
