@@ -22,7 +22,6 @@ export function Header({ navbarOpened, navbarToggle }: Header) {
                     hiddenFrom="sm"
                     size="sm"
                 />
-                <Image src={logo} h={30} />
                 <Title order={isMobile ? 3 : 2}>
                     EasyPrompts
                 </Title>

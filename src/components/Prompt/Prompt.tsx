@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Center, Divider, Drawer, Group, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
+import { ActionIcon, Box, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptsModal } from "./PromptsModal";
@@ -68,7 +68,7 @@ export function Prompt({
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');
-    
+
 
     // Submit prompt
     const submitPrompt = async () => {
@@ -98,98 +98,63 @@ export function Prompt({
 
     return (
         <Box>
-            <Drawer opened={opened} onClose={close} title={<IconAdjustmentsHorizontal style={{width: rem(20), height: rem(20)}} />} size={"350px"}>
-                <Tabs defaultValue="options" variant="default" radius={"xs"}>
-                    <Tabs.List grow>
-                        <Tabs.Tab value="options" leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                            <Text size="md" fw={700}>Options</Text>
-                        </Tabs.Tab>
-                        <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                            <Text size="md" fw={700}>Templates</Text>
-                        </Tabs.Tab>
-                    </Tabs.List>
-
-                    <Tabs.Panel value="options">
-                        <Stack my={"md"} gap={"md"}>
-                            <TechnologyOption
-                                promptOptions={promptOptions}
-                                currentTechnology={technology}
-                                technologies={technologies}
-                                handleOnChangeTechnology={handleOnChangeTechnology}
-                            />
-                            <ProviderOption
-                                promptOptions={promptOptions}
-                                currentProvider={provider}
-                                providers={providers}
-                                handleOnChangeProvider={handleOnChangeProvider}
-                            />
-                            {
-                                parameters.length > 0 &&
-                                <Divider />
-                            }
-                            {
-                                parameters.map(parameter => {
-                                    return (
-                                        <Box my={"sm"} key={parameter.slug}>
-                                            <ParameterOption
-                                                key={parameter.slug}
-                                                type={parameter.slug}
-                                                parameter={parameter}
-                                                userPromptOptions={userPromptOptions}
-                                                setUserPromptOptions={setUserPromptOptions}
-                                            />
-                                        </Box>
-                                    )
-                                })
-                            }
-                            <Divider />
-                            <ModifiersOption
-                                modifiers={modifiers}
-                                activeModifiers={activeModifiers}
-                                setActiveModifiers={setActiveModifiers}
-                                promptOptions={promptOptions}
-                                userPromptOptions={userPromptOptions}
-                                setUserPromptOptions={setUserPromptOptions}
-                                currentTechnologySlug={technology.slug}
-                                aIMediatorClient={aIMediatorClient}
-                                technology={technology}
-                                refreshPromptOptions={refreshPromptOptions}
-                            />
-                        </Stack>
+            <Drawer opened={opened} onClose={close} title={<Title order={3}>Options</Title>} size={"350px"}>
+                <Stack my={"md"} gap={"md"}>
+                    <TechnologyOption
+                        promptOptions={promptOptions}
+                        currentTechnology={technology}
+                        technologies={technologies}
+                        handleOnChangeTechnology={handleOnChangeTechnology}
+                    />
+                    <ProviderOption
+                        promptOptions={promptOptions}
+                        currentProvider={provider}
+                        providers={providers}
+                        handleOnChangeProvider={handleOnChangeProvider}
+                    />
+                    {
+                        parameters.length > 0 &&
                         <Divider />
-                        <Group mt={"xs"} justify="space-between">
-                            <Button px={0} variant="transparent" size="sm" leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}>
-                                Reset
-                            </Button>
-                            <Button px={0} variant="transparent" size="sm" leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}>
-                                Save Template
-                            </Button>
+                    }
+                    {
+                        parameters.map(parameter => {
+                            return (
+                                <Box my={"sm"} key={parameter.slug}>
+                                    <ParameterOption
+                                        key={parameter.slug}
+                                        type={parameter.slug}
+                                        parameter={parameter}
+                                        userPromptOptions={userPromptOptions}
+                                        setUserPromptOptions={setUserPromptOptions}
+                                    />
+                                </Box>
+                            )
+                        })
+                    }
+                    <Divider />
+                    <ModifiersOption
+                        modifiers={modifiers}
+                        activeModifiers={activeModifiers}
+                        setActiveModifiers={setActiveModifiers}
+                        promptOptions={promptOptions}
+                        userPromptOptions={userPromptOptions}
+                        setUserPromptOptions={setUserPromptOptions}
+                        currentTechnologySlug={technology.slug}
+                        aIMediatorClient={aIMediatorClient}
+                        technology={technology}
+                        refreshPromptOptions={refreshPromptOptions}
+                    />
+                </Stack>
+                <Divider />
+                <Group mt={"xs"} justify="space-between">
+                    <Button px={0} variant="transparent" size="sm" leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}>
+                        Reset
+                    </Button>
+                    <Button px={0} variant="transparent" size="sm" leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}>
+                        Save Template
+                    </Button>
 
-                        </Group>
-                    </Tabs.Panel>
-
-                    <Tabs.Panel value="templates">
-                        <Stack py={"md"} gap={"md"}>
-                            {
-                                templates.length > 0
-                                    ?
-                                    <Stack gap={"xs"}>
-                                        {
-                                            templates.map(template => {
-                                                return (
-                                                    <Group key={template.name} justify="space-between">
-                                                        <Text size="sm">{template.name}</Text>
-                                                        <Button leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />} variant="subtle" size="compact-xs">Use</Button>
-                                                    </Group>
-                                                )
-                                            })
-                                        }
-                                    </Stack>
-                                    : <Text>Not available yet</Text>
-                            }
-                        </Stack>
-                    </Tabs.Panel>
-                </Tabs>
+                </Group>
             </Drawer>
             <Stack>
                 <Group
@@ -238,8 +203,17 @@ export function Prompt({
                         }}
                         onClick={open}
                     >
-                        <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        {
+                            activeModifiers.length > 0
+                                ? <Indicator label={activeModifiers.length} size={16}>
+                                    <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                </Indicator>
+                                :
+                                <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+
+                        }
                     </ActionIcon>
+
                     {/* <ModeButton
                         promptOptions={promptOptions}
                         technology={technology}
@@ -272,6 +246,7 @@ export function Prompt({
                                 paddingLeft: "60px",
                                 paddingRight: "50px",
                             }
+
                         }}
                         radius={'xl'}
                         value={userPrompt}

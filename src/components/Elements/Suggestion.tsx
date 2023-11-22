@@ -1,6 +1,6 @@
 import { UsedPrompt } from "../../model/UsedPrompt";
-import { Accordion, AccordionControl, AccordionItem, ActionIcon, Group, Rating, Stack, Text, Tooltip } from "@mantine/core";
-import { IconPlayerPlayFilled } from "@tabler/icons-react";
+import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Group, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
+import { IconPlayerPlayFilled, IconPrompt, IconTemplate } from "@tabler/icons-react";
 import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
@@ -24,8 +24,10 @@ export function Suggestion({
     return (
         <AccordionItem value={usedPrompt.prompt} py={"xs"}>
             <AccordionControl px={0}>
-                <Group justify="space-between">
-                    <Text size="sm" fw={500}>{usedPrompt.prompt}</Text>
+                <Group justify="space-between" gap={"xs"} align="center">
+                    <Text size="sm" fw={500} lineClamp={20}>
+                        {usedPrompt.prompt}
+                    </Text>
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>
