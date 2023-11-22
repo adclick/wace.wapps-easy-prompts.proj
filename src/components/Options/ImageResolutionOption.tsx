@@ -33,7 +33,7 @@ export function ImageResolutionOption({
     }
 
     if (parameter.content === '') {
-        return '';
+        return <></>;
     }
 
     const resolutions: string[] = parameter.content;

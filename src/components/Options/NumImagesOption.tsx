@@ -36,7 +36,7 @@ export function NumImagesOption({
 
     
     if (parameter.content === '') {
-        return '';
+        return <></>;
     }    
 
     const marks = [];

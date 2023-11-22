@@ -16,7 +16,7 @@ export class Language {
     }
 
     static getAll() {
-        return Code;
+        return Object.values(CODES);
     }
 
     static getDefaultCode() {
