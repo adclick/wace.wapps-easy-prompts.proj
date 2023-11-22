@@ -16,9 +16,9 @@ import { Technology } from '../model/Technology';
 import { Provider } from '../model/Provider';
 import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
+import { UsedPrompt } from '../model/UsedPrompt';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
-import { UsedPrompt } from '../model/UsedPrompt';
 
 export function HomePage() {
   // API Client

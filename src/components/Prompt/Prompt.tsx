@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Center, Divider, Drawer, Group, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem } from "@mantine/core";
+import { ActionIcon, Box, Button, Center, Divider, Drawer, Group, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptsModal } from "./PromptsModal";
@@ -17,6 +17,8 @@ import { ModifiersOption } from "../Options/ModifiersOption";
 import { ParameterOption } from "../Options/ParameterOption";
 import { TechnologyOption } from "../Options/TechnologyOption";
 import { ProviderOption } from "../Options/ProviderOption";
+import classes from './Prompt.module.css';
+import cx from 'clsx';
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,
@@ -65,6 +67,8 @@ export function Prompt({
 }: PromptParams) {
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
+    const computedColorScheme = useComputedColorScheme('dark');
+    
 
     // Submit prompt
     const submitPrompt = async () => {
@@ -267,13 +271,15 @@ export function Prompt({
                             input: {
                                 paddingLeft: "60px",
                                 paddingRight: "50px",
-                                backgroundColor: "var(--mantine-color-dark-9)"
                             }
                         }}
                         radius={'xl'}
                         value={userPrompt}
                         onChange={e => setUserPrompt(e.target.value)}
                         onKeyDown={submitPromptByTextArea}
+                        classNames={{
+                            input: cx(classes.input, classes[computedColorScheme])
+                        }}
                     />
                     <ActionIcon
                         variant="filled"

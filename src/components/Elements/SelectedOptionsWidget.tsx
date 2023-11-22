@@ -23,7 +23,7 @@ export function SelectedOptionsWidget({
         // </Badge>
 
         <Text size="xs" >
-            {technology.name} |  {provider.name}
+            {technology.name} |  {provider.name} | Modifiers({modifiers.length})
         </Text>
     )
 }
