@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Group, Title, rem } from "@mantine/core";
+import { Box, Button, Divider, Group, Select, Text, Title, rem } from "@mantine/core";
 import { Language } from "../../model/Language";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { IconArrowBack, IconPlus, IconReload } from "@tabler/icons-react";
@@ -37,6 +37,13 @@ export function NavbarFooter({
                 setUserPromptOptions={setUserPromptOptions}
                 refreshPromptOptions={refreshPromptOptions}
             /> */}
+            <Select 
+                data={[
+                    {label: "Wace", value: "wace"}
+                ]}
+                value={"wace"}
+                variant="unstyled"
+            />
             <Button
                 leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
                 variant="transparent"

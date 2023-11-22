@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
-import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconShare, IconTrash } from "@tabler/icons-react"
+import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconShare, IconSparkles, IconTrash } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -85,11 +85,21 @@ export function ThreadWidget({
                     px={0}
                     py={"xs"}
                 >
-                    <Group>
-                        <Avatar src={user?.picture} size={"sm"} />
-                        <Text size="md">
-                            {request.text}
-                        </Text>
+                    <Group justify="space-between">
+                        <Group>
+                            <Avatar src={user?.picture} size={"sm"} />
+                            <Text size="md">
+                                {request.text}
+                            </Text>
+                        </Group>
+                        <Group>
+                            <SelectedOptionsWidget
+                                technology={request.userPromptOptions.technology}
+                                provider={request.userPromptOptions.provider}
+                                parameters={request.userPromptOptions.parameters}
+                                modifiers={request.userPromptOptions.modifiers}
+                            />
+                        </Group>
                     </Group>
                 </Box>
                 <Box
@@ -140,7 +150,7 @@ export function ThreadWidget({
                                 </Tooltip>
                             )}
                         </CopyButton>
-                        <Menu withinPortal position="bottom-end" shadow="sm">
+                        <Menu withinPortal position="top" shadow="sm">
                             <Menu.Target>
                                 <ActionIcon variant="subtle" color="gray">
                                     <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
@@ -150,6 +160,9 @@ export function ThreadWidget({
                             <Menu.Dropdown>
                                 <Menu.Item onClick={savePrompt} leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
                                     Save Prompt
+                                </Menu.Item>
+                                <Menu.Item onClick={savePrompt} leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
+                                    Save Template
                                 </Menu.Item>
                                 <Menu.Item leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}>
                                     Share
@@ -164,12 +177,30 @@ export function ThreadWidget({
                         </Menu>
                     </Group>
                     <Group>
-                        <SelectedOptionsWidget
-                            technology={request.userPromptOptions.technology}
-                            provider={request.userPromptOptions.provider}
-                            parameters={request.userPromptOptions.parameters}
-                            modifiers={request.userPromptOptions.modifiers}
-                        />
+                        {
+                            request.userPromptOptions.modifiers.length > 0
+                                ? <Popover>
+                                    <Popover.Target>
+                                        <Indicator size={16} label={request.userPromptOptions.modifiers.length}>
+                                            <ActionIcon variant="transparent">
+                                                <IconSparkles />
+                                            </ActionIcon>
+                                        </Indicator>
+                                    </Popover.Target>
+                                    <Popover.Dropdown>
+                                        {
+                                            request.userPromptOptions.modifiers.map(m => {
+                                                return (
+                                                    <Chip size="xs" variant="outline" readOnly checked value={m.slug}>{m.name}</Chip>
+                                                )
+                                            })
+                                        }
+                                    </Popover.Dropdown>
+                                </Popover>
+                                : <ActionIcon variant="transparent">
+                                    <IconSparkles />
+                                </ActionIcon>
+                        }
                     </Group>
                 </Group>
             </Card.Section>
