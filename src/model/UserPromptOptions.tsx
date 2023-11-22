@@ -40,7 +40,6 @@ export class UserPromptOptions {
     }
 
     setParameter(slug: string, value: any) {
-        console.log(slug, this.parameters);
         for (const [index, parameter] of this.parameters.entries()) {
             if (parameter.slug === slug) {
                 this.parameters[index].value = value;

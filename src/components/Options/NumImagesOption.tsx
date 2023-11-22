@@ -34,6 +34,11 @@ export function NumImagesOption({
         setUserPromptOptions(newUserPromptOptions);
     }
 
+    
+    if (parameter.content === '') {
+        return '';
+    }    
+
     const marks = [];
     for (let i = 1; i <= parseInt(parameter.content); i++) {
         marks.push({ value: i, label: i });

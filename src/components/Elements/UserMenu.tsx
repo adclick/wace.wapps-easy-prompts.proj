@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Box, Button, Divider, Group, Menu, Stack, Text, Tooltip, rem } from "@mantine/core";
-import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconQuestionMark, IconSettings } from "@tabler/icons-react";
+import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 
 const NOT_AVAILABLE = "Not available yet";
@@ -18,48 +18,54 @@ export function UserMenu() {
                     </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
-                    <Menu.Label>{t('application')}</Menu.Label>
-                    <Tooltip label={NOT_AVAILABLE}>
-                        <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
-                            Give Feedback
-                        </Menu.Item>
-                    </Tooltip>
+                    <Menu.Item
+                        leftSection={<IconUser style={{ width: "70%", height: "70%" }} />}
+                    >
+                        <Stack gap={0}>
+                            <Text>{user?.nickname}</Text>
+                            <Text size="xs">{user?.email}</Text>
+                        </Stack>
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item
+                        leftSection={<IconPrompt style={{ width: "70%", height: "70%" }} />}
+                    >
+                        Prompts
+                    </Menu.Item>
+                    <Menu.Item
+                        leftSection={<IconSparkles style={{ width: "70%", height: "70%" }} />}
+                    >
+                        Modifiers
+                    </Menu.Item>
+                    <Menu.Item
+                        leftSection={<IconTemplate style={{ width: "70%", height: "70%" }} />}
+                    >
+                        Templates
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
+                        Give Feedback
+                    </Menu.Item>
 
-                    <Tooltip label={NOT_AVAILABLE}>
-                        <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                            About
-                        </Menu.Item>
-                    </Tooltip>
+                    <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
+                        About
+                    </Menu.Item>
 
-                    <Tooltip label={NOT_AVAILABLE}>
-                        <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
-                            Whats new
-                        </Menu.Item>
-                    </Tooltip>
+                    <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
+                        Whats new
+                    </Menu.Item>
 
-                    <Tooltip label={NOT_AVAILABLE}>
-                        <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                            How to use
-                        </Menu.Item>
-                    </Tooltip>
+                    <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                        How to use
+                    </Menu.Item>
 
-                    <Tooltip label={NOT_AVAILABLE}>
-                        <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
-                            Language
-                        </Menu.Item>
-                    </Tooltip>
+                    <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
+                        Language
+                    </Menu.Item>
 
                     <Menu.Divider />
 
-                    <Menu.Label>Administration</Menu.Label>
-                    <Tooltip label={NOT_AVAILABLE}>
-                        <Menu.Item
-                            leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
-                        >
-                            Configure Options
-                        </Menu.Item>
-                    </Tooltip>
-                    <Menu.Label>Account</Menu.Label>
+
                     <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
                         Logout
                     </Menu.Item>

@@ -2,6 +2,9 @@ import { UsedPrompt } from "../../model/UsedPrompt";
 import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Button, Chip, Collapse, Divider, Group, Paper, Rating, Spoiler, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconArrowLeft, IconArrowRight, IconCheck, IconPlayerPlayFilled } from "@tabler/icons-react";
+import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
+import { Technology } from "../../model/Technology";
+import { Provider } from "../../model/Provider";
 
 interface Suggestion {
     usedPrompt: UsedPrompt,
@@ -29,29 +32,12 @@ export function Suggestion({
             </AccordionControl>
             <Accordion.Panel px={0}>
                 <Stack>
-                    <Text size="xs" onClick={toggle}>
-                        Text Generation by Openai using 2 modifiers
-                    </Text>
-
-                    <Collapse in={opened}>
-                        <Stack gap={"xs"}>
-                            <Chip readOnly checked size="xs" variant="light" value={"teste 1"}>
-                                Detailed indo
-                            </Chip>
-                            <Chip readOnly checked size="xs" variant="light" value={"teste 1"}>
-                                Detailed indo
-                            </Chip>
-                            <Chip readOnly checked size="xs" variant="light" value={"teste 1"}>
-                                Detailed indo
-                            </Chip>
-                            <Chip readOnly checked size="xs" variant="light" value={"teste 1"}>
-                                Detailed indo
-                            </Chip>
-                            <Chip readOnly checked size="xs" variant="light" value={"teste 1"}>
-                                Detailed indo
-                            </Chip>
-                        </Stack>
-                    </Collapse>
+                    <SelectedOptionsWidget
+                        technology={new Technology("Text Generation")}
+                        provider={new Provider("Openai")}
+                        parameters={[]}
+                        modifiers={[]}
+                    />
 
                     <Group px={0} py={"xs"} justify="space-between" align="baseline">
                         <Tooltip label={`${usedPrompt.score}/100`}>

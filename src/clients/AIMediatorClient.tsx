@@ -18,7 +18,7 @@ export class AIMediatorClient {
     }
 
     async getPromptOptions(languageCode: string) {
-        return await this.get('/ai/prompt/options', { language: languageCode.toLowerCase() });
+        return await this.get('/ai/prompt/options', { language: languageCode });
     }
 
     async getUsedPrompts() {

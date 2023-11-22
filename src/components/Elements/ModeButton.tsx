@@ -1,4 +1,4 @@
-import { ActionIcon, ActionIconGroup, Box, Button, Divider, Group, Input, Popover, ScrollAreaAutosize, Stack, Tabs, Text, TextInput, rem, useComputedColorScheme } from "@mantine/core";
+import { Accordion, ActionIcon, ActionIconGroup, Box, Button, Divider, Group, Input, Popover, ScrollAreaAutosize, Stack, Tabs, Text, TextInput, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustments, IconAdjustmentsHorizontal, IconArrowBackUp, IconCheck, IconDeviceFloppy, IconList, IconRefresh, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { TechnologyOption } from "../Options/TechnologyOption";
 import { ProviderOption } from "../Options/ProviderOption";
@@ -82,15 +82,15 @@ export function ModeButton({
                 <Tabs defaultValue="options" variant="default">
                     <Tabs.List grow>
                         <Tabs.Tab value="options" leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                            <Text size="md" fw={700}>Options</Text>
+                            <Text size="sm" fw={700}>Options</Text>
                         </Tabs.Tab>
                         <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                            <Text size="md" fw={700}>Templates</Text>
+                            <Text size="sm" fw={700}>Templates</Text>
                         </Tabs.Tab>
                     </Tabs.List>
 
                     <Tabs.Panel value="options">
-                        <ScrollAreaAutosize viewportRef={viewportRef} mah={500} type="hover">
+                        <ScrollAreaAutosize viewportRef={viewportRef} mah={400} offsetScrollbars type="hover">
                             <Stack my={"xs"} gap={"md"}>
                                 <TechnologyOption
                                     promptOptions={promptOptions}

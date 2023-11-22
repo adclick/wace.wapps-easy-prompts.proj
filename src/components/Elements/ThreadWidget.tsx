@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconShare, IconTrash } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
@@ -10,6 +10,7 @@ import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ThreadResponseTextWidget } from "./ThreadResponseTextWidget";
 import { ThreadResponseImageWidget } from "./ThreadResponseImageWidget";
 import { Language } from "../../model/Language";
+import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
 
 interface ThreadWidget {
     request: Request,
@@ -34,6 +35,7 @@ export function ThreadWidget({
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [vote, setVote] = useState(0);
 
+    console.log(request);
     // Once loaded, get the response from the user request
     useEffect(() => {
         aIMediatorClient.optimizePrompt(request.text, userPromptOptions).then(optimizedPrompt => {
@@ -162,9 +164,12 @@ export function ThreadWidget({
                         </Menu>
                     </Group>
                     <Group>
-                        <Text size="xs" fw={700}>
-                            {userPromptOptions.technology.name} | {userPromptOptions.provider.name}
-                        </Text>
+                        <SelectedOptionsWidget
+                            technology={request.userPromptOptions.technology}
+                            provider={request.userPromptOptions.provider}
+                            parameters={request.userPromptOptions.parameters}
+                            modifiers={request.userPromptOptions.modifiers}
+                        />
                     </Group>
                 </Group>
             </Card.Section>

@@ -32,6 +32,10 @@ export function ImageResolutionOption({
         setUserPromptOptions(newUserPromptOptions);
     }
 
+    if (parameter.content === '') {
+        return '';
+    }
+
     const resolutions: string[] = parameter.content;
 
     const data = resolutions.map((i: string) => {

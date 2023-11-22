@@ -123,7 +123,9 @@ export function HomePage() {
     // Update user prompt options
     const newUserPromptOptions = userPromptOptions;
     newUserPromptOptions.setTechnology(technology);
-    newUserPromptOptions.setProvider(newProvider)
+    newUserPromptOptions.setProvider(newProvider);
+    newUserPromptOptions.setParameters(parameters);
+    newUserPromptOptions.setModifiers(modifiers);
     setUserPromptOptions(newUserPromptOptions);
   }
 

@@ -8,9 +8,9 @@ export class Technology {
     providers: Provider[];
     modifiers: Modifier[];
 
-    constructor() {
-        this.name = "";
-        this.slug = "";
+    constructor(name = "", slug = "") {
+        this.name = name;
+        this.slug = slug;
         this.default = false;
         this.providers = [];
         this.modifiers = [];

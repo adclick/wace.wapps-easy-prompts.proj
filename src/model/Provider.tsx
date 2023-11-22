@@ -6,9 +6,9 @@ export class Provider {
     default: boolean;
     parameters: Parameter[];
 
-    constructor() {
-        this.name = "";
-        this.slug = "";
+    constructor(name = "", slug = "") {
+        this.name = name;
+        this.slug = slug;
         this.default = false;
         this.parameters = [];
     }

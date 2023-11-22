@@ -56,7 +56,10 @@ export function ModifiersOption({
                 technology
             );
     
+            toggle();
+            
             await refreshPromptOptions();
+
         }
     }
 
