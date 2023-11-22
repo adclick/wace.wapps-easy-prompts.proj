@@ -19,10 +19,17 @@ import { Modifier } from '../model/Modifier';
 import { UsedPrompt } from '../model/UsedPrompt';
 import classes from './Home.page.module.css';
 import cx from 'clsx';
+import { useAuth0 } from '@auth0/auth0-react';
+import { User } from '../model/User';
 
 export function HomePage() {
   // API Client
   const aIMediatorClient = new AIMediatorClient();
+
+  // Current User
+  const { user, logout } = useAuth0();
+  const [auth0User, setAuth0User] = useState(user);
+  const [currentUser, setCurrentUser] = useState<User>(new User());
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
@@ -64,16 +71,20 @@ export function HomePage() {
     // Init AI Client
     const aiMediatorClient = new AIMediatorClient();
 
+    // User
+    const user = User.buildFromAuth0(auth0User);
+    setCurrentUser(user);
+
     // Refresh Suggestions
     const usedPrompts = await aiMediatorClient.getUsedPrompts();
     const usedPromptsObjs = UsedPrompt.buildFromApi(usedPrompts);
     setUsedPrompts(usedPromptsObjs);
 
     // Refresh Options
-    const promptOptions = await aiMediatorClient.getPromptOptions(languageCode);
+    const promptOptions = await aiMediatorClient.getPromptOptions(user.id, languageCode);
     const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
     setPromptOptions(promptOptionsObj);
-    
+
     // Refresh Technologies
     const currentTechnology = promptOptionsObj.getDefaultTechnology();
     setTechnology(currentTechnology);
@@ -89,7 +100,7 @@ export function HomePage() {
     setParameters(parameters);
 
     // Refresh Modifiers
-    const modifiers = promptOptionsObj.getModifiers(currentTechnology.slug); 
+    const modifiers = promptOptionsObj.getModifiers(currentTechnology.slug);
     setModifiers(modifiers);
     setActiveModifiers([]);
 

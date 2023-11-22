@@ -17,8 +17,11 @@ export class AIMediatorClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
-    async getPromptOptions(languageCode: string) {
-        return await this.get('/ai/prompt/options', { language: languageCode });
+    async getPromptOptions(userId: string|undefined, languageCode: string) {
+        return await this.get('/ai/prompt/options', { 
+            userId,
+            language: languageCode 
+        });
     }
 
     async getUsedPrompts() {
