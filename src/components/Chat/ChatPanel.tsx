@@ -25,7 +25,7 @@ export function ChatPanel({
     scrollIntoView
 }: ChatPanel) {
     return (
-        <Stack gap={"md"}>
+        <Stack gap={"md"} my={"xs"}>
             {
                 threads.map((thread: Thread) => {
                     return (
