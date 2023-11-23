@@ -5,12 +5,13 @@ export function TeamSwitcher() {
         <Select
             w={"100%"}
             data={[
-                { label: "Global", value: "global" },
-                { label: "Wace", value: "wace" }
-            ]}
-            value={"wace"}
+                { group: 'Options', items: ['Create new Team', "Manage Teams"] },
+                { group: 'Teams', items: ['Global', 'Wace'] },
+              ]}
+            value={"Wace"}
             variant="unstyled"
             size="md"
+            maxDropdownHeight={500}
         />
     )
 }
