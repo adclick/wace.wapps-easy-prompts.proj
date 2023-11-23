@@ -1,7 +1,6 @@
 import { PromptOptions } from "@/model/PromptOptions";
 import { Provider } from "../../model/Provider";
 import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
-import { IconSettings } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 
 interface ProviderOption {

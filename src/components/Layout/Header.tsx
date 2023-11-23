@@ -1,7 +1,7 @@
 import { Badge, Box, Burger, Group, Image, Title, em } from "@mantine/core";
-import { FeedbackButton } from "../Elements/FeedbackButton";
-import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
-import { UserMenu } from "../Elements/UserMenu";
+import { FeedbackButton } from "../Misc/FeedbackButton";
+import { ColorSchemeToggle } from "../Misc/ColorSchemeToggle";
+import { UserMenu } from "../Misc/UserMenu";
 import { useMediaQuery } from "@mantine/hooks";
 import logo from "../../favicon.svg";
 

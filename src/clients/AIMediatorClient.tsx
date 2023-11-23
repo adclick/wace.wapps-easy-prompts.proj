@@ -65,7 +65,7 @@ export class AIMediatorClient {
         return await this.post('/ai/text/text-generation', this.getParams(userPrompt, userPromptOptions));
     }
 
-    async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions) {
+    async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions): Promise<string[]> {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', this.getParams(userPrompt, userPromptOptions));
 
         return images.map(image => image.image_resource_url);

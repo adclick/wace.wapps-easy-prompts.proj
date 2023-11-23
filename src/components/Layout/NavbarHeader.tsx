@@ -1,6 +1,6 @@
 import { Burger, Group } from "@mantine/core";
-import { FeedbackButton } from "../Elements/FeedbackButton";
-import { ColorSchemeToggle } from "../Elements/ColorSchemeToggle";
+import { FeedbackButton } from "../Misc/FeedbackButton";
+import { ColorSchemeToggle } from "../Misc/ColorSchemeToggle";
 
 interface NavbarHeader {
     navbarOpened: boolean,

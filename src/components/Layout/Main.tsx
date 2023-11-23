@@ -1,8 +1,7 @@
-import { ThreadsPanel } from "../Panels/ThreadsPanel";
+import { ChatPanel } from "../Chat/ChatPanel";
 import { Thread } from "../../model/Thread";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
-import { Card } from "@mantine/core";
 
 interface Main {
     threads: Thread[],
@@ -24,7 +23,7 @@ export function Main({
     scrollIntoView
 }: Main) {
     return (
-        <ThreadsPanel
+        <ChatPanel
             threads={threads}
             targetRef={targetRef}
             aIMediatorClient={aIMediatorClient}

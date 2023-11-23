@@ -1,5 +1,5 @@
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
-import { Prompt } from "../Prompt/Prompt";
+import { Prompt } from "../Misc/Prompt";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { Thread } from "../../model/Thread";
 import { PromptOptions } from "../../model/PromptOptions";

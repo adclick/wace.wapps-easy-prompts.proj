@@ -2,7 +2,8 @@ import { Box, Button, Divider, Group, Select, Text, Title, rem } from "@mantine/
 import { Language } from "../../model/Language";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { IconArrowBack, IconPlus, IconReload } from "@tabler/icons-react";
-import { LanguageSwitcher } from "../Elements/LanguageSwitcher";
+import { LanguageSwitcher } from "../Misc/LanguageSwitcher";
+import { TeamSwitcher } from "../Misc/TeamSwitcher";
 
 interface NavbarFooter {
     language: Language,
@@ -37,13 +38,6 @@ export function NavbarFooter({
                 setUserPromptOptions={setUserPromptOptions}
                 refreshPromptOptions={refreshPromptOptions}
             /> */}
-            <Select 
-                data={[
-                    {label: "Wace", value: "wace"}
-                ]}
-                value={"wace"}
-                variant="unstyled"
-            />
             <Button
                 leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
                 variant="transparent"

@@ -1,5 +1,6 @@
-import { SuggestionsPanel } from "../Panels/SuggestionsPanel";
+import { SuggestionsPanel } from "../Suggestions/SuggestionsPanel";
 import { UsedPrompt } from "../../model/UsedPrompt";
+import { Tabs } from "@mantine/core";
 
 interface Navbar {
     usedPrompts: UsedPrompt[],

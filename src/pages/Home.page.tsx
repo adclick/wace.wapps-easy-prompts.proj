@@ -17,7 +17,6 @@ import { Provider } from '../model/Provider';
 import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
 import { UsedPrompt } from '../model/UsedPrompt';
-import classes from './Home.page.module.css';
 import cx from 'clsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../model/User';
@@ -165,10 +164,7 @@ export function HomePage() {
         height: { base: 110 }
       }}
       classNames={{
-        header: cx(classes.header, classes[computedColorScheme]),
-        footer: cx(classes.footer, classes[computedColorScheme]),
-        main: cx(classes.main, classes[computedColorScheme]),
-        navbar: cx(classes.navbar, classes[computedColorScheme])
+        navbar: cx(computedColorScheme)
       }}
     >
       {/* HEADER */}
