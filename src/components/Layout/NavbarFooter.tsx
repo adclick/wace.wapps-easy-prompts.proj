@@ -48,7 +48,8 @@ export function NavbarFooter({
             >
                 New Chat
             </Button> */}
-            <UserMenu />
+            <TeamSwitcher />
+            {/* <UserMenu /> */}
         </Group>
     )
 }

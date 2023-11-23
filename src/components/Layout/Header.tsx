@@ -54,10 +54,10 @@ export function Header({
                 {/* <Box visibleFrom='md'>
                     <FeedbackButton />
                 </Box> */}
-                    <ColorSchemeToggle />
+                    {/* <ColorSchemeToggle /> */}
+                <UserMenu />
                 <Box visibleFrom='sm'>
                 </Box>
-                {/* <UserMenu /> */}
             </Group>
         </Group>
     );

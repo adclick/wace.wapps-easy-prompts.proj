@@ -10,16 +10,16 @@ export function UserMenu() {
     const { user, logout } = useAuth0();
 
     return (
-        <Menu position="bottom-end" width={"target"}>
+        <Menu position="bottom-end">
             <Menu.Target>
-                <Button fullWidth justify='flex-start' size="lg" variant="default" px={"xs"}>
-                    <Group>
-                        <Avatar src={user?.picture} />
+                <Button  justify='flex-start' size="lg" variant="transparent" px={"xs"}>
+                    <Avatar src={user?.picture} />
+                    {/* <Group>
                         <Stack gap={0} align="flex-start">
                             <Text size="md">{user?.nickname}</Text>
                             <Text size="xs">{user?.email}</Text>
                         </Stack>
-                    </Group>
+                    </Group> */}
                 </Button>
             </Menu.Target>
             <Menu.Dropdown>
