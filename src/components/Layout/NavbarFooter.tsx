@@ -4,6 +4,7 @@ import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { IconArrowBack, IconPlus, IconReload } from "@tabler/icons-react";
 import { LanguageSwitcher } from "../Misc/LanguageSwitcher";
 import { TeamSwitcher } from "../Misc/TeamSwitcher";
+import { UserMenu } from "../Misc/UserMenu";
 
 interface NavbarFooter {
     language: Language,
@@ -38,7 +39,7 @@ export function NavbarFooter({
                 setUserPromptOptions={setUserPromptOptions}
                 refreshPromptOptions={refreshPromptOptions}
             /> */}
-            <Button
+            {/* <Button
                 leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
                 variant="transparent"
                 onClick={reset}
@@ -46,7 +47,8 @@ export function NavbarFooter({
                 p={"0"}
             >
                 New Chat
-            </Button>
+            </Button> */}
+            <UserMenu />
         </Group>
     )
 }

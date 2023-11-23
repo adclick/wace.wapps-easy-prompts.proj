@@ -149,6 +149,11 @@ export function HomePage() {
     setUserPromptOptions(newUserPromptOptions);
   }
 
+  const resetChat = () => {
+    setThreads([]);
+    toggle();
+}
+
   return (
     <AppShell
       layout='alt'
@@ -169,7 +174,15 @@ export function HomePage() {
     >
       {/* HEADER */}
       <AppShell.Header withBorder={false} p={"md"} >
-        <Header navbarOpened={opened} navbarToggle={toggle} />
+        <Header
+          navbarOpened={opened}
+          navbarToggle={toggle}
+          technology={technology}
+          provider={provider}
+          parameters={parameters}
+          modifiers={modifiers}
+          resetChat={resetChat}
+        />
       </AppShell.Header>
 
       {/* NAVBAR */}
