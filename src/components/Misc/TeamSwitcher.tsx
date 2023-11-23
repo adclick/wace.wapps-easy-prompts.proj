@@ -10,6 +10,7 @@ export function TeamSwitcher() {
             ]}
             value={"wace"}
             variant="unstyled"
+            size="md"
         />
     )
 }

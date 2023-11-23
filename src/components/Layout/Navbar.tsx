@@ -19,11 +19,11 @@ export function Navbar({
     return (
         <Tabs defaultValue="prompts">
             <Tabs.List grow>
-                <Tabs.Tab value="prompts" leftSection={<IconPrompt style={{width: rem(24), height: rem(24)}} />}>
-                    <Title order={4}>Prompts</Title>
+                <Tabs.Tab value="prompts" leftSection={<IconPrompt style={{width: rem(18), height: rem(18)}} />}>
+                    <Title order={5}>Prompts</Title>
                 </Tabs.Tab>
-                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{width: rem(24), height: rem(24)}} />}>
-                    <Title order={4}>Templates</Title>
+                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{width: rem(18), height: rem(18)}} />}>
+                    <Title order={5}>Templates</Title>
                 </Tabs.Tab>
             </Tabs.List>
 
