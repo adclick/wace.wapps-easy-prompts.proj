@@ -26,14 +26,13 @@ export function SuggestionsPanel({
         })
     }
 
-
     return (
         <Stack gap={'xl'} my={"md"}>
-            <Group align="flex-end">
+            {/* <Group align="flex-end">
                 <Title order={4}>
                     Suggestions
                 </Title>
-            </Group>
+            </Group> */}
             <Textarea
                 placeholder={"Search"}
                 autosize

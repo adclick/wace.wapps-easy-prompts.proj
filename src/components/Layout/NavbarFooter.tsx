@@ -1,10 +1,11 @@
 import { Box, Button, Divider, Group, Select, Text, Title, rem } from "@mantine/core";
 import { Language } from "../../model/Language";
-import { UserPromptOptions } from "@/model/UserPromptOptions";
+import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { IconArrowBack, IconPlus, IconReload } from "@tabler/icons-react";
 import { LanguageSwitcher } from "../Misc/LanguageSwitcher";
 import { TeamSwitcher } from "../Misc/TeamSwitcher";
 import { UserMenu } from "../Misc/UserMenu";
+import { SuggestionsSwitcher } from "../Suggestions/SuggestionsSwitcher";
 
 interface NavbarFooter {
     language: Language,
@@ -49,6 +50,7 @@ export function NavbarFooter({
                 New Chat
             </Button> */}
             <TeamSwitcher />
+            {/* <SuggestionsSwitcher /> */}
             {/* <UserMenu /> */}
         </Group>
     )
