@@ -6,10 +6,10 @@ export function TeamSwitcher() {
         <Select
             w={"100%"}
             data={[
-                {label: "Global", value: "global"},
-                {label: "Wace", value: "wace"},
+                { label: "Global", value: "global" },
+                { label: "Wace", value: "wace" },
             ]}
-            value={"Wace"}
+            value={"wace"}
             variant="unstyled"
             size="md"
             maxDropdownHeight={500}
