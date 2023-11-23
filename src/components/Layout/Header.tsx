@@ -35,30 +35,20 @@ export function Header({
     return (
         <Group h={"100%"} justify="space-between" align="center">
 
-            <Group align="center" gap={0}>
+            <Group align="center">
                 <Burger
                     opened={navbarOpened}
                     onClick={navbarToggle}
                     hiddenFrom="sm"
                     size="sm"
                 />
-                <ChatNewButton resetChat={resetChat} />
-                {/* <Image src={logo} h={30} /> */}
-                {/* <Title order={isMobile ? 2 : 1}>Chat</Title> */}
-            </Group>
-            {/* <Title order={isMobile ? 3 : 2}>
-                    EasyPrompts
+                <Title mx={"xs"} order={isMobile ? 3 : 1}>
+                    Hello there!
                 </Title>
-                <Badge size="xs">Alpha</Badge> */}
-            <Group>
-                {/* <Box visibleFrom='md'>
-                    <FeedbackButton />
-                </Box> */}
-                    {/* <ColorSchemeToggle /> */}
-                <UserMenu />
-                <Box visibleFrom='sm'>
-                </Box>
             </Group>
+            {/* <ColorSchemeToggle /> */}
+            {/* <ChatNewButton resetChat={resetChat} /> */}
+            <UserMenu />
         </Group>
     );
 }

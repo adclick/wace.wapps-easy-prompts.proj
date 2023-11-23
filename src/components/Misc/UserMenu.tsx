@@ -14,12 +14,6 @@ export function UserMenu() {
             <Menu.Target>
                 <Button  justify='flex-start' size="lg" variant="transparent" px={"xs"}>
                     <Avatar src={user?.picture} />
-                    {/* <Group>
-                        <Stack gap={0} align="flex-start">
-                            <Text size="md">{user?.nickname}</Text>
-                            <Text size="xs">{user?.email}</Text>
-                        </Stack>
-                    </Group> */}
                 </Button>
             </Menu.Target>
             <Menu.Dropdown>
@@ -31,7 +25,6 @@ export function UserMenu() {
                         <Text size="xs">{user?.email}</Text>
                     </Stack>
                 </Menu.Item>
-                <Menu.Divider />
                 <Menu.Item
                     leftSection={<IconPrompt style={{ width: "70%", height: "70%" }} />}
                 >
@@ -52,25 +45,7 @@ export function UserMenu() {
                     Give Feedback
                 </Menu.Item>
 
-                <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                    About
-                </Menu.Item>
-
-                <Menu.Item leftSection={<IconFlag style={{ width: rem(14), height: rem(14) }} />}>
-                    Whats new
-                </Menu.Item>
-
-                <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                    How to use
-                </Menu.Item>
-
-                <Menu.Item leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}>
-                    Language
-                </Menu.Item>
-
                 <Menu.Divider />
-
-
                 <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
                     Logout
                 </Menu.Item>

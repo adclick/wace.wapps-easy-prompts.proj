@@ -116,7 +116,7 @@ export function ChatCard({
                 <Group justify="space-between" wrap="wrap">
                     <Group gap={"xs"} wrap="nowrap">
                         <Tooltip label="Good Response" withArrow>
-                            <ActionIcon variant='transparent' onClick={() => handleVote(1)}>
+                            <ActionIcon variant='subtle' onClick={() => handleVote(1)}>
                                 {
                                     vote > 0
                                         ? <IconMoodSmileFilled size={"16"} />
@@ -126,7 +126,7 @@ export function ChatCard({
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Bad Response" withArrow>
-                            <ActionIcon color='red' variant='transparent' onClick={() => handleVote(-1)}>
+                            <ActionIcon color='red' variant='subtle' onClick={() => handleVote(-1)}>
                                 {
                                     vote < 0
                                         ? <IconMoodSadFilled size={"16"} />
@@ -137,7 +137,7 @@ export function ChatCard({
                         <CopyButton value={response.data} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
-                                    <ActionIcon color={copied ? 'blue' : 'gray'} variant="transparent" onClick={copy}>
+                                    <ActionIcon color={copied ? 'blue' : 'gray'} variant="subtle" onClick={copy}>
                                         {copied ? (
                                             <IconCheck size={16} />
                                         ) : (
@@ -179,7 +179,7 @@ export function ChatCard({
                                 ? <Popover>
                                     <Popover.Target>
                                         <Indicator size={16} label={request.userPromptOptions.modifiers.length}>
-                                            <ActionIcon variant="transparent">
+                                            <ActionIcon variant="subtle">
                                                 <IconSparkles />
                                             </ActionIcon>
                                         </Indicator>
@@ -194,7 +194,7 @@ export function ChatCard({
                                         }
                                     </Popover.Dropdown>
                                 </Popover>
-                                : <ActionIcon variant="transparent">
+                                : <ActionIcon variant="subtle">
                                     <IconSparkles />
                                 </ActionIcon>
                         }
