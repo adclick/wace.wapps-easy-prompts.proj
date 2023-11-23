@@ -34,40 +34,28 @@ export function Header({
 
     return (
         <Group h={"100%"} justify="space-between" align="center">
-            <Group align="baseline">
-                <Group align="center">
-                    <Image src={logo} h={30} />
-                    <Title order={isMobile ? 2 : 1}>Chat</Title>
-                </Group>
-                <Button onClick={resetChat} variant="transparent" size="compact-xs">
-                    Clear
-                </Button>
-                {/* <SelectedOptionsWidget
-                    technology={technology}
-                    provider={provider}
-                    parameters={parameters}
-                    modifiers={modifiers}
-                /> */}
-            </Group>
-            {/* <Group>
+
+            <Group align="center" gap={0}>
                 <Burger
                     opened={navbarOpened}
                     onClick={navbarToggle}
                     hiddenFrom="sm"
                     size="sm"
                 />
-                <Title order={isMobile ? 3 : 2}>
+                <ChatNewButton resetChat={resetChat} />
+                {/* <Image src={logo} h={30} /> */}
+                {/* <Title order={isMobile ? 2 : 1}>Chat</Title> */}
+            </Group>
+            {/* <Title order={isMobile ? 3 : 2}>
                     EasyPrompts
                 </Title>
-                <Badge size="xs">Alpha</Badge>
-            </Group> */}
+                <Badge size="xs">Alpha</Badge> */}
             <Group>
                 {/* <Box visibleFrom='md'>
                     <FeedbackButton />
                 </Box> */}
-                <ChatNewButton resetChat={resetChat} />
-                <Box visibleFrom='sm'>
                     <ColorSchemeToggle />
+                <Box visibleFrom='sm'>
                 </Box>
                 {/* <UserMenu /> */}
             </Group>

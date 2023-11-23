@@ -13,11 +13,11 @@ export function ChatNewButton({resetChat}: ChatNewButton) {
 
         <Button
             leftSection={<IconPlus style={{ width: rem(18), height: rem(18) }} />}
-            variant="transparent"
+            variant="subtle"
             onClick={resetChat}
-            size="compact-md"
+            size="md"
         >
-            New
+            New Chat
         </Button>
     )
 }

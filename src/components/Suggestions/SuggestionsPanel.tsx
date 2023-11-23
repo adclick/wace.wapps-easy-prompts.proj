@@ -30,7 +30,7 @@ export function SuggestionsPanel({
     return (
         <Stack gap={'xl'} my={"md"}>
             <Group align="flex-end">
-                <Title order={3}>
+                <Title order={4}>
                     Suggestions
                 </Title>
             </Group>

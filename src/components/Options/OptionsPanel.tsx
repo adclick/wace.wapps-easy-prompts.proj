@@ -52,7 +52,13 @@ export function OptionsPanel({
     refreshPromptOptions
 }: OptionsPanel) {
     return (
-        <Drawer opened={drawerOpened} onClose={closeDrawer} title={<Title order={3}>Options</Title>} size={"350px"}>
+        <Drawer
+            opened={drawerOpened}
+            onClose={closeDrawer}
+            title={<Title order={3}>Options</Title>}
+            size={"350px"}
+
+        >
             <Stack my={"md"} gap={"md"}>
                 <TechnologyOption
                     promptOptions={promptOptions}
