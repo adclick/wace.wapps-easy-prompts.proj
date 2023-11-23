@@ -1,13 +1,14 @@
-import { Select } from "@mantine/core";
+import { Button, Menu, Select, rem } from "@mantine/core";
+import { IconUsers } from "@tabler/icons-react";
 
 export function TeamSwitcher() {
     return (
         <Select
             w={"100%"}
             data={[
-                { group: 'Options', items: ['Create new Team', "Manage Teams"] },
-                { group: 'Teams', items: ['Global', 'Wace'] },
-              ]}
+                {label: "Global", value: "global"},
+                {label: "Wace", value: "wace"},
+            ]}
             value={"Wace"}
             variant="unstyled"
             size="md"
