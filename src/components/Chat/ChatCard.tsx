@@ -8,7 +8,7 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ChatCardText } from "./ChatCardText";
 import { ChatCardImage } from "./ChatCardImage";
-import { SelectedOptionsWidget } from "../Options/SelectedOptionsWidget";
+import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 
 interface ChatCard {
     request: Request,

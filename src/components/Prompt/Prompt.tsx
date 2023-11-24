@@ -10,13 +10,13 @@ import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
-import { SelectedOptionsWidget } from "../Options/SelectedOptionsWidget";
-import { ModifiersOption } from "../Options/ModifiersOption";
-import { ParameterOption } from "../Options/ParameterOption";
-import { TechnologyOption } from "../Options/TechnologyOption";
-import { ProviderOption } from "../Options/ProviderOption";
+import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
+import { ModifiersOption } from "./ModifiersOption";
+import { ParameterOption } from "./ParameterOption";
+import { TechnologyOption } from "./TechnologyOption";
+import { ProviderOption } from "./ProviderOption";
 import cx from 'clsx';
-import { OptionsPanel } from "../Options/OptionsPanel";
+import { OptionsPanel } from "./OptionsPanel";
 
 interface PromptParams {
     aIMediatorClient: AIMediatorClient,

@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
-import { AppShell, ScrollArea, useComputedColorScheme } from '@mantine/core';
-import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
+import { AppShell, Box, Burger, Divider, Group, ScrollArea, Tabs, Title, em, rem, useComputedColorScheme } from '@mantine/core';
+import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
 import { PromptOptions } from '../model/PromptOptions';
-import { Header } from '../components/Layout/Header';
-import { Main } from '../components/Layout/Main';
-import { Footer } from '../components/Layout/Footer';
-import { NavbarHeader } from '../components/Layout/NavbarHeader';
-import { NavbarFooter } from '../components/Layout/NavbarFooter';
-import { Navbar } from '../components/Layout/Navbar';
 import { Thread } from '../model/Thread';
 import { Language } from '../model/Language';
 import { Technology } from '../model/Technology';
@@ -20,10 +14,19 @@ import { UsedPrompt } from '../model/UsedPrompt';
 import cx from 'clsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../model/User';
+import { TeamSwitcher } from '../components/Misc/TeamSwitcher';
+import { UserMenu } from '../components/Misc/UserMenu';
+import { Prompt } from '../components/Prompt/Prompt';
+import { ChatPanel } from '../components/Chat/ChatPanel';
+import { IconPrompt, IconTemplate } from '@tabler/icons-react';
+import { SuggestionsPanel } from '../components/Suggestions/SuggestionsPanel';
+import { Options } from '../model/Options';
 
 export function HomePage() {
   // API Client
   const aIMediatorClient = new AIMediatorClient();
+
+  const [options, setOptions] = useState<Options>(new Options());
 
   // Current User
   const { user, logout } = useAuth0();
@@ -83,6 +86,8 @@ export function HomePage() {
     const promptOptions = await aiMediatorClient.getPromptOptions(user.id, languageCode);
     const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
     setPromptOptions(promptOptionsObj);
+    const newOptions = Options.buildFromApi(promptOptions);
+    setOptions(newOptions);
 
     // Refresh Technologies
     const currentTechnology = promptOptionsObj.getDefaultTechnology();
@@ -152,7 +157,9 @@ export function HomePage() {
   const resetChat = () => {
     setThreads([]);
     toggle();
-}
+  }
+
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
   return (
     <AppShell
@@ -174,49 +181,73 @@ export function HomePage() {
     >
       {/* HEADER */}
       <AppShell.Header withBorder={false} p={"md"} >
-        <Header
-          navbarOpened={opened}
-          navbarToggle={toggle}
-          technology={technology}
-          provider={provider}
-          parameters={parameters}
-          modifiers={modifiers}
-          resetChat={resetChat}
-        />
+        <Group h={"100%"} justify="space-between" align="center">
+          <Group align="center" gap={"xs"}>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <Title order={isMobile ? 3 : 2}>
+              {technology.name}
+            </Title>
+          </Group>
+          <Box visibleFrom="sm">
+            <UserMenu />
+          </Box>
+        </Group>
       </AppShell.Header>
 
       {/* NAVBAR */}
       <AppShell.Navbar withBorder={false} p="md">
         {/* NAVBAR HEADER */}
         <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"xs"}>
-          <NavbarHeader navbarOpened={opened} navbarToggle={toggle} />
+          <Group h={"100%"} px={"md"} justify='space-between'>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <UserMenu />
+          </Group>
         </AppShell.Section>
         {/* NAVBAR */}
         <AppShell.Section grow component={ScrollArea}>
-          <Navbar
-            usedPrompts={usedPrompts}
-            userPrompt={userPrompt}
-            setUserPrompt={setUserPrompt}
-            navbarToggle={toggle}
-          />
+          <Tabs defaultValue="prompts" radius={"md"}>
+            <Tabs.List grow>
+              <Tabs.Tab value="prompts" leftSection={<IconPrompt style={{ width: rem(18), height: rem(18) }} />}>
+                <Title order={5}>Prompts</Title>
+              </Tabs.Tab>
+              <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(18), height: rem(18) }} />}>
+                <Title order={5}>Templates</Title>
+              </Tabs.Tab>
+            </Tabs.List>
+
+            <Tabs.Panel value="prompts">
+              <SuggestionsPanel
+                usedPrompts={usedPrompts}
+                userPrompt={userPrompt}
+                setUserPrompt={setUserPrompt}
+                navbarToggle={toggle}
+              />
+            </Tabs.Panel>
+
+            <Tabs.Panel value="templates">
+            </Tabs.Panel>
+          </Tabs>
         </AppShell.Section>
         {/* NAVBAR BOTTOM */}
         <AppShell.Section>
-          <NavbarFooter
-            language={language}
-            setLanguage={setLanguage}
-            userPromptOptions={userPromptOptions}
-            setUserPromptOptions={setUserPromptOptions}
-            refreshPromptOptions={refreshPromptOptions}
-            setThreads={setThreads}
-            navbarToggle={toggle}
-          />
+          <Divider h={"xs"} />
+          <TeamSwitcher />
         </AppShell.Section>
       </AppShell.Navbar>
 
       {/* MAIN */}
       <AppShell.Main>
-        <Main
+        <ChatPanel
           threads={threads}
           targetRef={targetRef}
           aIMediatorClient={aIMediatorClient}
@@ -229,8 +260,8 @@ export function HomePage() {
 
       {/* FOOTER */}
       <AppShell.Footer withBorder={false}>
-        <Footer
-          aiMediatorClient={aIMediatorClient}
+        <Prompt
+          aIMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
           scrollIntoView={scrollIntoView}
           threads={threads}
@@ -241,8 +272,8 @@ export function HomePage() {
           handleOnChangeTechnology={handleOnChangeTechnology}
           provider={provider}
           providers={providers}
-          handleOnChangeProvider={handleOnChangeProvider}
           modifiers={modifiers}
+          handleOnChangeProvider={handleOnChangeProvider}
           activeModifiers={activeModifiers}
           setActiveModifiers={setActiveModifiers}
           setUserPromptOptions={setUserPromptOptions}

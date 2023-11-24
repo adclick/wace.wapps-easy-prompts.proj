@@ -1,5 +1,4 @@
 import { Button, Menu, Select, rem } from "@mantine/core";
-import { IconUsers } from "@tabler/icons-react";
 
 export function TeamSwitcher() {
     return (

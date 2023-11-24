@@ -1,7 +1,7 @@
 import { UsedPrompt } from "../../model/UsedPrompt";
 import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { IconDotsVertical, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
-import { SelectedOptionsWidget } from "../Options/SelectedOptionsWidget";
+import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 
