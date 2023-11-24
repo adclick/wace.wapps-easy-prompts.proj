@@ -2,18 +2,18 @@ import { Select } from "@mantine/core";
 import { PromptOptions } from "../../model/PromptOptions";
 import { Technology } from "../../model/Technology";
 
-interface TechnologyOption {
+interface PromptOptionTechnology {
     promptOptions: PromptOptions,
     currentTechnology: Technology,
     technologies: Technology[],
     handleOnChangeTechnology: any
 }
 
-export function TechnologyOption({
+export function PromptOptionTechnology({
     currentTechnology,
     technologies,
     handleOnChangeTechnology
-}: TechnologyOption) {
+}: PromptOptionTechnology) {
     const data = technologies.map(t => {
         return {
             label: t.name,

@@ -3,19 +3,19 @@ import { Provider } from "../../model/Provider";
 import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 
-interface ProviderOption {
+interface PromptOptionProvider {
     promptOptions: PromptOptions,
     currentProvider: Provider
     providers: Provider[],
     handleOnChangeProvider: any
 }
 
-export function ProviderOption({
+export function PromptOptionProvider({
     promptOptions,
     currentProvider,
     providers,
     handleOnChangeProvider
-}: ProviderOption) {
+}: PromptOptionProvider) {
     const { t } = useTranslation();
 
     const providersData = providers.map(p => {

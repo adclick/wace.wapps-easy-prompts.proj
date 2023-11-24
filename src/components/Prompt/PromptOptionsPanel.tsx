@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Drawer, Group, Stack, Title, rem } from "@mantine/core"
-import { TechnologyOption } from "./TechnologyOption"
-import { ProviderOption } from "./ProviderOption"
-import { ModifiersOption } from "./ModifiersOption"
+import { PromptOptionTechnology } from "./PromptOptionTechnology"
+import { PromptOptionProvider } from "./PromptOptionProvider"
+import { PromptOptionModificers } from "./PromptOptionModifiers"
 import { IconDeviceFloppy, IconReload } from "@tabler/icons-react"
 import { ParameterOption } from "./ParameterOption"
 import { PromptOptions } from "@/model/PromptOptions"
@@ -12,7 +12,7 @@ import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { Modifier } from "@/model/Modifier"
 import { AIMediatorClient } from "@/clients/AIMediatorClient"
 
-interface OptionsPanel {
+interface PromptOptionsPanel {
     drawerOpened: any,
     closeDrawer: any,
     promptOptions: PromptOptions,
@@ -32,7 +32,7 @@ interface OptionsPanel {
     refreshPromptOptions: any
 }
 
-export function OptionsPanel({
+export function PromptOptionsPanel({
     drawerOpened,
     closeDrawer,
     promptOptions,
@@ -50,7 +50,7 @@ export function OptionsPanel({
     setActiveModifiers,
     aIMediatorClient,
     refreshPromptOptions
-}: OptionsPanel) {
+}: PromptOptionsPanel) {
     return (
         <Drawer
             opened={drawerOpened}
@@ -60,13 +60,13 @@ export function OptionsPanel({
 
         >
             <Stack my={"md"} gap={"md"}>
-                <TechnologyOption
+                <PromptOptionTechnology
                     promptOptions={promptOptions}
                     currentTechnology={technology}
                     technologies={technologies}
                     handleOnChangeTechnology={handleOnChangeTechnology}
                 />
-                <ProviderOption
+                <PromptOptionProvider
                     promptOptions={promptOptions}
                     currentProvider={provider}
                     providers={providers}
@@ -92,7 +92,7 @@ export function OptionsPanel({
                     })
                 }
                 <Divider />
-                <ModifiersOption
+                <PromptOptionModificers
                     modifiers={modifiers}
                     activeModifiers={activeModifiers}
                     setActiveModifiers={setActiveModifiers}

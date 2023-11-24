@@ -1,6 +1,7 @@
 import { ActionIcon, Box, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
+import cx from 'clsx';
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { Thread } from "../../model/Thread";
@@ -10,15 +11,9 @@ import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
-import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
-import { ModifiersOption } from "./ModifiersOption";
-import { ParameterOption } from "./ParameterOption";
-import { TechnologyOption } from "./TechnologyOption";
-import { ProviderOption } from "./ProviderOption";
-import cx from 'clsx';
-import { OptionsPanel } from "./OptionsPanel";
+import { PromptOptionsPanel } from "./PromptOptionsPanel";
 
-interface PromptParams {
+interface PromptInput {
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
     scrollIntoView: any,
@@ -41,7 +36,7 @@ interface PromptParams {
     refreshPromptOptions: any
 }
 
-export function Prompt({
+export function PromptInput({
     aIMediatorClient,
     scrollIntoView,
     threads,
@@ -62,7 +57,7 @@ export function Prompt({
     userPrompt,
     setUserPrompt,
     refreshPromptOptions
-}: PromptParams) {
+}: PromptInput) {
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');
@@ -95,7 +90,7 @@ export function Prompt({
 
     return (
         <Box>
-            <OptionsPanel
+            <PromptOptionsPanel
                 drawerOpened={opened}
                 closeDrawer={close}
                 promptOptions={promptOptions}

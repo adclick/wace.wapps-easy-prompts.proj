@@ -9,7 +9,7 @@ import { useDisclosure } from "@mantine/hooks"
 import { AIMediatorClient } from "../../clients/AIMediatorClient"
 import { Technology } from "../../model/Technology"
 
-interface ModificersOptions {
+interface PromptOptionModificers {
     modifiers: Modifier[],
     activeModifiers: Modifier[],
     setActiveModifiers: any,
@@ -22,7 +22,7 @@ interface ModificersOptions {
     refreshPromptOptions: any
 }
 
-export function ModifiersOption({
+export function PromptOptionModificers({
     modifiers,
     activeModifiers,
     setActiveModifiers,
@@ -32,7 +32,7 @@ export function ModifiersOption({
     aIMediatorClient,
     technology,
     refreshPromptOptions
-}: ModificersOptions) {
+}: PromptOptionModificers) {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
     const [opened, { toggle }] = useDisclosure(false);

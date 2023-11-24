@@ -16,7 +16,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../model/User';
 import { TeamSwitcher } from '../components/Misc/TeamSwitcher';
 import { UserMenu } from '../components/Misc/UserMenu';
-import { Prompt } from '../components/Prompt/Prompt';
+import { PromptInput } from '../components/Prompt/PromptInput';
 import { ChatPanel } from '../components/Chat/ChatPanel';
 import { IconPrompt, IconTemplate } from '@tabler/icons-react';
 import { SuggestionsPanel } from '../components/Suggestions/SuggestionsPanel';
@@ -264,7 +264,7 @@ export function HomePage() {
 
       {/* FOOTER */}
       <AppShell.Footer withBorder={false}>
-        <Prompt
+        <PromptInput
           aIMediatorClient={aIMediatorClient}
           userPromptOptions={userPromptOptions}
           scrollIntoView={scrollIntoView}
