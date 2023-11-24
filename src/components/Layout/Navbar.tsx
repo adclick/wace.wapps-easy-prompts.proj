@@ -1,6 +1,6 @@
 import { SuggestionsPanel } from "../Suggestions/SuggestionsPanel";
 import { UsedPrompt } from "../../model/UsedPrompt";
-import { Tabs, Title, rem } from "@mantine/core";
+import { Stack, Tabs, Title, rem } from "@mantine/core";
 import { IconPrompt, IconTemplate } from "@tabler/icons-react";
 
 interface Navbar {
@@ -17,12 +17,12 @@ export function Navbar({
     navbarToggle
 }: Navbar) {
     return (
-        <Tabs defaultValue="prompts">
+        <Tabs defaultValue="prompts" radius={"md"}>
             <Tabs.List grow>
-                <Tabs.Tab value="prompts" leftSection={<IconPrompt style={{width: rem(18), height: rem(18)}} />}>
+                <Tabs.Tab value="prompts" leftSection={<IconPrompt style={{ width: rem(18), height: rem(18) }} />}>
                     <Title order={5}>Prompts</Title>
                 </Tabs.Tab>
-                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{width: rem(18), height: rem(18)}} />}>
+                <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(18), height: rem(18) }} />}>
                     <Title order={5}>Templates</Title>
                 </Tabs.Tab>
             </Tabs.List>
@@ -39,7 +39,6 @@ export function Navbar({
             <Tabs.Panel value="templates">
             </Tabs.Panel>
         </Tabs>
-
 
     )
 }

@@ -1,4 +1,4 @@
-import { Badge, Box, Burger, Button, Group, Image, Text, Title, em } from "@mantine/core";
+import { Badge, Box, Burger, Button, Group, Image, Stack, Text, Title, em } from "@mantine/core";
 import { FeedbackButton } from "../Misc/FeedbackButton";
 import { ColorSchemeToggle } from "../Misc/ColorSchemeToggle";
 import { UserMenu } from "../Misc/UserMenu";
@@ -35,20 +35,29 @@ export function Header({
     return (
         <Group h={"100%"} justify="space-between" align="center">
 
-            <Group align="center">
-                <Burger
-                    opened={navbarOpened}
-                    onClick={navbarToggle}
-                    hiddenFrom="sm"
-                    size="sm"
-                />
-                <Title mx={"xs"} order={isMobile ? 3 : 1}>
-                    Hello there!
-                </Title>
-            </Group>
+            <Stack>
+                <Group align="center" gap={"xs"}>
+                    <Burger
+                        opened={navbarOpened}
+                        onClick={navbarToggle}
+                        hiddenFrom="sm"
+                        size="sm"
+                    />
+                    <Stack gap={"xs"}>
+                        <Title order={isMobile ? 3 : 2}>
+                            {technology.name}
+                        </Title>
+                        <Text size="xs">by {provider.name}</Text>
+                    </Stack>
+
+                </Group>
+
+            </Stack>
             {/* <ColorSchemeToggle /> */}
             {/* <ChatNewButton resetChat={resetChat} /> */}
-            <UserMenu />
+            <Box visibleFrom="sm">
+                <UserMenu />
+            </Box>
         </Group>
     );
 }

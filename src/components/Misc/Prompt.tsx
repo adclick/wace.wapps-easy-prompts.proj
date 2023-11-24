@@ -126,7 +126,7 @@ export function Prompt({
                     py={"md"}
                     px={"md"}
                 >
-                    {
+                    {/* {
                         <Center
                             styles={{
                                 root: {
@@ -147,7 +147,7 @@ export function Prompt({
                                 />
                             }
                         </Center>
-                    }
+                    } */}
                     <ActionIcon
                         variant="subtle"
                         aria-label="Settings"

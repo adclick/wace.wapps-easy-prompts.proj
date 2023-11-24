@@ -1,4 +1,4 @@
-import { Box, Stack, VisuallyHidden } from "@mantine/core"
+import { Box, Group, Stack, VisuallyHidden } from "@mantine/core"
 import { Thread } from "../../model/Thread"
 import { ChatCard } from "./ChatCard"
 import { Ref } from "react"
