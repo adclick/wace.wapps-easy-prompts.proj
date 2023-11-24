@@ -21,6 +21,7 @@ import { ChatPanel } from '../components/Chat/ChatPanel';
 import { IconPrompt, IconTemplate } from '@tabler/icons-react';
 import { SuggestionsPanel } from '../components/Suggestions/SuggestionsPanel';
 import { Options } from '../model/Options';
+import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 
 export function HomePage() {
   // API Client
@@ -193,9 +194,12 @@ export function HomePage() {
               {technology.name}
             </Title>
           </Group>
-          <Box visibleFrom="sm">
-            <UserMenu />
-          </Box>
+          <Group>
+            <ColorSchemeToggle />
+            <Box visibleFrom="sm">
+              <UserMenu />
+            </Box>
+          </Group>
         </Group>
       </AppShell.Header>
 
