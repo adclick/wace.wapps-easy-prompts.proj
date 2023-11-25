@@ -35,6 +35,7 @@ export function ChatCard({
 
     // Once loaded, get the response from the user request
     useEffect(() => {
+        console.log(userPromptOptions.modifiers);
         aIMediatorClient.optimizePrompt(request.text, userPromptOptions).then(optimizedPrompt => {
             switch (userPromptOptions.technology.slug) {
                 case 'text-generation':
@@ -178,7 +179,7 @@ export function ChatCard({
                             request.userPromptOptions.modifiers.length > 0
                                 ? <Popover>
                                     <Popover.Target>
-                                        <Indicator size={16} label={request.userPromptOptions.modifiers.length}>
+                                        <Indicator zIndex={100} size={16} label={request.userPromptOptions.modifiers.length}>
                                             <ActionIcon variant="subtle">
                                                 <IconSparkles />
                                             </ActionIcon>

@@ -34,6 +34,15 @@ export class AIMediatorClient {
         });
     }
 
+    async getTemplates(technology: string, provider: string, limit: number, offset: number) {
+        return await this.get('/ai/prompt/get-templates', {
+            technology: "",
+            provider: "",
+            limit: 10,
+            offset: 0
+        })
+    }
+
     async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/prompt/language-detection', this.getParams(userPrompt, userPromptOptions));
     }

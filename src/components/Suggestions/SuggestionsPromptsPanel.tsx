@@ -5,19 +5,19 @@ import { useTranslation } from "react-i18next";
 import { Suggestion } from "./Suggestion";
 import { UsedPrompt } from "../../model/UsedPrompt";
 
-interface SuggestionsPanel {
+interface SuggestionsPromptsPanel {
     usedPrompts: UsedPrompt[],
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any
 }
 
-export function SuggestionsPanel({
+export function SuggestionsPromptsPanel({
     usedPrompts,
     userPrompt,
     setUserPrompt,
     navbarToggle
-}: SuggestionsPanel) {
+}: SuggestionsPromptsPanel) {
     const { t } = useTranslation();
 
     const getPromptsToShow = () => {

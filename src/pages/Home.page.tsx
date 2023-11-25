@@ -19,9 +19,10 @@ import { UserMenu } from '../components/Misc/UserMenu';
 import { PromptInput } from '../components/Prompt/PromptInput';
 import { ChatPanel } from '../components/Chat/ChatPanel';
 import { IconPrompt, IconTemplate } from '@tabler/icons-react';
-import { SuggestionsPanel } from '../components/Suggestions/SuggestionsPanel';
+import { SuggestionsPromptsPanel } from '../components/Suggestions/SuggestionsPromptsPanel';
 import { Options } from '../model/Options';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
+import { SuggestionsTemplatesPanel } from '../components/Suggestions/SuggestionsTemplatesPanel';
 
 export function HomePage() {
   // API Client
@@ -114,8 +115,6 @@ export function HomePage() {
     newUserPromptOptions.setTechnology(currentTechnology);
     newUserPromptOptions.setProvider(currentProvider);
     newUserPromptOptions.setLanguage(languageCode);
-    newUserPromptOptions.setParameters(parameters);
-    newUserPromptOptions.setModifiers(modifiers)
     setUserPromptOptions(newUserPromptOptions);
   }
 
@@ -180,7 +179,6 @@ export function HomePage() {
         navbar: cx(computedColorScheme)
       }}
     >
-      {/* HEADER */}
       <AppShell.Header withBorder={false} p={"md"} >
         <Group h={"100%"} justify="space-between" align="center">
           <Group align="center" gap={"xs"}>
@@ -203,9 +201,7 @@ export function HomePage() {
         </Group>
       </AppShell.Header>
 
-      {/* NAVBAR */}
       <AppShell.Navbar withBorder={false} p="md">
-        {/* NAVBAR HEADER */}
         <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"xs"}>
           <Group h={"100%"} px={"md"} justify='space-between'>
             <Burger
@@ -217,7 +213,6 @@ export function HomePage() {
             <UserMenu />
           </Group>
         </AppShell.Section>
-        {/* NAVBAR */}
         <AppShell.Section grow component={ScrollArea}>
           <Tabs defaultValue="prompts" radius={"md"}>
             <Tabs.List grow>
@@ -230,7 +225,7 @@ export function HomePage() {
             </Tabs.List>
 
             <Tabs.Panel value="prompts">
-              <SuggestionsPanel
+              <SuggestionsPromptsPanel
                 usedPrompts={usedPrompts}
                 userPrompt={userPrompt}
                 setUserPrompt={setUserPrompt}
@@ -239,17 +234,21 @@ export function HomePage() {
             </Tabs.Panel>
 
             <Tabs.Panel value="templates">
+              <SuggestionsTemplatesPanel
+                usedPrompts={usedPrompts}
+                userPrompt={userPrompt}
+                setUserPrompt={setUserPrompt}
+                navbarToggle={toggle}
+              />
             </Tabs.Panel>
           </Tabs>
         </AppShell.Section>
-        {/* NAVBAR BOTTOM */}
         <AppShell.Section>
           <Divider h={"xs"} />
           <TeamSwitcher />
         </AppShell.Section>
       </AppShell.Navbar>
 
-      {/* MAIN */}
       <AppShell.Main>
         <ChatPanel
           threads={threads}
@@ -262,7 +261,6 @@ export function HomePage() {
         />
       </AppShell.Main>
 
-      {/* FOOTER */}
       <AppShell.Footer withBorder={false}>
         <PromptInput
           aIMediatorClient={aIMediatorClient}
