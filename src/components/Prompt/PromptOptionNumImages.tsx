@@ -1,29 +1,31 @@
-import { Accordion, Group, Select, Stack, Text, Title, rem } from "@mantine/core";
-import { UserPromptOptions } from "../../model/UserPromptOptions";
+import { Accordion, Group, Slider, Stack, Text, Title, rem } from "@mantine/core";
+import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { useEffect, useState } from "react";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { Parameter } from "../../model/Parameter";
 
-interface ImageResolutionOption {
+interface PromptOptionNumImages {
     parameter: Parameter,
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any
 }
 
-export function ImageResolutionOption({
+export function PromptOptionNumImages({
     parameter,
     userPromptOptions,
     setUserPromptOptions
-}: ImageResolutionOption) {
-    const [value, setValue] = useState(parameter.content[0]);
+}: PromptOptionNumImages) {
+    const [value, setValue] = useState(1);
+
+    const defaultNumImages = 1;
 
     useEffect(() => {
         const newUserPromptOptions = userPromptOptions;
-        newUserPromptOptions.setParameter(parameter.slug, parameter.content[0]);
+        newUserPromptOptions.setParameter(parameter.slug, defaultNumImages);
         setUserPromptOptions(newUserPromptOptions);
     }, [])
 
-    const handleOnChange = (value: string) => {
+    const handleOnChange = (value: number) => {
         setValue(value);
 
         // update userPromptOptions
@@ -32,32 +34,30 @@ export function ImageResolutionOption({
         setUserPromptOptions(newUserPromptOptions);
     }
 
+    
     if (parameter.content === '') {
         return <></>;
+    }    
+
+    const marks = [];
+    for (let i = 1; i <= parseInt(parameter.content); i++) {
+        marks.push({ value: i, label: i });
     }
-
-    const resolutions: string[] = parameter.content;
-
-    const data = resolutions.map((i: string) => {
-        return {
-            label: i,
-            value: i
-        }
-    });
-
     return (
-        <Stack gap={"xs"}>
+        <Stack gap={"md"}>
             <Group>
                 <Text size="md">{parameter.name}</Text>
             </Group>
-            <Select
-                variant="unstyled"
-                data={data}
-                defaultValue={parameter.content[0]}
+            <Slider
+                defaultValue={1}
+                min={defaultNumImages}
+                max={parseInt(parameter.content)}
+                marks={marks}
+                mx={"xs"}
                 value={value}
                 onChange={handleOnChange}
-                comboboxProps={{ withinPortal: false }}
             />
         </Stack>
+
     )
 }

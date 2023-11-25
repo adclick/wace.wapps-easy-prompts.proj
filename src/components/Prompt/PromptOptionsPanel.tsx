@@ -3,7 +3,7 @@ import { PromptOptionTechnology } from "./PromptOptionTechnology"
 import { PromptOptionProvider } from "./PromptOptionProvider"
 import { PromptOptionModificers } from "./PromptOptionModifiers"
 import { IconDeviceFloppy, IconReload } from "@tabler/icons-react"
-import { ParameterOption } from "./ParameterOption"
+import { PromptOptionParameter } from "./PromptOptionParameter"
 import { PromptOptions } from "@/model/PromptOptions"
 import { Technology } from "@/model/Technology"
 import { Provider } from "@/model/Provider"
@@ -80,7 +80,7 @@ export function PromptOptionsPanel({
                     parameters.map(parameter => {
                         return (
                             <Box my={"sm"} key={parameter.slug}>
-                                <ParameterOption
+                                <PromptOptionParameter
                                     key={parameter.slug}
                                     type={parameter.slug}
                                     parameter={parameter}
