@@ -33,23 +33,29 @@ export function ChatCard({
     const { user } = useAuth0();
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [vote, setVote] = useState(0);
+    const [responded, setResponded] = useState(false);
 
     // Once loaded, get the response from the user request
     useEffect(() => {
+        // On each render, don't request if already responded
+        if (responded) return;
+
         aIMediatorClient.optimizePrompt(request.text, userPromptOptions).then(optimizedPrompt => {
-            switch (userPromptOptions.technology.slug) {
+            switch (request.userPromptOptions.technology.slug) {
                 case 'text-generation':
-                    aIMediatorClient.generateText(optimizedPrompt, userPromptOptions).then(text => {
+                    aIMediatorClient.generateText(optimizedPrompt, request.userPromptOptions).then(text => {
                         setResult(<ChatCardText text={text} />);
                         scrollIntoView({ alignment: 'start' });
+                        setResponded(true);
                     }).catch((e) => {
                         setResult(<Text>{e.message}</Text>)
                     })
                     break;
                 case 'image-generation':
-                    aIMediatorClient.generateImage(optimizedPrompt, userPromptOptions).then((images: string[]) => {
+                    aIMediatorClient.generateImage(optimizedPrompt, request.userPromptOptions).then((images: string[]) => {
                         setResult(<ChatCardImage images={images} />);
                         scrollIntoView({ alignment: 'start' });
+                        setResponded(true);
                     }).catch((e) => {
                         setResult(<Text>{e.message}</Text>)
                     })

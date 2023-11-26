@@ -1,5 +1,6 @@
 import { Request } from "./Request";
 import { Response } from "./Response";
+import { UserPromptOptions } from "./UserPromptOptions";
 
 export class Thread {
     request: Request;

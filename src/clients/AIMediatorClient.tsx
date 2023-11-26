@@ -25,13 +25,17 @@ export class AIMediatorClient {
     }
 
     async getUsedPrompts() {
-        return await this.get('/ai/prompt/get', {
+        const result = await this.get('/ai/prompt/get', {
             prompt: "",
             technology: "",
             provider: "",
             limit: 4,
             offset: 4
         });
+
+        const data = result.slice(0.4);
+
+        return data;
     }
 
     async getTemplates(technology: string, provider: string, limit: number, offset: number) {
