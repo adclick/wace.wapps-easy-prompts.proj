@@ -9,6 +9,7 @@ import { UserPromptOptions } from "@/model/UserPromptOptions";
 import { ChatCardText } from "./ChatCardText";
 import { ChatCardImage } from "./ChatCardImage";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
+import { IconQuestionMark } from "@tabler/icons-react";
 
 interface ChatCard {
     request: Request,
@@ -35,7 +36,6 @@ export function ChatCard({
 
     // Once loaded, get the response from the user request
     useEffect(() => {
-        console.log(userPromptOptions.modifiers);
         aIMediatorClient.optimizePrompt(request.text, userPromptOptions).then(optimizedPrompt => {
             switch (userPromptOptions.technology.slug) {
                 case 'text-generation':
@@ -176,28 +176,40 @@ export function ChatCard({
                     </Group>
                     <Group>
                         {
-                            request.userPromptOptions.modifiers.length > 0
-                                ? <Popover>
-                                    <Popover.Target>
-                                        <Indicator zIndex={100} size={16} label={request.userPromptOptions.modifiers.length}>
-                                            <ActionIcon variant="subtle">
-                                                <IconSparkles />
-                                            </ActionIcon>
-                                        </Indicator>
-                                    </Popover.Target>
-                                    <Popover.Dropdown>
-                                        {
-                                            request.userPromptOptions.modifiers.map(m => {
-                                                return (
+                            request.userPromptOptions.modifiers.length
+                            && <Popover>
+                                <Popover.Target>
+                                    <Indicator zIndex={100} size={16} label={request.userPromptOptions.modifiers.length}>
+                                        <ActionIcon variant="subtle">
+                                            <IconSparkles />
+                                        </ActionIcon>
+                                    </Indicator>
+                                </Popover.Target>
+                                <Popover.Dropdown>
+                                    {
+                                        request.userPromptOptions.modifiers.map(m => {
+                                            return (
+                                                <Group justify="space-between">
                                                     <Chip size="xs" variant="outline" readOnly checked value={m.slug}>{m.name}</Chip>
-                                                )
-                                            })
-                                        }
-                                    </Popover.Dropdown>
-                                </Popover>
-                                : <ActionIcon variant="subtle">
-                                    <IconSparkles />
-                                </ActionIcon>
+                                                    <Popover width={200} position="top" withArrow shadow="md">
+                                                        <Popover.Target>
+                                                            <ActionIcon mx={"sm"} size={'sm'} variant="outline" aria-label="Settings">
+                                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                            </ActionIcon>
+                                                        </Popover.Target>
+                                                        <Popover.Dropdown>
+                                                            <Text size="xs">
+                                                                {m.description}
+                                                            </Text>
+                                                        </Popover.Dropdown>
+                                                    </Popover>
+
+                                                </Group>
+                                            )
+                                        })
+                                    }
+                                </Popover.Dropdown>
+                            </Popover>
                         }
                     </Group>
                 </Group>
