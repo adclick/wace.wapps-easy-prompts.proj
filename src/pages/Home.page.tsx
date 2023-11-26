@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AppShell, Box, Burger, Divider, Group, ScrollArea, Tabs, Title, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Divider, Group, ScrollArea, Stack, Tabs, Textarea, Title, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -18,11 +18,10 @@ import { TeamSwitcher } from '../components/Misc/TeamSwitcher';
 import { UserMenu } from '../components/Misc/UserMenu';
 import { PromptInput } from '../components/Prompt/PromptInput';
 import { ChatPanel } from '../components/Chat/ChatPanel';
-import { IconPrompt, IconTemplate } from '@tabler/icons-react';
 import { SuggestionsPromptsPanel } from '../components/Suggestions/SuggestionsPromptsPanel';
 import { Options } from '../model/Options';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
-import { SuggestionsTemplatesPanel } from '../components/Suggestions/SuggestionsTemplatesPanel';
+import { SuggestionsHeader } from '../components/Suggestions/SuggestionsHeader';
 
 export function HomePage() {
   // API Client
@@ -38,6 +37,8 @@ export function HomePage() {
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
   const [opened, { toggle }] = useDisclosure();
+  const [filtersOpened, { open, close }] = useDisclosure(false);
+
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
   // User Prompt
@@ -202,46 +203,25 @@ export function HomePage() {
       </AppShell.Header>
 
       <AppShell.Navbar withBorder={false} p="md">
-        <AppShell.Section hiddenFrom='sm' mb={'md'} mt={"xs"}>
-          <Group h={"100%"} px={"md"} justify='space-between'>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <UserMenu />
-          </Group>
+        <AppShell.Section >
+          <SuggestionsHeader
+            navbarOpened={opened}
+            toggleNavbar={toggle}
+            openFilters={open}
+            userPrompt={userPrompt}
+            setUserPrompt={setUserPrompt}
+          />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          <Tabs defaultValue="prompts" radius={"md"}>
-            <Tabs.List grow>
-              <Tabs.Tab value="prompts" leftSection={<IconPrompt style={{ width: rem(18), height: rem(18) }} />}>
-                <Title order={5}>Prompts</Title>
-              </Tabs.Tab>
-              <Tabs.Tab value="templates" leftSection={<IconTemplate style={{ width: rem(18), height: rem(18) }} />}>
-                <Title order={5}>Templates</Title>
-              </Tabs.Tab>
-            </Tabs.List>
-
-            <Tabs.Panel value="prompts">
-              <SuggestionsPromptsPanel
-                usedPrompts={usedPrompts}
-                userPrompt={userPrompt}
-                setUserPrompt={setUserPrompt}
-                navbarToggle={toggle}
-              />
-            </Tabs.Panel>
-
-            <Tabs.Panel value="templates">
-              <SuggestionsTemplatesPanel
-                usedPrompts={usedPrompts}
-                userPrompt={userPrompt}
-                setUserPrompt={setUserPrompt}
-                navbarToggle={toggle}
-              />
-            </Tabs.Panel>
-          </Tabs>
+          <SuggestionsPromptsPanel
+            usedPrompts={usedPrompts}
+            userPrompt={userPrompt}
+            setUserPrompt={setUserPrompt}
+            navbarToggle={toggle}
+            filtersOpened={filtersOpened}
+            openFilters={open}
+            closeFilters={close}
+          />
         </AppShell.Section>
         <AppShell.Section>
           <Divider h={"xs"} />

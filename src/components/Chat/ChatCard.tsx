@@ -111,7 +111,7 @@ export function ChatCard({
                     px={0}
                 >
                     <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
-                        <Group wrap="nowrap" align="flex-start">
+                        <Group  align="flex-start">
                             <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
                             {result}
                         </Group>

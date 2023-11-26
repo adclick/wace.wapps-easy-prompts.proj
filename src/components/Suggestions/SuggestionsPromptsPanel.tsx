@@ -1,22 +1,29 @@
-import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Group, Input, Paper, Popover, Rating, ScrollArea, Stack, Text, Textarea, Title } from "@mantine/core"
-import { IconQuestionMark } from "@tabler/icons-react"
+import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Drawer, Group, Input, Paper, Popover, Rating, ScrollArea, SegmentedControl, Stack, Text, Textarea, Title, rem } from "@mantine/core"
+import { IconFilter, IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Suggestion } from "./Suggestion";
 import { UsedPrompt } from "../../model/UsedPrompt";
+import { SuggestionsFilters } from "./SuggestionsFilters";
 
 interface SuggestionsPromptsPanel {
     usedPrompts: UsedPrompt[],
     userPrompt: string,
     setUserPrompt: any,
-    navbarToggle: any
+    navbarToggle: any,
+    filtersOpened: boolean,
+    openFilters: any,
+    closeFilters: any
 }
 
 export function SuggestionsPromptsPanel({
     usedPrompts,
     userPrompt,
     setUserPrompt,
-    navbarToggle
+    navbarToggle,
+    filtersOpened,
+    openFilters,
+    closeFilters
 }: SuggestionsPromptsPanel) {
     const { t } = useTranslation();
 
@@ -27,22 +34,9 @@ export function SuggestionsPromptsPanel({
     }
 
     return (
-        <Stack gap={'xl'} my={"md"}>
-            {/* <Group align="flex-end">
-                <Title order={4}>
-                    Suggestions
-                </Title>
-            </Group> */}
-            <Textarea
-                placeholder={"Search"}
-                autosize
-                autoFocus
-                minRows={1}
-                maxRows={6}
-                value={userPrompt}
-                onChange={e => setUserPrompt(e.target.value)}
-                hiddenFrom="sm"
-            />
+        <Stack gap={'xl'} mb={"md"}>
+            <SuggestionsFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
+
             <Stack gap={'md'}>
                 <Accordion variant="" chevron="" styles={{
                     content: {

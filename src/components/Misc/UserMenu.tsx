@@ -3,8 +3,6 @@ import { Avatar, Box, Button, Divider, Group, Menu, Stack, Text, Title, Tooltip,
 import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser, IconUsers } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 
-const NOT_AVAILABLE = "Not available yet";
-
 export function UserMenu() {
     const { t } = useTranslation();
     const { user, logout } = useAuth0();
