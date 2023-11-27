@@ -1,10 +1,11 @@
-import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Drawer, Group, Input, Paper, Popover, Rating, ScrollArea, SegmentedControl, Stack, Text, Textarea, Title, rem } from "@mantine/core"
+import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Drawer, Group, Input, Loader, Paper, Popover, Rating, ScrollArea, SegmentedControl, Stack, Text, Textarea, Title, rem } from "@mantine/core"
 import { IconFilter, IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Suggestion } from "./Suggestion";
 import { UsedPrompt } from "../../model/UsedPrompt";
 import { SuggestionsFilters } from "./SuggestionsFilters";
+
 
 interface SuggestionsPromptsPanel {
     usedPrompts: UsedPrompt[],

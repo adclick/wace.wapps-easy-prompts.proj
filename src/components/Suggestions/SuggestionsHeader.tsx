@@ -20,7 +20,7 @@ export function SuggestionsHeader({
     return (
         <Stack pb={"xs"}>
             <Group h={"100%"} justify='space-between' py={"xs"}>
-                <Group align='flex-end' >
+                <Group align='end' >
                     <Burger
                         opened={navbarOpened}
                         onClick={toggleNavbar}
@@ -28,8 +28,8 @@ export function SuggestionsHeader({
                         size="sm"
                     />
                     <Title order={3}>Suggestions</Title>
-                    <ActionIcon onClick={openFilters} variant='subtle'>
-                        <IconFilter style={{ width: rem(16), height: rem(16) }} />
+                    <ActionIcon size={"md"} onClick={openFilters} variant='light'>
+                        <IconFilter style={{ width: rem(14), height: rem(14) }} />
                     </ActionIcon>
                 </Group>
                 <Box hiddenFrom="sm">

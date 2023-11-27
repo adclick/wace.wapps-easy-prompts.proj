@@ -24,7 +24,7 @@ export class AIMediatorClient {
         });
     }
 
-    async getUsedPrompts() {
+    async getUsedPrompts(limit = 10, offset = 0) {
         const result = await this.get('/ai/prompt/get', {
             prompt: "",
             technology: "",
@@ -33,8 +33,9 @@ export class AIMediatorClient {
             offset: 4
         });
 
-        const data = result.slice(0.4);
+        const data = result.slice(offset, limit);
 
+        console.log(data);
         return data;
     }
 
