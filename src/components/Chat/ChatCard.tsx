@@ -84,11 +84,7 @@ export function ChatCard({
     return (
         <Card mx={"xl"} p={"md"} shadow="sm">
             <Stack gap={0}>
-                <Box
-                    style={{ cursor: "pointer" }}
-                    px={0}
-                    py={"xs"}
-                >
+                <Box py={"xs"}>
                     <Group justify="space-between">
                         <Group>
                             <Avatar src={user?.picture} size={"sm"} />

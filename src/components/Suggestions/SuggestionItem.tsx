@@ -28,9 +28,11 @@ export function SuggestionItem({
                     <Text size="sm" fw={500} lineClamp={20}>
                         {usedPrompt.name}
                     </Text>
+                    <Group>
                     <Badge size="xs" variant="default">
                         Prompt
                     </Badge>
+                    </Group>
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>
