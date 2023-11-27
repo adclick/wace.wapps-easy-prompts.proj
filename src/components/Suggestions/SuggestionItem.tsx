@@ -18,15 +18,15 @@ export function SuggestionItem({
 }: SuggestionItem) {
 
     const use = () => {
-        setUserPrompt(usedPrompt.prompt)
+        setUserPrompt(usedPrompt.name)
         navbarToggle();
     }
     return (
-        <AccordionItem value={usedPrompt.prompt} py={"xs"}>
+        <AccordionItem value={usedPrompt.name} py={"xs"}>
             <AccordionControl px={0}>
                 <Group justify="space-between" gap={"xs"} align="center">
                     <Text size="sm" fw={500} lineClamp={20}>
-                        {usedPrompt.prompt}
+                        {usedPrompt.name}
                     </Text>
                 </Group>
             </AccordionControl>

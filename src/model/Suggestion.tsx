@@ -4,7 +4,7 @@ import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 
 export class Suggestion {
-    prompt: string
+    name: string
     score: number;
     technology: Technology;
     provider: Provider;
@@ -12,7 +12,7 @@ export class Suggestion {
     modifiers: Modifier[];
 
     constructor(prompt = "") {
-        this.prompt = prompt;
+        this.name = prompt;
         this.score = 50; 
         this.technology = new Technology();
         this.provider = new Provider();
@@ -26,7 +26,7 @@ export class Suggestion {
         for (const up of usedPrompts) {
             const obj = new Suggestion();
 
-            obj.prompt = up.content;
+            obj.name = up.name;
             obj.score = up.score;
 
             objs.push(obj);

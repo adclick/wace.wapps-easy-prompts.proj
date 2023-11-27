@@ -17,6 +17,20 @@ export class AIMediatorClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
+    async createUser(auth0Id: string, language: string) {
+        return await this.post('/ai/user/create', { 
+            auth0Id,
+            language
+        });
+    }
+
+    async updateUser(auth0Id: string, language: string) {
+        return await this.post('/ai/user/update', { 
+            auth0Id,
+            language
+        });
+    }
+
     async getPromptOptions(userId: string|undefined, languageCode: string) {
         return await this.get('/ai/prompt/options', { 
             userId,
@@ -24,18 +38,14 @@ export class AIMediatorClient {
         });
     }
 
-    async getSuggestions(limit = 10, offset = 0) {
-        const result = await this.get('/ai/prompt/get', {
-            prompt: "",
-            technology: "",
-            provider: "",
-            limit: 4,
-            offset: 4
+    async getSuggestions(prompt: string, technology: string, provider: string, limit: number = 20, offset: number = 0) {
+        return await this.get('/ai/prompt/suggestions', {
+            prompt,
+            technology,
+            provider,
+            limit,
+            offset
         });
-
-        const data = result.slice(offset, limit);
-
-        return data;
     }
 
     async getTemplates(technology: string, provider: string, limit: number, offset: number) {

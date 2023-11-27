@@ -72,21 +72,27 @@ export function HomePage() {
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
   useEffect(() => {
+    handleUser();
     refreshPromptOptions(Language.getDefaultCode());
   }, []);
 
-  const refreshPromptOptions = async (languageCode: string) => {
-    // Init AI Client
+  const handleUser = async () => {
+    console.log('handle user');
     const aiMediatorClient = new AIMediatorClient();
-
-    // User
+    
     const user = User.buildFromAuth0(auth0User);
     setCurrentUser(user);
 
-    // Refresh Suggestions
-    const usedPrompts = await aiMediatorClient.getSuggestions();
-    const suggestionsObjs = Suggestion.buildFromApi(usedPrompts);
-    setSuggestions(suggestionsObjs);
+    await aiMediatorClient.createUser(user.id, language.code);
+  }
+  
+  const refreshPromptOptions = async (languageCode: string) => {
+    // Init AI Client
+    const aiMediatorClient = new AIMediatorClient();
+    
+    // User
+    const user = User.buildFromAuth0(auth0User);
+    setCurrentUser(user);
 
     // Refresh Options
     const promptOptions = await aiMediatorClient.getPromptOptions(user.id, languageCode);
@@ -120,6 +126,11 @@ export function HomePage() {
     newUserPromptOptions.setProvider(currentProvider);
     newUserPromptOptions.setLanguage(languageCode);
     setUserPromptOptions(newUserPromptOptions);
+
+    // Refresh Suggestions
+    const usedPrompts = await aiMediatorClient.getSuggestions("", currentTechnology.slug, currentProvider.slug);
+    const suggestionsObjs = Suggestion.buildFromApi(usedPrompts);
+    setSuggestions(suggestionsObjs);
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {

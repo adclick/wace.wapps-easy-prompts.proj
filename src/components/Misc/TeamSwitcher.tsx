@@ -7,6 +7,7 @@ export function TeamSwitcher() {
             data={[
                 { label: "Global", value: "global" },
                 { label: "Wace", value: "wace" },
+                { label: "Private", value: "private" },
             ]}
             value={"wace"}
             variant="unstyled"

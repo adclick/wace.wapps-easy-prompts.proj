@@ -24,7 +24,7 @@ export function SuggestionsPromptsPanel({
 
     const getPromptsToShow = () => {
         return suggestions.filter(suggestion => {
-            return suggestion.prompt.toLowerCase().includes(userPrompt.toLocaleLowerCase());
+            return suggestion.name.toLowerCase().includes(userPrompt.toLocaleLowerCase());
         })
     }
 
@@ -42,7 +42,7 @@ export function SuggestionsPromptsPanel({
                         getPromptsToShow().map(usedPrompt => {
                             return (
                                 <SuggestionItem
-                                    key={usedPrompt.prompt}
+                                    key={usedPrompt.name}
                                     usedPrompt={usedPrompt}
                                     setUserPrompt={setUserPrompt}
                                     navbarToggle={navbarToggle}
