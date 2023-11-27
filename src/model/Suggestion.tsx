@@ -3,7 +3,7 @@ import { Parameter } from "./Parameter";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 
-export class UsedPrompt {
+export class Suggestion {
     prompt: string
     score: number;
     technology: Technology;
@@ -20,11 +20,11 @@ export class UsedPrompt {
         this.modifiers = [];
     }
 
-    static buildFromApi(usedPrompts: any): UsedPrompt[] {
-        const objs: UsedPrompt[] = [];
+    static buildFromApi(usedPrompts: any): Suggestion[] {
+        const objs: Suggestion[] = [];
 
         for (const up of usedPrompts) {
-            const obj = new UsedPrompt();
+            const obj = new Suggestion();
 
             obj.prompt = up.content;
             obj.score = up.score;

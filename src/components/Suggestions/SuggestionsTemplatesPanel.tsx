@@ -2,8 +2,8 @@ import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection
 import { IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Suggestion } from "./Suggestion";
-import { UsedPrompt } from "../../model/UsedPrompt";
+import { Suggestion } from "./SuggestionItem";
+import { UsedPrompt } from "../../model/Suggestion";
 
 interface SuggestionsTemplatesPanel {
     usedPrompts: UsedPrompt[],

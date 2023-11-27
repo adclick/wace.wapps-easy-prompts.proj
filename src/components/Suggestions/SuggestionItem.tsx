@@ -1,21 +1,21 @@
-import { UsedPrompt } from "../../model/UsedPrompt";
 import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { IconArrowRight, IconDotsVertical, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
+import { Suggestion } from "../../model/Suggestion";
 
-interface Suggestion {
-    usedPrompt: UsedPrompt,
+interface SuggestionItem {
+    usedPrompt: Suggestion,
     setUserPrompt: any,
     navbarToggle: any
 }
 
-export function Suggestion({
+export function SuggestionItem({
     usedPrompt,
     setUserPrompt,
     navbarToggle
-}: Suggestion) {
+}: SuggestionItem) {
 
     const use = () => {
         setUserPrompt(usedPrompt.prompt)

@@ -2,20 +2,20 @@ import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection
 import { IconFilter, IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Suggestion } from "./Suggestion";
-import { UsedPrompt } from "../../model/UsedPrompt";
+import { SuggestionItem } from "./SuggestionItem";
+import { Suggestion } from "../../model/Suggestion";
 import { SuggestionsFilters } from "./SuggestionsFilters";
 
 
 interface SuggestionsPromptsPanel {
-    usedPrompts: UsedPrompt[],
+    suggestions: Suggestion[],
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
 }
 
 export function SuggestionsPromptsPanel({
-    usedPrompts,
+    suggestions,
     userPrompt,
     setUserPrompt,
     navbarToggle,
@@ -23,8 +23,8 @@ export function SuggestionsPromptsPanel({
     const { t } = useTranslation();
 
     const getPromptsToShow = () => {
-        return usedPrompts.filter(usedPrompt => {
-            return usedPrompt.prompt.toLowerCase().includes(userPrompt.toLocaleLowerCase());
+        return suggestions.filter(suggestion => {
+            return suggestion.prompt.toLowerCase().includes(userPrompt.toLocaleLowerCase());
         })
     }
 
@@ -41,7 +41,7 @@ export function SuggestionsPromptsPanel({
                     {
                         getPromptsToShow().map(usedPrompt => {
                             return (
-                                <Suggestion
+                                <SuggestionItem
                                     key={usedPrompt.prompt}
                                     usedPrompt={usedPrompt}
                                     setUserPrompt={setUserPrompt}

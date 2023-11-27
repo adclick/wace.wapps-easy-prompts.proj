@@ -10,7 +10,7 @@ import { Technology } from '../model/Technology';
 import { Provider } from '../model/Provider';
 import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
-import { UsedPrompt } from '../model/UsedPrompt';
+import { Suggestion } from '../model/Suggestion';
 import cx from 'clsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../model/User';
@@ -47,7 +47,7 @@ export function HomePage() {
   const [userPrompt, setUserPrompt] = useState("");
 
   // Suggestions
-  const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [filters, setFilters] = useState<Filters>(new Filters());
 
   // Setting state
@@ -84,9 +84,9 @@ export function HomePage() {
     setCurrentUser(user);
 
     // Refresh Suggestions
-    const usedPrompts = await aiMediatorClient.getUsedPrompts();
-    const usedPromptsObjs = UsedPrompt.buildFromApi(usedPrompts);
-    setUsedPrompts(usedPromptsObjs);
+    const usedPrompts = await aiMediatorClient.getSuggestions();
+    const suggestionsObjs = Suggestion.buildFromApi(usedPrompts);
+    setSuggestions(suggestionsObjs);
 
     // Refresh Options
     const promptOptions = await aiMediatorClient.getPromptOptions(user.id, languageCode);
@@ -192,32 +192,30 @@ export function HomePage() {
               hiddenFrom="sm"
               size="sm"
             />
-            <Title order={isMobile ? 3 : 2}>
-              <Menu shadow="md" width={200} position='bottom-start'>
-                <Menu.Target>
-                  <Button variant='transparent' size='compact-xl' rightSection={<IconChevronDown style={{ width: rem(18), height: rem(18) }} />}>
-                    <Title order={2}>
-                      Main Chat
-                    </Title>
-                  </Button>
-                </Menu.Target>
+            <Menu shadow="md" width={200} position='bottom-start'>
+              <Menu.Target>
+                <Button variant='transparent' size='compact-xl' rightSection={<IconChevronDown style={{ width: rem(18), height: rem(18) }} />}>
+                  <Title order={3}>
+                    Main Chat
+                  </Title>
+                </Button>
+              </Menu.Target>
 
-                <Menu.Dropdown>
-                  <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                    New Chat
-                  </Menu.Item>
-                  <Menu.Item leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
-                    History
-                  </Menu.Item>
-                  <Menu.Item
-                    color="red"
-                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                  >
-                    Delete
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Title>
+              <Menu.Dropdown>
+                <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                  New Chat
+                </Menu.Item>
+                <Menu.Item leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
+                  History
+                </Menu.Item>
+                <Menu.Item
+                  color="red"
+                  leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Delete
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
           <Group>
             <ColorSchemeToggle />
@@ -242,7 +240,7 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <SuggestionsPromptsPanel
-            usedPrompts={usedPrompts}
+            suggestions={suggestions}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
             navbarToggle={toggle}
