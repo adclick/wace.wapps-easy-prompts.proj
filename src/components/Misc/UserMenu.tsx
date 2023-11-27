@@ -53,12 +53,12 @@ export function UserMenu() {
                     </Menu.Item>
 
                     <Menu.Divider />
-                    <Menu.Item leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
+                    <Menu.Item color="blue" leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}>
                         Give Feedback
                     </Menu.Item>
 
                     <Menu.Divider />
-                    <Menu.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
+                    <Menu.Item color="red" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
                         Logout
                     </Menu.Item>
                 </Menu.Dropdown>

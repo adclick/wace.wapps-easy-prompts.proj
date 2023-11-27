@@ -12,6 +12,7 @@ export function UserProfileModal({ userProfileOpened, closeUserProfile }: UserPr
                 <Tabs defaultValue="general" orientation="vertical" my={"md"}>
                     <Tabs.List>
                         <Tabs.Tab py={"md"} value="general">General</Tabs.Tab>
+                        <Tabs.Tab py={"md"} value="advanced">Advanced</Tabs.Tab>
                     </Tabs.List>
 
                     <Tabs.Panel value="general" px={"md"}>
@@ -19,6 +20,7 @@ export function UserProfileModal({ userProfileOpened, closeUserProfile }: UserPr
                             <Stack>
                                 <Text>Language</Text>
                                 <Select
+                                    variant="unstyled"
                                     value={"en"}
                                     data={[
                                         { label: "English", value: "en" },
@@ -27,6 +29,9 @@ export function UserProfileModal({ userProfileOpened, closeUserProfile }: UserPr
                                 />
                             </Stack>
                         </Stack>
+                    </Tabs.Panel>
+                    <Tabs.Panel value="advanced">
+
                     </Tabs.Panel>
                 </Tabs>
             </Modal>
