@@ -1,6 +1,6 @@
 import { UsedPrompt } from "../../model/UsedPrompt";
-import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
-import { IconDotsVertical, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
+import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
+import { IconArrowRight, IconDotsVertical, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
@@ -52,8 +52,8 @@ export function Suggestion({
                                 </Menu.Target>
 
                                 <Menu.Dropdown>
-                                    <Menu.Item leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}>
-                                        Share
+                                    <Menu.Item leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
+                                        Use as Template
                                     </Menu.Item>
                                     <Menu.Item
                                         leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}

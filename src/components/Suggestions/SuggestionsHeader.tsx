@@ -37,10 +37,10 @@ export function SuggestionsHeader({
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    <Title order={4}>Suggestions</Title>
+                    <Title order={3}>Suggestions</Title>
                 </Group>
                 <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
-                    <IconFilter style={{ width: rem(16), height: rem(16) }} />
+                    <IconFilter style={{ width: rem(18), height: rem(18) }} />
                 </ActionIcon>
                 {/* <Box hiddenFrom="sm">
                     <UserMenu />

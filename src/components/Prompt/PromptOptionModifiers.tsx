@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Box, Button, Card, Chip, Collapse, Group, Input, Paper, Popover, ScrollArea, Stack, Text, TextInput, Textarea, Title, rem } from "@mantine/core"
+import { Accordion, ActionIcon, Box, Button, Card, Chip, Collapse, Group, Input, Modal, Paper, Popover, ScrollArea, Select, Stack, Text, TextInput, Textarea, Title, rem } from "@mantine/core"
 import { IconDeviceFloppy, IconPlus, IconQuestionMark, IconSparkles } from "@tabler/icons-react"
 import { PromptOptions } from "../../model/PromptOptions"
 import { UserPromptOptions } from "../../model/UserPromptOptions"
@@ -35,9 +35,9 @@ export function PromptOptionModificers({
 }: PromptOptionModificers) {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
-    const [opened, { toggle }] = useDisclosure(false);
     const [newModifierName, setNewModifierName] = useState('');
     const [newModifierContent, setNewModifierContent] = useState('');
+    const [newModifierModalOpened, newModifierModalHandler] = useDisclosure(false);
 
     const handleOnChangePromptModifier = (newModifiersSlugs: string[]) => {
         const newModifiers = newModifiersSlugs.map(slug => promptOptions.getModifierBySlug(slug));
@@ -56,10 +56,7 @@ export function PromptOptionModificers({
                 technology
             );
 
-            toggle();
-
             await refreshPromptOptions();
-
         }
     }
 
@@ -87,6 +84,20 @@ export function PromptOptionModificers({
 
     return (
         <Stack mb={"md"}>
+            <Modal opened={newModifierModalOpened} onClose={newModifierModalHandler.close} title={
+                <Group align="center">
+                    <IconSparkles style={{width: rem(18), height: rem(18)}} />
+                    <Text size="sm">New Modifier</Text>
+                </Group>
+            }>
+                <Stack>
+                    <TextInput onChange={(e: any) => setNewModifierName(e.target.value)} value={newModifierName} label="Name" placeholder="Name" size="xs" />
+                    <Textarea autosize minRows={3} onChange={(e: any) => setNewModifierContent(e.target.value)} value={newModifierContent} label="Content" placeholder="" size="xs" mt="xs" />
+                    <Group>
+                        <Button leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />} variant="transparent" size="compact-xs" onClick={saveModifier}>Save</Button>
+                    </Group>
+                </Stack>
+            </Modal>
             <Group justify="space-between">
                 <Group >
                     <Text size="md">
@@ -97,22 +108,11 @@ export function PromptOptionModificers({
                     </Text>
                 </Group>
                 <Box mx={"sm"}>
-                    <ActionIcon onClick={toggle} size={"xs"} variant="transparent">
+                    <ActionIcon onClick={newModifierModalHandler.open} size={"xs"} variant="subtle">
                         <IconPlus style={{ width: rem(16), height: rem(16) }} />
                     </ActionIcon>
                 </Box>
             </Group>
-            <Collapse in={opened}>
-                <Card p={"sm"}>
-                    <Stack>
-                        <TextInput onChange={(e: any) => setNewModifierName(e.target.value)} value={newModifierName} label="Name" placeholder="Name" size="xs" />
-                        <Textarea onChange={(e: any) => setNewModifierContent(e.target.value)} value={newModifierContent} label="Content" placeholder="" size="xs" mt="xs" />
-                        <Group>
-                            <Button leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />} variant="transparent" size="compact-xs" onClick={saveModifier}>Save</Button>
-                        </Group>
-                    </Stack>
-                </Card>
-            </Collapse>
             <Input
                 size='sm'
                 placeholder={(t("search"))}

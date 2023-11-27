@@ -193,15 +193,17 @@ export function HomePage() {
               size="sm"
             />
             <Title order={isMobile ? 3 : 2}>
-              {/* {technology.name} */}
-
               <Menu shadow="md" width={200} position='bottom-start'>
                 <Menu.Target>
-                  <Button variant='transparent' size='compact-xl' rightSection={<IconChevronDown style={{width: rem(18), height: rem(18)}} />}>Main Chat</Button>
+                  <Button variant='transparent' size='compact-xl' rightSection={<IconChevronDown style={{ width: rem(18), height: rem(18) }} />}>
+                    <Title order={2}>
+                      Main Chat
+                    </Title>
+                  </Button>
                 </Menu.Target>
 
                 <Menu.Dropdown>
-                  <Menu.Item color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                  <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                     New Chat
                   </Menu.Item>
                   <Menu.Item leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
@@ -247,7 +249,7 @@ export function HomePage() {
           />
         </AppShell.Section>
         <AppShell.Section>
-          <Divider h={"xs"} />
+          <Divider h={"md"} />
           <TeamSwitcher />
         </AppShell.Section>
       </AppShell.Navbar>
