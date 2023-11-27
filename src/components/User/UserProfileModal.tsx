@@ -1,4 +1,4 @@
-import { Box, Button, Menu, Modal, Select, Stack, Tabs, Text } from "@mantine/core";
+import { Box, Button, Card, Group, Menu, Modal, Select, Stack, Tabs, Text } from "@mantine/core";
 
 interface UserProfileModal {
     userProfileOpened: boolean,
@@ -11,23 +11,28 @@ export function UserProfileModal({ userProfileOpened, closeUserProfile }: UserPr
             <Tabs defaultValue="general" orientation="vertical" my={"md"}>
                 <Tabs.List>
                     <Tabs.Tab py={"md"} value="general">General</Tabs.Tab>
+                    <Tabs.Tab py={"md"} value="prompts">Prompts</Tabs.Tab>
+                    <Tabs.Tab py={"md"} value="templates">Templates</Tabs.Tab>
+                    <Tabs.Tab py={"md"} value="modifiers">Modifiers</Tabs.Tab>
                     <Tabs.Tab py={"md"} value="advanced">Advanced</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="general" px={"md"}>
-                    <Stack gap={"md"}>
-                        <Stack>
-                            <Text>Language</Text>
-                            <Select
-                                variant="unstyled"
-                                value={"en"}
-                                data={[
-                                    { label: "English", value: "en" },
-                                    { label: "Portuguese", value: "pt" },
-                                ]}
-                            />
+                    <Card>
+                        <Stack gap={"md"}>
+                            <Group gap={"xs"} justify="space-between">
+                                <Text size="sm"  fw={600}>Language</Text>
+                                <Select
+                                    variant="unstyled"
+                                    value={"en"}
+                                    data={[
+                                        { label: "English", value: "en" },
+                                        { label: "Portuguese", value: "pt" },
+                                    ]}
+                                />
+                            </Group>
                         </Stack>
-                    </Stack>
+                    </Card>
                 </Tabs.Panel>
                 <Tabs.Panel value="advanced">
 

@@ -27,22 +27,6 @@ export function UserMenu() {
                             <Text size="xs">{user?.email}</Text>
                         </Stack>
                     </Menu.Item>
-                    <Menu.Item
-                        leftSection={<IconPrompt style={{ width: "70%", height: "70%" }} />}
-                    >
-                        Prompts
-                    </Menu.Item>
-                    <Menu.Item
-                        leftSection={<IconSparkles style={{ width: "70%", height: "70%" }} />}
-                    >
-                        Modifiers
-                    </Menu.Item>
-                    <Menu.Item
-                        leftSection={<IconTemplate style={{ width: "70%", height: "70%" }} />}
-                    >
-                        Templates
-                    </Menu.Item>
-
                     <Menu.Divider />
                     <Menu.Label>Teams</Menu.Label>
                     <Menu.Item leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>

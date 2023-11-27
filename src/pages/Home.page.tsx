@@ -77,7 +77,6 @@ export function HomePage() {
   }, []);
 
   const handleUser = async () => {
-    console.log('handle user');
     const aiMediatorClient = new AIMediatorClient();
     
     const user = User.buildFromAuth0(auth0User);
