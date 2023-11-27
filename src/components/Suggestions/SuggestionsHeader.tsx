@@ -42,9 +42,6 @@ export function SuggestionsHeader({
                 <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
                     <IconFilter style={{ width: rem(18), height: rem(18) }} />
                 </ActionIcon>
-                {/* <Box hiddenFrom="sm">
-                    <UserMenu />
-                </Box> */}
             </Group>
             <Textarea
                 placeholder={"Search"}
