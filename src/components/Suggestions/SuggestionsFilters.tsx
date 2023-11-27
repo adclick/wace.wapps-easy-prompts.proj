@@ -1,4 +1,4 @@
-import { Button, Checkbox, Divider, Drawer, Group, SegmentedControl, Stack, Title, rem } from "@mantine/core";
+import { Button, Checkbox, Chip, Divider, Drawer, Group, SegmentedControl, Select, Stack, Text, Title, rem } from "@mantine/core";
 import { IconReload } from "@tabler/icons-react";
 
 interface SuggestionsFilters {
@@ -11,17 +11,21 @@ export function SuggestionsFilters({
     closeFilters
 }: SuggestionsFilters) {
     return (
-        <Drawer opened={filtersOpened} onClose={closeFilters} title={<Title order={3}>Filters</Title>} size={"350px"}>
-            <Stack gap={"md"} my={"md"}>
-                <Stack gap={"md"}>
-                    <Title order={5}>Type</Title>
-                    <Stack gap={"xs"}>
+        <Drawer
+            opened={filtersOpened}
+            onClose={closeFilters}
+            title={<Text fw={700} size="xl">Filters</Text>}
+            size={"350px"}
+        >
+            <Stack gap={"md"}>
+                <Stack gap={"xl"} my={"lg"}>
+                    <Group justify="space-around">
                         <Checkbox radius={"sm"} defaultChecked label="Prompts" />
                         <Checkbox radius={"sm"} defaultChecked label="Templates" />
-                    </Stack>
+                    </Group>
                 </Stack>
                 <Divider />
-                <Group mt={0} justify="space-between">
+                <Group justify="space-between">
                     <Button
                         px={0}
                         variant="transparent"

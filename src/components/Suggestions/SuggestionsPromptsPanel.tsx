@@ -12,9 +12,6 @@ interface SuggestionsPromptsPanel {
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
-    filtersOpened: boolean,
-    openFilters: any,
-    closeFilters: any
 }
 
 export function SuggestionsPromptsPanel({
@@ -22,9 +19,6 @@ export function SuggestionsPromptsPanel({
     userPrompt,
     setUserPrompt,
     navbarToggle,
-    filtersOpened,
-    openFilters,
-    closeFilters
 }: SuggestionsPromptsPanel) {
     const { t } = useTranslation();
 
@@ -36,7 +30,6 @@ export function SuggestionsPromptsPanel({
 
     return (
         <Stack gap={'xl'} mb={"md"}>
-            <SuggestionsFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
 
             <Stack gap={'md'}>
                 <Accordion variant="" chevron="" styles={{

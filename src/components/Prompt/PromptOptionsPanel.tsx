@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Drawer, Group, Stack, Title, rem } from "@mantine/core"
+import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem } from "@mantine/core"
 import { PromptOptionTechnology } from "./PromptOptionTechnology"
 import { PromptOptionProvider } from "./PromptOptionProvider"
 import { PromptOptionModificers } from "./PromptOptionModifiers"
@@ -55,7 +55,7 @@ export function PromptOptionsPanel({
         <Drawer
             opened={drawerOpened}
             onClose={closeDrawer}
-            title={<Title order={3}>Options</Title>}
+            title={<Text fw={700} size="xl">Options</Text>}
             size={"350px"}
 
         >

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Divider, Group, ScrollArea, Stack, Tabs, Textarea, Title, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Stack, Tabs, Textarea, Title, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -22,6 +22,8 @@ import { SuggestionsPromptsPanel } from '../components/Suggestions/SuggestionsPr
 import { Options } from '../model/Options';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 import { SuggestionsHeader } from '../components/Suggestions/SuggestionsHeader';
+import { Filters } from '../model/Filters';
+import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconTrash } from '@tabler/icons-react';
 
 export function HomePage() {
   // API Client
@@ -46,6 +48,7 @@ export function HomePage() {
 
   // Suggestions
   const [usedPrompts, setUsedPrompts] = useState<UsedPrompt[]>([]);
+  const [filters, setFilters] = useState<Filters>(new Filters());
 
   // Setting state
   const [threads, setThreads] = useState<Thread[]>([]);
@@ -190,14 +193,33 @@ export function HomePage() {
               size="sm"
             />
             <Title order={isMobile ? 3 : 2}>
-              {technology.name}
+              {/* {technology.name} */}
+
+              <Menu shadow="md" width={200} position='bottom-start'>
+                <Menu.Target>
+                  <Button variant='transparent' size='compact-xl' rightSection={<IconChevronDown style={{width: rem(18), height: rem(18)}} />}>Main Chat</Button>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Item color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                    New Chat
+                  </Menu.Item>
+                  <Menu.Item leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
+                    History
+                  </Menu.Item>
+                  <Menu.Item
+                    color="red"
+                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                  >
+                    Delete
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </Title>
           </Group>
           <Group>
             <ColorSchemeToggle />
-            <Box visibleFrom="sm">
-              <UserMenu />
-            </Box>
+            <UserMenu />
           </Group>
         </Group>
       </AppShell.Header>
@@ -210,6 +232,10 @@ export function HomePage() {
             openFilters={open}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
+            filters={filters}
+            setFilters={setFilters}
+            filtersOpened={filtersOpened}
+            closeFilters={close}
           />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
@@ -218,9 +244,6 @@ export function HomePage() {
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
             navbarToggle={toggle}
-            filtersOpened={filtersOpened}
-            openFilters={open}
-            closeFilters={close}
           />
         </AppShell.Section>
         <AppShell.Section>

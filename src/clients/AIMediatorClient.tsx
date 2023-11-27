@@ -35,7 +35,6 @@ export class AIMediatorClient {
 
         const data = result.slice(offset, limit);
 
-        console.log(data);
         return data;
     }
 

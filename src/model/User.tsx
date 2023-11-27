@@ -10,6 +10,8 @@ export class User {
     }
 
     static buildFromAuth0(auth0User: any) {
+        if (auth0User === undefined) return new User();
+        
         const user = new User();
 
         if ("sub" in auth0User) {

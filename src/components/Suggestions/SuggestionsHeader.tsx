@@ -1,13 +1,19 @@
 import { ActionIcon, Box, Burger, Group, Stack, Textarea, Title, rem } from "@mantine/core";
 import { IconFilter } from "@tabler/icons-react";
 import { UserMenu } from "../Misc/UserMenu";
+import { SuggestionsFilters } from "./SuggestionsFilters";
+import { Filters } from "../../model/Filters";
 
 interface SuggestionsHeader {
     navbarOpened: boolean,
     toggleNavbar: any,
     openFilters: any,
     userPrompt: string,
-    setUserPrompt: any
+    setUserPrompt: any,
+    filtersOpened: boolean
+    closeFilters: any
+    filters: Filters,
+    setFilters: any
 }
 
 export function SuggestionsHeader({
@@ -15,7 +21,11 @@ export function SuggestionsHeader({
     toggleNavbar,
     openFilters,
     userPrompt,
-    setUserPrompt
+    setUserPrompt,
+    filtersOpened,
+    closeFilters,
+    filters,
+    setFilters
 }: SuggestionsHeader) {
     return (
         <Stack pb={"xs"}>
@@ -27,14 +37,14 @@ export function SuggestionsHeader({
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    <Title order={3}>Suggestions</Title>
-                    <ActionIcon size={"md"} onClick={openFilters} variant='light'>
-                        <IconFilter style={{ width: rem(14), height: rem(14) }} />
-                    </ActionIcon>
+                    <Title order={4}>Suggestions</Title>
                 </Group>
-                <Box hiddenFrom="sm">
+                <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
+                    <IconFilter style={{ width: rem(16), height: rem(16) }} />
+                </ActionIcon>
+                {/* <Box hiddenFrom="sm">
                     <UserMenu />
-                </Box>
+                </Box> */}
             </Group>
             <Textarea
                 placeholder={"Search"}
@@ -46,6 +56,8 @@ export function SuggestionsHeader({
                 onChange={e => setUserPrompt(e.target.value)}
                 hiddenFrom="sm"
             />
+            <SuggestionsFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
+
         </Stack>
     )
 }
