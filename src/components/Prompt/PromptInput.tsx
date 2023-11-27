@@ -12,6 +12,7 @@ import { Provider } from "../../model/Provider";
 import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { PromptOptionsPanel } from "./PromptOptionsPanel";
+import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
 
 interface PromptInput {
     aIMediatorClient: AIMediatorClient,

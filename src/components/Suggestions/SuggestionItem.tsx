@@ -1,4 +1,4 @@
-import { Accordion, AccordionControl, AccordionItem, ActionIcon, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
+import { Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { IconArrowRight, IconDotsVertical, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
@@ -28,6 +28,9 @@ export function SuggestionItem({
                     <Text size="sm" fw={500} lineClamp={20}>
                         {usedPrompt.name}
                     </Text>
+                    <Badge size="xs" variant="default">
+                        Prompt
+                    </Badge>
                 </Group>
             </AccordionControl>
             <Accordion.Panel px={0}>

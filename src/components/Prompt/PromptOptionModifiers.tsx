@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Box, Button, Card, Chip, Collapse, Group, Input, Modal, Paper, Popover, ScrollArea, Select, Stack, Text, TextInput, Textarea, Title, rem } from "@mantine/core"
+import { Accordion, ActionIcon, Box, Button, Card, Chip, Collapse, Divider, Group, Input, Modal, MultiSelect, Paper, Popover, ScrollArea, Select, Stack, Text, TextInput, Textarea, Title, rem } from "@mantine/core"
 import { IconDeviceFloppy, IconPlus, IconQuestionMark, IconSparkles } from "@tabler/icons-react"
 import { PromptOptions } from "../../model/PromptOptions"
 import { UserPromptOptions } from "../../model/UserPromptOptions"
@@ -86,7 +86,7 @@ export function PromptOptionModificers({
         <Stack mb={"md"}>
             <Modal opened={newModifierModalOpened} onClose={newModifierModalHandler.close} title={
                 <Group align="center">
-                    <IconSparkles style={{width: rem(18), height: rem(18)}} />
+                    <IconSparkles style={{ width: rem(18), height: rem(18) }} />
                     <Text size="sm">New Modifier</Text>
                 </Group>
             }>
@@ -125,21 +125,32 @@ export function PromptOptionModificers({
                         getModifiersToShow().map(item => {
                             return (
                                 <Group key={item.slug} justify="space-between">
-                                    <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug}>
-                                        <Text size="xs" truncate>
-                                            {item.name}
-                                        </Text>
-                                    </Chip>
-                                    <Popover width={200} position="top" withArrow shadow="md">
+                                    <Group>
+                                        <Chip checked={isChecked(item.slug)} size='xs' variant='light' value={item.slug} styles={{
+                                            label: {
+                                                maxWidth: "250px"
+                                            }
+                                        }}>
+                                            <Text size="xs" truncate>
+                                                {item.name}
+                                            </Text>
+                                        </Chip>
+                                    </Group>
+                                    <Popover width={250} position="top" withArrow shadow="md">
                                         <Popover.Target>
                                             <ActionIcon mx={"sm"} size={'sm'} variant="outline" aria-label="Settings">
                                                 <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
                                             </ActionIcon>
                                         </Popover.Target>
                                         <Popover.Dropdown>
-                                            <Text size="xs">
-                                                {item.description}
-                                            </Text>
+                                            <Stack>
+                                                <Text size="xs" fw={600}>
+                                                    {item.name}
+                                                </Text>
+                                                <Text size="xs">
+                                                    {item.description}
+                                                </Text>
+                                            </Stack>
                                         </Popover.Dropdown>
                                     </Popover>
                                 </Group>
