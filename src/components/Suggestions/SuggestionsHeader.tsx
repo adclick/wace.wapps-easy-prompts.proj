@@ -1,5 +1,5 @@
-import { ActionIcon, Box, Burger, Group, Stack, Textarea, Title, rem } from "@mantine/core";
-import { IconFilter, IconRefresh } from "@tabler/icons-react";
+import { ActionIcon, Box, Burger, Group, Menu, Stack, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash } from "@tabler/icons-react";
 import { UserMenu } from "../Misc/UserMenu";
 import { SuggestionsFilters } from "./SuggestionsFilters";
 import { Filters } from "../../model/Filters";
@@ -37,7 +37,27 @@ export function SuggestionsHeader({
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    <Title order={3}>Repository</Title>
+                    <Menu shadow="md" width={200} position='bottom-start'>
+                        <Menu.Target>
+                            <UnstyledButton px={0}>
+                                <Group align='center' gap={"xs"}>
+                                    <Title order={3}>
+                                        My Repository
+                                    </Title>
+                                    <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
+                                </Group>
+                            </UnstyledButton>
+                        </Menu.Target>
+
+                        <Menu.Dropdown>
+                            <Menu.Item color='blue' leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
+                                Switch Repository
+                            </Menu.Item>
+                            <Menu.Item color="red" leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}>
+                                Delete this repository
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
                 </Group>
                 <Group>
                     <ActionIcon size={"lg"} variant='subtle'>

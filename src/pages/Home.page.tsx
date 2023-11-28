@@ -23,7 +23,7 @@ import { Options } from '../model/Options';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 import { SuggestionsHeader } from '../components/Suggestions/SuggestionsHeader';
 import { Filters } from '../model/Filters';
-import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
 
 export function HomePage() {
   // API Client
@@ -253,8 +253,19 @@ export function HomePage() {
           />
         </AppShell.Section>
         <AppShell.Section>
-          <Divider h={"md"} />
-          <TeamSwitcher />
+          {/* <Divider h={"md"} /> */}
+          {/* <TeamSwitcher /> */}
+          <Group justify='space-between' pt={"xl"} pb={"sm"} align='center'>
+            <Group>
+              <IconPrompt /> 13
+            </Group>
+            <Group>
+              <IconTemplate /> 10
+            </Group>
+            <Group>
+              <IconSparkles /> 5
+            </Group>
+          </Group>
         </AppShell.Section>
       </AppShell.Navbar>
 
