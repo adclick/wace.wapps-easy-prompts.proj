@@ -18,36 +18,51 @@ export class AIMediatorClient {
     }
 
     async createUser(auth0Id: string, language: string) {
-        return await this.post('/ai/user/create', { 
+        return await this.post('/ai/user/login', {
             auth0Id,
-            language
+            options: {
+                language
+            }
         });
     }
 
     async updateUser(auth0Id: string, language: string) {
-        return await this.post('/ai/user/update', { 
+        return await this.post('/ai/user/update', {
             auth0Id,
             language
         });
     }
 
-    async getPromptOptions(userId: string|undefined, languageCode: string) {
-        return await this.get('/ai/prompt/options', { 
+    async getPromptOptions(userId: string | undefined, languageCode: string) {
+        return await this.get('/ai/prompt/get-options', {
             userId,
-            language: languageCode 
+            language: languageCode
         });
     }
 
-    async getSuggestions(prompt: string, technology: string, provider: string, limit: number = 20, offset: number = 0) {
-        return await this.get('/ai/prompt/suggestions', {
-            prompt,
-            technology,
-            provider,
+    async getSuggestions(
+        userId: string,
+        prompt: string,
+        technology: string,
+        provider: string,
+        types: string[] = ["prompts", "templates", "modifiers"],
+        limit: number = 20,
+        offset: number = 0
+    ) {
+        return await this.post('/ai/prompt/get-suggestions', {
+            filters: {
+                prompt,
+                technology,
+                provider,
+                userId,
+                types
+            },
             limit,
             offset
         });
     }
 
+<<<<<<< Updated upstream
     async getTemplates(technology: string, provider: string, limit: number, offset: number) {
         return await this.get('/ai/prompt/get-templates', {
             technology: "",
@@ -66,10 +81,14 @@ export class AIMediatorClient {
             prompt: userPrompt,
             promptOptions: userPromptOptions
         });
+=======
+    async optimizePrompt(prompt: string, options: UserPromptOptions) {
+        return await this.post('/ai/prompt/optimize', { prompt, options });
+>>>>>>> Stashed changes
     }
 
     async saveModifier(name: string, content: string, technology: Technology) {
-        return await this.post('/ai/prompt/add-modifier', {
+        return await this.post('/ai/prompt/set-modifier', {
             name,
             content,
             technology: technology.slug
@@ -77,32 +96,43 @@ export class AIMediatorClient {
     }
 
     async upvotePrompt(prompt: string, technology: Technology, provider: Provider) {
-        return await this.post('/ai/prompt/upvote', {
+        return await this.post('/ai/prompt/set-vote', {
             prompt,
             technology: technology.slug,
             provider: provider.slug
         })
     }
 
-    async generateText(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/text/text-generation', this.getParams(userPrompt, userPromptOptions));
+    async generateText(prompt: string, options: UserPromptOptions) {
+        return await this.post('/ai/text/generate-text', { prompt, options });
     }
 
+<<<<<<< Updated upstream
     async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions): Promise<string[]> {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', this.getParams(userPrompt, userPromptOptions));
 
         return images.map(image => image.image_resource_url);
     }
+=======
+    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
+        const images: GeneratedImage[] = await this.post('/ai/image/generate-image', { prompt, options });
 
-    getParams(userPrompt: string, userPromptOptions: UserPromptOptions) {
+        return images.map(image => image.image_resource_url);
+    }
+
+    async translate(prompt: string, options: UserPromptOptions) {
+        return await this.post('/ai/text/translate', { prompt, options });
+    }
+
+    async extractKeywords(prompt: string, options: UserPromptOptions) {
+        return await this.post('/ai/text/extract-keywords', { prompt, options });
+    }
+>>>>>>> Stashed changes
+
+    getSandboxParam(): boolean {
         const queryParameters = new URLSearchParams(window.location.search);
-        const live = queryParameters.get("live") !== null;
 
-        return {
-            userPrompt,
-            userPromptOptions,
-            sandbox: !live
-        };
+        return queryParameters.get("live") === null;
     }
 
     /**
@@ -131,7 +161,8 @@ export class AIMediatorClient {
         axios.defaults.timeout = 10000;
         try {
             const { data } = await axios.post(`${this.baseUrl}${path}`, {
-                params
+                ...params,
+                sandbox: this.getSandboxParam()
             });
 
             const { body } = data;

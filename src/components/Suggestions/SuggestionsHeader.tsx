@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Burger, Group, Stack, Textarea, Title, rem } from "@mantine/core";
-import { IconFilter } from "@tabler/icons-react";
+import { IconFilter, IconRefresh } from "@tabler/icons-react";
 import { UserMenu } from "../Misc/UserMenu";
 import { SuggestionsFilters } from "./SuggestionsFilters";
 import { Filters } from "../../model/Filters";
@@ -39,9 +39,15 @@ export function SuggestionsHeader({
                     />
                     <Title order={3}>Suggestions</Title>
                 </Group>
-                <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
-                    <IconFilter style={{ width: rem(18), height: rem(18) }} />
-                </ActionIcon>
+                <Group>
+                    <ActionIcon size={"lg"} variant='subtle'>
+                        <IconRefresh style={{ width: rem(18), height: rem(18) }} />
+                    </ActionIcon>
+                    <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
+                        <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                    </ActionIcon>
+                </Group>
+
             </Group>
             <Textarea
                 placeholder={"Search"}

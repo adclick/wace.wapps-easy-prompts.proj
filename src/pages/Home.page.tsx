@@ -127,7 +127,7 @@ export function HomePage() {
     setUserPromptOptions(newUserPromptOptions);
 
     // Refresh Suggestions
-    const usedPrompts = await aiMediatorClient.getSuggestions("", currentTechnology.slug, currentProvider.slug);
+    const usedPrompts = await aiMediatorClient.getSuggestions(user.id, "", currentTechnology.slug, currentProvider.slug);
     const suggestionsObjs = Suggestion.buildFromApi(usedPrompts);
     setSuggestions(suggestionsObjs);
   }

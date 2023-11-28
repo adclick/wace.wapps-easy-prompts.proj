@@ -37,6 +37,7 @@ export function SuggestionItem({
             </AccordionControl>
             <Accordion.Panel px={0}>
                 <Stack>
+<<<<<<< Updated upstream
                     <SelectedOptionsWidget
                         technology={new Technology("Text Generation")}
                         provider={new Provider("Openai")}
@@ -48,6 +49,18 @@ export function SuggestionItem({
                         <Tooltip label={`${usedPrompt.score}/100`}>
                             <Rating size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} />
                         </Tooltip>
+=======
+                    <Group px={0} py={"xs"} justify="space-between" align="center">
+                        {/* <SelectedOptionsWidget
+                            technology={new Technology("Text Generation")}
+                            provider={new Provider("Openai")}
+                            parameters={[]}
+                            modifiers={[]}
+                        /> */}
+                        <Button size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
+                            Details
+                        </Button>
+>>>>>>> Stashed changes
                         <Group gap={"xs"}>
                             <Menu withinPortal position="top" shadow="sm">
                                 <Menu.Target>
