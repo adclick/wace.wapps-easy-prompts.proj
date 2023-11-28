@@ -41,10 +41,10 @@ export function SuggestionsHeader({
                         <Menu.Target>
                             <UnstyledButton px={0}>
                                 <Group align='center' gap={"xs"}>
-                                    <Title order={3}>
+                                    <Title order={4}>
                                         My Repository
                                     </Title>
-                                    <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
+                                    <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
                                 </Group>
                             </UnstyledButton>
                         </Menu.Target>
