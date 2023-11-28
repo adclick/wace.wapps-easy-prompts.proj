@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, em, rem, useComputedColorScheme } from "@mantine/core"
-import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconShare, IconSparkles, IconTrash } from "@tabler/icons-react"
+import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -179,20 +179,14 @@ export function ChatCard({
                             </Menu.Target>
 
                             <Menu.Dropdown>
-                                <Menu.Item onClick={savePrompt} leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
+                                <Menu.Item onClick={savePrompt} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
                                     Save Prompt
                                 </Menu.Item>
-                                <Menu.Item onClick={savePrompt} leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}>
+                                <Menu.Item disabled onClick={savePrompt} leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
                                     Save Template
                                 </Menu.Item>
-                                <Menu.Item leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}>
-                                    Share
-                                </Menu.Item>
-                                <Menu.Item
-                                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                                    color="red"
-                                >
-                                    Remove
+                                <Menu.Item disabled onClick={savePrompt} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
+                                    Save Modifiers
                                 </Menu.Item>
                             </Menu.Dropdown>
                         </Menu>

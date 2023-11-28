@@ -69,11 +69,11 @@ export function SuggestionsHeader({
                     </Menu>
                 </Group>
                 <Group>
-                    <ActionIcon size={"lg"} variant='subtle'>
-                        <IconRefresh style={{ width: rem(18), height: rem(18) }} />
-                    </ActionIcon>
                     <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
                         <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                    </ActionIcon>
+                    <ActionIcon size={"lg"} variant='subtle'>
+                        <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
                 </Group>
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Stack, Tabs, Textarea, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Stack, Tabs, Text, Textarea, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -217,7 +217,7 @@ export function HomePage() {
                 <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                   New Chat
                 </Menu.Item>
-                <Menu.Item leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
+                <Menu.Item disabled leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
                   History
                 </Menu.Item>
               </Menu.Dropdown>
@@ -255,16 +255,10 @@ export function HomePage() {
         <AppShell.Section>
           {/* <Divider h={"md"} /> */}
           {/* <TeamSwitcher /> */}
-          <Group justify='space-between' pt={"xl"} pb={"sm"} align='center'>
-            <Group>
-              <IconPrompt /> 13
-            </Group>
-            <Group>
-              <IconTemplate /> 10
-            </Group>
-            <Group>
-              <IconSparkles /> 5
-            </Group>
+          <Group justify='space-between' pt={"lg"} pb={"xs"} align='center'>
+            <Button variant='subtle' leftSection={<IconPrompt />}>13</Button>
+            <Button variant='subtle' leftSection={<IconTemplate />}>10</Button>
+            <Button variant='subtle' leftSection={<IconSparkles />}>5</Button>
           </Group>
         </AppShell.Section>
       </AppShell.Navbar>

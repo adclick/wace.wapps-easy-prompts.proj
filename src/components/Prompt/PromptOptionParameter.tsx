@@ -17,7 +17,6 @@ export function PromptOptionParameter({
     setUserPromptOptions,
     parameter
 }: PromptOptionParameter) {
-    console.log(type);
     switch (type) {
         case "image-resolution":
             return <PromptOptionImageResolution
