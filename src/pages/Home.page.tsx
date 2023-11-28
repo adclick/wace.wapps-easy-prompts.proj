@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Stack, Tabs, Textarea, Title, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Stack, Tabs, Textarea, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -38,7 +38,7 @@ export function HomePage() {
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
-  const [opened, { toggle }] = useDisclosure();
+  const [navbarOpened, navbarHandle] = useDisclosure();
   const [filtersOpened, { open, close }] = useDisclosure(false);
 
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
@@ -78,17 +78,17 @@ export function HomePage() {
 
   const handleUser = async () => {
     const aiMediatorClient = new AIMediatorClient();
-    
+
     const user = User.buildFromAuth0(auth0User);
     setCurrentUser(user);
 
     await aiMediatorClient.createUser(user.id, language.code);
   }
-  
+
   const refreshPromptOptions = async (languageCode: string) => {
     // Init AI Client
     const aiMediatorClient = new AIMediatorClient();
-    
+
     // User
     const user = User.buildFromAuth0(auth0User);
     setCurrentUser(user);
@@ -170,7 +170,6 @@ export function HomePage() {
 
   const resetChat = () => {
     setThreads([]);
-    toggle();
   }
 
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
@@ -184,7 +183,7 @@ export function HomePage() {
       navbar={{
         width: { base: 350 },
         breakpoint: 'sm',
-        collapsed: { mobile: !opened },
+        collapsed: { mobile: !navbarOpened },
       }}
       footer={{
         height: { base: 110 }
@@ -197,18 +196,21 @@ export function HomePage() {
         <Group h={"100%"} justify="space-between" align="center">
           <Group align="center" gap={"xs"}>
             <Burger
-              opened={opened}
-              onClick={toggle}
+              opened={navbarOpened}
+              onClick={navbarHandle.toggle}
               hiddenFrom="sm"
               size="sm"
             />
             <Menu shadow="md" width={200} position='bottom-start'>
               <Menu.Target>
-                <Button variant='transparent' size='compact-xl' rightSection={<IconChevronDown style={{ width: rem(18), height: rem(18) }} />}>
-                  <Title order={3}>
-                    Main Chat
-                  </Title>
-                </Button>
+                <UnstyledButton px={"md"}>
+                  <Group align='center' gap={"xs"}>
+                    <Title order={3}>
+                      Main Chat
+                    </Title>
+                    <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
+                  </Group>
+                </UnstyledButton>
               </Menu.Target>
 
               <Menu.Dropdown>
@@ -231,8 +233,8 @@ export function HomePage() {
       <AppShell.Navbar withBorder={false} p="md">
         <AppShell.Section >
           <SuggestionsHeader
-            navbarOpened={opened}
-            toggleNavbar={toggle}
+            navbarOpened={navbarOpened}
+            toggleNavbar={navbarHandle.toggle}
             openFilters={open}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
@@ -247,7 +249,7 @@ export function HomePage() {
             suggestions={suggestions}
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
-            navbarToggle={toggle}
+            navbarToggle={navbarHandle.toggle}
           />
         </AppShell.Section>
         <AppShell.Section>

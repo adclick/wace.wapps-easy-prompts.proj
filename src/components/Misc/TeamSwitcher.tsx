@@ -4,6 +4,7 @@ export function TeamSwitcher() {
     return (
         <Select
             w={"100%"}
+            checkIconPosition="right"
             data={[
                 { label: "Global", value: "global" },
                 { label: "Wace", value: "wace" },

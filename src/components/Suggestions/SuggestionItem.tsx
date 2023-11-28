@@ -1,5 +1,5 @@
 import { Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
-import { IconArrowRight, IconDotsVertical, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
+import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
@@ -22,32 +22,35 @@ export function SuggestionItem({
         navbarToggle();
     }
     return (
-        <AccordionItem value={usedPrompt.name} py={"xs"}>
+        <AccordionItem value={usedPrompt.name} py={"md"}>
             <AccordionControl px={0}>
-                <Group justify="space-between" gap={"xs"} align="center">
+                <Stack>
                     <Text size="sm" fw={500} lineClamp={20}>
                         {usedPrompt.name}
                     </Text>
-                    <Group>
-                    <Badge size="xs" variant="default">
-                        Prompt
-                    </Badge>
+                    <Group justify="space-between">
+                        <Badge size="xs" variant="default">
+                            Prompt
+                        </Badge>
+                        <Tooltip label={`${usedPrompt.score}/100`}>
+                            <Rating px={"xs"} size="xs" readOnly color="blue" value={4} />
+                            {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} /> */}
+                        </Tooltip>
                     </Group>
-                </Group>
+                </Stack>
             </AccordionControl>
             <Accordion.Panel px={0}>
                 <Stack>
-                    <SelectedOptionsWidget
-                        technology={new Technology("Text Generation")}
-                        provider={new Provider("Openai")}
-                        parameters={[]}
-                        modifiers={[]}
-                    />
-
-                    <Group px={0} py={"xs"} justify="space-between" align="baseline">
-                        <Tooltip label={`${usedPrompt.score}/100`}>
-                            <Rating size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} />
-                        </Tooltip>
+                    <Group px={0} py={"xs"} justify="space-between" align="center">
+                        {/* <SelectedOptionsWidget
+                            technology={new Technology("Text Generation")}
+                            provider={new Provider("Openai")}
+                            parameters={[]}
+                            modifiers={[]}
+                        /> */}
+                        <Button radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
+                            Details
+                        </Button>
                         <Group gap={"xs"}>
                             <Menu withinPortal position="top" shadow="sm">
                                 <Menu.Target>

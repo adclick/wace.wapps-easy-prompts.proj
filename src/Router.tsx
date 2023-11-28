@@ -8,6 +8,10 @@ const router = createBrowserRouter([
     element: <AuthenticationGuard component={HomePage} />,
   },
   {
+    path: '/v2',
+    element: <AuthenticationGuard component={HomePage} />,
+  },
+  {
     path: '/mobile',
     element: <HomePage />,
   },

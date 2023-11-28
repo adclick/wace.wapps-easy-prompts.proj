@@ -48,19 +48,6 @@ export class AIMediatorClient {
         });
     }
 
-    async getTemplates(technology: string, provider: string, limit: number, offset: number) {
-        return await this.get('/ai/prompt/get-templates', {
-            technology: "",
-            provider: "",
-            limit: 10,
-            offset: 0
-        })
-    }
-
-    async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/prompt/language-detection', this.getParams(userPrompt, userPromptOptions));
-    }
-
     async optimizePrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/prompt/optimization', {
             prompt: userPrompt,
@@ -87,11 +74,19 @@ export class AIMediatorClient {
     async generateText(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/text/text-generation', this.getParams(userPrompt, userPromptOptions));
     }
-
+    
     async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions): Promise<string[]> {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', this.getParams(userPrompt, userPromptOptions));
-
+        
         return images.map(image => image.image_resource_url);
+    }
+    
+    async translate(userPrompt: string, userPromptOptions: UserPromptOptions) {
+        return await this.post('/ai/text/translation', this.getParams(userPrompt, userPromptOptions));
+    }
+    
+    async extractKeywords(userPrompt: string, userPromptOptions: UserPromptOptions) {
+        return await this.post('/ai/text/keywords-extraction', this.getParams(userPrompt, userPromptOptions));
     }
 
     getParams(userPrompt: string, userPromptOptions: UserPromptOptions) {
@@ -128,7 +123,6 @@ export class AIMediatorClient {
      * @returns 
      */
     async post(path: string, params: any = {}) {
-        axios.defaults.timeout = 10000;
         try {
             const { data } = await axios.post(`${this.baseUrl}${path}`, {
                 params

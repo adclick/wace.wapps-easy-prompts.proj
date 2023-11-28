@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, rem, useComputedColorScheme } from "@mantine/core"
+import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, em, rem, useComputedColorScheme } from "@mantine/core"
 import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconShare, IconSparkles, IconTrash } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
@@ -10,6 +10,7 @@ import { ChatCardText } from "./ChatCardText";
 import { ChatCardImage } from "./ChatCardImage";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { IconQuestionMark } from "@tabler/icons-react";
+import { useMediaQuery } from "@mantine/hooks";
 
 interface ChatCard {
     request: Request,
@@ -48,7 +49,7 @@ export function ChatCard({
                         scrollIntoView({ alignment: 'start' });
                         setResponded(true);
                     }).catch((e) => {
-                        setResult(<Text>{e.message}</Text>)
+                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
                     })
                     break;
                 case 'image-generation':
@@ -57,7 +58,25 @@ export function ChatCard({
                         scrollIntoView({ alignment: 'start' });
                         setResponded(true);
                     }).catch((e) => {
-                        setResult(<Text>{e.message}</Text>)
+                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                    })
+                    break;
+                case 'translation':
+                    aIMediatorClient.translate(optimizedPrompt, request.userPromptOptions).then((text: string) => {
+                        setResult(<ChatCardText text={text} />);
+                        scrollIntoView({ alignment: 'start' });
+                        setResponded(true);
+                    }).catch((e) => {
+                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                    })
+                    break;
+                case 'keywords-extraction':
+                    aIMediatorClient.extractKeywords(optimizedPrompt, request.userPromptOptions).then((text: string) => {
+                        setResult(<ChatCardText text={text} />);
+                        scrollIntoView({ alignment: 'start' });
+                        setResponded(true);
+                    }).catch((e) => {
+                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
                     })
                     break;
                 default:
@@ -81,8 +100,10 @@ export function ChatCard({
         setVote(vote);
     }
 
+    const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
+
     return (
-        <Card mx={"xl"} p={"md"} shadow="sm">
+        <Card mx={isMobile ? "0" : "xl"} radius={isMobile ? "0" : "lg"} p={"md"} shadow="sm">
             <Stack gap={0}>
                 <Box py={"xs"}>
                     <Group justify="space-between">
@@ -107,7 +128,7 @@ export function ChatCard({
                     px={0}
                 >
                     <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
-                        <Group  align="flex-start">
+                        <Group align="flex-start">
                             <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
                             {result}
                         </Group>
