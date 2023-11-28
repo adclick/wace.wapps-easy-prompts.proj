@@ -62,22 +62,22 @@ export function ChatCard({
                     })
                     break;
                 case 'translation':
-                    aIMediatorClient.translate(optimizedPrompt, request.userPromptOptions).then((text: string) => {
-                        setResult(<ChatCardText text={text} />);
-                        scrollIntoView({ alignment: 'start' });
-                        setResponded(true);
-                    }).catch((e) => {
-                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                    })
+                    // aIMediatorClient.translate(optimizedPrompt, request.userPromptOptions).then((text: string) => {
+                    //     setResult(<ChatCardText text={text} />);
+                    //     scrollIntoView({ alignment: 'start' });
+                    //     setResponded(true);
+                    // }).catch((e) => {
+                    //     setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                    // })
                     break;
                 case 'keywords-extraction':
-                    aIMediatorClient.extractKeywords(optimizedPrompt, request.userPromptOptions).then((text: string) => {
-                        setResult(<ChatCardText text={text} />);
-                        scrollIntoView({ alignment: 'start' });
-                        setResponded(true);
-                    }).catch((e) => {
-                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                    })
+                    // aIMediatorClient.extractKeywords(optimizedPrompt, request.userPromptOptions).then((text: string) => {
+                    //     setResult(<ChatCardText text={text} />);
+                    //     scrollIntoView({ alignment: 'start' });
+                    //     setResponded(true);
+                    // }).catch((e) => {
+                    //     setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                    // })
                     break;
                 default:
                     setResult(<Text>Error</Text>);
