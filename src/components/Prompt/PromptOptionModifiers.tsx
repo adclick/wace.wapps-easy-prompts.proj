@@ -114,7 +114,7 @@ export function PromptOptionModificers({
                 </Box>
             </Group>
             <Input
-                size='sm'
+                size='xs'
                 placeholder={(t("search"))}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}

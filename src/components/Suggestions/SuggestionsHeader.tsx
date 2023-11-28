@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Burger, Group, Menu, Stack, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash } from "@tabler/icons-react";
+import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { UserMenu } from "../Misc/UserMenu";
 import { SuggestionsFilters } from "./SuggestionsFilters";
 import { Filters } from "../../model/Filters";
@@ -50,11 +50,20 @@ export function SuggestionsHeader({
                         </Menu.Target>
 
                         <Menu.Dropdown>
-                            <Menu.Item color='blue' leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
-                                Switch Repository
+                            <Menu.Item color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                                Create new
+                            </Menu.Item>
+                            <Menu.Item leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
+                                Switch
+                            </Menu.Item>
+                            <Menu.Item leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
+                                Invite
+                            </Menu.Item>
+                            <Menu.Item leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>
+                                Members
                             </Menu.Item>
                             <Menu.Item color="red" leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}>
-                                Delete this repository
+                                Delete
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
