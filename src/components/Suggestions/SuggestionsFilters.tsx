@@ -18,11 +18,14 @@ export function SuggestionsFilters({
             size={"350px"}
         >
             <Stack gap={"md"}>
-                <Stack gap={"xl"} my={"lg"}>
-                    <Group justify="space-around">
+                <Stack gap={"md"} my={"lg"}>
+                    <Text>Types</Text>
+                    <Stack>
                         <Checkbox radius={"sm"} defaultChecked label="Prompts" />
                         <Checkbox radius={"sm"} defaultChecked label="Templates" />
-                    </Group>
+                        <Checkbox radius={"sm"} defaultChecked label="Modifiers" />
+
+                    </Stack>
                 </Stack>
                 <Divider />
                 <Group justify="space-between">

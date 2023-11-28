@@ -62,7 +62,6 @@ export class AIMediatorClient {
         });
     }
 
-<<<<<<< Updated upstream
     async getTemplates(technology: string, provider: string, limit: number, offset: number) {
         return await this.get('/ai/prompt/get-templates', {
             technology: "",
@@ -72,19 +71,11 @@ export class AIMediatorClient {
         })
     }
 
-    async detectLanguage(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/prompt/language-detection', this.getParams(userPrompt, userPromptOptions));
-    }
-
     async optimizePrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
         return await this.post('/ai/prompt/optimization', {
             prompt: userPrompt,
             promptOptions: userPromptOptions
         });
-=======
-    async optimizePrompt(prompt: string, options: UserPromptOptions) {
-        return await this.post('/ai/prompt/optimize', { prompt, options });
->>>>>>> Stashed changes
     }
 
     async saveModifier(name: string, content: string, technology: Technology) {
@@ -107,27 +98,11 @@ export class AIMediatorClient {
         return await this.post('/ai/text/generate-text', { prompt, options });
     }
 
-<<<<<<< Updated upstream
-    async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions): Promise<string[]> {
-        const images: GeneratedImage[] = await this.post('/ai/image/image-generation', this.getParams(userPrompt, userPromptOptions));
+    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
+        const images: GeneratedImage[] = await this.post('/ai/image/image-generation',  { prompt, options });
         
         return images.map(image => image.image_resource_url);
     }
-=======
-    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
-        const images: GeneratedImage[] = await this.post('/ai/image/generate-image', { prompt, options });
-
-        return images.map(image => image.image_resource_url);
-    }
-
-    async translate(prompt: string, options: UserPromptOptions) {
-        return await this.post('/ai/text/translate', { prompt, options });
-    }
-
-    async extractKeywords(prompt: string, options: UserPromptOptions) {
-        return await this.post('/ai/text/extract-keywords', { prompt, options });
-    }
->>>>>>> Stashed changes
 
     getSandboxParam(): boolean {
         const queryParameters = new URLSearchParams(window.location.search);

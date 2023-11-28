@@ -37,7 +37,7 @@ export function SuggestionsHeader({
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    <Title order={3}>Suggestions</Title>
+                    <Title order={3}>Repository</Title>
                 </Group>
                 <Group>
                     <ActionIcon size={"lg"} variant='subtle'>

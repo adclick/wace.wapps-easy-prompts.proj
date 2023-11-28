@@ -2,7 +2,7 @@ import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { Provider } from "../../model/Provider";
 import { Technology } from "../../model/Technology";
-import { Badge, Chip, Popover, Text } from "@mantine/core";
+import { Badge, Box, Chip, Popover, Text } from "@mantine/core";
 
 interface SelectedOptionsWidget {
     technology: Technology,
@@ -36,9 +36,12 @@ export function SelectedOptionsWidget({
                     }
                 </Popover.Dropdown>
             </Popover>
-            : <Text size="xs">
-                {technology.name} |  {provider.name}
-            </Text>
+            :
+            <Box>
+                <Text size="xs">
+                    {technology.name} |  {provider.name}
+                </Text>
+            </Box>
 
     )
 }

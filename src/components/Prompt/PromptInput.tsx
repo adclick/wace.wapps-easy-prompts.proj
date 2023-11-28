@@ -116,11 +116,7 @@ export function PromptInput({
                     align={'center'}
                     gap={'sm'}
                     pos={"absolute"}
-<<<<<<< Updated upstream
-                    bottom={"0"}
-=======
                     bottom={"-21px"}
->>>>>>> Stashed changes
                     right={"0"}
                     w={"100%"}
                     py={"md"}
