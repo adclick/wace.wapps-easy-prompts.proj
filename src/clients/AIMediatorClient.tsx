@@ -110,7 +110,7 @@ export class AIMediatorClient {
 <<<<<<< Updated upstream
     async generateImage(userPrompt: string, userPromptOptions: UserPromptOptions): Promise<string[]> {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', this.getParams(userPrompt, userPromptOptions));
-
+        
         return images.map(image => image.image_resource_url);
     }
 =======
@@ -158,7 +158,6 @@ export class AIMediatorClient {
      * @returns 
      */
     async post(path: string, params: any = {}) {
-        axios.defaults.timeout = 10000;
         try {
             const { data } = await axios.post(`${this.baseUrl}${path}`, {
                 ...params,

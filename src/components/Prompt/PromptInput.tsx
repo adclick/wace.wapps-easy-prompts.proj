@@ -126,28 +126,6 @@ export function PromptInput({
                     py={"md"}
                     px={"md"}
                 >
-                    {/* {
-                        <Center
-                            styles={{
-                                root: {
-                                    width: "100%",
-                                    position: "absolute",
-                                    left: "0",
-                                    bottom: "80px"
-                                }
-                            }}
-                        >
-                            {
-                                technology.name !== "" &&
-                                <SelectedOptionsWidget
-                                    technology={technology}
-                                    provider={provider}
-                                    parameters={[]}
-                                    modifiers={[]}
-                                />
-                            }
-                        </Center>
-                    } */}
                     <ActionIcon
                         variant="subtle"
                         aria-label="Settings"
@@ -175,6 +153,19 @@ export function PromptInput({
                     <Textarea
                         placeholder={t("write_a_message")}
                         autosize
+                        description={
+                            <Center>
+                                {
+                                    technology.name !== "" &&
+                                    <SelectedOptionsWidget
+                                        technology={technology}
+                                        provider={provider}
+                                        parameters={[]}
+                                        modifiers={[]}
+                                    />
+                                }
+                            </Center>
+                        }
                         autoFocus
                         minRows={1}
                         maxRows={6}
@@ -184,6 +175,9 @@ export function PromptInput({
                             input: {
                                 paddingLeft: "60px",
                                 paddingRight: "50px",
+                            },
+                            root: {
+                                marginBottom: "20px"
                             }
 
                         }}
