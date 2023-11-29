@@ -59,39 +59,22 @@ export class AIMediatorClient {
         });
     }
 
-    async getSuggestions(
-        userId: string,
-        prompt: string,
-        technology: string,
-        provider: string,
-        types: string[] = ["prompts", "templates", "modifiers"],
-        limit: number = 20,
-        offset: number = 0
-    ) {
-        return await this.post('/ai/prompt/get-suggestions', {
-            filters: {
-                prompt,
+    async optimizePrompt(prompt: string, options: UserPromptOptions) {
+        return await this.post('/ai/prompt/optimize', { prompt, options });
+    }
+
+    async savePrompt(name: string, prompt: string, technology: string, provider: string, userId: string, repository: string, language: string) {
+        return await this.post('/ai/prompt/add-prompt', {
+            prompt,
+            options: {
+                name,
                 technology,
                 provider,
                 userId,
-                types
-            },
-            limit,
-            offset
+                repository,
+                language
+            }
         });
-    }
-
-    async getTemplates(technology: string, provider: string, limit: number, offset: number) {
-        return await this.get('/ai/prompt/get-templates', {
-            technology: "",
-            provider: "",
-            limit: 10,
-            offset: 0
-        })
-    }
-
-    async optimizePrompt(prompt: string, options: UserPromptOptions) {
-        return await this.post('/ai/prompt/optimize', { prompt, options });
     }
 
     async saveModifier(name: string, content: string, technology: Technology) {

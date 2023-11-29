@@ -1,22 +1,22 @@
 import { Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
-import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
-import { Technology } from "../../model/Technology";
-import { Provider } from "../../model/Provider";
-import { Suggestion } from "../../model/Suggestion";
-import { RepositoryItem } from "@/model/RepositoryItem";
+import { RepositoryItem } from "../../model/RepositoryItem";
+import { useDisclosure } from "@mantine/hooks";
+import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
 
-interface SuggestionItem {
+
+interface RepositoryItemRow {
     setUserPrompt: any,
     navbarToggle: any,
     repositoryItem: RepositoryItem
 }
 
-export function SuggestionItem({
+export function RepositoryItemRow({
     setUserPrompt,
     navbarToggle,
     repositoryItem
-}: SuggestionItem) {
+}: RepositoryItemRow) {
+    const [detailsModalOpened, detailsModalHandle] = useDisclosure(false);
 
     const use = () => {
         setUserPrompt(repositoryItem.name)
@@ -31,7 +31,7 @@ export function SuggestionItem({
                     </Text>
                     <Group justify="space-between">
                         <Badge size="xs" variant="default">
-                            Prompt
+                            {repositoryItem.type}
                         </Badge>
                         <Tooltip label={`${repositoryItem.name}/100`}>
                             <Rating px={"xs"} size="xs" readOnly color="blue" value={4} />
@@ -42,6 +42,10 @@ export function SuggestionItem({
             </AccordionControl>
             <Accordion.Panel px={0}>
                 <Stack>
+                    <RepositoryItemDetailsModal
+                        opened={detailsModalOpened}
+                        close={detailsModalHandle.close}
+                    />
                     <Group px={0} py={"xs"} justify="space-between" align="center">
                         {/* <SelectedOptionsWidget
                             technology={new Technology("Text Generation")}
@@ -49,7 +53,7 @@ export function SuggestionItem({
                             parameters={[]}
                             modifiers={[]}
                         /> */}
-                        <Button radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
+                        <Button onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
                             Details
                         </Button>
                         <Group gap={"xs"}>

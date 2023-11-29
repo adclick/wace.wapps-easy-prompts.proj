@@ -2,27 +2,25 @@ import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection
 import { IconFilter, IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SuggestionItem } from "./SuggestionItem";
+import { RepositoryItemRow } from "./RepositoryItemRow";
 import { Suggestion } from "../../model/Suggestion";
-import { SuggestionsFilters } from "./SuggestionsFilters";
+import { RepositoryFilters } from "./RepositoryFilters";
 import { RepositoryItem } from "../../model/RepositoryItem";
 
 
-interface SuggestionsPromptsPanel {
-    suggestions: Suggestion[],
+interface RepositoryPanel {
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
     repositoryItems: RepositoryItem[]
 }
 
-export function SuggestionsPromptsPanel({
-    suggestions,
+export function RepositoryPanel({
     userPrompt,
     setUserPrompt,
     navbarToggle,
     repositoryItems
-}: SuggestionsPromptsPanel) {
+}: RepositoryPanel) {
     const { t } = useTranslation();
 
     const getPromptsToShow = () => {
@@ -44,7 +42,7 @@ export function SuggestionsPromptsPanel({
                     {
                         getPromptsToShow().map((item: RepositoryItem) => {
                             return (
-                                <SuggestionItem
+                                <RepositoryItemRow
                                     key={item.slug}
                                     repositoryItem={item}
                                     setUserPrompt={setUserPrompt}

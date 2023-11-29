@@ -10,7 +10,11 @@ import { ChatCardText } from "./ChatCardText";
 import { ChatCardImage } from "./ChatCardImage";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { IconQuestionMark } from "@tabler/icons-react";
-import { useMediaQuery } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { PromptAddNewModal } from "../Prompt/PromptAddNewModal";
+import { Repository } from "../../model/Repository";
+import { Language } from "../../model/Language";
+import { User } from "../../model/User";
 
 interface ChatCard {
     request: Request,
@@ -19,7 +23,10 @@ interface ChatCard {
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
     refreshPromptOptions: any,
-    scrollIntoView: any
+    scrollIntoView: any,
+    user: User,
+    repository: Repository,
+    language: Language
 }
 
 export function ChatCard({
@@ -29,12 +36,15 @@ export function ChatCard({
     userPromptOptions,
     setUserPromptOptions,
     refreshPromptOptions,
-    scrollIntoView
+    scrollIntoView,
+    user,
+    repository,
+    language
 }: ChatCard) {
-    const { user } = useAuth0();
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [vote, setVote] = useState(0);
     const [responded, setResponded] = useState(false);
+    const [savePromptModalOpened, savePromptModalHandle] = useDisclosure(false);
 
     // Once loaded, get the response from the user request
     useEffect(() => {
@@ -171,6 +181,19 @@ export function ChatCard({
                                 </Tooltip>
                             )}
                         </CopyButton>
+                        <PromptAddNewModal
+                            opened={savePromptModalOpened}
+                            close={savePromptModalHandle.close}
+                            prompt={request.text}
+                            technology={request.userPromptOptions.technology.slug}
+                            provider={request.userPromptOptions.provider.slug}
+                            aiMediatorClient={aIMediatorClient}
+                            userId={user.id}
+                            repository={repository.slug}
+                            language={language.code}
+                            refreshPromptOptions={refreshPromptOptions}
+
+                        />
                         <Menu withinPortal position="top" shadow="sm">
                             <Menu.Target>
                                 <ActionIcon variant="subtle" color="gray">
@@ -179,7 +202,7 @@ export function ChatCard({
                             </Menu.Target>
 
                             <Menu.Dropdown>
-                                <Menu.Item onClick={savePrompt} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
+                                <Menu.Item onClick={savePromptModalHandle.open} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
                                     Save Prompt
                                 </Menu.Item>
                                 <Menu.Item disabled onClick={savePrompt} leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>

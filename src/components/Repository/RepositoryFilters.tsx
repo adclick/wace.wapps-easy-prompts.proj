@@ -1,15 +1,15 @@
 import { Button, Checkbox, Chip, Divider, Drawer, Group, SegmentedControl, Select, Stack, Text, Title, rem } from "@mantine/core";
 import { IconReload } from "@tabler/icons-react";
 
-interface SuggestionsFilters {
+interface RepositoryFilters {
     filtersOpened: boolean,
     closeFilters: any
 }
 
-export function SuggestionsFilters({
+export function RepositoryFilters({
     filtersOpened,
     closeFilters
-}: SuggestionsFilters) {
+}: RepositoryFilters) {
     return (
         <Drawer
             opened={filtersOpened}
@@ -23,7 +23,6 @@ export function SuggestionsFilters({
                     <Stack>
                         <Checkbox radius={"sm"} defaultChecked label="Prompts" />
                         <Checkbox radius={"sm"} defaultChecked label="Templates" />
-                        <Checkbox radius={"sm"} defaultChecked label="Modifiers" />
 
                     </Stack>
                 </Stack>

@@ -1,11 +1,11 @@
 import { ActionIcon, Box, Burger, Group, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
-import { UserMenu } from "../Misc/UserMenu";
-import { SuggestionsFilters } from "./SuggestionsFilters";
+import { UserMenu } from "../User/UserMenu";
+import { RepositoryFilters } from "./RepositoryFilters";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
 
-interface SuggestionsHeader {
+interface RepositoryHeader {
     navbarOpened: boolean,
     toggleNavbar: any,
     openFilters: any,
@@ -18,7 +18,7 @@ interface SuggestionsHeader {
     repository: Repository
 }
 
-export function SuggestionsHeader({
+export function RepositoryHeader({
     navbarOpened,
     toggleNavbar,
     openFilters,
@@ -29,7 +29,7 @@ export function SuggestionsHeader({
     filters,
     setFilters,
     repository,
-}: SuggestionsHeader) {
+}: RepositoryHeader) {
     return (
         <Stack pb={"xs"}>
             <Group h={"100%"} justify='space-between' py={"xs"}>
@@ -94,7 +94,7 @@ export function SuggestionsHeader({
                 value={userPrompt}
                 onChange={e => setUserPrompt(e.target.value)}
             />
-            <SuggestionsFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
+            <RepositoryFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
 
         </Stack>
     )

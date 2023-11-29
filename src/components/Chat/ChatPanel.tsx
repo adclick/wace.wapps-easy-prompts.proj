@@ -5,6 +5,9 @@ import { Ref } from "react"
 import { AIMediatorClient } from "@/clients/AIMediatorClient"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { ChatCardIntro } from "./ChatCardIntro"
+import { User } from "../../model/User"
+import { Repository } from "../../model/Repository"
+import { Language } from "../../model/Language"
 
 interface ChatPanel {
     threads: Thread[],
@@ -13,7 +16,10 @@ interface ChatPanel {
     userPromptOptions: UserPromptOptions,
     setUserPromptOptions: any,
     refreshPromptOptions: any,
-    scrollIntoView: any
+    scrollIntoView: any,
+    user: User,
+    repository: Repository,
+    language: Language
 }
 
 export function ChatPanel({
@@ -23,7 +29,10 @@ export function ChatPanel({
     userPromptOptions,
     setUserPromptOptions,
     refreshPromptOptions,
-    scrollIntoView
+    scrollIntoView,
+    user,
+    repository,
+    language
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
@@ -40,6 +49,9 @@ export function ChatPanel({
                             setUserPromptOptions={setUserPromptOptions}
                             refreshPromptOptions={refreshPromptOptions}
                             scrollIntoView={scrollIntoView}
+                            user={user}
+                            repository={repository}
+                            language={language}
                         />
                     )
                 })

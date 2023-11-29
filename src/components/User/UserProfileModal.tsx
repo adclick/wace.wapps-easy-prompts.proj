@@ -18,19 +18,19 @@ export function UserProfileModal({ user, userProfileOpened, closeUserProfile }: 
                             <Text>General</Text>
                         </Group>
                     </Tabs.Tab>
-                    <Tabs.Tab py={"md"} value="prompts">
+                    <Tabs.Tab disabled py={"md"} value="prompts">
                         <Group gap={"xs"} align="center" wrap="nowrap">
                             <IconPrompt style={{ width: rem(18), height: rem(18) }} />
                             <Text>Prompts</Text>
                         </Group>
                     </Tabs.Tab>
-                    <Tabs.Tab py={"md"} value="templates">
+                    <Tabs.Tab disabled py={"md"} value="templates">
                         <Group gap={"xs"} align="center" wrap="nowrap">
                             <IconTemplate style={{ width: rem(18), height: rem(18) }} />
                             <Text>Templates</Text>
                         </Group>
                     </Tabs.Tab>
-                    <Tabs.Tab py={"md"} value="modifiers">
+                    <Tabs.Tab disabled py={"md"} value="modifiers">
                         <Group gap={"xs"} align="center" wrap="nowrap">
                             <IconSparkles style={{ width: rem(18), height: rem(18) }} />
                             <Text>Modifiers</Text>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Stack, Tabs, Text, Textarea, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
+import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
+import cx from 'clsx';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
 import { PromptOptions } from '../model/PromptOptions';
@@ -10,22 +12,19 @@ import { Technology } from '../model/Technology';
 import { Provider } from '../model/Provider';
 import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
-import { Suggestion } from '../model/Suggestion';
-import cx from 'clsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../model/User';
-import { TeamSwitcher } from '../components/Misc/TeamSwitcher';
-import { UserMenu } from '../components/Misc/UserMenu';
+import { UserMenu } from '../components/User/UserMenu';
 import { PromptInput } from '../components/Prompt/PromptInput';
 import { ChatPanel } from '../components/Chat/ChatPanel';
-import { SuggestionsPromptsPanel } from '../components/Suggestions/SuggestionsPromptsPanel';
+import { RepositoryPanel } from '../components/Repository/RepositoryPanel';
 import { Options } from '../model/Options';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
-import { SuggestionsHeader } from '../components/Suggestions/SuggestionsHeader';
+import { RepositoryHeader } from '../components/Repository/RepositoryHeader';
 import { Filters } from '../model/Filters';
-import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
 import { Repository } from '../model/Repository';
-import { RepositoryItem } from '@/model/RepositoryItem';
+import { RepositoryItem } from '../model/RepositoryItem';
+import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
 
 export function HomePage() {
   // API Client
@@ -35,8 +34,10 @@ export function HomePage() {
 
   // Current User
   const { user, logout } = useAuth0();
-  const [auth0User, setAuth0User] = useState(user);
   const [currentUser, setCurrentUser] = useState<User>(new User());
+  const [auth0User, setAuth0User] = useState(user);
+
+  const [language, setLanguage] = useState<Language>(new Language());
 
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [repository, setRepository] = useState<Repository>(new Repository());
@@ -53,14 +54,12 @@ export function HomePage() {
   const [userPrompt, setUserPrompt] = useState("");
 
   // Suggestions
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [filters, setFilters] = useState<Filters>(new Filters());
 
   // Setting state
   const [threads, setThreads] = useState<Thread[]>([]);
   const [promptOptions, setPromptOptions] = useState<PromptOptions>(new PromptOptions());
   const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
-  const [language, setLanguage] = useState<Language>(new Language());
   // technologies
   const defaultTechnology = promptOptions.getDefaultTechnology();
   const [technologies, setTechnologies] = useState<Technology[]>(promptOptions.getTechnologies());
@@ -81,7 +80,6 @@ export function HomePage() {
     refreshPromptOptions(Language.getDefaultCode());
   }, []);
 
-
   const refreshPromptOptions = async (languageCode: string) => {
     // Init AI Client
     const aiMediatorClient = new AIMediatorClient();
@@ -89,36 +87,41 @@ export function HomePage() {
     // User
     const user = User.buildFromAuth0(auth0User);
     setCurrentUser(user);
-    
+
+    setLanguage(new Language(languageCode))
+
     // Repositories
-    const repositories = await aiMediatorClient.login(user);
+    console.log(user);
+    const { repositories, repositoryItems, options, filters, modifiers } = await aiMediatorClient.login(user);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
     setRepository(repositoriesObjs[0]);
+    setRepositoryItems(repositoryItems);
+
+    // Filters
+    setFilters(filters);
 
     // Refresh Options
-    const promptOptions = await aiMediatorClient.getPromptOptions(user.id, languageCode);
-    const promptOptionsObj = PromptOptions.buildFromApi(promptOptions);
-    setPromptOptions(promptOptionsObj);
+    const optionsObj = PromptOptions.buildFromApi(options);
+    setPromptOptions(optionsObj);
     const newOptions = Options.buildFromApi(promptOptions);
     setOptions(newOptions);
 
     // Refresh Technologies
-    const currentTechnology = promptOptionsObj.getDefaultTechnology();
+    const currentTechnology = optionsObj.getDefaultTechnology();
     setTechnology(currentTechnology);
-    setTechnologies(promptOptionsObj.getTechnologies());
+    setTechnologies(optionsObj.getTechnologies());
 
     // Refresh Providers
-    const currentProvider = promptOptionsObj.getDefaultProvider(currentTechnology.slug);
+    const currentProvider = optionsObj.getDefaultProvider(currentTechnology.slug);
     setProvider(currentProvider);
-    setProviders(promptOptionsObj.getProviders(currentTechnology.slug));
+    setProviders(optionsObj.getProviders(currentTechnology.slug));
 
     // Refresh Parameters
-    const parameters = promptOptionsObj.getParameters(currentTechnology.slug, currentProvider.slug);
+    const parameters = optionsObj.getParameters(currentTechnology.slug, currentProvider.slug);
     setParameters(parameters);
 
     // Refresh Modifiers
-    const modifiers = promptOptionsObj.getModifiers(currentTechnology.slug);
     setModifiers(modifiers);
     setActiveModifiers([]);
 
@@ -128,13 +131,6 @@ export function HomePage() {
     newUserPromptOptions.setProvider(currentProvider);
     newUserPromptOptions.setLanguage(languageCode);
     setUserPromptOptions(newUserPromptOptions);
-
-    // Refresh Repository
-    const filters = new Filters(user.id, repositories[0].slug, user.language.code, currentTechnology.slug, currentProvider.slug);
-    setFilters(filters);
-    const repositoryItems = await aiMediatorClient.getRepositoryItems(filters);
-    setRepositoryItems(repositoryItems);
-    console.log(repositoryItems);
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {
@@ -237,7 +233,7 @@ export function HomePage() {
 
       <AppShell.Navbar withBorder={false} p="md">
         <AppShell.Section >
-          <SuggestionsHeader
+          <RepositoryHeader
             navbarOpened={navbarOpened}
             toggleNavbar={navbarHandle.toggle}
             openFilters={open}
@@ -248,11 +244,10 @@ export function HomePage() {
             filtersOpened={filtersOpened}
             closeFilters={close}
             repository={repository}
-            />
+          />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          <SuggestionsPromptsPanel
-            suggestions={suggestions}
+          <RepositoryPanel
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
@@ -260,12 +255,14 @@ export function HomePage() {
           />
         </AppShell.Section>
         <AppShell.Section>
-          {/* <Divider h={"md"} /> */}
-          {/* <TeamSwitcher /> */}
-          <Group justify='space-around' pt={"lg"} pb={"xs"} align='center'>
-            <Button variant='subtle' leftSection={<IconPrompt />}>13</Button>
-            <Button variant='subtle' leftSection={<IconTemplate />}>10</Button>
-          </Group>
+          <Divider h={"md"} />
+          <LanguageSwitcher
+            language={language}
+            setLanguage={setLanguage}
+            userPromptOptions={userPromptOptions}
+            setUserPromptOptions={setUserPromptOptions}
+            refreshPromptOptions={refreshPromptOptions}
+          />
         </AppShell.Section>
       </AppShell.Navbar>
 
@@ -278,6 +275,9 @@ export function HomePage() {
           setUserPromptOptions={setUserPromptOptions}
           refreshPromptOptions={refreshPromptOptions}
           scrollIntoView={scrollIntoView}
+          user={currentUser}
+          repository={repository}
+          language={language}
         />
       </AppShell.Main>
 

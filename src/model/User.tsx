@@ -3,11 +3,13 @@ import { Language } from "./Language";
 export class User {
     id: string;
     email: string;
+    picture: string;
     language: Language
 
-    constructor(id: string = "", email: string = "") {
+    constructor(id: string = "", email: string = "", picture: string = "") {
         this.id = id;
         this.email = email;
+        this.picture = picture;
         this.language = new Language();
     }
 
@@ -22,6 +24,10 @@ export class User {
 
         if ("email" in auth0User) {
             user.email = auth0User.email;
+        }
+
+        if ("picture" in auth0User) {
+            user.picture = auth0User.picture;
         }
 
         return user;

@@ -11,8 +11,8 @@ export class Language {
     code: string;
 
 
-    constructor() {
-        this.code = DEFAULT_CODE;
+    constructor(code: string = DEFAULT_CODE) {
+        this.code = code;
     }
 
     static getAll() {

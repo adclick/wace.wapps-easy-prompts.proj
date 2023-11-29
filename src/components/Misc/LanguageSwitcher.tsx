@@ -36,6 +36,7 @@ export function LanguageSwitcher({
 
     return (
         <SegmentedControl
+            fullWidth
             transitionDuration={100}
             size="sm"
             data={languages}
