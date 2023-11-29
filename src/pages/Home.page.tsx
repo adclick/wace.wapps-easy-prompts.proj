@@ -91,7 +91,7 @@ export function HomePage() {
     setCurrentUser(user);
     
     // Repositories
-    const repositories = await aiMediatorClient.login(user.id, language.code);
+    const repositories = await aiMediatorClient.login(user);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
     setRepository(repositoriesObjs[0]);

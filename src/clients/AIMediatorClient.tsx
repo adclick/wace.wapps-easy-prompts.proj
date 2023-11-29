@@ -3,6 +3,7 @@ import { UserPromptOptions } from "../model/UserPromptOptions";
 import { Technology } from "../model/Technology";
 import { Provider } from "../model/Provider";
 import { Filters } from "@/model/Filters";
+import { User } from "../model/User";
 
 type GeneratedImage = {
     image_resource_url: string
@@ -18,11 +19,12 @@ export class AIMediatorClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
-    async login(auth0Id: string, language: string) {
+    async login(user: User) {
         return await this.post('/ai/user/login', {
-            auth0Id,
+            auth0Id: user.id,
             options: {
-                language
+                email: user.email,
+                language: user.language.code
             }
         });
     }
