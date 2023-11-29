@@ -27,7 +27,7 @@ export function ChatPanel({
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
-            <ChatCardIntro />
+            {/* <ChatCardIntro /> */}
             {
                 threads.map((thread: Thread) => {
                     return (
