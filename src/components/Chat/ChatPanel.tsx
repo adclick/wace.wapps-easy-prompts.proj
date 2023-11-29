@@ -4,6 +4,7 @@ import { ChatCard } from "./ChatCard"
 import { Ref } from "react"
 import { AIMediatorClient } from "@/clients/AIMediatorClient"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
+import { ChatCardIntro } from "./ChatCardIntro"
 
 interface ChatPanel {
     threads: Thread[],
@@ -26,6 +27,7 @@ export function ChatPanel({
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
+            <ChatCardIntro />
             {
                 threads.map((thread: Thread) => {
                     return (

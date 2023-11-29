@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Burger, Group, Menu, Stack, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { ActionIcon, Box, Burger, Group, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { UserMenu } from "../Misc/UserMenu";
 import { SuggestionsFilters } from "./SuggestionsFilters";
@@ -40,10 +40,12 @@ export function SuggestionsHeader({
                     <Menu shadow="md" width={200} position='bottom-start'>
                         <Menu.Target>
                             <UnstyledButton px={0}>
-                                <Group align='center' gap={"xs"}>
-                                    <Title order={4}>
-                                        My Repository
-                                    </Title>
+                                <Group align='center' gap={"xs"} wrap="nowrap">
+                                    <Box maw={175}>
+                                        <Text truncate size="lg">
+                                            My Repository
+                                        </Text>
+                                    </Box>
                                     <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
                                 </Group>
                             </UnstyledButton>
@@ -56,10 +58,12 @@ export function SuggestionsHeader({
                             <Menu.Item leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
                                 Switch
                             </Menu.Item>
-                            <Menu.Item leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Divider />
+                            <Menu.Label>My Repository</Menu.Label>
+                            <Menu.Item disabled leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
                                 Invite
                             </Menu.Item>
-                            <Menu.Item leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item disabled leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>
                                 Members
                             </Menu.Item>
                             <Menu.Item color="red" leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}>

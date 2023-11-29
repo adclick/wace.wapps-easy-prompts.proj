@@ -130,6 +130,11 @@ export function HomePage() {
     const usedPrompts = await aiMediatorClient.getSuggestions(user.id, "", currentTechnology.slug, currentProvider.slug);
     const suggestionsObjs = Suggestion.buildFromApi(usedPrompts);
     setSuggestions(suggestionsObjs);
+    
+    // Refresh Repository
+    const filters = new Filters(user.id, user.language.code, currentTechnology.slug, currentProvider.slug);
+    const repositoryItems = await aiMediatorClient.getRepositoryItems(filters);
+    console.log(repositoryItems);
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {

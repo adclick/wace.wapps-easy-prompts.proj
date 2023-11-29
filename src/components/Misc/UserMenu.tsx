@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Box, Button, Divider, Group, Menu, Stack, Text, Title, Tooltip, rem } from "@mantine/core";
-import { IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPlus, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser, IconUserPlus, IconUsers } from "@tabler/icons-react";
+import { IconActivity, IconFileDescription, IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPlus, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { UserProfileModal } from "../User/UserProfileModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -36,23 +36,15 @@ export function UserMenu() {
                             <Text size="xs">{user?.email}</Text>
                         </Stack>
                     </Menu.Item>
-                    <Menu.Divider />
-                    <Menu.Label>Teams</Menu.Label>
-                    <Menu.Item leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                        Create new Team
-                    </Menu.Item>
-                    <Menu.Item leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
-                        Invite Member
-                    </Menu.Item>
-                    <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                        Manage Teams
-                    </Menu.Item>
-
-                    <Menu.Divider />
                     <Menu.Item color="blue" leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />} onClick={userFeedbackModalHandle.open}>
                         Give Feedback
                     </Menu.Item>
-
+                    <Menu.Item disabled leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
+                        Changelog
+                    </Menu.Item>
+                    <Menu.Item disabled leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                        How it works
+                    </Menu.Item>
                     <Menu.Divider />
                     <Menu.Item color="red" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
                         Logout

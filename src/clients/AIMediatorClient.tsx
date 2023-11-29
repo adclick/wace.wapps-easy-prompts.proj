@@ -2,6 +2,7 @@ import axios from "axios";
 import { UserPromptOptions } from "../model/UserPromptOptions";
 import { Technology } from "../model/Technology";
 import { Provider } from "../model/Provider";
+import { Filters } from "@/model/Filters";
 
 type GeneratedImage = {
     image_resource_url: string
@@ -40,6 +41,21 @@ export class AIMediatorClient {
         });
     }
 
+    async getRepositoryItems(filters: Filters, limit: number = 20, offset: number = 0) {
+        return await this.post('/ai/prompt/get-repository-items', {
+            filters: {
+                prompt: filters.text,
+                technology: filters.technology,
+                provider: filters.provider,
+                userId: filters.userId,
+                language: filters.language,
+                types: filters.types
+            },
+            limit,
+            offset
+        });
+    }
+
     async getSuggestions(
         userId: string,
         prompt: string,
@@ -71,11 +87,8 @@ export class AIMediatorClient {
         })
     }
 
-    async optimizePrompt(userPrompt: string, userPromptOptions: UserPromptOptions) {
-        return await this.post('/ai/prompt/optimize', {
-            prompt: userPrompt,
-            promptOptions: userPromptOptions
-        });
+    async optimizePrompt(prompt: string, options: UserPromptOptions) {
+        return await this.post('/ai/prompt/optimize', { prompt, options });
     }
 
     async saveModifier(name: string, content: string, technology: Technology) {
@@ -99,8 +112,8 @@ export class AIMediatorClient {
     }
 
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
-        const images: GeneratedImage[] = await this.post('/ai/image/image-generation',  { prompt, options });
-        
+        const images: GeneratedImage[] = await this.post('/ai/image/image-generation', { prompt, options });
+
         return images.map(image => image.image_resource_url);
     }
 

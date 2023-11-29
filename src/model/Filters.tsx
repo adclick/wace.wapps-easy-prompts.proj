@@ -1,11 +1,29 @@
+export enum Type {
+    Prompts = "prompts",
+    Templates = "templates",
+    Modifiers = "modifiers"
+};
+
 export class Filters {
-    types: string[];
+    userId: string;
+    language: string;
+    types: Type[];
     technology: string;
     provider: string;
+    text: string;
 
-    constructor() {
-        this.types = ["prompts", "templates"];
-        this.technology = "";
-        this.provider = "";
+    constructor(
+        userId: string = "",
+        language: string = "",
+        technology: string = "",
+        provider: string = "",
+        text: string = ""
+    ) {
+        this.userId = userId;
+        this.language = language
+        this.types = [Type.Prompts, Type.Templates, Type.Modifiers];
+        this.technology = technology;
+        this.provider = provider;
+        this.text = text;
     }
 }
