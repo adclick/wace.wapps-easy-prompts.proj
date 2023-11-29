@@ -77,11 +77,16 @@ export class AIMediatorClient {
         });
     }
 
-    async saveModifier(name: string, content: string, technology: Technology) {
-        return await this.post('/ai/prompt/set-modifier', {
+    async saveModifier(name: string, content: string, technology: string, userId: string, repository: string, language: string) {
+        return await this.post('/ai/prompt/add-modifier', {
             name,
-            content,
-            technology: technology.slug
+            options: {
+                content,
+                technology,
+                userId,
+                repository,
+                language
+            }
         });
     }
 

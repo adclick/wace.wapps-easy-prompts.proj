@@ -13,6 +13,9 @@ import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { PromptOptionsPanel } from "./PromptOptionsPanel";
 import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
+import { User } from "../../model/User"
+import { Repository } from "../../model/Repository"
+import { Language } from "../../model/Language"
 
 interface PromptInput {
     aIMediatorClient: AIMediatorClient,
@@ -34,7 +37,10 @@ interface PromptInput {
     parameters: Parameter[],
     userPrompt: string,
     setUserPrompt: any,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    user: User,
+    repository: Repository,
+    language: Language
 }
 
 export function PromptInput({
@@ -57,7 +63,10 @@ export function PromptInput({
     parameters,
     userPrompt,
     setUserPrompt,
-    refreshPromptOptions
+    refreshPromptOptions,
+    user,
+    repository,
+    language
 }: PromptInput) {
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
@@ -109,6 +118,9 @@ export function PromptInput({
                 setActiveModifiers={setActiveModifiers}
                 aIMediatorClient={aIMediatorClient}
                 refreshPromptOptions={refreshPromptOptions}
+                user={user}
+                repository={repository}
+                language={language}
             />
             <Stack>
                 <Group

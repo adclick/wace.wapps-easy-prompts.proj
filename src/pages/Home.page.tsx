@@ -303,6 +303,9 @@ export function HomePage() {
           userPrompt={userPrompt}
           setUserPrompt={setUserPrompt}
           refreshPromptOptions={refreshPromptOptions}
+          user={currentUser}
+          repository={repository}
+          language={language}
         />
       </AppShell.Footer>
     </AppShell>

@@ -11,6 +11,9 @@ import { Parameter } from "@/model/Parameter"
 import { UserPromptOptions } from "@/model/UserPromptOptions"
 import { Modifier } from "@/model/Modifier"
 import { AIMediatorClient } from "@/clients/AIMediatorClient"
+import { User } from "../../model/User"
+import { Repository } from "../../model/Repository"
+import { Language } from "../../model/Language"
 
 interface PromptOptionsPanel {
     drawerOpened: any,
@@ -29,7 +32,10 @@ interface PromptOptionsPanel {
     activeModifiers: Modifier[],
     setActiveModifiers: any,
     aIMediatorClient: AIMediatorClient,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    user: User,
+    repository: Repository,
+    language: Language
 }
 
 export function PromptOptionsPanel({
@@ -49,7 +55,10 @@ export function PromptOptionsPanel({
     activeModifiers,
     setActiveModifiers,
     aIMediatorClient,
-    refreshPromptOptions
+    refreshPromptOptions,
+    user,
+    repository,
+    language
 }: PromptOptionsPanel) {
     return (
         <Drawer
@@ -103,6 +112,9 @@ export function PromptOptionsPanel({
                     aIMediatorClient={aIMediatorClient}
                     technology={technology}
                     refreshPromptOptions={refreshPromptOptions}
+                    user={user}
+                    repository={repository}
+                    language={language}
                 />
             </Stack>
             <Divider />

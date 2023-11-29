@@ -8,6 +8,10 @@ import { useTranslation } from "react-i18next"
 import { useDisclosure } from "@mantine/hooks"
 import { AIMediatorClient } from "../../clients/AIMediatorClient"
 import { Technology } from "../../model/Technology"
+import { PromptAddNewModifierModal } from "./PromptAddNewModifierModal"
+import { User } from "../../model/User"
+import { Repository } from "../../model/Repository"
+import { Language } from "../../model/Language"
 
 interface PromptOptionModificers {
     modifiers: Modifier[],
@@ -19,7 +23,10 @@ interface PromptOptionModificers {
     currentTechnologySlug: string,
     aIMediatorClient: AIMediatorClient,
     technology: Technology,
-    refreshPromptOptions: any
+    refreshPromptOptions: any,
+    user: User,
+    repository: Repository,
+    language: Language
 }
 
 export function PromptOptionModificers({
@@ -31,7 +38,10 @@ export function PromptOptionModificers({
     setUserPromptOptions,
     aIMediatorClient,
     technology,
-    refreshPromptOptions
+    refreshPromptOptions,
+    user,
+    repository,
+    language
 }: PromptOptionModificers) {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
@@ -46,18 +56,6 @@ export function PromptOptionModificers({
         const newUserPromptOptions = userPromptOptions;
         newUserPromptOptions.setModifiers(newModifiers);
         setUserPromptOptions(newUserPromptOptions);
-    }
-
-    const saveModifier = async () => {
-        if (newModifierName !== "" && newModifierContent !== "") {
-            await aIMediatorClient.saveModifier(
-                newModifierName,
-                newModifierContent,
-                technology
-            );
-
-            await refreshPromptOptions();
-        }
     }
 
     const getModifiersToShow = () => {
@@ -84,20 +82,15 @@ export function PromptOptionModificers({
 
     return (
         <Stack mb={"md"}>
-            <Modal opened={newModifierModalOpened} onClose={newModifierModalHandler.close} title={
-                <Group align="center">
-                    <IconSparkles style={{ width: rem(18), height: rem(18) }} />
-                    <Text size="sm">New Modifier</Text>
-                </Group>
-            }>
-                <Stack>
-                    <TextInput onChange={(e: any) => setNewModifierName(e.target.value)} value={newModifierName} label="Name" placeholder="Name" size="xs" />
-                    <Textarea autosize minRows={3} onChange={(e: any) => setNewModifierContent(e.target.value)} value={newModifierContent} label="Content" placeholder="" size="xs" mt="xs" />
-                    <Group>
-                        <Button leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />} variant="transparent" size="compact-xs" onClick={saveModifier}>Save</Button>
-                    </Group>
-                </Stack>
-            </Modal>
+            <PromptAddNewModifierModal
+                opened={newModifierModalOpened}
+                close={newModifierModalHandler.close}
+                aiMediatorClient={aIMediatorClient}
+                technology={technology}
+                user={user}
+                repository={repository}
+                language={language}
+            />
             <Group justify="space-between">
                 <Group >
                     <Text size="md">
