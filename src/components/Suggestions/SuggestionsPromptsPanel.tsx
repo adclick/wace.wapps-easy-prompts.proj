@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { SuggestionItem } from "./SuggestionItem";
 import { Suggestion } from "../../model/Suggestion";
 import { SuggestionsFilters } from "./SuggestionsFilters";
+import { RepositoryItem } from "../../model/RepositoryItem";
 
 
 interface SuggestionsPromptsPanel {
@@ -12,6 +13,7 @@ interface SuggestionsPromptsPanel {
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
+    repositoryItems: RepositoryItem[]
 }
 
 export function SuggestionsPromptsPanel({
@@ -19,12 +21,13 @@ export function SuggestionsPromptsPanel({
     userPrompt,
     setUserPrompt,
     navbarToggle,
+    repositoryItems
 }: SuggestionsPromptsPanel) {
     const { t } = useTranslation();
 
     const getPromptsToShow = () => {
-        return suggestions.filter(suggestion => {
-            return suggestion.name.toLowerCase().includes(userPrompt.toLocaleLowerCase());
+        return repositoryItems.filter(item => {
+            return item.name.toLowerCase().includes(userPrompt.toLocaleLowerCase());
         })
     }
 
@@ -39,11 +42,11 @@ export function SuggestionsPromptsPanel({
                     }
                 }}>
                     {
-                        getPromptsToShow().map(usedPrompt => {
+                        getPromptsToShow().map((item: RepositoryItem) => {
                             return (
                                 <SuggestionItem
-                                    key={usedPrompt.name}
-                                    usedPrompt={usedPrompt}
+                                    key={item.slug}
+                                    repositoryItem={item}
                                     setUserPrompt={setUserPrompt}
                                     navbarToggle={navbarToggle}
                                 />

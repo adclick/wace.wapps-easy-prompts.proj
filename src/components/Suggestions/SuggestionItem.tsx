@@ -4,35 +4,36 @@ import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { Technology } from "../../model/Technology";
 import { Provider } from "../../model/Provider";
 import { Suggestion } from "../../model/Suggestion";
+import { RepositoryItem } from "@/model/RepositoryItem";
 
 interface SuggestionItem {
-    usedPrompt: Suggestion,
     setUserPrompt: any,
-    navbarToggle: any
+    navbarToggle: any,
+    repositoryItem: RepositoryItem
 }
 
 export function SuggestionItem({
-    usedPrompt,
     setUserPrompt,
-    navbarToggle
+    navbarToggle,
+    repositoryItem
 }: SuggestionItem) {
 
     const use = () => {
-        setUserPrompt(usedPrompt.name)
+        setUserPrompt(repositoryItem.name)
         navbarToggle();
     }
     return (
-        <AccordionItem value={usedPrompt.name} py={"md"}>
+        <AccordionItem value={repositoryItem.name} py={"md"}>
             <AccordionControl px={0}>
                 <Stack>
                     <Text size="sm" fw={500} lineClamp={20}>
-                        {usedPrompt.name}
+                        {repositoryItem.name}
                     </Text>
                     <Group justify="space-between">
                         <Badge size="xs" variant="default">
                             Prompt
                         </Badge>
-                        <Tooltip label={`${usedPrompt.score}/100`}>
+                        <Tooltip label={`${repositoryItem.name}/100`}>
                             <Rating px={"xs"} size="xs" readOnly color="blue" value={4} />
                             {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} /> */}
                         </Tooltip>

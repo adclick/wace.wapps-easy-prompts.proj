@@ -24,6 +24,8 @@ import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 import { SuggestionsHeader } from '../components/Suggestions/SuggestionsHeader';
 import { Filters } from '../model/Filters';
 import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
+import { Repository } from '../model/Repository';
+import { RepositoryItem } from '@/model/RepositoryItem';
 
 export function HomePage() {
   // API Client
@@ -35,6 +37,10 @@ export function HomePage() {
   const { user, logout } = useAuth0();
   const [auth0User, setAuth0User] = useState(user);
   const [currentUser, setCurrentUser] = useState<User>(new User());
+
+  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repository, setRepository] = useState<Repository>(new Repository());
+  const [repositoryItems, setRepositoryItems] = useState<RepositoryItem[]>([]);
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
@@ -72,18 +78,9 @@ export function HomePage() {
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
   useEffect(() => {
-    handleUser();
     refreshPromptOptions(Language.getDefaultCode());
   }, []);
 
-  const handleUser = async () => {
-    const aiMediatorClient = new AIMediatorClient();
-
-    const user = User.buildFromAuth0(auth0User);
-    setCurrentUser(user);
-
-    await aiMediatorClient.login(user.id, language.code);
-  }
 
   const refreshPromptOptions = async (languageCode: string) => {
     // Init AI Client
@@ -92,6 +89,12 @@ export function HomePage() {
     // User
     const user = User.buildFromAuth0(auth0User);
     setCurrentUser(user);
+    
+    // Repositories
+    const repositories = await aiMediatorClient.login(user.id, language.code);
+    const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
+    setRepositories(repositoriesObjs);
+    setRepository(repositoriesObjs[0]);
 
     // Refresh Options
     const promptOptions = await aiMediatorClient.getPromptOptions(user.id, languageCode);
@@ -126,14 +129,11 @@ export function HomePage() {
     newUserPromptOptions.setLanguage(languageCode);
     setUserPromptOptions(newUserPromptOptions);
 
-    // Refresh Suggestions
-    const usedPrompts = await aiMediatorClient.getSuggestions(user.id, "", currentTechnology.slug, currentProvider.slug);
-    const suggestionsObjs = Suggestion.buildFromApi(usedPrompts);
-    setSuggestions(suggestionsObjs);
-    
     // Refresh Repository
-    const filters = new Filters(user.id, user.language.code, currentTechnology.slug, currentProvider.slug);
+    const filters = new Filters(user.id, repositories[0].slug, user.language.code, currentTechnology.slug, currentProvider.slug);
+    setFilters(filters);
     const repositoryItems = await aiMediatorClient.getRepositoryItems(filters);
+    setRepositoryItems(repositoryItems);
     console.log(repositoryItems);
   }
 
@@ -247,7 +247,8 @@ export function HomePage() {
             setFilters={setFilters}
             filtersOpened={filtersOpened}
             closeFilters={close}
-          />
+            repository={repository}
+            />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <SuggestionsPromptsPanel
@@ -255,6 +256,7 @@ export function HomePage() {
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
+            repositoryItems={repositoryItems}
           />
         </AppShell.Section>
         <AppShell.Section>

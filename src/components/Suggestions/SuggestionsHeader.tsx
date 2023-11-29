@@ -3,6 +3,7 @@ import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconPlus, Ico
 import { UserMenu } from "../Misc/UserMenu";
 import { SuggestionsFilters } from "./SuggestionsFilters";
 import { Filters } from "../../model/Filters";
+import { Repository } from "../../model/Repository";
 
 interface SuggestionsHeader {
     navbarOpened: boolean,
@@ -13,7 +14,8 @@ interface SuggestionsHeader {
     filtersOpened: boolean
     closeFilters: any
     filters: Filters,
-    setFilters: any
+    setFilters: any,
+    repository: Repository
 }
 
 export function SuggestionsHeader({
@@ -25,7 +27,8 @@ export function SuggestionsHeader({
     filtersOpened,
     closeFilters,
     filters,
-    setFilters
+    setFilters,
+    repository,
 }: SuggestionsHeader) {
     return (
         <Stack pb={"xs"}>
@@ -43,7 +46,7 @@ export function SuggestionsHeader({
                                 <Group align='center' gap={"xs"} wrap="nowrap">
                                     <Box maw={175}>
                                         <Text truncate size="lg">
-                                            My Repository
+                                            {repository.name}
                                         </Text>
                                     </Box>
                                     <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
