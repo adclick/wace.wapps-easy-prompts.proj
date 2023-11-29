@@ -82,7 +82,7 @@ export function HomePage() {
     const user = User.buildFromAuth0(auth0User);
     setCurrentUser(user);
 
-    await aiMediatorClient.createUser(user.id, language.code);
+    await aiMediatorClient.login(user.id, language.code);
   }
 
   const refreshPromptOptions = async (languageCode: string) => {
@@ -260,10 +260,9 @@ export function HomePage() {
         <AppShell.Section>
           {/* <Divider h={"md"} /> */}
           {/* <TeamSwitcher /> */}
-          <Group justify='space-between' pt={"lg"} pb={"xs"} align='center'>
+          <Group justify='space-around' pt={"lg"} pb={"xs"} align='center'>
             <Button variant='subtle' leftSection={<IconPrompt />}>13</Button>
             <Button variant='subtle' leftSection={<IconTemplate />}>10</Button>
-            <Button variant='subtle' leftSection={<IconSparkles />}>5</Button>
           </Group>
         </AppShell.Section>
       </AppShell.Navbar>

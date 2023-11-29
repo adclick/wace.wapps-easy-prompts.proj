@@ -1,11 +1,11 @@
 export enum Type {
     Prompts = "prompts",
     Templates = "templates",
-    Modifiers = "modifiers"
 };
 
 export class Filters {
     userId: string;
+    repository: string;
     language: string;
     types: Type[];
     technology: string;
@@ -14,14 +14,16 @@ export class Filters {
 
     constructor(
         userId: string = "",
+        repository: string = "",
         language: string = "",
         technology: string = "",
         provider: string = "",
         text: string = ""
     ) {
         this.userId = userId;
+        this.repository = repository;
         this.language = language
-        this.types = [Type.Prompts, Type.Templates, Type.Modifiers];
+        this.types = [Type.Prompts, Type.Templates];
         this.technology = technology;
         this.provider = provider;
         this.text = text;

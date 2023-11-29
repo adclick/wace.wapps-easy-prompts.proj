@@ -90,7 +90,6 @@ export function SuggestionsHeader({
                 maxRows={6}
                 value={userPrompt}
                 onChange={e => setUserPrompt(e.target.value)}
-                hiddenFrom="sm"
             />
             <SuggestionsFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
 

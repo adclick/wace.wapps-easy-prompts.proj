@@ -18,7 +18,7 @@ export class AIMediatorClient {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
     }
 
-    async createUser(auth0Id: string, language: string) {
+    async login(auth0Id: string, language: string) {
         return await this.post('/ai/user/login', {
             auth0Id,
             options: {
@@ -48,6 +48,7 @@ export class AIMediatorClient {
                 technology: filters.technology,
                 provider: filters.provider,
                 userId: filters.userId,
+                repository: filters.repository,
                 language: filters.language,
                 types: filters.types
             },
