@@ -48,6 +48,7 @@ export function RepositoryFilters({
                         <Stack>
                             <Checkbox value="prompts" label="Prompts" />
                             <Checkbox value="templates" label="Templates" />
+                            <Checkbox value="modifiers" label="Modifiers" />
                         </Stack>
                     </Checkbox.Group>
 

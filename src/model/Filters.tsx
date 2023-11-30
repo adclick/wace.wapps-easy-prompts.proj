@@ -1,6 +1,7 @@
 export enum Type {
     Prompts = "prompts",
     Templates = "templates",
+    Modifiers = "modifiers"
 };
 
 export class Filters {
@@ -26,7 +27,7 @@ export class Filters {
         this.userId = userId;
         this.repository = repository;
         this.language = language
-        this.types = [Type.Prompts, Type.Templates];
+        this.types = [Type.Prompts, Type.Templates, Type.Modifiers];
         this.technology = technology;
         this.provider = provider;
         this.text = text;

@@ -82,10 +82,6 @@ export function PromptOptionsPanel({
                     handleOnChangeProvider={handleOnChangeProvider}
                 />
                 {
-                    parameters.length > 0 &&
-                    <Divider />
-                }
-                {
                     parameters.map(parameter => {
                         return (
                             <Box my={"sm"} key={parameter.slug}>
@@ -100,8 +96,8 @@ export function PromptOptionsPanel({
                         )
                     })
                 }
-                <Divider />
-                <PromptOptionModificers
+                {/* <Divider /> */}
+                {/* <PromptOptionModificers
                     modifiers={modifiers}
                     activeModifiers={activeModifiers}
                     setActiveModifiers={setActiveModifiers}
@@ -115,7 +111,7 @@ export function PromptOptionsPanel({
                     user={user}
                     repository={repository}
                     language={language}
-                />
+                /> */}
             </Stack>
             <Divider />
             <Group mt={"xs"} justify="space-between">

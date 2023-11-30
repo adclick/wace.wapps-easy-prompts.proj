@@ -8,20 +8,36 @@ import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
 interface RepositoryItemRow {
     setUserPrompt: any,
     navbarToggle: any,
-    repositoryItem: RepositoryItem
+    repositoryItem: RepositoryItem,
+    repositorySelectedItems: RepositoryItem[],
+    setRepositorySelectedItems: any
 }
 
 export function RepositoryItemRow({
     setUserPrompt,
     navbarToggle,
-    repositoryItem
+    repositoryItem,
+    repositorySelectedItems,
+    setRepositorySelectedItems
 }: RepositoryItemRow) {
     const [detailsModalOpened, detailsModalHandle] = useDisclosure(false);
 
     const use = () => {
-        setUserPrompt(repositoryItem.name)
-        navbarToggle();
+        switch (repositoryItem.type) {
+            case "prompt":
+                setUserPrompt(repositoryItem.name)
+                navbarToggle();
+                setRepositorySelectedItems([
+                    repositoryItem
+                ]);
+                break;
+            case "template":
+                setRepositorySelectedItems([repositoryItem])
+                case "modifier":
+                break;
+        }
     }
+    
     return (
         <AccordionItem value={repositoryItem.name} py={"md"}>
             <AccordionControl px={0}>
@@ -30,12 +46,12 @@ export function RepositoryItemRow({
                         {repositoryItem.name}
                     </Text>
                     <Group justify="space-between">
-                        <Badge size="xs" variant="default">
+                        <Badge size="xs" variant="dot" color={repositoryItem.color}>
                             {repositoryItem.type}
                         </Badge>
                         <Tooltip label={`${repositoryItem.score}/100`}>
                             {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={4} /> */}
-                            <Rating px={"xs"} size="xs" readOnly color="blue" value={repositoryItem.score * 5 / 100} />
+                            <Rating px={"xs"} size="xs" readOnly color={repositoryItem.color} value={repositoryItem.score * 5 / 100} />
                         </Tooltip>
                     </Group>
                 </Stack>
@@ -53,7 +69,7 @@ export function RepositoryItemRow({
                             parameters={[]}
                             modifiers={[]}
                         /> */}
-                        <Button onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
+                        <Button color={repositoryItem.color} onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
                             Details
                         </Button>
                         <Group gap={"xs"} mx={"lg"}>
@@ -77,7 +93,7 @@ export function RepositoryItemRow({
                                     </Menu.Item>
                                 </Menu.Dropdown>
                             </Menu>
-                            <ActionIcon variant="filled" size={"md"} onClick={use}>
+                            <ActionIcon color={repositoryItem.color} variant="filled" size={"md"} onClick={use}>
                                 <IconPlayerPlayFilled style={{ width: "60%", height: "60%" }} />
                             </ActionIcon>
                         </Group>

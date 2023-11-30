@@ -26,6 +26,7 @@ import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
 import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
 import favicon from '../favicon.svg';
+import { RepositorySelectedItemsWidget } from '../components/Repository/RepositorySelectedItemsWidget';
 
 export function HomePage() {
   // API Client
@@ -44,7 +45,8 @@ export function HomePage() {
   const [repository, setRepository] = useState<Repository>(new Repository());
   const [repositoryItems, setRepositoryItems] = useState<RepositoryItem[]>([]);
   const [repositorySearchTerm, setRepositorySearchTerm] = useState('');
-  const [refreshingRepository, refreshingRepositoryHandle] = useDisclosure(true)
+  const [refreshingRepository, refreshingRepositoryHandle] = useDisclosure(true);
+  const [repositorySelectedItems, setRepositorySelectedItems] = useState<RepositoryItem[]>([])
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
@@ -106,7 +108,8 @@ export function HomePage() {
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
     setRepository(repositoriesObjs[0]);
-    setRepositoryItems(repositoryItems);
+    const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
+    setRepositoryItems(repositoryItemsObjs);
     refreshingRepositoryHandle.close();
 
     // Filters
@@ -274,37 +277,18 @@ export function HomePage() {
             refreshingRepository={refreshingRepository}
             filters={filters}
             aiMediatorClient={aIMediatorClient}
+            repositorySelectedItems={repositorySelectedItems}
+            setRepositorySelectedItems={setRepositorySelectedItems}
           />
         </AppShell.Section>
         <AppShell.Section>
           <Divider h={"md"} />
 
-          
+          <RepositorySelectedItemsWidget 
+            repositorySelectedItems={repositorySelectedItems}
+            setRepositorySelectedItems={setRepositorySelectedItems}
+          />
 
-          <Group justify='space-between'>
-            <Group>
-              <Group gap={"xs"}>
-                <IconPrompt style={{ width: rem(20), height: rem(20) }} />
-                <Text>Prompts: </Text>
-              </Group>
-              <Text>12</Text>
-            </Group>
-            <Group>
-              <Group gap={"xs"}>
-                <IconTemplate style={{ width: rem(20), height: rem(20) }} />
-                <Text>Templates: </Text>
-              </Group>
-              <Text>12</Text>
-            </Group>
-          </Group>
-
-          {/* <LanguageSwitcher
-            language={language}
-            setLanguage={setLanguage}
-            userPromptOptions={userPromptOptions}
-            setUserPromptOptions={setUserPromptOptions}
-            refreshPromptOptions={refreshPromptOptions}
-          /> */}
         </AppShell.Section>
       </AppShell.Navbar>
 

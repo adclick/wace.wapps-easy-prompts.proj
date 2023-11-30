@@ -19,7 +19,9 @@ interface RepositoryPanel {
     setRepositoryItems: any
     repositorySearchTerm: string,
     refreshingRepository: boolean,
-    filters: Filters
+    filters: Filters,
+    repositorySelectedItems: RepositoryItem[],
+    setRepositorySelectedItems: any
 }
 
 export function RepositoryPanel({
@@ -30,7 +32,9 @@ export function RepositoryPanel({
     setRepositoryItems,
     repositorySearchTerm,
     refreshingRepository,
-    filters
+    filters,
+    repositorySelectedItems,
+    setRepositorySelectedItems
 }: RepositoryPanel) {
     const { t } = useTranslation();
 
@@ -76,6 +80,8 @@ export function RepositoryPanel({
                                         repositoryItem={item}
                                         setUserPrompt={setUserPrompt}
                                         navbarToggle={navbarToggle}
+                                        repositorySelectedItems={repositorySelectedItems}
+                                        setRepositorySelectedItems={setRepositorySelectedItems}
                                     />
                                 )
                             })
