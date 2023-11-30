@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Menu, ScrollArea, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
@@ -25,6 +25,7 @@ import { Filters } from '../model/Filters';
 import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
 import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
+import favicon from '../favicon.svg';
 
 export function HomePage() {
   // API Client
@@ -42,6 +43,7 @@ export function HomePage() {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [repository, setRepository] = useState<Repository>(new Repository());
   const [repositoryItems, setRepositoryItems] = useState<RepositoryItem[]>([]);
+  const [repositorySearchTerm, setRepositorySearchTerm] = useState('');
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
@@ -91,7 +93,6 @@ export function HomePage() {
     setLanguage(new Language(languageCode))
 
     // Repositories
-    console.log(user);
     const { repositories, repositoryItems, options, filters, modifiers } = await aiMediatorClient.login(user);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
@@ -207,7 +208,7 @@ export function HomePage() {
                 <UnstyledButton px={"md"}>
                   <Group align='center' gap={"xs"}>
                     <Title order={3}>
-                      Main Chat
+                      Chat
                     </Title>
                     <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
                   </Group>
@@ -237,13 +238,13 @@ export function HomePage() {
             navbarOpened={navbarOpened}
             toggleNavbar={navbarHandle.toggle}
             openFilters={open}
-            userPrompt={userPrompt}
-            setUserPrompt={setUserPrompt}
             filters={filters}
             setFilters={setFilters}
             filtersOpened={filtersOpened}
             closeFilters={close}
             repository={repository}
+            repositorySearchTerm={repositorySearchTerm}
+            setRepositorySearchTerm={setRepositorySearchTerm}
           />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
@@ -252,17 +253,36 @@ export function HomePage() {
             setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
             repositoryItems={repositoryItems}
+            repositorySearchTerm={repositorySearchTerm}
           />
         </AppShell.Section>
         <AppShell.Section>
           <Divider h={"md"} />
-          <LanguageSwitcher
+
+          <Group justify='space-between'>
+            <Group>
+              <Group gap={"xs"}>
+                <IconPrompt style={{ width: rem(20), height: rem(20) }} />
+                <Text>Prompts: </Text>
+              </Group>
+              <Text>12</Text>
+            </Group>
+            <Group>
+              <Group gap={"xs"}>
+                <IconTemplate style={{ width: rem(20), height: rem(20) }} />
+                <Text>Templates: </Text>
+              </Group>
+              <Text>12</Text>
+            </Group>
+          </Group>
+
+          {/* <LanguageSwitcher
             language={language}
             setLanguage={setLanguage}
             userPromptOptions={userPromptOptions}
             setUserPromptOptions={setUserPromptOptions}
             refreshPromptOptions={refreshPromptOptions}
-          />
+          /> */}
         </AppShell.Section>
       </AppShell.Navbar>
 

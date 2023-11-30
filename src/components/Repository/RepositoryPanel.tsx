@@ -12,20 +12,21 @@ interface RepositoryPanel {
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
-    repositoryItems: RepositoryItem[]
+    repositoryItems: RepositoryItem[],
+    repositorySearchTerm: string
 }
 
 export function RepositoryPanel({
-    userPrompt,
     setUserPrompt,
     navbarToggle,
-    repositoryItems
+    repositoryItems,
+    repositorySearchTerm
 }: RepositoryPanel) {
     const { t } = useTranslation();
 
     const getPromptsToShow = () => {
         return repositoryItems.filter(item => {
-            return item.name.toLowerCase().includes(userPrompt.toLocaleLowerCase());
+            return item.name.toLowerCase().includes(repositorySearchTerm.toLocaleLowerCase());
         })
     }
 

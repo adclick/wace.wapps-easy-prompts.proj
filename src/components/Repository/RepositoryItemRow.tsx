@@ -33,9 +33,9 @@ export function RepositoryItemRow({
                         <Badge size="xs" variant="default">
                             {repositoryItem.type}
                         </Badge>
-                        <Tooltip label={`${repositoryItem.name}/100`}>
-                            <Rating px={"xs"} size="xs" readOnly color="blue" value={4} />
-                            {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={usedPrompt.score * 5 / 100} /> */}
+                        <Tooltip label={`${repositoryItem.score}/100`}>
+                            {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={4} /> */}
+                            <Rating px={"xs"} size="xs" readOnly color="blue" value={repositoryItem.score * 5 / 100} />
                         </Tooltip>
                     </Group>
                 </Stack>
@@ -56,7 +56,7 @@ export function RepositoryItemRow({
                         <Button onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
                             Details
                         </Button>
-                        <Group gap={"xs"}>
+                        <Group gap={"xs"} mx={"lg"}>
                             <Menu withinPortal position="top" shadow="sm">
                                 <Menu.Target>
                                     <ActionIcon variant="subtle" color="gray">
@@ -76,7 +76,7 @@ export function RepositoryItemRow({
                                     </Menu.Item>
                                 </Menu.Dropdown>
                             </Menu>
-                            <ActionIcon variant="filled" size={"md"} onClick={use} mx={"md"}>
+                            <ActionIcon variant="filled" size={"md"} onClick={use}>
                                 <IconPlayerPlayFilled style={{ width: "60%", height: "60%" }} />
                             </ActionIcon>
                         </Group>

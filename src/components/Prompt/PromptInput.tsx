@@ -128,85 +128,85 @@ export function PromptInput({
                     align={'center'}
                     gap={'sm'}
                     pos={"absolute"}
-                    bottom={"-21px"}
+                    bottom={"0"}
                     right={"0"}
                     w={"100%"}
                     py={"md"}
                     px={"md"}
                 >
-                    <ActionIcon
-                        variant="subtle"
-                        aria-label="Settings"
-                        size="lg"
-                        pos={"absolute"}
-                        left={"25px"}
-                        styles={{
-                            root: {
-                                zIndex: "1"
+                    <Stack w={"100%"}>
+                        <Center>
+                            {
+                                technology.name !== "" &&
+                                <SelectedOptionsWidget
+                                    technology={technology}
+                                    provider={provider}
+                                    parameters={[]}
+                                    modifiers={[]}
+                                />
                             }
-                        }}
-                        onClick={open}
-                    >
-                        {
-                            activeModifiers.length > 0
-                                ? <Indicator label={activeModifiers.length} size={16}>
-                                    <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                </Indicator>
-                                :
-                                <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </Center>
+                        <Group w={"100%"} wrap="nowrap">
 
-                        }
-                    </ActionIcon>
-
-                    <Textarea
-                        placeholder={t("write_a_message")}
-                        autosize
-                        description={
-                            <Center>
+                            <ActionIcon
+                                variant="subtle"
+                                aria-label="Settings"
+                                size="lg"
+                                pos={"absolute"}
+                                left={"30px"}
+                                styles={{
+                                    root: {
+                                        zIndex: "1"
+                                    }
+                                }}
+                                onClick={open}
+                            >
                                 {
-                                    technology.name !== "" &&
-                                    <SelectedOptionsWidget
-                                        technology={technology}
-                                        provider={provider}
-                                        parameters={[]}
-                                        modifiers={[]}
-                                    />
-                                }
-                            </Center>
-                        }
-                        autoFocus
-                        minRows={1}
-                        maxRows={6}
-                        w={"100%"}
-                        size={'lg'}
-                        styles={{
-                            input: {
-                                paddingLeft: "60px",
-                                paddingRight: "50px",
-                            },
-                            root: {
-                                marginBottom: "20px"
-                            }
+                                    activeModifiers.length > 0
+                                        ? <Indicator label={activeModifiers.length} size={16}>
+                                            <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                        </Indicator>
+                                        :
+                                        <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
 
-                        }}
-                        radius={'xl'}
-                        value={userPrompt}
-                        onChange={e => setUserPrompt(e.target.value)}
-                        onKeyDown={submitPromptByTextArea}
-                        classNames={{
-                            input: cx(computedColorScheme)
-                        }}
-                    />
-                    <ActionIcon
-                        variant="filled"
-                        size="lg"
-                        aria-label="Submit"
-                        pos={"absolute"}
-                        right={"25px"}
-                        onClick={submitPrompt}
-                    >
-                        <IconPlayerPlayFilled style={{ width: '60%', height: '60%' }} stroke={1.5} />
-                    </ActionIcon>
+                                }
+                            </ActionIcon>
+
+                            <Textarea
+                                placeholder={t("write_a_message")}
+                                autosize
+                                autoFocus
+                                minRows={1}
+                                maxRows={6}
+                                w={"100%"}
+                                size={'lg'}
+                                styles={{
+                                    input: {
+                                        paddingLeft: "60px",
+                                        paddingRight: "50px",
+                                    },
+
+                                }}
+                                radius={'xl'}
+                                value={userPrompt}
+                                onChange={e => setUserPrompt(e.target.value)}
+                                onKeyDown={submitPromptByTextArea}
+                                classNames={{
+                                    input: cx(computedColorScheme)
+                                }}
+                            />
+                            <ActionIcon
+                                variant="filled"
+                                size="lg"
+                                aria-label="Submit"
+                                pos={"absolute"}
+                                right={"25px"}
+                                onClick={submitPrompt}
+                            >
+                                <IconPlayerPlayFilled style={{ width: '60%', height: '60%' }} stroke={1.5} />
+                            </ActionIcon>
+                        </Group>
+                    </Stack>
                 </Group>
             </Stack>
         </Box>

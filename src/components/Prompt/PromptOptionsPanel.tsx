@@ -127,14 +127,6 @@ export function PromptOptionsPanel({
                 >
                     Reset
                 </Button>
-                <Button
-                    px={0}
-                    variant="transparent"
-                    size="sm"
-                    leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} />}
-                >
-                    Save Template
-                </Button>
             </Group>
         </Drawer>
     )

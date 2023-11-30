@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Burger, Group, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
+import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconList, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { UserMenu } from "../User/UserMenu";
 import { RepositoryFilters } from "./RepositoryFilters";
 import { Filters } from "../../model/Filters";
@@ -9,26 +9,26 @@ interface RepositoryHeader {
     navbarOpened: boolean,
     toggleNavbar: any,
     openFilters: any,
-    userPrompt: string,
-    setUserPrompt: any,
     filtersOpened: boolean
     closeFilters: any
     filters: Filters,
     setFilters: any,
-    repository: Repository
+    repository: Repository,
+    repositorySearchTerm: string,
+    setRepositorySearchTerm: any
 }
 
 export function RepositoryHeader({
     navbarOpened,
     toggleNavbar,
     openFilters,
-    userPrompt,
-    setUserPrompt,
     filtersOpened,
     closeFilters,
     filters,
     setFilters,
     repository,
+    repositorySearchTerm,
+    setRepositorySearchTerm
 }: RepositoryHeader) {
     return (
         <Stack pb={"xs"}>
@@ -62,15 +62,14 @@ export function RepositoryHeader({
                                 Switch
                             </Menu.Item>
                             <Menu.Divider />
-                            <Menu.Label>My Repository</Menu.Label>
                             <Menu.Item disabled leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
                                 Invite
                             </Menu.Item>
                             <Menu.Item disabled leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>
                                 Members
                             </Menu.Item>
-                            <Menu.Item color="red" leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}>
-                                Delete
+                            <Menu.Item leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
+                                My Repositories
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
@@ -91,8 +90,8 @@ export function RepositoryHeader({
                 autoFocus
                 minRows={1}
                 maxRows={6}
-                value={userPrompt}
-                onChange={e => setUserPrompt(e.target.value)}
+                value={repositorySearchTerm}
+                onChange={e => setRepositorySearchTerm(e.target.value)}
             />
             <RepositoryFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
 
