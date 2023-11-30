@@ -2,7 +2,7 @@ import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { Provider } from "../../model/Provider";
 import { Technology } from "../../model/Technology";
-import { Badge, Box, Chip, Popover, Text } from "@mantine/core";
+import { Badge, Box, Button, Card, Chip, Group, Popover, Select, Text } from "@mantine/core";
 
 interface SelectedOptionsWidget {
     technology: Technology,
@@ -18,30 +18,53 @@ export function SelectedOptionsWidget({
     modifiers
 }: SelectedOptionsWidget) {
     return (
-        modifiers.length > 0
-            ? <Popover>
+        <Box w={"auto"} maw={"90%"}>
+            <Popover position="top">
                 <Popover.Target>
-                    <Text size="xs">
-                        {technology.name} |  {provider.name}
-                    </Text>
-
+                    <Button size="xs" variant="subtle">
+                        {technology.name} | {provider.name}
+                    </Button>
                 </Popover.Target>
                 <Popover.Dropdown>
-                    {
-                        modifiers.map(m => {
-                            return (
-                                <Chip size="xs" readOnly checked variant="outline" key={m.slug}>{m.name}</Chip>
-                            )
-                        })
-                    }
+                    <Group justify="space-around" gap={0} wrap="wrap">
+                        <Select
+                            value={"openai-text-generation"}
+                            size="xs"
+                            searchable
+                            data={[
+                                {
+                                    group: 'Openai', items: [
+                                        { label: 'Text Generation', value: 'openai-text-generation' },
+                                        { label: 'Image Generation', value: 'openai-image-generation' }]
+                                },
+                                {
+                                    group: 'Google', items: [
+                                        { label: 'Text Generation', value: 'google-text-generation' },
+                                        { label: 'Image Generation', value: 'google-image-generation' }]
+                                },
+                            ]}
+                        />
+                    </Group>
                 </Popover.Dropdown>
             </Popover>
-            :
-            <Box>
-                <Text size="xs">
-                    {technology.name} |  {provider.name}
-                </Text>
-            </Box>
+            {/* <Group justify="space-around" gap={0}>
+                <Select
+                    variant="unstyled"
+                    value={"Text Generation"}
+                    data={['Text Generation', 'Image Generation']}
+                    size="xs"
+                />
+                <Select
+                    variant="unstyled"
+                    value={"Openai"}
+                    data={['Openai', 'Google']}
+                    size="xs"
+                />
+            </Group> */}
+            {/* <Badge variant="transparent" size="xs">
+                {technology.name} |  {provider.name}
+            </Badge> */}
+        </Box>
 
     )
 }

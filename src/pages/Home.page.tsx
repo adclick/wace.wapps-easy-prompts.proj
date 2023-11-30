@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
@@ -285,7 +285,7 @@ export function HomePage() {
         <AppShell.Section>
           <Divider h={"md"} />
 
-          <RepositorySelectedItemsWidget 
+          <RepositorySelectedItemsWidget
             repositorySelectedItems={repositorySelectedItems}
             setRepositorySelectedItems={setRepositorySelectedItems}
           />

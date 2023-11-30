@@ -134,7 +134,7 @@ export function PromptInput({
                     py={"md"}
                     px={"md"}
                 >
-                    <Stack w={"100%"}>
+                    <Stack w={"100%"} gap={"xs"}>
                         <Center>
                             {
                                 technology.name !== "" &&

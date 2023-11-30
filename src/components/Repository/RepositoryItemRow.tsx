@@ -1,5 +1,5 @@
 import { Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem } from "@mantine/core";
-import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPlayerPlayFilled, IconPrompt, IconShare, IconTemplate, IconTrash } from "@tabler/icons-react";
+import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash } from "@tabler/icons-react";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
@@ -44,12 +44,23 @@ export function RepositoryItemRow({
                         {repositoryItem.name}
                     </Text>
                     <Group justify="space-between">
-                        <Badge size="xs" variant="dot" color={repositoryItem.color}>
+                        <ActionIcon radius={"sm"} size={"xs"} color={repositoryItem.color}>
+                            {
+                                repositoryItem.type === "prompt" && <IconPrompt style={{width: rem(14), height: rem(14)}} />
+                            }
+                            {
+                                repositoryItem.type === "template" && <IconTemplate style={{width: rem(14), height: rem(14)}} />
+                            }
+                            {
+                                repositoryItem.type === "modifier" && <IconSparkles style={{width: rem(14), height: rem(14)}} />
+                            }
+                        </ActionIcon>
+                        {/* <Badge size="xs" variant="dot" color={repositoryItem.color}>
                             {repositoryItem.type}
-                        </Badge>
+                        </Badge> */}
                         <Tooltip label={`${repositoryItem.score}/100`}>
                             {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={4} /> */}
-                            <Rating px={"xs"} size="xs" readOnly color={repositoryItem.color} value={repositoryItem.score * 5 / 100} />
+                            <Rating px={"xs"} size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} />
                         </Tooltip>
                     </Group>
                 </Stack>
@@ -68,7 +79,7 @@ export function RepositoryItemRow({
                             modifiers={[]}
                         /> */}
                         <Button color={repositoryItem.color} onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
-                            Details
+                            {repositoryItem.type.toUpperCase()}
                         </Button>
                         <Group gap={"xs"} mx={"lg"}>
                             <Menu withinPortal position="top" shadow="sm">
