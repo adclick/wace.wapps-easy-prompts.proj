@@ -84,7 +84,8 @@ export function HomePage() {
   const refreshRepository = async () => {
     refreshingRepositoryHandle.open();
     const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
-    setRepositoryItems(repositoryItems);
+    const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
+    setRepositoryItems(repositoryItemsObjs);
     refreshingRepositoryHandle.close();
   }
 

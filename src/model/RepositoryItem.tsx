@@ -49,7 +49,7 @@ export class RepositoryItem {
             case "modifier":
                 return "teal";
             default:
-                return "cyan.5";
+                return "blue";
         }
     }
 }

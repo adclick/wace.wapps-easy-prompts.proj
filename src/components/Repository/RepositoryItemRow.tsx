@@ -26,18 +26,16 @@ export function RepositoryItemRow({
         switch (repositoryItem.type) {
             case "prompt":
                 setUserPrompt(repositoryItem.content)
+                setRepositorySelectedItems([repositoryItem]);
                 navbarToggle();
-                setRepositorySelectedItems([
-                    repositoryItem
-                ]);
                 break;
             case "template":
+            case "modifier":
                 setRepositorySelectedItems([repositoryItem])
-                case "modifier":
                 break;
         }
     }
-    
+
     return (
         <AccordionItem value={repositoryItem.name} py={"md"}>
             <AccordionControl px={0}>
