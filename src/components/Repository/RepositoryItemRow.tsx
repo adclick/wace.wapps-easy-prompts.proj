@@ -25,7 +25,7 @@ export function RepositoryItemRow({
     const use = () => {
         switch (repositoryItem.type) {
             case "prompt":
-                setUserPrompt(repositoryItem.name)
+                setUserPrompt(repositoryItem.content)
                 navbarToggle();
                 setRepositorySelectedItems([
                     repositoryItem

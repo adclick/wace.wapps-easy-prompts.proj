@@ -3,13 +3,15 @@ export class RepositoryItem {
     slug: string;
     type: string;
     score: number;
+    content: string;
     color: string;
 
-    constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, color: string = "") {
+    constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
         this.name = name;
         this.slug = slug;
         this.type = type;
         this.score = score;
+        this.content = content;
         this.color = color;
     }
 
@@ -33,17 +35,21 @@ export class RepositoryItem {
             newRepoItem.score = data.score;
         }
 
+        if ('content' in data) {
+            newRepoItem.content = data.content;
+        }
+
         return newRepoItem;
     }
 
     static getColor(type: string) {
         switch (type) {
             case "template":
-                return "yellow";
+                return "indigo";
             case "modifier":
-                return "green";
+                return "teal";
             default:
-                return "red";
+                return "cyan.5";
         }
     }
 }

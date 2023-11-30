@@ -11,14 +11,10 @@ export function RepositorySelectedItemsWidget({
     repositorySelectedItems,
     setRepositorySelectedItems
 }: RepositorySelectedItemsWidget) {
+    let selected = <></>;
 
-    return (
-        <Group justify="space-between" my={"xs"}>
-            <Group>
-                <Text>Found:</Text>
-                <Text>13</Text>
-            </Group>
-
+    if (repositorySelectedItems.length > 0) {
+        selected = (
             <Group>
                 <Text>Selected:</Text>
                 <Popover>
@@ -40,6 +36,17 @@ export function RepositorySelectedItemsWidget({
                     </Popover.Dropdown>
                 </Popover>
             </Group>
+        )
+    }
+
+    return (
+        <Group justify="space-between" my={"xs"}>
+            <Group>
+                <Text>Found:</Text>
+                <Text>13</Text>
+            </Group>
+
+            {selected}
         </Group>
     )
 
@@ -76,5 +83,4 @@ export function RepositorySelectedItemsWidget({
     //         </Group>
     //     )
     // }
-    // return output;
 }
