@@ -65,10 +65,11 @@ export function RepositoryItemRow({
                                 </Menu.Target>
 
                                 <Menu.Dropdown>
-                                    <Menu.Item leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                                        Use as Template
+                                    <Menu.Item disabled leftSection={<IconArrowRight style={{ width: rem(14), height: rem(14) }} />}>
+                                        Copy to Repository
                                     </Menu.Item>
                                     <Menu.Item
+                                        disabled
                                         leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                                         color="red"
                                     >

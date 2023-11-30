@@ -1,9 +1,11 @@
-import { ActionIcon, Box, Burger, Group, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { ActionIcon, Box, Burger, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconList, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { UserMenu } from "../User/UserMenu";
 import { RepositoryFilters } from "./RepositoryFilters";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
+import { useDisclosure } from "@mantine/hooks";
+import { RepositoryListModal } from "./RepositoryListModal";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -13,9 +15,13 @@ interface RepositoryHeader {
     closeFilters: any
     filters: Filters,
     setFilters: any,
+    repositories: Repository[]
     repository: Repository,
     repositorySearchTerm: string,
-    setRepositorySearchTerm: any
+    setRepositorySearchTerm: any,
+    refreshRepository: any,
+    refreshingRepository: boolean,
+    refreshingRepositoryHandle: any
 }
 
 export function RepositoryHeader({
@@ -26,12 +32,23 @@ export function RepositoryHeader({
     closeFilters,
     filters,
     setFilters,
+    repositories,
     repository,
     repositorySearchTerm,
-    setRepositorySearchTerm
+    setRepositorySearchTerm,
+    refreshRepository,
+    refreshingRepository,
+    refreshingRepositoryHandle
 }: RepositoryHeader) {
+    const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);
+
     return (
         <Stack pb={"xs"}>
+            <RepositoryListModal
+                opened={repositoryListModalOpened}
+                close={repositoryListModalHandle.close}
+                repositories={repositories}
+            />
             <Group h={"100%"} justify='space-between' py={"xs"}>
                 <Group align='end' >
                     <Burger
@@ -58,7 +75,7 @@ export function RepositoryHeader({
                             <Menu.Item color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                                 Create new
                             </Menu.Item>
-                            <Menu.Item leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item onClick={repositoryListModalHandle.open} leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
                                 Switch
                             </Menu.Item>
                             <Menu.Divider />
@@ -78,7 +95,7 @@ export function RepositoryHeader({
                     <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
                         <IconFilter style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
-                    <ActionIcon size={"lg"} variant='subtle'>
+                    <ActionIcon onClick={refreshRepository} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
                 </Group>
@@ -93,7 +110,13 @@ export function RepositoryHeader({
                 value={repositorySearchTerm}
                 onChange={e => setRepositorySearchTerm(e.target.value)}
             />
-            <RepositoryFilters filtersOpened={filtersOpened} closeFilters={closeFilters} />
+            <RepositoryFilters
+                filters={filters}
+                setFilters={setFilters}
+                filtersOpened={filtersOpened}
+                closeFilters={closeFilters}
+                refreshRepository={refreshRepository}
+            />
 
         </Stack>
     )

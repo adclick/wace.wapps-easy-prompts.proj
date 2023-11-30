@@ -1,13 +1,41 @@
+import { Filters } from "../../model/Filters";
 import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack, Tabs, Text, rem } from "@mantine/core";
 import { IconPrompt, IconSparkles, IconTemplate, IconUser } from "@tabler/icons-react";
+import { useState } from "react";
 
 interface UserProfileModal {
     user: any,
     userProfileOpened: boolean,
-    closeUserProfile: () => void
+    closeUserProfile: () => void,
+    filters: Filters,
+    setFilters: any,
+    refreshRepository: any
 }
 
-export function UserProfileModal({ user, userProfileOpened, closeUserProfile }: UserProfileModal) {
+export function UserProfileModal({
+    user,
+    userProfileOpened,
+    closeUserProfile,
+    filters,
+    setFilters,
+    refreshRepository
+}: UserProfileModal) {
+    const [languageValue, setLanguageValue] = useState(filters.language);
+
+    const updateLanguage = (value: string) => {
+        setLanguageValue(value);
+
+        setFilters({
+            ...filters,
+            language: value
+        });
+    }
+
+    const apply = () => {
+        refreshRepository();
+        closeUserProfile();
+    }
+
     return (
         <Modal opened={userProfileOpened} onClose={closeUserProfile} title="User Profile" size={"xl"}>
             <Tabs defaultValue="general" orientation="vertical" my={"md"}>
@@ -41,25 +69,24 @@ export function UserProfileModal({ user, userProfileOpened, closeUserProfile }: 
                 <Tabs.Panel value="general" px={"md"}>
                     <Card>
                         <Stack gap={"md"}>
-                            <SimpleGrid cols={{base: 1, sm: 2}}>
+                            <SimpleGrid cols={{ base: 1, sm: 2 }}>
                                 <Text>Username</Text>
                                 <Input value={user.nickname} disabled />
                                 <Text>Email</Text>
                                 <Input value={user.email} disabled />
                                 <Text size="sm" fw={600}>Language</Text>
                                 <Select
-                                    value={"en"}
+                                    value={languageValue}
+                                    onChange={updateLanguage}
                                     data={[
                                         { label: "English", value: "en" },
                                         { label: "Portuguese", value: "pt" },
                                     ]}
                                 />
                             </SimpleGrid>
+                            <Button onClick={apply} variant="light">Save</Button>
                         </Stack>
                     </Card>
-                </Tabs.Panel>
-                <Tabs.Panel value="advanced">
-
                 </Tabs.Panel>
             </Tabs>
         </Modal>

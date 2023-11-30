@@ -1,26 +1,36 @@
-import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Chip, Drawer, Group, Input, Loader, Paper, Popover, Rating, ScrollArea, SegmentedControl, Stack, Text, Textarea, Title, rem } from "@mantine/core"
-import { IconFilter, IconQuestionMark } from "@tabler/icons-react"
+import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Center, Chip, Drawer, Group, Input, Loader, LoadingOverlay, Paper, Popover, Rating, ScrollArea, SegmentedControl, Stack, Text, Textarea, Title, rem } from "@mantine/core"
+import { IconFilter, IconPlus, IconQuestionMark } from "@tabler/icons-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RepositoryItemRow } from "./RepositoryItemRow";
 import { Suggestion } from "../../model/Suggestion";
 import { RepositoryFilters } from "./RepositoryFilters";
 import { RepositoryItem } from "../../model/RepositoryItem";
+import { AIMediatorClient } from "@/clients/AIMediatorClient";
+import { Filters } from "../../model/Filters";
 
 
 interface RepositoryPanel {
+    aiMediatorClient: AIMediatorClient,
     userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
     repositoryItems: RepositoryItem[],
-    repositorySearchTerm: string
+    setRepositoryItems: any
+    repositorySearchTerm: string,
+    refreshingRepository: boolean,
+    filters: Filters
 }
 
 export function RepositoryPanel({
+    aiMediatorClient,
     setUserPrompt,
     navbarToggle,
     repositoryItems,
-    repositorySearchTerm
+    setRepositoryItems,
+    repositorySearchTerm,
+    refreshingRepository,
+    filters
 }: RepositoryPanel) {
     const { t } = useTranslation();
 
@@ -30,31 +40,56 @@ export function RepositoryPanel({
         })
     }
 
+    const loadMore = async () => {
+        const newRepositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, repositoryItems.length);
+
+        if (newRepositoryItems.length > 0) {
+            setRepositoryItems([
+                ...repositoryItems,
+                ...newRepositoryItems
+            ]);
+        }
+    }
+
     return (
-        <Stack gap={'xl'} mb={"md"}>
+        <Box>
+            {
+                refreshingRepository &&
+                <Center my={"xs"}>
+                    <Loader type="bars" size={"xs"} />
+                </Center>
+            }
+            <Stack gap={'xl'} mb={"md"}>
 
-            <Stack gap={'md'}>
-                <Accordion variant="" chevron="" styles={{
-                    content: {
-                        paddingLeft: "0",
-                        paddingRight: "0"
-                    }
-                }}>
-                    {
-                        getPromptsToShow().map((item: RepositoryItem) => {
-                            return (
-                                <RepositoryItemRow
-                                    key={item.slug}
-                                    repositoryItem={item}
-                                    setUserPrompt={setUserPrompt}
-                                    navbarToggle={navbarToggle}
-                                />
-                            )
-                        })
-                    }
-                </Accordion>
+                <Stack gap={'md'}>
+                    <Accordion variant="" chevron="" styles={{
+                        content: {
+                            paddingLeft: "0",
+                            paddingRight: "0"
+                        }
+                    }}>
+                        {
+                            getPromptsToShow().map((item: RepositoryItem) => {
+                                return (
+                                    <RepositoryItemRow
+                                        key={item.slug}
+                                        repositoryItem={item}
+                                        setUserPrompt={setUserPrompt}
+                                        navbarToggle={navbarToggle}
+                                    />
+                                )
+                            })
+                        }
+                    </Accordion>
 
+                    <Center>
+                        <Button onClick={loadMore} variant="subtle" fullWidth>
+                            <IconPlus  />
+                        </Button>
+                    </Center>
+
+                </Stack>
             </Stack>
-        </Stack>
+        </Box>
     )
 }

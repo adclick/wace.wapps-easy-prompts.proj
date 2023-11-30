@@ -5,8 +5,19 @@ import { useTranslation } from "react-i18next";
 import { UserProfileModal } from "./UserProfileModal";
 import { useDisclosure } from "@mantine/hooks";
 import { UserFeedbackModal } from "./UserFeedbackModal";
+import { Filters } from "@/model/Filters";
 
-export function UserMenu() {
+interface UserMenu {
+    filters: Filters,
+    setFilters: any,
+    refreshRepository: any
+}
+
+export function UserMenu({
+    filters,
+    setFilters,
+    refreshRepository
+}: UserMenu) {
     const { t } = useTranslation();
     const { user, logout } = useAuth0();
     const [userProfileOpened, userProfileHandle] = useDisclosure(false);
@@ -18,6 +29,9 @@ export function UserMenu() {
                 user={user}
                 userProfileOpened={userProfileOpened}
                 closeUserProfile={userProfileHandle.close}
+                filters={filters}
+                setFilters={setFilters}
+                refreshRepository={refreshRepository}
             />
             <UserFeedbackModal
                 userFeedbackModalOpened={userFeedbackModalOpened}

@@ -44,11 +44,12 @@ export function HomePage() {
   const [repository, setRepository] = useState<Repository>(new Repository());
   const [repositoryItems, setRepositoryItems] = useState<RepositoryItem[]>([]);
   const [repositorySearchTerm, setRepositorySearchTerm] = useState('');
+  const [refreshingRepository, refreshingRepositoryHandle] = useDisclosure(true)
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
   const [navbarOpened, navbarHandle] = useDisclosure();
-  const [filtersOpened, { open, close }] = useDisclosure(false);
+  const [filtersPanelOpened, filtersPanelHandle] = useDisclosure(false);
 
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
@@ -78,6 +79,13 @@ export function HomePage() {
   const [modifiers, setModifiers] = useState<Modifier[]>(defaultModifiers);
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
+  const refreshRepository = async () => {
+    refreshingRepositoryHandle.open();
+    const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
+    setRepositoryItems(repositoryItems);
+    refreshingRepositoryHandle.close();
+  }
+
   useEffect(() => {
     refreshPromptOptions(Language.getDefaultCode());
   }, []);
@@ -93,11 +101,13 @@ export function HomePage() {
     setLanguage(new Language(languageCode))
 
     // Repositories
-    const { repositories, repositoryItems, options, filters, modifiers } = await aiMediatorClient.login(user);
+    const { repositories, options, filters, modifiers } = await aiMediatorClient.login(user);
+    const repositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, 0);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
     setRepository(repositoriesObjs[0]);
     setRepositoryItems(repositoryItems);
+    refreshingRepositoryHandle.close();
 
     // Filters
     setFilters(filters);
@@ -207,9 +217,7 @@ export function HomePage() {
               <Menu.Target>
                 <UnstyledButton px={"md"}>
                   <Group align='center' gap={"xs"}>
-                    <Title order={3}>
-                      Chat
-                    </Title>
+                    <Title order={3}>Chat</Title>
                     <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
                   </Group>
                 </UnstyledButton>
@@ -227,7 +235,11 @@ export function HomePage() {
           </Group>
           <Group>
             <ColorSchemeToggle />
-            <UserMenu />
+            <UserMenu
+              filters={filters}
+              setFilters={setFilters}
+              refreshRepository={refreshRepository}
+            />
           </Group>
         </Group>
       </AppShell.Header>
@@ -237,14 +249,18 @@ export function HomePage() {
           <RepositoryHeader
             navbarOpened={navbarOpened}
             toggleNavbar={navbarHandle.toggle}
-            openFilters={open}
+            openFilters={filtersPanelHandle.open}
             filters={filters}
             setFilters={setFilters}
-            filtersOpened={filtersOpened}
-            closeFilters={close}
+            filtersOpened={filtersPanelOpened}
+            closeFilters={filtersPanelHandle.close}
+            repositories={repositories}
             repository={repository}
             repositorySearchTerm={repositorySearchTerm}
             setRepositorySearchTerm={setRepositorySearchTerm}
+            refreshRepository={refreshRepository}
+            refreshingRepository={refreshingRepository}
+            refreshingRepositoryHandle={refreshingRepositoryHandle}
           />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
@@ -253,11 +269,17 @@ export function HomePage() {
             setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
             repositoryItems={repositoryItems}
+            setRepositoryItems={setRepositoryItems}
             repositorySearchTerm={repositorySearchTerm}
+            refreshingRepository={refreshingRepository}
+            filters={filters}
+            aiMediatorClient={aIMediatorClient}
           />
         </AppShell.Section>
         <AppShell.Section>
           <Divider h={"md"} />
+
+          
 
           <Group justify='space-between'>
             <Group>

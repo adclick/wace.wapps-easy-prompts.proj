@@ -4,6 +4,7 @@ export enum Type {
 };
 
 export class Filters {
+    prompt: string;
     userId: string;
     repository: string;
     language: string;
@@ -13,6 +14,7 @@ export class Filters {
     text: string;
 
     constructor(
+        prompt: string = "",
         userId: string = "",
         repository: string = "",
         language: string = "",
@@ -20,6 +22,7 @@ export class Filters {
         provider: string = "",
         text: string = ""
     ) {
+        this.prompt = prompt;
         this.userId = userId;
         this.repository = repository;
         this.language = language

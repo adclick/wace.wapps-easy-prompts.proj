@@ -9,14 +9,18 @@ type GeneratedImage = {
     image_resource_url: string
 }
 
+
 export class AIMediatorClient {
     baseUrl: string;
-
+    repositoryItemsLimit: number
+    
     /**
      * Constructor
      */
     constructor() {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
+
+        this.repositoryItemsLimit = 20;
     }
 
     async login(user: User) {
@@ -43,10 +47,10 @@ export class AIMediatorClient {
         });
     }
 
-    async getRepositoryItems(filters: Filters, limit: number = 20, offset: number = 0) {
+    async getRepositoryItems(filters: Filters, limit: number = this.repositoryItemsLimit, offset: number = 0) {
         return await this.post('/ai/prompt/get-repository-items', {
             filters: {
-                prompt: filters.text,
+                prompt: filters.prompt,
                 technology: filters.technology,
                 provider: filters.provider,
                 userId: filters.userId,
