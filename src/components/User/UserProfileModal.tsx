@@ -20,7 +20,7 @@ export function UserProfileModal({
     setFilters,
     refreshRepository
 }: UserProfileModal) {
-    const updateLanguage = (value: string|null) => {
+    const updateLanguage = (value: string) => {
         setFilters({
             ...filters,
             language: value
