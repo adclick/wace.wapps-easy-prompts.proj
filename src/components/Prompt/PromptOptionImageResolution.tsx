@@ -55,7 +55,7 @@ export function PromptOptionImageResolution({
                 data={data}
                 defaultValue={parameter.content[0]}
                 value={value}
-                onChange={handleOnChange}
+                //onChange={handleOnChange}
                 comboboxProps={{ withinPortal: false }}
             />
         </Stack>
