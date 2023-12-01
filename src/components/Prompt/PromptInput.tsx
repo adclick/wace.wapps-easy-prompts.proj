@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
+import { ActionIcon, Popover, Box, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import cx from 'clsx';
@@ -14,8 +14,10 @@ import { Parameter } from "../../model/Parameter";
 import { PromptOptionsPanel } from "./PromptOptionsPanel";
 import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
 import { User } from "../../model/User"
-import { Repository } from "../../model/Repository"
-import { Language } from "../../model/Language"
+import { Repository } from "../../model/Repository";
+import { Language } from "../../model/Language";
+import { useState } from "react";
+
 
 interface PromptInput {
     aIMediatorClient: AIMediatorClient,
@@ -95,33 +97,8 @@ export function PromptInput({
         }
     }
 
-    const templates: any[] = [
-    ]
-
     return (
         <Box>
-            <PromptOptionsPanel
-                drawerOpened={opened}
-                closeDrawer={close}
-                promptOptions={promptOptions}
-                technology={technology}
-                technologies={technologies}
-                handleOnChangeTechnology={handleOnChangeTechnology}
-                provider={provider}
-                providers={providers}
-                handleOnChangeProvider={handleOnChangeProvider}
-                parameters={parameters}
-                userPromptOptions={userPromptOptions}
-                setUserPromptOptions={setUserPromptOptions}
-                modifiers={modifiers}
-                activeModifiers={activeModifiers}
-                setActiveModifiers={setActiveModifiers}
-                aIMediatorClient={aIMediatorClient}
-                refreshPromptOptions={refreshPromptOptions}
-                user={user}
-                repository={repository}
-                language={language}
-            />
             <Stack>
                 <Group
                     wrap='nowrap'
@@ -148,29 +125,59 @@ export function PromptInput({
                         </Center>
                         <Group w={"100%"} wrap="nowrap">
 
-                            <ActionIcon
-                                variant="subtle"
-                                aria-label="Settings"
-                                size="lg"
-                                pos={"absolute"}
-                                left={"30px"}
-                                styles={{
-                                    root: {
-                                        zIndex: "1"
-                                    }
-                                }}
-                                onClick={open}
-                            >
-                                {
-                                    activeModifiers.length > 0
-                                        ? <Indicator label={activeModifiers.length} size={16}>
-                                            <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                        </Indicator>
-                                        :
-                                        <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                            <Popover position="top-start" classNames={{
+                                dropdown: cx(computedColorScheme)
+                            }}>
+                                <Popover.Target>
+                                    <ActionIcon
+                                        variant="subtle"
+                                        aria-label="Settings"
+                                        size="lg"
+                                        pos={"absolute"}
+                                        left={"30px"}
+                                        styles={{
+                                            root: {
+                                                zIndex: "1"
+                                            }
+                                        }}
+                                        onClick={open}
+                                    >
+                                        {
+                                            activeModifiers.length > 0
+                                                ? <Indicator label={activeModifiers.length} size={16}>
+                                                    <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                </Indicator>
+                                                :
+                                                <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
 
-                                }
-                            </ActionIcon>
+                                        }
+                                    </ActionIcon>
+                                </Popover.Target>
+                                <Popover.Dropdown>
+                                    <PromptOptionsPanel
+                                        drawerOpened={opened}
+                                        closeDrawer={close}
+                                        promptOptions={promptOptions}
+                                        technology={technology}
+                                        technologies={technologies}
+                                        handleOnChangeTechnology={handleOnChangeTechnology}
+                                        provider={provider}
+                                        providers={providers}
+                                        handleOnChangeProvider={handleOnChangeProvider}
+                                        parameters={parameters}
+                                        userPromptOptions={userPromptOptions}
+                                        setUserPromptOptions={setUserPromptOptions}
+                                        modifiers={modifiers}
+                                        activeModifiers={activeModifiers}
+                                        setActiveModifiers={setActiveModifiers}
+                                        aIMediatorClient={aIMediatorClient}
+                                        refreshPromptOptions={refreshPromptOptions}
+                                        user={user}
+                                        repository={repository}
+                                        language={language}
+                                    />
+                                </Popover.Dropdown>
+                            </Popover>
 
                             <Textarea
                                 placeholder={t("write_a_message")}

@@ -88,6 +88,7 @@ export function HomePage() {
     const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
     const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
     setRepositoryItems(repositoryItemsObjs);
+    
     refreshingRepositoryHandle.close();
   }
 
@@ -271,7 +272,6 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           <RepositoryPanel
-            userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
             repositoryItems={repositoryItems}

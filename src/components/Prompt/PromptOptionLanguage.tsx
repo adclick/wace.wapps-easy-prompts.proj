@@ -23,7 +23,7 @@ export function PromptOptionLanguage({
         setUserPromptOptions(newUserPromptOptions);
     }, [])
 
-    const handleOnChange = (value: string) => {
+    const handleOnChange = (value: string|null) => {
         setValue(value);
 
         // update userPromptOptions
@@ -55,7 +55,7 @@ export function PromptOptionLanguage({
                 data={data}
                 defaultValue={parameter.content[0]}
                 value={value}
-                //onChange={handleOnChange}
+                onChange={handleOnChange}
                 comboboxProps={{ withinPortal: false }}
             />
         </Stack>
