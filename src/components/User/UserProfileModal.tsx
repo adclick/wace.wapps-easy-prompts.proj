@@ -1,6 +1,6 @@
 import { Filters } from "../../model/Filters";
-import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack, Tabs, Text, rem } from "@mantine/core";
-import { IconPrompt, IconSparkles, IconTemplate, IconUser } from "@tabler/icons-react";
+import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack, Switch, Tabs, Text, rem, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { IconMoonStars, IconPrompt, IconSparkles, IconSun, IconTemplate, IconUser } from "@tabler/icons-react";
 import { useState } from "react";
 
 interface UserProfileModal {
@@ -20,11 +20,7 @@ export function UserProfileModal({
     setFilters,
     refreshRepository
 }: UserProfileModal) {
-    const [languageValue, setLanguageValue] = useState(filters.language);
-
-    const updateLanguage = (value: string) => {
-        setLanguageValue(value);
-
+    const updateLanguage = (value: string|null) => {
         setFilters({
             ...filters,
             language: value
@@ -32,63 +28,61 @@ export function UserProfileModal({
     }
 
     const apply = () => {
-        refreshRepository();
+        refreshRepository(filters);
         closeUserProfile();
     }
+    const theme = useMantineTheme();
+
+    const sunIcon = (
+        <IconSun
+            style={{ width: rem(16), height: rem(16) }}
+            stroke={2.5}
+            color={theme.colors.yellow[4]}
+        />
+    );
+
+    const moonIcon = (
+        <IconMoonStars
+            style={{ width: rem(16), height: rem(16) }}
+            stroke={2.5}
+            color={theme.colors.blue[6]}
+        />
+    );
+
+    const { setColorScheme } = useMantineColorScheme();
+    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
     return (
         <Modal opened={userProfileOpened} onClose={closeUserProfile} title="User Profile" size={"xl"}>
-            <Tabs defaultValue="general" orientation="vertical" my={"md"}>
-                <Tabs.List>
-                    <Tabs.Tab py={"md"} value="general">
-                        <Group gap={"xs"} align="center" wrap="nowrap">
-                            <IconUser style={{ width: rem(18), height: rem(18) }} />
-                            <Text>General</Text>
-                        </Group>
-                    </Tabs.Tab>
-                    <Tabs.Tab disabled py={"md"} value="prompts">
-                        <Group gap={"xs"} align="center" wrap="nowrap">
-                            <IconPrompt style={{ width: rem(18), height: rem(18) }} />
-                            <Text>Prompts</Text>
-                        </Group>
-                    </Tabs.Tab>
-                    <Tabs.Tab disabled py={"md"} value="templates">
-                        <Group gap={"xs"} align="center" wrap="nowrap">
-                            <IconTemplate style={{ width: rem(18), height: rem(18) }} />
-                            <Text>Templates</Text>
-                        </Group>
-                    </Tabs.Tab>
-                    <Tabs.Tab disabled py={"md"} value="modifiers">
-                        <Group gap={"xs"} align="center" wrap="nowrap">
-                            <IconSparkles style={{ width: rem(18), height: rem(18) }} />
-                            <Text>Modifiers</Text>
-                        </Group>
-                    </Tabs.Tab>
-                </Tabs.List>
+            <Card>
+                <Stack gap={"lg"}>
+                    <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                        <Text>Username</Text>
+                        <Input value={user.nickname} disabled />
+                        <Text>Email</Text>
+                        <Input value={user.email} disabled />
+                        <Text>Language</Text>
+                        <Select
+                            value={filters.language}
+                            allowDeselect={false}
+                            onChange={value => updateLanguage(value)}
+                            data={[
+                                { label: "English", value: "en" },
+                                { label: "Portuguese", value: "pt" },
+                            ]}
+                        />
+                        <Text>Theme</Text>
+                        <Switch
+                            size="md"
+                            color="dark.4"
+                            onLabel={sunIcon} offLabel={moonIcon}
+                            onChange={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+                        />
 
-                <Tabs.Panel value="general" px={"md"}>
-                    <Card>
-                        <Stack gap={"md"}>
-                            <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                                <Text>Username</Text>
-                                <Input value={user.nickname} disabled />
-                                <Text>Email</Text>
-                                <Input value={user.email} disabled />
-                                <Text size="sm" fw={600}>Language</Text>
-                                <Select
-                                    value={languageValue}
-                                    onChange={updateLanguage}
-                                    data={[
-                                        { label: "English", value: "en" },
-                                        { label: "Portuguese", value: "pt" },
-                                    ]}
-                                />
-                            </SimpleGrid>
-                            <Button onClick={apply} variant="light">Save</Button>
-                        </Stack>
-                    </Card>
-                </Tabs.Panel>
-            </Tabs>
+                    </SimpleGrid>
+                    <Button onClick={apply} variant="light">Save</Button>
+                </Stack>
+            </Card>
         </Modal>
     );
 }

@@ -28,9 +28,9 @@ export function SelectedOptionsWidget({
                 <Popover.Dropdown>
                     <Group justify="space-around" gap={0} wrap="wrap">
                         <Select
+                            variant="unstyled"
                             value={"openai-text-generation"}
                             size="xs"
-                            searchable
                             data={[
                                 {
                                     group: 'Openai', items: [

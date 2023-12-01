@@ -3,7 +3,9 @@ import './global.css';
 import { MantineProvider } from '@mantine/core';
 import { Router } from './Router';
 import { theme } from './theme';
+import { Notifications } from '@mantine/notifications';
 import { Auth0Provider } from '@auth0/auth0-react';
+
 
 export default function App() {
   return (
@@ -15,6 +17,7 @@ export default function App() {
       }}
     >
       <MantineProvider defaultColorScheme='dark' theme={theme}>
+        <Notifications />
         <Router />
       </MantineProvider>
     </Auth0Provider>

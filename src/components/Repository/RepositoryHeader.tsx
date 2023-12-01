@@ -1,11 +1,13 @@
-import { ActionIcon, Box, Burger, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconList, IconPlus, IconRefresh, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers } from "@tabler/icons-react";
+import { ActionIcon, Box, Burger, Checkbox, Chip, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconFilterFilled, IconList, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { UserMenu } from "../User/UserMenu";
 import { RepositoryFilters } from "./RepositoryFilters";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryListModal } from "./RepositoryListModal";
+import { RepositoryItem } from "../../model/RepositoryItem";
+import { useState } from "react";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -41,6 +43,21 @@ export function RepositoryHeader({
     refreshingRepositoryHandle
 }: RepositoryHeader) {
     const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);
+    const [searchOpened, searchHandle] = useDisclosure(false);
+    const [typesOpened, typesHandle] = useDisclosure(false);
+    const [types, setTypes] = useState<string[]>(filters.types);
+
+    const updateTypes = (value: any) => {
+        setTypes(value);
+
+        const newFilters = {
+            ...filters,
+            types: value
+        };
+
+        setFilters(newFilters);
+        refreshRepository(newFilters);
+    }
 
     return (
         <Stack pb={"xs"}>
@@ -91,25 +108,52 @@ export function RepositoryHeader({
                         </Menu.Dropdown>
                     </Menu>
                 </Group>
-                <Group>
-                    <ActionIcon size={"lg"} onClick={openFilters} variant='subtle'>
-                        <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                <Group gap={"xs"}>
+                    <ActionIcon size={"lg"} onClick={searchHandle.toggle} variant='subtle'>
+                        {
+                            searchOpened
+                                ? <IconZoomFilled style={{ width: rem(18), height: rem(18) }} />
+                                : <IconSearch style={{ width: rem(18), height: rem(18) }} />
+                        }
+
                     </ActionIcon>
-                    <ActionIcon onClick={refreshRepository} size={"lg"} variant='subtle'>
+                    <ActionIcon size={"lg"} onClick={typesHandle.toggle} variant='subtle'>
+                        {
+                            typesOpened
+                            ? <IconFilterFilled style={{ width: rem(18), height: rem(18) }} />
+                            : <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                        }
+                    </ActionIcon>
+                    <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
                 </Group>
-
             </Group>
-            <Textarea
-                placeholder={"Search"}
-                autosize
-                autoFocus
-                minRows={1}
-                maxRows={6}
-                value={repositorySearchTerm}
-                onChange={e => setRepositorySearchTerm(e.target.value)}
-            />
+            {
+                searchOpened &&
+                <Textarea
+                    placeholder={"Search"}
+                    autosize
+                    autoFocus
+                    minRows={1}
+                    maxRows={6}
+                    value={repositorySearchTerm}
+                    onChange={e => setRepositorySearchTerm(e.target.value)}
+                />
+            }
+
+            {
+                typesOpened &&
+                <Checkbox.Group defaultValue={filters.types} value={types} onChange={updateTypes}>
+                    <Group>
+                        <Checkbox radius={"sm"} color={RepositoryItem.getColor("prompt")} value="prompts" label="Prompts" />
+                        <Checkbox radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
+                        <Checkbox radius={"sm"} color={RepositoryItem.getColor("modifier")} value="modifiers" label="Modifiers" />
+                    </Group>
+                </Checkbox.Group>
+            }
+
+
             <RepositoryFilters
                 filters={filters}
                 setFilters={setFilters}

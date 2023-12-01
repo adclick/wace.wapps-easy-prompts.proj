@@ -12,7 +12,6 @@ import { Technology } from '../model/Technology';
 import { Provider } from '../model/Provider';
 import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
-import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../model/User';
 import { UserMenu } from '../components/User/UserMenu';
 import { PromptInput } from '../components/Prompt/PromptInput';
@@ -27,6 +26,8 @@ import { RepositoryItem } from '../model/RepositoryItem';
 import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
 import favicon from '../favicon.svg';
 import { RepositorySelectedItemsWidget } from '../components/Repository/RepositorySelectedItemsWidget';
+import { notifications } from '@mantine/notifications';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export function HomePage() {
   // API Client
@@ -81,7 +82,8 @@ export function HomePage() {
   const [modifiers, setModifiers] = useState<Modifier[]>(defaultModifiers);
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
-  const refreshRepository = async () => {
+  const refreshRepository = async (filters: Filters) => {
+    console.log(filters);
     refreshingRepositoryHandle.open();
     const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
     const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
@@ -238,7 +240,7 @@ export function HomePage() {
             </Menu>
           </Group>
           <Group>
-            <ColorSchemeToggle />
+            {/* <ColorSchemeToggle /> */}
             <UserMenu
               filters={filters}
               setFilters={setFilters}
@@ -306,6 +308,17 @@ export function HomePage() {
           repository={repository}
           language={language}
         />
+        {/* <Button
+          variant="outline"
+          onClick={() =>
+            notifications.show({
+              title: 'Default notification',
+              message: 'Hey there, your code is awesome! 🤥'
+            })
+          }
+        >
+          Show notification
+        </Button> */}
       </AppShell.Main>
 
       <AppShell.Footer withBorder={false}>

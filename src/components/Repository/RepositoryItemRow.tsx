@@ -44,24 +44,21 @@ export function RepositoryItemRow({
                         {repositoryItem.name}
                     </Text>
                     <Group justify="space-between">
-                        <ActionIcon radius={"sm"} size={"xs"} color={repositoryItem.color}>
+                        {/* <ActionIcon radius={"sm"} size={"xs"} color={repositoryItem.color}>
                             {
-                                repositoryItem.type === "prompt" && <IconPrompt style={{width: rem(14), height: rem(14)}} />
+                                repositoryItem.type === "prompt" && <IconPrompt style={{ width: rem(14), height: rem(14) }} />
                             }
                             {
-                                repositoryItem.type === "template" && <IconTemplate style={{width: rem(14), height: rem(14)}} />
+                                repositoryItem.type === "template" && <IconTemplate style={{ width: rem(14), height: rem(14) }} />
                             }
                             {
-                                repositoryItem.type === "modifier" && <IconSparkles style={{width: rem(14), height: rem(14)}} />
+                                repositoryItem.type === "modifier" && <IconSparkles style={{ width: rem(14), height: rem(14) }} />
                             }
-                        </ActionIcon>
-                        {/* <Badge size="xs" variant="dot" color={repositoryItem.color}>
+                        </ActionIcon> */}
+                        <Badge size="xs" variant="filled" color={repositoryItem.color}>
                             {repositoryItem.type}
-                        </Badge> */}
-                        <Tooltip label={`${repositoryItem.score}/100`}>
-                            {/* <Rating px={"xs"} size="xs" readOnly color="blue" value={4} /> */}
-                            <Rating px={"xs"} size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} />
-                        </Tooltip>
+                        </Badge>
+                        <Rating px={"xs"} size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} />
                     </Group>
                 </Stack>
             </AccordionControl>
@@ -72,14 +69,8 @@ export function RepositoryItemRow({
                         close={detailsModalHandle.close}
                     />
                     <Group px={0} py={"xs"} justify="space-between" align="center">
-                        {/* <SelectedOptionsWidget
-                            technology={new Technology("Text Generation")}
-                            provider={new Provider("Openai")}
-                            parameters={[]}
-                            modifiers={[]}
-                        /> */}
                         <Button color={repositoryItem.color} onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
-                            {repositoryItem.type.toUpperCase()}
+                            Details
                         </Button>
                         <Group gap={"xs"} mx={"lg"}>
                             <Menu withinPortal position="top" shadow="sm">
