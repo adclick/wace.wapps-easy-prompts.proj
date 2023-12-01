@@ -2,7 +2,7 @@ import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { Provider } from "../../model/Provider";
 import { Technology } from "../../model/Technology";
-import { Badge, Box, Button, Card, Chip, Group, Popover, Select, Text } from "@mantine/core";
+import { Badge, Box, Button, Card, Chip, Group, Popover, PopoverDropdown, Select, Text } from "@mantine/core";
 
 interface SelectedOptionsWidget {
     technology: Technology,
