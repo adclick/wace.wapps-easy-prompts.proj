@@ -65,7 +65,7 @@ export function UserProfileModal({
                         <Select
                             value={filters.language}
                             allowDeselect={false}
-                            onChange={value => updateLanguage(value)}
+                            //onChange={value => updateLanguage(value)}
                             data={[
                                 { label: "English", value: "en" },
                                 { label: "Portuguese", value: "pt" },
