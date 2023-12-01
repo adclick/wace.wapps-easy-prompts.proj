@@ -1,5 +1,6 @@
 import { Filters } from "../../model/Filters";
 import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack, Switch, Tabs, Text, rem, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { IconMoonStars, IconPrompt, IconSparkles, IconSun, IconTemplate, IconUser } from "@tabler/icons-react";
 import { useState } from "react";
 
@@ -20,7 +21,7 @@ export function UserProfileModal({
     setFilters,
     refreshRepository
 }: UserProfileModal) {
-    const updateLanguage = (value: string) => {
+    const updateLanguage = (value: string | null) => {
         setFilters({
             ...filters,
             language: value
@@ -30,6 +31,10 @@ export function UserProfileModal({
     const apply = () => {
         refreshRepository(filters);
         closeUserProfile();
+        notifications.show({
+            title: 'Profile Saved',
+            message: 'Your settings were saved',
+        })
     }
     const theme = useMantineTheme();
 
@@ -64,8 +69,7 @@ export function UserProfileModal({
                         <Text>Language</Text>
                         <Select
                             value={filters.language}
-                            allowDeselect={false}
-                            onChange={value => updateLanguage(value)}
+                            onChange={updateLanguage}
                             data={[
                                 { label: "English", value: "en" },
                                 { label: "Portuguese", value: "pt" },

@@ -23,7 +23,7 @@ export function PromptOptionLanguage({
         setUserPromptOptions(newUserPromptOptions);
     }, [])
 
-    const handleOnChange = (value: string) => {
+    const handleOnChange = (value: string|null) => {
         setValue(value);
 
         // update userPromptOptions

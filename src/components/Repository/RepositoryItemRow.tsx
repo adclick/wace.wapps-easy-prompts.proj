@@ -44,17 +44,6 @@ export function RepositoryItemRow({
                         {repositoryItem.name}
                     </Text>
                     <Group justify="space-between">
-                        {/* <ActionIcon radius={"sm"} size={"xs"} color={repositoryItem.color}>
-                            {
-                                repositoryItem.type === "prompt" && <IconPrompt style={{ width: rem(14), height: rem(14) }} />
-                            }
-                            {
-                                repositoryItem.type === "template" && <IconTemplate style={{ width: rem(14), height: rem(14) }} />
-                            }
-                            {
-                                repositoryItem.type === "modifier" && <IconSparkles style={{ width: rem(14), height: rem(14) }} />
-                            }
-                        </ActionIcon> */}
                         <Badge size="xs" variant="filled" color={repositoryItem.color}>
                             {repositoryItem.type}
                         </Badge>

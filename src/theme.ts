@@ -5,4 +5,5 @@ export const theme = createTheme({
   defaultRadius: "lg",
   primaryColor: "blue",
   white: "#F8F9FA",
+  cursorType: 'pointer',
 });

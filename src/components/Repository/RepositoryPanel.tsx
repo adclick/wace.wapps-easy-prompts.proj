@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RepositoryItemRow } from "./RepositoryItemRow";
 import { Suggestion } from "../../model/Suggestion";
-import { RepositoryFilters } from "./RepositoryFilters";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { Filters } from "../../model/Filters";
@@ -12,7 +11,6 @@ import { Filters } from "../../model/Filters";
 
 interface RepositoryPanel {
     aiMediatorClient: AIMediatorClient,
-    userPrompt: string,
     setUserPrompt: any,
     navbarToggle: any,
     repositoryItems: RepositoryItem[],
@@ -73,7 +71,7 @@ export function RepositoryPanel({
                         }
                     }}>
                         {
-                            getPromptsToShow().map((item: RepositoryItem) => {
+                            repositoryItems.map((item: RepositoryItem) => {
                                 return (
                                     <RepositoryItemRow
                                         key={item.slug}

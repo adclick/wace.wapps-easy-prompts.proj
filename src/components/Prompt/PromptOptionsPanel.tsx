@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem } from "@mantine/core"
+import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem, Card } from "@mantine/core"
 import { PromptOptionTechnology } from "./PromptOptionTechnology"
 import { PromptOptionProvider } from "./PromptOptionProvider"
 import { PromptOptionModificers } from "./PromptOptionModifiers"
@@ -51,70 +51,38 @@ export function PromptOptionsPanel({
     parameters,
     userPromptOptions,
     setUserPromptOptions,
-    modifiers,
-    activeModifiers,
-    setActiveModifiers,
-    aIMediatorClient,
-    refreshPromptOptions,
-    user,
-    repository,
-    language
 }: PromptOptionsPanel) {
     return (
-        <Drawer
-            opened={drawerOpened}
-            onClose={closeDrawer}
-            title={<Text fw={700} size="xl">Options</Text>}
-            size={"350px"}
-
-        >
-            <Stack my={"md"} gap={"md"}>
-                <PromptOptionTechnology
-                    promptOptions={promptOptions}
-                    currentTechnology={technology}
-                    technologies={technologies}
-                    handleOnChangeTechnology={handleOnChangeTechnology}
-                />
-                <PromptOptionProvider
-                    promptOptions={promptOptions}
-                    currentProvider={provider}
-                    providers={providers}
-                    handleOnChangeProvider={handleOnChangeProvider}
-                />
-                {
-                    parameters.map(parameter => {
-                        return (
-                            <Box my={"sm"} key={parameter.slug}>
-                                <PromptOptionParameter
-                                    key={parameter.slug}
-                                    type={parameter.slug}
-                                    parameter={parameter}
-                                    userPromptOptions={userPromptOptions}
-                                    setUserPromptOptions={setUserPromptOptions}
-                                />
-                            </Box>
-                        )
-                    })
-                }
-                {/* <Divider /> */}
-                {/* <PromptOptionModificers
-                    modifiers={modifiers}
-                    activeModifiers={activeModifiers}
-                    setActiveModifiers={setActiveModifiers}
-                    promptOptions={promptOptions}
-                    userPromptOptions={userPromptOptions}
-                    setUserPromptOptions={setUserPromptOptions}
-                    currentTechnologySlug={technology.slug}
-                    aIMediatorClient={aIMediatorClient}
-                    technology={technology}
-                    refreshPromptOptions={refreshPromptOptions}
-                    user={user}
-                    repository={repository}
-                    language={language}
-                /> */}
-            </Stack>
+        <Stack mx={"xs"} my={"md"} gap={"md"}>
+            <PromptOptionTechnology
+                promptOptions={promptOptions}
+                currentTechnology={technology}
+                technologies={technologies}
+                handleOnChangeTechnology={handleOnChangeTechnology}
+            />
+            <PromptOptionProvider
+                promptOptions={promptOptions}
+                currentProvider={provider}
+                providers={providers}
+                handleOnChangeProvider={handleOnChangeProvider}
+            />
+            {
+                parameters.map(parameter => {
+                    return (
+                        <Box my={"sm"} key={parameter.slug}>
+                            <PromptOptionParameter
+                                key={parameter.slug}
+                                type={parameter.slug}
+                                parameter={parameter}
+                                userPromptOptions={userPromptOptions}
+                                setUserPromptOptions={setUserPromptOptions}
+                            />
+                        </Box>
+                    )
+                })
+            }
             <Divider />
-            <Group mt={"xs"} justify="space-between">
+            <Group justify="space-between">
                 <Button
                     px={0}
                     variant="transparent"
@@ -124,6 +92,6 @@ export function PromptOptionsPanel({
                     Reset
                 </Button>
             </Group>
-        </Drawer>
+        </Stack>
     )
 }
