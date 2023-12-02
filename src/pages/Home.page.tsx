@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
-import { IconArrowDown, IconChevronDown, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconChevronDown, IconFilter, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';

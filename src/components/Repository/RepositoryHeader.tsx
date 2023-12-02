@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Burger, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { ActionIcon, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
@@ -68,7 +68,7 @@ export function RepositoryHeader({
     })
 
     return (
-        <Stack pb={"xs"}>
+        <Stack mb={"md"}>
             <RepositoryListModal
                 opened={repositoryListModalOpened}
                 close={repositoryListModalHandle.close}
@@ -152,15 +152,20 @@ export function RepositoryHeader({
                         onChange={e => searchSearchTerm(e.target.value)}
                     />
                     <Checkbox.Group defaultValue={filters.types} value={types} onChange={updateTypes}>
-                        <Group>
+                        <Group justify="space-between">
                             <Checkbox radius={"sm"} color={RepositoryItem.getColor("prompt")} value="prompts" label="Prompts" />
                             <Checkbox radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
                             <Checkbox radius={"sm"} color={RepositoryItem.getColor("modifier")} value="modifiers" label="Modifiers" />
                         </Group>
                     </Checkbox.Group>
-                    <Divider />
                 </Stack>
             }
+
+            <Divider label={
+                <Button variant="transparent" size="compact-xs" rightSection={<IconFilter size={12} />} onClick={filtersHandle.toggle}>
+                    Filters
+                </Button>
+            } />
         </Stack>
     )
 }
