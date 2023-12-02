@@ -1,5 +1,5 @@
-import { ActionIcon, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
+import { ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
@@ -68,7 +68,7 @@ export function RepositoryHeader({
     })
 
     return (
-        <Stack mb={"md"}>
+        <Stack mb={0}>
             <RepositoryListModal
                 opened={repositoryListModalOpened}
                 close={repositoryListModalHandle.close}
@@ -77,7 +77,7 @@ export function RepositoryHeader({
                 setFilters={setFilters}
                 refreshRepository={refreshRepository}
             />
-            <Group h={"100%"} justify='space-between' py={"xs"}>
+            <Group h={"100%"} justify='space-between' pt={"xs"}>
                 <Group align='end' >
                     <Burger
                         opened={navbarOpened}
@@ -91,7 +91,7 @@ export function RepositoryHeader({
                                 <Group align='center' gap={"xs"} wrap="nowrap">
                                     <Box maw={175}>
                                         <Text truncate size="lg">
-                                            {repository.name}
+                                            {repositories.find(r => r.slug === filters.repository)?.name}
                                         </Text>
                                     </Box>
                                     <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
@@ -127,13 +127,6 @@ export function RepositoryHeader({
                     <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
-                    <ActionIcon size={"lg"} onClick={filtersHandle.toggle} variant='subtle'>
-                        {
-                            filtersOpened
-                                ? <IconFilterFilled style={{ width: rem(18), height: rem(18) }} />
-                                : <IconFilter style={{ width: rem(18), height: rem(18) }} />
-                        }
-                    </ActionIcon>
                     <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
@@ -161,9 +154,13 @@ export function RepositoryHeader({
                 </Stack>
             }
 
-            <Divider label={
-                <Button variant="transparent" size="compact-xs" rightSection={<IconFilter size={12} />} onClick={filtersHandle.toggle}>
-                    Filters
+            <Divider  label={
+                <Button variant="transparent" size="compact-xs" rightSection={
+                    filtersOpened
+                        ? <IconChevronUp size={12} />
+                        : <IconChevronDown size={12} />
+                } onClick={filtersHandle.toggle}>
+                    <Badge variant="transparent">Filters</Badge>
                 </Button>
             } />
         </Stack>
