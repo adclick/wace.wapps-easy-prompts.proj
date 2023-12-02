@@ -17,6 +17,7 @@ import { User } from "../../model/User"
 import { Repository } from "../../model/Repository";
 import { Language } from "../../model/Language";
 import { useState } from "react";
+import { Filters } from "../../model/Filters";
 
 
 interface PromptInput {
@@ -42,7 +43,9 @@ interface PromptInput {
     refreshPromptOptions: any,
     user: User,
     repository: Repository,
-    language: Language
+    language: Language,
+    filters: Filters,
+    setFilters: any
 }
 
 export function PromptInput({
@@ -68,7 +71,9 @@ export function PromptInput({
     refreshPromptOptions,
     user,
     repository,
-    language
+    language,
+    filters,
+    setFilters
 }: PromptInput) {
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
@@ -175,6 +180,8 @@ export function PromptInput({
                                         user={user}
                                         repository={repository}
                                         language={language}
+                                        filters={filters}
+                                        setFilters={setFilters}
                                     />
                                 </Popover.Dropdown>
                             </Popover>

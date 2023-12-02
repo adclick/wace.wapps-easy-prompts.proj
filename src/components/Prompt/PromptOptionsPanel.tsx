@@ -14,6 +14,7 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient"
 import { User } from "../../model/User"
 import { Repository } from "../../model/Repository"
 import { Language } from "../../model/Language"
+import { Filters } from "../../model/Filters"
 
 interface PromptOptionsPanel {
     drawerOpened: any,
@@ -35,7 +36,9 @@ interface PromptOptionsPanel {
     refreshPromptOptions: any,
     user: User,
     repository: Repository,
-    language: Language
+    language: Language,
+    filters: Filters,
+    setFilters: any
 }
 
 export function PromptOptionsPanel({
@@ -51,6 +54,8 @@ export function PromptOptionsPanel({
     parameters,
     userPromptOptions,
     setUserPromptOptions,
+    filters,
+    setFilters
 }: PromptOptionsPanel) {
     return (
         <Stack mx={"xs"} my={"md"} gap={"md"}>

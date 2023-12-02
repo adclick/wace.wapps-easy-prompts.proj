@@ -83,7 +83,6 @@ export function HomePage() {
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
   const refreshRepository = async (filters: Filters) => {
-    console.log(filters);
     refreshingRepositoryHandle.open();
     const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
     const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
@@ -175,6 +174,14 @@ export function HomePage() {
     newUserPromptOptions.setParameters(parameters);
     newUserPromptOptions.setModifiers(modifiers);
     setUserPromptOptions(newUserPromptOptions);
+
+    const newFilters = {
+      ...filters,
+      technology: newTechnologySlug
+    };
+
+    setFilters(newFilters);
+    refreshRepository(newFilters);
   }
 
   const handleOnChangeProvider = (newProviderSlug: string) => {
@@ -185,6 +192,14 @@ export function HomePage() {
     const newUserPromptOptions = userPromptOptions;
     newUserPromptOptions.setProvider(newProvider);
     setUserPromptOptions(newUserPromptOptions);
+
+    const newFilters = {
+      ...filters,
+      provider: newProviderSlug
+    };
+
+    setFilters(newFilters);
+    refreshRepository(newFilters);
   }
 
   const resetChat = () => {
@@ -335,6 +350,8 @@ export function HomePage() {
           user={currentUser}
           repository={repository}
           language={language}
+          filters={filters}
+          setFilters={setFilters}
         />
       </AppShell.Footer>
     </AppShell>
