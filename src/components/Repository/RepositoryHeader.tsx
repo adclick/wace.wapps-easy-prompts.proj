@@ -107,10 +107,6 @@ export function RepositoryHeader({
                                 Switch Repository
                             </Menu.Item>
                             <Menu.Divider />
-                            <Menu.Item color={RepositoryItem.getColor('modifier')} leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                                Create new Modifier
-                            </Menu.Item>
-                            <Menu.Divider />
                             <Menu.Item disabled leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
                                 Invite
                             </Menu.Item>
@@ -155,7 +151,7 @@ export function RepositoryHeader({
             }
 
             <Divider  label={
-                <Button variant="transparent" size="compact-xs" rightSection={
+                <Button variant="subtle" size="compact-xs" rightSection={
                     filtersOpened
                         ? <IconChevronUp size={12} />
                         : <IconChevronDown size={12} />
