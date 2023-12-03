@@ -2,12 +2,14 @@ import { Language } from "./Language";
 
 export class User {
     id: string;
+    nickname: string;
     email: string;
     picture: string;
     language: Language
 
     constructor(id: string = "", email: string = "", picture: string = "") {
         this.id = id;
+        this.nickname = "";
         this.email = email;
         this.picture = picture;
         this.language = new Language();
@@ -20,6 +22,10 @@ export class User {
 
         if ("sub" in auth0User) {
             user.id = auth0User.sub;
+        }
+
+        if ("nickname" in auth0User) {
+            user.nickname = auth0User.nickname;
         }
 
         if ("email" in auth0User) {

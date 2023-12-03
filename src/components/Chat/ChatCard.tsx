@@ -133,16 +133,12 @@ export function ChatCard({
                         </Group>
                     </Group>
                 </Box>
-                <Box
-                    py={"xl"}
-                    px={0}
-                >
+                <Box py={"xl"} px={0}>
                     <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                         <Group align="flex-start">
                             <Avatar variant="white" size={"sm"} src={null} alt="no image here" />
                             {result}
                         </Group>
-
                     </Group>
                 </Box>
             </Stack>
@@ -156,7 +152,6 @@ export function ChatCard({
                                         ? <IconMoodSmileFilled size={"16"} />
                                         : <IconMoodSmile size={"16"} />
                                 }
-
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Bad Response" withArrow>
