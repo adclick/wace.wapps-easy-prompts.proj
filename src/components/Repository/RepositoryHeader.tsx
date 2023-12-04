@@ -1,5 +1,5 @@
 import { ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSwitch, IconSwitchHorizontal, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
+import { IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
@@ -120,6 +120,25 @@ export function RepositoryHeader({
                     </Menu>
                 </Group>
                 <Group gap={"xs"}>
+                    <Menu shadow="md"  position='bottom-start'>
+                        <Menu.Target>
+                            <ActionIcon size={"lg"} variant='subtle'>
+                                <IconPlus style={{ width: rem(18), height: rem(18) }} />
+                            </ActionIcon>
+                        </Menu.Target>
+
+                        <Menu.Dropdown>
+                            <Menu.Item color={RepositoryItem.getColor("prompt")} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
+                                Prompt
+                            </Menu.Item>
+                            <Menu.Item color={RepositoryItem.getColor("template")} leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
+                                Template
+                            </Menu.Item>
+                            <Menu.Item color={RepositoryItem.getColor("modifier")} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
+                                Modifier
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
                     <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
@@ -150,7 +169,7 @@ export function RepositoryHeader({
                 </Stack>
             }
 
-            <Divider  label={
+            <Divider label={
                 <Button variant="subtle" size="compact-xs" rightSection={
                     filtersOpened
                         ? <IconChevronUp size={12} />
