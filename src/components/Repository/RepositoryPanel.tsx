@@ -36,12 +36,8 @@ export function RepositoryPanel({
 }: RepositoryPanel) {
     const { t } = useTranslation();
 
-    const getPromptsToShow = () => {
-        return repositoryItems.filter(item => {
-            return item.name.toLowerCase().includes(repositorySearchTerm.toLocaleLowerCase());
-        })
-    }
 
+    console.log(repositoryItems);
     const loadMore = async () => {
         const newRepositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, repositoryItems.length);
 
@@ -74,7 +70,7 @@ export function RepositoryPanel({
                             repositoryItems.map((item: RepositoryItem) => {
                                 return (
                                     <RepositoryItemRow
-                                        key={item.slug}
+                                        key={item.id}
                                         repositoryItem={item}
                                         setUserPrompt={setUserPrompt}
                                         navbarToggle={navbarToggle}

@@ -1,4 +1,5 @@
 export class RepositoryItem {
+    id: number;
     name: string;
     slug: string;
     type: string;
@@ -7,6 +8,7 @@ export class RepositoryItem {
     color: string;
 
     constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
+        this.id = 0;
         this.name = name;
         this.slug = slug;
         this.type = type;
@@ -17,6 +19,10 @@ export class RepositoryItem {
 
     static buildFromApi(data: any): RepositoryItem {
         const newRepoItem = new RepositoryItem();
+
+        if ('id' in data) {
+            newRepoItem.id = data.id;
+        }
 
         if ('name' in data) {
             newRepoItem.name = data.name;

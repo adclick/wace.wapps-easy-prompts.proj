@@ -6,6 +6,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { RepositoryListModal } from "./RepositoryListModal";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { useState } from "react";
+import { RepositoryNewModifierModal } from "./RepositoryNewModifierModal";
+import { AIMediatorClient } from "@/clients/AIMediatorClient";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -21,7 +23,8 @@ interface RepositoryHeader {
     setRepositorySearchTerm: any,
     refreshRepository: any,
     refreshingRepository: boolean,
-    refreshingRepositoryHandle: any
+    refreshingRepositoryHandle: any,
+    aiMediatorClient: AIMediatorClient
 }
 
 export function RepositoryHeader({
@@ -37,10 +40,13 @@ export function RepositoryHeader({
     setRepositorySearchTerm,
     refreshRepository,
     refreshingRepository,
-    refreshingRepositoryHandle
+    refreshingRepositoryHandle,
+    aiMediatorClient
+
 }: RepositoryHeader) {
     const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);
     const [filtersOpened, filtersHandle] = useDisclosure(false);
+    const [newModifierModalOpened, newModifierModalHandle] = useDisclosure(false);
     const [types, setTypes] = useState<string[]>(filters.types);
 
     const updateTypes = (value: any) => {
@@ -75,6 +81,13 @@ export function RepositoryHeader({
                 repositories={repositories}
                 filters={filters}
                 setFilters={setFilters}
+                refreshRepository={refreshRepository}
+            />
+            <RepositoryNewModifierModal
+                opened={newModifierModalOpened}
+                handle={newModifierModalHandle}
+                filters={filters}
+                aiMediatorClient={aiMediatorClient}
                 refreshRepository={refreshRepository}
             />
             <Group h={"100%"} justify='space-between' pt={"xs"}>
@@ -120,7 +133,7 @@ export function RepositoryHeader({
                     </Menu>
                 </Group>
                 <Group gap={"xs"}>
-                    <Menu shadow="md"  position='bottom-start'>
+                    <Menu shadow="md" position='bottom-start'>
                         <Menu.Target>
                             <ActionIcon size={"lg"} variant='subtle'>
                                 <IconPlus style={{ width: rem(18), height: rem(18) }} />
@@ -128,13 +141,13 @@ export function RepositoryHeader({
                         </Menu.Target>
 
                         <Menu.Dropdown>
-                            <Menu.Item color={RepositoryItem.getColor("prompt")} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item disabled color={RepositoryItem.getColor("prompt")} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
                                 Prompt
                             </Menu.Item>
-                            <Menu.Item color={RepositoryItem.getColor("template")} leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item disabled color={RepositoryItem.getColor("template")} leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
                                 Template
                             </Menu.Item>
-                            <Menu.Item color={RepositoryItem.getColor("modifier")} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item onClick={newModifierModalHandle.open} color={RepositoryItem.getColor("modifier")} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
                                 Modifier
                             </Menu.Item>
                         </Menu.Dropdown>

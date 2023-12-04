@@ -87,6 +87,7 @@ export function HomePage() {
     const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
     const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
     setRepositoryItems(repositoryItemsObjs);
+    console.log(repositoryItemsObjs);
     
     refreshingRepositoryHandle.close();
   }
@@ -283,6 +284,7 @@ export function HomePage() {
             refreshRepository={refreshRepository}
             refreshingRepository={refreshingRepository}
             refreshingRepositoryHandle={refreshingRepositoryHandle}
+            aiMediatorClient={aIMediatorClient}
           />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>

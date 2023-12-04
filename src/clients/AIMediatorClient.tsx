@@ -50,6 +50,7 @@ export class AIMediatorClient {
     async getRepositoryItems(filters: Filters, limit: number = this.repositoryItemsLimit, offset: number = 0) {
         return await this.post('/ai/prompt/get-repository-items', {
             filters: {
+                visibility: filters.repository === 'wace' ? 'shared' : 'private',
                 prompt: filters.prompt,
                 technology: filters.technology,
                 provider: filters.provider,
