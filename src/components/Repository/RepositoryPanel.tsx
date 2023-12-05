@@ -70,7 +70,7 @@ export function RepositoryPanel({
                             repositoryItems.map((item: RepositoryItem) => {
                                 return (
                                     <RepositoryItemRow
-                                        key={item.id}
+                                        key={`${item.type}-${item.id}`}
                                         repositoryItem={item}
                                         setUserPrompt={setUserPrompt}
                                         navbarToggle={navbarToggle}

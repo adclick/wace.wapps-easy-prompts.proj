@@ -37,7 +37,7 @@ export function RepositoryItemRow({
     }
 
     return (
-        <AccordionItem value={repositoryItem.name} py={"md"}>
+        <AccordionItem value={`${repositoryItem.type}-${repositoryItem.id}`} py={"md"}>
             <AccordionControl px={0}>
                 <Stack>
                     <Text size="sm" fw={500} lineClamp={20}>
