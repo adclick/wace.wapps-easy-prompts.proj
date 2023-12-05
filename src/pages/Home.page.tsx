@@ -18,15 +18,11 @@ import { PromptInput } from '../components/Prompt/PromptInput';
 import { ChatPanel } from '../components/Chat/ChatPanel';
 import { RepositoryPanel } from '../components/Repository/RepositoryPanel';
 import { Options } from '../model/Options';
-import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 import { RepositoryHeader } from '../components/Repository/RepositoryHeader';
 import { Filters } from '../model/Filters';
 import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
-import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
-import favicon from '../favicon.svg';
 import { RepositorySelectedItemsWidget } from '../components/Repository/RepositorySelectedItemsWidget';
-import { notifications } from '@mantine/notifications';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export function HomePage() {
@@ -206,8 +202,6 @@ export function HomePage() {
   const resetChat = () => {
     setThreads([]);
   }
-
-  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
   return (
     <AppShell

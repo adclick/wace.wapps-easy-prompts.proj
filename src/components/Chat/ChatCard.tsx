@@ -11,10 +11,10 @@ import { ChatCardImage } from "./ChatCardImage";
 import { SelectedOptionsWidget } from "../Prompt/SelectedOptionsWidget";
 import { IconQuestionMark } from "@tabler/icons-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { PromptAddNewModal } from "../Prompt/PromptAddNewModal";
 import { Repository } from "../../model/Repository";
 import { Language } from "../../model/Language";
 import { User } from "../../model/User";
+import { RepositoryNewPromptModal } from "../Repository/RepositoryNewPromptModal";
 
 interface ChatCard {
     request: Request,
@@ -176,7 +176,7 @@ export function ChatCard({
                                 </Tooltip>
                             )}
                         </CopyButton>
-                        <PromptAddNewModal
+                        <RepositoryNewPromptModal
                             opened={savePromptModalOpened}
                             close={savePromptModalHandle.close}
                             prompt={request.text}

@@ -1,9 +1,11 @@
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
+import { RepositoryItem } from "../../model/RepositoryItem";
 import { Button, Group, Input, Modal, Stack, Textarea, rem } from "@mantine/core";
-import { IconSend } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
+import { IconDeviceFloppy, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 
-interface PromptAddNewModal {
+interface RepositoryNewPromptModal {
     opened: boolean,
     close: any,
     prompt: string,
@@ -16,7 +18,7 @@ interface PromptAddNewModal {
     refreshPromptOptions: any
 }
 
-export function PromptAddNewModal({
+export function RepositoryNewPromptModal({
     opened,
     close,
     prompt,
@@ -27,13 +29,20 @@ export function PromptAddNewModal({
     repository,
     language,
     refreshPromptOptions
-}: PromptAddNewModal) {
+}: RepositoryNewPromptModal) {
     const [name, setName] = useState('');
 
     const savePrompt = async () => {
         await aiMediatorClient.savePrompt(name, prompt, technology, provider, userId, repository, language);
 
-        await refreshPromptOptions();
+        close();
+        refreshPromptOptions();
+
+        notifications.show({
+            title: 'Prompt Saved',
+            message: 'Your settings were saved',
+            color: RepositoryItem.getColor("prompt")
+        });
     }
 
     return (
@@ -44,10 +53,10 @@ export function PromptAddNewModal({
                     <Button
                         size="compact-md"
                         variant="transparent"
-                        leftSection={<IconSend style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={<IconDeviceFloppy style={{ width: rem(14), height: rem(14) }} />}
                         onClick={savePrompt}
                     >
-                        Send
+                        Save
                     </Button>
                 </Group>
             </Stack>

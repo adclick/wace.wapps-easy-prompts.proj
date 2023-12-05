@@ -13,7 +13,7 @@ type GeneratedImage = {
 export class AIMediatorClient {
     baseUrl: string;
     repositoryItemsLimit: number
-    
+
     /**
      * Constructor
      */
@@ -68,17 +68,15 @@ export class AIMediatorClient {
         return await this.post('/ai/prompt/optimize', { prompt, options });
     }
 
-    async savePrompt(name: string, prompt: string, technology: string, provider: string, userId: string, repository: string, language: string) {
+    async savePrompt(name: string, content: string, technology: string, provider: string, userId: string, repository: string, language: string) {
         return await this.post('/ai/prompt/add-prompt', {
-            prompt,
-            options: {
-                name,
-                technology,
-                provider,
-                userId,
-                repository,
-                language
-            }
+            name,
+            content,
+            technology,
+            provider,
+            userId,
+            repository,
+            language
         });
     }
 
