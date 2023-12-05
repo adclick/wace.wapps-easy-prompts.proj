@@ -4,6 +4,7 @@ import { Technology } from "../model/Technology";
 import { Provider } from "../model/Provider";
 import { Filters } from "@/model/Filters";
 import { User } from "../model/User";
+import { RepositoryItem } from "../model/RepositoryItem";
 
 type GeneratedImage = {
     image_resource_url: string
@@ -64,8 +65,8 @@ export class AIMediatorClient {
         });
     }
 
-    async optimizePrompt(prompt: string, options: UserPromptOptions) {
-        return await this.post('/ai/prompt/optimize', { prompt, options });
+    async optimizePrompt(prompt: string, repositoryItems: RepositoryItem[], options: UserPromptOptions) {
+        return await this.post('/ai/prompt/optimize', { prompt, repositoryItems, options });
     }
 
     async savePrompt(name: string, content: string, technology: string, provider: string, userId: string, repository: string, language: string) {
@@ -77,6 +78,12 @@ export class AIMediatorClient {
             userId,
             repository,
             language
+        });
+    }
+
+    async deleteRepositoryItem(item: RepositoryItem) {
+        return await this.post(`/ai/prompt/delete-${item.type}`, {
+            id: item.id
         });
     }
 
@@ -101,8 +108,8 @@ export class AIMediatorClient {
         })
     }
 
-    async generateText(prompt: string, options: UserPromptOptions) {
-        return await this.post('/ai/text/generate-text', { prompt, options });
+    async generateText(prompt: string, repositoryItems: RepositoryItem[], options: UserPromptOptions) {
+        return await this.post('/ai/text/generate-text', { prompt, repositoryItems, options });
     }
 
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {

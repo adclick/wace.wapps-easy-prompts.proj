@@ -18,6 +18,7 @@ import { Repository } from "../../model/Repository";
 import { Language } from "../../model/Language";
 import { useState } from "react";
 import { Filters } from "../../model/Filters";
+import { RepositoryItem } from "../../model/RepositoryItem";
 
 
 interface PromptInput {
@@ -45,7 +46,8 @@ interface PromptInput {
     repository: Repository,
     language: Language,
     filters: Filters,
-    setFilters: any
+    setFilters: any,
+    repositorySelectedItems: RepositoryItem[]
 }
 
 export function PromptInput({
@@ -73,7 +75,8 @@ export function PromptInput({
     repository,
     language,
     filters,
-    setFilters
+    setFilters,
+    repositorySelectedItems
 }: PromptInput) {
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
@@ -90,6 +93,12 @@ export function PromptInput({
         const thread = new Thread();
         thread.request.setText(userPrompt);
         thread.request.setUserPromptOptions(threadUserOptions);
+        
+        const modifier = repositorySelectedItems.find(i => i.type === 'modifier');
+        if (modifier !== undefined) {
+            thread.request.repositoryItems = [modifier];
+        }
+        
         setThreads([...threads, thread]);
 
         scrollIntoView({ alignment: 'start' });

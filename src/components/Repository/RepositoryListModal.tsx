@@ -37,14 +37,8 @@ export function RepositoryListModal({
             <Table.Td>{repository.name}</Table.Td>
             <Table.Td>
                 <Group>
-                    <ActionIcon variant="transparent" size={"xs"}>
-                        <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                    </ActionIcon>
                     <ActionIcon onClick={() => switchRepository(repository.slug)} variant="transparent" size={"xs"}>
                         <IconSwitchHorizontal style={{ width: rem(16), height: rem(16) }} />
-                    </ActionIcon>
-                    <ActionIcon color="red" variant="transparent" size={"xs"}>
-                        <IconTrash style={{ width: rem(16), height: rem(16) }} />
                     </ActionIcon>
                 </Group>
             </Table.Td>

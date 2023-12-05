@@ -19,7 +19,9 @@ interface RepositoryPanel {
     refreshingRepository: boolean,
     filters: Filters,
     repositorySelectedItems: RepositoryItem[],
-    setRepositorySelectedItems: any
+    setRepositorySelectedItems: any,
+    refreshRepository: any,
+    openRepositoryItemDetailsSelected: any
 }
 
 export function RepositoryPanel({
@@ -32,12 +34,12 @@ export function RepositoryPanel({
     refreshingRepository,
     filters,
     repositorySelectedItems,
-    setRepositorySelectedItems
+    setRepositorySelectedItems,
+    refreshRepository,
+    openRepositoryItemDetailsSelected
 }: RepositoryPanel) {
     const { t } = useTranslation();
 
-
-    console.log(repositoryItems);
     const loadMore = async () => {
         const newRepositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, repositoryItems.length);
 
@@ -76,18 +78,15 @@ export function RepositoryPanel({
                                         navbarToggle={navbarToggle}
                                         repositorySelectedItems={repositorySelectedItems}
                                         setRepositorySelectedItems={setRepositorySelectedItems}
+                                        aiMediatorClient={aiMediatorClient}
+                                        refreshRepository={refreshRepository}
+                                        filters={filters}
+                                        openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
                                     />
                                 )
                             })
                         }
                     </Accordion>
-
-                    <Center>
-                        <Button onClick={loadMore} variant="subtle" fullWidth>
-                            <IconPlus  />
-                        </Button>
-                    </Center>
-
                 </Stack>
             </Stack>
         </Box>

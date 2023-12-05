@@ -51,10 +51,10 @@ export function ChatCard({
         // On each render, don't request if already responded
         if (responded) return;
 
-        aIMediatorClient.optimizePrompt(request.text, userPromptOptions).then(optimizedPrompt => {
+        aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
             switch (request.userPromptOptions.technology.slug) {
                 case 'text-generation':
-                    aIMediatorClient.generateText(optimizedPrompt, request.userPromptOptions).then(text => {
+                    aIMediatorClient.generateText(optimizedPrompt, request.repositoryItems, request.userPromptOptions).then(text => {
                         setResult(<ChatCardText text={text} />);
                         scrollIntoView({ alignment: 'start' });
                         setResponded(true);

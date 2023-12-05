@@ -1,16 +1,46 @@
-import { Modal } from "@mantine/core";
+import { Modal, Card, Stack, Title, Text, Group, Button, Divider, rem, ActionIcon } from "@mantine/core";
+import { RepositoryItem } from "../../model/RepositoryItem";
+import { IconTrash } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 
 interface RepositoryItemDetailsModal {
     opened: boolean,
-    close: any
+    handle: any,
+    item: RepositoryItem,
+    setRepositorySelectedItems: any
 }
 
 export function RepositoryItemDetailsModal({
     opened,
-    close
+    handle,
+    item,
+    setRepositorySelectedItems
 }: RepositoryItemDetailsModal) {
+
+    const use = () => {
+        setRepositorySelectedItems([item]);
+        handle.close();
+    }
+
     return (
-        <Modal opened={opened} onClose={close} title="Details">
+        <Modal opened={opened} onClose={handle.close} title={item.name}>
+            <Stack>
+                <Text size="sm">{item.content}</Text>
+                <Divider />
+                <Group justify="space-between">
+                    <Button variant="light" color={item.color} onClick={use}>
+                        Apply
+                    </Button>
+                    <ActionIcon variant='subtle' color="red">
+                        <IconTrash style={{ width: rem(16), height: rem(16) }}  />
+                    </ActionIcon>
+                </Group>
+            </Stack>
+
+
+
+
+
 
         </Modal>
     )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
+import { Stack, Popover, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
-import { IconArrowDown, IconChevronDown, IconFilter, IconHistory, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconFilter, IconHistory, IconInfoCircle, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -24,6 +24,8 @@ import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
 import { RepositorySelectedItemsWidget } from '../components/Repository/RepositorySelectedItemsWidget';
 import { useAuth0 } from '@auth0/auth0-react';
+import { RepositoryItemDetailsModal } from '../components/Repository/RepositoryItemDetailsModal';
+import { IconX } from '@tabler/icons-react';
 
 export function HomePage() {
   // API Client
@@ -44,6 +46,8 @@ export function HomePage() {
   const [repositorySearchTerm, setRepositorySearchTerm] = useState('');
   const [refreshingRepository, refreshingRepositoryHandle] = useDisclosure(true);
   const [repositorySelectedItems, setRepositorySelectedItems] = useState<RepositoryItem[]>([])
+  const [repositoryItemDetailsModalOpened, repositoryItemDetailsModalHandle] = useDisclosure(false);
+  const [repositoryItemDetailsSelected, setRepositoryItemDetailsSelected] = useState<RepositoryItem>(new RepositoryItem());
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
@@ -78,13 +82,17 @@ export function HomePage() {
   const [modifiers, setModifiers] = useState<Modifier[]>(defaultModifiers);
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
 
+  const openRepositoryItemDetailsSelected = (item: RepositoryItem) => {
+    setRepositoryItemDetailsSelected(item);
+    repositoryItemDetailsModalHandle.open();
+  }
+
   const refreshRepository = async (filters: Filters) => {
     refreshingRepositoryHandle.open();
     const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
     const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
     setRepositoryItems(repositoryItemsObjs);
-    console.log(repositoryItemsObjs);
-    
+
     refreshingRepositoryHandle.close();
   }
 
@@ -293,15 +301,47 @@ export function HomePage() {
             aiMediatorClient={aIMediatorClient}
             repositorySelectedItems={repositorySelectedItems}
             setRepositorySelectedItems={setRepositorySelectedItems}
+            refreshRepository={refreshRepository}
+            openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
           />
         </AppShell.Section>
         <AppShell.Section>
           <Divider h={"md"} />
 
-          <RepositorySelectedItemsWidget
-            repositorySelectedItems={repositorySelectedItems}
+          <Group justify='space-between'>
+            <Group>
+              <Text>Found:</Text>
+              <Text>{repositoryItems.length}</Text>
+            </Group>
+
+            {
+              repositorySelectedItems.length > 0 &&
+              <Group>
+                <Button
+                  onClick={() => openRepositoryItemDetailsSelected(repositorySelectedItems[0])}
+                  leftSection={<IconCheck style={{ width: rem(16), height: rem(16) }} />}
+                  variant='light'
+                  color={repositorySelectedItems[0].color}
+                >
+                  {repositorySelectedItems[0].type.toUpperCase()}
+                </Button>
+                <ActionIcon onClick={() => setRepositorySelectedItems([])} variant='transparent'>
+                  <IconX />
+                </ActionIcon>
+              </Group>
+            }
+          </Group>
+          <RepositoryItemDetailsModal
+            opened={repositoryItemDetailsModalOpened}
+            handle={repositoryItemDetailsModalHandle}
+            item={repositoryItemDetailsSelected}
             setRepositorySelectedItems={setRepositorySelectedItems}
           />
+
+          {/* <RepositorySelectedItemsWidget
+            repositorySelectedItems={repositorySelectedItems}
+            setRepositorySelectedItems={setRepositorySelectedItems}
+          /> */}
 
         </AppShell.Section>
       </AppShell.Navbar>
@@ -348,6 +388,7 @@ export function HomePage() {
           language={language}
           filters={filters}
           setFilters={setFilters}
+          repositorySelectedItems={repositorySelectedItems}
         />
       </AppShell.Footer>
     </AppShell>

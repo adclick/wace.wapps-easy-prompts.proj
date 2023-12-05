@@ -3,6 +3,8 @@ import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPlayerPlayFilled,
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
+import { AIMediatorClient } from "../../clients/AIMediatorClient";
+import { Filters } from "../../model/Filters";
 
 
 interface RepositoryItemRow {
@@ -10,7 +12,11 @@ interface RepositoryItemRow {
     navbarToggle: any,
     repositoryItem: RepositoryItem,
     repositorySelectedItems: RepositoryItem[],
-    setRepositorySelectedItems: any
+    setRepositorySelectedItems: any,
+    aiMediatorClient: AIMediatorClient,
+    refreshRepository: any,
+    filters: Filters,
+    openRepositoryItemDetailsSelected: any
 }
 
 export function RepositoryItemRow({
@@ -18,22 +24,26 @@ export function RepositoryItemRow({
     navbarToggle,
     repositoryItem,
     repositorySelectedItems,
-    setRepositorySelectedItems
+    setRepositorySelectedItems,
+    aiMediatorClient,
+    refreshRepository,
+    filters,
+    openRepositoryItemDetailsSelected
 }: RepositoryItemRow) {
-    const [detailsModalOpened, detailsModalHandle] = useDisclosure(false);
 
     const use = () => {
-        switch (repositoryItem.type) {
-            case "prompt":
-                setUserPrompt(repositoryItem.content)
-                setRepositorySelectedItems([repositoryItem]);
-                navbarToggle();
-                break;
-            case "template":
-            case "modifier":
-                setRepositorySelectedItems([repositoryItem])
-                break;
+        if (repositoryItem.type === "prompt") {
+            setUserPrompt(repositoryItem.content);
         }
+
+        setRepositorySelectedItems([repositoryItem]);
+
+    }
+
+    const deleteItem = async () => {
+        await aiMediatorClient.deleteRepositoryItem(repositoryItem);
+
+        refreshRepository(filters);
     }
 
     return (
@@ -53,12 +63,16 @@ export function RepositoryItemRow({
             </AccordionControl>
             <Accordion.Panel px={0}>
                 <Stack>
-                    <RepositoryItemDetailsModal
-                        opened={detailsModalOpened}
-                        close={detailsModalHandle.close}
-                    />
+
                     <Group px={0} py={"xs"} justify="space-between" align="center">
-                        <Button color={repositoryItem.color} onClick={detailsModalHandle.open} radius={"md"} size="xs" variant="light" leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}>
+                        <Button
+                            color={repositoryItem.color}
+                            radius={"md"}
+                            size="xs"
+                            variant="light"
+                            leftSection={<IconInfoCircle style={{ width: rem(16), height: rem(16) }} />}
+                            onClick={() => openRepositoryItemDetailsSelected(repositoryItem)}
+                        >
                             Details
                         </Button>
                         <Group gap={"xs"} mx={"lg"}>
@@ -74,7 +88,7 @@ export function RepositoryItemRow({
                                         Copy to Repository
                                     </Menu.Item>
                                     <Menu.Item
-                                        disabled
+                                        onClick={deleteItem}
                                         leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                                         color="red"
                                     >

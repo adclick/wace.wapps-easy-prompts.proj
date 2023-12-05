@@ -26,7 +26,7 @@ export function RepositorySelectedItemsWidget({
                         {
                             repositorySelectedItems.map(item => {
                                 return (
-                                    <Text size="xs">{item.name}</Text>
+                                    <Text key={item.id} size="xs">{item.name}</Text>
                                 )
                             })
                         }
