@@ -126,7 +126,7 @@ export function PromptInput({
                     px={"md"}
                 >
                     <Stack w={"100%"} gap={"xs"}>
-                        <Center>
+                        {/* <Center>
                             {
                                 technology.name !== "" &&
                                 <SelectedOptionsWidget
@@ -136,7 +136,7 @@ export function PromptInput({
                                     modifiers={[]}
                                 />
                             }
-                        </Center>
+                        </Center> */}
                         <Group w={"100%"} wrap="nowrap">
 
                             <Popover position="top-start" classNames={{

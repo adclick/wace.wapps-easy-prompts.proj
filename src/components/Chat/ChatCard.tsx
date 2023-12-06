@@ -26,7 +26,8 @@ interface ChatCard {
     scrollIntoView: any,
     user: User,
     repository: Repository,
-    language: Language
+    language: Language,
+    openRepositoryItemDetailsSelected: any
 }
 
 export function ChatCard({
@@ -39,7 +40,8 @@ export function ChatCard({
     scrollIntoView,
     user,
     repository,
-    language
+    language,
+    openRepositoryItemDetailsSelected
 }: ChatCard) {
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [vote, setVote] = useState(0);
@@ -146,7 +148,7 @@ export function ChatCard({
                 <Group justify="space-between" wrap="wrap">
                     <Group gap={"xs"} wrap="nowrap">
                         <Tooltip label="Good Response" withArrow>
-                            <ActionIcon variant='subtle' onClick={() => handleVote(1)}>
+                            <ActionIcon disabled variant='subtle' onClick={() => handleVote(1)}>
                                 {
                                     vote > 0
                                         ? <IconMoodSmileFilled size={"16"} />
@@ -155,7 +157,7 @@ export function ChatCard({
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Bad Response" withArrow>
-                            <ActionIcon color='red' variant='subtle' onClick={() => handleVote(-1)}>
+                            <ActionIcon disabled color='red' variant='subtle' onClick={() => handleVote(-1)}>
                                 {
                                     vote < 0
                                         ? <IconMoodSadFilled size={"16"} />
@@ -211,40 +213,15 @@ export function ChatCard({
                     </Group>
                     <Group>
                         {
-                            request.userPromptOptions.modifiers.length
-                            && <Popover>
-                                <Popover.Target>
-                                    <Indicator zIndex={100} size={16} label={request.userPromptOptions.modifiers.length}>
-                                        <ActionIcon variant="subtle">
-                                            <IconSparkles />
-                                        </ActionIcon>
-                                    </Indicator>
-                                </Popover.Target>
-                                <Popover.Dropdown>
-                                    {
-                                        request.userPromptOptions.modifiers.map(m => {
-                                            return (
-                                                <Group justify="space-between">
-                                                    <Chip size="xs" variant="outline" readOnly checked value={m.slug}>{m.name}</Chip>
-                                                    <Popover width={200} position="top" withArrow shadow="md">
-                                                        <Popover.Target>
-                                                            <ActionIcon mx={"sm"} size={'sm'} variant="outline" aria-label="Settings">
-                                                                <IconQuestionMark style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                            </ActionIcon>
-                                                        </Popover.Target>
-                                                        <Popover.Dropdown>
-                                                            <Text size="xs">
-                                                                {m.description}
-                                                            </Text>
-                                                        </Popover.Dropdown>
-                                                    </Popover>
-
-                                                </Group>
-                                            )
-                                        })
-                                    }
-                                </Popover.Dropdown>
-                            </Popover>
+                            request.repositoryItems.length
+                            &&
+                            <ActionIcon
+                                onClick={() => openRepositoryItemDetailsSelected(request.repositoryItems[0])}
+                                variant="subtle"
+                                color={request.repositoryItems[0].color}
+                            >
+                                <IconSparkles size={16} />
+                            </ActionIcon>
                         }
                     </Group>
                 </Group>

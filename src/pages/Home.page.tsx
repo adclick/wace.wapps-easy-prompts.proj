@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Stack, Popover, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
+import { Stack, Popover, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme, Skeleton } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconFilter, IconHistory, IconInfoCircle, IconPencil, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
@@ -26,6 +26,7 @@ import { RepositorySelectedItemsWidget } from '../components/Repository/Reposito
 import { useAuth0 } from '@auth0/auth0-react';
 import { RepositoryItemDetailsModal } from '../components/Repository/RepositoryItemDetailsModal';
 import { IconX } from '@tabler/icons-react';
+import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
 
 export function HomePage() {
   // API Client
@@ -242,13 +243,58 @@ export function HomePage() {
               <Menu.Target>
                 <UnstyledButton px={"md"}>
                   <Group align='center' gap={"xs"}>
-                    <Title order={3}>Chat</Title>
+                    <Title order={3}>
+                      {
+                        technology.name
+                      }
+                    </Title>
                     <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
                   </Group>
                 </UnstyledButton>
               </Menu.Target>
 
               <Menu.Dropdown>
+                <Menu.Item
+                  onClick={() => handleOnChangeTechnology('text-generation')}
+                  rightSection={
+                    technology.slug === "text-generation" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Text Generation
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => handleOnChangeTechnology('image-generation')}
+                  rightSection={
+                    technology.slug === "image-generation" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Image Generation
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => handleOnChangeTechnology('keywords-extraction')}
+                  rightSection={
+                    technology.slug === "keywords-extraction" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconListSearch style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Keywords Extraction
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => handleOnChangeTechnology('translation')}
+                  rightSection={
+                    technology.slug === "translation" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Translation
+                </Menu.Item>
+                <Menu.Divider />
                 <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                   New Chat
                 </Menu.Item>
@@ -312,6 +358,13 @@ export function HomePage() {
           <Divider h={"md"} />
 
           <Group justify='space-between'>
+            {/* <LanguageSwitcher
+              language={language}
+              setLanguage={setLanguage}
+              userPromptOptions={userPromptOptions}
+              setUserPromptOptions={setUserPromptOptions}
+              refreshPromptOptions={refreshPromptOptions}
+            /> */}
             <Group>
               <Text>Found:</Text>
               <Text>{repositoryItems.length}</Text>
@@ -319,17 +372,18 @@ export function HomePage() {
 
             {
               repositorySelectedItems.length > 0 &&
-              <Group>
+              <Group gap={"xs"}>
                 <Button
                   onClick={() => openRepositoryItemDetailsSelected(repositorySelectedItems[0])}
                   leftSection={<IconCheck style={{ width: rem(16), height: rem(16) }} />}
                   variant='light'
                   color={repositorySelectedItems[0].color}
+                  size='xs'
                 >
                   {repositorySelectedItems[0].type.toUpperCase()}
                 </Button>
                 <ActionIcon onClick={() => setRepositorySelectedItems([])} variant='transparent'>
-                  <IconX />
+                  <IconX size={16} />
                 </ActionIcon>
               </Group>
             }
@@ -361,6 +415,7 @@ export function HomePage() {
           user={currentUser}
           repository={repository}
           language={language}
+          openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
         />
       </AppShell.Main>
 

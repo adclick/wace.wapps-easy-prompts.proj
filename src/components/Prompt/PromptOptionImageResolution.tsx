@@ -23,7 +23,7 @@ export function PromptOptionImageResolution({
         setUserPromptOptions(newUserPromptOptions);
     }, [])
 
-    const handleOnChange = (value: string|null) => {
+    const handleOnChange = (value: string | null) => {
         setValue(value);
 
         // update userPromptOptions
@@ -46,18 +46,14 @@ export function PromptOptionImageResolution({
     });
 
     return (
-        <Stack gap={"xs"}>
-            <Group>
-                <Text size="md">{parameter.name}</Text>
-            </Group>
-            <Select
-                variant="unstyled"
-                data={data}
-                defaultValue={parameter.content[0]}
-                value={value}
-                onChange={handleOnChange}
-                comboboxProps={{ withinPortal: false }}
-            />
-        </Stack>
+        <Select
+            variant="unstyled"
+            data={data}
+            defaultValue={parameter.content[0]}
+            value={value}
+            onChange={handleOnChange}
+            comboboxProps={{ withinPortal: false }}
+            label={parameter.name}
+        />
     )
 }

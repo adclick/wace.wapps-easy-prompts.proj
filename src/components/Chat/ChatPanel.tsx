@@ -19,7 +19,8 @@ interface ChatPanel {
     scrollIntoView: any,
     user: User,
     repository: Repository,
-    language: Language
+    language: Language,
+    openRepositoryItemDetailsSelected: any
 }
 
 export function ChatPanel({
@@ -32,7 +33,8 @@ export function ChatPanel({
     scrollIntoView,
     user,
     repository,
-    language
+    language,
+    openRepositoryItemDetailsSelected
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
@@ -52,6 +54,7 @@ export function ChatPanel({
                             user={user}
                             repository={repository}
                             language={language}
+                            openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
                         />
                     )
                 })
