@@ -220,7 +220,15 @@ export function ChatCard({
                                 variant="subtle"
                                 color={request.repositoryItems[0].color}
                             >
-                                <IconSparkles size={16} />
+                                {
+                                    request.repositoryItems[0].type === "prompt" && <IconPrompt size={16} />
+                                }
+                                {
+                                    request.repositoryItems[0].type === "template" && <IconTemplate size={16} />
+                                }
+                                {
+                                    request.repositoryItems[0].type === "modifier" && <IconSparkles size={16} />
+                                }
                             </ActionIcon>
                         }
                     </Group>

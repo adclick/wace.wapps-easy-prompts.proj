@@ -40,6 +40,8 @@ export function RepositoryItemRow({
     const use = () => {
         switch (repositoryItem.type) {
             case "prompt":
+                setRepositorySelectedItems([repositoryItem]);
+                
                 const options = new UserPromptOptions();
                 options.technology.name = repositoryItem.technology_name;
                 options.technology.slug = repositoryItem.technology_slug;

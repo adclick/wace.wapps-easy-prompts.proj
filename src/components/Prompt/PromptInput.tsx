@@ -1,4 +1,4 @@
-import { ActionIcon, Popover, Box, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
+import { ActionIcon, Popover, Box, Badge, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import cx from 'clsx';
@@ -94,12 +94,12 @@ export function PromptInput({
         const thread = new Thread();
         thread.request.setText(userPrompt);
         thread.request.setUserPromptOptions(threadUserOptions);
-        
+
         const modifier = repositorySelectedItems.find(i => i.type === 'modifier');
         if (modifier !== undefined) {
             thread.request.repositoryItems = [modifier];
         }
-        
+
         setThreads([...threads, thread]);
 
         scrollIntoView({ alignment: 'start' });
@@ -138,6 +138,14 @@ export function PromptInput({
                                 />
                             }
                         </Center> */}
+                        {
+                            repositorySelectedItems[0].type === "modifier" &&
+                            <Center>
+                                <Badge size="xs" color={repositorySelectedItems[0].color}>
+                                    {repositorySelectedItems[0].name}
+                                </Badge>
+                            </Center>
+                        }
                         <Group w={"100%"} wrap="nowrap">
 
                             <Popover position="top-start" classNames={{

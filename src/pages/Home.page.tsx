@@ -241,9 +241,13 @@ export function HomePage() {
             />
             <Menu shadow="md" width={200} position='bottom-start'>
               <Menu.Target>
-                <UnstyledButton px={"md"}>
+                <UnstyledButton px={"md"} >
                   <Group align='center' gap={"xs"}>
-                    <Title order={3}>
+                    <Title order={1} size={"h3"} style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap"
+                    }}>
                       {
                         technology.name
                       }
@@ -309,11 +313,12 @@ export function HomePage() {
           </Group>
           <Group>
             {/* <ColorSchemeToggle /> */}
-            <UserMenu
+            {/* <UserMenu
               filters={filters}
               setFilters={setFilters}
               refreshRepository={refreshRepository}
-            />
+              aiMediatorClient={aIMediatorClient}
+            /> */}
           </Group>
         </Group>
       </AppShell.Header>
@@ -336,6 +341,7 @@ export function HomePage() {
             refreshingRepository={refreshingRepository}
             refreshingRepositoryHandle={refreshingRepositoryHandle}
             aiMediatorClient={aIMediatorClient}
+            repositorySelectedItems={repositorySelectedItems}
           />
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
@@ -358,15 +364,21 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section>
           <Divider h={"md"} />
+          <UserMenu
+              filters={filters}
+              setFilters={setFilters}
+              refreshRepository={refreshRepository}
+              aiMediatorClient={aIMediatorClient}
+            />
 
-          <Group justify='space-between'>
-            {/* <LanguageSwitcher
+          {/* <Group justify='space-between'>
+            <LanguageSwitcher
               language={language}
               setLanguage={setLanguage}
               userPromptOptions={userPromptOptions}
               setUserPromptOptions={setUserPromptOptions}
               refreshPromptOptions={refreshPromptOptions}
-            /> */}
+            />
             <Group>
               <Text>Found:</Text>
               <Text>{repositoryItems.length}</Text>
@@ -389,7 +401,7 @@ export function HomePage() {
                 </ActionIcon>
               </Group>
             }
-          </Group>
+          </Group> */}
           <RepositoryItemDetailsModal
             opened={repositoryItemDetailsModalOpened}
             handle={repositoryItemDetailsModalHandle}

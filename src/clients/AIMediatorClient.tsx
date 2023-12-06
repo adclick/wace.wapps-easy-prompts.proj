@@ -111,11 +111,15 @@ export class AIMediatorClient {
     async generateText(prompt: string, repositoryItems: RepositoryItem[], options: UserPromptOptions) {
         return await this.post('/ai/text/generate-text', { prompt, repositoryItems, options });
     }
-
+    
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', { prompt, options });
-
+        
         return images.map(image => image.image_resource_url);
+    }
+    
+    async sendFeedback(name: string, description: string) {
+        return await this.post('/ai/prompt/send-feedback', { name, description });
     }
 
     getSandboxParam(): boolean {

@@ -24,7 +24,8 @@ interface RepositoryHeader {
     refreshRepository: any,
     refreshingRepository: boolean,
     refreshingRepositoryHandle: any,
-    aiMediatorClient: AIMediatorClient
+    aiMediatorClient: AIMediatorClient,
+    repositorySelectedItems: RepositoryItem[]
 }
 
 export function RepositoryHeader({
@@ -41,7 +42,8 @@ export function RepositoryHeader({
     refreshRepository,
     refreshingRepository,
     refreshingRepositoryHandle,
-    aiMediatorClient
+    aiMediatorClient,
+    repositorySelectedItems
 
 }: RepositoryHeader) {
     const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);

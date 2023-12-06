@@ -35,7 +35,10 @@ export function RepositoryNewModifierModal({
             filters.userId,
             filters.repository,
             filters.language
-        )
+        );
+
+        setName("");
+        setContent("");
 
         notifications.show({
             title: 'Modifier Saved',
