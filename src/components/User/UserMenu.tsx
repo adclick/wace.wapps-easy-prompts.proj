@@ -54,15 +54,7 @@ export function UserMenu({
                     </UnstyledButton>
                 </Menu.Target>
                 <Menu.Dropdown>
-                    <Menu.Item leftSection={<IconUser style={{ width: "70%", height: "70%" }} />} onClick={userProfileHandle.open}>
-                        <Stack gap={0} >
-                            <Text>{user?.nickname}</Text>
-                            <Text size="xs">{user?.email}</Text>
-                        </Stack>
-                    </Menu.Item>
-                    <Menu.Item color="blue" leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />} onClick={userFeedbackModalHandle.open}>
-                        Give Feedback
-                    </Menu.Item>
+                    
                     <Menu.Item disabled leftSection={<IconBell style={{ width: rem(14), height: rem(14) }} />}>
                         Notifications
                     </Menu.Item>
@@ -72,8 +64,14 @@ export function UserMenu({
                     <Menu.Item disabled leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
                         How it works
                     </Menu.Item>
+                    <Menu.Item color="blue" leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />} onClick={userFeedbackModalHandle.open}>
+                        Give Feedback
+                    </Menu.Item>
+                    <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} onClick={userProfileHandle.open}>
+                        Settings
+                    </Menu.Item>
                     <Menu.Divider />
-                    <Menu.Item color="red" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: "70%", height: "70%" }} />}>
+                    <Menu.Item color="red" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}>
                         Logout
                     </Menu.Item>
                 </Menu.Dropdown>

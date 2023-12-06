@@ -461,6 +461,8 @@ export function HomePage() {
           filters={filters}
           setFilters={setFilters}
           repositorySelectedItems={repositorySelectedItems}
+          setRepositorySelectedItems={setRepositorySelectedItems}
+          openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
         />
       </AppShell.Footer>
     </AppShell>

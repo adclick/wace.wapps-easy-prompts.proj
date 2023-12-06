@@ -50,6 +50,7 @@ export function RepositoryHeader({
     const [filtersOpened, filtersHandle] = useDisclosure(false);
     const [newModifierModalOpened, newModifierModalHandle] = useDisclosure(false);
     const [types, setTypes] = useState<string[]>(filters.types);
+    const [searchingTerm, searchingTermHandle] = useDisclosure(false);
 
     const updateTypes = (value: any) => {
         setTypes(value);

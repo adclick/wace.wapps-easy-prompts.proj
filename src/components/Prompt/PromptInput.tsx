@@ -1,5 +1,5 @@
 import { ActionIcon, Popover, Box, Badge, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
-import { IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
+import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import cx from 'clsx';
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
@@ -47,7 +47,9 @@ interface PromptInput {
     language: Language,
     filters: Filters,
     setFilters: any,
-    repositorySelectedItems: RepositoryItem[]
+    repositorySelectedItems: RepositoryItem[],
+    setRepositorySelectedItems: any,
+    openRepositoryItemDetailsSelected: any
 }
 
 export function PromptInput({
@@ -76,7 +78,9 @@ export function PromptInput({
     language,
     filters,
     setFilters,
-    repositorySelectedItems
+    repositorySelectedItems,
+    setRepositorySelectedItems,
+    openRepositoryItemDetailsSelected
 }: PromptInput) {
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
@@ -85,14 +89,14 @@ export function PromptInput({
 
     // Submit prompt
     const submitPrompt = async () => {
-        if (userPrompt.length <= 0) return;
+        if (value.length <= 0) return;
 
-        setUserPrompt("");
+        setValue("");
 
         // Deep copy
         const threadUserOptions = JSON.parse(JSON.stringify(userPromptOptions));
         const thread = new Thread();
-        thread.request.setText(userPrompt);
+        thread.request.setText(value);
         thread.request.setUserPromptOptions(threadUserOptions);
 
         const modifier = repositorySelectedItems.find(i => i.type === 'modifier');
@@ -142,9 +146,20 @@ export function PromptInput({
                             repositorySelectedItems.length > 0 &&
                             repositorySelectedItems[0].type === "modifier" &&
                             <Center>
-                                <Badge size="xs" color={repositorySelectedItems[0].color}>
-                                    {repositorySelectedItems[0].name}
-                                </Badge>
+                                <Group gap={0}>
+                                    <Button
+                                        leftSection={<IconSparkles size={16} />}
+                                        onClick={() => openRepositoryItemDetailsSelected(repositorySelectedItems[0])}
+                                        size="compact-xs"
+                                        variant="light"
+                                        color={repositorySelectedItems[0].color}
+                                    >
+                                        Using {repositorySelectedItems.length} modifier(s)
+                                    </Button>
+                                    <ActionIcon onClick={() => setRepositorySelectedItems([])} variant="transparent" color={repositorySelectedItems[0].color} >
+                                        <IconX size={14} />
+                                    </ActionIcon>
+                                </Group>
                             </Center>
                         }
                         <Group w={"100%"} wrap="nowrap">

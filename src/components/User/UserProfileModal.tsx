@@ -58,7 +58,7 @@ export function UserProfileModal({
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
     return (
-        <Modal opened={userProfileOpened} onClose={closeUserProfile} title="User Profile" size={"xl"}>
+        <Modal opened={userProfileOpened} onClose={closeUserProfile} title="Settings" size={"xl"}>
             <Card>
                 <Stack gap={"lg"}>
                     <SimpleGrid cols={{ base: 1, sm: 2 }}>
