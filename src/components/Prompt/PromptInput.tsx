@@ -139,6 +139,7 @@ export function PromptInput({
                             }
                         </Center> */}
                         {
+                            repositorySelectedItems.length > 0 &&
                             repositorySelectedItems[0].type === "modifier" &&
                             <Center>
                                 <Badge size="xs" color={repositorySelectedItems[0].color}>
