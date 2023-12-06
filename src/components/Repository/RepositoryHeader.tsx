@@ -135,7 +135,7 @@ export function RepositoryHeader({
                 <Group gap={"xs"}>
                     <Menu shadow="md" position='bottom-start'>
                         <Menu.Target>
-                            <ActionIcon size={"lg"} variant='subtle'>
+                            <ActionIcon size={"lg"} variant='light'>
                                 <IconPlus style={{ width: rem(18), height: rem(18) }} />
                             </ActionIcon>
                         </Menu.Target>

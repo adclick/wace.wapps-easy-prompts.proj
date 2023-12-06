@@ -6,6 +6,10 @@ export class RepositoryItem {
     score: number;
     content: string;
     color: string;
+    technology_name: string;
+    technology_slug: string;
+    provider_name: string;
+    provider_slug: string;
 
     constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
         this.id = 0;
@@ -15,6 +19,10 @@ export class RepositoryItem {
         this.score = score;
         this.content = content;
         this.color = color;
+        this.technology_name = "";
+        this.technology_slug = "";
+        this.provider_name = "";
+        this.provider_slug = "";
     }
 
     static buildFromApi(data: any): RepositoryItem {
@@ -43,6 +51,22 @@ export class RepositoryItem {
 
         if ('content' in data) {
             newRepoItem.content = data.content;
+        }
+
+        if ('technology_name' in data) {
+            newRepoItem.technology_name = data.technology_name;
+        }
+
+        if ('technology_slug' in data) {
+            newRepoItem.technology_slug = data.technology_slug;
+        }
+
+        if ('provider_name' in data) {
+            newRepoItem.provider_name = data.provider_name;
+        }
+
+        if ('provider_slug' in data) {
+            newRepoItem.provider_slug = data.provider_slug;
         }
 
         return newRepoItem;

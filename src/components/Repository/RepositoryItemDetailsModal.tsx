@@ -1,6 +1,6 @@
 import { Modal, Card, Stack, Title, Text, Group, Button, Divider, rem, ActionIcon } from "@mantine/core";
 import { RepositoryItem } from "../../model/RepositoryItem";
-import { IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconTrash } from "@tabler/icons-react";
 import { IconX } from "@tabler/icons-react";
 
 interface RepositoryItemDetailsModal {
@@ -28,7 +28,7 @@ export function RepositoryItemDetailsModal({
                 <Text size="sm">{item.content}</Text>
                 <Divider />
                 <Group justify="space-between">
-                    <Button variant="light" color={item.color} onClick={use}>
+                    <Button size="xs" variant="light" color={item.color} onClick={use} leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />}>
                         Apply
                     </Button>
                     <ActionIcon variant='subtle' color="red">

@@ -10,6 +10,7 @@ export class ClickupClient {
     }
 
     async createTask(name: string, description: string) {
+        console.log('creating task')
         axios.post(`${this.baseUrl}/list/${this.itSupportListId}/task`, {
             name,
             description

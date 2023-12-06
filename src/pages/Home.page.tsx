@@ -352,6 +352,8 @@ export function HomePage() {
             setRepositorySelectedItems={setRepositorySelectedItems}
             refreshRepository={refreshRepository}
             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+            threads={threads}
+            setThreads={setThreads}
           />
         </AppShell.Section>
         <AppShell.Section>

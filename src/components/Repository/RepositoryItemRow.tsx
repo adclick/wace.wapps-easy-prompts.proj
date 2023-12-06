@@ -5,6 +5,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { Filters } from "../../model/Filters";
+import { Thread } from "../../model/Thread";
+import { UserPromptOptions } from "../../model/UserPromptOptions";
 
 
 interface RepositoryItemRow {
@@ -16,7 +18,9 @@ interface RepositoryItemRow {
     aiMediatorClient: AIMediatorClient,
     refreshRepository: any,
     filters: Filters,
-    openRepositoryItemDetailsSelected: any
+    openRepositoryItemDetailsSelected: any,
+    threads: Thread[]
+    setThreads: any
 }
 
 export function RepositoryItemRow({
@@ -28,16 +32,31 @@ export function RepositoryItemRow({
     aiMediatorClient,
     refreshRepository,
     filters,
-    openRepositoryItemDetailsSelected
+    openRepositoryItemDetailsSelected,
+    threads,
+    setThreads
 }: RepositoryItemRow) {
 
     const use = () => {
-        if (repositoryItem.type === "prompt") {
-            setUserPrompt(repositoryItem.content);
+        switch (repositoryItem.type) {
+            case "prompt":
+                const options = new UserPromptOptions();
+                options.technology.name = repositoryItem.technology_name;
+                options.technology.slug = repositoryItem.technology_slug;
+                options.provider.name = repositoryItem.provider_name;
+                options.provider.slug = repositoryItem.provider_slug;
+        
+                const thread = new Thread();
+                thread.request.setText(repositoryItem.content);
+                thread.request.userPromptOptions = options
+                thread.request.repositoryItems = [repositoryItem];
+                setThreads([...threads, thread]);
+                break;
+            case "template":
+            case "modifier":
+                setRepositorySelectedItems([repositoryItem]);
+                break;
         }
-
-        setRepositorySelectedItems([repositoryItem]);
-
     }
 
     const deleteItem = async () => {

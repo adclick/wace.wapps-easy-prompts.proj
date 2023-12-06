@@ -7,6 +7,7 @@ import { Suggestion } from "../../model/Suggestion";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { Filters } from "../../model/Filters";
+import { Thread } from "../../model/Thread";
 
 
 interface RepositoryPanel {
@@ -21,7 +22,9 @@ interface RepositoryPanel {
     repositorySelectedItems: RepositoryItem[],
     setRepositorySelectedItems: any,
     refreshRepository: any,
-    openRepositoryItemDetailsSelected: any
+    openRepositoryItemDetailsSelected: any,
+    threads: Thread[],
+    setThreads: any
 }
 
 export function RepositoryPanel({
@@ -36,7 +39,9 @@ export function RepositoryPanel({
     repositorySelectedItems,
     setRepositorySelectedItems,
     refreshRepository,
-    openRepositoryItemDetailsSelected
+    openRepositoryItemDetailsSelected,
+    threads,
+    setThreads
 }: RepositoryPanel) {
     const { t } = useTranslation();
 
@@ -82,6 +87,8 @@ export function RepositoryPanel({
                                         refreshRepository={refreshRepository}
                                         filters={filters}
                                         openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+                                        threads={threads}
+                                        setThreads={setThreads}
                                     />
                                 )
                             })

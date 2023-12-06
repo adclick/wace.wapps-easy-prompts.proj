@@ -81,6 +81,7 @@ export function PromptInput({
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');
+    const [value, setValue] = useState('');
 
     // Submit prompt
     const submitPrompt = async () => {
@@ -167,7 +168,7 @@ export function PromptInput({
                                         }
                                     </ActionIcon>
                                 </Popover.Target>
-                                <Popover.Dropdown>
+                                <Popover.Dropdown p={"xs"}>
                                     <PromptOptionsPanel
                                         drawerOpened={opened}
                                         closeDrawer={close}
@@ -211,8 +212,8 @@ export function PromptInput({
 
                                 }}
                                 radius={'xl'}
-                                value={userPrompt}
-                                onChange={e => setUserPrompt(e.target.value)}
+                                value={value}
+                                onChange={e => setValue(e.target.value)}
                                 onKeyDown={submitPromptByTextArea}
                                 classNames={{
                                     input: cx(computedColorScheme)
