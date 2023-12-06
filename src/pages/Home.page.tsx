@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Stack, Popover, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
-import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconFilter, IconHistory, IconInfoCircle, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconFilter, IconHistory, IconInfoCircle, IconPencil, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -251,6 +251,9 @@ export function HomePage() {
               <Menu.Dropdown>
                 <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                   New Chat
+                </Menu.Item>
+                <Menu.Item disabled leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}>
+                  Rename
                 </Menu.Item>
                 <Menu.Item disabled leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
                   History
