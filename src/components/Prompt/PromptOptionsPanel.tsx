@@ -58,61 +58,37 @@ export function PromptOptionsPanel({
     setFilters
 }: PromptOptionsPanel) {
     return (
-        <Tabs defaultValue={"options"}>
-
-            <Tabs.List grow>
-                <Tabs.Tab value="options">Options</Tabs.Tab>
-                <Tabs.Tab value="advanced">Advanced</Tabs.Tab>
-            </Tabs.List>
-
-            <Tabs.Panel value="options">
-                <Stack mx={"xs"} my={"md"} gap={"md"}>
-                    <PromptOptionTechnology
+        <Stack mx={"xs"} my={"md"} gap={"md"}>
+            <Stack>
+                <PromptOptionProvider
+                    promptOptions={promptOptions}
+                    currentProvider={provider}
+                    providers={providers}
+                    handleOnChangeProvider={handleOnChangeProvider}
+                />
+            </Stack>
+            {/* <PromptOptionTechnology
                         promptOptions={promptOptions}
                         currentTechnology={technology}
                         technologies={technologies}
                         handleOnChangeTechnology={handleOnChangeTechnology}
-                    />
+                    /> */}
 
-                    {
-                        parameters.map(parameter => {
-                            return (
-                                <Box my={"sm"} key={parameter.slug}>
-                                    <PromptOptionParameter
-                                        key={parameter.slug}
-                                        type={parameter.slug}
-                                        parameter={parameter}
-                                        userPromptOptions={userPromptOptions}
-                                        setUserPromptOptions={setUserPromptOptions}
-                                    />
-                                </Box>
-                            )
-                        })
-                    }
-                    <Divider />
-                    <Group justify="space-between">
-                        <Button
-                            px={0}
-                            variant="transparent"
-                            size="sm"
-                            leftSection={<IconReload style={{ width: rem(16), height: rem(16) }} />}
-                        >
-                            Reset
-                        </Button>
-                    </Group>
-                </Stack>
-            </Tabs.Panel>
-
-            <Tabs.Panel value="advanced">
-                <Stack mx={"xs"} my={"md"} gap={"md"}>
-                    <PromptOptionProvider
-                        promptOptions={promptOptions}
-                        currentProvider={provider}
-                        providers={providers}
-                        handleOnChangeProvider={handleOnChangeProvider}
-                    />
-                </Stack>
-            </Tabs.Panel>
-        </Tabs>
+            {
+                parameters.map(parameter => {
+                    return (
+                        <Box my={"sm"} key={parameter.slug}>
+                            <PromptOptionParameter
+                                key={parameter.slug}
+                                type={parameter.slug}
+                                parameter={parameter}
+                                userPromptOptions={userPromptOptions}
+                                setUserPromptOptions={setUserPromptOptions}
+                            />
+                        </Box>
+                    )
+                })
+            }
+        </Stack>
     )
 }

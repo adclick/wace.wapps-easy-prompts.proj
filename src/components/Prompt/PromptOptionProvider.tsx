@@ -1,6 +1,6 @@
 import { PromptOptions } from "@/model/PromptOptions";
 import { Provider } from "../../model/Provider";
-import { Accordion, Group, Select, Text, Title, rem } from "@mantine/core";
+import { Accordion, Group, Select, Stack, Text, Title, rem } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 
 interface PromptOptionProvider {
@@ -35,7 +35,7 @@ export function PromptOptionProvider({
             onChange={handleOnChangeProvider}
             comboboxProps={{ withinPortal: false }}
             variant="unstyled"
-            size="md"
+            label="Provider"
         />
     )
 }

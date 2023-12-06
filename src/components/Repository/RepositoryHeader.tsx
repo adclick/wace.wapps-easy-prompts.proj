@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
@@ -113,7 +113,7 @@ export function RepositoryHeader({
                         </Menu.Target>
 
                         <Menu.Dropdown>
-                            <Menu.Item color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item disabled color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                                 Create new Repository
                             </Menu.Item>
                             <Menu.Item onClick={repositoryListModalHandle.open} leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
@@ -126,7 +126,7 @@ export function RepositoryHeader({
                             <Menu.Item disabled leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>
                                 Members
                             </Menu.Item>
-                            <Menu.Item leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
+                            <Menu.Item disabled leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
                                 My Repositories
                             </Menu.Item>
                         </Menu.Dropdown>
@@ -152,12 +152,12 @@ export function RepositoryHeader({
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
-                    <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
+                    {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
-                    </ActionIcon>
-                    <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
+                    </ActionIcon> */}
+                    {/* <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
-                    </ActionIcon>
+                    </ActionIcon> */}
                 </Group>
             </Group>
             {

@@ -46,7 +46,7 @@ export function PromptOptionNumImages({
     return (
         <Stack gap={"md"}>
             <Group>
-                <Text size="md">{parameter.name}</Text>
+                <Text size="sm" fw={500}>{parameter.name}</Text>
             </Group>
             <Slider
                 defaultValue={1}
