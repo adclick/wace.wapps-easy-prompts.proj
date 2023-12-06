@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconMail, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ClickupClient } from "../..//clients/ClickupClient";
+import { ClickupClient } from "../../clients/ClickupClient";
 
 export function FeedbackButton() {
     const { t } = useTranslation();
@@ -11,9 +11,9 @@ export function FeedbackButton() {
     const [feedback, setFeedback] = useState("");
 
     const send = async () => {
-        console.log('sending', feedback);
         const clickupClient = new ClickupClient();
-
+        console.log('sending asd', clickupClient);
+        
         await clickupClient.createTask('teste saraiva', 'teste');
     }
 
