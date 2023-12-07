@@ -1,4 +1,4 @@
-import { Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
@@ -132,11 +132,15 @@ export function RepositoryHeader({
                             <Menu.Item disabled leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
                                 My Repositories
                             </Menu.Item>
+                            <Menu.Divider />
+                            <Menu.Item onClick={newModifierModalHandle.open} color={RepositoryItem.getColor("modifier")} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
+                                Create new modifier
+                            </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
                 </Group>
                 <Group gap={"xs"}>
-                    <Menu shadow="md" position='bottom-start'>
+                    {/* <Menu shadow="md" position='bottom-start'>
                         <Menu.Target>
                             <ActionIcon size={"lg"} variant='filled'>
                                 <IconPlus style={{ width: '60%', height: '60%' }} stroke={1.5} />
@@ -154,18 +158,25 @@ export function RepositoryHeader({
                                 Modifier
                             </Menu.Item>
                         </Menu.Dropdown>
-                    </Menu>
+                    </Menu> */}
                     {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon> */}
-                    {/* <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
+                    <ActionIcon onClick={filtersHandle.toggle} size={"lg"} variant='subtle'>
+                        {
+                            filtersOpened
+                                ? <IconFilterFilled style={{ width: rem(18), height: rem(18) }} />
+                                : <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                        }
+
+                    </ActionIcon>
+                    <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
-                    </ActionIcon> */}
+                    </ActionIcon>
                 </Group>
             </Group>
-            {
-                filtersOpened &&
-                <Stack gap={"xl"}>
+            <Collapse in={filtersOpened}>
+                <Stack gap={"xl"} mb={"xs"}>
                     <Textarea
                         placeholder={"Search"}
                         autosize
@@ -183,17 +194,19 @@ export function RepositoryHeader({
                         </Group>
                     </Checkbox.Group>
                 </Stack>
-            }
+            </Collapse>
 
-            <Divider label={
-                <Button variant="subtle" size="compact-xs" rightSection={
-                    filtersOpened
-                        ? <IconChevronUp size={12} />
-                        : <IconChevronDown size={12} />
-                } onClick={filtersHandle.toggle}>
-                    <Badge variant="transparent">Filters</Badge>
-                </Button>
-            } />
+            <Divider
+            // label={
+            //     <Button variant="subtle" size="compact-xs" rightSection={
+            //         filtersOpened
+            //             ? <IconChevronUp size={12} />
+            //             : <IconChevronDown size={12} />
+            //     } onClick={filtersHandle.toggle}>
+            //         <Badge variant="transparent">Filters</Badge>
+            //     </Button>
+            // }
+            />
         </Stack>
     )
 }

@@ -239,10 +239,13 @@ export function HomePage() {
               hiddenFrom="sm"
               size="sm"
             />
-            <Menu shadow="md" width={200} position='bottom-start'>
+            <Menu shadow="md" width={"target"} position='bottom-start'>
               <Menu.Target>
                 <UnstyledButton px={"md"} >
                   <Group align='center' gap={"xs"}>
+                    {
+                      Technology.getIcon(technology.slug, 20)
+                    }
                     <Title order={1} size={"h3"} style={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -362,11 +365,11 @@ export function HomePage() {
         <AppShell.Section>
           <Divider h={"md"} />
           <UserMenu
-              filters={filters}
-              setFilters={setFilters}
-              refreshRepository={refreshRepository}
-              aiMediatorClient={aIMediatorClient}
-            />
+            filters={filters}
+            setFilters={setFilters}
+            refreshRepository={refreshRepository}
+            aiMediatorClient={aIMediatorClient}
+          />
 
           {/* <Group justify='space-between'>
             <LanguageSwitcher

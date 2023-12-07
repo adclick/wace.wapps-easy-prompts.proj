@@ -15,6 +15,8 @@ import { Repository } from "../../model/Repository";
 import { Language } from "../../model/Language";
 import { User } from "../../model/User";
 import { RepositoryNewPromptModal } from "../Repository/RepositoryNewPromptModal";
+import { RepositoryItem } from "../../model/RepositoryItem";
+import { notifications } from "@mantine/notifications";
 
 interface ChatCard {
     request: Request,
@@ -99,13 +101,23 @@ export function ChatCard({
     }, [scrollIntoView]);
 
     const savePrompt = async () => {
-        await aIMediatorClient.upvotePrompt(
+        await aIMediatorClient.savePrompt(
             request.text,
-            userPromptOptions.technology,
-            userPromptOptions.provider
+            request.text,
+            request.userPromptOptions.technology.slug,
+            request.userPromptOptions.provider.slug,
+            user.id,
+            repository.slug,
+            language.code
         );
 
-        await refreshPromptOptions();
+        notifications.show({
+            title: 'Prompt Saved',
+            message: 'Your settings were saved',
+            color: RepositoryItem.getColor("prompt")
+        });
+        
+        refreshPromptOptions();
     }
 
     const handleVote = (vote: number) => {
@@ -147,7 +159,7 @@ export function ChatCard({
             <Card.Section inheritPadding mt={"lg"} mb={0}>
                 <Group justify="space-between" wrap="wrap">
                     <Group gap={"xs"} wrap="nowrap">
-                        <Tooltip label="Good Response" withArrow>
+                        {/* <Tooltip label="Good Response" withArrow>
                             <ActionIcon disabled variant='subtle' onClick={() => handleVote(1)}>
                                 {
                                     vote > 0
@@ -164,7 +176,10 @@ export function ChatCard({
                                         : <IconMoodSad size={"16"} />
                                 }
                             </ActionIcon>
-                        </Tooltip>
+                        </Tooltip> */}
+                        <Button onClick={savePrompt} variant="subtle" size="xs" color={RepositoryItem.getColor("prompt")}>
+                            Save Prompt
+                        </Button>
                         <CopyButton value={response.data} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
@@ -191,7 +206,8 @@ export function ChatCard({
                             refreshPromptOptions={refreshPromptOptions}
 
                         />
-                        <Menu withinPortal position="top" shadow="sm">
+
+                        {/* <Menu withinPortal position="top" shadow="sm">
                             <Menu.Target>
                                 <ActionIcon variant="subtle" color="gray">
                                     <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
@@ -209,7 +225,7 @@ export function ChatCard({
                                     Save Modifiers
                                 </Menu.Item>
                             </Menu.Dropdown>
-                        </Menu>
+                        </Menu> */}
                     </Group>
                     <Group>
                         {

@@ -26,7 +26,7 @@ export function RepositoryItemDetailsModal({
         <Modal opened={opened} onClose={handle.close} title={item.name}>
             <Stack>
                 <Text size="sm">{item.content}</Text>
-                <Divider />
+                {/* <Divider />
                 <Group justify="space-between">
                     <Button size="xs" variant="light" color={item.color} onClick={use} leftSection={<IconCheck style={{ width: rem(14), height: rem(14) }} />}>
                         Apply
@@ -34,7 +34,7 @@ export function RepositoryItemDetailsModal({
                     <ActionIcon variant='subtle' color="red">
                         <IconTrash style={{ width: rem(16), height: rem(16) }}  />
                     </ActionIcon>
-                </Group>
+                </Group> */}
             </Stack>
 
 
