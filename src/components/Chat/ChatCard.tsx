@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, em, rem, useComputedColorScheme } from "@mantine/core"
-import { IconCheck, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash } from "@tabler/icons-react"
+import { IconCheck, IconDownload, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { User } from "../../model/User";
 import { RepositoryNewPromptModal } from "../Repository/RepositoryNewPromptModal";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { notifications } from "@mantine/notifications";
+import { ChatCardKeywordsExtracted } from "./ChatCardResponseKeywordsExtracted";
 
 interface ChatCard {
     request: Request,
@@ -46,6 +47,7 @@ export function ChatCard({
     openRepositoryItemDetailsSelected
 }: ChatCard) {
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
+    const [responseAsText, setResponseAsText] = useState('');
     const [vote, setVote] = useState(0);
     const [responded, setResponded] = useState(false);
     const [savePromptModalOpened, savePromptModalHandle] = useDisclosure(false);
@@ -55,57 +57,62 @@ export function ChatCard({
         // On each render, don't request if already responded
         if (responded) return;
 
-        aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
-            switch (request.userPromptOptions.technology.slug) {
-                case 'text-generation':
+        switch (request.userPromptOptions.technology.slug) {
+            case 'text-generation':
+                aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
                     aIMediatorClient.generateText(optimizedPrompt, request.repositoryItems, request.userPromptOptions).then(text => {
                         setResult(<ChatCardText text={text} />);
-                        scrollIntoView({ alignment: 'start' });
-                        setResponded(true);
+                        setResponseAsText(text);
                     }).catch((e) => {
                         setResult(<Text>Error. Something went wrong. Contact support</Text>)
                     })
-                    break;
-                case 'image-generation':
+                })
+                break;
+            case 'image-generation':
+                aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
                     aIMediatorClient.generateImage(optimizedPrompt, request.userPromptOptions).then((images: string[]) => {
                         setResult(<ChatCardImage images={images} />);
-                        scrollIntoView({ alignment: 'start' });
-                        setResponded(true);
+                        setResponseAsText('');
                     }).catch((e) => {
                         setResult(<Text>Error. Something went wrong. Contact support</Text>)
                     })
-                    break;
-                case 'translation':
-                    // aIMediatorClient.translate(optimizedPrompt, request.userPromptOptions).then((text: string) => {
-                    //     setResult(<ChatCardText text={text} />);
-                    //     scrollIntoView({ alignment: 'start' });
-                    //     setResponded(true);
-                    // }).catch((e) => {
-                    //     setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                    // })
-                    break;
-                case 'keywords-extraction':
-                    // aIMediatorClient.extractKeywords(optimizedPrompt, request.userPromptOptions).then((text: string) => {
-                    //     setResult(<ChatCardText text={text} />);
-                    //     scrollIntoView({ alignment: 'start' });
-                    //     setResponded(true);
-                    // }).catch((e) => {
-                    //     setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                    // })
-                    break;
-                default:
-                    setResult(<Text>Error</Text>);
-                    break;
-            }
-        })
+                })
+                break;
+            case 'keywords-extraction':
+                aIMediatorClient.extractKeywords(request.text, request.userPromptOptions).then((keywords: string[]) => {
+                    setResult(<ChatCardKeywordsExtracted keywords={keywords} />);
+                    setResponseAsText(keywords.join(','));
+                }).catch((e) => {
+                    setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                })
+                break;
+            case 'translation':
+                aIMediatorClient.translate(request.text, request.userPromptOptions).then((text: string) => {
+                    setResult(<ChatCardText text={text} />);
+                    setResponseAsText(text);
+                }).catch((e) => {
+                    setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                })
+                break;
+            default:
+                setResult(<Text>Error</Text>);
+                break;
+        }
+        
+        setResponded(true);
+        scrollIntoView({ alignment: 'start' });
+
     }, [scrollIntoView]);
 
     const savePrompt = async () => {
+        const modifierId = request.repositoryItems.length > 0 ? request.repositoryItems[0].id : 0; 
+
         await aIMediatorClient.savePrompt(
             request.text,
             request.text,
             request.userPromptOptions.technology.slug,
             request.userPromptOptions.provider.slug,
+            modifierId,
             user.id,
             repository.slug,
             language.code
@@ -116,7 +123,7 @@ export function ChatCard({
             message: 'Your settings were saved',
             color: RepositoryItem.getColor("prompt")
         });
-        
+
         refreshPromptOptions();
     }
 
@@ -133,7 +140,7 @@ export function ChatCard({
                     <Group justify="space-between">
                         <Group>
                             <Avatar src={user?.picture} size={"sm"} />
-                            <Text size="md">
+                            <Text size="md" style={{ whiteSpace: "pre-line" }}>
                                 {request.text}
                             </Text>
                         </Group>
@@ -177,10 +184,10 @@ export function ChatCard({
                                 }
                             </ActionIcon>
                         </Tooltip> */}
-                        <Button onClick={savePrompt} variant="subtle" size="xs" color={RepositoryItem.getColor("prompt")}>
+                        <Button leftSection={<IconDownload size={16} />} onClick={savePrompt} variant="subtle" size="xs" color={RepositoryItem.getColor("prompt")}>
                             Save Prompt
                         </Button>
-                        <CopyButton value={response.data} timeout={2000}>
+                        <CopyButton value={responseAsText} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
                                     <ActionIcon color={copied ? 'blue' : 'gray'} variant="subtle" onClick={copy}>

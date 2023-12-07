@@ -59,6 +59,8 @@ export function RepositoryItemRow({
                 setRepositorySelectedItems([repositoryItem]);
                 break;
         }
+
+        navbarToggle();
     }
 
     const deleteItem = async () => {

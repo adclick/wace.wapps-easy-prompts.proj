@@ -69,12 +69,13 @@ export class AIMediatorClient {
         return await this.post('/ai/prompt/optimize', { prompt, repositoryItems, options });
     }
 
-    async savePrompt(name: string, content: string, technology: string, provider: string, userId: string, repository: string, language: string) {
+    async savePrompt(name: string, content: string, technology: string, provider: string, modifierId: number, userId: string, repository: string, language: string) {
         return await this.post('/ai/prompt/add-prompt', {
             name,
             content,
             technology,
             provider,
+            modifierId,
             userId,
             repository,
             language
@@ -111,13 +112,39 @@ export class AIMediatorClient {
     async generateText(prompt: string, repositoryItems: RepositoryItem[], options: UserPromptOptions) {
         return await this.post('/ai/text/generate-text', { prompt, repositoryItems, options });
     }
-    
+
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
         const images: GeneratedImage[] = await this.post('/ai/image/image-generation', { prompt, options });
-        
+
         return images.map(image => image.image_resource_url);
     }
-    
+
+    async extractKeywords(prompt: string, options: UserPromptOptions): Promise<string[]> {
+        const { data } = await axios.post(`${this.baseUrl}/ai/text/extract-keywords`, {
+            text: prompt,
+            provider: options.provider.slug,
+            language: options.language.code,
+            sandbox: this.getSandboxParam()
+        });
+
+        return data;
+    }
+
+    async translate(prompt: string, options: UserPromptOptions): Promise<string> {
+        const sourceLanguage = options.parameters.find(p => p.slug === 'source-language');
+        const targetLanguage = options.parameters.find(p => p.slug === 'target-language');
+
+        const { data } = await axios.post(`${this.baseUrl}/ai/text/translate`, {
+            text: prompt,
+            provider: options.provider.slug,
+            sourceLanguage: sourceLanguage !== undefined ? sourceLanguage.value : "pt",
+            targetLanguage: targetLanguage !== undefined ? targetLanguage.value : "en",
+            sandbox: this.getSandboxParam()
+        });
+
+        return data;
+    }
+
     async sendFeedback(name: string, description: string) {
         return await this.post('/ai/prompt/send-feedback', { name, description });
     }
