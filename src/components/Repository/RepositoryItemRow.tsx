@@ -118,7 +118,7 @@ export function RepositoryItemRow({
                                 </Menu.Dropdown>
                             </Menu>
                             <ActionIcon color={repositoryItem.color} variant="filled" size={"md"} onClick={use}>
-                                <IconPlayerPlayFilled style={{ width: "60%", height: "60%" }} />
+                                <IconPlayerPlayFilled  style={{ width: '50%', height: '50%' }} stroke={1.5} />
                             </ActionIcon>
                         </Group>
                     </Group>

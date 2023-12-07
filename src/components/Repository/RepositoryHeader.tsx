@@ -138,8 +138,8 @@ export function RepositoryHeader({
                 <Group gap={"xs"}>
                     <Menu shadow="md" position='bottom-start'>
                         <Menu.Target>
-                            <ActionIcon size={"lg"} variant='light'>
-                                <IconPlus style={{ width: rem(18), height: rem(18) }} />
+                            <ActionIcon size={"lg"} variant='filled'>
+                                <IconPlus style={{ width: '60%', height: '60%' }} stroke={1.5} />
                             </ActionIcon>
                         </Menu.Target>
 

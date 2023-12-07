@@ -251,7 +251,7 @@ export function PromptInput({
                                 right={"25px"}
                                 onClick={submitPrompt}
                             >
-                                <IconPlayerPlayFilled style={{ width: '60%', height: '60%' }} stroke={1.5} />
+                                <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
                             </ActionIcon>
                         </Group>
                     </Stack>

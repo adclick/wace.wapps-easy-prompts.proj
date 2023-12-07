@@ -302,9 +302,6 @@ export function HomePage() {
                 <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                   New Chat
                 </Menu.Item>
-                <Menu.Item disabled leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}>
-                  Rename
-                </Menu.Item>
                 <Menu.Item disabled leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
                   History
                 </Menu.Item>
