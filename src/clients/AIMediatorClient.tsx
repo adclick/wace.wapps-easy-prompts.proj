@@ -6,11 +6,6 @@ import { Filters } from "@/model/Filters";
 import { User } from "../model/User";
 import { RepositoryItem } from "../model/RepositoryItem";
 
-type GeneratedImage = {
-    image_resource_url: string
-}
-
-
 export class AIMediatorClient {
     baseUrl: string;
     repositoryItemsLimit: number

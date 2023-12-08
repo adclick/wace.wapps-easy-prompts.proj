@@ -72,42 +72,45 @@ export function RepositoryItemRow({
     return (
         <Card>
             <Stack>
-                <Stack gap={0}>
-                    <Group justify="space-between">
+                <Group justify="space-between" wrap="nowrap" align="flex-start">
+                    <Stack gap={0}>
                         <Badge size="xs" variant="transparent" color="gray.9" px={0}>Productivity</Badge>
-                        <Menu>
-                            <Menu.Target>
-                                <ActionIcon variant="subtle" color="gray">
-                                    <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
-                                </ActionIcon>
-                            </Menu.Target>
+                        <Text size="sm" fw={500} lineClamp={20}>
+                            {repositoryItem.name}
+                        </Text>
+                    </Stack>
+                    <Menu>
+                        <Menu.Target>
+                            <ActionIcon variant="subtle" color="gray">
+                                <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
+                            </ActionIcon>
+                        </Menu.Target>
 
-                            <Menu.Dropdown>
-                                <Menu.Item onClick={() => openRepositoryItemDetailsSelected(repositoryItem)} leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                                    Details
-                                </Menu.Item>
-                                <Menu.Item
-                                    onClick={deleteItem}
-                                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                                    color="red"
-                                >
-                                    Delete
-                                </Menu.Item>
-                            </Menu.Dropdown>
-                        </Menu>
-                    </Group>
-                    <Text size="sm" fw={500} lineClamp={20}>
-                        {repositoryItem.name}
-                    </Text>
-                </Stack>
+                        <Menu.Dropdown>
+                            <Menu.Item onClick={() => openRepositoryItemDetailsSelected(repositoryItem)} leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
+                                Details
+                            </Menu.Item>
+                            <Menu.Item
+                                onClick={deleteItem}
+                                leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                                color="red"
+                            >
+                                Delete
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
+                </Group>
+
                 <Group justify="space-between">
                     <Badge size="xs" variant="filled" color={repositoryItem.color}>
                         {repositoryItem.type}
                     </Badge>
-                    <ActionIcon color={repositoryItem.color} variant="filled" size={"md"} onClick={use}>
-                        <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
-                    </ActionIcon>
-                    {/* <Rating px={"xs"} size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} /> */}
+                    <Group>
+                        <Rating px={"xs"} size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} />
+                        <ActionIcon color={repositoryItem.color} variant="filled" size={"md"} onClick={use}>
+                            <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Group>
                 </Group>
             </Stack>
         </Card>
