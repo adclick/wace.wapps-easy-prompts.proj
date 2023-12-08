@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Stack, Popover, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme, Skeleton } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
-import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconFilter, IconHistory, IconInfoCircle, IconLanguage, IconListSearch, IconPencil, IconPhoto, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconExclamationMark, IconFilter, IconHistory, IconInfoCircle, IconLanguage, IconListSearch, IconPencil, IconPhoto, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
 import { AIMediatorClient } from '../clients/AIMediatorClient';
 import { UserPromptOptions } from '../model/UserPromptOptions';
@@ -300,6 +300,36 @@ export function HomePage() {
                   leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}
                 >
                   Translation
+                </Menu.Item>
+                <Menu.Item
+                  disabled
+                  rightSection={
+                    technology.slug === "topic-extraction" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Topic Extraction
+                </Menu.Item>
+                <Menu.Item
+                  disabled
+                  rightSection={
+                    technology.slug === "topic-extraction" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Summarize
+                </Menu.Item>
+                <Menu.Item
+                  disabled
+                  rightSection={
+                    technology.slug === "topic-extraction" &&
+                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                  }
+                  leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                >
+                  Audio
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
