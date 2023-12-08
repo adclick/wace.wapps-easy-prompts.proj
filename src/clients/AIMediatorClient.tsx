@@ -114,9 +114,16 @@ export class AIMediatorClient {
     }
 
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
-        const images: GeneratedImage[] = await this.post('/ai/image/image-generation', { prompt, options });
+        const resolution = options.parameters.find(p => p.slug === 'image-resolution');
 
-        return images.map(image => image.image_resource_url);
+        const { data } = await axios.post(`${this.baseUrl}/ai/image/generate-image`, {
+            text: prompt,
+            provider: options.provider.slug,
+            resolution: resolution !== undefined && "value" in resolution ? resolution.value : "256x256",
+            sandbox: this.getSandboxParam()
+        });
+
+        return data;
     }
 
     async extractKeywords(prompt: string, options: UserPromptOptions): Promise<string[]> {
