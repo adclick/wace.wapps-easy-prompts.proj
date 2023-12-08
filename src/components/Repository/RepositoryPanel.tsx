@@ -64,37 +64,27 @@ export function RepositoryPanel({
                     <Loader type="bars" size={"xs"} />
                 </Center>
             }
-            <Stack gap={'xl'} mb={"md"}>
-
-                <Stack gap={'md'}>
-                    <Accordion variant="" chevron="" styles={{
-                        content: {
-                            paddingLeft: "0",
-                            paddingRight: "0"
-                        }
-                    }}>
-                        {
-                            repositoryItems.map((item: RepositoryItem) => {
-                                return (
-                                    <RepositoryItemRow
-                                        key={`${item.type}-${item.id}`}
-                                        repositoryItem={item}
-                                        setUserPrompt={setUserPrompt}
-                                        navbarToggle={navbarToggle}
-                                        repositorySelectedItems={repositorySelectedItems}
-                                        setRepositorySelectedItems={setRepositorySelectedItems}
-                                        aiMediatorClient={aiMediatorClient}
-                                        refreshRepository={refreshRepository}
-                                        filters={filters}
-                                        openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-                                        threads={threads}
-                                        setThreads={setThreads}
-                                    />
-                                )
-                            })
-                        }
-                    </Accordion>
-                </Stack>
+            <Stack>
+                {
+                    repositoryItems.map((item: RepositoryItem) => {
+                        return (
+                            <RepositoryItemRow
+                                key={`${item.type}-${item.id}`}
+                                repositoryItem={item}
+                                setUserPrompt={setUserPrompt}
+                                navbarToggle={navbarToggle}
+                                repositorySelectedItems={repositorySelectedItems}
+                                setRepositorySelectedItems={setRepositorySelectedItems}
+                                aiMediatorClient={aiMediatorClient}
+                                refreshRepository={refreshRepository}
+                                filters={filters}
+                                openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+                                threads={threads}
+                                setThreads={setThreads}
+                            />
+                        )
+                    })
+                }
             </Stack>
         </Box>
     )

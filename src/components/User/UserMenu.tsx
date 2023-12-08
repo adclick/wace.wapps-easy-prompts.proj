@@ -27,7 +27,7 @@ export function UserMenu({
     const [userFeedbackModalOpened, userFeedbackModalHandle] = useDisclosure(false);
 
     return (
-        <Box>
+        <Box pt={"md"}>
             <UserProfileModal
                 user={user}
                 userProfileOpened={userProfileOpened}

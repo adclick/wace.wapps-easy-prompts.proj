@@ -1,5 +1,5 @@
 import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
+import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
@@ -77,7 +77,7 @@ export function RepositoryHeader({
     })
 
     return (
-        <Stack mb={0}>
+        <Stack pb={"lg"}>
             <RepositoryListModal
                 opened={repositoryListModalOpened}
                 close={repositoryListModalHandle.close}
@@ -105,6 +105,13 @@ export function RepositoryHeader({
                         <Menu.Target>
                             <UnstyledButton px={0}>
                                 <Group align='center' gap={"xs"} wrap="nowrap">
+                                    {
+                                        filters.repository === "my-repository" && <IconUser style={{ width: rem(16), height: rem(16) }} />
+                                    }
+                                    {
+                                        filters.repository === "wace" && <IconUsersGroup style={{ width: rem(16), height: rem(16) }} />
+                                    }
+                                    
                                     <Box maw={175}>
                                         <Text truncate size="lg">
                                             {repositories.find(r => r.slug === filters.repository)?.name}
@@ -195,18 +202,6 @@ export function RepositoryHeader({
                     </Checkbox.Group>
                 </Stack>
             </Collapse>
-
-            <Divider
-            // label={
-            //     <Button variant="subtle" size="compact-xs" rightSection={
-            //         filtersOpened
-            //             ? <IconChevronUp size={12} />
-            //             : <IconChevronDown size={12} />
-            //     } onClick={filtersHandle.toggle}>
-            //         <Badge variant="transparent">Filters</Badge>
-            //     </Button>
-            // }
-            />
         </Stack>
     )
 }

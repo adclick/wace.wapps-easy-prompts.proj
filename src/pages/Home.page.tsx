@@ -393,7 +393,6 @@ export function HomePage() {
           />
         </AppShell.Section>
         <AppShell.Section>
-          <Divider h={"md"} />
           <UserMenu
             filters={filters}
             setFilters={setFilters}
