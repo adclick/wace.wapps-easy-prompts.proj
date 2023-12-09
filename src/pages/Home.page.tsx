@@ -239,99 +239,22 @@ export function HomePage() {
               hiddenFrom="sm"
               size="sm"
             />
-            <Menu shadow="md" width={"target"} position='bottom-start'>
+            <Menu shadow="md"  position='bottom-start'>
               <Menu.Target>
                 <UnstyledButton px={"md"} >
                   <Group align='center' gap={"xs"}>
-                    {
-                      Technology.getIcon(technology.slug, 20)
-                    }
                     <Title order={1} size={"h3"} style={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap"
                     }}>
-                      {
-                        technology.name
-                      }
+                      Chat
                     </Title>
                     <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
                   </Group>
                 </UnstyledButton>
               </Menu.Target>
-
               <Menu.Dropdown>
-                <Menu.Item
-                  onClick={() => handleOnChangeTechnology('text-generation')}
-                  rightSection={
-                    technology.slug === "text-generation" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Text Generation
-                </Menu.Item>
-                <Menu.Item
-                  onClick={() => handleOnChangeTechnology('image-generation')}
-                  rightSection={
-                    technology.slug === "image-generation" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Image Generation
-                </Menu.Item>
-                <Menu.Item
-                  onClick={() => handleOnChangeTechnology('keywords-extraction')}
-                  rightSection={
-                    technology.slug === "keywords-extraction" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconListSearch style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Keywords Extraction
-                </Menu.Item>
-                <Menu.Item
-                  onClick={() => handleOnChangeTechnology('translation')}
-                  rightSection={
-                    technology.slug === "translation" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Translation
-                </Menu.Item>
-                <Menu.Item
-                  disabled
-                  rightSection={
-                    technology.slug === "topic-extraction" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Topic Extraction
-                </Menu.Item>
-                <Menu.Item
-                  disabled
-                  rightSection={
-                    technology.slug === "topic-extraction" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Summarize
-                </Menu.Item>
-                <Menu.Item
-                  disabled
-                  rightSection={
-                    technology.slug === "topic-extraction" &&
-                    <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                  }
-                  leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  Audio
-                </Menu.Item>
-                <Menu.Divider />
                 <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                   New Chat
                 </Menu.Item>
@@ -343,12 +266,12 @@ export function HomePage() {
           </Group>
           <Group>
             {/* <ColorSchemeToggle /> */}
-            {/* <UserMenu
+            <UserMenu
               filters={filters}
               setFilters={setFilters}
               refreshRepository={refreshRepository}
               aiMediatorClient={aIMediatorClient}
-            /> */}
+            />
           </Group>
         </Group>
       </AppShell.Header>
@@ -374,7 +297,7 @@ export function HomePage() {
             repositorySelectedItems={repositorySelectedItems}
           />
         </AppShell.Section>
-        <AppShell.Section grow component={ScrollArea}>
+        <AppShell.Section grow component={ScrollArea} style={{borderRadius: "1rem"}}>
           <RepositoryPanel
             setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
@@ -392,13 +315,13 @@ export function HomePage() {
             setThreads={setThreads}
           />
         </AppShell.Section>
-        <AppShell.Section>
-          <UserMenu
+        {/* <AppShell.Section> */}
+          {/* <UserMenu
             filters={filters}
             setFilters={setFilters}
             refreshRepository={refreshRepository}
             aiMediatorClient={aIMediatorClient}
-          />
+          /> */}
 
           {/* <Group justify='space-between'>
             <LanguageSwitcher
@@ -431,19 +354,19 @@ export function HomePage() {
               </Group>
             }
           </Group> */}
-          <RepositoryItemDetailsModal
+          {/* <RepositoryItemDetailsModal
             opened={repositoryItemDetailsModalOpened}
             handle={repositoryItemDetailsModalHandle}
             item={repositoryItemDetailsSelected}
             setRepositorySelectedItems={setRepositorySelectedItems}
-          />
+          /> */}
 
           {/* <RepositorySelectedItemsWidget
             repositorySelectedItems={repositorySelectedItems}
             setRepositorySelectedItems={setRepositorySelectedItems}
           /> */}
 
-        </AppShell.Section>
+        {/* </AppShell.Section> */}
       </AppShell.Navbar>
 
       <AppShell.Main>

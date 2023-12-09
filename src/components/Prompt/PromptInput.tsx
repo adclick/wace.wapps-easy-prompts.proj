@@ -1,5 +1,5 @@
-import { ActionIcon, Popover, Box, Badge, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
-import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate } from "@tabler/icons-react";
+import { Select, Menu, ActionIcon, Popover, Box, Badge, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
+import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate, IconExclamationMark, IconLanguage, IconListSearch, IconPhoto, IconPencil } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import cx from 'clsx';
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
@@ -164,6 +164,100 @@ export function PromptInput({
                         }
                         <Group w={"100%"} wrap="nowrap">
 
+                            <Menu shadow="md" position='bottom-start'>
+                                <Menu.Target>
+                                    <ActionIcon
+                                        variant="subtle"
+                                        aria-label="Settings"
+                                        size="lg"
+                                        pos={"absolute"}
+                                        left={"30px"}
+                                        styles={{
+                                            root: {
+                                                zIndex: "1"
+                                            }
+                                        }}
+                                    >
+                                        {
+                                            Technology.getIcon(technology.slug, "70%")
+                                        }
+                                    </ActionIcon>
+                                </Menu.Target>
+
+                                <Menu.Dropdown>
+                                    <Menu.Item
+                                        onClick={() => handleOnChangeTechnology('text-generation')}
+                                        rightSection={
+                                            technology.slug === "text-generation" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Text Generation
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        onClick={() => handleOnChangeTechnology('image-generation')}
+                                        rightSection={
+                                            technology.slug === "image-generation" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Image Generation
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        onClick={() => handleOnChangeTechnology('keywords-extraction')}
+                                        rightSection={
+                                            technology.slug === "keywords-extraction" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconListSearch style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Keywords Extraction
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        onClick={() => handleOnChangeTechnology('translation')}
+                                        rightSection={
+                                            technology.slug === "translation" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Translation
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        disabled
+                                        rightSection={
+                                            technology.slug === "topic-extraction" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Topic Extraction
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        disabled
+                                        rightSection={
+                                            technology.slug === "topic-extraction" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Summarize
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        disabled
+                                        rightSection={
+                                            technology.slug === "topic-extraction" &&
+                                            <IconCheck style={{ width: rem(14), height: rem(14) }} />
+                                        }
+                                        leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Audio
+                                    </Menu.Item>
+                                </Menu.Dropdown>
+                            </Menu>
+
                             <Popover position="top-start" classNames={{
                                 dropdown: cx(computedColorScheme)
                             }}>
@@ -173,7 +267,7 @@ export function PromptInput({
                                         aria-label="Settings"
                                         size="lg"
                                         pos={"absolute"}
-                                        left={"30px"}
+                                        left={"70px"}
                                         styles={{
                                             root: {
                                                 zIndex: "1"
@@ -220,6 +314,16 @@ export function PromptInput({
                                 </Popover.Dropdown>
                             </Popover>
 
+
+
+
+
+
+
+
+
+
+
                             <Textarea
                                 placeholder={t("write_a_message")}
                                 autosize
@@ -230,7 +334,7 @@ export function PromptInput({
                                 size={'lg'}
                                 styles={{
                                     input: {
-                                        paddingLeft: "60px",
+                                        paddingLeft: "100px",
                                         paddingRight: "50px",
                                     },
 

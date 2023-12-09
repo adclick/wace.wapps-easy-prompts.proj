@@ -1,4 +1,4 @@
-import { IconLanguage, IconListSearch, IconPencil, IconPhoto } from "@tabler/icons-react";
+import { IconLanguage, IconLetterT, IconListSearch, IconPencil, IconPencilStar, IconPhoto, IconTextSize } from "@tabler/icons-react";
 import { Modifier } from "./Modifier";
 import { Provider } from "./Provider";
 import { rem } from '@mantine/core';
@@ -22,10 +22,10 @@ export class Technology {
         return new Technology()
     }
 
-    static getIcon(slug: string, size: number) {
+    static getIcon(slug: string, size: number|string) {
         switch (slug) {
             case 'text-generation':
-                return <IconPencil style={{ width: rem(size), height: rem(size) }} />
+                return <IconPencilStar style={{ width: rem(size), height: rem(size) }} />
             case 'image-generation':
                 return <IconPhoto style={{ width: rem(size), height: rem(size) }} />
             case 'keywords-extraction':

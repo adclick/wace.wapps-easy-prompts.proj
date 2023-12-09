@@ -65,26 +65,33 @@ export function RepositoryPanel({
                 </Center>
             }
             <Stack>
-                {
-                    repositoryItems.map((item: RepositoryItem) => {
-                        return (
-                            <RepositoryItemRow
-                                key={`${item.type}-${item.id}`}
-                                repositoryItem={item}
-                                setUserPrompt={setUserPrompt}
-                                navbarToggle={navbarToggle}
-                                repositorySelectedItems={repositorySelectedItems}
-                                setRepositorySelectedItems={setRepositorySelectedItems}
-                                aiMediatorClient={aiMediatorClient}
-                                refreshRepository={refreshRepository}
-                                filters={filters}
-                                openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-                                threads={threads}
-                                setThreads={setThreads}
-                            />
-                        )
-                    })
-                }
+                <Accordion variant="separated" chevron="" styles={{
+                    chevron: {
+                        display: "none"
+                    }
+                }}>
+
+                    {
+                        repositoryItems.map((item: RepositoryItem) => {
+                            return (
+                                <RepositoryItemRow
+                                    key={`${item.type}-${item.id}`}
+                                    repositoryItem={item}
+                                    setUserPrompt={setUserPrompt}
+                                    navbarToggle={navbarToggle}
+                                    repositorySelectedItems={repositorySelectedItems}
+                                    setRepositorySelectedItems={setRepositorySelectedItems}
+                                    aiMediatorClient={aiMediatorClient}
+                                    refreshRepository={refreshRepository}
+                                    filters={filters}
+                                    openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+                                    threads={threads}
+                                    setThreads={setThreads}
+                                />
+                            )
+                        })
+                    }
+                </Accordion>
             </Stack>
         </Box>
     )
