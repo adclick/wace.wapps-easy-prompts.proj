@@ -37,8 +37,6 @@ export function RepositoryItemRow({
     threads,
     setThreads
 }: RepositoryItemRow) {
-    const [cardOpened, cardhandle] = useDisclosure(false);
-
     const use = (e: any) => {
         switch (repositoryItem.type) {
             case "prompt":
@@ -72,13 +70,27 @@ export function RepositoryItemRow({
         refreshRepository(filters);
     }
 
+    const date = new Date(repositoryItem.created_at);
+
+    const options = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'UTC'  // Make sure to set the correct time zone if needed
+    };
+
+    const created_at = date.toLocaleString('en-GB', options);
+
     return (
         <Accordion.Item value={`${repositoryItem.type}-${repositoryItem.id}`}>
             <Accordion.Control>
                 <Stack>
                     <Group justify="space-between" wrap="nowrap" align="flex-start">
                         <Stack gap={0}>
-                            <Badge size="xs" variant="transparent" color="gray.9" px={0}>Productivity</Badge>
+                            <Badge size="xs" variant="transparent" color="gray.9" px={0}>{repositoryItem.category_name}</Badge>
                             <Text size="sm" fw={500} lineClamp={20}>
                                 {repositoryItem.name}
                             </Text>
@@ -131,9 +143,14 @@ export function RepositoryItemRow({
             <Accordion.Panel>
                 <Stack>
                     <Text size="xs">{repositoryItem.content}</Text>
+                    <Group>
+                        <Badge variant="transparent" px={0} size="xs">
+                            {repositoryItem.technology_name}
+                            {repositoryItem.provider_name !== "" ? ` | ${repositoryItem.provider_name}` : ""}</Badge>
+                    </Group>
                     <Group justify="space-between">
                         <Text size="xs" c="gray.6">nuno.saraiva</Text>
-                        <Text size="xs" c="gray.6">{new Date(Date.now()).toDateString()}</Text>
+                        <Text size="xs" c="gray.6">{created_at}</Text>
                     </Group>
                 </Stack>
             </Accordion.Panel>

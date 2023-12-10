@@ -172,8 +172,8 @@ export function RepositoryHeader({
                     <ActionIcon onClick={filtersHandle.toggle} size={"lg"} variant='subtle'>
                         {
                             filtersOpened
-                                ? <IconFilterFilled style={{ width: rem(18), height: rem(18) }} />
-                                : <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                                ? <IconZoomFilled style={{ width: rem(18), height: rem(18) }} />
+                                : <IconSearch style={{ width: rem(18), height: rem(18) }} />
                         }
 
                     </ActionIcon>
