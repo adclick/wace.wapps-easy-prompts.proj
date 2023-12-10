@@ -146,20 +146,22 @@ export function PromptInput({
                             repositorySelectedItems.length > 0 &&
                             repositorySelectedItems[0].type === "modifier" &&
                             <Center>
-                                <Group gap={0}>
-                                    <Button
-                                        leftSection={<IconSparkles size={16} />}
-                                        onClick={() => openRepositoryItemDetailsSelected(repositorySelectedItems[0])}
-                                        size="compact-xs"
-                                        variant="light"
-                                        color={repositorySelectedItems[0].color}
-                                    >
-                                        Using {repositorySelectedItems.length} modifier(s)
-                                    </Button>
-                                    <ActionIcon onClick={() => setRepositorySelectedItems([])} variant="transparent" color={repositorySelectedItems[0].color} >
-                                        <IconX size={14} />
-                                    </ActionIcon>
-                                </Group>
+                                <Tooltip label={repositorySelectedItems[0].name}>
+                                    <Group gap={0}>
+                                        <Button
+                                            leftSection={<IconSparkles size={16} />}
+                                            onClick={() => openRepositoryItemDetailsSelected(repositorySelectedItems[0])}
+                                            size="compact-xs"
+                                            variant="light"
+                                            color={repositorySelectedItems[0].color}
+                                        >
+                                            Using {repositorySelectedItems.length} modifier(s)
+                                        </Button>
+                                        <ActionIcon onClick={() => setRepositorySelectedItems([])} variant="transparent" color={repositorySelectedItems[0].color} >
+                                            <IconX size={14} />
+                                        </ActionIcon>
+                                    </Group>
+                                </Tooltip>
                             </Center>
                         }
                         <Group w={"100%"} wrap="nowrap">
