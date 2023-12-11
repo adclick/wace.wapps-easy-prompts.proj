@@ -13,6 +13,7 @@ export class Filters {
     technology: string;
     provider: string;
     text: string;
+    repositories: number[];
 
     constructor(
         prompt: string = "",
@@ -31,5 +32,6 @@ export class Filters {
         this.technology = technology;
         this.provider = provider;
         this.text = text;
+        this.repositories = [];
     }
 }

@@ -1,4 +1,4 @@
-import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem } from "@mantine/core";
+import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card } from "@mantine/core";
 import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
@@ -8,6 +8,7 @@ import { RepositoryItem } from "../../model/RepositoryItem";
 import { useState } from "react";
 import { RepositoryNewModifierModal } from "./RepositoryNewModifierModal";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
+import { RepositoryFilter } from "./RepositoryFilter";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -105,16 +106,9 @@ export function RepositoryHeader({
                         <Menu.Target>
                             <UnstyledButton px={0}>
                                 <Group align='center' gap={"xs"} wrap="nowrap">
-                                    {
-                                        filters.repository === "my-repository" && <IconUser style={{ width: rem(16), height: rem(16) }} />
-                                    }
-                                    {
-                                        filters.repository === "wace" && <IconUsersGroup style={{ width: rem(16), height: rem(16) }} />
-                                    }
-                                    
                                     <Box maw={175}>
                                         <Text truncate size="lg">
-                                            {repositories.find(r => r.slug === filters.repository)?.name}
+                                            Options
                                         </Text>
                                     </Box>
                                     <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
@@ -184,6 +178,14 @@ export function RepositoryHeader({
             </Group>
             <Collapse in={filtersOpened}>
                 <Stack gap={"xl"} mb={"xs"}>
+                    <RepositoryFilter />
+                    <Checkbox.Group defaultValue={filters.types} value={types} onChange={updateTypes}>
+                        <Group justify="space-between">
+                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("prompt")} value="prompts" label="Prompts" />
+                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
+                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("modifier")} value="modifiers" label="Modifiers" />
+                        </Group>
+                    </Checkbox.Group>
                     <Textarea
                         placeholder={"Search"}
                         autosize
@@ -193,13 +195,7 @@ export function RepositoryHeader({
                         value={repositorySearchTerm}
                         onChange={e => searchSearchTerm(e.target.value)}
                     />
-                    <Checkbox.Group defaultValue={filters.types} value={types} onChange={updateTypes}>
-                        <Group justify="space-between">
-                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("prompt")} value="prompts" label="Prompts" />
-                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
-                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("modifier")} value="modifiers" label="Modifiers" />
-                        </Group>
-                    </Checkbox.Group>
+                    <Divider />
                 </Stack>
             </Collapse>
         </Stack>

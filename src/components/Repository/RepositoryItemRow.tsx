@@ -1,5 +1,5 @@
 import { Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse } from "@mantine/core";
-import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash } from "@tabler/icons-react";
+import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
@@ -80,7 +80,9 @@ export function RepositoryItemRow({
                 <Stack>
                     <Group justify="space-between" wrap="nowrap" align="flex-start">
                         <Stack gap={0}>
-                            <Badge size="xs" variant="transparent" color="gray.9" px={0}>{repositoryItem.category_name}</Badge>
+                            <Badge size="xs" variant="dot" px={0}>
+                                {repositoryItem.repository_name}
+                            </Badge>
                             <Text size="sm" fw={500} lineClamp={20}>
                                 {repositoryItem.name}
                             </Text>
@@ -117,11 +119,22 @@ export function RepositoryItemRow({
                     </Group>
 
                     <Group justify="space-between">
-                        <Badge size="xs" variant="filled" color={repositoryItem.color}>
-                            {repositoryItem.type}
+                        {/* <Badge size="xs" variant="transparent" color={repositoryItem.color}>
+                            {repositoryItem.repository_name}
+                        </Badge> */}
+
+                        <Badge variant="transparent" color="gray.5" px={0} size="xs">
+                            {repositoryItem.technology_name}
                         </Badge>
+                        {/* <Rating size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} /> */}
                         <Group>
-                            <Rating px={"xs"} size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} />
+                            {/* <ActionIcon variant="transparent">
+                                {
+                                    repositoryItem.repository_slug !== "wace"
+                                        ? <IconUser size={14} />
+                                        : <IconUsersGroup size={14} />
+                                }
+                            </ActionIcon> */}
                             <ActionIcon color={repositoryItem.color} variant="filled" size={"md"} onClick={(e: any) => use(e)}>
                                 <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
                             </ActionIcon>
@@ -133,11 +146,6 @@ export function RepositoryItemRow({
             <Accordion.Panel>
                 <Stack>
                     <Text size="xs">{repositoryItem.content}</Text>
-                    <Group>
-                        <Badge variant="transparent" px={0} size="xs">
-                            {repositoryItem.technology_name}
-                            {repositoryItem.provider_name !== "" ? ` | ${repositoryItem.provider_name}` : ""}</Badge>
-                    </Group>
                     <Group justify="space-between">
                         <Text size="xs" c="gray.6">{repositoryItem.username}</Text>
                         <Text size="xs" c="gray.6">{created_at}</Text>

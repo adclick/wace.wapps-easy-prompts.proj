@@ -15,6 +15,8 @@ export class RepositoryItem {
     created_at: string;
     username: string;
     user_email: string;
+    repository_name: string;
+    repository_slug: string;
 
     constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
         this.id = 0;
@@ -33,6 +35,8 @@ export class RepositoryItem {
         this.created_at = "";
         this.username = "";
         this.user_email = "";
+        this.repository_name = "";
+        this.repository_slug = "";
     }
 
     static buildFromApi(data: any): RepositoryItem {
@@ -94,6 +98,14 @@ export class RepositoryItem {
         if ('user_email' in data) {
             newRepoItem.username = data.user_email.replace('@wacestudio.com', '');
             newRepoItem.user_email = data.user_email;
+        }
+
+        if ('repository_name' in data) {
+            newRepoItem.repository_name = data.repository_name;
+        }
+
+        if ('repository_slug' in data) {
+            newRepoItem.repository_slug = data.repository_slug;
         }
 
         return newRepoItem;
