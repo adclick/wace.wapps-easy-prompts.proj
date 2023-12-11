@@ -13,6 +13,8 @@ export class RepositoryItem {
     category_name: string;
     category_slug: string;
     created_at: string;
+    username: string;
+    user_email: string;
 
     constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
         this.id = 0;
@@ -29,6 +31,8 @@ export class RepositoryItem {
         this.category_name = "";
         this.category_slug = "";
         this.created_at = "";
+        this.username = "";
+        this.user_email = "";
     }
 
     static buildFromApi(data: any): RepositoryItem {
@@ -85,6 +89,11 @@ export class RepositoryItem {
 
         if ('created_at' in data) {
             newRepoItem.created_at = data.created_at;
+        }
+
+        if ('user_email' in data) {
+            newRepoItem.username = data.user_email.replace('@wacestudio.com', '');
+            newRepoItem.user_email = data.user_email;
         }
 
         return newRepoItem;

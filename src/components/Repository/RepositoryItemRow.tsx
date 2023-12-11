@@ -139,7 +139,7 @@ export function RepositoryItemRow({
                             {repositoryItem.provider_name !== "" ? ` | ${repositoryItem.provider_name}` : ""}</Badge>
                     </Group>
                     <Group justify="space-between">
-                        <Text size="xs" c="gray.6">nuno.saraiva</Text>
+                        <Text size="xs" c="gray.6">{repositoryItem.username}</Text>
                         <Text size="xs" c="gray.6">{created_at}</Text>
                     </Group>
                 </Stack>
