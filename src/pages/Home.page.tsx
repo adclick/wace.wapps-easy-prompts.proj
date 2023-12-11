@@ -382,6 +382,7 @@ export function HomePage() {
           repository={repository}
           language={language}
           openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+          filters={filters}
         />
       </AppShell.Main>
 

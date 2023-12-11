@@ -18,6 +18,7 @@ import { RepositoryNewPromptModal } from "../Repository/RepositoryNewPromptModal
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { notifications } from "@mantine/notifications";
 import { ChatCardKeywordsExtracted } from "./ChatCardResponseKeywordsExtracted";
+import { Filters } from "../../model/Filters";
 
 interface ChatCard {
     request: Request,
@@ -30,7 +31,8 @@ interface ChatCard {
     user: User,
     repository: Repository,
     language: Language,
-    openRepositoryItemDetailsSelected: any
+    openRepositoryItemDetailsSelected: any,
+    filters: Filters
 }
 
 export function ChatCard({
@@ -44,7 +46,8 @@ export function ChatCard({
     user,
     repository,
     language,
-    openRepositoryItemDetailsSelected
+    openRepositoryItemDetailsSelected,
+    filters
 }: ChatCard) {
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [responseAsText, setResponseAsText] = useState('');
@@ -114,8 +117,8 @@ export function ChatCard({
             request.userPromptOptions.provider.slug,
             modifierId,
             user.id,
-            repository.slug,
-            language.code
+            filters.repository,
+            filters.language
         );
 
         notifications.show({
@@ -124,7 +127,7 @@ export function ChatCard({
             color: RepositoryItem.getColor("prompt")
         });
 
-        refreshPromptOptions();
+        refreshPromptOptions(filters);
     }
 
     const handleVote = (vote: number) => {

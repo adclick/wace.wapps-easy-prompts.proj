@@ -8,6 +8,7 @@ import { ChatCardIntro } from "./ChatCardIntro"
 import { User } from "../../model/User"
 import { Repository } from "../../model/Repository"
 import { Language } from "../../model/Language"
+import { Filters } from "../../model/Filters"
 
 interface ChatPanel {
     threads: Thread[],
@@ -20,7 +21,8 @@ interface ChatPanel {
     user: User,
     repository: Repository,
     language: Language,
-    openRepositoryItemDetailsSelected: any
+    openRepositoryItemDetailsSelected: any,
+    filters: Filters
 }
 
 export function ChatPanel({
@@ -34,7 +36,8 @@ export function ChatPanel({
     user,
     repository,
     language,
-    openRepositoryItemDetailsSelected
+    openRepositoryItemDetailsSelected,
+    filters
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
@@ -55,6 +58,7 @@ export function ChatPanel({
                             repository={repository}
                             language={language}
                             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+                            filters={filters}
                         />
                     )
                 })
