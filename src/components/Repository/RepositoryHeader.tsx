@@ -9,6 +9,7 @@ import { useState } from "react";
 import { RepositoryNewModifierModal } from "./RepositoryNewModifierModal";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { RepositoryFilter } from "./RepositoryFilter";
+import { useFilters } from "../../context/FiltersContext";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -16,8 +17,6 @@ interface RepositoryHeader {
     openFilters: any,
     filtersOpened: boolean
     closeFilters: any
-    filters: Filters,
-    setFilters: any,
     repositories: Repository[]
     repository: Repository,
     repositorySearchTerm: string,
@@ -32,26 +31,18 @@ interface RepositoryHeader {
 export function RepositoryHeader({
     navbarOpened,
     toggleNavbar,
-    openFilters,
-    closeFilters,
-    filters,
-    setFilters,
     repositories,
-    repository,
     repositorySearchTerm,
     setRepositorySearchTerm,
     refreshRepository,
-    refreshingRepository,
-    refreshingRepositoryHandle,
     aiMediatorClient,
-    repositorySelectedItems
 
 }: RepositoryHeader) {
+    const {filters, setFilters} = useFilters();
     const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);
     const [filtersOpened, filtersHandle] = useDisclosure(false);
     const [newModifierModalOpened, newModifierModalHandle] = useDisclosure(false);
     const [types, setTypes] = useState<string[]>(filters.types);
-    const [searchingTerm, searchingTermHandle] = useDisclosure(false);
 
     const updateTypes = (value: any) => {
         setTypes(value);
@@ -141,18 +132,17 @@ export function RepositoryHeader({
                     </Menu> */}
                     <UnstyledButton px={0} onClick={filtersHandle.toggle}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
-                            <IconFilter />
                             <Box maw={175}>
                                 <Text truncate size="lg">
                                     Filters
                                 </Text>
                             </Box>
                             {
-                                filtersOpened 
-                                ? <IconChevronUp style={{ width: rem(16), height: rem(16) }} />
-                                : <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
+                                filtersOpened
+                                    ? <IconChevronUp style={{ width: rem(16), height: rem(16) }} />
+                                    : <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
                             }
-                            
+
                         </Group>
                     </UnstyledButton>
                 </Group>

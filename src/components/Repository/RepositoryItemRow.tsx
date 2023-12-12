@@ -1,42 +1,34 @@
 import { Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse } from "@mantine/core";
 import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
 import { RepositoryItem } from "../../model/RepositoryItem";
-import { useDisclosure } from "@mantine/hooks";
-import { RepositoryItemDetailsModal } from "./RepositoryItemDetailsModal";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
-import { Filters } from "../../model/Filters";
 import { Thread } from "../../model/Thread";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
-import classes from "./RepositoryItemRow.module.css"
-
+import { useFilters } from "../../context/FiltersContext";
 
 interface RepositoryItemRow {
-    setUserPrompt: any,
     navbarToggle: any,
     repositoryItem: RepositoryItem,
     repositorySelectedItems: RepositoryItem[],
     setRepositorySelectedItems: any,
     aiMediatorClient: AIMediatorClient,
     refreshRepository: any,
-    filters: Filters,
     openRepositoryItemDetailsSelected: any,
     threads: Thread[]
     setThreads: any
 }
 
 export function RepositoryItemRow({
-    setUserPrompt,
     navbarToggle,
     repositoryItem,
-    repositorySelectedItems,
     setRepositorySelectedItems,
     aiMediatorClient,
     refreshRepository,
-    filters,
-    openRepositoryItemDetailsSelected,
     threads,
     setThreads
 }: RepositoryItemRow) {
+    const {filters, setFilters} = useFilters();
+    
     const use = (e: any) => {
         switch (repositoryItem.type) {
             case "prompt":

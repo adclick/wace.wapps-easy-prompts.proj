@@ -1,13 +1,10 @@
-import { Modifier } from "./Modifier";
-import { Parameter } from "./Parameter";
-import { Provider } from "./Provider";
-import { Technology } from "./Technology";
-
 export class Options {
-    technologies: Technology[];
-    providers: Provider[];
-    parameters: Parameter[];
-    modifiers: Modifier[];
+    technologies: {id: number, name: string}[];
+    providers: {id: number, name: string}[];
+    parameters: {id: number, name: string, value: string}[];
+    modifiers: number[];
+
+    technology: {id: number, name: string} | undefined;
 
     constructor() {
         this.technologies = [];
@@ -16,13 +13,16 @@ export class Options {
         this.modifiers = [];
     }
 
-    static buildFromApi(options: any): Options {
+    static buildFromApi(apiData: any): Options {
         const newOptions = new Options();
 
-        if ("technologies" in options) {
-            newOptions.technologies = options.technologies;
+        for (const technology of apiData.technologies) {
+            newOptions.technologies.push({
+                id: technology.id,
+                name: technology.name,
+            });
         }
-
+        
         return newOptions;
     }
 }

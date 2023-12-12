@@ -15,23 +15,15 @@ export class Filters {
     text: string;
     repositories: number[];
 
-    constructor(
-        prompt: string = "",
-        userId: string = "",
-        repository: string = "",
-        language: string = "",
-        technology: string = "",
-        provider: string = "",
-        text: string = ""
-    ) {
-        this.prompt = prompt;
-        this.userId = userId;
-        this.repository = repository;
-        this.language = language
+    constructor() {
+        this.text = "";
+        this.prompt = "";
+        this.userId = "";
+        this.repository = "";
+        this.language = ""
         this.types = [Type.Prompts, Type.Templates, Type.Modifiers];
-        this.technology = technology;
-        this.provider = provider;
-        this.text = text;
+        this.technology = "";
+        this.provider = "";
         this.repositories = [];
     }
 }

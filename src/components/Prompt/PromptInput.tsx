@@ -12,13 +12,13 @@ import { Provider } from "../../model/Provider";
 import { Modifier } from "../../model/Modifier";
 import { Parameter } from "../../model/Parameter";
 import { PromptOptionsPanel } from "./PromptOptionsPanel";
-import { SelectedOptionsWidget } from "./SelectedOptionsWidget";
 import { User } from "../../model/User"
 import { Repository } from "../../model/Repository";
 import { Language } from "../../model/Language";
 import { useState } from "react";
 import { Filters } from "../../model/Filters";
 import { RepositoryItem } from "../../model/RepositoryItem";
+import { useFilters } from "../../context/FiltersContext";
 
 
 interface PromptInput {
@@ -39,14 +39,10 @@ interface PromptInput {
     setActiveModifiers: any
     setUserPromptOptions: any,
     parameters: Parameter[],
-    userPrompt: string,
-    setUserPrompt: any,
     refreshPromptOptions: any,
     user: User,
     repository: Repository,
     language: Language,
-    filters: Filters,
-    setFilters: any,
     repositorySelectedItems: RepositoryItem[],
     setRepositorySelectedItems: any,
     openRepositoryItemDetailsSelected: any
@@ -70,18 +66,15 @@ export function PromptInput({
     userPromptOptions,
     setUserPromptOptions,
     parameters,
-    userPrompt,
-    setUserPrompt,
     refreshPromptOptions,
     user,
     repository,
     language,
-    filters,
-    setFilters,
     repositorySelectedItems,
     setRepositorySelectedItems,
     openRepositoryItemDetailsSelected
 }: PromptInput) {
+    const {filters, setFilters} = useFilters();
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');
@@ -131,17 +124,6 @@ export function PromptInput({
                     px={"md"}
                 >
                     <Stack w={"100%"} gap={6}>
-                        {/* <Center>
-                            {
-                                technology.name !== "" &&
-                                <SelectedOptionsWidget
-                                    technology={technology}
-                                    provider={provider}
-                                    parameters={[]}
-                                    modifiers={[]}
-                                />
-                            }
-                        </Center> */}
                         {
                             repositorySelectedItems.length > 0 &&
                             repositorySelectedItems[0].type === "modifier" &&
@@ -315,17 +297,6 @@ export function PromptInput({
                                     />
                                 </Popover.Dropdown>
                             </Popover>
-
-
-
-
-
-
-
-
-
-
-
                             <Textarea
                                 placeholder={t("write_a_message")}
                                 autosize

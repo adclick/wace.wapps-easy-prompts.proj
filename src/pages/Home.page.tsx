@@ -22,17 +22,18 @@ import { RepositoryHeader } from '../components/Repository/RepositoryHeader';
 import { Filters } from '../model/Filters';
 import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
-import { RepositorySelectedItemsWidget } from '../components/Repository/RepositorySelectedItemsWidget';
 import { useAuth0 } from '@auth0/auth0-react';
-import { RepositoryItemDetailsModal } from '../components/Repository/RepositoryItemDetailsModal';
-import { IconX } from '@tabler/icons-react';
-import { LanguageSwitcher } from '../components/Misc/LanguageSwitcher';
+import { useFilters } from '../context/FiltersContext';
+import { useOptions } from '../context/OptionsContext';
 
 export function HomePage() {
+  const {filters, setFilters} = useFilters();
+  const {options, setOptions} = useOptions();
+
+
   // API Client
   const aIMediatorClient = new AIMediatorClient();
 
-  const [options, setOptions] = useState<Options>(new Options());
 
   // Current User
   const { user, logout } = useAuth0();
@@ -56,12 +57,6 @@ export function HomePage() {
   const [filtersPanelOpened, filtersPanelHandle] = useDisclosure(false);
 
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
-
-  // User Prompt
-  const [userPrompt, setUserPrompt] = useState("");
-
-  // Suggestions
-  const [filters, setFilters] = useState<Filters>(new Filters());
 
   // Setting state
   const [threads, setThreads] = useState<Thread[]>([]);
@@ -111,8 +106,15 @@ export function HomePage() {
 
     setLanguage(new Language(languageCode))
 
-    // Repositories
+    // Call API
     const { repositories, options, filters, modifiers } = await aiMediatorClient.login(user);
+
+    // Filters
+    setFilters(filters);
+    setOptions(Options.buildFromApi(options));
+
+
+
     const repositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, 0);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
@@ -121,14 +123,10 @@ export function HomePage() {
     setRepositoryItems(repositoryItemsObjs);
     refreshingRepositoryHandle.close();
 
-    // Filters
-    setFilters(filters);
 
     // Refresh Options
     const optionsObj = PromptOptions.buildFromApi(options);
     setPromptOptions(optionsObj);
-    const newOptions = Options.buildFromApi(promptOptions);
-    setOptions(newOptions);
 
     // Refresh Technologies
     const currentTechnology = optionsObj.getDefaultTechnology();
@@ -282,8 +280,6 @@ export function HomePage() {
             navbarOpened={navbarOpened}
             toggleNavbar={navbarHandle.toggle}
             openFilters={filtersPanelHandle.open}
-            filters={filters}
-            setFilters={setFilters}
             filtersOpened={filtersPanelOpened}
             closeFilters={filtersPanelHandle.close}
             repositories={repositories}
@@ -299,13 +295,11 @@ export function HomePage() {
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea} style={{borderRadius: "1rem"}}>
           <RepositoryPanel
-            setUserPrompt={setUserPrompt}
             navbarToggle={navbarHandle.toggle}
             repositoryItems={repositoryItems}
             setRepositoryItems={setRepositoryItems}
             repositorySearchTerm={repositorySearchTerm}
             refreshingRepository={refreshingRepository}
-            filters={filters}
             aiMediatorClient={aIMediatorClient}
             repositorySelectedItems={repositorySelectedItems}
             setRepositorySelectedItems={setRepositorySelectedItems}
@@ -315,58 +309,6 @@ export function HomePage() {
             setThreads={setThreads}
           />
         </AppShell.Section>
-        {/* <AppShell.Section> */}
-          {/* <UserMenu
-            filters={filters}
-            setFilters={setFilters}
-            refreshRepository={refreshRepository}
-            aiMediatorClient={aIMediatorClient}
-          /> */}
-
-          {/* <Group justify='space-between'>
-            <LanguageSwitcher
-              language={language}
-              setLanguage={setLanguage}
-              userPromptOptions={userPromptOptions}
-              setUserPromptOptions={setUserPromptOptions}
-              refreshPromptOptions={refreshPromptOptions}
-            />
-            <Group>
-              <Text>Found:</Text>
-              <Text>{repositoryItems.length}</Text>
-            </Group>
-
-            {
-              repositorySelectedItems.length > 0 &&
-              <Group gap={"xs"}>
-                <Button
-                  onClick={() => openRepositoryItemDetailsSelected(repositorySelectedItems[0])}
-                  leftSection={<IconCheck style={{ width: rem(16), height: rem(16) }} />}
-                  variant='light'
-                  color={repositorySelectedItems[0].color}
-                  size='xs'
-                >
-                  {repositorySelectedItems[0].type.toUpperCase()}
-                </Button>
-                <ActionIcon onClick={() => setRepositorySelectedItems([])} variant='transparent'>
-                  <IconX size={16} />
-                </ActionIcon>
-              </Group>
-            }
-          </Group> */}
-          {/* <RepositoryItemDetailsModal
-            opened={repositoryItemDetailsModalOpened}
-            handle={repositoryItemDetailsModalHandle}
-            item={repositoryItemDetailsSelected}
-            setRepositorySelectedItems={setRepositorySelectedItems}
-          /> */}
-
-          {/* <RepositorySelectedItemsWidget
-            repositorySelectedItems={repositorySelectedItems}
-            setRepositorySelectedItems={setRepositorySelectedItems}
-          /> */}
-
-        {/* </AppShell.Section> */}
       </AppShell.Navbar>
 
       <AppShell.Main>
@@ -405,14 +347,10 @@ export function HomePage() {
           setActiveModifiers={setActiveModifiers}
           setUserPromptOptions={setUserPromptOptions}
           parameters={parameters}
-          userPrompt={userPrompt}
-          setUserPrompt={setUserPrompt}
           refreshPromptOptions={refreshPromptOptions}
           user={currentUser}
           repository={repository}
           language={language}
-          filters={filters}
-          setFilters={setFilters}
           repositorySelectedItems={repositorySelectedItems}
           setRepositorySelectedItems={setRepositorySelectedItems}
           openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}

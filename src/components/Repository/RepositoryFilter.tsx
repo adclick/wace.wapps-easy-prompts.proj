@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Text, Stack, Title, PillsInput, Pill, Input, Combobox, Group, useCombobox, Checkbox } from '@mantine/core';
+import { useFilters } from '../../context/FiltersContext';
 
 const groceries = ['My Repository', 'Wace'];
 
 export function RepositoryFilter() {
+    const { filters, setFilters } = useFilters();
+
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
         onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
