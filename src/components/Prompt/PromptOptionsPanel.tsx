@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem, Card, Tabs } from "@mantine/core"
 import { PromptOptionTechnology } from "./PromptOptionTechnology"
 import { PromptOptionProvider } from "./PromptOptionProvider"
-import { PromptOptionModificers } from "./PromptOptionModifiers"
 import { IconDeviceFloppy, IconReload } from "@tabler/icons-react"
 import { PromptOptionParameter } from "./PromptOptionParameter"
 import { PromptOptions } from "@/model/PromptOptions"
@@ -67,13 +66,6 @@ export function PromptOptionsPanel({
                     handleOnChangeProvider={handleOnChangeProvider}
                 />
             </Stack>
-            {/* <PromptOptionTechnology
-                        promptOptions={promptOptions}
-                        currentTechnology={technology}
-                        technologies={technologies}
-                        handleOnChangeTechnology={handleOnChangeTechnology}
-                    /> */}
-
             {
                 parameters.map(parameter => {
                     return (

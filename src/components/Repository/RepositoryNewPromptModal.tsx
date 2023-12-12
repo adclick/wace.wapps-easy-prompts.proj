@@ -35,7 +35,7 @@ export function RepositoryNewPromptModal({
     const savePrompt = async () => {
         const modifierId = 0;
         
-        await aiMediatorClient.savePrompt(name, prompt, technology, provider, modifierId, userId, repository, language);
+        // await aiMediatorClient.savePrompt(name, prompt, technology, provider, modifierId, userId, [repository], language);
 
         setName("");
         close();
