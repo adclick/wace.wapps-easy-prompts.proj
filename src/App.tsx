@@ -8,6 +8,7 @@ import { Notifications } from '@mantine/notifications';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { FiltersProvider } from './context/FiltersContext';
 import { OptionsProvider } from './context/OptionsContext';
+import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 
 
 export default function App() {
@@ -22,8 +23,10 @@ export default function App() {
       <MantineProvider defaultColorScheme='dark' theme={theme}>
         <OptionsProvider>
           <FiltersProvider>
-            <Notifications />
-            <Router />
+            <SelectedFiltersProvider>
+              <Notifications />
+              <Router />
+            </SelectedFiltersProvider>
           </FiltersProvider>
         </OptionsProvider>
       </MantineProvider>

@@ -10,6 +10,7 @@ import { RepositoryNewModifierModal } from "./RepositoryNewModifierModal";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { RepositoryFilter } from "./RepositoryFilter";
 import { useFilters } from "../../context/FiltersContext";
+import { RepositoryTypesFilter } from "./RepositoryTypesFilter";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -86,7 +87,7 @@ export function RepositoryHeader({
                 refreshRepository={refreshRepository}
             />
             <Group h={"100%"} justify='space-between' pt={"xs"}>
-                <Group align='end' >
+                <Group align='end'>
                     <Burger
                         opened={navbarOpened}
                         onClick={toggleNavbar}
@@ -130,11 +131,11 @@ export function RepositoryHeader({
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu> */}
-                    <UnstyledButton px={0} onClick={filtersHandle.toggle}>
+                    <UnstyledButton px={0} onClick={filtersHandle.toggle} w={"100%"}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
                             <Box maw={175}>
                                 <Text truncate size="lg">
-                                    Filters
+                                    Options
                                 </Text>
                             </Box>
                             {
@@ -169,13 +170,8 @@ export function RepositoryHeader({
                     {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon> */}
-                    <ActionIcon onClick={filtersHandle.toggle} size={"lg"} variant='subtle'>
-                        {
-                            filtersOpened
-                                ? <IconZoomFilled style={{ width: rem(18), height: rem(18) }} />
-                                : <IconSearch style={{ width: rem(18), height: rem(18) }} />
-                        }
-
+                    <ActionIcon onClick={newModifierModalHandle.open} size={"lg"} variant='subtle'>
+                        <IconPlus style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
                     <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
@@ -184,14 +180,6 @@ export function RepositoryHeader({
             </Group>
             <Collapse in={filtersOpened}>
                 <Stack gap={"xl"} mb={"xs"}>
-                    <RepositoryFilter />
-                    <Checkbox.Group defaultValue={filters.types} value={types} onChange={updateTypes}>
-                        <Group justify="space-between">
-                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("prompt")} value="prompts" label="Prompts" />
-                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
-                            <Checkbox radius={"sm"} color={RepositoryItem.getColor("modifier")} value="modifiers" label="Modifiers" />
-                        </Group>
-                    </Checkbox.Group>
                     <Textarea
                         placeholder={"Search"}
                         autosize
@@ -201,7 +189,8 @@ export function RepositoryHeader({
                         value={repositorySearchTerm}
                         onChange={e => searchSearchTerm(e.target.value)}
                     />
-                    <Divider />
+                    <RepositoryFilter refreshRepository={refreshRepository} />
+                    <RepositoryTypesFilter refreshRepository={refreshRepository} />
                 </Stack>
             </Collapse>
         </Stack>

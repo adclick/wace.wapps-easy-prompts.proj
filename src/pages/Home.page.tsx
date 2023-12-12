@@ -25,9 +25,11 @@ import { RepositoryItem } from '../model/RepositoryItem';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useFilters } from '../context/FiltersContext';
 import { useOptions } from '../context/OptionsContext';
+import { useSelectedFilters } from '../context/SelectedFiltersContext';
 
 export function HomePage() {
   const {filters, setFilters} = useFilters();
+  const {selectedFilters, setSelectedFilters} = useSelectedFilters();
   const {options, setOptions} = useOptions();
 
 
@@ -111,6 +113,7 @@ export function HomePage() {
 
     // Filters
     setFilters(filters);
+    setSelectedFilters(filters);
     setOptions(Options.buildFromApi(options));
 
 

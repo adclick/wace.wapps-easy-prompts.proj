@@ -13,7 +13,7 @@ export class Filters {
     technology: string;
     provider: string;
     text: string;
-    repositories: number[];
+    repositories: {id: number, name: string, slug: string}[];
 
     constructor() {
         this.text = "";

@@ -74,7 +74,7 @@ export function PromptInput({
     setRepositorySelectedItems,
     openRepositoryItemDetailsSelected
 }: PromptInput) {
-    const {filters, setFilters} = useFilters();
+    const { filters, setFilters } = useFilters();
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');

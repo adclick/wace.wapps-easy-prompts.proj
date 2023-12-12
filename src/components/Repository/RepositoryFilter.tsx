@@ -1,80 +1,40 @@
-import { useState } from 'react';
-import { Text, Stack, Title, PillsInput, Pill, Input, Combobox, Group, useCombobox, Checkbox } from '@mantine/core';
+import { Checkbox, Stack, Title } from '@mantine/core';
 import { useFilters } from '../../context/FiltersContext';
+import { useSelectedFilters } from '../../context/SelectedFiltersContext';
 
-const groceries = ['My Repository', 'Wace'];
+interface RepositoryFilter {
+    refreshRepository: any
+}
 
-export function RepositoryFilter() {
-    const { filters, setFilters } = useFilters();
+export function RepositoryFilter({refreshRepository}: RepositoryFilter) {
+    const { filters } = useFilters();
+    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
-    const combobox = useCombobox({
-        onDropdownClose: () => combobox.resetSelectedOption(),
-        onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
-    });
+    const update = (value: any) => {
+        const newSelectedFilters = {
+            ...selectedFilters,
+            repositories: filters.repositories.filter(r => value.includes(r.slug))
+        }
 
-    const [value, setValue] = useState<string[]>([]);
+        setSelectedFilters(newSelectedFilters)
 
-    const handleValueSelect = (val: string) =>
-        setValue((current) =>
-            current.includes(val) ? current.filter((v) => v !== val) : [...current, val]
-        );
-
-    const handleValueRemove = (val: string) =>
-        setValue((current) => current.filter((v) => v !== val));
-
-    const values = value.map((item) => (
-        <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
-            {item}
-        </Pill>
-    ));
-
-    const options = groceries.map((item) => (
-        <Combobox.Option value={item} key={item} active={value.includes(item)}>
-            <Group gap="sm">
-                <Checkbox
-                    checked={value.includes(item)}
-                    onChange={() => { }}
-                    aria-hidden
-                    tabIndex={-1}
-                    style={{ pointerEvents: 'none' }}
-                    radius={"sm"}
-                    size='xs'
-                />
-                <span>{item}</span>
-            </Group>
-        </Combobox.Option>
-    ));
+        refreshRepository(newSelectedFilters)
+    }
 
     return (
-        <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false} >
-            <Combobox.DropdownTarget>
-                <PillsInput pointer onClick={() => combobox.toggleDropdown()}>
-                    <Pill.Group>
-                        {values.length > 0 ? (
-                            <Text size='sm'>{`${values.length} repositories   selected`}</Text>
-                        ) : (
-                            <Input.Placeholder>Pick one or more values</Input.Placeholder>
-                        )}
-
-                        <Combobox.EventsTarget>
-                            <PillsInput.Field
-                                type="hidden"
-                                onBlur={() => combobox.closeDropdown()}
-                                onKeyDown={(event) => {
-                                    if (event.key === 'Backspace') {
-                                        event.preventDefault();
-                                        handleValueRemove(value[value.length - 1]);
-                                    }
-                                }}
-                            />
-                        </Combobox.EventsTarget>
-                    </Pill.Group>
-                </PillsInput>
-            </Combobox.DropdownTarget>
-
-            <Combobox.Dropdown>
-                <Combobox.Options>{options}</Combobox.Options>
-            </Combobox.Dropdown>
-        </Combobox>
+        <Stack>
+            <Title order={5}>Repositories</Title>
+            <Checkbox.Group defaultValue={filters.repositories.map(r => r.slug)} value={selectedFilters.repositories.map(r => r.slug)} onChange={update}>
+                <Stack>
+                    {
+                        filters.repositories.map(repository => {
+                            return (
+                                <Checkbox radius={"sm"} value={repository.slug} label={repository.name} />
+                            )
+                        })
+                    }
+                </Stack>
+            </Checkbox.Group>
+        </Stack>
     );
 }

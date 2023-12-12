@@ -51,7 +51,7 @@ export class AIMediatorClient {
                 technology: filters.technology,
                 provider: filters.provider,
                 userId: filters.userId,
-                repositories: filters.repositories,
+                repositories: filters.repositories.map(r => r.id),
                 language: filters.language,
                 types: filters.types
             },
