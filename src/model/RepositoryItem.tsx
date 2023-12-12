@@ -1,3 +1,5 @@
+import { IconPrompt, IconSparkles, IconTemplate } from "@tabler/icons-react";
+
 export class RepositoryItem {
     id: number;
     name: string;
@@ -17,6 +19,7 @@ export class RepositoryItem {
     user_email: string;
     repository_name: string;
     repository_slug: string;
+    icon: any;
 
     constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
         this.id = 0;
@@ -37,6 +40,7 @@ export class RepositoryItem {
         this.user_email = "";
         this.repository_name = "";
         this.repository_slug = "";
+        this.icon = null;
     }
 
     static buildFromApi(data: any): RepositoryItem {
@@ -57,6 +61,7 @@ export class RepositoryItem {
         if ('type' in data) {
             newRepoItem.type = data.type;
             newRepoItem.color = RepositoryItem.getColor(data.type);
+            newRepoItem.icon = RepositoryItem.getIcon(data.type);
         }
 
         if ('score' in data) {
@@ -121,4 +126,19 @@ export class RepositoryItem {
                 return "orange";
         }
     }
+
+    static getIcon(type: string, size: string | number = 16) {
+        switch (type) {
+            case "template":
+                return <IconTemplate size={size} stroke={1.5} />;
+            case "modifier":
+                return <IconSparkles size={size} stroke={1.5} />;
+            case "prompt":
+                return <IconPrompt size={size} stroke={1.5} />;
+            default:
+                return null;
+        }
+    }
+
+
 }

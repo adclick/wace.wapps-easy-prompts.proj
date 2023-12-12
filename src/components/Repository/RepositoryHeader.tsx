@@ -102,7 +102,7 @@ export function RepositoryHeader({
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    <Menu shadow="md" width={200} position='bottom-start'>
+                    {/* <Menu shadow="md" width={200} position='bottom-start'>
                         <Menu.Target>
                             <UnstyledButton px={0}>
                                 <Group align='center' gap={"xs"} wrap="nowrap">
@@ -138,7 +138,23 @@ export function RepositoryHeader({
                                 Create new modifier
                             </Menu.Item>
                         </Menu.Dropdown>
-                    </Menu>
+                    </Menu> */}
+                    <UnstyledButton px={0} onClick={filtersHandle.toggle}>
+                        <Group align='center' gap={"xs"} wrap="nowrap">
+                            <IconFilter />
+                            <Box maw={175}>
+                                <Text truncate size="lg">
+                                    Filters
+                                </Text>
+                            </Box>
+                            {
+                                filtersOpened 
+                                ? <IconChevronUp style={{ width: rem(16), height: rem(16) }} />
+                                : <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
+                            }
+                            
+                        </Group>
+                    </UnstyledButton>
                 </Group>
                 <Group gap={"xs"}>
                     {/* <Menu shadow="md" position='bottom-start'>
