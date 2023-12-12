@@ -29,7 +29,7 @@ export function RepositoryFilter({refreshRepository}: RepositoryFilter) {
                     {
                         filters.repositories.map(repository => {
                             return (
-                                <Checkbox radius={"sm"} value={repository.slug} label={repository.name} />
+                                <Checkbox key={repository.id} radius={"sm"} value={repository.slug} label={repository.name} />
                             )
                         })
                     }

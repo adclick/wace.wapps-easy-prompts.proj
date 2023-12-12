@@ -64,7 +64,7 @@ export class AIMediatorClient {
         return await this.post('/ai/prompt/optimize', { prompt, repositoryItems, options });
     }
 
-    async savePrompt(name: string, content: string, technology: string, provider: string, modifierId: number, userId: string, repository: string, language: string) {
+    async savePrompt(name: string, content: string, technology: string, provider: string, modifierId: number, userId: string, repositories: number[], language: string) {
         return await this.post('/ai/prompt/add-prompt', {
             name,
             content,
@@ -72,9 +72,15 @@ export class AIMediatorClient {
             provider,
             modifierId,
             userId,
-            repository,
+            repositories,
             language
         });
+    }
+
+    async getPromptModifiers(userId: string|undefined, promptId: number) {
+        const {data} = await axios.get(`${this.baseUrl}/api/modifiers/${userId}/${promptId}`);
+
+        return data.data.modifiers;
     }
 
     async deleteRepositoryItem(item: RepositoryItem) {

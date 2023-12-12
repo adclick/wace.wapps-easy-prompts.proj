@@ -22,7 +22,8 @@ interface ChatPanel {
     repository: Repository,
     language: Language,
     openRepositoryItemDetailsSelected: any,
-    filters: Filters
+    filters: Filters,
+    refreshRepository: any
 }
 
 export function ChatPanel({
@@ -37,7 +38,8 @@ export function ChatPanel({
     repository,
     language,
     openRepositoryItemDetailsSelected,
-    filters
+    filters,
+    refreshRepository
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
@@ -58,7 +60,7 @@ export function ChatPanel({
                             repository={repository}
                             language={language}
                             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-                            filters={filters}
+                            refreshRepository={refreshRepository}
                         />
                     )
                 })

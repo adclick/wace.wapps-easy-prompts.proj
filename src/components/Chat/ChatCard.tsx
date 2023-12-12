@@ -18,7 +18,8 @@ import { RepositoryNewPromptModal } from "../Repository/RepositoryNewPromptModal
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { notifications } from "@mantine/notifications";
 import { ChatCardKeywordsExtracted } from "./ChatCardResponseKeywordsExtracted";
-import { Filters } from "../../model/Filters";
+import { useFilters } from "../../context/FiltersContext";
+import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 
 interface ChatCard {
     request: Request,
@@ -32,7 +33,7 @@ interface ChatCard {
     repository: Repository,
     language: Language,
     openRepositoryItemDetailsSelected: any,
-    filters: Filters
+    refreshRepository: any
 }
 
 export function ChatCard({
@@ -47,8 +48,11 @@ export function ChatCard({
     repository,
     language,
     openRepositoryItemDetailsSelected,
-    filters
+    refreshRepository
 }: ChatCard) {
+    const {filters, setFilters} = useFilters();
+    const {selectedFilters, setSelectedFilters} = useSelectedFilters();
+
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [responseAsText, setResponseAsText] = useState('');
     const [vote, setVote] = useState(0);
@@ -101,14 +105,14 @@ export function ChatCard({
                 setResult(<Text>Error</Text>);
                 break;
         }
-        
+
         setResponded(true);
         scrollIntoView({ alignment: 'start' });
 
     }, [scrollIntoView]);
 
     const savePrompt = async () => {
-        const modifierId = request.repositoryItems.length > 0 ? request.repositoryItems[0].id : 0; 
+        const modifierId = request.repositoryItems.length > 0 ? request.repositoryItems[0].id : 0;
 
         await aIMediatorClient.savePrompt(
             request.text,
@@ -117,7 +121,7 @@ export function ChatCard({
             request.userPromptOptions.provider.slug,
             modifierId,
             user.id,
-            filters.repository,
+            [filters.repositories[0].id],
             filters.language
         );
 
@@ -127,7 +131,7 @@ export function ChatCard({
             color: RepositoryItem.getColor("prompt")
         });
 
-        refreshPromptOptions(filters);
+        refreshRepository(selectedFilters);
     }
 
     const handleVote = (vote: number) => {
@@ -187,8 +191,8 @@ export function ChatCard({
                                 }
                             </ActionIcon>
                         </Tooltip> */}
-                        <Button leftSection={<IconDownload size={16} />} onClick={savePrompt} variant="subtle" size="xs" color={RepositoryItem.getColor("prompt")}>
-                            Save Prompt
+                        <Button leftSection={<IconDownload size={16} />} onClick={savePrompt} variant="subtle" size="xs">
+                            Save
                         </Button>
                         <CopyButton value={responseAsText} timeout={2000}>
                             {({ copied, copy }) => (
@@ -241,21 +245,27 @@ export function ChatCard({
                         {
                             request.repositoryItems.length
                             &&
-                            <ActionIcon
-                                onClick={() => openRepositoryItemDetailsSelected(request.repositoryItems[0])}
-                                variant="subtle"
-                                color={request.repositoryItems[0].color}
-                            >
-                                {
-                                    request.repositoryItems[0].type === "prompt" && <IconPrompt size={16} />
-                                }
-                                {
-                                    request.repositoryItems[0].type === "template" && <IconTemplate size={16} />
-                                }
-                                {
-                                    request.repositoryItems[0].type === "modifier" && <IconSparkles size={16} />
-                                }
-                            </ActionIcon>
+                            <Popover position="top">
+                                <Popover.Target>
+                                    <ActionIcon
+                                        variant="subtle"
+                                        color={request.repositoryItems[0].color}
+                                    >
+                                        {
+                                            request.repositoryItems[0].type === "prompt" && <IconPrompt size={16} />
+                                        }
+                                        {
+                                            request.repositoryItems[0].type === "template" && <IconTemplate size={16} />
+                                        }
+                                        {
+                                            request.repositoryItems[0].type === "modifier" && <IconSparkles size={16} />
+                                        }
+                                    </ActionIcon>
+                                </Popover.Target>
+                                <Popover.Dropdown>
+                                    <Text size="xs">{request.repositoryItems[0].name}</Text>
+                                </Popover.Dropdown>
+                            </Popover>
                         }
                     </Group>
                 </Group>

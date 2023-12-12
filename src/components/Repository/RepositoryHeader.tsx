@@ -1,6 +1,5 @@
-import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card } from "@mantine/core";
+import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
 import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
-import { Filters } from "../../model/Filters";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryListModal } from "./RepositoryListModal";
@@ -11,6 +10,8 @@ import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { RepositoryFilter } from "./RepositoryFilter";
 import { useFilters } from "../../context/FiltersContext";
 import { RepositoryTypesFilter } from "./RepositoryTypesFilter";
+import { RepositoryNewModifierForm } from "./RepositoryNewModifierForm";
+import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -39,10 +40,11 @@ export function RepositoryHeader({
     aiMediatorClient,
 
 }: RepositoryHeader) {
-    const {filters, setFilters} = useFilters();
+    const { filters, setFilters } = useFilters();
+    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
     const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);
     const [filtersOpened, filtersHandle] = useDisclosure(false);
-    const [newModifierModalOpened, newModifierModalHandle] = useDisclosure(false);
+    const [newModifierOpened, newModifierHandle] = useDisclosure(false);
     const [types, setTypes] = useState<string[]>(filters.types);
 
     const updateTypes = (value: any) => {
@@ -69,6 +71,16 @@ export function RepositoryHeader({
         refreshRepository(newFilters);
     })
 
+    const toggleOptions = () => {
+        newModifierHandle.close();
+        filtersHandle.toggle();
+    }
+
+    const toggleNewModifier = () => {
+        filtersHandle.close();
+        newModifierHandle.toggle();
+    }
+
     return (
         <Stack pb={"lg"}>
             <RepositoryListModal
@@ -77,13 +89,6 @@ export function RepositoryHeader({
                 repositories={repositories}
                 filters={filters}
                 setFilters={setFilters}
-                refreshRepository={refreshRepository}
-            />
-            <RepositoryNewModifierModal
-                opened={newModifierModalOpened}
-                handle={newModifierModalHandle}
-                filters={filters}
-                aiMediatorClient={aiMediatorClient}
                 refreshRepository={refreshRepository}
             />
             <Group h={"100%"} justify='space-between' pt={"xs"}>
@@ -131,12 +136,12 @@ export function RepositoryHeader({
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu> */}
-                    <UnstyledButton px={0} onClick={filtersHandle.toggle} w={"100%"}>
+                    <UnstyledButton px={0} onClick={toggleOptions}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
                             <Box maw={175}>
-                                <Text truncate size="lg">
+                                <Title order={3}>
                                     Options
-                                </Text>
+                                </Title>
                             </Box>
                             {
                                 filtersOpened
@@ -170,10 +175,10 @@ export function RepositoryHeader({
                     {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon> */}
-                    <ActionIcon onClick={newModifierModalHandle.open} size={"lg"} variant='subtle'>
-                        <IconPlus style={{ width: rem(18), height: rem(18) }} />
+                    <ActionIcon onClick={toggleNewModifier} size={"lg"} variant='subtle'>
+                        <IconSparkles style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
-                    <ActionIcon onClick={() => refreshRepository(filters)} size={"lg"} variant='subtle'>
+                    <ActionIcon onClick={() => refreshRepository(selectedFilters)} size={"lg"} variant='subtle'>
                         <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon>
                 </Group>
@@ -192,6 +197,14 @@ export function RepositoryHeader({
                     <RepositoryFilter refreshRepository={refreshRepository} />
                     <RepositoryTypesFilter refreshRepository={refreshRepository} />
                 </Stack>
+            </Collapse>
+
+            <Collapse in={newModifierOpened}>
+                <RepositoryNewModifierForm
+                    handle={newModifierHandle}
+                    aiMediatorClient={aiMediatorClient}
+                    refreshRepository={refreshRepository}
+                />
             </Collapse>
         </Stack>
     )

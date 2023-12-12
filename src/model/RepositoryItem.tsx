@@ -16,10 +16,14 @@ export class RepositoryItem {
     category_slug: string;
     created_at: string;
     username: string;
+    user_id: string;
     user_email: string;
     repository_name: string;
     repository_slug: string;
     icon: any;
+    modifiers: {id: number, name: string, slug: string, content: string}[];
+    language_name: string;
+    language_slug: string;
 
     constructor(name: string = "", slug: string = "", type: string = "", score: number = 50, content: string = "", color: string = "") {
         this.id = 0;
@@ -37,10 +41,14 @@ export class RepositoryItem {
         this.category_slug = "";
         this.created_at = "";
         this.username = "";
+        this.user_id = "";
         this.user_email = "";
         this.repository_name = "";
         this.repository_slug = "";
         this.icon = null;
+        this.modifiers = [];
+        this.language_name = "";
+        this.language_slug = "";
     }
 
     static buildFromApi(data: any): RepositoryItem {
@@ -100,6 +108,10 @@ export class RepositoryItem {
             newRepoItem.created_at = data.created_at;
         }
 
+        if ('user_id' in data) {
+            newRepoItem.user_id = data.user_id;
+        }
+
         if ('user_email' in data) {
             newRepoItem.username = data.user_email.replace('@wacestudio.com', '');
             newRepoItem.user_email = data.user_email;
@@ -112,6 +124,31 @@ export class RepositoryItem {
         if ('repository_slug' in data) {
             newRepoItem.repository_slug = data.repository_slug;
         }
+
+        if ('modifiers' in data) {
+            newRepoItem.modifiers = data.modifiers;
+        }
+
+        if ('language_slug' in data) {
+            newRepoItem.language_slug = data.language_slug;
+        }
+
+        if ('language_name' in data) {
+            newRepoItem.language_name = data.language_name;
+        }
+
+        return newRepoItem;
+    }
+
+    static buildFromModifier(modifier: any) {
+        const newRepoItem = new RepositoryItem();
+
+        newRepoItem.id = modifier.id;
+        newRepoItem.name = modifier.name;
+        newRepoItem.slug = modifier.slug;
+        newRepoItem.type = "modifier";
+        newRepoItem.color = this.getColor(newRepoItem.type);
+        newRepoItem.content = modifier.content;
 
         return newRepoItem;
     }
