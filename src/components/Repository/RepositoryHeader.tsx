@@ -1,4 +1,4 @@
-import { Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
+import { Collapse, ScrollArea, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
 import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
@@ -12,6 +12,7 @@ import { useFilters } from "../../context/FiltersContext";
 import { RepositoryTypesFilter } from "./RepositoryTypesFilter";
 import { RepositoryNewModifierForm } from "./RepositoryNewModifierForm";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
+import { RepositoryLanguageFilter } from "./RepositoryLanguageFilter";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -184,7 +185,7 @@ export function RepositoryHeader({
                 </Group>
             </Group>
             <Collapse in={filtersOpened}>
-                <Stack gap={"xl"} mb={"xs"}>
+                <Stack gap={"xl"} my={"xs"}>
                     <Textarea
                         placeholder={"Search"}
                         autosize
@@ -194,6 +195,7 @@ export function RepositoryHeader({
                         value={repositorySearchTerm}
                         onChange={e => searchSearchTerm(e.target.value)}
                     />
+                    {/* <RepositoryLanguageFilter refreshRepository={refreshRepository} /> */}
                     <RepositoryFilter refreshRepository={refreshRepository} />
                     <RepositoryTypesFilter refreshRepository={refreshRepository} />
                 </Stack>

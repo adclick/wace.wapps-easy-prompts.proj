@@ -28,8 +28,8 @@ export function RepositoryTypesFilter({ refreshRepository }: RepositoryTypesFilt
             <Checkbox.Group defaultValue={filters.types} value={selectedFilters.types} onChange={update}>
                 <Stack justify="space-between">
                     <Checkbox radius={"sm"} color={RepositoryItem.getColor("prompt")} value="prompts" label="Prompts" />
-                    <Checkbox radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
                     <Checkbox radius={"sm"} color={RepositoryItem.getColor("modifier")} value="modifiers" label="Modifiers" />
+                    <Checkbox disabled radius={"sm"} color={RepositoryItem.getColor("template")} value="templates" label="Templates" />
                 </Stack>
             </Checkbox.Group>
         </Stack>

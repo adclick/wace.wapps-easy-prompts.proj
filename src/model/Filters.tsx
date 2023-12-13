@@ -14,6 +14,7 @@ export class Filters {
     provider: string;
     text: string;
     repositories: {id: number, name: string, slug: string}[];
+    languages: {id: number, name: string, slug: string}[];
 
     constructor() {
         this.text = "";
@@ -25,5 +26,6 @@ export class Filters {
         this.technology = "";
         this.provider = "";
         this.repositories = [];
+        this.languages = [];
     }
 }
