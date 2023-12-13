@@ -15,14 +15,17 @@ export function UserFeedbackModal({
     userFeedbackModalHandle,
     aiMediatorClient
 }: UserFeedbackModal) {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [feedback, setFeedback] = useState("");
 
     const send = async () => {
-        setFeedback('');
+        await aiMediatorClient.sendFeedback(title, description);
 
         userFeedbackModalHandle.close();
-
-        await aiMediatorClient.sendFeedback('New Feedback', feedback);
+        
+        setTitle("");
+        setDescription("");
 
         notifications.show({
             title: 'Feedback Sent',
@@ -34,9 +37,19 @@ export function UserFeedbackModal({
         <Modal size={"lg"} opened={userFeedbackModalOpened} onClose={userFeedbackModalHandle.close} title={"Give feedback"}>
             <Stack>
                 <TextInput
-                    placeholder="Title"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    placeholder="Give a name to your feedback"
                 />
-                <Textarea autosize autoFocus maxRows={10} minRows={5} value={feedback} onChange={e => setFeedback(e.target.value)} />
+                <Textarea
+                    autosize
+                    autoFocus
+                    maxRows={10}
+                    minRows={5}
+                    placeholder="Write your feedback here"
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                />
                 <Group>
                     <Button
                         size="compact-md"

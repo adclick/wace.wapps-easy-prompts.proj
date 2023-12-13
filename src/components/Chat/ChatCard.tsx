@@ -50,9 +50,6 @@ export function ChatCard({
     openRepositoryItemDetailsSelected,
     refreshRepository
 }: ChatCard) {
-    const {filters, setFilters} = useFilters();
-    const {selectedFilters, setSelectedFilters} = useSelectedFilters();
-
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [responseAsText, setResponseAsText] = useState('');
     const [vote, setVote] = useState(0);
@@ -111,37 +108,17 @@ export function ChatCard({
 
     }, [scrollIntoView]);
 
-    const savePrompt = async () => {
-        const modifierId = request.repositoryItems.length > 0 ? request.repositoryItems[0].id : 0;
-
-        await aIMediatorClient.savePrompt(
-            request.text,
-            request.text,
-            request.userPromptOptions.technology.slug,
-            request.userPromptOptions.provider.slug,
-            modifierId,
-            user.id,
-            [filters.repositories[0].id],
-            filters.language
-        );
-
-        notifications.show({
-            title: 'Prompt Saved',
-            message: 'Your settings were saved',
-            color: RepositoryItem.getColor("prompt")
-        });
-
-        refreshRepository(selectedFilters);
-    }
-
-    const handleVote = (vote: number) => {
-        setVote(vote);
-    }
-
     const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
 
     return (
         <Card mx={isMobile ? "0" : "xl"} radius={isMobile ? "0" : "lg"} p={"md"} shadow="sm">
+            <RepositoryNewPromptModal
+                opened={savePromptModalOpened}
+                handle={savePromptModalHandle}
+                refreshRepository={refreshRepository}
+                request={request}
+                aIMediatorClient={aIMediatorClient}
+            />
             <Stack gap={0}>
                 <Box py={"xs"}>
                     <Group justify="space-between">
@@ -191,7 +168,12 @@ export function ChatCard({
                                 }
                             </ActionIcon>
                         </Tooltip> */}
-                        <Button leftSection={<IconDownload size={16} />} onClick={savePrompt} variant="subtle" size="xs">
+                        <Button
+                            leftSection={<IconDownload size={16} />}
+                            onClick={savePromptModalHandle.open}
+                            variant="subtle"
+                            size="xs"
+                        >
                             Save
                         </Button>
                         <CopyButton value={responseAsText} timeout={2000}>
@@ -207,19 +189,6 @@ export function ChatCard({
                                 </Tooltip>
                             )}
                         </CopyButton>
-                        <RepositoryNewPromptModal
-                            opened={savePromptModalOpened}
-                            close={savePromptModalHandle.close}
-                            prompt={request.text}
-                            technology={request.userPromptOptions.technology.slug}
-                            provider={request.userPromptOptions.provider.slug}
-                            aiMediatorClient={aIMediatorClient}
-                            userId={user.id}
-                            repository={repository.slug}
-                            language={language.code}
-                            refreshPromptOptions={refreshPromptOptions}
-
-                        />
 
                         {/* <Menu withinPortal position="top" shadow="sm">
                             <Menu.Target>

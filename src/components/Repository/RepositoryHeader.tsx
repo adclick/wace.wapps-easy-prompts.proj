@@ -1,11 +1,10 @@
-import { Collapse, ScrollArea, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
+import { Tooltip, Collapse, ScrollArea, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
 import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryListModal } from "./RepositoryListModal";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { useState } from "react";
-import { RepositoryNewModifierModal } from "./RepositoryNewModifierModal";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { RepositoryFilter } from "./RepositoryFilter";
 import { useFilters } from "../../context/FiltersContext";
@@ -176,12 +175,16 @@ export function RepositoryHeader({
                     {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon> */}
-                    <ActionIcon onClick={toggleNewModifier} size={"lg"} variant='subtle'>
-                        <IconSparkles style={{ width: rem(18), height: rem(18) }} />
-                    </ActionIcon>
-                    <ActionIcon onClick={() => refreshRepository(selectedFilters)} size={"lg"} variant='subtle'>
-                        <IconRefresh style={{ width: rem(18), height: rem(18) }} />
-                    </ActionIcon>
+                    <Tooltip label="Add new modifier">
+                        <ActionIcon onClick={toggleNewModifier} size={"lg"} variant='subtle'>
+                            <IconSparkles style={{ width: rem(18), height: rem(18) }} />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Refresh">
+                        <ActionIcon onClick={() => refreshRepository(selectedFilters)} size={"lg"} variant='subtle'>
+                            <IconRefresh style={{ width: rem(18), height: rem(18) }} />
+                        </ActionIcon>
+                    </Tooltip>
                 </Group>
             </Group>
             <Collapse in={filtersOpened}>

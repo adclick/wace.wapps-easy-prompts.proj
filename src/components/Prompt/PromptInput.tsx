@@ -1,5 +1,5 @@
 import { Select, Menu, ActionIcon, Popover, Box, Badge, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
-import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate, IconExclamationMark, IconLanguage, IconListSearch, IconPhoto, IconPencil } from "@tabler/icons-react";
+import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate, IconExclamationMark, IconLanguage, IconListSearch, IconPhoto, IconPencil, IconClipboardCheck, IconClipboardText, IconHeadphones, IconLayersSubtract } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import cx from 'clsx';
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
@@ -150,22 +150,25 @@ export function PromptInput({
 
                             <Menu shadow="md" position='bottom-start'>
                                 <Menu.Target>
-                                    <ActionIcon
-                                        variant="subtle"
-                                        aria-label="Settings"
-                                        size="lg"
-                                        pos={"absolute"}
-                                        left={"30px"}
-                                        styles={{
-                                            root: {
-                                                zIndex: "1"
+                                    <Tooltip label="Switch mode">
+
+                                        <ActionIcon
+                                            variant="subtle"
+                                            aria-label="Settings"
+                                            size="lg"
+                                            pos={"absolute"}
+                                            left={"30px"}
+                                            styles={{
+                                                root: {
+                                                    zIndex: "1"
+                                                }
+                                            }}
+                                        >
+                                            {
+                                                Technology.getIcon(technology.slug, "70%")
                                             }
-                                        }}
-                                    >
-                                        {
-                                            Technology.getIcon(technology.slug, "70%")
-                                        }
-                                    </ActionIcon>
+                                        </ActionIcon>
+                                    </Tooltip>
                                 </Menu.Target>
 
                                 <Menu.Dropdown>
@@ -215,29 +218,29 @@ export function PromptInput({
                                             technology.slug === "topic-extraction" &&
                                             <IconCheck style={{ width: rem(14), height: rem(14) }} />
                                         }
-                                        leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                                        leftSection={<IconLayersSubtract style={{ width: rem(14), height: rem(14) }} />}
                                     >
                                         Topic Extraction
                                     </Menu.Item>
                                     <Menu.Item
                                         disabled
                                         rightSection={
-                                            technology.slug === "topic-extraction" &&
+                                            technology.slug === "summarization" &&
                                             <IconCheck style={{ width: rem(14), height: rem(14) }} />
                                         }
-                                        leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                                        leftSection={<IconClipboardText style={{ width: rem(14), height: rem(14) }} />}
                                     >
                                         Summarize
                                     </Menu.Item>
                                     <Menu.Item
                                         disabled
                                         rightSection={
-                                            technology.slug === "topic-extraction" &&
+                                            technology.slug === "text-to-speech" &&
                                             <IconCheck style={{ width: rem(14), height: rem(14) }} />
                                         }
-                                        leftSection={<IconExclamationMark style={{ width: rem(14), height: rem(14) }} />}
+                                        leftSection={<IconHeadphones style={{ width: rem(14), height: rem(14) }} />}
                                     >
-                                        Audio
+                                        Text to Speech
                                     </Menu.Item>
                                 </Menu.Dropdown>
                             </Menu>
@@ -246,29 +249,31 @@ export function PromptInput({
                                 dropdown: cx(computedColorScheme)
                             }}>
                                 <Popover.Target>
-                                    <ActionIcon
-                                        variant="subtle"
-                                        aria-label="Settings"
-                                        size="lg"
-                                        pos={"absolute"}
-                                        left={"70px"}
-                                        styles={{
-                                            root: {
-                                                zIndex: "1"
-                                            }
-                                        }}
-                                        onClick={open}
-                                    >
-                                        {
-                                            activeModifiers.length > 0
-                                                ? <Indicator label={activeModifiers.length} size={16}>
+                                    <Tooltip label="Adjust parameters">
+                                        <ActionIcon
+                                            variant="subtle"
+                                            aria-label="Settings"
+                                            size="lg"
+                                            pos={"absolute"}
+                                            left={"70px"}
+                                            styles={{
+                                                root: {
+                                                    zIndex: "1"
+                                                }
+                                            }}
+                                            onClick={open}
+                                        >
+                                            {
+                                                activeModifiers.length > 0
+                                                    ? <Indicator label={activeModifiers.length} size={16}>
+                                                        <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                    </Indicator>
+                                                    :
                                                     <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                </Indicator>
-                                                :
-                                                <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
 
-                                        }
-                                    </ActionIcon>
+                                            }
+                                        </ActionIcon>
+                                    </Tooltip>
                                 </Popover.Target>
                                 <Popover.Dropdown p={"xs"}>
                                     <PromptOptionsPanel

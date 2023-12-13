@@ -26,11 +26,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useFilters } from '../context/FiltersContext';
 import { useOptions } from '../context/OptionsContext';
 import { useSelectedFilters } from '../context/SelectedFiltersContext';
+import favicon from '../favicon.svg';
+import { AppOverlay } from '../components/Misc/AppOverlay';
 
 export function HomePage() {
-  const {filters, setFilters} = useFilters();
-  const {selectedFilters, setSelectedFilters} = useSelectedFilters();
-  const {options, setOptions} = useOptions();
+  const { filters, setFilters } = useFilters();
+  const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+  const { options, setOptions } = useOptions();
 
 
   // API Client
@@ -79,6 +81,8 @@ export function HomePage() {
   const defaultModifiers = promptOptions.getModifiers(defaultTechnology.slug);
   const [modifiers, setModifiers] = useState<Modifier[]>(defaultModifiers);
   const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
+
+  const [overlayVisible, overlayHandle] = useDisclosure(true);
 
   const openRepositoryItemDetailsSelected = (item: RepositoryItem) => {
     setRepositoryItemDetailsSelected(item);
@@ -155,6 +159,8 @@ export function HomePage() {
     newUserPromptOptions.setProvider(currentProvider);
     newUserPromptOptions.setLanguage(languageCode);
     setUserPromptOptions(newUserPromptOptions);
+
+    overlayHandle.close();
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {
@@ -189,6 +195,7 @@ export function HomePage() {
 
     setFilters(newFilters);
     refreshRepository(newFilters);
+    setRepositorySelectedItems([]);
   }
 
   const handleOnChangeProvider = (newProviderSlug: string) => {
@@ -214,152 +221,155 @@ export function HomePage() {
   }
 
   return (
-    <AppShell
-      layout='alt'
-      header={{
-        height: { base: 80 },
-      }}
-      navbar={{
-        width: { base: 350 },
-        breakpoint: 'sm',
-        collapsed: { mobile: !navbarOpened },
-      }}
-      footer={{
-        height: { base: 110 }
-      }}
-      classNames={{
-        navbar: cx(computedColorScheme)
-      }}
-    >
-      <AppShell.Header withBorder={false} p={"md"} >
-        <Group h={"100%"} justify="space-between" align="center">
-          <Group align="center" gap={"xs"}>
-            <Burger
-              opened={navbarOpened}
-              onClick={navbarHandle.toggle}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <Menu shadow="md"  position='bottom-start'>
-              <Menu.Target>
-                <UnstyledButton px={"md"} >
-                  <Group align='center' gap={"xs"}>
-                    <Title order={1} size={"h3"} style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap"
-                    }}>
-                      Chat
-                    </Title>
-                    <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
-                  </Group>
-                </UnstyledButton>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                  New Chat
-                </Menu.Item>
-                <Menu.Item disabled leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
-                  History
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+    <Box>
+      <AppOverlay visible={overlayVisible} />
+      <AppShell
+        layout='alt'
+        header={{
+          height: { base: 80 },
+        }}
+        navbar={{
+          width: { base: 350 },
+          breakpoint: 'sm',
+          collapsed: { mobile: !navbarOpened },
+        }}
+        footer={{
+          height: { base: 110 }
+        }}
+        classNames={{
+          navbar: cx(computedColorScheme)
+        }}
+      >
+        <AppShell.Header withBorder={false} p={"md"} >
+          <Group h={"100%"} justify="space-between" align="center">
+            <Group align="center" gap={"xs"}>
+              <Burger
+                opened={navbarOpened}
+                onClick={navbarHandle.toggle}
+                hiddenFrom="sm"
+                size="sm"
+              />
+              <Menu shadow="md" position='bottom-start'>
+                <Menu.Target>
+                  <UnstyledButton px={"md"} >
+                    <Group align='center' gap={"xs"}>
+                      <Title order={1} size={"h3"} style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }}>
+                        Chat
+                      </Title>
+                      <IconChevronDown style={{ width: rem(18), height: rem(18) }} />
+                    </Group>
+                  </UnstyledButton>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                    New Chat
+                  </Menu.Item>
+                  <Menu.Item disabled leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
+                    History
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </Group>
+            <Group>
+              {/* <ColorSchemeToggle /> */}
+              <UserMenu
+                filters={filters}
+                setFilters={setFilters}
+                refreshRepository={refreshRepository}
+                aiMediatorClient={aIMediatorClient}
+              />
+            </Group>
           </Group>
-          <Group>
-            {/* <ColorSchemeToggle /> */}
-            <UserMenu
-              filters={filters}
-              setFilters={setFilters}
-              refreshRepository={refreshRepository}
-              aiMediatorClient={aIMediatorClient}
-            />
-          </Group>
-        </Group>
-      </AppShell.Header>
+        </AppShell.Header>
 
-      <AppShell.Navbar withBorder={false} p="md">
-        <AppShell.Section >
-          <RepositoryHeader
-            navbarOpened={navbarOpened}
-            toggleNavbar={navbarHandle.toggle}
-            openFilters={filtersPanelHandle.open}
-            filtersOpened={filtersPanelOpened}
-            closeFilters={filtersPanelHandle.close}
-            repositories={repositories}
+        <AppShell.Navbar withBorder={false} p="md">
+          <AppShell.Section >
+            <RepositoryHeader
+              navbarOpened={navbarOpened}
+              toggleNavbar={navbarHandle.toggle}
+              openFilters={filtersPanelHandle.open}
+              filtersOpened={filtersPanelOpened}
+              closeFilters={filtersPanelHandle.close}
+              repositories={repositories}
+              repository={repository}
+              repositorySearchTerm={repositorySearchTerm}
+              setRepositorySearchTerm={setRepositorySearchTerm}
+              refreshRepository={refreshRepository}
+              refreshingRepository={refreshingRepository}
+              refreshingRepositoryHandle={refreshingRepositoryHandle}
+              aiMediatorClient={aIMediatorClient}
+              repositorySelectedItems={repositorySelectedItems}
+            />
+          </AppShell.Section>
+          <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
+            <RepositoryPanel
+              navbarToggle={navbarHandle.toggle}
+              repositoryItems={repositoryItems}
+              setRepositoryItems={setRepositoryItems}
+              repositorySearchTerm={repositorySearchTerm}
+              refreshingRepository={refreshingRepository}
+              aiMediatorClient={aIMediatorClient}
+              repositorySelectedItems={repositorySelectedItems}
+              setRepositorySelectedItems={setRepositorySelectedItems}
+              refreshRepository={refreshRepository}
+              openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+              threads={threads}
+              setThreads={setThreads}
+            />
+          </AppShell.Section>
+        </AppShell.Navbar>
+
+        <AppShell.Main>
+          <ChatPanel
+            threads={threads}
+            targetRef={targetRef}
+            aIMediatorClient={aIMediatorClient}
+            userPromptOptions={userPromptOptions}
+            setUserPromptOptions={setUserPromptOptions}
+            refreshPromptOptions={refreshPromptOptions}
+            scrollIntoView={scrollIntoView}
+            user={currentUser}
             repository={repository}
-            repositorySearchTerm={repositorySearchTerm}
-            setRepositorySearchTerm={setRepositorySearchTerm}
-            refreshRepository={refreshRepository}
-            refreshingRepository={refreshingRepository}
-            refreshingRepositoryHandle={refreshingRepositoryHandle}
-            aiMediatorClient={aIMediatorClient}
-            repositorySelectedItems={repositorySelectedItems}
-          />
-        </AppShell.Section>
-        <AppShell.Section grow component={ScrollArea} style={{borderRadius: "1rem"}}>
-          <RepositoryPanel
-            navbarToggle={navbarHandle.toggle}
-            repositoryItems={repositoryItems}
-            setRepositoryItems={setRepositoryItems}
-            repositorySearchTerm={repositorySearchTerm}
-            refreshingRepository={refreshingRepository}
-            aiMediatorClient={aIMediatorClient}
-            repositorySelectedItems={repositorySelectedItems}
-            setRepositorySelectedItems={setRepositorySelectedItems}
-            refreshRepository={refreshRepository}
+            language={language}
             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
+            filters={filters}
+            refreshRepository={refreshRepository}
+          />
+        </AppShell.Main>
+
+        <AppShell.Footer withBorder={false}>
+          <PromptInput
+            aIMediatorClient={aIMediatorClient}
+            userPromptOptions={userPromptOptions}
+            scrollIntoView={scrollIntoView}
             threads={threads}
             setThreads={setThreads}
+            promptOptions={promptOptions}
+            technology={technology}
+            technologies={technologies}
+            handleOnChangeTechnology={handleOnChangeTechnology}
+            provider={provider}
+            providers={providers}
+            modifiers={modifiers}
+            handleOnChangeProvider={handleOnChangeProvider}
+            activeModifiers={activeModifiers}
+            setActiveModifiers={setActiveModifiers}
+            setUserPromptOptions={setUserPromptOptions}
+            parameters={parameters}
+            refreshPromptOptions={refreshPromptOptions}
+            user={currentUser}
+            repository={repository}
+            language={language}
+            repositorySelectedItems={repositorySelectedItems}
+            setRepositorySelectedItems={setRepositorySelectedItems}
+            openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
           />
-        </AppShell.Section>
-      </AppShell.Navbar>
-
-      <AppShell.Main>
-        <ChatPanel
-          threads={threads}
-          targetRef={targetRef}
-          aIMediatorClient={aIMediatorClient}
-          userPromptOptions={userPromptOptions}
-          setUserPromptOptions={setUserPromptOptions}
-          refreshPromptOptions={refreshPromptOptions}
-          scrollIntoView={scrollIntoView}
-          user={currentUser}
-          repository={repository}
-          language={language}
-          openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-          filters={filters}
-          refreshRepository={refreshRepository}
-        />
-      </AppShell.Main>
-
-      <AppShell.Footer withBorder={false}>
-        <PromptInput
-          aIMediatorClient={aIMediatorClient}
-          userPromptOptions={userPromptOptions}
-          scrollIntoView={scrollIntoView}
-          threads={threads}
-          setThreads={setThreads}
-          promptOptions={promptOptions}
-          technology={technology}
-          technologies={technologies}
-          handleOnChangeTechnology={handleOnChangeTechnology}
-          provider={provider}
-          providers={providers}
-          modifiers={modifiers}
-          handleOnChangeProvider={handleOnChangeProvider}
-          activeModifiers={activeModifiers}
-          setActiveModifiers={setActiveModifiers}
-          setUserPromptOptions={setUserPromptOptions}
-          parameters={parameters}
-          refreshPromptOptions={refreshPromptOptions}
-          user={currentUser}
-          repository={repository}
-          language={language}
-          repositorySelectedItems={repositorySelectedItems}
-          setRepositorySelectedItems={setRepositorySelectedItems}
-          openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-        />
-      </AppShell.Footer>
-    </AppShell>
+        </AppShell.Footer>
+      </AppShell>
+    </Box>
   );
 }
