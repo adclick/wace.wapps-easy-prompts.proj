@@ -124,7 +124,6 @@ export function HomePage() {
     setRepository(repositoriesObjs[0]);
     const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
     setRepositoryItems(repositoryItemsObjs);
-    console.log(repositoryItemsObjs);
     refreshingRepositoryHandle.close();
 
 
