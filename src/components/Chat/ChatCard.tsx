@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, em, rem, useComputedColorScheme } from "@mantine/core"
-import { IconCheck, IconDownload, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash } from "@tabler/icons-react"
+import { IconCheck, IconDownload, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconThumbUp } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -20,6 +20,7 @@ import { notifications } from "@mantine/notifications";
 import { ChatCardKeywordsExtracted } from "./ChatCardResponseKeywordsExtracted";
 import { useFilters } from "../../context/FiltersContext";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
+import { ChatCardIntro } from "./ChatCardIntro";
 
 interface ChatCard {
     request: Request,
@@ -33,7 +34,10 @@ interface ChatCard {
     repository: Repository,
     language: Language,
     openRepositoryItemDetailsSelected: any,
-    refreshRepository: any
+    refreshRepository: any,
+    firstLogin: boolean,
+    setFirstLogin: any,
+    theme: string
 }
 
 export function ChatCard({
@@ -48,59 +52,79 @@ export function ChatCard({
     repository,
     language,
     openRepositoryItemDetailsSelected,
-    refreshRepository
+    refreshRepository,
+    firstLogin,
+    setFirstLogin,
+    theme
 }: ChatCard) {
     const [result, setResult] = useState(<Loader size={"sm"} type="dots" />);
     const [responseAsText, setResponseAsText] = useState('');
     const [vote, setVote] = useState(0);
     const [responded, setResponded] = useState(false);
     const [savePromptModalOpened, savePromptModalHandle] = useDisclosure(false);
+    const { selectedFilters } = useSelectedFilters();
+
+    const confirmIntro = async () => {
+        if (user !== undefined && "id" in user && user.id !== undefined) {
+            setFirstLogin(false);
+            aIMediatorClient.updateUser(user.id, selectedFilters.language, theme, false);
+        }
+    }
 
     // Once loaded, get the response from the user request
     useEffect(() => {
         // On each render, don't request if already responded
         if (responded) return;
 
-        switch (request.userPromptOptions.technology.slug) {
-            case 'text-generation':
-                aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
-                    aIMediatorClient.generateText(optimizedPrompt, request.repositoryItems, request.userPromptOptions).then(text => {
+        if (request.intro === true) {
+            setResult(<ChatCardIntro
+                firstLogin={firstLogin}
+                setFirstLogin={setFirstLogin}
+                aiMediatorClient={aIMediatorClient}
+                theme={theme}
+            />);
+        } else {
+            switch (request.userPromptOptions.technology.slug) {
+                case 'text-generation':
+                    aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
+                        aIMediatorClient.generateText(optimizedPrompt, request.repositoryItems, request.userPromptOptions).then(text => {
+                            setResult(<ChatCardText text={text} />);
+                            setResponseAsText(text);
+                        }).catch((e) => {
+                            setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                        })
+                    })
+                    break;
+                case 'image-generation':
+                    aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
+                        aIMediatorClient.generateImage(optimizedPrompt, request.userPromptOptions).then((images: string[]) => {
+                            setResult(<ChatCardImage images={images} />);
+                            setResponseAsText('');
+                        }).catch((e) => {
+                            setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                        })
+                    })
+                    break;
+                case 'keywords-extraction':
+                    aIMediatorClient.extractKeywords(request.text, request.userPromptOptions).then((keywords: string[]) => {
+                        setResult(<ChatCardKeywordsExtracted keywords={keywords} />);
+                        setResponseAsText(keywords.join(','));
+                    }).catch((e) => {
+                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
+                    })
+                    break;
+                case 'translation':
+                    aIMediatorClient.translate(request.text, request.userPromptOptions).then((text: string) => {
                         setResult(<ChatCardText text={text} />);
                         setResponseAsText(text);
                     }).catch((e) => {
                         setResult(<Text>Error. Something went wrong. Contact support</Text>)
                     })
-                })
-                break;
-            case 'image-generation':
-                aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
-                    aIMediatorClient.generateImage(optimizedPrompt, request.userPromptOptions).then((images: string[]) => {
-                        setResult(<ChatCardImage images={images} />);
-                        setResponseAsText('');
-                    }).catch((e) => {
-                        setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                    })
-                })
-                break;
-            case 'keywords-extraction':
-                aIMediatorClient.extractKeywords(request.text, request.userPromptOptions).then((keywords: string[]) => {
-                    setResult(<ChatCardKeywordsExtracted keywords={keywords} />);
-                    setResponseAsText(keywords.join(','));
-                }).catch((e) => {
-                    setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                })
-                break;
-            case 'translation':
-                aIMediatorClient.translate(request.text, request.userPromptOptions).then((text: string) => {
-                    setResult(<ChatCardText text={text} />);
-                    setResponseAsText(text);
-                }).catch((e) => {
-                    setResult(<Text>Error. Something went wrong. Contact support</Text>)
-                })
-                break;
-            default:
-                setResult(<Text>Error</Text>);
-                break;
+                    break;
+                default:
+                    setResult(<Text>Error</Text>);
+                    break;
+            }
         }
 
         setResponded(true);
@@ -120,24 +144,27 @@ export function ChatCard({
                 aIMediatorClient={aIMediatorClient}
             />
             <Stack gap={0}>
-                <Box py={"xs"}>
-                    <Group justify="space-between">
-                        <Group>
-                            <Avatar src={user?.picture} size={"sm"} />
-                            <Text size="md" style={{ whiteSpace: "pre-line" }}>
-                                {request.text}
-                            </Text>
+                {
+                    request.intro === false &&
+                    <Box py={"xs"}>
+                        <Group justify="space-between">
+                            <Group>
+                                <Avatar src={user?.picture} size={"sm"} />
+                                <Text size="md" style={{ whiteSpace: "pre-line" }}>
+                                    {request.text}
+                                </Text>
+                            </Group>
+                            <Group>
+                                <SelectedOptionsWidget
+                                    technology={request.userPromptOptions.technology}
+                                    provider={request.userPromptOptions.provider}
+                                    parameters={request.userPromptOptions.parameters}
+                                    modifiers={request.userPromptOptions.modifiers}
+                                />
+                            </Group>
                         </Group>
-                        <Group>
-                            <SelectedOptionsWidget
-                                technology={request.userPromptOptions.technology}
-                                provider={request.userPromptOptions.provider}
-                                parameters={request.userPromptOptions.parameters}
-                                modifiers={request.userPromptOptions.modifiers}
-                            />
-                        </Group>
-                    </Group>
-                </Box>
+                    </Box>
+                }
                 <Box py={"xl"} px={0}>
                     <Group justify="space-between" wrap="wrap" align="flex-start" gap={"xl"}>
                         <Group align="flex-start">
@@ -168,14 +195,26 @@ export function ChatCard({
                                 }
                             </ActionIcon>
                         </Tooltip> */}
-                        <Button
-                            leftSection={<IconDownload size={16} />}
-                            onClick={savePromptModalHandle.open}
-                            variant="subtle"
-                            size="xs"
-                        >
-                            Save
-                        </Button>
+                        {
+                            request.intro ?
+                                <Button
+                                    onClick={confirmIntro}
+                                    variant="subtle"
+                                    size="xs"
+                                    leftSection={<IconThumbUp style={{ width: rem(16), height: rem(16) }} />}
+                                >
+                                    Got it!
+                                </Button>
+                                :
+                                <Button
+                                    leftSection={<IconDownload size={16} />}
+                                    onClick={savePromptModalHandle.open}
+                                    variant="subtle"
+                                    size="xs"
+                                >
+                                    Save
+                                </Button>
+                        }
                         <CopyButton value={responseAsText} timeout={2000}>
                             {({ copied, copy }) => (
                                 <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>

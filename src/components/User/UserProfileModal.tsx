@@ -3,46 +3,71 @@ import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack
 import { notifications } from "@mantine/notifications";
 import { IconMoonStars, IconPrompt, IconSparkles, IconSun, IconTemplate, IconUser } from "@tabler/icons-react";
 import { useState } from "react";
+import { useFilters } from "../../context/FiltersContext";
+import { useSelectedFilters } from "../../context/SelectedFiltersContext";
+import { AIMediatorClient } from "../../clients/AIMediatorClient";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface UserProfileModal {
-    user: any,
     userProfileOpened: boolean,
     closeUserProfile: () => void,
-    filters: Filters,
-    setFilters: any,
+    aiMediatorClient: AIMediatorClient
     refreshRepository: any
 }
 
 export function UserProfileModal({
-    user,
     userProfileOpened,
     closeUserProfile,
-    filters,
-    setFilters,
+    aiMediatorClient,
     refreshRepository
 }: UserProfileModal) {
-    const updateLanguage = (value: string | null) => {
-        setFilters({
-            ...filters,
-            language: value
-        });
+    const { setColorScheme } = useMantineColorScheme();
+    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    const { filters } = useFilters();
+    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+    const mantineTheme = useMantineTheme();
+    const [language, setLanguage] = useState(selectedFilters.language);
+    const [theme, setTheme] = useState(computedColorScheme);
+    const { user } = useAuth0();
+
+    console.log(selectedFilters.language);
+
+    const updateLanguage = (language: string | null) => {
+        if (language) {
+            const newSelectedFilters = {
+                ...selectedFilters,
+                language
+            };
+    
+            setSelectedFilters(newSelectedFilters);
+            refreshRepository(newSelectedFilters);
+        }
     }
 
-    const apply = () => {
-        refreshRepository(filters);
-        closeUserProfile();
-        notifications.show({
-            title: 'Profile Saved',
-            message: 'Your settings were saved',
-        })
+    const updateTheme = () => {
+        const newTheme = computedColorScheme === 'light' ? 'dark' : 'light';
+        setColorScheme(newTheme)
+        setTheme(newTheme);
     }
-    const theme = useMantineTheme();
+
+    const apply = async () => {
+        if (user !== undefined && "sub" in user && user.sub !== undefined) {
+            closeUserProfile();
+
+            await aiMediatorClient.updateUser(user.sub, selectedFilters.language, theme);
+
+            notifications.show({
+                title: 'Profile Saved',
+                message: 'Your settings were saved',
+            });
+        }
+    }
 
     const sunIcon = (
         <IconSun
             style={{ width: rem(16), height: rem(16) }}
             stroke={2.5}
-            color={theme.colors.yellow[4]}
+            color={mantineTheme.colors.yellow[4]}
         />
     );
 
@@ -50,12 +75,19 @@ export function UserProfileModal({
         <IconMoonStars
             style={{ width: rem(16), height: rem(16) }}
             stroke={2.5}
-            color={theme.colors.blue[6]}
+            color={mantineTheme.colors.blue[6]}
         />
     );
 
-    const { setColorScheme } = useMantineColorScheme();
-    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    const languagesOptions = filters.languages.map(l => {
+        return {
+            label: l.name,
+            value: l.slug
+        }
+    });
+
+    const nickname = user?.nickname !== undefined ? user.nickname : "";
+    const email = user?.email !== undefined ? user.email : "";
 
     return (
         <Modal opened={userProfileOpened} onClose={closeUserProfile} title="Settings" size={"xl"}>
@@ -63,24 +95,22 @@ export function UserProfileModal({
                 <Stack gap={"lg"}>
                     <SimpleGrid cols={{ base: 1, sm: 2 }}>
                         <Text>Username</Text>
-                        <Input value={user.nickname} disabled />
+                        <Input value={nickname} disabled />
                         <Text>Email</Text>
-                        <Input value={user.email} disabled />
+                        <Input value={email} disabled />
                         <Text>Language</Text>
                         <Select
-                            value={filters.language}
+                            value={selectedFilters.language}
+                            allowDeselect={false}
                             onChange={updateLanguage}
-                            data={[
-                                { label: "English", value: "en" },
-                                { label: "Portuguese", value: "pt" },
-                            ]}
+                            data={languagesOptions}
                         />
                         <Text>Theme</Text>
                         <Switch
                             size="md"
                             color="dark.4"
                             onLabel={sunIcon} offLabel={moonIcon}
-                            onChange={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+                            onChange={updateTheme}
                         />
 
                     </SimpleGrid>

@@ -5,36 +5,45 @@ import { useTranslation } from "react-i18next";
 import { UserProfileModal } from "./UserProfileModal";
 import { useDisclosure } from "@mantine/hooks";
 import { UserFeedbackModal } from "./UserFeedbackModal";
-import { Filters } from "../../model/Filters";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
+import { Thread } from "../../model/Thread";
 
 interface UserMenu {
-    filters: Filters,
-    setFilters: any,
     refreshRepository: any,
-    aiMediatorClient: AIMediatorClient
+    aiMediatorClient: AIMediatorClient,
+    setFirstLogin: any,
+    threads: Thread[],
+    setThreads: any,
+    scrollIntoView: any,
 }
 
 export function UserMenu({
-    filters,
-    setFilters,
     refreshRepository,
-    aiMediatorClient
+    aiMediatorClient,
+    setFirstLogin,
+    threads,
+    setThreads,
+    scrollIntoView,
 }: UserMenu) {
     const { t } = useTranslation();
     const { user, logout } = useAuth0();
     const [userProfileOpened, userProfileHandle] = useDisclosure(false);
     const [userFeedbackModalOpened, userFeedbackModalHandle] = useDisclosure(false);
 
+    const howItWorks = () => {
+        const thread = new Thread();
+        thread.request.intro = true;
+        setThreads([...threads, thread]);
+        scrollIntoView({ alignment: 'start' });
+    }
+
     return (
         <Box>
             <UserProfileModal
-                user={user}
                 userProfileOpened={userProfileOpened}
                 closeUserProfile={userProfileHandle.close}
-                filters={filters}
-                setFilters={setFilters}
                 refreshRepository={refreshRepository}
+                aiMediatorClient={aiMediatorClient}
             />
             <UserFeedbackModal
                 userFeedbackModalOpened={userFeedbackModalOpened}
@@ -64,7 +73,7 @@ export function UserMenu({
                     <Menu.Item disabled leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
                         Changelog
                     </Menu.Item>
-                    <Menu.Item disabled leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                    <Menu.Item onClick={howItWorks} leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
                         How it works
                     </Menu.Item>
                     <Menu.Divider />

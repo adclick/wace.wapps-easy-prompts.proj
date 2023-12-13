@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Stack, Popover, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme, Skeleton } from '@mantine/core';
+import { Stack, Popover, useMantineColorScheme, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme, Skeleton } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconExclamationMark, IconFilter, IconHistory, IconInfoCircle, IconLanguage, IconListSearch, IconPencil, IconPhoto, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
 import cx from 'clsx';
@@ -43,6 +43,7 @@ export function HomePage() {
   const { user, logout } = useAuth0();
   const [currentUser, setCurrentUser] = useState<User>(new User());
   const [auth0User, setAuth0User] = useState(user);
+  const [firstLogin, setFirstLogin] = useState(true);
 
   const [language, setLanguage] = useState<Language>(new Language());
 
@@ -57,6 +58,8 @@ export function HomePage() {
 
   // Hooks
   const computedColorScheme = useComputedColorScheme('dark');
+  const { setColorScheme } = useMantineColorScheme();
+
   const [navbarOpened, navbarHandle] = useDisclosure();
   const [filtersPanelOpened, filtersPanelHandle] = useDisclosure(false);
 
@@ -113,7 +116,11 @@ export function HomePage() {
     setLanguage(new Language(languageCode))
 
     // Call API
-    const { repositories, options, filters, modifiers } = await aiMediatorClient.login(user);
+    const { repositories, options, filters, modifiers, theme, first_login } = await aiMediatorClient.login(user);
+    setFirstLogin(first_login);
+
+
+    setColorScheme(theme)
 
     // Filters
     setFilters(filters);
@@ -161,6 +168,14 @@ export function HomePage() {
     setUserPromptOptions(newUserPromptOptions);
 
     overlayHandle.close();
+
+
+    if (first_login === true) {
+      const thread = new Thread();
+      thread.request.intro = true;
+      setThreads([...threads, thread]);
+      scrollIntoView({ alignment: 'start' });
+    }
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {
@@ -277,10 +292,12 @@ export function HomePage() {
             <Group>
               {/* <ColorSchemeToggle /> */}
               <UserMenu
-                filters={filters}
-                setFilters={setFilters}
                 refreshRepository={refreshRepository}
                 aiMediatorClient={aIMediatorClient}
+                setFirstLogin={setFirstLogin}
+                threads={threads}
+                setThreads={setThreads}
+                scrollIntoView={scrollIntoView}
               />
             </Group>
           </Group>
@@ -338,6 +355,9 @@ export function HomePage() {
             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
             filters={filters}
             refreshRepository={refreshRepository}
+            theme={computedColorScheme}
+            firstLogin={firstLogin}
+            setFirstLogin={setFirstLogin}
           />
         </AppShell.Main>
 

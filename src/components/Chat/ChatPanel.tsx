@@ -23,7 +23,10 @@ interface ChatPanel {
     language: Language,
     openRepositoryItemDetailsSelected: any,
     filters: Filters,
-    refreshRepository: any
+    refreshRepository: any,
+    firstLogin: boolean,
+    setFirstLogin: any
+    theme: string
 }
 
 export function ChatPanel({
@@ -39,11 +42,13 @@ export function ChatPanel({
     language,
     openRepositoryItemDetailsSelected,
     filters,
-    refreshRepository
+    refreshRepository,
+    firstLogin,
+    setFirstLogin,
+    theme
 }: ChatPanel) {
     return (
         <Stack gap={"md"} my={"xs"}>
-            {/* <ChatCardIntro /> */}
             {
                 threads.map((thread: Thread) => {
                     return (
@@ -61,6 +66,9 @@ export function ChatPanel({
                             language={language}
                             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
                             refreshRepository={refreshRepository}
+                            firstLogin={firstLogin}
+                            setFirstLogin={setFirstLogin}
+                            theme={theme}
                         />
                     )
                 })

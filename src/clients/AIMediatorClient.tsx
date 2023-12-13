@@ -29,10 +29,12 @@ export class AIMediatorClient {
         });
     }
 
-    async updateUser(auth0Id: string, language: string) {
+    async updateUser(auth0Id: string, language: string, theme: string, firstLogin = false) {
         return await this.post('/ai/user/update', {
             auth0Id,
-            language
+            language,
+            theme,
+            firstLogin
         });
     }
 
@@ -116,11 +118,13 @@ export class AIMediatorClient {
 
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
         const resolution = options.parameters.find(p => p.slug === 'image-resolution');
+        const numImages = options.parameters.find(p => p.slug === 'num-images');
 
         const { data } = await axios.post(`${this.baseUrl}/ai/image/generate-image`, {
             text: prompt,
             provider: options.provider.slug,
             resolution: resolution !== undefined && "value" in resolution ? resolution.value : "256x256",
+            num_images: numImages !== undefined && "value" in numImages ? numImages.value : 1,
             sandbox: this.getSandboxParam()
         });
 
