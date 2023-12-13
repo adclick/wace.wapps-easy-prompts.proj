@@ -245,35 +245,26 @@ export function PromptInput({
                                 </Menu.Dropdown>
                             </Menu>
 
-                            <Popover position="top-start" classNames={{
-                                dropdown: cx(computedColorScheme)
-                            }}>
+                            <Popover position="top-start">
                                 <Popover.Target>
-                                    <Tooltip label="Adjust parameters">
-                                        <ActionIcon
-                                            variant="subtle"
-                                            aria-label="Settings"
-                                            size="lg"
-                                            pos={"absolute"}
-                                            left={"70px"}
-                                            styles={{
-                                                root: {
-                                                    zIndex: "1"
-                                                }
-                                            }}
-                                            onClick={open}
-                                        >
-                                            {
-                                                activeModifiers.length > 0
-                                                    ? <Indicator label={activeModifiers.length} size={16}>
-                                                        <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                    </Indicator>
-                                                    :
-                                                    <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
-
+                                    <ActionIcon
+                                        variant="subtle"
+                                        aria-label="Settings"
+                                        size="lg"
+                                        pos={"absolute"}
+                                        left={"70px"}
+                                        styles={{
+                                            root: {
+                                                zIndex: "1"
                                             }
-                                        </ActionIcon>
-                                    </Tooltip>
+                                        }}
+                                        onClick={open}
+                                    >
+                                        <Tooltip label="Adjust parameters">
+                                            <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                        </Tooltip>
+
+                                    </ActionIcon>
                                 </Popover.Target>
                                 <Popover.Dropdown p={"xs"}>
                                     <PromptOptionsPanel

@@ -16,7 +16,7 @@ export class AIMediatorClient {
     constructor() {
         this.baseUrl = "https://easyprompts.wacestudio.pt";
 
-        this.repositoryItemsLimit = 20;
+        this.repositoryItemsLimit = 50;
     }
 
     async login(user: User) {

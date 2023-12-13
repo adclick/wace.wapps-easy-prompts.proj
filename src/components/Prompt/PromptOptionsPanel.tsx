@@ -1,7 +1,5 @@
 import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem, Card, Tabs } from "@mantine/core"
-import { PromptOptionTechnology } from "./PromptOptionTechnology"
 import { PromptOptionProvider } from "./PromptOptionProvider"
-import { IconDeviceFloppy, IconReload } from "@tabler/icons-react"
 import { PromptOptionParameter } from "./PromptOptionParameter"
 import { PromptOptions } from "@/model/PromptOptions"
 import { Technology } from "@/model/Technology"
@@ -41,20 +39,13 @@ interface PromptOptionsPanel {
 }
 
 export function PromptOptionsPanel({
-    drawerOpened,
-    closeDrawer,
     promptOptions,
-    technology,
-    technologies,
-    handleOnChangeTechnology,
     provider,
     providers,
     handleOnChangeProvider,
     parameters,
     userPromptOptions,
     setUserPromptOptions,
-    filters,
-    setFilters
 }: PromptOptionsPanel) {
     return (
         <Stack mx={"xs"} my={"md"} gap={"md"}>

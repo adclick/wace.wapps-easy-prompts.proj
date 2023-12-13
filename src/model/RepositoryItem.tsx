@@ -7,6 +7,7 @@ export class RepositoryItem {
     type: string;
     score: number;
     content: string;
+    description: string;
     color: string;
     technology_name: string;
     technology_slug: string;
@@ -32,6 +33,7 @@ export class RepositoryItem {
         this.type = type;
         this.score = score;
         this.content = content;
+        this.description = "";
         this.color = color;
         this.technology_name = "";
         this.technology_slug = "";
@@ -78,6 +80,10 @@ export class RepositoryItem {
 
         if ('content' in data) {
             newRepoItem.content = data.content;
+        }
+
+        if ('description' in data) {
+            newRepoItem.description = data.description;
         }
 
         if ('technology_name' in data) {

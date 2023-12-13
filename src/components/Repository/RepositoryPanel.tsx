@@ -41,7 +41,7 @@ export function RepositoryPanel({
         <Box>
             {
                 refreshingRepository &&
-                <Center my={"xs"}>
+                <Center mb={"xl"}>
                     <Loader type="bars" size={"xs"} />
                 </Center>
             }

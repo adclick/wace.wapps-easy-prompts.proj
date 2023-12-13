@@ -1,4 +1,4 @@
-import { SimpleGrid, Popover, Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse, Chip } from "@mantine/core";
+import { SimpleGrid, Popover, Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse, Chip, Paper } from "@mantine/core";
 import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
@@ -67,6 +67,8 @@ export function RepositoryItemRow({
     const date = new Date(repositoryItem.created_at);
 
     const created_at = date.toLocaleString();
+
+    const userOwnsItem = user?.sub === repositoryItem.user_id;
 
     return (
         <Accordion.Item value={`${repositoryItem.type}-${repositoryItem.id}`}>
@@ -156,7 +158,19 @@ export function RepositoryItemRow({
 
             <Accordion.Panel>
                 <Stack>
-                    <Text size="xs">{repositoryItem.content}</Text>
+                    {
+                        repositoryItem.type === "modifier"
+                            ? <Stack>
+                                <Text size="xs">{repositoryItem.description}</Text>
+                                {
+                                    userOwnsItem &&
+                                    <Text size="xs">{repositoryItem.content}</Text>
+                                }
+                            </Stack>
+                            : <Stack>
+                                <Text size="xs">{repositoryItem.content}</Text>
+                            </Stack>
+                    }
                     <Badge variant="default" size="xs">{repositoryItem.repository_name}</Badge>
                     {
                         repositoryItem.modifiers.length > 0
