@@ -22,6 +22,7 @@ export function RepositoryNewModifierForm({
     const [repository, setRepository] = useState('');
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
+    const [description, setDescription] = useState('');
 
     const save = async () => {
         handle.close();
@@ -29,6 +30,7 @@ export function RepositoryNewModifierForm({
         await aiMediatorClient.saveModifier(
             name,
             content,
+            description,
             selectedFilters.technology,
             filters.userId,
             repository,
@@ -37,14 +39,13 @@ export function RepositoryNewModifierForm({
 
         setName("");
         setContent("");
+        setDescription("");
 
         notifications.show({
             title: 'Modifier Saved',
             message: 'Your settings were saved',
             color: RepositoryItem.getColor("modifier")
         });
-
-        console.log(selectedFilters);
 
         refreshRepository(selectedFilters);
     }
@@ -77,6 +78,14 @@ export function RepositoryNewModifierForm({
                 value={name}
                 required
                 placeholder="Name of the Modifier"
+            />
+            <Textarea
+                autosize
+                required
+                minRows={3}
+                onChange={(e: any) => setDescription(e.target.value)}
+                value={description}
+                placeholder="Description"
             />
             <Textarea
                 autosize

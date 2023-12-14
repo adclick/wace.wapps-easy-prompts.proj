@@ -91,11 +91,12 @@ export class AIMediatorClient {
         });
     }
 
-    async saveModifier(name: string, content: string, technology: string, userId: string, repository: string, language: string) {
+    async saveModifier(name: string, content: string, description: string, technology: string, userId: string, repository: string, language: string) {
         return await this.post('/ai/prompt/add-modifier', {
             name,
             options: {
                 content,
+                description,
                 technology,
                 userId,
                 repository,

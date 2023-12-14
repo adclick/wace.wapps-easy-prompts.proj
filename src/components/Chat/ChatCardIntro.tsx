@@ -36,10 +36,10 @@ export function ChatCardIntro({
             <Space h={"sm"} />
 
             <Text fw={500}>🚀 What is it?</Text>
-            <Text>EasyPrompts is a intermediary service that powers up your experience with several AI Systems. It enables you to enrich your prompts, create powerfull re-usable prompts, and share them with anyone</Text>
+            <Text>EasyPrompts is a intermediary service that powers up your experience with several AI Systems. It enables you to enrich your prompts, create powerfull re-usable recipies, and share them with anyone</Text>
             <Space h={"sm"} />
 
-            <Text fw={500}><IconPrompt size={14} /> What are prompts?</Text>
+            <Text fw={500}><IconPrompt size={14} />What are prompts?</Text>
             <Text>Every stroke of genius deserves recognition. Save your previous prompts in a personal list, a treasure trove of creativity. Share these gems with fellow users, inspiring and being inspired in return.</Text>
             <Space h={"sm"} />
 

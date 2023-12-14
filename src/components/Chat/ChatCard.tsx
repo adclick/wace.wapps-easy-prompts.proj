@@ -169,9 +169,6 @@ export function ChatCard({
                                 </Text>
                             </Group>
                             <Group>
-                                <ActionIcon variant="subtle" onClick={deleteThread}>
-                                    <IconX size={12} />
-                                </ActionIcon>
                                 <SelectedOptionsWidget
                                     technology={request.userPromptOptions.technology}
                                     provider={request.userPromptOptions.provider}
@@ -193,25 +190,6 @@ export function ChatCard({
             </Stack>
             <Card.Section inheritPadding mt={"lg"} mb={0}>
                 <Group justify="space-between" wrap="wrap">
-                    <Group gap={"xs"} wrap="nowrap">
-                        {/* <Tooltip label="Good Response" withArrow>
-                            <ActionIcon disabled variant='subtle' onClick={() => handleVote(1)}>
-                                {
-                                    vote > 0
-                                        ? <IconMoodSmileFilled size={"16"} />
-                                        : <IconMoodSmile size={"16"} />
-                                }
-                            </ActionIcon>
-                        </Tooltip>
-                        <Tooltip label="Bad Response" withArrow>
-                            <ActionIcon disabled color='red' variant='subtle' onClick={() => handleVote(-1)}>
-                                {
-                                    vote < 0
-                                        ? <IconMoodSadFilled size={"16"} />
-                                        : <IconMoodSad size={"16"} />
-                                }
-                            </ActionIcon>
-                        </Tooltip> */}
                         {
                             request.intro ?
                                 <Button
@@ -223,49 +201,58 @@ export function ChatCard({
                                     Got it!
                                 </Button>
                                 :
-                                <Button
-                                    leftSection={<IconDownload size={16} />}
-                                    onClick={savePromptModalHandle.open}
-                                    variant="subtle"
-                                    size="xs"
-                                >
-                                    Save
-                                </Button>
-                        }
-                        <CopyButton value={responseAsText} timeout={2000}>
-                            {({ copied, copy }) => (
-                                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
-                                    <ActionIcon color={copied ? 'blue' : 'gray'} variant="subtle" onClick={copy}>
-                                        {copied ? (
-                                            <IconCheck size={16} />
-                                        ) : (
-                                            <IconCopy size={16} />
+                                <Group gap={"xs"} wrap="nowrap">
+                                    <Tooltip label="Good Response" withArrow>
+                                        <ActionIcon disabled variant='subtle'>
+                                            {
+                                                vote > 0
+                                                    ? <IconMoodSmileFilled size={"16"} />
+                                                    : <IconMoodSmile size={"16"} />
+                                            }
+                                        </ActionIcon>
+                                    </Tooltip>
+                                    <Tooltip label="Bad Response" withArrow>
+                                        <ActionIcon disabled color='red' variant='subtle'>
+                                            {
+                                                vote < 0
+                                                    ? <IconMoodSadFilled size={"16"} />
+                                                    : <IconMoodSad size={"16"} />
+                                            }
+                                        </ActionIcon>
+                                    </Tooltip>
+                                    <CopyButton value={responseAsText} timeout={2000}>
+                                        {({ copied, copy }) => (
+                                            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow>
+                                                <ActionIcon color={copied ? 'blue' : 'gray'} variant="subtle" onClick={copy}>
+                                                    {copied ? (
+                                                        <IconCheck size={16} />
+                                                    ) : (
+                                                        <IconCopy size={16} />
+                                                    )}
+                                                </ActionIcon>
+                                            </Tooltip>
                                         )}
-                                    </ActionIcon>
-                                </Tooltip>
-                            )}
-                        </CopyButton>
+                                    </CopyButton>
 
-                        {/* <Menu withinPortal position="top" shadow="sm">
-                            <Menu.Target>
-                                <ActionIcon variant="subtle" color="gray">
-                                    <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
-                                </ActionIcon>
-                            </Menu.Target>
+                                    <Menu withinPortal position="top" shadow="sm">
+                                        <Menu.Target>
+                                            <ActionIcon variant="subtle" color="gray">
+                                                <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
+                                            </ActionIcon>
+                                        </Menu.Target>
 
-                            <Menu.Dropdown>
-                                <Menu.Item onClick={savePromptModalHandle.open} leftSection={<IconPrompt style={{ width: rem(14), height: rem(14) }} />}>
-                                    Save Prompt
-                                </Menu.Item>
-                                <Menu.Item disabled onClick={savePrompt} leftSection={<IconTemplate style={{ width: rem(14), height: rem(14) }} />}>
-                                    Save Template
-                                </Menu.Item>
-                                <Menu.Item disabled onClick={savePrompt} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
-                                    Save Modifiers
-                                </Menu.Item>
-                            </Menu.Dropdown>
-                        </Menu> */}
-                    </Group>
+                                        <Menu.Dropdown>
+                                            <Menu.Item onClick={savePromptModalHandle.open} leftSection={<IconDownload style={{ width: rem(14), height: rem(14) }} />}>
+                                                Save Prompt
+                                            </Menu.Item>
+                                            <Menu.Item color="red" onClick={deleteThread} leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}>
+                                                Delete this card
+                                            </Menu.Item>
+                                        </Menu.Dropdown>
+                                    </Menu>
+                                </Group>
+                        }
+
                     <Group>
                         {
                             request.repositoryItems.length

@@ -7,6 +7,7 @@ import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { useFilters } from "../../context/FiltersContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
+import { Technology } from "../../model/Technology";
 
 interface RepositoryItemRow {
     navbarToggle: any,
@@ -84,61 +85,57 @@ export function RepositoryItemRow({
                                 {repositoryItem.name}
                             </Text>
                         </Stack>
-                        <ActionIcon component="a" variant="transparent" color="gray">
-                            {
-                                repositoryItem.repository_slug === 'wace' && <IconUsersGroup size={14} />
-                            }
-                            {
-                                repositoryItem.repository_slug === 'my-repository' && <IconUser size={14} />
-                            }
-                        </ActionIcon>
-                        {/* <Menu>
-                            <Menu.Target>
-                                <ActionIcon onClick={e => e.stopPropagation()} variant="subtle" color="gray">
-                                    <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
-                                </ActionIcon>
-                            </Menu.Target>
+                        {
+                            user !== undefined
+                            && user.sub === repositoryItem.user_id
+                            && <Menu>
+                                <Menu.Target>
+                                    <ActionIcon onClick={e => e.stopPropagation()} variant="subtle" color="gray">
+                                        <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
+                                    </ActionIcon>
+                                </Menu.Target>
 
-                            <Menu.Dropdown>
-                                <Menu.Item
-                                    disabled
-                                    leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
-                                >
-                                    Edit
-                                </Menu.Item>
-                                <Menu.Item
-                                    disabled
-                                    leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}
-                                >
-                                    Share
-                                </Menu.Item>
-                                <Menu.Item
-                                    onClick={deleteItem}
-                                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                                    color="red"
-                                >
-                                    Delete
-                                </Menu.Item>
-                            </Menu.Dropdown>
-                        </Menu> */}
+                                <Menu.Dropdown>
+                                    <Menu.Item
+                                        disabled
+                                        leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                                    >
+                                        Edit
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        onClick={deleteItem}
+                                        leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                                        color="red"
+                                    >
+                                        Delete
+                                    </Menu.Item>
+
+                                </Menu.Dropdown>
+                            </Menu>
+                        }
                     </Group>
 
                     <Group justify="space-between">
-                        {/* <Badge size="xs" variant="transparent" color={repositoryItem.color}>
-                            {repositoryItem.repository_name}
-                        </Badge> */}
-
-                        <Group gap={"xs"}>
-                            {/* {
-                                repositoryItem.repository_slug === 'wace' && <IconUsersGroup size={12} />
-                            }
+                        <Group>
                             {
-                                repositoryItem.repository_slug === 'my-repository' && <IconUser size={12} />
-                            } */}
+                                repositoryItem.repository_slug === 'wace'
+                                    ? <Tooltip label={repositoryItem.repository_name}>
+                                        <IconUsersGroup size={14} />
+                                    </Tooltip>
+                                    :
+                                    <Tooltip label={repositoryItem.repository_name}>
+                                        <IconUser size={14} />
+                                    </Tooltip>
+                            }
 
-                            <Badge variant="transparent" color="gray.6" px={0} size="xs">
-                                {repositoryItem.technology_name}
-                            </Badge>
+                            {
+                                <Tooltip label={repositoryItem.technology_name}>
+                                    {
+                                        Technology.getIcon(repositoryItem.technology_slug, 14)
+                                    }
+                                </Tooltip>
+                            }
+
                         </Group>
                         {/* <Rating size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} /> */}
                         <Group>
@@ -172,7 +169,6 @@ export function RepositoryItemRow({
                                 <Text size="xs">{repositoryItem.content}</Text>
                             </Stack>
                     }
-                    <Badge variant="default" size="xs">{repositoryItem.repository_name}</Badge>
                     {
                         repositoryItem.modifiers.length > 0
                         && <Stack>
@@ -190,17 +186,11 @@ export function RepositoryItemRow({
                     }
 
                     <Group justify="space-between">
-                        <Text size="xs" c="gray.6">{repositoryItem.username}</Text>
+                        <Group gap={"xs"}>
+                            <IconUser size={12} />
+                            <Text size="xs" c="gray.6">{repositoryItem.username}</Text>
+                        </Group>
                         <Text size="xs" c="gray.6">{created_at}</Text>
-                    </Group>
-                    <Divider />
-                    <Group justify="space-between">
-                        <Button size="compact-xs" variant="subtle" disabled>Details</Button>
-                        {
-                            user !== undefined
-                            && user.sub === repositoryItem.user_id
-                            && <Button size="compact-xs" color="red" variant="subtle" onClick={deleteItem}>Delete</Button>
-                        }
                     </Group>
                 </Stack>
             </Accordion.Panel>
