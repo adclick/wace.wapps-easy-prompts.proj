@@ -29,10 +29,10 @@ export function RepositoryNewModifierForm({
         await aiMediatorClient.saveModifier(
             name,
             content,
-            filters.technology,
+            selectedFilters.technology,
             filters.userId,
             repository,
-            filters.language
+            selectedFilters.language
         );
 
         setName("");
@@ -43,6 +43,8 @@ export function RepositoryNewModifierForm({
             message: 'Your settings were saved',
             color: RepositoryItem.getColor("modifier")
         });
+
+        console.log(selectedFilters);
 
         refreshRepository(selectedFilters);
     }

@@ -12,6 +12,7 @@ import { Filters } from "../../model/Filters"
 
 interface ChatPanel {
     threads: Thread[],
+    setThreads: any,
     targetRef: Ref<HTMLDivElement> | undefined
     aIMediatorClient: AIMediatorClient,
     userPromptOptions: UserPromptOptions,
@@ -31,6 +32,7 @@ interface ChatPanel {
 
 export function ChatPanel({
     threads,
+    setThreads,
     targetRef,
     aIMediatorClient,
     userPromptOptions,
@@ -50,9 +52,13 @@ export function ChatPanel({
     return (
         <Stack gap={"md"} my={"xs"}>
             {
-                threads.map((thread: Thread) => {
+                threads.map((thread: Thread, index: number) => {
                     return (
                         <ChatCard
+                            threads={threads}
+                            setThreads={setThreads}
+                            thread={thread}
+                            threadIndex={index}
                             key={thread.request.timestamp}
                             request={thread.request}
                             response={thread.response}

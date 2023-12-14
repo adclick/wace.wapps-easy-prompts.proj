@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ActionIcon, Avatar, Badge, Box, Button, Card, Chip, Collapse, CopyButton, Divider, Group, Indicator, Loader, Menu, Paper, Popover, Stack, Text, Tooltip, em, rem, useComputedColorScheme } from "@mantine/core"
-import { IconCheck, IconDownload, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconThumbUp } from "@tabler/icons-react"
+import { IconCheck, IconDownload, IconCopy, IconDeviceFloppy, IconDotsVertical, IconEye, IconFileZip, IconMoodSad, IconMoodSadFilled, IconMoodSmile, IconMoodSmileFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconThumbUp, IconX } from "@tabler/icons-react"
 import { Request } from "../../model/Request";
 import { Response } from "../../model/Response";
 import { useEffect, useState } from "react";
@@ -21,8 +21,13 @@ import { ChatCardKeywordsExtracted } from "./ChatCardResponseKeywordsExtracted";
 import { useFilters } from "../../context/FiltersContext";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 import { ChatCardIntro } from "./ChatCardIntro";
+import { Thread } from "../../model/Thread";
 
 interface ChatCard {
+    threads: Thread[],
+    setThreads: any,
+    thread: Thread,
+    threadIndex: number,
     request: Request,
     response: Response,
     aIMediatorClient: AIMediatorClient,
@@ -41,6 +46,10 @@ interface ChatCard {
 }
 
 export function ChatCard({
+    threads,
+    setThreads,
+    thread,
+    threadIndex,
     request,
     response,
     aIMediatorClient,
@@ -67,8 +76,13 @@ export function ChatCard({
     const confirmIntro = async () => {
         if (user !== undefined && "id" in user && user.id !== undefined) {
             setFirstLogin(false);
+            deleteThread();
             aIMediatorClient.updateUser(user.id, selectedFilters.language, theme, false);
         }
+    }
+
+    const deleteThread = () => {
+        setThreads(threads.filter((t, i) => i !== threadIndex));
     }
 
     // Once loaded, get the response from the user request
@@ -155,6 +169,9 @@ export function ChatCard({
                                 </Text>
                             </Group>
                             <Group>
+                                <ActionIcon variant="subtle" onClick={deleteThread}>
+                                    <IconX size={12} />
+                                </ActionIcon>
                                 <SelectedOptionsWidget
                                     technology={request.userPromptOptions.technology}
                                     provider={request.userPromptOptions.provider}

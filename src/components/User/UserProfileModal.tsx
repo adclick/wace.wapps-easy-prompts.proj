@@ -30,8 +30,6 @@ export function UserProfileModal({
     const [theme, setTheme] = useState(computedColorScheme);
     const { user } = useAuth0();
 
-    console.log(selectedFilters.language);
-
     const updateLanguage = (language: string | null) => {
         if (language) {
             const newSelectedFilters = {

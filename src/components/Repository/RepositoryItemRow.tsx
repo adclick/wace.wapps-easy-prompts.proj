@@ -6,6 +6,7 @@ import { Thread } from "../../model/Thread";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { useFilters } from "../../context/FiltersContext";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 
 interface RepositoryItemRow {
     navbarToggle: any,
@@ -28,7 +29,7 @@ export function RepositoryItemRow({
     threads,
     setThreads
 }: RepositoryItemRow) {
-    const { filters, setFilters } = useFilters();
+    const { selectedFilters } = useSelectedFilters();
     const { user } = useAuth0();
 
     const use = (e: any) => {
@@ -61,7 +62,7 @@ export function RepositoryItemRow({
     const deleteItem = async () => {
         await aiMediatorClient.deleteRepositoryItem(repositoryItem);
 
-        refreshRepository(filters);
+        refreshRepository(selectedFilters);
     }
 
     const date = new Date(repositoryItem.created_at);

@@ -203,13 +203,13 @@ export function HomePage() {
     newUserPromptOptions.setModifiers(modifiers);
     setUserPromptOptions(newUserPromptOptions);
 
-    const newFilters = {
-      ...filters,
+    const newSelectedFilters = {
+      ...selectedFilters,
       technology: newTechnologySlug
     };
 
-    setFilters(newFilters);
-    refreshRepository(newFilters);
+    setSelectedFilters(newSelectedFilters);
+    refreshRepository(newSelectedFilters);
     setRepositorySelectedItems([]);
   }
 
@@ -222,13 +222,13 @@ export function HomePage() {
     newUserPromptOptions.setProvider(newProvider);
     setUserPromptOptions(newUserPromptOptions);
 
-    const newFilters = {
-      ...filters,
+    const newSelectedFilters = {
+      ...selectedFilters,
       provider: newProviderSlug
     };
 
-    setFilters(newFilters);
-    refreshRepository(newFilters);
+    setSelectedFilters(newSelectedFilters);
+    refreshRepository(newSelectedFilters);
   }
 
   const resetChat = () => {
@@ -343,6 +343,7 @@ export function HomePage() {
         <AppShell.Main>
           <ChatPanel
             threads={threads}
+            setThreads={setThreads}
             targetRef={targetRef}
             aIMediatorClient={aIMediatorClient}
             userPromptOptions={userPromptOptions}
