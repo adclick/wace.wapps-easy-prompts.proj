@@ -266,7 +266,7 @@ export function PromptInput({
 
                                     </ActionIcon>
                                 </Popover.Target>
-                                <Popover.Dropdown p={"xs"}>
+                                <Popover.Dropdown p={0}>
                                     <PromptOptionsPanel
                                         drawerOpened={opened}
                                         closeDrawer={close}

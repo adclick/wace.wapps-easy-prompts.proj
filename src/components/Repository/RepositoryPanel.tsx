@@ -1,10 +1,8 @@
-import { Accordion, AccordionControl, ActionIcon, Box, Button, Card, CardSection, Center, Chip, Drawer, Group, Input, Loader, LoadingOverlay, Paper, Popover, Rating, ScrollArea, SegmentedControl, Stack, Text, Textarea, Title, rem } from "@mantine/core"
-import { useTranslation } from "react-i18next";
+import { Accordion, Box, Center, Loader, Stack } from "@mantine/core"
 import { RepositoryItemRow } from "./RepositoryItemRow";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { AIMediatorClient } from "@/clients/AIMediatorClient";
 import { Thread } from "../../model/Thread";
-import { useFilters } from "../../context/FiltersContext";
 
 
 interface RepositoryPanel {
@@ -35,8 +33,6 @@ export function RepositoryPanel({
     threads,
     setThreads
 }: RepositoryPanel) {
-    const {filters, setFilters} = useFilters();
-
     return (
         <Box>
             {
@@ -51,7 +47,6 @@ export function RepositoryPanel({
                         display: "none"
                     }
                 }}>
-
                     {
                         repositoryItems.map((item: RepositoryItem) => {
                             return (

@@ -33,6 +33,8 @@ export function RepositoryNewPromptModal({
     const savePrompt = async () => {
         const modifierId = request.repositoryItems.length > 0 ? request.repositoryItems[0].id : 0;
 
+        handle.close();
+
         await aIMediatorClient.savePrompt(
             name,
             request.text,

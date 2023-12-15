@@ -1,7 +1,6 @@
-import { Accordion, Group, Select, Stack, Text, Title, rem } from "@mantine/core";
+import { Select } from "@mantine/core";
 import { UserPromptOptions } from "../../model/UserPromptOptions";
 import { useEffect, useState } from "react";
-import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { Parameter } from "../../model/Parameter";
 
 interface PromptOptionImageResolution {

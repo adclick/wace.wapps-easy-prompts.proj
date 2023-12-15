@@ -67,6 +67,7 @@ export function RepositoryNewModifierForm({
         <Stack my={"xs"}>
             <Select
                 label="Repository"
+                required
                 placeholder="Repository"
                 defaultValue={repository}
                 data={repositories}
@@ -75,20 +76,23 @@ export function RepositoryNewModifierForm({
                 onChange={updateRepository}
             />
             <TextInput
+                label="Name"
                 onChange={(e: any) => setName(e.target.value)}
                 value={name}
                 required
                 placeholder="Name of the Modifier"
-            />
+                />
             <Textarea
+                label="Description"
                 autosize
                 required
                 minRows={3}
                 onChange={(e: any) => setDescription(e.target.value)}
                 value={description}
                 placeholder="Description"
-            />
+                />
             <Textarea
+                label="Content"
                 autosize
                 required
                 minRows={3}
