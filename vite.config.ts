@@ -19,22 +19,22 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: "assets/pwa-64x64.png",
+            src: "src/assets/pwa-64x64.png",
             sizes: "64x64",
             type: "image/png"
           },
           {
-            src: "assets/pwa-192x192.png",
+            src: "src/assets/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png"
           },
           {
-            src: "assets/pwa-512x512.png",
+            src: "src/assets/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png"
           },
           {
-            src: "assets/maskable-icon-512x512.png",
+            src: "src/assets/maskable-icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable"
@@ -42,14 +42,14 @@ export default defineConfig({
         ],
         "screenshots": [
           {
-           "src": "assets/screenshot-desktop.jpg",
+           "src": "src/assets/screenshot-desktop.jpg",
             "sizes": "640x320",
             "type": "image/jpg",
             "form_factor": "wide",
             "label": "EasyPrompts"
           },
           {
-           "src": "assets/screenshot-mobile.jpg",
+           "src": "src/assets/screenshot-mobile.jpg",
             "sizes": "435x786",
             "type": "image/jpg",
             "form_factor": "narrow",
