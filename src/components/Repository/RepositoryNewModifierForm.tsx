@@ -66,6 +66,7 @@ export function RepositoryNewModifierForm({
     return (
         <Stack my={"xs"}>
             <Select
+                label="Repository"
                 placeholder="Repository"
                 defaultValue={repository}
                 data={repositories}

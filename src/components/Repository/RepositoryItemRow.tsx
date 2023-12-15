@@ -1,5 +1,5 @@
 import { SimpleGrid, Popover, Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse, Chip, Paper } from "@mantine/core";
-import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
+import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconLock, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
 import { RepositoryItem } from "../../model/RepositoryItem";
 import { AIMediatorClient } from "../../clients/AIMediatorClient";
 import { Thread } from "../../model/Thread";
@@ -90,7 +90,7 @@ export function RepositoryItemRow({
                             && user.sub === repositoryItem.user_id
                             && <Menu>
                                 <Menu.Target>
-                                    <ActionIcon onClick={e => e.stopPropagation()} variant="subtle" color="gray">
+                                    <ActionIcon component="a" onClick={e => e.stopPropagation()} variant="subtle" color="gray">
                                         <IconDotsVertical style={{ width: rem(16), height: rem(16) }} />
                                     </ActionIcon>
                                 </Menu.Target>
@@ -124,7 +124,7 @@ export function RepositoryItemRow({
                                     </Tooltip>
                                     :
                                     <Tooltip label={repositoryItem.repository_name}>
-                                        <IconUser size={14} />
+                                        <IconLock size={14} />
                                     </Tooltip>
                             }
 
@@ -139,13 +139,6 @@ export function RepositoryItemRow({
                         </Group>
                         {/* <Rating size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} /> */}
                         <Group>
-                            {/* <ActionIcon variant="transparent">
-                                {
-                                    repositoryItem.repository_slug !== "wace"
-                                        ? <IconUser size={14} />
-                                        : <IconUsersGroup size={14} />
-                                }
-                            </ActionIcon> */}
                             <ActionIcon component="a" color={repositoryItem.color} variant="filled" size={"md"} onClick={(e: any) => use(e)}>
                                 <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
                             </ActionIcon>
@@ -184,7 +177,6 @@ export function RepositoryItemRow({
                             }
                         </Stack>
                     }
-
                     <Group justify="space-between">
                         <Group gap={"xs"}>
                             <IconUser size={12} />

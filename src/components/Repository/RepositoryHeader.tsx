@@ -1,4 +1,4 @@
-import { Tooltip, Collapse, ScrollArea, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
+import { Tooltip, Collapse, ScrollArea, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput, Modal } from "@mantine/core";
 import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled } from "@tabler/icons-react";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
@@ -204,13 +204,21 @@ export function RepositoryHeader({
                 </Stack>
             </Collapse>
 
-            <Collapse in={newModifierOpened}>
+            <Modal opened={newModifierOpened} onClose={newModifierHandle.close} title="New Modifier">
                 <RepositoryNewModifierForm
                     handle={newModifierHandle}
                     aiMediatorClient={aiMediatorClient}
                     refreshRepository={refreshRepository}
                 />
-            </Collapse>
+            </Modal>
+
+            {/* <Collapse in={newModifierOpened}>
+                <RepositoryNewModifierForm
+                    handle={newModifierHandle}
+                    aiMediatorClient={aiMediatorClient}
+                    refreshRepository={refreshRepository}
+                />
+            </Collapse> */}
         </Stack>
     )
 }
