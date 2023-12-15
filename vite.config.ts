@@ -21,20 +21,17 @@ export default defineConfig({
           {
             src: "assets/pwa-64x64.png",
             sizes: "64x64",
-            type: "image/png",
-            purpose: "any"
+            type: "image/png"
           },
           {
             src: "assets/pwa-192x192.png",
             sizes: "192x192",
-            type: "image/png",
-            purpose: "any"
+            type: "image/png"
           },
           {
             src: "assets/pwa-512x512.png",
             sizes: "512x512",
-            type: "image/png",
-            purpose: "any"
+            type: "image/png"
           },
           {
             src: "assets/maskable-icon-512x512.png",
