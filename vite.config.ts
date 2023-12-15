@@ -4,6 +4,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    outDir: "public"
+  },
   plugins: [
     react(),
     VitePWA({
@@ -42,18 +45,18 @@ export default defineConfig({
         ],
         "screenshots": [
           {
-           "src": "assets/screenshot-desktop.jpg",
-            "sizes": "640x320",
-            "type": "image/jpg",
-            "form_factor": "wide",
-            "label": "EasyPrompts"
+           src: "assets/screenshot-desktop.jpg",
+            sizes: "640x320",
+            type: "image/jpg",
+            form_factor: "wide",
+            label: "EasyPrompts"
           },
           {
-           "src": "assets/screenshot-mobile.jpg",
-            "sizes": "435x786",
-            "type": "image/jpg",
-            "form_factor": "narrow",
-            "label": "EasyPrompts"
+           src: "assets/screenshot-mobile.jpg",
+            sizes: "435x786",
+            type: "image/jpg",
+            form_factor: "narrow",
+            label: "EasyPrompts"
           }
       ]
       }
