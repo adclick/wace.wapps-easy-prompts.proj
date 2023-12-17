@@ -12,6 +12,7 @@ import { RepositoryTypesFilter } from "./RepositoryTypesFilter";
 import { RepositoryNewModifierForm } from "./RepositoryNewModifierForm";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 import { RepositoryLanguageFilter } from "./RepositoryLanguageFilter";
+import { RepositoryFiltersDrawer } from "./RepositoryFiltersDrawer";
 
 interface RepositoryHeader {
     navbarOpened: boolean,
@@ -44,6 +45,7 @@ export function RepositoryHeader({
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
     const [repositoryListModalOpened, repositoryListModalHandle] = useDisclosure(false);
     const [filtersOpened, filtersHandle] = useDisclosure(false);
+    const [searchOpened, searchHandle] = useDisclosure(false);
     const [newModifierOpened, newModifierHandle] = useDisclosure(false);
     const [types, setTypes] = useState<string[]>(filters.types);
 
@@ -136,7 +138,7 @@ export function RepositoryHeader({
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu> */}
-                    <UnstyledButton px={0} onClick={toggleOptions}>
+                    <UnstyledButton px={0} onClick={searchHandle.toggle}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
                             <Box maw={175}>
                                 <Title order={3}>
@@ -175,6 +177,11 @@ export function RepositoryHeader({
                     {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon> */}
+                    <Tooltip label="Filters">
+                        <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
+                            <IconFilter style={{ width: rem(18), height: rem(18) }} />
+                        </ActionIcon>
+                    </Tooltip>
                     <Tooltip label="Add new modifier">
                         <ActionIcon onClick={toggleNewModifier} size={"lg"} variant='subtle'>
                             <IconSparkles style={{ width: rem(18), height: rem(18) }} />
@@ -192,7 +199,12 @@ export function RepositoryHeader({
                     </Tooltip>
                 </Group>
             </Group>
-            <Collapse in={filtersOpened}>
+            <RepositoryFiltersDrawer
+                opened={filtersOpened}
+                handle={filtersHandle}
+                refreshRepository={refreshRepository}
+             />
+            <Collapse in={searchOpened}>
                 <Stack gap={"xl"} my={"xs"}>
                     <Textarea
                         placeholder={"Search"}
@@ -203,9 +215,6 @@ export function RepositoryHeader({
                         value={repositorySearchTerm}
                         onChange={e => searchSearchTerm(e.target.value)}
                     />
-                    {/* <RepositoryLanguageFilter refreshRepository={refreshRepository} /> */}
-                    <RepositoryFilter refreshRepository={refreshRepository} />
-                    <RepositoryTypesFilter refreshRepository={refreshRepository} />
                 </Stack>
             </Collapse>
 

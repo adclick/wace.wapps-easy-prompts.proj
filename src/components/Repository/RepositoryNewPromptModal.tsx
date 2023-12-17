@@ -43,7 +43,7 @@ export function RepositoryNewPromptModal({
             modifierId,
             user?.sub,
             [filters.repositories.find(r => r.slug === repository)?.id],
-            filters.language
+            selectedFilters.language
         );
 
         notifications.show({

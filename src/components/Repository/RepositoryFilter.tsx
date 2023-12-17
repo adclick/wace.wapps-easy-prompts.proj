@@ -1,12 +1,14 @@
-import { Checkbox, Stack, Title } from '@mantine/core';
+import { Text, ActionIcon, Checkbox, Group, Stack, Title } from '@mantine/core';
 import { useFilters } from '../../context/FiltersContext';
 import { useSelectedFilters } from '../../context/SelectedFiltersContext';
+import { IconPlus } from '@tabler/icons-react';
+import { Repository } from '@/model/Repository';
 
 interface RepositoryFilter {
     refreshRepository: any
 }
 
-export function RepositoryFilter({refreshRepository}: RepositoryFilter) {
+export function RepositoryFilter({ refreshRepository }: RepositoryFilter) {
     const { filters } = useFilters();
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
@@ -23,13 +25,23 @@ export function RepositoryFilter({refreshRepository}: RepositoryFilter) {
 
     return (
         <Stack>
-            <Title order={5}>Repositories</Title>
+            <Group align='start'>
+                <Title order={5}>Repositories</Title>
+                <ActionIcon variant='subtle'>
+                    <IconPlus size={16} />
+                </ActionIcon>
+            </Group>
             <Checkbox.Group defaultValue={filters.repositories.map(r => r.slug)} value={selectedFilters.repositories.map(r => r.slug)} onChange={update}>
                 <Stack>
                     {
                         filters.repositories.map(repository => {
                             return (
-                                <Checkbox key={repository.id} radius={"sm"} value={repository.slug} label={repository.name} />
+                                <Checkbox
+                                    key={repository.id}
+                                    radius={"sm"}
+                                    value={repository.slug}
+                                    label={repository.name}
+                                />
                             )
                         })
                     }

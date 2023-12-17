@@ -93,9 +93,11 @@ export function RepositoryNewModifierForm({
                 />
             <Textarea
                 label="Content"
+                description="Max Characters: 500"
                 autosize
                 required
                 minRows={3}
+                maxLength={500}
                 onChange={(e: any) => setContent(e.target.value)}
                 value={content}
                 placeholder="Modifier Text"

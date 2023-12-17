@@ -1,10 +1,12 @@
 export class Repository {
     name: string;
     slug: string;
+    color: string;
 
     constructor(name: string = "", slug: string = "") {
         this.name = name;
         this.slug = slug;
+        this.color = "";
     }
 
     static buildFromApi(data: any): Repository {
@@ -19,5 +21,25 @@ export class Repository {
         }
 
         return newRepo;
+    }
+
+    static getType(name: string) {
+        switch(name) {
+            case "wace":
+                return "shared";
+            default:
+                return "private";
+        }
+    }
+
+    static getColor(type: string) {
+        switch(type) {
+            case "public":
+                return "lightgreen";
+            case "shared":
+                return "orange";
+            case "private":
+                return "lightblue"
+        }
     }
 }

@@ -10,6 +10,7 @@ export class Filters {
     repository: string;
     language: string;
     types: Type[];
+    technologies: {id: number, name: string, slug: string}[];
     technology: string;
     provider: string;
     text: string;
@@ -24,6 +25,7 @@ export class Filters {
         this.repository = "";
         this.language = ""
         this.types = [Type.Prompts, Type.Templates, Type.Modifiers];
+        this.technologies = [];
         this.technology = "";
         this.provider = "";
         this.repositories = [];

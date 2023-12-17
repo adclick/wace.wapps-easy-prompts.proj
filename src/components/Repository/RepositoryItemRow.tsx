@@ -8,6 +8,7 @@ import { useFilters } from "../../context/FiltersContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 import { Technology } from "../../model/Technology";
+import { Repository } from "../../model/Repository";
 
 interface RepositoryItemRow {
     navbarToggle: any,
@@ -120,11 +121,11 @@ export function RepositoryItemRow({
                             {
                                 repositoryItem.repository_slug === 'wace'
                                     ? <Tooltip label={repositoryItem.repository_name}>
-                                        <IconUsersGroup size={14} />
+                                        <IconUsersGroup color={Repository.getColor(repositoryItem.slug)} size={14} />
                                     </Tooltip>
                                     :
                                     <Tooltip label={repositoryItem.repository_name}>
-                                        <IconLock size={14} />
+                                        <IconLock color={Repository.getColor("private")} size={14} />
                                     </Tooltip>
                             }
 
