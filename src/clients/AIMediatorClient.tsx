@@ -51,6 +51,7 @@ export class AIMediatorClient {
                 visibility: filters.repository === 'wace' ? 'shared' : 'private',
                 prompt: filters.prompt,
                 technology: filters.technology,
+                technologies: filters.technologies.map(t => t.id),
                 provider: filters.provider,
                 userId: filters.userId,
                 repositories: filters.repositories.map(r => r.id),

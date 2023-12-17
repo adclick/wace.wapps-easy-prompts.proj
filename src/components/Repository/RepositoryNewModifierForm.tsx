@@ -20,6 +20,7 @@ export function RepositoryNewModifierForm({
     const { filters } = useFilters();
     const { selectedFilters } = useSelectedFilters();
     const [repository, setRepository] = useState('');
+    const [technology, setTechnology] = useState('');
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
@@ -31,7 +32,7 @@ export function RepositoryNewModifierForm({
             name,
             content,
             description,
-            selectedFilters.technology,
+            technology,
             filters.userId,
             repository,
             selectedFilters.language
@@ -57,6 +58,19 @@ export function RepositoryNewModifierForm({
         }
     });
 
+    const technologies = filters.technologies.map(t => {
+        return {
+            label: t.name_en,
+            value: t.slug
+        }
+    });
+
+    const updateTechnology = (value: string | null) => {
+        if (value) {
+            setTechnology(value);
+        }
+    }
+
     const updateRepository = (value: string | null) => {
         if (value) {
             setRepository(value);
@@ -65,6 +79,16 @@ export function RepositoryNewModifierForm({
 
     return (
         <Stack my={"xs"}>
+            <Select
+                label="Technology"
+                required
+                placeholder="Technology"
+                defaultValue={technology}
+                data={technologies}
+                value={technology}
+                allowDeselect={false}
+                onChange={updateTechnology}
+            />
             <Select
                 label="Repository"
                 required

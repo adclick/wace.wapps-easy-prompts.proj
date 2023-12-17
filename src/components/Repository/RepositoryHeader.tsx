@@ -1,5 +1,5 @@
 import { Tooltip, Collapse, ScrollArea, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput, Modal } from "@mantine/core";
-import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled, IconArrowsSort } from "@tabler/icons-react";
+import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled, IconArrowsSort, IconSettings } from "@tabler/icons-react";
 import { Repository } from "../../model/Repository";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryListModal } from "./RepositoryListModal";
@@ -49,34 +49,17 @@ export function RepositoryHeader({
     const [newModifierOpened, newModifierHandle] = useDisclosure(false);
     const [types, setTypes] = useState<string[]>(filters.types);
 
-    const updateTypes = (value: any) => {
-        setTypes(value);
-
-        const newFilters = {
-            ...filters,
-            types: value
-        };
-
-        setFilters(newFilters);
-        refreshRepository(newFilters);
-    }
-
     const searchSearchTerm = ((term: string) => {
         setRepositorySearchTerm(term);
 
         const newFilters = {
-            ...filters,
+            ...selectedFilters,
             prompt: term.toLocaleLowerCase()
         };
 
         setFilters(newFilters);
         refreshRepository(newFilters);
     })
-
-    const toggleOptions = () => {
-        newModifierHandle.close();
-        filtersHandle.toggle();
-    }
 
     const toggleNewModifier = () => {
         filtersHandle.close();
@@ -101,13 +84,13 @@ export function RepositoryHeader({
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    {/* <Menu shadow="md" width={200} position='bottom-start'>
+                    <Menu shadow="md" width={200} position='bottom-start'>
                         <Menu.Target>
                             <UnstyledButton px={0}>
                                 <Group align='center' gap={"xs"} wrap="nowrap">
                                     <Box maw={175}>
                                         <Text truncate size="lg">
-                                            Options
+                                            Database
                                         </Text>
                                     </Box>
                                     <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
@@ -116,11 +99,8 @@ export function RepositoryHeader({
                         </Menu.Target>
 
                         <Menu.Dropdown>
-                            <Menu.Item disabled color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                                Create new Repository
-                            </Menu.Item>
-                            <Menu.Item onClick={repositoryListModalHandle.open} leftSection={<IconSwitchHorizontal style={{ width: rem(14), height: rem(14) }} />}>
-                                Switch Repository
+                            <Menu.Item onClick={newModifierHandle.open} color={RepositoryItem.getColor("modifier")} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
+                                New Modifier
                             </Menu.Item>
                             <Menu.Divider />
                             <Menu.Item disabled leftSection={<IconUserPlus style={{ width: rem(14), height: rem(14) }} />}>
@@ -129,20 +109,17 @@ export function RepositoryHeader({
                             <Menu.Item disabled leftSection={<IconUsers style={{ width: rem(14), height: rem(14) }} />}>
                                 Members
                             </Menu.Item>
-                            <Menu.Item disabled leftSection={<IconList style={{ width: rem(14), height: rem(14) }} />}>
-                                My Repositories
-                            </Menu.Item>
                             <Menu.Divider />
-                            <Menu.Item onClick={newModifierModalHandle.open} color={RepositoryItem.getColor("modifier")} leftSection={<IconSparkles style={{ width: rem(14), height: rem(14) }} />}>
-                                Create new modifier
+                            <Menu.Item disabled leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
+                                Manage Database
                             </Menu.Item>
                         </Menu.Dropdown>
-                    </Menu> */}
-                    <UnstyledButton px={0} onClick={searchHandle.toggle}>
+                    </Menu>
+                    {/* <UnstyledButton px={0} onClick={searchHandle.toggle}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
                             <Box maw={175}>
                                 <Title order={3}>
-                                    Options
+                                    Database
                                 </Title>
                             </Box>
                             {
@@ -152,7 +129,7 @@ export function RepositoryHeader({
                             }
 
                         </Group>
-                    </UnstyledButton>
+                    </UnstyledButton> */}
                 </Group>
                 <Group gap={"xs"}>
                     {/* <Menu shadow="md" position='bottom-start'>
@@ -182,11 +159,11 @@ export function RepositoryHeader({
                             <IconFilter style={{ width: rem(18), height: rem(18) }} />
                         </ActionIcon>
                     </Tooltip>
-                    <Tooltip label="Add new modifier">
+                    {/* <Tooltip label="Add new modifier">
                         <ActionIcon onClick={toggleNewModifier} size={"lg"} variant='subtle'>
                             <IconSparkles style={{ width: rem(18), height: rem(18) }} />
                         </ActionIcon>
-                    </Tooltip>
+                    </Tooltip> */}
                     {/* <Tooltip label="Sort">
                         <ActionIcon  size={"lg"} variant='subtle' disabled>
                             <IconArrowsSort style={{ width: rem(18), height: rem(18) }} />
@@ -203,20 +180,18 @@ export function RepositoryHeader({
                 opened={filtersOpened}
                 handle={filtersHandle}
                 refreshRepository={refreshRepository}
-             />
-            <Collapse in={searchOpened}>
-                <Stack gap={"xl"} my={"xs"}>
-                    <Textarea
-                        placeholder={"Search"}
-                        autosize
-                        autoFocus
-                        minRows={1}
-                        maxRows={6}
-                        value={repositorySearchTerm}
-                        onChange={e => searchSearchTerm(e.target.value)}
-                    />
-                </Stack>
-            </Collapse>
+            />
+            <Stack gap={"xl"} my={"xs"}>
+                <Textarea
+                    placeholder={"Search"}
+                    autosize
+                    autoFocus
+                    minRows={1}
+                    maxRows={6}
+                    value={repositorySearchTerm}
+                    onChange={e => searchSearchTerm(e.target.value)}
+                />
+            </Stack>
 
             <Modal opened={newModifierOpened} onClose={newModifierHandle.close} title="New Modifier">
                 <RepositoryNewModifierForm

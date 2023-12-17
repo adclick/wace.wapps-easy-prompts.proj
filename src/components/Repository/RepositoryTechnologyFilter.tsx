@@ -1,7 +1,8 @@
-import { IconPlus } from "@tabler/icons-react";
+import { IconBiohazard, IconPencilStar, IconPlus } from "@tabler/icons-react";
 import { useFilters } from "../../context/FiltersContext";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
-import { ActionIcon, Checkbox, Group, Stack, Title } from "@mantine/core";
+import { ActionIcon, Checkbox, CheckboxProps, Group, Stack, Title } from "@mantine/core";
+import { Technology } from "../../model/Technology";
 
 interface RepositoryTechnologyFilter {
     refreshRepository: any
@@ -24,19 +25,32 @@ export function RepositoryTechnologyFilter({
         refreshRepository(newSelectedFilters)
     }
 
+    const CheckboxIcon: CheckboxProps['icon'] = ({ indeterminate, ...others }, slug) => {
+        if (indeterminate) {
+            return Technology.getIcon(slug, 14);
+        }
+
+        return <IconBiohazard {...others} />;
+    }
+
     return (
         <Stack>
             <Title order={5}>Technologies</Title>
-            <Checkbox.Group defaultValue={filters.technologies.map(r => r.slug)} value={selectedFilters.technologies.map(r => r.slug)} onChange={update}>
+            <Checkbox.Group
+                defaultValue={filters.technologies.map(t => t.slug)}
+                value={selectedFilters.technologies.map(t => t.slug)}
+                onChange={update}
+            >
                 <Stack>
                     {
-                        filters.technologies.map(repository => {
+                        filters.technologies.map(technology => {
                             return (
                                 <Checkbox
-                                    key={repository.id}
+                                    key={technology.id}
                                     radius={"sm"}
-                                    value={repository.slug}
-                                    label={repository.name_en}
+                                    value={technology.slug}
+                                    label={technology.name_en}
+                                    // icon={() => CheckboxIcon({indeterminate: true, className: ""}, technology.slug)}
                                 />
                             )
                         })
