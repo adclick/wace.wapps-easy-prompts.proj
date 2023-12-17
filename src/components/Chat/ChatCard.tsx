@@ -111,8 +111,12 @@ export function ChatCard({
                     break;
                 case 'image-generation':
                     aIMediatorClient.optimizePrompt(request.text, request.repositoryItems, userPromptOptions).then(optimizedPrompt => {
-                        aIMediatorClient.generateImage(optimizedPrompt, request.userPromptOptions).then((images: string[]) => {
-                            setResult(<ChatCardImage images={images} />);
+                        aIMediatorClient.generateImage(optimizedPrompt, request.userPromptOptions).then((response: string[]|string) => {
+                            if (typeof response === 'string') {
+                                setResult(<ChatCardText text={response} />);
+                                } else {
+                                setResult(<ChatCardImage images={response} />);
+                            }
                             setResponseAsText('');
                         }).catch((e) => {
                             setResult(<Text>Error. Something went wrong. Contact support</Text>)

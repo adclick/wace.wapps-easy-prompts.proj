@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 import { Technology } from "../../model/Technology";
 import { Repository } from "../../model/Repository";
+import { notifications } from "@mantine/notifications";
 
 interface RepositoryItemRow {
     navbarToggle: any,
@@ -61,8 +62,16 @@ export function RepositoryItemRow({
         e.stopPropagation();
     }
 
-    const deleteItem = async () => {
+    const deleteItem = async (e: any) => {
+        e.stopPropagation();
+
         await aiMediatorClient.deleteRepositoryItem(repositoryItem);
+
+        notifications.show({
+            title: `Deleted`,
+            message: `This ${repositoryItem.type} has been deleted`,
+            color: RepositoryItem.getColor(repositoryItem.type)
+        });
 
         refreshRepository(selectedFilters);
     }
@@ -104,7 +113,7 @@ export function RepositoryItemRow({
                                         Edit
                                     </Menu.Item>
                                     <Menu.Item
-                                        onClick={deleteItem}
+                                        onClick={e => deleteItem(e)}
                                         leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                                         color="red"
                                     >
@@ -138,8 +147,8 @@ export function RepositoryItemRow({
                             }
 
                         </Group>
-                        {/* <Rating size="xs" readOnly color={"blue"} value={repositoryItem.score * 5 / 100} /> */}
                         <Group>
+                            {/* <Rating size="xs" readOnly  value={repositoryItem.score * 5 / 100} /> */}
                             <ActionIcon component="a" color={repositoryItem.color} variant="filled" size={"md"} onClick={(e: any) => use(e)}>
                                 <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
                             </ActionIcon>
@@ -153,30 +162,47 @@ export function RepositoryItemRow({
                     {
                         repositoryItem.type === "modifier"
                             ? <Stack>
-                                <Text size="xs">{repositoryItem.description}</Text>
+                                <Card>
+                                    <Stack gap={"xs"}>
+                                        <Text size="xs" fw={500}>Description</Text>
+                                        <Text size="xs">{repositoryItem.description}</Text>
+                                    </Stack>
+                                </Card>
                                 {
                                     userOwnsItem &&
-                                    <Text size="xs">{repositoryItem.content}</Text>
+                                    <Card>
+                                        <Stack gap={"xs"}>
+                                            <Text size="xs" fw={500}>Content</Text>
+                                            <Text size="xs">{repositoryItem.content}</Text>
+
+                                        </Stack>
+                                    </Card>
                                 }
                             </Stack>
-                            : <Stack>
-                                <Text size="xs">{repositoryItem.content}</Text>
-                            </Stack>
+                            :
+                            <Card>
+                                <Stack gap={"xs"}>
+                                    <Text size="xs" fw={500}>Prompt</Text>
+                                    <Text size="xs">{repositoryItem.content}</Text>
+                                </Stack>
+                            </Card>
                     }
                     {
                         repositoryItem.modifiers.length > 0
-                        && <Stack>
-                            <Text size="xs">Modifiers</Text>
-                            {
-                                repositoryItem.modifiers.map(m => {
-                                    return (
-                                        <Chip key={m.id} color={RepositoryItem.getColor('modifier')} variant="light" readOnly checked size="xs">
-                                            {m.name}
-                                        </Chip>
-                                    )
-                                })
-                            }
-                        </Stack>
+                        && <Card>
+                            <Stack gap={"xs"}>
+                                <Text size="xs" fw={500}>Modifiers</Text>
+                                {
+                                    repositoryItem.modifiers.map(m => {
+                                        return (
+                                            <Chip key={m.id} color={RepositoryItem.getColor('modifier')} variant="light" readOnly checked size="xs">
+                                                {m.name}
+                                            </Chip>
+                                        )
+                                    })
+                                }
+                            </Stack>
+                        </Card>
                     }
                     <Group justify="space-between">
                         <Group gap={"xs"}>

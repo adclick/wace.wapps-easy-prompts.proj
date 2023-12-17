@@ -118,7 +118,7 @@ export class AIMediatorClient {
         return await this.post('/ai/text/generate-text', { prompt, repositoryItems, options });
     }
 
-    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]> {
+    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]|string> {
         const resolution = options.parameters.find(p => p.slug === 'image-resolution');
         const numImages = options.parameters.find(p => p.slug === 'num-images');
 
@@ -166,7 +166,7 @@ export class AIMediatorClient {
     getSandboxParam(): boolean {
         const queryParameters = new URLSearchParams(window.location.search);
 
-        return queryParameters.get("live") === null;
+        return queryParameters.get("sandbox") !== null;
     }
 
     /**

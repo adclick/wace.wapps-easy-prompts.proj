@@ -154,6 +154,11 @@ export function RepositoryHeader({
                     {/* <ActionIcon onClick={repositoryListModalHandle.open} size={"lg"} variant='subtle'>
                         <IconSwitchHorizontal style={{ width: rem(18), height: rem(18) }} />
                     </ActionIcon> */}
+                    <Tooltip label="Sort">
+                        <ActionIcon  size={"lg"} variant='subtle'>
+                            <IconArrowsSort style={{ width: rem(18), height: rem(18) }} />
+                        </ActionIcon>
+                    </Tooltip>
                     <Tooltip label="Filters">
                         <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
                             <IconFilter style={{ width: rem(18), height: rem(18) }} />
@@ -162,11 +167,6 @@ export function RepositoryHeader({
                     {/* <Tooltip label="Add new modifier">
                         <ActionIcon onClick={toggleNewModifier} size={"lg"} variant='subtle'>
                             <IconSparkles style={{ width: rem(18), height: rem(18) }} />
-                        </ActionIcon>
-                    </Tooltip> */}
-                    {/* <Tooltip label="Sort">
-                        <ActionIcon  size={"lg"} variant='subtle' disabled>
-                            <IconArrowsSort style={{ width: rem(18), height: rem(18) }} />
                         </ActionIcon>
                     </Tooltip> */}
                     <Tooltip label="Refresh">
