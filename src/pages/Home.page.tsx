@@ -28,6 +28,7 @@ import { useOptions } from '../context/OptionsContext';
 import { useSelectedFilters } from '../context/SelectedFiltersContext';
 import favicon from '../favicon.svg';
 import { AppOverlay } from '../components/Misc/AppOverlay';
+import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 
 export function HomePage() {
   const { filters, setFilters } = useFilters();

@@ -10,6 +10,7 @@ import { useSelectedFilters } from "../../context/SelectedFiltersContext";
 import { Technology } from "../../model/Technology";
 import { Repository } from "../../model/Repository";
 import { notifications } from "@mantine/notifications";
+import { Language } from "../../model/Language";
 
 interface RepositoryItemRow {
     navbarToggle: any,
@@ -43,6 +44,8 @@ export function RepositoryItemRow({
                 options.technology.slug = repositoryItem.technology_slug;
                 options.provider.name = repositoryItem.provider_name;
                 options.provider.slug = repositoryItem.provider_slug;
+                options.language = new Language();
+                options.language.code = selectedFilters.language;
 
                 const thread = new Thread();
                 thread.request.setText(repositoryItem.content);
