@@ -5,6 +5,7 @@ import { Provider } from "../model/Provider";
 import { Filters } from "@/model/Filters";
 import { User } from "../model/User";
 import { RepositoryItem } from "../model/RepositoryItem";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export class AIMediatorClient {
     baseUrl: string;
@@ -81,8 +82,8 @@ export class AIMediatorClient {
         });
     }
 
-    async getPromptModifiers(userId: string|undefined, promptId: number) {
-        const {data} = await axios.get(`${this.baseUrl}/api/modifiers/${userId}/${promptId}`);
+    async getPromptModifiers(userId: string | undefined, promptId: number) {
+        const { data } = await axios.get(`${this.baseUrl}/api/modifiers/${userId}/${promptId}`);
 
         return data.data.modifiers;
     }
@@ -119,7 +120,7 @@ export class AIMediatorClient {
         return await this.post('/ai/text/generate-text', { prompt, repositoryItems, options });
     }
 
-    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[]|string> {
+    async generateImage(prompt: string, options: UserPromptOptions): Promise<string[] | string> {
         const resolution = options.parameters.find(p => p.slug === 'image-resolution');
         const numImages = options.parameters.find(p => p.slug === 'num-images');
 

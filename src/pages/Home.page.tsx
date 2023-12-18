@@ -26,7 +26,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useFilters } from '../context/FiltersContext';
 import { useOptions } from '../context/OptionsContext';
 import { useSelectedFilters } from '../context/SelectedFiltersContext';
-import favicon from '../favicon.svg';
 import { AppOverlay } from '../components/Misc/AppOverlay';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 
@@ -35,13 +34,11 @@ export function HomePage() {
   const { selectedFilters, setSelectedFilters } = useSelectedFilters();
   const { options, setOptions } = useOptions();
 
-
   // API Client
   const aIMediatorClient = new AIMediatorClient();
 
-
   // Current User
-  const { user, logout } = useAuth0();
+  const { user, logout, getAccessTokenSilently } = useAuth0();
   const [currentUser, setCurrentUser] = useState<User>(new User());
   const [auth0User, setAuth0User] = useState(user);
   const [firstLogin, setFirstLogin] = useState(true);
