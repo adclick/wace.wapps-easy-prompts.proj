@@ -65,7 +65,7 @@ export function ChatCardIntro({
 
                 <Stack gap={"xs"}>
                     <Group>
-                        <Text>✨ Take advantage of other users modifiers</Text>
+                        <Text fw={500}>✨ Take advantage of other users modifiers</Text>
                     </Group>
                     <Text>Use your modifiers or from others by browsing your database. They can optimize your prompts response!</Text>
                     <Text fs={"italic"}>Browser your database and hit "play" on one of the available modifiers.</Text>
