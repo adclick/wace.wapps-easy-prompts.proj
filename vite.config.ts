@@ -17,6 +17,7 @@ export default defineConfig({
         short_name: 'EasyPrompts',
         description: 'Power up your AI experience',
         theme_color: '#1a1b1e',
+        background_color: "#1a1b1e",
         icons: [
           {
             src: "/pwa-64x64.png",

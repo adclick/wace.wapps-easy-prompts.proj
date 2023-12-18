@@ -56,6 +56,7 @@ export class AIMediatorClient {
                 userId: filters.userId,
                 repositories: filters.repositories.map(r => r.id),
                 language: filters.language,
+                languages: filters.languages.map(l => l.id),
                 types: filters.types
             },
             limit,

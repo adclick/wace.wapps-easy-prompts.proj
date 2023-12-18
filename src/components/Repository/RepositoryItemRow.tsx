@@ -175,7 +175,7 @@ export function RepositoryItemRow({
                                     userOwnsItem &&
                                     <Card>
                                         <Stack gap={"xs"}>
-                                            <Text size="xs" fw={500}>Content</Text>
+                                            <Text size="xs" fw={500}>Modifier</Text>
                                             <Text size="xs">{repositoryItem.content}</Text>
 
                                         </Stack>
@@ -207,6 +207,20 @@ export function RepositoryItemRow({
                             </Stack>
                         </Card>
                     }
+                    <Card>
+                        <SimpleGrid cols={2} verticalSpacing={"xs"}>
+                            <Text size="xs">Type</Text>
+                            <Text size="xs" fw={500}>{repositoryItem.type.toUpperCase()}</Text>
+                            <Text size="xs">Language</Text>
+                            <Text size="xs" fw={500}>{repositoryItem.language_name}</Text>
+                            <Text size="xs">Repository</Text>
+                            <Text size="xs" fw={500}>{repositoryItem.repository_name}</Text>
+                            <Text size="xs">Technology</Text>
+                            <Text size="xs" fw={500}>{repositoryItem.technology_name}</Text>
+                            <Text size="xs">Provider</Text>
+                            <Text size="xs" fw={500}>{repositoryItem.provider_name}</Text>
+                        </SimpleGrid>
+                    </Card>
                     <Group justify="space-between">
                         <Group gap={"xs"}>
                             <IconUser size={12} />

@@ -1,4 +1,3 @@
-import { Filters } from "../../model/Filters";
 import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack, Switch, Tabs, Text, rem, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconMoonStars, IconPrompt, IconSparkles, IconSun, IconTemplate, IconUser } from "@tabler/icons-react";
@@ -77,13 +76,6 @@ export function UserProfileModal({
         />
     );
 
-    const languagesOptions = filters.languages.map(l => {
-        return {
-            label: l.name,
-            value: l.slug
-        }
-    });
-
     const nickname = user?.nickname !== undefined ? user.nickname : "";
     const email = user?.email !== undefined ? user.email : "";
 
@@ -96,21 +88,13 @@ export function UserProfileModal({
                         <Input value={nickname} disabled />
                         <Text>Email</Text>
                         <Input value={email} disabled />
-                        <Text>Language</Text>
-                        <Select
-                            value={selectedFilters.language}
-                            allowDeselect={false}
-                            onChange={updateLanguage}
-                            data={languagesOptions}
-                        />
-                        <Text>Theme</Text>
+                        {/* <Text>Theme</Text>
                         <Switch
                             size="md"
                             color="dark.4"
                             onLabel={sunIcon} offLabel={moonIcon}
                             onChange={updateTheme}
-                        />
-
+                        /> */}
                     </SimpleGrid>
                     <Button onClick={apply} variant="light">Save</Button>
                 </Stack>

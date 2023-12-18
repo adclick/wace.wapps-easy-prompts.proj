@@ -291,7 +291,7 @@ export function HomePage() {
               </Menu>
             </Group>
             <Group>
-              {/* <ColorSchemeToggle /> */}
+              <ColorSchemeToggle />
               <UserMenu
                 refreshRepository={refreshRepository}
                 aiMediatorClient={aIMediatorClient}

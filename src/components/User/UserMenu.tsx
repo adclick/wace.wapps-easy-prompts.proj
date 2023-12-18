@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Box, Button, Divider, Group, Menu, Stack, Text, Title, Tooltip, UnstyledButton, rem } from "@mantine/core";
-import { IconActivity, IconBell, IconFileDescription, IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPlus, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser, IconUserPlus, IconUsers } from "@tabler/icons-react";
+import { IconActivity, IconBell, IconExternalLink, IconFileDescription, IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPlus, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { UserProfileModal } from "./UserProfileModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -65,7 +65,7 @@ export function UserMenu({
                     </Menu.Item>
                     <Menu.Item
                         color="blue"
-                        leftSection={<IconMail style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={<IconExternalLink style={{ width: rem(14), height: rem(14) }} />}
                         component="a"
                         href="https://forms.clickup.com/4647457/f/4duh1-67272/60RTTBEBOVWBR6QBYM"
                         target="_blank"
