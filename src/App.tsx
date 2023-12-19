@@ -9,9 +9,11 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { FiltersProvider } from './context/FiltersContext';
 import { OptionsProvider } from './context/OptionsContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App() {
+  const queryClient = new QueryClient();
+
   return (
     <Auth0Provider
       domain='easyprompts.eu.auth0.com'
@@ -21,14 +23,16 @@ export default function App() {
       }}
     >
       <MantineProvider defaultColorScheme='dark' theme={theme}>
-        <OptionsProvider>
-          <FiltersProvider>
-            <SelectedFiltersProvider>
-              <Notifications />
-              <Router />
-            </SelectedFiltersProvider>
-          </FiltersProvider>
-        </OptionsProvider>
+        <QueryClientProvider client={queryClient}>
+          <OptionsProvider>
+            <FiltersProvider>
+              <SelectedFiltersProvider>
+                <Notifications />
+                <Router />
+              </SelectedFiltersProvider>
+            </FiltersProvider>
+          </OptionsProvider>
+        </QueryClientProvider>
       </MantineProvider>
     </Auth0Provider>
   );
