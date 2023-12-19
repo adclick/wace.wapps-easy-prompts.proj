@@ -47,7 +47,6 @@ export function RepositoryHeader({
     const [filtersOpened, filtersHandle] = useDisclosure(false);
     const [searchOpened, searchHandle] = useDisclosure(false);
     const [newModifierOpened, newModifierHandle] = useDisclosure(false);
-    const [types, setTypes] = useState<string[]>(filters.types);
 
     const searchSearchTerm = ((term: string) => {
         setRepositorySearchTerm(term);
