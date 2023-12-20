@@ -30,15 +30,17 @@ import { AppOverlay } from '../components/Misc/AppOverlay';
 import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
 
 export function HomePage() {
+  const { user, logout, getAccessTokenSilently } = useAuth0();
+  if (!user || !user.sub || !user.email) return <></>;
+
   const { filters, setFilters } = useFilters();
   const { selectedFilters, setSelectedFilters } = useSelectedFilters();
   const { options, setOptions } = useOptions();
-
+  
   // API Client
   const aIMediatorClient = new AIMediatorClient();
 
   // Current User
-  const { user, logout, getAccessTokenSilently } = useAuth0();
   const [currentUser, setCurrentUser] = useState<User>(new User());
   const [auth0User, setAuth0User] = useState(user);
   const [firstLogin, setFirstLogin] = useState(true);
