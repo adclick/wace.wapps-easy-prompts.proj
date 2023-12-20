@@ -117,7 +117,13 @@ export class AIMediatorClient {
     }
 
     async generateText(prompt: string, repositoryItems: RepositoryItem[], options: UserPromptOptions) {
-        return await this.post('/ai/text/generate-text', { prompt, repositoryItems, options });
+        const { data } = await axios.post(`${this.baseUrl}/ai/text/generate-text`, {
+            text: prompt,
+            provider: options.provider.slug,
+            sandbox: this.getSandboxParam()
+        });
+
+        return data;
     }
 
     async generateImage(prompt: string, options: UserPromptOptions): Promise<string[] | string> {
