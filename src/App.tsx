@@ -10,6 +10,7 @@ import { FiltersProvider } from './context/FiltersContext';
 import { OptionsProvider } from './context/OptionsContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { UserProvider } from './context/userContext';
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -24,14 +25,16 @@ export default function App() {
     >
       <MantineProvider defaultColorScheme='dark' theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <OptionsProvider>
-            <FiltersProvider>
-              <SelectedFiltersProvider>
-                <Notifications />
-                <Router />
-              </SelectedFiltersProvider>
-            </FiltersProvider>
-          </OptionsProvider>
+          <UserProvider>
+            <OptionsProvider>
+              <FiltersProvider>
+                <SelectedFiltersProvider>
+                  <Notifications />
+                  <Router />
+                </SelectedFiltersProvider>
+              </FiltersProvider>
+            </OptionsProvider>
+          </UserProvider>
         </QueryClientProvider>
       </MantineProvider>
     </Auth0Provider>

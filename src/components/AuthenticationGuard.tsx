@@ -1,6 +1,6 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { ComponentType } from "react";
-import { AppOverlay } from "./Misc/AppOverlay";
+import { AppOverlay } from "./Layout/AppOverlay/AppOverlay";
 
 interface Props {
     component: ComponentType

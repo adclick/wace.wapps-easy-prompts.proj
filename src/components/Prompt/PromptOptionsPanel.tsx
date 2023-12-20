@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem, Card, Tabs } from "@mantine/core"
-import { PromptOptionProvider } from "./PromptOptionProvider"
+import { ProvidersOption } from "../Options/ProvidersOption/ProvidersOption"
 import { PromptOptionParameter } from "./PromptOptionParameter"
 import { PromptOptions } from "@/model/PromptOptions"
 import { Technology } from "@/model/Technology"
@@ -50,7 +50,7 @@ export function PromptOptionsPanel({
     return (
         <Stack mx={"xs"} my={"md"} gap={"md"}>
             <Stack>
-                <PromptOptionProvider
+                <ProvidersOption
                     promptOptions={promptOptions}
                     currentProvider={provider}
                     providers={providers}

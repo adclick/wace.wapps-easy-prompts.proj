@@ -10,7 +10,7 @@ export class Filters {
     repository: string;
     language: string;
     types: Type[];
-    technologies: {id: number, name_en: string, name_pt: string, slug: string}[];
+    technologies: {id: number, name: string, slug: string}[];
     technology: string;
     provider: string;
     text: string;
@@ -31,5 +31,13 @@ export class Filters {
         this.repositories = [];
         this.languages = [];
         this.theme = "";
+    }
+
+    static buildFromQuery(data: any) {
+        const newFilters = new Filters();
+
+
+
+        return newFilters;
     }
 }

@@ -13,36 +13,40 @@ import { Provider } from '../model/Provider';
 import { Parameter } from '../model/Parameter';
 import { Modifier } from '../model/Modifier';
 import { User } from '../model/User';
-import { UserMenu } from '../components/User/UserMenu';
-import { PromptInput } from '../components/Prompt/PromptInput';
-import { ChatPanel } from '../components/Chat/ChatPanel';
-import { RepositoryPanel } from '../components/Repository/RepositoryPanel';
+import { UserMenu } from '../components/User/UserMenu/UserMenu';
+import { ChatContainer } from '../components/Chat/ChatContainer/ChatContainer';
 import { Options } from '../model/Options';
-import { RepositoryHeader } from '../components/Repository/RepositoryHeader';
 import { Filters } from '../model/Filters';
 import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useFilters } from '../context/FiltersContext';
 import { useOptions } from '../context/OptionsContext';
 import { useSelectedFilters } from '../context/SelectedFiltersContext';
-import { AppOverlay } from '../components/Misc/AppOverlay';
-import { ColorSchemeToggle } from '../components/Misc/ColorSchemeToggle';
+import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
+import { CraftsContainer } from '../components/Crafts/CraftsContainer/CraftsContainer';
+import { ChatToolbar } from '../components/Chat/ChatToolbar/ChatToolbar';
+import { CraftsContainerHeader } from '../components/Crafts/CraftsContainerHeader/CraftsContainerHeader';
+import { useUser } from '../context/userContext';
+import { useFilters } from '../context/FiltersContext';
+import { useFiltersQuery } from '../api/filtersApi';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export function HomePage() {
-  const { user, logout, getAccessTokenSilently } = useAuth0();
-  if (!user || !user.sub || !user.email) return <></>;
-
-  const { filters, setFilters } = useFilters();
-  const { selectedFilters, setSelectedFilters } = useSelectedFilters();
-  const { options, setOptions } = useOptions();
+  const auth0 = useAuth0();
+  const { user, setUser } = useUser();
   
+  useEffect(() => {
+    const user = User.buildFromAuth0(auth0.user);
+    setUser(user);
+  });
+
+  const { setSelectedFilters } = useSelectedFilters();
+  const { setOptions } = useOptions();
+
   // API Client
   const aIMediatorClient = new AIMediatorClient();
 
   // Current User
   const [currentUser, setCurrentUser] = useState<User>(new User());
-  const [auth0User, setAuth0User] = useState(user);
   const [firstLogin, setFirstLogin] = useState(true);
 
   const [language, setLanguage] = useState<Language>(new Language());
@@ -109,10 +113,6 @@ export function HomePage() {
     // Init AI Client
     const aiMediatorClient = new AIMediatorClient();
 
-    // User
-    const user = User.buildFromAuth0(auth0User);
-    setCurrentUser(user);
-
     setLanguage(new Language(languageCode))
 
     // Call API
@@ -123,11 +123,9 @@ export function HomePage() {
     setColorScheme(theme)
 
     // Filters
-    setFilters(filters);
+    // setFilters(filters);
     setSelectedFilters(filters);
     setOptions(Options.buildFromApi(options));
-
-
 
     const repositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, 0);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
@@ -189,6 +187,7 @@ export function HomePage() {
     setProvider(newProvider);
 
     const parameters = promptOptions.getParameters(newTechnologySlug, newProvider.slug);
+    console.log(parameters);
     setParameters(parameters);
 
     const modifiers = promptOptions.getModifiers(newTechnologySlug);
@@ -203,13 +202,6 @@ export function HomePage() {
     newUserPromptOptions.setModifiers(modifiers);
     setUserPromptOptions(newUserPromptOptions);
 
-    const newSelectedFilters = {
-      ...selectedFilters,
-      technology: newTechnologySlug
-    };
-
-    setSelectedFilters(newSelectedFilters);
-    refreshRepository(newSelectedFilters);
     setRepositorySelectedItems([]);
   }
 
@@ -221,14 +213,6 @@ export function HomePage() {
     const newUserPromptOptions = userPromptOptions;
     newUserPromptOptions.setProvider(newProvider);
     setUserPromptOptions(newUserPromptOptions);
-
-    const newSelectedFilters = {
-      ...selectedFilters,
-      provider: newProviderSlug
-    };
-
-    setSelectedFilters(newSelectedFilters);
-    refreshRepository(newSelectedFilters);
   }
 
   const resetChat = () => {
@@ -290,7 +274,7 @@ export function HomePage() {
               </Menu>
             </Group>
             <Group>
-              <ColorSchemeToggle />
+              {/* <ColorSchemeToggle /> */}
               <UserMenu
                 refreshRepository={refreshRepository}
                 aiMediatorClient={aIMediatorClient}
@@ -305,14 +289,12 @@ export function HomePage() {
 
         <AppShell.Navbar withBorder={false} p="md">
           <AppShell.Section >
-            <RepositoryHeader
+            <CraftsContainerHeader
               navbarOpened={navbarOpened}
               toggleNavbar={navbarHandle.toggle}
               openFilters={filtersPanelHandle.open}
               filtersOpened={filtersPanelOpened}
               closeFilters={filtersPanelHandle.close}
-              repositories={repositories}
-              repository={repository}
               repositorySearchTerm={repositorySearchTerm}
               setRepositorySearchTerm={setRepositorySearchTerm}
               refreshRepository={refreshRepository}
@@ -323,7 +305,7 @@ export function HomePage() {
             />
           </AppShell.Section>
           <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-            <RepositoryPanel
+            <CraftsContainer
               navbarToggle={navbarHandle.toggle}
               repositoryItems={repositoryItems}
               setRepositoryItems={setRepositoryItems}
@@ -341,7 +323,7 @@ export function HomePage() {
         </AppShell.Navbar>
 
         <AppShell.Main>
-          <ChatPanel
+          <ChatContainer
             threads={threads}
             setThreads={setThreads}
             targetRef={targetRef}
@@ -354,7 +336,6 @@ export function HomePage() {
             repository={repository}
             language={language}
             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-            filters={filters}
             refreshRepository={refreshRepository}
             theme={computedColorScheme}
             firstLogin={firstLogin}
@@ -363,7 +344,7 @@ export function HomePage() {
         </AppShell.Main>
 
         <AppShell.Footer withBorder={false}>
-          <PromptInput
+          <ChatToolbar
             aIMediatorClient={aIMediatorClient}
             userPromptOptions={userPromptOptions}
             scrollIntoView={scrollIntoView}

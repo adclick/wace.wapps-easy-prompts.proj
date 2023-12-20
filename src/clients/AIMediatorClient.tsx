@@ -2,10 +2,10 @@ import axios from "axios";
 import { UserPromptOptions } from "../model/UserPromptOptions";
 import { Technology } from "../model/Technology";
 import { Provider } from "../model/Provider";
-import { Filters } from "@/model/Filters";
 import { User } from "../model/User";
 import { RepositoryItem } from "../model/RepositoryItem";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Filters } from "../model/Filters";
 
 export class AIMediatorClient {
     baseUrl: string;
@@ -25,7 +25,7 @@ export class AIMediatorClient {
             auth0Id: user.id,
             options: {
                 email: user.email,
-                language: user.language.code
+                language: "en"
             }
         });
     }

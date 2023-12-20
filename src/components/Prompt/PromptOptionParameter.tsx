@@ -1,8 +1,8 @@
 import { UserPromptOptions } from "../../model/UserPromptOptions";
-import { PromptOptionImageResolution } from "./PromptOptionImageResolution";
-import { PromptOptionNumImages } from "./PromptOptionNumImages";
+import { ImageResolutionOption } from "../Options/ImageResolutionOption/ImageResolutionOption";
+import { NumImagesOption } from "../Options/NumImagesOption/NumImagesOption";
 import { Parameter } from "../../model/Parameter";
-import { PromptOptionLanguage } from "./PromptOptionLanguage";
+import { LanguagesOption } from "../Options/LanguagesOption/LanguagesOption";
 
 interface PromptOptionParameter {
     type: string,
@@ -19,20 +19,20 @@ export function PromptOptionParameter({
 }: PromptOptionParameter) {
     switch (type) {
         case "image-resolution":
-            return <PromptOptionImageResolution
+            return <ImageResolutionOption
                 parameter={parameter}
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}
             />
         case "num-images":
-            return <PromptOptionNumImages
+            return <NumImagesOption
                 parameter={parameter}
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}
             />
         case "source-language":
         case "target-language":
-            return <PromptOptionLanguage
+            return <LanguagesOption
                 parameter={parameter}
                 userPromptOptions={userPromptOptions}
                 setUserPromptOptions={setUserPromptOptions}

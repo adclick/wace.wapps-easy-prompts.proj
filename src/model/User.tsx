@@ -5,14 +5,12 @@ export class User {
     nickname: string;
     email: string;
     picture: string;
-    language: Language
 
-    constructor(id: string = "", email: string = "", picture: string = "") {
-        this.id = id;
+    constructor() {
+        this.id = "";
         this.nickname = "";
-        this.email = email;
-        this.picture = picture;
-        this.language = new Language();
+        this.email = "";
+        this.picture = "";
     }
 
     static buildFromAuth0(auth0User: any) {
