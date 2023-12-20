@@ -36,6 +36,8 @@ export function Craft({
     const { selectedFilters } = useSelectedFilters();
     const { user } = useAuth0();
 
+    const modifiers = repositoryItem.crafted_by;
+
     const use = (e: any) => {
         switch (repositoryItem.type) {
             case "prompt":
@@ -50,8 +52,8 @@ export function Craft({
                 const thread = new Thread();
                 thread.request.setText(repositoryItem.content);
                 thread.request.userPromptOptions = options;
-                if (repositoryItem.modifiers.length > 0) {
-                    thread.request.repositoryItems = [RepositoryItem.buildFromModifier(repositoryItem.modifiers[0])];
+                if (modifiers.length > 0) {
+                    thread.request.repositoryItems = [RepositoryItem.buildFromModifier(modifiers[0])];
                 }
                 setThreads([...threads, thread]);
                 break;

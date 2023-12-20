@@ -25,15 +25,15 @@ import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { CraftsContainer } from '../components/Crafts/CraftsContainer/CraftsContainer';
 import { ChatToolbar } from '../components/Chat/ChatToolbar/ChatToolbar';
 import { CraftsContainerHeader } from '../components/Crafts/CraftsContainerHeader/CraftsContainerHeader';
-import { useUser } from '../context/userContext';
-import { useFilters } from '../context/FiltersContext';
-import { useFiltersQuery } from '../api/filtersApi';
+import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export function HomePage() {
+  // Get auth0 user
   const auth0 = useAuth0();
-  const { user, setUser } = useUser();
   
+  // Init User
+  const { user, setUser } = useUser();
   useEffect(() => {
     const user = User.buildFromAuth0(auth0.user);
     setUser(user);

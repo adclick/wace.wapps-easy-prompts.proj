@@ -1,6 +1,6 @@
-import { Filters } from '@/model/Filters';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { Filters } from '../model/Filters';
 
 export const useCraftsQuery = (selectedFilters: Filters) => {
     return useQuery({
