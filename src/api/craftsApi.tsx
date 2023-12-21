@@ -5,16 +5,19 @@ import { SelectedFilters } from '../model/SelectedFilters';
 export const useCraftsQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useQuery({
         queryKey: ["crafts", selectedFilters],
-        queryFn: () => {
-            const { languages_ids, repositories_ids, technologies_ids, crafts_types } = selectedFilters;
+        queryFn: async () => {
+            const { search_term, languages_ids, repositories_ids, technologies_ids, crafts_types } = selectedFilters;
             // Your API call to fetch crafts
-            return axios.get(`${import.meta.env.VITE_API_URL}/crafts/?` + new URLSearchParams({
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/crafts/?` + new URLSearchParams({
                 userId,
+                search_term,
                 languages_ids: languages_ids.join(','),
                 repositories_ids: repositories_ids.join(','),
                 technologies_ids: technologies_ids.join(','),
                 crafts_types: crafts_types
-            }))
+            }));
+
+            return data;
         },
         enabled: !!userId && !selectedFilters.isEmpty
     });

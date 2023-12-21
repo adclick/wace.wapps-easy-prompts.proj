@@ -1,21 +1,19 @@
 import { useSelectedFilters } from '../../../context/SelectedFiltersContext';
-import { Select, Checkbox, Stack, Title } from '@mantine/core';
+import { Checkbox, Stack, Title } from '@mantine/core';
 
 interface LanguagesFilter {
     languages: { id: number, name: string, slug: string }[]
-    refreshRepository: any,
 }
 
 export function LanguagesFilter({
     languages,
-    refreshRepository
 }: LanguagesFilter) {
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
-    const update = (value: any) => {
+    const update = (ids: string[]) => {
         const newSelectedFilters = {
             ...selectedFilters,
-            languages: languages.filter(l => value.includes(l.slug))
+            languages_ids: ids.map(id => parseInt(id))
         }
 
         setSelectedFilters(newSelectedFilters)
@@ -24,12 +22,17 @@ export function LanguagesFilter({
     return (
         <Stack>
             <Title order={5}>Languages</Title>
-            <Checkbox.Group value={languages.map(l => l.slug)} onChange={update}>
+            <Checkbox.Group value={selectedFilters.languages_ids.map(id => id.toString())} onChange={update}>
                 <Stack>
                     {
                         languages.map(language => {
                             return (
-                                <Checkbox key={language.id} radius={"sm"} value={language.slug} label={language.name} />
+                                <Checkbox
+                                    key={language.id}
+                                    radius={"sm"}
+                                    value={language.id.toString()}
+                                    label={language.name}
+                                />
                             )
                         })
                     }

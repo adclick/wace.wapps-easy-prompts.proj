@@ -4,9 +4,11 @@ import axios from 'axios';
 export const useFiltersQuery = (userId: string) => {
     return useQuery({
         queryKey: ["filters", userId],
-        queryFn: () => {
+        queryFn: async () => {
             // Your API call to fetch crafts
-            return axios.get(`${import.meta.env.VITE_API_URL}/filters/?userId=${userId}`);
+            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/filters/?` + new URLSearchParams({userId}));
+
+            return data;
         },
         enabled: !!userId
     });

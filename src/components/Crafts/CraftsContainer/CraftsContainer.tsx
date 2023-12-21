@@ -31,7 +31,7 @@ export function CraftsContainer({
                 }}>
                     {
                         data !== undefined &&
-                        data.data.data.map((item: Craft) => {
+                        data.map((item: Craft) => {
                             return (
                                 <CraftCard key={item.id}
                                     craft={item}

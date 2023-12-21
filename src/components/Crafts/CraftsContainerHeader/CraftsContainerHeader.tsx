@@ -41,7 +41,7 @@ export function CraftsContainerHeader({
     // Init selectedFilters
     useEffect(() => {
         if (filtersQuery.data && selectedFilters.isEmpty) {
-            const newSelectedFilters = SelectedFilters.buildFromQuery(filtersQuery.data.data.data);
+            const newSelectedFilters = SelectedFilters.buildFromQuery(filtersQuery.data);
             setSelectedFilters(newSelectedFilters);
         }
     })

@@ -29,10 +29,10 @@ export function FiltersContainer({
             {
                 data !== undefined &&
                 <Stack gap={"xl"} my={"xs"}>
-                    <LanguagesFilter languages={data.data.data.languages} refreshRepository={refreshRepository} />
-                    <RepositoriesFilter repositories={data.data.data.repositories} refreshRepository={refreshRepository} />
-                    <TechnologiesFilter technologies={data.data.data.technologies} refreshRepository={refreshRepository} />
-                    <TypesFilter craftsTypes={data.data.data.crafts} refreshRepository={refreshRepository} />
+                    <LanguagesFilter languages={data.languages} />
+                    <RepositoriesFilter repositories={data.repositories} />
+                    <TechnologiesFilter technologies={data.technologies} />
+                    <TypesFilter craftsTypes={data.crafts} refreshRepository={refreshRepository} />
                 </Stack>
 
             }

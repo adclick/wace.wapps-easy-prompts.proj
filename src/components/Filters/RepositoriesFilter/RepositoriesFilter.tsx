@@ -1,23 +1,19 @@
-import { Text, ActionIcon, Checkbox, Group, Stack, Title, Loader } from '@mantine/core';
-import { useFilters } from '../../../context/FiltersContext';
+import { Text, Checkbox, Stack, Title } from '@mantine/core';
 import { useSelectedFilters } from '../../../context/SelectedFiltersContext';
 
 interface RepositoriesFilter {
     repositories: { id: number, name: string, slug: string }[],
-    refreshRepository: any
 }
 
 export function RepositoriesFilter({
     repositories,
-    refreshRepository
 }: RepositoriesFilter) {
-    const { filters } = useFilters();
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
-    const update = (value: any) => {
+    const update = (ids: string[]) => {
         const newSelectedFilters = {
             ...selectedFilters,
-            repositories: repositories.filter(r => value.includes(r.slug))
+            repositories_ids: ids.map(id => parseInt(id))
         }
 
         setSelectedFilters(newSelectedFilters)
@@ -31,7 +27,7 @@ export function RepositoriesFilter({
             }
             {
                 repositories.length > 0 &&
-                <Checkbox.Group value={repositories.map(r => r.slug)} onChange={update}>
+                <Checkbox.Group value={selectedFilters.repositories_ids.map(id => id.toString())} onChange={update}>
                     <Stack>
                         {
                             repositories.map(repository => {
@@ -39,7 +35,7 @@ export function RepositoriesFilter({
                                     <Checkbox
                                         key={repository.slug}
                                         radius={"sm"}
-                                        value={repository.slug}
+                                        value={repository.id.toString()}
                                         label={repository.name}
                                     />
                                 )
