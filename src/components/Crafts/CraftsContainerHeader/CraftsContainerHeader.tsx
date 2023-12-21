@@ -10,6 +10,7 @@ import { useUser } from "../../../context/UserContext";
 import { SearchTermFilter } from "../../Filters/SearchTermFilter/SearchTermFilter";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { useEffect } from "react";
+import { SelectedFilters } from "../../../model/SelectedFilters";
 
 interface CraftsContainerHeader {
     navbarOpened: boolean,
@@ -35,13 +36,15 @@ export function CraftsContainerHeader({
 }: CraftsContainerHeader) {
     const { user } = useUser();
     const filtersQuery = useFiltersQuery(user.id);
-    const { setSelectedFilters } = useSelectedFilters();
+    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
+    // Init selectedFilters
     useEffect(() => {
-        if (filtersQuery.data) {
-            setSelectedFilters(filtersQuery.data.data.data);
+        if (filtersQuery.data && selectedFilters.isEmpty) {
+            const newSelectedFilters = SelectedFilters.buildFromQuery(filtersQuery.data.data.data);
+            setSelectedFilters(newSelectedFilters);
         }
-    }, [])
+    })
 
 
     const [filtersOpened, filtersHandle] = useDisclosure(false);
@@ -98,11 +101,6 @@ export function CraftsContainerHeader({
                     <Tooltip label="Filters">
                         <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
                             <IconFilter style={{ width: rem(18), height: rem(18) }} />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Refresh">
-                        <ActionIcon size={"lg"} variant='subtle'>
-                            <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                         </ActionIcon>
                     </Tooltip>
                 </Group>

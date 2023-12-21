@@ -6,7 +6,7 @@ export const useFiltersQuery = (userId: string) => {
         queryKey: ["filters", userId],
         queryFn: () => {
             // Your API call to fetch crafts
-            return axios.get(`${import.meta.env.VITE_API_URL}/filters/${userId}`);
+            return axios.get(`${import.meta.env.VITE_API_URL}/filters/?userId=${userId}`);
         },
         enabled: !!userId
     });

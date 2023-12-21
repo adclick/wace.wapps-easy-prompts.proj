@@ -1,20 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { Filters } from '../model/Filters';
+import { SelectedFilters } from '../model/SelectedFilters';
 
-export const useCraftsQuery = (selectedFilters: Filters) => {
+export const useCraftsQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useQuery({
         queryKey: ["crafts", selectedFilters],
         queryFn: () => {
+            const { languages_ids, repositories_ids, technologies_ids, crafts_types } = selectedFilters;
             // Your API call to fetch crafts
-            return axios.get("https://easyprompts.wacestudio.pt/api/crafts/123/?filters[search_term]=&filters[languages_ids]=1&filters[repositories_ids]=3&filters[technologies_ids]=1&filters[crafts_types]=PROMPTS");
-        }
+            return axios.get(`${import.meta.env.VITE_API_URL}/crafts/?` + new URLSearchParams({
+                userId,
+                languages_ids: languages_ids.join(','),
+                repositories_ids: repositories_ids.join(','),
+                technologies_ids: technologies_ids.join(','),
+                crafts_types: crafts_types
+            }))
+        },
+        enabled: !!userId && !selectedFilters.isEmpty
     });
 };
 
 export const useCreatePromptMutation = () => {
     const queryClient = useQueryClient();
-    
+
     return useMutation({
         mutationFn: (name: string) => {
             return axios.post("https://easyprompts.wacestudio.pt/api/crafts/123/prompt", {

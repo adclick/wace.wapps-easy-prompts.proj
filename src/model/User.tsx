@@ -5,12 +5,14 @@ export class User {
     nickname: string;
     email: string;
     picture: string;
+    theme: string;
 
     constructor() {
         this.id = "";
         this.nickname = "";
         this.email = "";
         this.picture = "";
+        this.theme = "";
     }
 
     static buildFromAuth0(auth0User: any) {

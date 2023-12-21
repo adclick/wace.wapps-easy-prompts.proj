@@ -3,6 +3,7 @@ import { useCraftsQuery } from "../../../api/craftsApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { CraftCard } from "../CraftCard/CraftCard";
 import { Craft } from "../../../model/Craft";
+import { useUser } from "../../../context/UserContext";
 
 interface CraftsContainer {
 }
@@ -10,7 +11,8 @@ interface CraftsContainer {
 export function CraftsContainer({
 }: CraftsContainer) {
     const { selectedFilters } = useSelectedFilters();
-    const { isLoading, data } = useCraftsQuery(selectedFilters);
+    const { user } = useUser();
+    const { isLoading, data } = useCraftsQuery(user.id, selectedFilters);
 
     return (
 

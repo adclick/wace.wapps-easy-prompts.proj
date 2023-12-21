@@ -118,18 +118,18 @@ export function HomePage() {
     setLanguage(new Language(languageCode))
 
     // Call API
-    const { repositories, options, filters, modifiers, theme, first_login } = await aiMediatorClient.login(user);
-    setFirstLogin(first_login);
+    // const { repositories, options, filters, modifiers, theme, first_login } = await aiMediatorClient.login(user);
+    // setFirstLogin(first_login);
 
 
-    setColorScheme(theme)
+    // setColorScheme(user.theme)
 
     // Filters
     // setFilters(filters);
-    setSelectedFilters(filters);
-    setOptions(Options.buildFromApi(options));
+    // setSelectedFilters(filters);
+    // setOptions(Options.buildFromApi(options));
 
-    const repositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, 0);
+    // const repositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, 0);
     const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
     setRepositories(repositoriesObjs);
     setRepository(repositoriesObjs[0]);
@@ -139,21 +139,21 @@ export function HomePage() {
 
 
     // Refresh Options
-    const optionsObj = PromptOptions.buildFromApi(options);
-    setPromptOptions(optionsObj);
+    // const optionsObj = PromptOptions.buildFromApi(options);
+    // setPromptOptions(optionsObj);
 
     // Refresh Technologies
-    const currentTechnology = optionsObj.getDefaultTechnology();
-    setTechnology(currentTechnology);
-    setTechnologies(optionsObj.getTechnologies());
+    // const currentTechnology = optionsObj.getDefaultTechnology();
+    // setTechnology(currentTechnology);
+    // setTechnologies(optionsObj.getTechnologies());
 
     // Refresh Providers
-    const currentProvider = optionsObj.getDefaultProvider(currentTechnology.slug);
-    setProvider(currentProvider);
-    setProviders(optionsObj.getProviders(currentTechnology.slug));
+    // const currentProvider = optionsObj.getDefaultProvider(currentTechnology.slug);
+    // setProvider(currentProvider);
+    // setProviders(optionsObj.getProviders(currentTechnology.slug));
 
     // Refresh Parameters
-    const parameters = optionsObj.getParameters(currentTechnology.slug, currentProvider.slug);
+    // const parameters = optionsObj.getParameters(currentTechnology.slug, currentProvider.slug);
     setParameters(parameters);
 
     // Refresh Modifiers
@@ -161,21 +161,21 @@ export function HomePage() {
     setActiveModifiers([]);
 
     // Refresh User Options
-    const newUserPromptOptions = userPromptOptions;
-    newUserPromptOptions.setTechnology(currentTechnology);
-    newUserPromptOptions.setProvider(currentProvider);
-    newUserPromptOptions.setLanguage(languageCode);
-    setUserPromptOptions(newUserPromptOptions);
+    // const newUserPromptOptions = userPromptOptions;
+    // newUserPromptOptions.setTechnology(currentTechnology);
+    // newUserPromptOptions.setProvider(currentProvider);
+    // newUserPromptOptions.setLanguage(languageCode);
+    // setUserPromptOptions(newUserPromptOptions);
 
     overlayHandle.close();
 
 
-    if (first_login === true) {
-      const thread = new Thread();
-      thread.request.intro = true;
-      setThreads([...threads, thread]);
-      scrollIntoView({ alignment: 'start' });
-    }
+    // if (first_login === true) {
+    //   const thread = new Thread();
+    //   thread.request.intro = true;
+    //   setThreads([...threads, thread]);
+    //   scrollIntoView({ alignment: 'start' });
+    // }
   }
 
   const handleOnChangeTechnology = (newTechnologySlug: string) => {

@@ -19,13 +19,12 @@ export function LanguagesFilter({
         }
 
         setSelectedFilters(newSelectedFilters)
-        refreshRepository(newSelectedFilters)
     }
 
     return (
         <Stack>
             <Title order={5}>Languages</Title>
-            <Checkbox.Group value={selectedFilters.languages.map(l => l.slug)} onChange={update}>
+            <Checkbox.Group value={languages.map(l => l.slug)} onChange={update}>
                 <Stack>
                     {
                         languages.map(language => {

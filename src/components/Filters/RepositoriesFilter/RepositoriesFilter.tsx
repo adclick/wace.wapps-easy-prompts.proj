@@ -21,7 +21,6 @@ export function RepositoriesFilter({
         }
 
         setSelectedFilters(newSelectedFilters)
-        refreshRepository(newSelectedFilters)
     }
 
     return (
@@ -32,7 +31,7 @@ export function RepositoriesFilter({
             }
             {
                 repositories.length > 0 &&
-                <Checkbox.Group value={selectedFilters.repositories.map(r => r.slug)} onChange={update}>
+                <Checkbox.Group value={repositories.map(r => r.slug)} onChange={update}>
                     <Stack>
                         {
                             repositories.map(repository => {
