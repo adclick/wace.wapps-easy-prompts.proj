@@ -10,6 +10,7 @@ export const useUsersLoginsQuery = (userId: string, email: string) => {
                 userId,
                 email
             });
-        }
+        },
+        enabled: !!userId && !!email
     });
 };

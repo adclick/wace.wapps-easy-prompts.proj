@@ -3,11 +3,13 @@ import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, 
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItem } from "../../../model/RepositoryItem";
 import { NewModifierModal } from "../../Layout/Modals/NewModifierModal/NewModifierModal";
-import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer"
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { AIMediatorClient } from "../../../clients/AIMediatorClient";
 import { useUser } from "../../../context/UserContext";
+import { SearchTermFilter } from "../../Filters/SearchTermFilter/SearchTermFilter";
+import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
+import { useEffect } from "react";
 
 interface CraftsContainerHeader {
     navbarOpened: boolean,
@@ -27,35 +29,23 @@ interface CraftsContainerHeader {
 export function CraftsContainerHeader({
     navbarOpened,
     toggleNavbar,
-    repositorySearchTerm,
-    setRepositorySearchTerm,
     refreshRepository,
     aiMediatorClient,
 
 }: CraftsContainerHeader) {
     const { user } = useUser();
     const filtersQuery = useFiltersQuery(user.id);
+    const { setSelectedFilters } = useSelectedFilters();
 
-    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+    useEffect(() => {
+        if (filtersQuery.data) {
+            setSelectedFilters(filtersQuery.data.data.data);
+        }
+    }, [])
+
+
     const [filtersOpened, filtersHandle] = useDisclosure(false);
     const [newModifierOpened, newModifierHandle] = useDisclosure(false);
-
-    const searchSearchTerm = ((term: string) => {
-        setRepositorySearchTerm(term);
-
-        const newFilters = {
-            ...selectedFilters,
-            prompt: term.toLocaleLowerCase()
-        };
-
-        setSelectedFilters(newFilters);
-        refreshRepository(newFilters);
-    })
-
-    const toggleNewModifier = () => {
-        filtersHandle.close();
-        newModifierHandle.toggle();
-    }
 
     return (
         <Stack pb={"lg"}>
@@ -111,7 +101,7 @@ export function CraftsContainerHeader({
                         </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Refresh">
-                        <ActionIcon onClick={() => refreshRepository(selectedFilters)} size={"lg"} variant='subtle'>
+                        <ActionIcon size={"lg"} variant='subtle'>
                             <IconRefresh style={{ width: rem(18), height: rem(18) }} />
                         </ActionIcon>
                     </Tooltip>
@@ -124,15 +114,7 @@ export function CraftsContainerHeader({
                 filtersQuery={filtersQuery}
             />
             <Stack gap={"xl"} my={"xs"}>
-                <Textarea
-                    placeholder={"Search"}
-                    autosize
-                    autoFocus
-                    minRows={1}
-                    maxRows={6}
-                    value={repositorySearchTerm}
-                    onChange={e => searchSearchTerm(e.target.value)}
-                />
+                <SearchTermFilter />
             </Stack>
 
             <NewModifierModal

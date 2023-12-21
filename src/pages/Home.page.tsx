@@ -27,15 +27,17 @@ import { ChatToolbar } from '../components/Chat/ChatToolbar/ChatToolbar';
 import { CraftsContainerHeader } from '../components/Crafts/CraftsContainerHeader/CraftsContainerHeader';
 import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useUsersLoginsQuery } from '../api/usersApi';
 
 export function HomePage() {
   // Get auth0 user
   const auth0 = useAuth0();
+  const user = User.buildFromAuth0(auth0.user);
+  const userLogin = useUsersLoginsQuery(user.id, user.email);
   
   // Init User
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   useEffect(() => {
-    const user = User.buildFromAuth0(auth0.user);
     setUser(user);
   });
 
@@ -306,18 +308,6 @@ export function HomePage() {
           </AppShell.Section>
           <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
             <CraftsContainer
-              navbarToggle={navbarHandle.toggle}
-              repositoryItems={repositoryItems}
-              setRepositoryItems={setRepositoryItems}
-              repositorySearchTerm={repositorySearchTerm}
-              refreshingRepository={refreshingRepository}
-              aiMediatorClient={aIMediatorClient}
-              repositorySelectedItems={repositorySelectedItems}
-              setRepositorySelectedItems={setRepositorySelectedItems}
-              refreshRepository={refreshRepository}
-              openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-              threads={threads}
-              setThreads={setThreads}
             />
           </AppShell.Section>
         </AppShell.Navbar>

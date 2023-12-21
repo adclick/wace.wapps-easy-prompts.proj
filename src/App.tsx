@@ -10,7 +10,9 @@ import { FiltersProvider } from './context/FiltersContext';
 import { OptionsProvider } from './context/OptionsContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { UserProvider } from './context/userContext';
+import { UserProvider } from './context/UserContext';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -35,6 +37,7 @@ export default function App() {
               </FiltersProvider>
             </OptionsProvider>
           </UserProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </MantineProvider>
     </Auth0Provider>

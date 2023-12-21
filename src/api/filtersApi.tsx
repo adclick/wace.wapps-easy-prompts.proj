@@ -7,6 +7,7 @@ export const useFiltersQuery = (userId: string) => {
         queryFn: () => {
             // Your API call to fetch crafts
             return axios.get(`${import.meta.env.VITE_API_URL}/filters/${userId}`);
-        }
+        },
+        enabled: !!userId
     });
 };

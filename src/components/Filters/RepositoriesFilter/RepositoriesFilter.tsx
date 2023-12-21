@@ -17,7 +17,7 @@ export function RepositoriesFilter({
     const update = (value: any) => {
         const newSelectedFilters = {
             ...selectedFilters,
-            repositories: filters.repositories.filter(r => value.includes(r.slug))
+            repositories: repositories.filter(r => value.includes(r.slug))
         }
 
         setSelectedFilters(newSelectedFilters)
@@ -28,11 +28,11 @@ export function RepositoriesFilter({
         <Stack>
             <Title order={5}>Repositories</Title>
             {
-                repositories.length === 0 && <Text>Empty</Text>
+                repositories.length === 0 && <Text size='sm'>Empty</Text>
             }
             {
                 repositories.length > 0 &&
-                <Checkbox.Group defaultValue={filters.repositories.map(r => r.slug)} value={selectedFilters.repositories.map(r => r.slug)} onChange={update}>
+                <Checkbox.Group value={selectedFilters.repositories.map(r => r.slug)} onChange={update}>
                     <Stack>
                         {
                             repositories.map(repository => {

@@ -1,15 +1,15 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { Filters } from '../model/Filters';
+import { SelectedFilters } from '../model/SelectedFilters';
 
 interface SelectedFiltersContextProps {
-    selectedFilters: Filters; // Replace YourFiltersType with the actual type of your filters
-    setSelectedFilters: React.Dispatch<React.SetStateAction<Filters>>;
+    selectedFilters: SelectedFilters; // Replace YourFiltersType with the actual type of your filters
+    setSelectedFilters: React.Dispatch<React.SetStateAction<SelectedFilters>>;
 }
 
 const SelectedFiltersContext = createContext<SelectedFiltersContextProps | undefined>(undefined);
 
 export const SelectedFiltersProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [selectedFilters, setSelectedFilters] = useState<Filters>(new Filters());
+    const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(new SelectedFilters());
 
     return (
         <SelectedFiltersContext.Provider value={{ selectedFilters, setSelectedFilters }}>
