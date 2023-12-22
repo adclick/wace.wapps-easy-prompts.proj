@@ -1,22 +1,24 @@
-import { ActionIcon, Menu, Tooltip, rem } from "@mantine/core";
-import { IconCheck, IconClipboardText, IconHeadphones, IconLanguage, IconLayersSubtract, IconListSearch, IconPencil, IconPhoto } from "@tabler/icons-react";
-import { Technology } from "../../../../model/Technology";
+import { ActionIcon, Menu, Tooltip } from "@mantine/core";
+import { IconAlertTriangle, IconPencil, IconPhoto } from "@tabler/icons-react";
+import { useFiltersQuery } from "../../../../api/filtersApi";
+import { useUser } from "../../../../context/UserContext";
+import { useDefaultTechnologyQuery } from "../../../../api/technologiesApi";
 
 interface TechnologiesMenu {
-    technology: Technology,
-    handleOnChangeTechnology: any
 }
 
 export function TechnologiesMenu({
-    technology,
-    handleOnChangeTechnology
 
 }: TechnologiesMenu) {
+    const { user } = useUser();
+    const { data, isLoading, isError, isSuccess } = useFiltersQuery(user.id);
+    const defaultTechnologyQuery = useDefaultTechnologyQuery();
+
+    
     return (
-        <Menu shadow="md" position='bottom-start'>
+        <Menu shadow="md" position='top-start'>
             <Menu.Target>
                 <Tooltip label="Switch mode">
-
                     <ActionIcon
                         variant="subtle"
                         aria-label="Settings"
@@ -25,89 +27,34 @@ export function TechnologiesMenu({
                         left={"30px"}
                         styles={{
                             root: {
-                                zIndex: "1"
+                                zIndex: "99"
                             }
                         }}
                     >
                         {
-                            Technology.getIcon(technology.slug, "70%")
+                            isError && <IconAlertTriangle />
+                        }
+                        {
+                            isLoading || isSuccess && <IconPencil />
                         }
                     </ActionIcon>
                 </Tooltip>
             </Menu.Target>
-
-            <Menu.Dropdown>
-                <Menu.Item
-                    onClick={() => handleOnChangeTechnology('text-generation')}
-                    rightSection={
-                        technology.slug === "text-generation" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
+            {
+                data !== undefined &&
+                <Menu.Dropdown>
+                    {
+                        data.technologies.map((t: { id: number, name: string, slug: string }) => {
+                            return (
+                                <Menu.Item key={t.id}>
+                                    {t.name}
+                                </Menu.Item>
+                            )
+                        })
                     }
-                    leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Text Generation
-                </Menu.Item>
-                <Menu.Item
-                    onClick={() => handleOnChangeTechnology('image-generation')}
-                    rightSection={
-                        technology.slug === "image-generation" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                    }
-                    leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Image Generation
-                </Menu.Item>
-                <Menu.Item
-                    onClick={() => handleOnChangeTechnology('keywords-extraction')}
-                    rightSection={
-                        technology.slug === "keywords-extraction" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                    }
-                    leftSection={<IconListSearch style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Keywords Extraction
-                </Menu.Item>
-                <Menu.Item
-                    onClick={() => handleOnChangeTechnology('translation')}
-                    rightSection={
-                        technology.slug === "translation" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                    }
-                    leftSection={<IconLanguage style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Translation
-                </Menu.Item>
-                <Menu.Item
-                    disabled
-                    rightSection={
-                        technology.slug === "topic-extraction" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                    }
-                    leftSection={<IconLayersSubtract style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Topic Extraction
-                </Menu.Item>
-                <Menu.Item
-                    disabled
-                    rightSection={
-                        technology.slug === "summarization" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                    }
-                    leftSection={<IconClipboardText style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Summarize
-                </Menu.Item>
-                <Menu.Item
-                    disabled
-                    rightSection={
-                        technology.slug === "text-to-speech" &&
-                        <IconCheck style={{ width: rem(14), height: rem(14) }} />
-                    }
-                    leftSection={<IconHeadphones style={{ width: rem(14), height: rem(14) }} />}
-                >
-                    Text to Speech
-                </Menu.Item>
-            </Menu.Dropdown>
+                </Menu.Dropdown>
+            }
         </Menu>
     )
+
 }

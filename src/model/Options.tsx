@@ -1,27 +1,23 @@
 export class Options {
-    technologies: {id: number, name: string}[];
-    providers: {id: number, name: string}[];
-    parameters: {id: number, name: string, value: string}[];
-    modifiers: number[];
-
-    technology: {id: number, name: string} | undefined;
+    isEmpty: boolean;
+    prompt: string;
+    technology: {id: number, name: string, slug: string};
+    provider: {id: number, name: string, slug: string};
 
     constructor() {
-        this.technologies = [];
-        this.providers = [];
-        this.parameters = [];
-        this.modifiers = [];
+        this.isEmpty = true;
+        this.prompt = "";
+        this.technology = {id: 0, name: "", slug: ""};
+        this.provider = {id: 0, name: "", slug: ""};
     }
 
-    static buildFromApi(apiData: any): Options {
+    static buildFromQuery(data: any): Options {
         const newOptions = new Options();
 
-        for (const technology of apiData.technologies) {
-            newOptions.technologies.push({
-                id: technology.id,
-                name: technology.name,
-            });
-        }
+        newOptions.prompt = data.prompt;
+        newOptions.technology = data.technology;
+        newOptions.provider = data.provider;
+        newOptions.isEmpty = false;
         
         return newOptions;
     }

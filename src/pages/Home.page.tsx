@@ -19,8 +19,6 @@ import { Options } from '../model/Options';
 import { Filters } from '../model/SelectedFilters';
 import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
-import { useOptions } from '../context/OptionsContext';
-import { useSelectedFilters } from '../context/SelectedFiltersContext';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { CraftsContainer } from '../components/Crafts/CraftsContainer/CraftsContainer';
 import { ChatToolbar } from '../components/Chat/ChatToolbar/ChatToolbar';
@@ -28,26 +26,41 @@ import { CraftsContainerHeader } from '../components/Crafts/CraftsContainerHeade
 import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
+import { useOptionsQuery } from '../api/optionsApi';
+import { useOptions } from '../context/OptionsContext';
 
 export function HomePage() {
   const { user, setUser } = useUser();
+  const { options, setOptions } = useOptions();
   const auth0 = useAuth0();
   const userLoginQuery = useUsersLoginsQuery(user);
+  const optionsQuery = useOptionsQuery();
 
-  // User Login
+  // Initialize User with Auth0 info
   useEffect(() => {
     if (user.isEmpty) {
-      const newUser = User.buildFromAuth0(auth0.user);
-      setUser(newUser);
-
-    }
-
-    if (userLoginQuery.data) {
-      const newUser = user;
-      newUser.isLoggedIn = true;
-      setUser(newUser);
+      setUser(User.buildFromAuth0(auth0.user))
     }
   });
+
+  // Login User on Database
+  useEffect(() => {
+    if (userLoginQuery.data) {
+      setUser({
+        ...user,
+        isLoggedIn: true
+      });
+    }
+  })
+
+  useEffect(() => {
+    if (optionsQuery.data) {
+      setOptions(Options.buildFromQuery(optionsQuery.data))
+    }
+  })
+  
+
+
 
   // API Client
   const aIMediatorClient = new AIMediatorClient();

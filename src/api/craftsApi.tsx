@@ -43,9 +43,23 @@ export const useCreateModifierMutation = () => {
             queryClient.invalidateQueries({
                 queryKey: ["crafts"]
             })
+        }
+    })
+}
+
+export const useDeleteCraftMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (id: number) => {
+            const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/crafts/${id}`)
+
+            return data;
         },
-        onError: (error) => {
-            return error
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["crafts"]
+            })
         }
     })
 }

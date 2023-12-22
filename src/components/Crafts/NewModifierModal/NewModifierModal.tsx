@@ -89,8 +89,6 @@ export function NewModifierModal({
         mutation.mutate(newFormData);
     }
 
-
-
     const updateLanguage = (value: string | null) => {
         if (value) {
             setLanguageId(value);

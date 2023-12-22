@@ -18,6 +18,8 @@ import { Language } from "../../../model/Language";
 import { useState } from "react";
 import { RepositoryItem } from "../../../model/RepositoryItem";
 import { TechnologiesMenu } from "../../Layout/Menus/TechnologiesMenu/TechnologiesMenu";
+import { useDefaultTechnologyQuery } from "../../../api/technologiesApi";
+import { useOptions } from "../../../context/OptionsContext";
 
 
 interface ChatPrompt {
@@ -77,12 +79,21 @@ export function ChatPrompt({
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');
     const [value, setValue] = useState('');
+    const { options, setOptions } = useOptions();
+
+    const onChange = (e: any) => {
+        setValue("");
+        setOptions({
+            ...options,
+            prompt: e.target.value
+        })
+    }
 
     // Submit prompt
     const submitPrompt = async () => {
         if (value.length <= 0) return;
 
-        setValue("");
+        
 
         // Deep copy
         const threadUserOptions = JSON.parse(JSON.stringify(userPromptOptions));
@@ -145,11 +156,7 @@ export function ChatPrompt({
                             </Center>
                         }
                         <Group w={"100%"} wrap="nowrap">
-
-                            <TechnologiesMenu
-                                technology={technology}
-                                handleOnChangeTechnology={handleOnChangeTechnology}
-                            />
+                            <TechnologiesMenu />
 
                             <Popover position="top-start">
                                 <Popover.Target>
@@ -213,8 +220,8 @@ export function ChatPrompt({
 
                                 }}
                                 radius={'xl'}
-                                value={value}
-                                onChange={e => setValue(e.target.value)}
+                                value={options.prompt}
+                                onChange={e => onChange(e.target.value)}
                                 onKeyDown={submitPromptByTextArea}
                                 classNames={{
                                     input: cx(computedColorScheme)

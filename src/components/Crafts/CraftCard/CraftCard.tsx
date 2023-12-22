@@ -1,15 +1,10 @@
 import { SimpleGrid, Popover, Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse, Chip, Paper } from "@mantine/core";
 import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconLock, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
-import { AIMediatorClient } from "../../../clients/AIMediatorClient";
-import { Thread } from "../../../model/Thread";
-import { UserPromptOptions } from "../../../model/UserPromptOptions";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
-import { Technology } from "../../../model/Technology";
 import { Repository } from "../../../model/Repository";
-import { notifications } from "@mantine/notifications";
-import { Language } from "../../../model/Language";
 import { Craft } from "../../../model/Craft";
+import { useDeleteCraftMutation } from "../../../api/craftsApi";
+import { notifications } from "@mantine/notifications";
 
 interface CraftCard {
     craft: Craft,
@@ -18,9 +13,8 @@ interface CraftCard {
 export function CraftCard({
     craft,
 }: CraftCard) {
-    const { selectedFilters } = useSelectedFilters();
     const { user } = useAuth0();
-
+    const deleteMutation = useDeleteCraftMutation();
 
     const use = (e: any) => {
         e.stopPropagation();
@@ -28,6 +22,28 @@ export function CraftCard({
 
     const deleteItem = async (e: any) => {
         e.stopPropagation();
+
+        deleteMutation.mutate(craft.id);
+    }
+
+    if (deleteMutation.isError) {
+        notifications.show({
+            title: "Error",
+            message: deleteMutation.error.message,
+            color: "red"
+        });
+
+        deleteMutation.reset();
+    }
+
+    if (deleteMutation.isSuccess) {
+        notifications.show({
+            title: "Modifier Deleted",
+            message: "Your settings were saved",
+            color: "blue"
+        });
+
+        deleteMutation.reset();
     }
 
     const date = new Date(craft.created_at);
