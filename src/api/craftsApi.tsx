@@ -22,18 +22,12 @@ export const useCraftsQuery = (userId: string, selectedFilters: SelectedFilters)
     });
 };
 
-interface Props {
-    userId: string,
-    formData: string
-}
-
 export const useCreateModifierMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (formData: FormData) => {
-
-            const { data, status } = await axios.post(`${import.meta.env.VITE_API_URL}/crafts/modifier`, {
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/crafts/modifier`, {
                 userId: formData.get('userId'),
                 name: formData.get('name'),
                 description: formData.get('description'),
@@ -41,7 +35,7 @@ export const useCreateModifierMutation = () => {
                 language_id: formData.get('language_id'),
                 repository_id: formData.get('repository_id'),
                 technology_id: formData.get('technology_id'),
-            });
+            })
 
             return data;
         },
@@ -49,6 +43,9 @@ export const useCreateModifierMutation = () => {
             queryClient.invalidateQueries({
                 queryKey: ["crafts"]
             })
+        },
+        onError: (error) => {
+            return error
         }
     })
 }

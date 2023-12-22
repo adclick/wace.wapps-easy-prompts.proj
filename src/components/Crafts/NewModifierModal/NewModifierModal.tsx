@@ -16,7 +16,7 @@ export function NewModifierModal({
     handle,
 }: NewModifierModal) {
     const { user } = useUser();
-    const { data, error } = useFiltersQuery(user.id);
+    const { data } = useFiltersQuery(user.id);
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');
@@ -24,9 +24,8 @@ export function NewModifierModal({
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
-    const [formData, setFormData] = useState(new FormData());
 
-    const createModifierQuery = useCreateModifierMutation();
+    const mutation = useCreateModifierMutation();
 
     let languages = [];
     let repositories = [];
@@ -55,16 +54,29 @@ export function NewModifierModal({
         });
     }
 
-    if (error) {
+    if (mutation.isError) {
         notifications.show({
-            title: 'Error',
-            message: 'The modifier could not be saved',
+            title: "Error",
+            message: mutation.error.message,
             color: "red"
         });
+
+        mutation.reset();
+    }
+
+    if (mutation.isSuccess) {
+        notifications.show({
+            title: "Modifier Saved",
+            message: "Your settings were saved",
+            color: "blue"
+        });
+
+        mutation.reset();
+
+        handle.close();
     }
 
     const save = async () => {
-
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
@@ -73,22 +85,8 @@ export function NewModifierModal({
         newFormData.append("name", name);
         newFormData.append("description", description);
         newFormData.append("content", content);
-        setFormData(newFormData);
 
-        createModifierQuery.mutate(newFormData);
-
-        console.log(newFormData.values());
-
-        handle.close();
-        // setName("");
-        // setContent("");
-        // setDescription("");
-
-        notifications.show({
-            title: 'Modifier Saved',
-            message: 'Your settings were saved',
-            color: RepositoryItem.getColor("modifier")
-        });
+        mutation.mutate(newFormData);
     }
 
 
