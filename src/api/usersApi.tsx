@@ -14,6 +14,6 @@ export const useUsersLoginsQuery = (user: User) => {
 
             return data;
         },
-        enabled: !!user && !user.isLoggedIn
+        enabled: !!user.id && !user.isLoggedIn
     });
 };

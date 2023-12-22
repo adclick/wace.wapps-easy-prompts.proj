@@ -36,13 +36,16 @@ export function HomePage() {
 
   // User Login
   useEffect(() => {
-    if (user.isEmpty && userLoginQuery.data) {
+    if (user.isEmpty) {
       const newUser = User.buildFromAuth0(auth0.user);
+      setUser(newUser);
 
-      if (userLoginQuery.data) {
-        newUser.isLoggedIn = true;
-        setUser(newUser);
-      }
+    }
+
+    if (userLoginQuery.data) {
+      const newUser = user;
+      newUser.isLoggedIn = true;
+      setUser(newUser);
     }
   });
 
