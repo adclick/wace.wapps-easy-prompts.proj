@@ -17,7 +17,6 @@ import { Repository } from "../../../model/Repository";
 import { Language } from "../../../model/Language";
 import { useState } from "react";
 import { RepositoryItem } from "../../../model/RepositoryItem";
-import { useFilters } from "../../../context/FiltersContext";
 import { TechnologiesMenu } from "../../Layout/Menus/TechnologiesMenu/TechnologiesMenu";
 
 
@@ -74,7 +73,6 @@ export function ChatPrompt({
     setRepositorySelectedItems,
     openRepositoryItemDetailsSelected
 }: ChatPrompt) {
-    const { filters, setFilters } = useFilters();
     const { t } = useTranslation();
     const [opened, { open, close }] = useDisclosure(false);
     const computedColorScheme = useComputedColorScheme('dark');
@@ -196,8 +194,6 @@ export function ChatPrompt({
                                         user={user}
                                         repository={repository}
                                         language={language}
-                                        filters={filters}
-                                        setFilters={setFilters}
                                     />
                                 </Popover.Dropdown>
                             </Popover>

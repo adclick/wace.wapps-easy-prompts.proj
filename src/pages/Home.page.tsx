@@ -16,7 +16,7 @@ import { User } from '../model/User';
 import { UserMenu } from '../components/User/UserMenu/UserMenu';
 import { ChatContainer } from '../components/Chat/ChatContainer/ChatContainer';
 import { Options } from '../model/Options';
-import { Filters } from '../model/Filters';
+import { Filters } from '../model/SelectedFilters';
 import { Repository } from '../model/Repository';
 import { RepositoryItem } from '../model/RepositoryItem';
 import { useOptions } from '../context/OptionsContext';
@@ -30,19 +30,21 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
 
 export function HomePage() {
-  // Get auth0 user
+  const { user, setUser } = useUser();
   const auth0 = useAuth0();
-  const user = User.buildFromAuth0(auth0.user);
-  const userLogin = useUsersLoginsQuery(user.id, user.email);
-  
-  // Init User
-  const { setUser } = useUser();
-  useEffect(() => {
-    setUser(user);
-  });
+  const userLoginQuery = useUsersLoginsQuery(user);
 
-  const { setSelectedFilters } = useSelectedFilters();
-  const { setOptions } = useOptions();
+  // User Login
+  useEffect(() => {
+    if (user.isEmpty && userLoginQuery.data) {
+      const newUser = User.buildFromAuth0(auth0.user);
+
+      if (userLoginQuery.data) {
+        newUser.isLoggedIn = true;
+        setUser(newUser);
+      }
+    }
+  });
 
   // API Client
   const aIMediatorClient = new AIMediatorClient();
@@ -307,8 +309,7 @@ export function HomePage() {
             />
           </AppShell.Section>
           <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-            <CraftsContainer
-            />
+            <CraftsContainer />
           </AppShell.Section>
         </AppShell.Navbar>
 

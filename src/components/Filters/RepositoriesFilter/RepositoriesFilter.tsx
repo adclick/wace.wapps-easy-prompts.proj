@@ -5,18 +5,14 @@ interface RepositoriesFilter {
     repositories: { id: number, name: string, slug: string }[],
 }
 
-export function RepositoriesFilter({
-    repositories,
-}: RepositoriesFilter) {
+export function RepositoriesFilter({ repositories }: RepositoriesFilter) {
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
     const update = (ids: string[]) => {
-        const newSelectedFilters = {
+        setSelectedFilters({
             ...selectedFilters,
             repositories_ids: ids.map(id => parseInt(id))
-        }
-
-        setSelectedFilters(newSelectedFilters)
+        })
     }
 
     return (

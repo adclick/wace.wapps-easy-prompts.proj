@@ -5,7 +5,7 @@ import { Provider } from "../model/Provider";
 import { User } from "../model/User";
 import { RepositoryItem } from "../model/RepositoryItem";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Filters } from "../model/Filters";
+import { Filters } from "../model/SelectedFilters";
 
 export class AIMediatorClient {
     baseUrl: string;

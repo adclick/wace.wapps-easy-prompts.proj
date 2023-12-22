@@ -1,16 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { User } from '../model/User';
 
-export const useUsersLoginsQuery = (userId: string, email: string) => {
+export const useUsersLoginsQuery = (user: User) => {
     return useQuery({
-        queryKey: ["users", "login", userId, email],
-        queryFn: () => {
+        queryKey: ["users", user, "login"],
+        queryFn: async () => {
             // Your API call to fetch crafts
-            return axios.post(`${import.meta.env.VITE_API_URL}/users/login/`, {
-                userId,
-                email
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/users/login/`, {
+                userId: user.id,
+                email: user.email
             });
+
+            return data;
         },
-        enabled: !!userId && !!email
+        enabled: !!user && !user.isLoggedIn
     });
 };

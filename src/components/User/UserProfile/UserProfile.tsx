@@ -2,7 +2,6 @@ import { Box, Button, Card, Group, Input, Menu, Modal, Select, SimpleGrid, Stack
 import { notifications } from "@mantine/notifications";
 import { IconMoonStars, IconPrompt, IconSparkles, IconSun, IconTemplate, IconUser } from "@tabler/icons-react";
 import { useState } from "react";
-import { useFilters } from "../../../context/FiltersContext";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { AIMediatorClient } from "../../../clients/AIMediatorClient";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -22,10 +21,8 @@ export function UserProfile({
 }: UserProfile) {
     const { setColorScheme } = useMantineColorScheme();
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
-    const { filters } = useFilters();
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
     const mantineTheme = useMantineTheme();
-    const [language, setLanguage] = useState(selectedFilters.language);
     const [theme, setTheme] = useState(computedColorScheme);
     const { user } = useAuth0();
 
@@ -50,8 +47,6 @@ export function UserProfile({
     const apply = async () => {
         if (user !== undefined && "sub" in user && user.sub !== undefined) {
             closeUserProfile();
-
-            await aiMediatorClient.updateUser(user.sub, selectedFilters.language, theme);
 
             notifications.show({
                 title: 'Profile Saved',

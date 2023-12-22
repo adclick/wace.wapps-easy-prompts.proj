@@ -3,19 +3,18 @@ import { LanguagesFilter } from "../LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
 import { TypesFilter } from "../TypesFilter/TypesFilter";
+import { SelectedFilters } from "../../../model/SelectedFilters";
 
 interface FiltersContainer {
     opened: boolean,
     handle: any
-    refreshRepository: any,
-    filtersQuery: any
+    filtersQuery: any,
 }
 
 export function FiltersContainer({
     opened,
     handle,
-    refreshRepository,
-    filtersQuery
+    filtersQuery,
 }: FiltersContainer) {
     const { isLoading, data } = filtersQuery;
 
@@ -29,10 +28,18 @@ export function FiltersContainer({
             {
                 data !== undefined &&
                 <Stack gap={"xl"} my={"xs"}>
-                    <LanguagesFilter languages={data.languages} />
-                    <RepositoriesFilter repositories={data.repositories} />
-                    <TechnologiesFilter technologies={data.technologies} />
-                    <TypesFilter craftsTypes={data.crafts} refreshRepository={refreshRepository} />
+                    <LanguagesFilter
+                        languages={data.languages}
+                    />
+                    <RepositoriesFilter
+                        repositories={data.repositories}
+                    />
+                    <TechnologiesFilter
+                        technologies={data.technologies}
+                    />
+                    <TypesFilter
+                        craftsTypes={data.crafts}
+                    />
                 </Stack>
 
             }

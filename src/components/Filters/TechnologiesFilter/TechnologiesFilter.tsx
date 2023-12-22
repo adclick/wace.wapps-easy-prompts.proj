@@ -1,24 +1,18 @@
-import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { Checkbox, Stack, Title } from "@mantine/core";
+import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 
 interface TechnologiesFilter {
-    technologies: {id: number, name: string, slug: string, default: boolean}[]
+    technologies: { id: number, name: string, slug: string, default: boolean }[],
 }
 
-export function TechnologiesFilter({
-    technologies
-}: TechnologiesFilter) {
+export function TechnologiesFilter({ technologies }: TechnologiesFilter) {
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
     const update = (ids: string[]) => {
-        const newSelectedFilters = {
+        setSelectedFilters({
             ...selectedFilters,
             technologies_ids: ids.map(id => parseInt(id))
-        };
-
-        console.log(newSelectedFilters);
-
-        setSelectedFilters(newSelectedFilters)
+        })
     }
 
     return (

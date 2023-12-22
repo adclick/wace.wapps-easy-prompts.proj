@@ -2,14 +2,13 @@ import { Tooltip, ActionIcon, Badge, Box, Burger, Group, Menu, Stack, Text, Text
 import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled, IconArrowsSort, IconSettings } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItem } from "../../../model/RepositoryItem";
-import { NewModifierModal } from "../../Layout/Modals/NewModifierModal/NewModifierModal";
+import { NewModifierModal } from "../NewModifierModal/NewModifierModal";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer"
 import { useFiltersQuery } from "../../../api/filtersApi";
-import { AIMediatorClient } from "../../../clients/AIMediatorClient";
 import { useUser } from "../../../context/UserContext";
 import { SearchTermFilter } from "../../Filters/SearchTermFilter/SearchTermFilter";
+import { useEffect, useState } from "react";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
-import { useEffect } from "react";
 import { SelectedFilters } from "../../../model/SelectedFilters";
 
 interface CraftsContainerHeader {
@@ -21,22 +20,18 @@ interface CraftsContainerHeader {
     repositorySearchTerm: string,
     setRepositorySearchTerm: any,
     refreshRepository: any,
-    refreshingRepository: boolean,
     refreshingRepositoryHandle: any,
-    aiMediatorClient: AIMediatorClient,
     repositorySelectedItems: RepositoryItem[]
 }
 
 export function CraftsContainerHeader({
     navbarOpened,
     toggleNavbar,
-    refreshRepository,
-    aiMediatorClient,
 
 }: CraftsContainerHeader) {
     const { user } = useUser();
     const filtersQuery = useFiltersQuery(user.id);
-    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+    const {selectedFilters, setSelectedFilters} = useSelectedFilters();
 
     // Init selectedFilters
     useEffect(() => {
@@ -108,18 +103,16 @@ export function CraftsContainerHeader({
             <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}
-                refreshRepository={refreshRepository}
                 filtersQuery={filtersQuery}
             />
             <Stack gap={"xl"} my={"xs"}>
-                <SearchTermFilter />
+                <SearchTermFilter
+                />
             </Stack>
 
             <NewModifierModal
                 opened={newModifierOpened}
                 handle={newModifierHandle}
-                aiMediatorClient={aiMediatorClient}
-                refreshRepository={refreshRepository}
             />
         </Stack>
     )

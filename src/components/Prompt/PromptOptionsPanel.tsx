@@ -1,17 +1,16 @@
 import { Box, Button, Divider, Drawer, Group, Stack, Text, Title, rem, Card, Tabs } from "@mantine/core"
 import { ProvidersOption } from "../Options/ProvidersOption/ProvidersOption"
 import { PromptOptionParameter } from "./PromptOptionParameter"
-import { PromptOptions } from "@/model/PromptOptions"
-import { Technology } from "@/model/Technology"
-import { Provider } from "@/model/Provider"
-import { Parameter } from "@/model/Parameter"
-import { UserPromptOptions } from "@/model/UserPromptOptions"
-import { Modifier } from "@/model/Modifier"
-import { AIMediatorClient } from "@/clients/AIMediatorClient"
 import { User } from "../../model/User"
 import { Repository } from "../../model/Repository"
 import { Language } from "../../model/Language"
-import { Filters } from "../../model/Filters"
+import { PromptOptions } from "../../model/PromptOptions"
+import { Technology } from "../../model/Technology"
+import { Provider } from "../../model/Provider"
+import { Parameter } from "../../model/Parameter"
+import { UserPromptOptions } from "../../model/UserPromptOptions"
+import { Modifier } from "../../model/Modifier"
+import { AIMediatorClient } from "../../clients/AIMediatorClient"
 
 interface PromptOptionsPanel {
     drawerOpened: any,
@@ -34,8 +33,6 @@ interface PromptOptionsPanel {
     user: User,
     repository: Repository,
     language: Language,
-    filters: Filters,
-    setFilters: any
 }
 
 export function PromptOptionsPanel({

@@ -1,81 +1,113 @@
 import { useState } from "react";
 import { Modal, Select, Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
-import { AIMediatorClient } from "../../../../clients/AIMediatorClient"
-import { useFilters } from "../../../../context/FiltersContext";
 import { notifications } from "@mantine/notifications";
-import { RepositoryItem } from "../../../../model/RepositoryItem";
-import { useSelectedFilters } from "../../../../context/SelectedFiltersContext";
+import { RepositoryItem } from "../../../model/RepositoryItem";
+import { useUser } from "../../../context/UserContext";
+import { useFiltersQuery } from "../../../api/filtersApi";
+import { useCreateModifierMutation } from "../../../api/craftsApi";
 
 interface NewModifierModal {
     opened: boolean,
     handle: any
-    aiMediatorClient: AIMediatorClient
-    refreshRepository: any
 }
 
 export function NewModifierModal({
     opened,
     handle,
-    aiMediatorClient,
-    refreshRepository
 }: NewModifierModal) {
-    const { filters } = useFilters();
-    const { selectedFilters } = useSelectedFilters();
-    const [repository, setRepository] = useState('');
-    const [technology, setTechnology] = useState('');
+    const { user } = useUser();
+    const { data, error } = useFiltersQuery(user.id);
+
+    const [languageId, setLanguageId] = useState('');
+    const [repositoryId, setRepositoryId] = useState('');
+    const [technologyId, setTechnologyId] = useState('');
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
+    const [formData, setFormData] = useState(new FormData());
+
+    const createModifierQuery = useCreateModifierMutation();
+
+    let languages = [];
+    let repositories = [];
+    let technologies = [];
+
+    if (data) {
+        languages = data.languages.map((r: { id: number, name: string, slug: string }) => {
+            return {
+                label: r.name,
+                value: r.id.toString()
+            }
+        });
+
+        repositories = data.repositories.map((r: { id: number, name: string, slug: string }) => {
+            return {
+                label: r.name,
+                value: r.id.toString()
+            }
+        });
+
+        technologies = data.technologies.map((t: { id: number, name: string, slug: string }) => {
+            return {
+                label: t.name,
+                value: t.id.toString()
+            }
+        });
+    }
+
+    if (error) {
+        notifications.show({
+            title: 'Error',
+            message: 'The modifier could not be saved',
+            color: "red"
+        });
+    }
 
     const save = async () => {
+
+        const newFormData = new FormData();
+        newFormData.append("userId", user.id);
+        newFormData.append("language_id", languageId.toString());
+        newFormData.append("repository_id", repositoryId.toString());
+        newFormData.append("technology_id", technologyId.toString());
+        newFormData.append("name", name);
+        newFormData.append("description", description);
+        newFormData.append("content", content);
+        setFormData(newFormData);
+
+        createModifierQuery.mutate(newFormData);
+
+        console.log(newFormData.values());
+
         handle.close();
-
-        await aiMediatorClient.saveModifier(
-            name,
-            content,
-            description,
-            technology,
-            filters.userId,
-            repository,
-            selectedFilters.language
-        );
-
-        setName("");
-        setContent("");
-        setDescription("");
+        // setName("");
+        // setContent("");
+        // setDescription("");
 
         notifications.show({
             title: 'Modifier Saved',
             message: 'Your settings were saved',
             color: RepositoryItem.getColor("modifier")
         });
-
-        refreshRepository(selectedFilters);
     }
 
-    const repositories = filters.repositories.map(r => {
-        return {
-            label: r.name,
-            value: r.slug
-        }
-    });
 
-    const technologies = filters.technologies.map(t => {
-        return {
-            label: t.name_en,
-            value: t.slug
+
+    const updateLanguage = (value: string | null) => {
+        if (value) {
+            setLanguageId(value);
         }
-    });
+    }
 
     const updateTechnology = (value: string | null) => {
         if (value) {
-            setTechnology(value);
+            setTechnologyId(value);
         }
     }
 
     const updateRepository = (value: string | null) => {
         if (value) {
-            setRepository(value);
+            setRepositoryId(value);
         }
     }
 
@@ -83,12 +115,20 @@ export function NewModifierModal({
         <Modal opened={opened} onClose={handle.close} title="New Modifier">
             <Stack my={"xs"}>
                 <Select
+                    label="Language"
+                    required
+                    placeholder="Language"
+                    data={languages}
+                    value={languageId}
+                    allowDeselect={false}
+                    onChange={updateLanguage}
+                />
+                <Select
                     label="Technology"
                     required
                     placeholder="Technology"
-                    defaultValue={technology}
                     data={technologies}
-                    value={technology}
+                    value={technologyId}
                     allowDeselect={false}
                     onChange={updateTechnology}
                 />
@@ -96,9 +136,8 @@ export function NewModifierModal({
                     label="Repository"
                     required
                     placeholder="Repository"
-                    defaultValue={repository}
                     data={repositories}
-                    value={repository}
+                    value={repositoryId}
                     allowDeselect={false}
                     onChange={updateRepository}
                 />

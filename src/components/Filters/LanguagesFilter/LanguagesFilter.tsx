@@ -1,22 +1,18 @@
-import { useSelectedFilters } from '../../../context/SelectedFiltersContext';
 import { Checkbox, Stack, Title } from '@mantine/core';
+import { useSelectedFilters } from '../../../context/SelectedFiltersContext';
 
 interface LanguagesFilter {
-    languages: { id: number, name: string, slug: string }[]
+    languages: { id: number, name: string, slug: string }[],
 }
 
-export function LanguagesFilter({
-    languages,
-}: LanguagesFilter) {
+export function LanguagesFilter({ languages }: LanguagesFilter) {
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
     const update = (ids: string[]) => {
-        const newSelectedFilters = {
+        setSelectedFilters({
             ...selectedFilters,
             languages_ids: ids.map(id => parseInt(id))
-        }
-
-        setSelectedFilters(newSelectedFilters)
+        })
     }
 
     return (

@@ -1,39 +1,36 @@
-import { RepositoryItem } from "../../../model/RepositoryItem";
-import { useFilters } from "../../../context/FiltersContext";
+import { Checkbox, Stack, Title } from "@mantine/core"
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
-import { Checkbox, Group, Stack, Title } from "@mantine/core"
 
 interface TypesFilter {
-    craftsTypes: { type: string }[]
-    refreshRepository: any
+    craftsTypes: { type: string }[],
 }
 
 export function TypesFilter({
-    refreshRepository,
-    craftsTypes
+    craftsTypes,
 }: TypesFilter) {
-    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+    const {selectedFilters, setSelectedFilters} = useSelectedFilters();
 
-    const update = (value: any) => {
-        const newSelectedFilters = {
+    const update = (types: string[]) => {
+        setSelectedFilters({
             ...selectedFilters,
-            types: value
-        };
-
-
-        setSelectedFilters(newSelectedFilters);
-        refreshRepository(newSelectedFilters);
+            crafts_types: types
+        });
     }
 
     return (
         <Stack>
             <Title order={5}>Types</Title>
-            <Checkbox.Group value={selectedFilters.types} onChange={update}>
+            <Checkbox.Group value={selectedFilters.crafts_types} onChange={update}>
                 <Stack justify="space-between">
                     {
                         craftsTypes.map(c => {
                             return (
-                                <Checkbox key={c.type} radius={"sm"} color={RepositoryItem.getColor(c.type)} value={c.type} label={c.type} />
+                                <Checkbox
+                                    key={c.type}
+                                    radius={"sm"}
+                                    value={c.type}
+                                    label={c.type}
+                                />
                             )
                         })
                     }

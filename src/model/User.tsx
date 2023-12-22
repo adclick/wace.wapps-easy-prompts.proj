@@ -1,6 +1,8 @@
 import { Language } from "./Language";
 
 export class User {
+    isEmpty: boolean;
+    isLoggedIn: boolean;
     id: string;
     nickname: string;
     email: string;
@@ -8,6 +10,8 @@ export class User {
     theme: string;
 
     constructor() {
+        this.isEmpty = true;
+        this.isLoggedIn = false;
         this.id = "";
         this.nickname = "";
         this.email = "";
@@ -35,6 +39,8 @@ export class User {
         if ("picture" in auth0User) {
             user.picture = auth0User.picture;
         }
+
+        user.isEmpty = false;
 
         return user;
     }

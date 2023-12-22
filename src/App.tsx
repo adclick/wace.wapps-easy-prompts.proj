@@ -6,7 +6,6 @@ import { Router } from './Router';
 import { theme } from './theme';
 import { Notifications } from '@mantine/notifications';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { FiltersProvider } from './context/FiltersContext';
 import { OptionsProvider } from './context/OptionsContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -29,12 +28,10 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <UserProvider>
             <OptionsProvider>
-              <FiltersProvider>
-                <SelectedFiltersProvider>
-                  <Notifications />
-                  <Router />
-                </SelectedFiltersProvider>
-              </FiltersProvider>
+              <SelectedFiltersProvider>
+                <Notifications />
+                <Router />
+              </SelectedFiltersProvider>
             </OptionsProvider>
           </UserProvider>
           <ReactQueryDevtools initialIsOpen={false} />

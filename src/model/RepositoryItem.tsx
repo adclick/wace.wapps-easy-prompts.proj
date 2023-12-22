@@ -171,12 +171,15 @@ export class RepositoryItem {
     }
 
     static getIcon(type: string, size: string | number = 16) {
-        switch (type) {
+        switch (type.toLowerCase()) {
             case "template":
+            case "templates":
                 return <IconTemplate size={size} stroke={1.5} />;
             case "modifier":
+            case "modifiers":
                 return <IconSparkles size={size} stroke={1.5} />;
             case "prompt":
+            case "prompts":
                 return <IconPrompt size={size} stroke={1.5} />;
             default:
                 return null;
