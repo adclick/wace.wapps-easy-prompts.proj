@@ -4,7 +4,7 @@ export class User {
     isEmpty: boolean;
     isLoggedIn: boolean;
     id: string;
-    nickname: string;
+    username: string;
     email: string;
     picture: string;
     theme: string;
@@ -13,7 +13,7 @@ export class User {
         this.isEmpty = true;
         this.isLoggedIn = false;
         this.id = "";
-        this.nickname = "";
+        this.username = "";
         this.email = "";
         this.picture = "";
         this.theme = "";
@@ -29,7 +29,7 @@ export class User {
         }
 
         if ("nickname" in auth0User) {
-            user.nickname = auth0User.nickname;
+            user.username = auth0User.nickname;
         }
 
         if ("email" in auth0User) {
