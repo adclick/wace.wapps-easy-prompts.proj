@@ -1,35 +1,24 @@
-import { useEffect, useState } from 'react';
-import { Stack, Popover, useMantineColorScheme, ActionIcon, AppShell, Box, Burger, Button, Divider, Group, Image, Loader, LoadingOverlay, Menu, ScrollArea, Select, Text, Title, UnstyledButton, em, rem, useComputedColorScheme, Skeleton } from '@mantine/core';
-import { useDisclosure, useMediaQuery, useScrollIntoView } from '@mantine/hooks';
-import { IconArrowDown, IconCheck, IconChevronDown, IconClearAll, IconExclamationMark, IconFilter, IconHistory, IconInfoCircle, IconLanguage, IconListSearch, IconPencil, IconPhoto, IconPlus, IconPrompt, IconSparkles, IconTemplate, IconToggleLeft, IconTool, IconTrash } from '@tabler/icons-react';
+import { useEffect } from 'react';
+import { AppShell, Box, Burger, Group, Menu, ScrollArea, Title, UnstyledButton, rem, useComputedColorScheme } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconChevronDown, IconHistory, IconPlus } from '@tabler/icons-react';
 import cx from 'clsx';
-import { AIMediatorClient } from '../clients/AIMediatorClient';
-import { UserPromptOptions } from '../model/UserPromptOptions';
-import { PromptOptions } from '../model/PromptOptions';
-import { Thread } from '../model/Thread';
-import { Language } from '../model/Language';
-import { Technology } from '../model/Technology';
-import { Provider } from '../model/Provider';
-import { Parameter } from '../model/Parameter';
-import { Modifier } from '../model/Modifier';
 import { User } from '../model/User';
-import { UserMenu } from '../components/User/UserMenu/UserMenu';
-import { ChatContainer } from '../components/Chat/ChatContainer/ChatContainer';
 import { Options } from '../model/Options';
-import { Filters } from '../model/SelectedFilters';
-import { Repository } from '../model/Repository';
-import { RepositoryItem } from '../model/RepositoryItem';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { CraftsContainer } from '../components/Crafts/CraftsContainer/CraftsContainer';
-import { ChatToolbar } from '../components/Chat/ChatToolbar/ChatToolbar';
 import { CraftsContainerHeader } from '../components/Crafts/CraftsContainerHeader/CraftsContainerHeader';
 import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
 import { useOptionsQuery } from '../api/optionsApi';
 import { useOptions } from '../context/OptionsContext';
+import { ColorSchemeToggle } from '../components/Layout/ColorSchemeToggle/ColorSchemeToggle';
+import classes from './Home.page.module.css';
 
 export function HomePage() {
+  const [navbarOpened, navbarHandle] = useDisclosure();
+  const [overlayVisible, overlayHandle] = useDisclosure(true);
   const { user, setUser } = useUser();
   const { options, setOptions } = useOptions();
   const auth0 = useAuth0();
@@ -50,6 +39,8 @@ export function HomePage() {
         ...user,
         isLoggedIn: true
       });
+
+      overlayHandle.close();
     }
   })
 
@@ -59,186 +50,6 @@ export function HomePage() {
     }
   })
   
-
-
-
-  // API Client
-  const aIMediatorClient = new AIMediatorClient();
-
-  // Current User
-  const [currentUser, setCurrentUser] = useState<User>(new User());
-  const [firstLogin, setFirstLogin] = useState(true);
-
-  const [language, setLanguage] = useState<Language>(new Language());
-
-  const [repositories, setRepositories] = useState<Repository[]>([]);
-  const [repository, setRepository] = useState<Repository>(new Repository());
-  const [repositoryItems, setRepositoryItems] = useState<RepositoryItem[]>([]);
-  const [repositorySearchTerm, setRepositorySearchTerm] = useState('');
-  const [refreshingRepository, refreshingRepositoryHandle] = useDisclosure(true);
-  const [repositorySelectedItems, setRepositorySelectedItems] = useState<RepositoryItem[]>([])
-  const [repositoryItemDetailsModalOpened, repositoryItemDetailsModalHandle] = useDisclosure(false);
-  const [repositoryItemDetailsSelected, setRepositoryItemDetailsSelected] = useState<RepositoryItem>(new RepositoryItem());
-
-  // Hooks
-  const computedColorScheme = useComputedColorScheme('dark');
-  const { setColorScheme } = useMantineColorScheme();
-
-  const [navbarOpened, navbarHandle] = useDisclosure();
-  const [filtersPanelOpened, filtersPanelHandle] = useDisclosure(false);
-
-  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
-
-  // Setting state
-  const [threads, setThreads] = useState<Thread[]>([]);
-  const [promptOptions, setPromptOptions] = useState<PromptOptions>(new PromptOptions());
-  const [userPromptOptions, setUserPromptOptions] = useState<UserPromptOptions>(new UserPromptOptions());
-  // technologies
-  const defaultTechnology = promptOptions.getDefaultTechnology();
-  const [technologies, setTechnologies] = useState<Technology[]>(promptOptions.getTechnologies());
-  const [technology, setTechnology] = useState<Technology>(defaultTechnology);
-  // providers
-  const defaultProvider = promptOptions.getDefaultProvider(defaultTechnology.slug);
-  const [providers, setProviders] = useState<Provider[]>(promptOptions.getProviders(defaultTechnology.slug));
-  const [provider, setProvider] = useState(defaultProvider);
-  // parameters
-  const defaultParameters = promptOptions.getParameters(defaultTechnology.slug, defaultProvider.slug);
-  const [parameters, setParameters] = useState<Parameter[]>(defaultParameters);
-  // modifiers
-  const defaultModifiers = promptOptions.getModifiers(defaultTechnology.slug);
-  const [modifiers, setModifiers] = useState<Modifier[]>(defaultModifiers);
-  const [activeModifiers, setActiveModifiers] = useState<Modifier[]>([]);
-
-  const [overlayVisible, overlayHandle] = useDisclosure(true);
-
-  const openRepositoryItemDetailsSelected = (item: RepositoryItem) => {
-    setRepositoryItemDetailsSelected(item);
-    repositoryItemDetailsModalHandle.open();
-  }
-
-  const refreshRepository = async (filters: Filters) => {
-    refreshingRepositoryHandle.open();
-    const repositoryItems = await aIMediatorClient.getRepositoryItems(filters);
-    const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
-    setRepositoryItems(repositoryItemsObjs);
-
-    refreshingRepositoryHandle.close();
-  }
-
-  useEffect(() => {
-    refreshPromptOptions(Language.getDefaultCode());
-  }, []);
-
-  const refreshPromptOptions = async (languageCode: string) => {
-    // Init AI Client
-    const aiMediatorClient = new AIMediatorClient();
-
-    setLanguage(new Language(languageCode))
-
-    // Call API
-    // const { repositories, options, filters, modifiers, theme, first_login } = await aiMediatorClient.login(user);
-    // setFirstLogin(first_login);
-
-
-    // setColorScheme(user.theme)
-
-    // Filters
-    // setFilters(filters);
-    // setSelectedFilters(filters);
-    // setOptions(Options.buildFromApi(options));
-
-    // const repositoryItems = await aiMediatorClient.getRepositoryItems(filters, aiMediatorClient.repositoryItemsLimit, 0);
-    const repositoriesObjs = repositories.map((r: any) => Repository.buildFromApi(r));
-    setRepositories(repositoriesObjs);
-    setRepository(repositoriesObjs[0]);
-    const repositoryItemsObjs = repositoryItems.map((r: any) => RepositoryItem.buildFromApi(r));
-    setRepositoryItems(repositoryItemsObjs);
-    refreshingRepositoryHandle.close();
-
-
-    // Refresh Options
-    // const optionsObj = PromptOptions.buildFromApi(options);
-    // setPromptOptions(optionsObj);
-
-    // Refresh Technologies
-    // const currentTechnology = optionsObj.getDefaultTechnology();
-    // setTechnology(currentTechnology);
-    // setTechnologies(optionsObj.getTechnologies());
-
-    // Refresh Providers
-    // const currentProvider = optionsObj.getDefaultProvider(currentTechnology.slug);
-    // setProvider(currentProvider);
-    // setProviders(optionsObj.getProviders(currentTechnology.slug));
-
-    // Refresh Parameters
-    // const parameters = optionsObj.getParameters(currentTechnology.slug, currentProvider.slug);
-    setParameters(parameters);
-
-    // Refresh Modifiers
-    setModifiers(modifiers);
-    setActiveModifiers([]);
-
-    // Refresh User Options
-    // const newUserPromptOptions = userPromptOptions;
-    // newUserPromptOptions.setTechnology(currentTechnology);
-    // newUserPromptOptions.setProvider(currentProvider);
-    // newUserPromptOptions.setLanguage(languageCode);
-    // setUserPromptOptions(newUserPromptOptions);
-
-    overlayHandle.close();
-
-
-    // if (first_login === true) {
-    //   const thread = new Thread();
-    //   thread.request.intro = true;
-    //   setThreads([...threads, thread]);
-    //   scrollIntoView({ alignment: 'start' });
-    // }
-  }
-
-  const handleOnChangeTechnology = (newTechnologySlug: string) => {
-    const technology = promptOptions.getTechnologyBySlug(newTechnologySlug);
-    setTechnology(technology);
-
-    const providers = promptOptions.getProviders(newTechnologySlug);
-    setProviders(providers);
-
-    const newProvider = promptOptions.getDefaultProvider(newTechnologySlug);
-    setProvider(newProvider);
-
-    const parameters = promptOptions.getParameters(newTechnologySlug, newProvider.slug);
-    console.log(parameters);
-    setParameters(parameters);
-
-    const modifiers = promptOptions.getModifiers(newTechnologySlug);
-    setModifiers(modifiers);
-    setActiveModifiers([]);
-
-    // Update user prompt options
-    const newUserPromptOptions = userPromptOptions;
-    newUserPromptOptions.setTechnology(technology);
-    newUserPromptOptions.setProvider(newProvider);
-    newUserPromptOptions.setParameters(parameters);
-    newUserPromptOptions.setModifiers(modifiers);
-    setUserPromptOptions(newUserPromptOptions);
-
-    setRepositorySelectedItems([]);
-  }
-
-  const handleOnChangeProvider = (newProviderSlug: string) => {
-    const newProvider = promptOptions.getProviderBySlug(newProviderSlug);
-    setProvider(newProvider);
-
-    // Update user prompt options
-    const newUserPromptOptions = userPromptOptions;
-    newUserPromptOptions.setProvider(newProvider);
-    setUserPromptOptions(newUserPromptOptions);
-  }
-
-  const resetChat = () => {
-    setThreads([]);
-  }
-
   return (
     <Box>
       <AppOverlay visible={overlayVisible} />
@@ -254,9 +65,6 @@ export function HomePage() {
         }}
         footer={{
           height: { base: 110 }
-        }}
-        classNames={{
-          navbar: cx(computedColorScheme)
         }}
       >
         <AppShell.Header withBorder={false} p={"md"} >
@@ -284,7 +92,7 @@ export function HomePage() {
                   </UnstyledButton>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Menu.Item onClick={resetChat} color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
+                  <Menu.Item  color='blue' leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
                     New Chat
                   </Menu.Item>
                   <Menu.Item disabled leftSection={<IconHistory style={{ width: rem(14), height: rem(14) }} />}>
@@ -294,34 +102,21 @@ export function HomePage() {
               </Menu>
             </Group>
             <Group>
-              {/* <ColorSchemeToggle /> */}
-              <UserMenu
-                refreshRepository={refreshRepository}
-                aiMediatorClient={aIMediatorClient}
-                setFirstLogin={setFirstLogin}
+              <ColorSchemeToggle />
+              {/* <UserMenu
                 threads={threads}
                 setThreads={setThreads}
                 scrollIntoView={scrollIntoView}
-              />
+              /> */}
             </Group>
           </Group>
         </AppShell.Header>
 
-        <AppShell.Navbar withBorder={false} p="md">
+        <AppShell.Navbar withBorder={false} p="md" className={classes.navbar}>
           <AppShell.Section >
             <CraftsContainerHeader
               navbarOpened={navbarOpened}
               toggleNavbar={navbarHandle.toggle}
-              openFilters={filtersPanelHandle.open}
-              filtersOpened={filtersPanelOpened}
-              closeFilters={filtersPanelHandle.close}
-              repositorySearchTerm={repositorySearchTerm}
-              setRepositorySearchTerm={setRepositorySearchTerm}
-              refreshRepository={refreshRepository}
-              refreshingRepository={refreshingRepository}
-              refreshingRepositoryHandle={refreshingRepositoryHandle}
-              aiMediatorClient={aIMediatorClient}
-              repositorySelectedItems={repositorySelectedItems}
             />
           </AppShell.Section>
           <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
@@ -330,53 +125,34 @@ export function HomePage() {
         </AppShell.Navbar>
 
         <AppShell.Main>
-          <ChatContainer
+          {/* <ChatContainer
             threads={threads}
             setThreads={setThreads}
             targetRef={targetRef}
             aIMediatorClient={aIMediatorClient}
-            userPromptOptions={userPromptOptions}
-            setUserPromptOptions={setUserPromptOptions}
-            refreshPromptOptions={refreshPromptOptions}
             scrollIntoView={scrollIntoView}
             user={currentUser}
             repository={repository}
-            language={language}
             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
             refreshRepository={refreshRepository}
             theme={computedColorScheme}
             firstLogin={firstLogin}
             setFirstLogin={setFirstLogin}
-          />
+          /> */}
         </AppShell.Main>
 
         <AppShell.Footer withBorder={false}>
-          <ChatToolbar
+          {/* <ChatToolbar
             aIMediatorClient={aIMediatorClient}
-            userPromptOptions={userPromptOptions}
             scrollIntoView={scrollIntoView}
             threads={threads}
             setThreads={setThreads}
-            promptOptions={promptOptions}
-            technology={technology}
-            technologies={technologies}
-            handleOnChangeTechnology={handleOnChangeTechnology}
-            provider={provider}
-            providers={providers}
-            modifiers={modifiers}
-            handleOnChangeProvider={handleOnChangeProvider}
-            activeModifiers={activeModifiers}
-            setActiveModifiers={setActiveModifiers}
-            setUserPromptOptions={setUserPromptOptions}
-            parameters={parameters}
-            refreshPromptOptions={refreshPromptOptions}
             user={currentUser}
             repository={repository}
-            language={language}
             repositorySelectedItems={repositorySelectedItems}
             setRepositorySelectedItems={setRepositorySelectedItems}
             openRepositoryItemDetailsSelected={openRepositoryItemDetailsSelected}
-          />
+          /> */}
         </AppShell.Footer>
       </AppShell>
     </Box>

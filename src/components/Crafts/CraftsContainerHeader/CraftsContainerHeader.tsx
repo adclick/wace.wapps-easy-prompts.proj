@@ -1,27 +1,19 @@
-import { Tooltip, ActionIcon, Badge, Box, Burger, Group, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput, Modal } from "@mantine/core";
-import { IconUsersGroup, IconUser, IconWorld, IconArrowBackUp, IconChevronDown, IconChevronUp, IconCircle, IconFilter, IconFilterFilled, IconList, IconLock, IconPlus, IconPrompt, IconRefresh, IconSearch, IconSearchOff, IconSparkles, IconSwitch, IconSwitchHorizontal, IconTemplate, IconTrash, IconUserPlus, IconUsers, IconZoomFilled, IconArrowsSort, IconSettings } from "@tabler/icons-react";
+import { Tooltip, ActionIcon, Box, Burger, Group, Menu, Stack, Text, UnstyledButton, rem } from "@mantine/core";
+import { IconChevronDown, IconFilter, IconSparkles, IconUserPlus, IconUsers, IconArrowsSort, IconSettings } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { RepositoryItem } from "../../../model/RepositoryItem";
 import { NewModifierModal } from "../NewModifierModal/NewModifierModal";
-import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer"
+import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useUser } from "../../../context/UserContext";
 import { SearchTermFilter } from "../../Filters/SearchTermFilter/SearchTermFilter";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { SelectedFilters } from "../../../model/SelectedFilters";
 
 interface CraftsContainerHeader {
     navbarOpened: boolean,
     toggleNavbar: any,
-    openFilters: any,
-    filtersOpened: boolean
-    closeFilters: any
-    repositorySearchTerm: string,
-    setRepositorySearchTerm: any,
-    refreshRepository: any,
-    refreshingRepositoryHandle: any,
-    repositorySelectedItems: RepositoryItem[]
 }
 
 export function CraftsContainerHeader({

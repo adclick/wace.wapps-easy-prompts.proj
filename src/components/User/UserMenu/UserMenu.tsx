@@ -17,8 +17,6 @@ interface UserMenu {
 }
 
 export function UserMenu({
-    refreshRepository,
-    aiMediatorClient,
     setFirstLogin,
     threads,
     setThreads,

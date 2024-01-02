@@ -1,10 +1,11 @@
-import { SimpleGrid, Popover, Card, Divider, Accordion, AccordionControl, AccordionItem, ActionIcon, Badge, Box, Button, Group, Menu, Rating, Stack, Text, Tooltip, rem, Collapse, Chip, Paper, Center } from "@mantine/core";
-import { IconArrowRight, IconDotsVertical, IconInfoCircle, IconLock, IconPencil, IconPlayerPlayFilled, IconPrompt, IconShare, IconSparkles, IconStarFilled, IconTemplate, IconTrash, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react";
+import { Divider, Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center } from "@mantine/core";
+import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { Craft } from "../../../model/Craft";
 import { Technology } from "../../../model/Technology";
 import { IconClock } from "@tabler/icons-react";
-import { useAuth0 } from "@auth0/auth0-react";
 import dateUtils from "../../../utils/dateUtils";
+import { useDisclosure } from "@mantine/hooks";
+import { CraftCardDetails } from "../CraftCardDetails/CraftCardDetails";
 
 interface CraftCard {
     craft: Craft,
@@ -13,8 +14,12 @@ interface CraftCard {
 export function CraftCard({
     craft,
 }: CraftCard) {
-    const use = (e: any) => {
+    const [craftDetailsOpened, craftDetailsHandle] = useDisclosure(false);
+
+    const play = (e: any) => {
         e.stopPropagation();
+
+
     }
 
     return (
@@ -48,13 +53,18 @@ export function CraftCard({
                                 <Text size="xs">{craft.stars}</Text>
                             </Group>
                         </Group>
-                        <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => use(e)}>
+                        <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => play(e)}>
                             <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
                         </ActionIcon>
                     </Group>
                 </Stack>
             </Accordion.Control >
             <Accordion.Panel>
+                <CraftCardDetails 
+                    opened={craftDetailsOpened}
+                    handle={craftDetailsHandle}
+                    craft={craft}
+                />
                 <Stack>
                     <Divider />
                     <Text size="xs">{craft.description}</Text>
@@ -63,7 +73,7 @@ export function CraftCard({
                         <Text size="xs" fw={500}>{craft.technologies.name}</Text>
                     </Stack>
                     <Center>
-                        <Button variant="transparent" size="xs">
+                        <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>
                             Read more
                         </Button>
                     </Center>
@@ -74,7 +84,7 @@ export function CraftCard({
                         </Group>
                         <Group gap={"xs"}>
                             <IconClock size={12} />
-                            <Text size="xs" c="gray.9">{dateUtils.timeAgo(new Date(craft.created_at))}</Text>
+                            <Text size="xs">{dateUtils.timeAgo(new Date(craft.created_at))}</Text>
                         </Group>
                     </Group>
                 </Stack>

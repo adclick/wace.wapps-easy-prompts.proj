@@ -1,5 +1,5 @@
-import { Select, Menu, ActionIcon, Popover, Box, Badge, Button, Center, Divider, Drawer, Group, Indicator, Loader, ScrollAreaAutosize, Stack, Tabs, Text, Textarea, Title, Tooltip, rem, useComputedColorScheme } from "@mantine/core";
-import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconCheck, IconDeviceFloppy, IconPlayerPlayFilled, IconReload, IconSettings, IconTemplate, IconExclamationMark, IconLanguage, IconListSearch, IconPhoto, IconPencil, IconClipboardCheck, IconClipboardText, IconHeadphones, IconLayersSubtract } from "@tabler/icons-react";
+import { ActionIcon, Popover, Box, Button, Center, Group, Stack, Textarea, Tooltip, useComputedColorScheme } from "@mantine/core";
+import { IconX, IconSparkles, IconAdjustmentsHorizontal, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import cx from 'clsx';
 import { AIMediatorClient } from "../../../clients/AIMediatorClient";
@@ -12,13 +12,12 @@ import { Provider } from "../../../model/Provider";
 import { Modifier } from "../../../model/Modifier";
 import { Parameter } from "../../../model/Parameter";
 import { PromptOptionsPanel } from "../../Prompt/PromptOptionsPanel";
-import { User } from "../../../model/User"
+import { User } from "../../../model/User";
 import { Repository } from "../../../model/Repository";
 import { Language } from "../../../model/Language";
 import { useState } from "react";
 import { RepositoryItem } from "../../../model/RepositoryItem";
 import { TechnologiesMenu } from "../../Layout/Menus/TechnologiesMenu/TechnologiesMenu";
-import { useDefaultTechnologyQuery } from "../../../api/technologiesApi";
 import { useOptions } from "../../../context/OptionsContext";
 
 

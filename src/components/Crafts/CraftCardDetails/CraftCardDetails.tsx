@@ -1,4 +1,4 @@
-import { Modal } from "@mantine/core"
+import { Modal, Tabs } from "@mantine/core"
 import { Craft } from "../../../model/Craft"
 import { useDeleteCraftMutation } from "../../../api/craftsApi";
 import { notifications } from "@mantine/notifications";
@@ -43,8 +43,17 @@ export function CraftCardDetails({
     }
 
     return (
-        <Modal opened={opened} onClose={handle.close} title={craft.name}>
-
+        <Modal opened={opened} onClose={handle.close} title={craft.name} size={"lg"}>
+            <Tabs>
+                <Tabs.List grow>
+                    <Tabs.Tab value="details">Details</Tabs.Tab>
+                    <Tabs.Tab value="reviews">Reviews</Tabs.Tab>
+                </Tabs.List>
+                <Tabs.Panel value="details">
+                </Tabs.Panel>
+                <Tabs.Panel value="reviews">
+                </Tabs.Panel>
+            </Tabs>
         </Modal>
     )
 }
