@@ -6,6 +6,8 @@ import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
 import { CraftCardDetails } from "../CraftCardDetails/CraftCardDetails";
+import { useThreads } from "../../../context/ThreadsContext";
+import { Request, Thread } from "../../../model/Thread";
 
 interface CraftCard {
     craft: Craft,
@@ -15,11 +17,20 @@ export function CraftCard({
     craft,
 }: CraftCard) {
     const [craftDetailsOpened, craftDetailsHandle] = useDisclosure(false);
+    const {threads, setThreads} = useThreads();
 
     const play = (e: any) => {
         e.stopPropagation();
 
-
+        const newRequest = new Request();
+        newRequest.text = craft.name;
+        const newThread = new Thread();
+        newThread.requests.push(newRequest);
+        
+        setThreads([
+            ...threads,
+            newThread
+        ]);
     }
 
     return (
@@ -35,7 +46,7 @@ export function CraftCard({
                                 {craft.name}
                             </Text>
                         </Stack>
-                        <ActionIcon variant="transparent" color="gray.9">
+                        <ActionIcon component="a" variant="transparent" color="gray.9">
                             {
                                 Technology.getIcon(craft.technology.slug, 16)
                             }

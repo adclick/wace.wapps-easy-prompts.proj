@@ -2,7 +2,7 @@ import React, { createContext, useContext, ReactNode, useState } from 'react';
 import { SelectedFilters } from '../model/SelectedFilters';
 
 interface SelectedFiltersContextProps {
-    selectedFilters: SelectedFilters; // Replace YourFiltersType with the actual type of your filters
+    selectedFilters: SelectedFilters;
     setSelectedFilters: React.Dispatch<React.SetStateAction<SelectedFilters>>;
 }
 
