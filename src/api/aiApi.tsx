@@ -8,6 +8,7 @@ export const useAIQuery = (request: Request, userId: string, responded: boolean)
         queryFn: async () => {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/ai/${request.technology.slug}/?` + new URLSearchParams({
                 text: request.text,
+                providerId: request.provider.id.toString()
             }));
 
             return data;
