@@ -9,7 +9,8 @@ export function ChatPromptTextInput() {
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = Request.clone(userRequest);
-        newUserRequest.text = value;
+        newUserRequest.title = value;
+        newUserRequest.prompt = value;
         newUserRequest.timestamp = Date.now();
         setUserRequest(newUserRequest);
     }
@@ -39,7 +40,7 @@ export function ChatPromptTextInput() {
 
             }}
             radius={'xl'}
-            value={userRequest.text}
+            value={userRequest.prompt}
             onChange={e => updateUserRequestText(e.target.value)}
             onKeyDown={play}
         />

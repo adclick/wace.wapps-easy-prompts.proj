@@ -12,7 +12,7 @@ export function ChatPromptOptionsMenu() {
                     </Tooltip>
                 </ActionIcon>
             </Popover.Target>
-            <Popover.Dropdown p={0}>
+            <Popover.Dropdown>
                 <Stack>
                     <ChatPromptProvidersField />
                 </Stack>

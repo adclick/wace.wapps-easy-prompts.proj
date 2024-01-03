@@ -34,7 +34,9 @@ export function ChatPromptTechnologiesMenu() {
                         pos={"absolute"}
                         left={"30px"}
                     >
-                        <IconPencil />
+                        {
+                            Technology.getIcon(userRequest.technology.slug, 20)
+                        }
                     </ActionIcon>
                 </Tooltip>
             </Menu.Target>
@@ -45,10 +47,13 @@ export function ChatPromptTechnologiesMenu() {
                         technologiesQuery.data.map((t: Technology) => {
                             return (
                                 <Menu.Item
+                                    leftSection={
+                                        Technology.getIcon(t.slug, 14)
+                                    }
                                     rightSection={
-                                        t.id === userRequest.technology.id 
-                                        ? <IconCheck size={12} />
-                                        : <></>
+                                        t.id === userRequest.technology.id
+                                            ? <IconCheck size={12} />
+                                            : <></>
                                     }
                                     key={t.id}
                                     onClick={() => updateTechnology(t)}

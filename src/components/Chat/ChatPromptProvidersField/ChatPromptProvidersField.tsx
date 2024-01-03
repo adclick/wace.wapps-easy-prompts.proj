@@ -50,6 +50,11 @@ export function ChatPromptProvidersField() {
     }
 
     return (
-        <Select value={userRequest.provider.id.toString()} data={providersData} onChange={onChange} />
+        <Select
+            label="Provider"
+            value={userRequest.provider.id.toString()}
+            data={providersData}
+            onChange={onChange}
+        />
     )
 }

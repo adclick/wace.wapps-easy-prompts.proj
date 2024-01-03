@@ -1,3 +1,8 @@
+import { CraftParameter } from "./CraftParameter";
+import { Provider } from "./Provider";
+import { Technology } from "./Technology";
+import { User } from "./User";
+
 export class Craft {
     id: number;
     name: string;
@@ -9,10 +14,12 @@ export class Craft {
     created_at: Date;
     type: string;
     metadata: string;
-    user: {id: number, email: string, username: string}
+    user: User
     language: {id: number, name: string, slug: string}
     repository: {id: number, name: string, slug: string}
-    technology: {id: number, name: string, slug: string}
+    technology: Technology;
+    provider: Provider;
+    crafts_parameters: CraftParameter[];
     
     constructor() {
         this.id = 0;
@@ -25,9 +32,11 @@ export class Craft {
         this.created_at = new Date();
         this.type = "";
         this.metadata = "";
-        this.user = {id: 0, email: "", username: ""}
+        this.user = new User()
         this.language = {id: 0, name: "", slug: ""}
         this.repository = {id: 0, name: "", slug: ""}
-        this.technology = {id: 0, name: "", slug: ""}
+        this.technology = new Technology();
+        this.provider = new Provider();
+        this.crafts_parameters = [];
     }
 }

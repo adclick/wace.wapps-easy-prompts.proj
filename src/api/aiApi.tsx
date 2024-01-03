@@ -3,12 +3,17 @@ import axios from 'axios';
 import { Request } from '../model/Request';
 
 export const useAIQuery = (request: Request, userId: string, responded: boolean) => {
+    const parameters = request.crafts_parameters.map(cp => {
+        return {slug: cp.parameter.slug, value: cp.value}
+    });
+
     return useQuery({
         queryKey: ["ai", request.technology.slug, request.timestamp],
         queryFn: async () => {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/ai/${request.technology.slug}/?` + new URLSearchParams({
-                text: request.text,
-                providerId: request.provider.id.toString()
+                text: request.prompt,
+                providerId: request.provider.id.toString(),
+                parameters: JSON.stringify(parameters)
             }));
 
             return data;

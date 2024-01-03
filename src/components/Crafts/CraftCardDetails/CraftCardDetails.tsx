@@ -1,7 +1,8 @@
-import { Modal, Tabs } from "@mantine/core"
+import { Group, Modal, Tabs, Text } from "@mantine/core"
 import { Craft } from "../../../model/Craft"
 import { useDeleteCraftMutation } from "../../../api/craftsApi";
 import { notifications } from "@mantine/notifications";
+import { IconDetails, IconFileDescription, IconMessage } from "@tabler/icons-react";
 
 interface CraftCardDetails {
     opened: boolean,
@@ -44,10 +45,14 @@ export function CraftCardDetails({
 
     return (
         <Modal opened={opened} onClose={handle.close} title={craft.name} size={"lg"}>
-            <Tabs>
+            <Tabs defaultValue={"details"}>
                 <Tabs.List grow>
-                    <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="reviews">Reviews</Tabs.Tab>
+                    <Tabs.Tab leftSection={<IconFileDescription size={14} />} value="details">
+                        Details
+                    </Tabs.Tab>
+                    <Tabs.Tab leftSection={<IconMessage size={14} />} value="reviews">
+                        Reviews
+                    </Tabs.Tab>
                 </Tabs.List>
                 <Tabs.Panel value="details">
                 </Tabs.Panel>
