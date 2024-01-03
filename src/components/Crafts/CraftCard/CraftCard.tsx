@@ -29,7 +29,7 @@ export function CraftCard({
                     <Group justify="space-between" wrap="nowrap" align="flex-start">
                         <Stack gap={0}>
                             <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                {craft.repositories.name}
+                                {craft.repository.name}
                             </Badge>
                             <Text size="sm" fw={500} lineClamp={20}>
                                 {craft.name}
@@ -37,7 +37,7 @@ export function CraftCard({
                         </Stack>
                         <ActionIcon variant="transparent" color="gray.9">
                             {
-                                Technology.getIcon(craft.technologies.slug, 16)
+                                Technology.getIcon(craft.technology.slug, 16)
                             }
                         </ActionIcon>
                     </Group>
@@ -70,7 +70,7 @@ export function CraftCard({
                     <Text size="xs">{craft.description}</Text>
                     <Stack gap={"xs"}>
                         <Text size="xs" fw={500}>{craft.type.toUpperCase()}</Text>
-                        <Text size="xs" fw={500}>{craft.technologies.name}</Text>
+                        <Text size="xs" fw={500}>{craft.technology.name}</Text>
                     </Stack>
                     <Center>
                         <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>
@@ -80,7 +80,7 @@ export function CraftCard({
                     <Group justify="space-between">
                         <Group gap={"xs"}>
                             <IconUser size={12} />
-                            <Text size="xs">{craft.users.username}</Text>
+                            <Text size="xs">{craft.user.username}</Text>
                         </Group>
                         <Group gap={"xs"}>
                             <IconClock size={12} />

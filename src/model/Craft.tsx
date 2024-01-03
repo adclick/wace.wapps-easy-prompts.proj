@@ -9,10 +9,10 @@ export class Craft {
     created_at: Date;
     type: string;
     metadata: string;
-    users: {id: number, email: string, username: string}
-    languages: {id: number, name: string, slug: string}
-    repositories: {id: number, name: string, slug: string}
-    technologies: {id: number, name: string, slug: string}
+    user: {id: number, email: string, username: string}
+    language: {id: number, name: string, slug: string}
+    repository: {id: number, name: string, slug: string}
+    technology: {id: number, name: string, slug: string}
     
     constructor() {
         this.id = 0;
@@ -25,9 +25,9 @@ export class Craft {
         this.created_at = new Date();
         this.type = "";
         this.metadata = "";
-        this.languages = {id: 0, name: "", slug: ""}
-        this.users = {id: 0, email: "", username: ""}
-        this.repositories = {id: 0, name: "", slug: ""}
-        this.technologies = {id: 0, name: "", slug: ""}
+        this.user = {id: 0, email: "", username: ""}
+        this.language = {id: 0, name: "", slug: ""}
+        this.repository = {id: 0, name: "", slug: ""}
+        this.technology = {id: 0, name: "", slug: ""}
     }
 }
