@@ -1,18 +1,18 @@
 import { Box, Stack } from "@mantine/core";
-import { Thread } from "../../../model/Thread";
-import { ChatThread } from "../ChatThread/ChatThread";
-import { useThreads } from "../../../context/ThreadsContext";
+import { ChatRequest } from "../ChatRequest/ChatRequest";
+import { useRequests } from "../../../context/RequestsContext";
+import { Request } from "../../../model/Request";
 
 export function ChatContainer() {
-    const { threads } = useThreads();
+    const { requests } = useRequests();
 
     return (
         <Stack gap={"md"} my={"xs"}>
             {
-                threads.map((thread: Thread, index: number) => {
+                requests.map((request: Request, index: number) => {
                     return (
-                        <Box key={thread.id}>
-                            <ChatThread thread={thread} />
+                        <Box key={request.timestamp}>
+                            <ChatRequest request={request} />
                         </Box>
                     )
                 })

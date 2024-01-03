@@ -1,46 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Box, Button, Divider, Group, Menu, Stack, Text, Title, Tooltip, UnstyledButton, rem } from "@mantine/core";
-import { IconActivity, IconBell, IconExternalLink, IconFileDescription, IconFlag, IconInfoCircle, IconLanguage, IconLogout, IconMail, IconPlus, IconPrompt, IconQuestionMark, IconSettings, IconSparkles, IconTemplate, IconUser, IconUserPlus, IconUsers } from "@tabler/icons-react";
+import { Avatar, Box, Menu, Stack, Text, UnstyledButton, rem } from "@mantine/core";
+import { IconBell, IconExternalLink, IconFileDescription, IconLogout, IconQuestionMark, IconUser } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { UserProfile } from "../UserProfile/UserProfile";
 import { useDisclosure } from "@mantine/hooks";
-import { AIMediatorClient } from "../../../clients/AIMediatorClient";
-import { Thread } from "../../../model/Thread";
 
-interface UserMenu {
-    refreshRepository: any,
-    aiMediatorClient: AIMediatorClient,
-    setFirstLogin: any,
-    threads: Thread[],
-    setThreads: any,
-    scrollIntoView: any,
-}
-
-export function UserMenu({
-    setFirstLogin,
-    threads,
-    setThreads,
-    scrollIntoView,
-}: UserMenu) {
+export function UserMenu() {
     const { t } = useTranslation();
     const { user, logout } = useAuth0();
     const [userProfileOpened, userProfileHandle] = useDisclosure(false);
-    const [userFeedbackModalOpened, userFeedbackModalHandle] = useDisclosure(false);
-
-    const howItWorks = () => {
-        const thread = new Thread();
-        thread.request.intro = true;
-        setThreads([...threads, thread]);
-        scrollIntoView({ alignment: 'start' });
-    }
 
     return (
         <Box>
             <UserProfile
-                userProfileOpened={userProfileOpened}
-                closeUserProfile={userProfileHandle.close}
-                refreshRepository={refreshRepository}
-                aiMediatorClient={aiMediatorClient}
+                opened={userProfileOpened}
+                handle={userProfileHandle}
             />
             <Menu position="bottom-end">
                 <Menu.Target>
@@ -71,7 +45,7 @@ export function UserMenu({
                     <Menu.Item disabled leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
                         Changelog
                     </Menu.Item>
-                    <Menu.Item onClick={howItWorks} leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
+                    <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
                         How it works
                     </Menu.Item>
                     <Menu.Divider />

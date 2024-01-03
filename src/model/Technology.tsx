@@ -1,37 +1,39 @@
-import { IconLanguage, IconLetterT, IconListSearch, IconPencil, IconPencilStar, IconPhoto, IconTextSize } from "@tabler/icons-react";
-import { Modifier } from "./Modifier";
-import { Provider } from "./Provider";
-import { rem } from '@mantine/core';
+import { IconLanguage, IconListSearch, IconPencilStar, IconPhoto } from "@tabler/icons-react";
 
 export class Technology {
+    id: number;
     name: string;
     slug: string;
     default: boolean;
-    providers: Provider[];
-    modifiers: Modifier[];
 
     constructor(name = "", slug = "") {
+        this.id = 0;
         this.name = name;
         this.slug = slug;
         this.default = false;
-        this.providers = [];
-        this.modifiers = [];
     }
 
-    static buildEmpty() {
-        return new Technology()
+    static clone (technology: Technology) {
+        const newTechnology = new Technology();
+        
+        newTechnology.id = technology.id;
+        newTechnology.name = technology.name;
+        newTechnology.slug = technology.slug;
+        newTechnology.default = technology.default;
+
+        return newTechnology;
     }
 
-    static getIcon(slug: string, size: number|string) {
+    static getIcon(slug: string, size: number | string) {
         switch (slug) {
             case 'text-generation':
-                return <IconPencilStar style={{ width: rem(size), height: rem(size) }} />
+                return <IconPencilStar size={size} />
             case 'image-generation':
-                return <IconPhoto style={{ width: rem(size), height: rem(size) }} />
+                return <IconPhoto size={size} />
             case 'keywords-extraction':
-                return <IconListSearch style={{ width: rem(size), height: rem(size) }} />
+                return <IconListSearch size={size} />
             case 'translation':
-                return <IconLanguage style={{ width: rem(size), height: rem(size) }} />
+                return <IconLanguage size={size} />
         }
     }
 }

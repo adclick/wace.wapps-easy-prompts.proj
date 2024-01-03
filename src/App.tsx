@@ -10,7 +10,8 @@ import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from './context/UserContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { ThreadsProvider } from './context/ThreadsContext';
+import { RequestsProvider } from './context/RequestsContext';
+import { UserRequestProvider } from './context/UserRequestContext';
 
 
 export default function App() {
@@ -29,10 +30,12 @@ export default function App() {
           <UserProvider>
             <OptionsProvider>
               <SelectedFiltersProvider>
-                <ThreadsProvider>
-                  <Notifications />
-                  <Router />
-                </ThreadsProvider>
+                <RequestsProvider>
+                  <UserRequestProvider>
+                    <Notifications />
+                    <Router />
+                  </UserRequestProvider>
+                </RequestsProvider>
               </SelectedFiltersProvider>
             </OptionsProvider>
           </UserProvider>
