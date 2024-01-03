@@ -13,7 +13,7 @@ export class Technology {
         this.default = false;
     }
 
-    static clone (technology: Technology) {
+    static clone (technology: Technology): Technology {
         const newTechnology = new Technology();
         
         newTechnology.id = technology.id;

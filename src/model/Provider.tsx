@@ -1,15 +1,21 @@
-import { Parameter } from "./Parameter";
-
 export class Provider {
+    id: number;
     name: string;
     slug: string;
-    default: boolean;
-    parameters: Parameter[];
 
     constructor(name = "", slug = "") {
+        this.id = 0;
         this.name = name;
         this.slug = slug;
-        this.default = false;
-        this.parameters = [];
+    }
+
+    static clone(provider: Provider): Provider {
+        const newProvider = new Provider();
+
+        newProvider.id = provider.id;
+        newProvider.name = provider.name;
+        newProvider.slug = provider.slug;
+
+        return newProvider;
     }
 }

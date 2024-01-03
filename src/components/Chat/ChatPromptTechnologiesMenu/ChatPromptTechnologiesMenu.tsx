@@ -1,26 +1,27 @@
 import { ActionIcon, Menu, Tooltip } from "@mantine/core";
 import { IconCheck, IconPencil } from "@tabler/icons-react";
-import { useFiltersQuery } from "../../../api/filtersApi";
-import { useUser } from "../../../context/UserContext";
 import { useUserRequest } from "../../../context/UserRequestContext";
-import { Request } from "../../../model/Request";
 import { Technology } from "../../../model/Technology";
+import { useDefaultTechnologyQuery, useTechnologiesQuery } from "../../../api/technologiesApi";
+import { useEffect } from "react";
+import { Request } from "../../../model/Request";
 
 export function ChatPromptTechnologiesMenu() {
-    const { user } = useUser();
-    const { data, isLoading, isSuccess } = useFiltersQuery(user.id);
     const { userRequest, setUserRequest } = useUserRequest();
+    const technologiesQuery = useTechnologiesQuery();
+    const defaultTechnologyQuery = useDefaultTechnologyQuery();
 
-    const updateUserRequestTechnology = (technology: Technology) => {
+    // Update UserRequest with default Technology
+    useEffect(() => {
+        if (defaultTechnologyQuery.data && userRequest.technology.id <= 0) {
+            updateTechnology(defaultTechnologyQuery.data);
+        }
+    }, [defaultTechnologyQuery]);
+
+    const updateTechnology = (technology: Technology) => {
         const newUserRequest = Request.clone(userRequest);
         newUserRequest.technology = Technology.clone(technology);
         setUserRequest(newUserRequest);
-    }
-
-    const getMenuCheck = (key: number) => {
-        if (key !== userRequest.technology.id) return <></>;
-
-        return <IconCheck size={12} />;
     }
 
     return (
@@ -33,22 +34,24 @@ export function ChatPromptTechnologiesMenu() {
                         pos={"absolute"}
                         left={"30px"}
                     >
-                        {
-                            isLoading || isSuccess && <IconPencil />
-                        }
+                        <IconPencil />
                     </ActionIcon>
                 </Tooltip>
             </Menu.Target>
             {
-                data !== undefined &&
+                technologiesQuery.data !== undefined && defaultTechnologyQuery.data !== undefined &&
                 <Menu.Dropdown>
                     {
-                        data.technologies.map((t: Technology) => {
+                        technologiesQuery.data.map((t: Technology) => {
                             return (
                                 <Menu.Item
-                                    rightSection={getMenuCheck(t.id)}
+                                    rightSection={
+                                        t.id === userRequest.technology.id 
+                                        ? <IconCheck size={12} />
+                                        : <></>
+                                    }
                                     key={t.id}
-                                    onClick={() => updateUserRequestTechnology(t)}
+                                    onClick={() => updateTechnology(t)}
                                 >
                                     {t.name}
                                 </Menu.Item>
