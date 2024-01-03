@@ -50,6 +50,7 @@ export function ChatPromptProvidersField() {
     }
 
     return (
+        providersQuery.data !== undefined && defaultProviderQuery.data !== undefined &&
         <Select
             label="Provider"
             value={userRequest.provider.id.toString()}
