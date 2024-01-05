@@ -3,6 +3,8 @@ import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 
 export class Request {
+    id: number;
+    craftId: number;
     title: string;
     prompt: string;
     technology: Technology;
@@ -11,7 +13,9 @@ export class Request {
     timestamp: number;
     response: any;
 
-    constructor(title: string = "", timestamp: number = Date.now()) {
+    constructor(id: number = 0, title: string = "", timestamp: number = Date.now(), craftId: number = 0) {
+        this.id = id;
+        this.craftId = craftId;
         this.title = title;
         this.prompt = "";
         this.technology = new Technology();
@@ -21,9 +25,11 @@ export class Request {
         this.response = "";
     }
 
-    static clone (request: Request): Request {
-        const newRequest = new Request();
+    static clone(request: Request): Request {
+        const newRequest = new Request(request.id);
 
+        newRequest.id = request.id;
+        newRequest.craftId = request.craftId;
         newRequest.title = request.title;
         newRequest.prompt = request.prompt;
         newRequest.timestamp = request.timestamp;

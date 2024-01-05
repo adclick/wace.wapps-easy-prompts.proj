@@ -7,6 +7,7 @@ export const textGeneration = async (request: Request): Promise<string> => {
     const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
         text: request.prompt,
         providerId: request.provider.id.toString(),
+        craftId: request.craftId.toString()
     }));
 
     return data;

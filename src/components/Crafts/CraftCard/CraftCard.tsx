@@ -23,11 +23,9 @@ export function CraftCard({
         e.stopPropagation();
 
         const newRequest = new Request();
-        newRequest.title = craft.name;
-        newRequest.prompt = craft.content;
-        newRequest.provider = craft.provider;
-        newRequest.technology = craft.technology;
-        newRequest.crafts_parameters = craft.crafts_parameters;
+        newRequest.id = requests.length;
+        newRequest.craftId = craft.id;
+        
         setRequests([
             ...requests,
             newRequest

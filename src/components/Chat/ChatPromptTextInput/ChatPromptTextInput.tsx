@@ -9,6 +9,7 @@ export function ChatPromptTextInput() {
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = Request.clone(userRequest);
+        newUserRequest.id = requests.length;
         newUserRequest.title = value;
         newUserRequest.prompt = value;
         newUserRequest.timestamp = Date.now();
