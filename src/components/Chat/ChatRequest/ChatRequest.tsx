@@ -1,71 +1,15 @@
-import { Avatar, Card, Center, Group, Image, Loader, Stack, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Avatar, Card, Group, Stack, Text } from "@mantine/core";
 import { Request } from "../../../model/Request";
 import { useUser } from "../../../context/UserContext";
-import { chat, useAIQuery } from "../../../api/aiApi";
 import favicon from "../../../favicon.svg";
-import { useRequests } from "../../../context/RequestsContext";
+import { ChatRequestResponse } from "../ChatRequestResponse/ChatRequestResponse";
 
 interface ChatRequest {
     request: Request,
 }
 
-const getLoader = () => {
-    return (
-        <Center>
-            <Loader size={"xs"} type="bars" />
-        </Center>
-    );
-}
-
-const generateTextResponse = (response: string) => {
-    return <Text>{response}</Text>
-}
-
-const generateImageResponse = (images: string[]) => {
-    return <Group>
-        {
-            images.map(image => {
-                return <Image key={image} src={image} />
-            })
-        }
-    </Group>
-}
-
 export function ChatRequest({ request }: ChatRequest) {
-    const { requests } = useRequests();
-    const [response, setResponse] = useState(getLoader());
-    const [responded, setResponded] = useState(false);
     const { user } = useUser();
-    // const query = useAIQuery(request, user.id, responded);
-    
-    useEffect(() => {
-        chat(request, requests).then(response => {
-            console.log(response);
-            // setResponse(generateTextResponse(response));
-        });
-    }, []);
-
-
-    // useEffect(() => {
-    //     if (query.data && !responded) {
-    //         switch (request.technology.slug) {
-    //             case 'text-generation':
-    //                 setResponse(generateTextResponse(query.data));
-    //                 break;
-    //                 case 'image-generation':
-    //                     setResponse(generateImageResponse(query.data));
-    //                     break;
-                        
-    //         }
-    //         setResponded(true);
-    //     }
-
-    //     if (query.isError && !responded) {
-    //         setResponse(<Text>Something went wrong. Contact support</Text>);
-    //         setResponded(true);
-    //     }
-    // });
 
     return (
         <Card p={"md"} shadow="sm">
@@ -84,7 +28,7 @@ export function ChatRequest({ request }: ChatRequest) {
                         <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
                         <Text>EasyPrompts</Text>
                     </Group>
-                    {response}
+                    <ChatRequestResponse request={request} />
                 </Stack>
             </Stack>
         </Card>

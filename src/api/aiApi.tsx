@@ -1,27 +1,29 @@
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Request } from '../model/Request';
 
-export const useAIQuery = (request: Request, userId: string, responded: boolean) => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+export const textGeneration = async (request: Request): Promise<string> => {
+    const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
+        text: request.prompt,
+        providerId: request.provider.id.toString(),
+    }));
+
+    return data;
+};
+
+export const imageGeneration = async (request: Request): Promise<string[]> => {
     const parameters = request.crafts_parameters.map(cp => {
         return {slug: cp.parameter.slug, value: cp.value}
     });
 
-    return useQuery({
-        queryKey: ["ai", request.technology.slug, request.timestamp],
-        queryFn: async () => {
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/ai/${request.technology.slug}/?` + new URLSearchParams({
-                text: request.prompt,
-                providerId: request.provider.id.toString(),
-                parameters: JSON.stringify(parameters)
-            }));
+    const { data } = await axios.get(`${API_URL}/ai/image-generation?` + new URLSearchParams({
+        text: request.prompt,
+        providerId: request.provider.id.toString(),
+        parameters: JSON.stringify(parameters)
+    }));
 
-            return data;
-        },
-        enabled: !!userId && !responded,
-        staleTime: Infinity,
-        retry: false
-    });
+    return data;
 };
 
 export const chat = async (currentRequest: Request, requests: Request[]): Promise<string> => {
