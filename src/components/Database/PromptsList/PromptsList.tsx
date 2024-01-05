@@ -1,21 +1,18 @@
 import { Accordion, Box, Center, Loader, Stack } from "@mantine/core"
-import { useCraftsQuery } from "../../../api/craftsApi";
+import { usePromptsQuery } from "../../../api/promptsApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
-import { CraftCard } from "../CraftCard/CraftCard";
-import { Craft } from "../../../model/Craft";
+import { Prompt } from "../../../model/Prompt";
 import { useUser } from "../../../context/UserContext";
+import { PromptCard } from "../PromptCard/PromptCard";
+import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 
-interface CraftsContainer {
-}
-
-export function CraftsContainer({
-}: CraftsContainer) {
+export function PromptsList() {
     const { selectedFilters } = useSelectedFilters();
+    const {promptsSelectedFilters} = usePromptsSelectedFilters();
     const { user } = useUser();
-    const { isLoading, data } = useCraftsQuery(user.id, selectedFilters);
+    const { isLoading, data } = usePromptsQuery(user.id, promptsSelectedFilters);
 
     return (
-
         <Box>
             {
                 isLoading &&
@@ -31,10 +28,10 @@ export function CraftsContainer({
                 }}>
                     {
                         data !== undefined &&
-                        data.map((item: Craft) => {
+                        data.map((prompt: Prompt) => {
                             return (
-                                <CraftCard key={item.id}
-                                    craft={item}
+                                <PromptCard key={prompt.id}
+                                    prompt={prompt}
                                 />
                             )
                         })

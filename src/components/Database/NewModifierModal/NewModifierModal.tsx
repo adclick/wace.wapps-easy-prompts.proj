@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Modal, Select, Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { RepositoryItem } from "../../../model/RepositoryItem";
 import { useUser } from "../../../context/UserContext";
-import { useFiltersQuery } from "../../../api/filtersApi";
-import { useCreateModifierMutation } from "../../../api/craftsApi";
+import { useCreateModifierMutation, usePromptsFiltersQuery } from "../../../api/promptsApi";
 
 interface NewModifierModal {
     opened: boolean,
@@ -16,7 +14,7 @@ export function NewModifierModal({
     handle,
 }: NewModifierModal) {
     const { user } = useUser();
-    const { data } = useFiltersQuery(user.id);
+    const { data } = usePromptsFiltersQuery(user.id);
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');

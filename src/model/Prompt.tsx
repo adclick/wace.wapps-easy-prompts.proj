@@ -3,7 +3,7 @@ import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 import { User } from "./User";
 
-export class Craft {
+export class Prompt {
     id: number;
     name: string;
     slug: string;

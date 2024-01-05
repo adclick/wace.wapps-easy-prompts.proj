@@ -1,19 +1,31 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { SelectedFilters } from '../model/SelectedFilters';
+import { ModifiersSelectedFilters } from '../model/ModifiersSelectedFilters';
 
-export const useCraftsQuery = (userId: string, selectedFilters: SelectedFilters) => {
+export const useModifiersFiltersQuery = (userId: string) => {
     return useQuery({
-        queryKey: ["crafts", selectedFilters],
+        queryKey: ["modifiers", "filters", userId],
         queryFn: async () => {
-            const { search_term, languages_ids, repositories_ids, technologies_ids, crafts_types } = selectedFilters;
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/crafts/?` + new URLSearchParams({
+            // Your API call to fetch crafts
+            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/modifiers/filters/?` + new URLSearchParams({userId}));
+
+            return data;
+        },
+        enabled: !!userId
+    });
+};
+
+export const useModifierssQuery = (userId: string, selectedFilters: ModifiersSelectedFilters) => {
+    return useQuery({
+        queryKey: ["modifiers", selectedFilters],
+        queryFn: async () => {
+            const { search_term, languages_ids, repositories_ids } = selectedFilters;
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/modifiers/?` + new URLSearchParams({
                 userId,
                 search_term,
                 languages_ids: languages_ids.join(','),
                 repositories_ids: repositories_ids.join(','),
-                technologies_ids: technologies_ids.join(','),
-                crafts_types: crafts_types.join(',')
             }));
 
             return data;

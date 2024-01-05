@@ -3,8 +3,7 @@ import { AppShell, Box, Group, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { User } from '../model/User';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
-import { CraftsContainer } from '../components/Crafts/CraftsContainer/CraftsContainer';
-import { CraftsContainerHeader } from '../components/Crafts/CraftsContainerHeader/CraftsContainerHeader';
+import { PromptsList } from '../components/Database/PromptsList/PromptsList';
 import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
@@ -15,6 +14,7 @@ import { UserMenu } from '../components/User/UserMenu/UserMenu';
 import { ChatPromptContainer } from '../components/Chat/ChatPromptContainer/ChatPromptContainer';
 import { HeaderBurgerMenu } from '../components/Layout/HeaderBurgerMenu/HeaderBurgerMenu';
 import classes from './Home.page.module.css';
+import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 
 export function HomePage() {
     const [navbarOpened, navbarHandle] = useDisclosure(false);
@@ -70,10 +70,10 @@ export function HomePage() {
 
                 <AppShell.Navbar withBorder={false} p="md" className={classes.navbar}>
                     <AppShell.Section >
-                        <CraftsContainerHeader navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
+                        <DatabaseHeader navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
                     </AppShell.Section>
                     <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-                        <CraftsContainer />
+                        <PromptsList />
                     </AppShell.Section>
                 </AppShell.Navbar>
 

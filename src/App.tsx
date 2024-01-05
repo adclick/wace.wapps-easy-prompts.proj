@@ -11,6 +11,9 @@ import { UserProvider } from './context/UserContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { RequestsProvider } from './context/RequestsContext';
 import { UserRequestProvider } from './context/UserRequestContext';
+import { PromptsSelectedFiltersProvider } from './context/ModifiersSelectedFiltersContext';
+import { SelectedDatabaseTypeProvider } from './context/SelectedDatabaseTypeContext';
+import { ModifiersSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext copy';
 
 
 export default function App() {
@@ -27,14 +30,20 @@ export default function App() {
       <MantineProvider defaultColorScheme='dark' theme={theme}>
         <QueryClientProvider client={queryClient}>
           <UserProvider>
-            <SelectedFiltersProvider>
-              <RequestsProvider>
-                <UserRequestProvider>
-                  <Notifications />
-                  <Router />
-                </UserRequestProvider>
-              </RequestsProvider>
-            </SelectedFiltersProvider>
+            <SelectedDatabaseTypeProvider>
+              <SelectedFiltersProvider>
+                <PromptsSelectedFiltersProvider>
+                  <ModifiersSelectedFiltersProvider>
+                    <RequestsProvider>
+                      <UserRequestProvider>
+                        <Notifications />
+                        <Router />
+                      </UserRequestProvider>
+                    </RequestsProvider>
+                  </ModifiersSelectedFiltersProvider>
+                </PromptsSelectedFiltersProvider>
+              </SelectedFiltersProvider>
+            </SelectedDatabaseTypeProvider>
           </UserProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

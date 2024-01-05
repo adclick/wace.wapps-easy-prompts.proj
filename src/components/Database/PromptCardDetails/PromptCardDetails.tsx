@@ -1,26 +1,26 @@
-import { Group, Modal, Tabs, Text } from "@mantine/core"
-import { Craft } from "../../../model/Craft"
-import { useDeleteCraftMutation } from "../../../api/craftsApi";
+import { Modal, Tabs } from "@mantine/core";
+import { Prompt } from "../../../model/Prompt";
+import { useDeleteCraftMutation } from "../../../api/promptsApi";
 import { notifications } from "@mantine/notifications";
-import { IconDetails, IconFileDescription, IconMessage } from "@tabler/icons-react";
+import { IconFileDescription, IconMessage } from "@tabler/icons-react";
 
-interface CraftCardDetails {
+interface PromptCardDetails {
     opened: boolean,
     handle: any,
-    craft: Craft
+    prompt: Prompt
 }
 
-export function CraftCardDetails({
+export function PromptCardDetails({
     opened,
     handle,
-    craft
-}: CraftCardDetails) {
+    prompt
+}: PromptCardDetails) {
     const deleteMutation = useDeleteCraftMutation();
 
     const deleteItem = async (e: any) => {
         e.stopPropagation();
 
-        deleteMutation.mutate(craft.id);
+        deleteMutation.mutate(prompt.id);
     }
 
     if (deleteMutation.isError) {
@@ -44,7 +44,7 @@ export function CraftCardDetails({
     }
 
     return (
-        <Modal opened={opened} onClose={handle.close} title={craft.name} size={"lg"}>
+        <Modal opened={opened} onClose={handle.close} title={prompt.name} size={"lg"}>
             <Tabs defaultValue={"details"}>
                 <Tabs.List grow>
                     <Tabs.Tab leftSection={<IconFileDescription size={14} />} value="details">

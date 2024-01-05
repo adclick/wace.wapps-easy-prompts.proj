@@ -1,21 +1,20 @@
 import { Divider, Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
-import { Craft } from "../../../model/Craft";
+import { Prompt } from "../../../model/Prompt";
 import { Technology } from "../../../model/Technology";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
-import { CraftCardDetails } from "../CraftCardDetails/CraftCardDetails";
 import { useRequests } from "../../../context/RequestsContext";
 import { Request } from "../../../model/Request";
+import { Type } from "../../../model/SelectedDatabaseType";
+import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 
-interface CraftCard {
-    craft: Craft,
+interface PromptCard {
+    prompt: Prompt,
 }
 
-export function CraftCard({
-    craft,
-}: CraftCard) {
+export function PromptCard({ prompt }: PromptCard) {
     const [craftDetailsOpened, craftDetailsHandle] = useDisclosure(false);
     const { requests, setRequests } = useRequests();
 
@@ -24,8 +23,8 @@ export function CraftCard({
 
         const newRequest = new Request();
         newRequest.id = requests.length;
-        newRequest.craftId = craft.id;
-        
+        newRequest.craftId = prompt.id;
+
         setRequests([
             ...requests,
             newRequest
@@ -34,26 +33,26 @@ export function CraftCard({
 
     return (
         <>
-            <CraftCardDetails
+            <PromptCardDetails
                 opened={craftDetailsOpened}
                 handle={craftDetailsHandle}
-                craft={craft}
+                prompt={prompt}
             />
-            <Accordion.Item value={`${craft.type}-${craft.id}`}>
+            <Accordion.Item value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">
                             <Stack gap={0}>
                                 <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                    {craft.repository.name}
+                                    {prompt.repository.name}
                                 </Badge>
                                 <Text size="sm" fw={500} lineClamp={20}>
-                                    {craft.name}
+                                    {prompt.name}
                                 </Text>
                             </Stack>
                             <ActionIcon component="a" variant="transparent" color="gray.9">
                                 {
-                                    Technology.getIcon(craft.technology.slug, 16)
+                                    Technology.getIcon(prompt.technology.slug, 16)
                                 }
                             </ActionIcon>
                         </Group>
@@ -62,11 +61,11 @@ export function CraftCard({
                             <Group>
                                 <Group gap={4}>
                                     <IconPlayerPlayFilled size={12} />
-                                    <Text size="xs">{craft.plays}</Text>
+                                    <Text size="xs">{prompt.plays}</Text>
                                 </Group>
                                 <Group gap={4}>
                                     <IconStarFilled size={12} />
-                                    <Text size="xs">{craft.stars}</Text>
+                                    <Text size="xs">{prompt.stars}</Text>
                                 </Group>
                             </Group>
                             <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => play(e)}>
@@ -79,10 +78,10 @@ export function CraftCard({
 
                     <Stack>
                         <Divider />
-                        <Text size="xs">{craft.description}</Text>
+                        <Text size="xs">{prompt.description}</Text>
                         <Stack gap={"xs"}>
-                            <Text size="xs" fw={500}>{craft.type.toUpperCase()}</Text>
-                            <Text size="xs" fw={500}>{craft.technology.name}</Text>
+                            <Text size="xs" fw={500}>{Type.PROMPT}</Text>
+                            <Text size="xs" fw={500}>{prompt.technology.name}</Text>
                         </Stack>
                         <Center>
                             <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>
@@ -92,11 +91,11 @@ export function CraftCard({
                         <Group justify="space-between">
                             <Group gap={"xs"}>
                                 <IconUser size={12} />
-                                <Text size="xs">{craft.user.username}</Text>
+                                <Text size="xs">{prompt.user.username}</Text>
                             </Group>
                             <Group gap={"xs"}>
                                 <IconClock size={12} />
-                                <Text size="xs">{dateUtils.timeAgo(new Date(craft.created_at))}</Text>
+                                <Text size="xs">{dateUtils.timeAgo(new Date(prompt.created_at))}</Text>
                             </Group>
                         </Group>
                     </Stack>
