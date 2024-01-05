@@ -23,3 +23,24 @@ export const useAIQuery = (request: Request, userId: string, responded: boolean)
         retry: false
     });
 };
+
+export const chat = async (currentRequest: Request, requests: Request[]): Promise<string> => {
+    const lastRequest = requests.pop();
+
+    if (!lastRequest) return "";
+
+    const threads = requests.filter(r => r.response !== "").map(r => {
+        return {
+            request: r.prompt,
+            response: r.response
+        }
+    })
+
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/ai/text/chat`, {
+        text: currentRequest.prompt,
+        provider: currentRequest.provider.slug,
+        threads
+    });
+
+    return data;
+};

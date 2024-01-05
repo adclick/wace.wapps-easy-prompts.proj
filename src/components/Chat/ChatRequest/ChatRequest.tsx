@@ -2,8 +2,9 @@ import { Avatar, Card, Center, Group, Image, Loader, Stack, Text } from "@mantin
 import { useEffect, useState } from "react";
 import { Request } from "../../../model/Request";
 import { useUser } from "../../../context/UserContext";
-import { useAIQuery } from "../../../api/aiApi";
+import { chat, useAIQuery } from "../../../api/aiApi";
 import favicon from "../../../favicon.svg";
+import { useRequests } from "../../../context/RequestsContext";
 
 interface ChatRequest {
     request: Request,
@@ -32,30 +33,39 @@ const generateImageResponse = (images: string[]) => {
 }
 
 export function ChatRequest({ request }: ChatRequest) {
+    const { requests } = useRequests();
     const [response, setResponse] = useState(getLoader());
     const [responded, setResponded] = useState(false);
     const { user } = useUser();
-    const query = useAIQuery(request, user.id, responded);
-
+    // const query = useAIQuery(request, user.id, responded);
+    
     useEffect(() => {
-        if (query.data && !responded) {
-            switch (request.technology.slug) {
-                case 'text-generation':
-                    setResponse(generateTextResponse(query.data));
-                    break;
-                case 'image-generation':
-                    setResponse(generateImageResponse(query.data));
-                    break;
+        chat(request, requests).then(response => {
+            console.log(response);
+            // setResponse(generateTextResponse(response));
+        });
+    }, []);
 
-            }
-            setResponded(true);
-        }
 
-        if (query.isError && !responded) {
-            setResponse(<Text>Something went wrong. Contact support</Text>);
-            setResponded(true);
-        }
-    });
+    // useEffect(() => {
+    //     if (query.data && !responded) {
+    //         switch (request.technology.slug) {
+    //             case 'text-generation':
+    //                 setResponse(generateTextResponse(query.data));
+    //                 break;
+    //                 case 'image-generation':
+    //                     setResponse(generateImageResponse(query.data));
+    //                     break;
+                        
+    //         }
+    //         setResponded(true);
+    //     }
+
+    //     if (query.isError && !responded) {
+    //         setResponse(<Text>Something went wrong. Contact support</Text>);
+    //         setResponded(true);
+    //     }
+    // });
 
     return (
         <Card p={"md"} shadow="sm">

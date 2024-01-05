@@ -9,6 +9,7 @@ export class Request {
     provider: Provider;
     crafts_parameters: CraftParameter[];
     timestamp: number;
+    response: any;
 
     constructor(title: string = "", timestamp: number = Date.now()) {
         this.title = title;
@@ -17,6 +18,7 @@ export class Request {
         this.provider = new Provider();
         this.crafts_parameters = [];
         this.timestamp = timestamp;
+        this.response = "";
     }
 
     static clone (request: Request): Request {
@@ -28,6 +30,7 @@ export class Request {
         newRequest.technology = Technology.clone(request.technology);
         newRequest.provider = Provider.clone(request.provider);
         newRequest.crafts_parameters = request.crafts_parameters.map(cp => CraftParameter.clone(cp));
+        newRequest.response = request.response;
 
         return newRequest;
     }
