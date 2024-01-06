@@ -1,14 +1,14 @@
 import { Avatar, Card, Group, Stack, Text } from "@mantine/core";
-import { Request } from "../../../model/Request";
 import { useUser } from "../../../context/UserContext";
 import favicon from "../../../favicon.svg";
 import { ChatRequestResponse } from "../ChatRequestResponse/ChatRequestResponse";
+import { PromptRequest } from "../../../model/PromptRequest";
 
 interface ChatRequest {
-    request: Request,
+    promptRequest: PromptRequest,
 }
 
-export function ChatRequest({ request }: ChatRequest) {
+export function ChatRequest({ promptRequest }: ChatRequest) {
     const { user } = useUser();
 
     return (
@@ -20,7 +20,7 @@ export function ChatRequest({ request }: ChatRequest) {
                         <Text>{user.username}</Text>
                     </Group>
                     <Text style={{ whiteSpace: "pre-line" }}>
-                        {request.title}
+                        {promptRequest.title}
                     </Text>
                 </Stack>
                 <Stack>
@@ -28,7 +28,7 @@ export function ChatRequest({ request }: ChatRequest) {
                         <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
                         <Text>EasyPrompts</Text>
                     </Group>
-                    <ChatRequestResponse request={request} />
+                    <ChatRequestResponse promptRequest={promptRequest} />
                 </Stack>
             </Stack>
         </Card>

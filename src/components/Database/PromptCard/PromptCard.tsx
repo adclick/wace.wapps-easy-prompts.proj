@@ -5,10 +5,10 @@ import { Technology } from "../../../model/Technology";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
-import { useRequests } from "../../../context/RequestsContext";
-import { Request } from "../../../model/Request";
 import { Type } from "../../../model/SelectedDatabaseType";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { PromptRequest } from "../../../model/PromptRequest";
 
 interface PromptCard {
     prompt: Prompt,
@@ -18,17 +18,19 @@ interface PromptCard {
 
 export function PromptCard({ prompt, prompts, setPrompts }: PromptCard) {
     const [craftDetailsOpened, craftDetailsHandle] = useDisclosure(false);
-    const { requests, setRequests } = useRequests();
+    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
     const play = (e: any) => {
         e.stopPropagation();
 
-        const newRequest = new Request();
-        newRequest.id = requests.length;
-        newRequest.craftId = prompt.id;
+        const newRequest = new PromptRequest();
+        newRequest.id = promptsRequests.length;
+        newRequest.content = prompt.content;
+        newRequest.title = prompt.name;
+        newRequest.id = prompt.id;
 
-        setRequests([
-            ...requests,
+        setPromptsRequests([
+            ...promptsRequests,
             newRequest
         ]);
     }

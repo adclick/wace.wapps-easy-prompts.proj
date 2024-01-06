@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Request } from "../../../model/Request"
 import { imageGeneration, textGeneration } from "../../../api/aiApi";
 import { Center, Group, Image, Loader, Text } from "@mantine/core";
-import { useRequests } from "../../../context/RequestsContext";
+import { PromptRequest } from "../../../model/PromptRequest";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
 interface ChatRequestResponse {
-    request: Request
+    promptRequest: PromptRequest
 }
 
-export function ChatRequestResponse({ request }: ChatRequestResponse) {
-    const {requests, setRequests} = useRequests();
+export function ChatRequestResponse({ promptRequest }: ChatRequestResponse) {
+    const {promptsRequests, setPromptsRequests} = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
 
     const setTextResponse = (text: string) => {
@@ -22,17 +22,17 @@ export function ChatRequestResponse({ request }: ChatRequestResponse) {
 
     const updateResponse = (response: any, setStateFn: any) => {
         setStateFn(response);
-        const newRequest = Request.clone(request);
+        const newRequest = PromptRequest.clone(promptRequest);
         newRequest.response = response;
-        requests[request.id] = newRequest;
-        setRequests(requests);
+        promptsRequests[promptRequest.key] = newRequest;
+        setPromptsRequests(promptsRequests);
     }
 
     const fetch = async () => {
         try {
-            switch (request.technology.slug) {
-                case 'text-generation': return updateResponse(await textGeneration(request), setTextResponse);
-                case 'image-generation': return updateResponse(await imageGeneration(request), setImageResponse);
+            switch (promptRequest.technology.slug) {
+                case 'text-generation': return updateResponse(await textGeneration(promptRequest), setTextResponse);
+                case 'image-generation': return updateResponse(await imageGeneration(promptRequest), setImageResponse);
             }
         } catch (error) {
             console.error(error)
@@ -42,7 +42,6 @@ export function ChatRequestResponse({ request }: ChatRequestResponse) {
 
     useEffect(() => {
         if (response) return;
-        console.log(request);
         setResponse(<Center><Loader size={"xs"} type="bars" /></Center>);
         fetch();
     });

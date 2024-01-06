@@ -1,27 +1,24 @@
 import axios from 'axios';
 import { Request } from '../model/Request';
+import { PromptRequest } from '../model/PromptRequest';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const textGeneration = async (request: Request): Promise<string> => {
+export const textGeneration = async (request: PromptRequest): Promise<string> => {
     const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
-        text: request.prompt,
+        text: request.content,
         providerId: request.provider.id.toString(),
-        craftId: request.craftId.toString()
+        craftId: request.id.toString()
     }));
 
     return data;
 };
 
-export const imageGeneration = async (request: Request): Promise<string[]> => {
-    const parameters = request.crafts_parameters.map(cp => {
-        return {slug: cp.parameter.slug, value: cp.value}
-    });
-
+export const imageGeneration = async (request: PromptRequest): Promise<string[]> => {
     const { data } = await axios.get(`${API_URL}/ai/image-generation?` + new URLSearchParams({
-        text: request.prompt,
+        text: request.content,
         providerId: request.provider.id.toString(),
-        parameters: JSON.stringify(parameters)
+        parameters: ""
     }));
 
     return data;

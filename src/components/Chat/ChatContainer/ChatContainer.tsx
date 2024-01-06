@@ -1,18 +1,18 @@
 import { Box, Stack } from "@mantine/core";
 import { ChatRequest } from "../ChatRequest/ChatRequest";
-import { useRequests } from "../../../context/RequestsContext";
-import { Request } from "../../../model/Request";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { PromptRequest } from "../../../model/PromptRequest";
 
 export function ChatContainer() {
-    const { requests } = useRequests();
+    const { promptsRequests } = usePromptsRequests();
 
     return (
         <Stack gap={"md"} my={"xs"}>
             {
-                requests.map((request: Request, index: number) => {
+                promptsRequests.map((promptRequest: PromptRequest, index: number) => {
                     return (
-                        <Box key={request.timestamp}>
-                            <ChatRequest request={request} />
+                        <Box key={promptRequest.key}>
+                            <ChatRequest promptRequest={promptRequest} />
                         </Box>
                     )
                 })
