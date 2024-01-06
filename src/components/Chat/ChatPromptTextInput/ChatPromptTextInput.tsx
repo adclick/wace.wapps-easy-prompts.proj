@@ -1,24 +1,28 @@
 import { Textarea } from "@mantine/core";
-import { useUserRequest } from "../../../context/UserRequestContext";
-import { Request } from "../../../model/Request";
 import { useRequests } from "../../../context/RequestsContext";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { PromptRequest } from "../../../model/PromptRequest";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 
 export function ChatPromptTextInput() {
     const { requests, setRequests } = useRequests();
-    const { userRequest, setUserRequest } = useUserRequest();
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const {promptsRequests, setPromptsRequests} = usePromptsRequests();
 
     const updateUserRequestText = (value: string) => {
-        const newUserRequest = Request.clone(userRequest);
-        newUserRequest.id = requests.length;
+        const newUserRequest = PromptRequest.clone(userPromptRequest);
+        newUserRequest.key = promptsRequests.length;
         newUserRequest.title = value;
-        newUserRequest.prompt = value;
-        newUserRequest.timestamp = Date.now();
-        setUserRequest(newUserRequest);
+        newUserRequest.content = value;
+        setUserPromptRequest(newUserRequest);
     }
 
     const play = async (e: any) => {
         if (e.keyCode === 13 && e.shiftKey === false) {
-            setRequests([...requests, userRequest]);
+            setPromptsRequests([
+                ...promptsRequests,
+                userPromptRequest
+            ])
             updateUserRequestText("");
             e.preventDefault();
         }
@@ -41,7 +45,7 @@ export function ChatPromptTextInput() {
 
             }}
             radius={'xl'}
-            value={userRequest.prompt}
+            value={userPromptRequest.content}
             onChange={e => updateUserRequestText(e.target.value)}
             onKeyDown={play}
         />

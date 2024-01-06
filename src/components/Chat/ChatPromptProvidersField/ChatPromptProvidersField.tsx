@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { Select } from "@mantine/core";
-import { useUserRequest } from "../../../context/UserRequestContext";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { useDefaultProvidersQuery, useProvidersQuery } from "../../../api/providersApi";
 import { Provider } from "../../../model/Provider";
 import { Request } from "../../../model/Request";
+import { PromptRequest } from "../../../model/PromptRequest";
 
 export function ChatPromptProvidersField() {
     const [providersData, setProvidersData] = useState<{ label: "", value: "" }[]>([]);
-    const { userRequest, setUserRequest } = useUserRequest();
-    const providersQuery = useProvidersQuery(userRequest.technology.id);
-    const defaultProviderQuery = useDefaultProvidersQuery(userRequest.technology.id);
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
+    const defaultProviderQuery = useDefaultProvidersQuery(userPromptRequest.technology.id);
 
     // Set providers data for selectbox
     useEffect(() => {
@@ -28,15 +29,15 @@ export function ChatPromptProvidersField() {
 
     // Update UserRequest with default Technology
     useEffect(() => {
-        if (defaultProviderQuery.data && userRequest.provider.id <= 0) {
+        if (defaultProviderQuery.data && userPromptRequest.provider.id <= 0) {
             updateProvider(defaultProviderQuery.data);
         }
     }, [defaultProviderQuery]);
 
     const updateProvider = (provider: Provider) => {
-        const newUserRequest = Request.clone(userRequest);
+        const newUserRequest = PromptRequest.clone(userPromptRequest);
         newUserRequest.provider = Provider.clone(provider);
-        setUserRequest(newUserRequest);
+        setUserPromptRequest(newUserRequest);
     }
 
     const onChange = (providerId: string | null) => {
@@ -53,7 +54,7 @@ export function ChatPromptProvidersField() {
         providersQuery.data !== undefined && defaultProviderQuery.data !== undefined &&
         <Select
             label="Provider"
-            value={userRequest.provider.id.toString()}
+            value={userPromptRequest.provider.id.toString()}
             data={providersData}
             onChange={onChange}
         />

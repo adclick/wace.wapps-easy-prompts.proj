@@ -15,6 +15,7 @@ import { ChatPromptContainer } from '../components/Chat/ChatPromptContainer/Chat
 import { HeaderBurgerMenu } from '../components/Layout/HeaderBurgerMenu/HeaderBurgerMenu';
 import classes from './Home.page.module.css';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
+import { DatabaseListContainer } from '../components/Database/DatabaseListContainer/DatabaseListContainer';
 
 export function HomePage() {
     const [navbarOpened, navbarHandle] = useDisclosure(false);
@@ -73,7 +74,7 @@ export function HomePage() {
                         <DatabaseHeader navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
                     </AppShell.Section>
                     <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-                        <PromptsList />
+                        <DatabaseListContainer />
                     </AppShell.Section>
                 </AppShell.Navbar>
 

@@ -1,14 +1,15 @@
 import { ActionIcon } from "@mantine/core";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useRequests } from "../../../context/RequestsContext";
-import { useUserRequest } from "../../../context/UserRequestContext";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
 export function ChatPromptPlayButton() {
-    const { requests, setRequests } = useRequests();
-    const { userRequest } = useUserRequest();
+    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const { userPromptRequest } = useUserPromptRequest();
 
     const play = () => {
-        setRequests([...requests, userRequest])
+        setPromptsRequests([...promptsRequests, userPromptRequest])
     }
 
     return (

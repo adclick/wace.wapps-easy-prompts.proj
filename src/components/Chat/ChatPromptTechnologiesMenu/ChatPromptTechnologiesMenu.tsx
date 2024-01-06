@@ -1,27 +1,28 @@
 import { ActionIcon, Menu, Tooltip } from "@mantine/core";
 import { IconCheck, IconPencil } from "@tabler/icons-react";
-import { useUserRequest } from "../../../context/UserRequestContext";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { Technology } from "../../../model/Technology";
 import { useDefaultTechnologyQuery, useTechnologiesQuery } from "../../../api/technologiesApi";
 import { useEffect } from "react";
 import { Request } from "../../../model/Request";
+import { PromptRequest } from "../../../model/PromptRequest";
 
 export function ChatPromptTechnologiesMenu() {
-    const { userRequest, setUserRequest } = useUserRequest();
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const technologiesQuery = useTechnologiesQuery();
     const defaultTechnologyQuery = useDefaultTechnologyQuery();
 
     // Update UserRequest with default Technology
     useEffect(() => {
-        if (defaultTechnologyQuery.data && userRequest.technology.id <= 0) {
+        if (defaultTechnologyQuery.data && userPromptRequest.technology.id <= 0) {
             updateTechnology(defaultTechnologyQuery.data);
         }
     }, [defaultTechnologyQuery]);
 
     const updateTechnology = (technology: Technology) => {
-        const newUserRequest = Request.clone(userRequest);
+        const newUserRequest = PromptRequest.clone(userPromptRequest);
         newUserRequest.technology = Technology.clone(technology);
-        setUserRequest(newUserRequest);
+        setUserPromptRequest(newUserRequest);
     }
 
     return (
@@ -35,7 +36,7 @@ export function ChatPromptTechnologiesMenu() {
                         left={"30px"}
                     >
                         {
-                            Technology.getIcon(userRequest.technology.slug, 20)
+                            Technology.getIcon(userPromptRequest.technology.slug, 20)
                         }
                     </ActionIcon>
                 </Tooltip>
@@ -51,7 +52,7 @@ export function ChatPromptTechnologiesMenu() {
                                         Technology.getIcon(t.slug, 14)
                                     }
                                     rightSection={
-                                        t.id === userRequest.technology.id
+                                        t.id === userPromptRequest.technology.id
                                             ? <IconCheck size={12} />
                                             : <></>
                                     }

@@ -5,12 +5,15 @@ import { Prompt } from "../../../model/Prompt";
 import { useUser } from "../../../context/UserContext";
 import { PromptCard } from "../PromptCard/PromptCard";
 import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { useState } from "react";
 
 export function PromptsList() {
     const { selectedFilters } = useSelectedFilters();
     const {promptsSelectedFilters} = usePromptsSelectedFilters();
     const { user } = useUser();
     const { isLoading, data } = usePromptsQuery(user.id, promptsSelectedFilters);
+    const [prompts, setPrompts] = useState<Prompt[]>([]);
+
 
     return (
         <Box>
@@ -32,6 +35,8 @@ export function PromptsList() {
                             return (
                                 <PromptCard key={prompt.id}
                                     prompt={prompt}
+                                    prompts={prompts}
+                                    setPrompts={setPrompts}
                                 />
                             )
                         })

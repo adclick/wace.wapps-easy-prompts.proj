@@ -10,10 +10,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from './context/UserContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { RequestsProvider } from './context/RequestsContext';
-import { UserRequestProvider } from './context/UserRequestContext';
+import { UserPromptRequestProvider } from './context/UserPromptRequestContext';
 import { PromptsSelectedFiltersProvider } from './context/ModifiersSelectedFiltersContext';
 import { SelectedDatabaseTypeProvider } from './context/SelectedDatabaseTypeContext';
 import { ModifiersSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext copy';
+import { PromptsRequestsProvider } from './context/PromptsRequestsContext';
 
 
 export default function App() {
@@ -34,12 +35,14 @@ export default function App() {
               <SelectedFiltersProvider>
                 <PromptsSelectedFiltersProvider>
                   <ModifiersSelectedFiltersProvider>
-                    <RequestsProvider>
-                      <UserRequestProvider>
-                        <Notifications />
-                        <Router />
-                      </UserRequestProvider>
-                    </RequestsProvider>
+                    <PromptsRequestsProvider>
+                      <RequestsProvider>
+                        <UserPromptRequestProvider>
+                          <Notifications />
+                          <Router />
+                        </UserPromptRequestProvider>
+                      </RequestsProvider>
+                    </PromptsRequestsProvider>
                   </ModifiersSelectedFiltersProvider>
                 </PromptsSelectedFiltersProvider>
               </SelectedFiltersProvider>
