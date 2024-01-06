@@ -23,15 +23,16 @@ export function PromptCard({ prompt, prompts, setPrompts }: PromptCard) {
     const play = (e: any) => {
         e.stopPropagation();
 
-        const newRequest = new PromptRequest();
-        newRequest.id = promptsRequests.length;
-        newRequest.content = prompt.content;
-        newRequest.title = prompt.name;
-        newRequest.id = prompt.id;
+        const newPromptRequest = new PromptRequest();
+        newPromptRequest.key = promptsRequests.length;
+        newPromptRequest.id = prompt.id;
+        newPromptRequest.title = prompt.title;
+        newPromptRequest.content = prompt.content;
+        newPromptRequest.technology = prompt.technology;
 
         setPromptsRequests([
             ...promptsRequests,
-            newRequest
+            newPromptRequest
         ]);
     }
 
@@ -51,7 +52,7 @@ export function PromptCard({ prompt, prompts, setPrompts }: PromptCard) {
                                     {prompt.repository.name}
                                 </Badge>
                                 <Text size="sm" fw={500} lineClamp={20}>
-                                    {prompt.name}
+                                    {prompt.title}
                                 </Text>
                             </Stack>
                             <ActionIcon component="a" variant="transparent" color="gray.9">

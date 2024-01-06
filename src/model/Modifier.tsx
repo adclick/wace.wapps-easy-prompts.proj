@@ -2,7 +2,7 @@ import { User } from "./User";
 
 export class Modifier {
     id: number;
-    name: string;
+    title: string;
     slug: string;
     content: string;
     description: string;
@@ -17,7 +17,7 @@ export class Modifier {
     
     constructor() {
         this.id = 0;
-        this.name = "";
+        this.title = "";
         this.slug = "";
         this.content = "";
         this.description = "";

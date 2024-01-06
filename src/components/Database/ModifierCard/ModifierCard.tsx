@@ -37,7 +37,7 @@ export function ModifierCard({
                                     {modifier.repository.name}
                                 </Badge>
                                 <Text size="sm" fw={500} lineClamp={20}>
-                                    {modifier.name}
+                                    {modifier.title}
                                 </Text>
                             </Stack>
                         </Group>

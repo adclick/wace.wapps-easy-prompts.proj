@@ -1,24 +1,15 @@
+import { Prompt } from "./Prompt";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 
-export class PromptRequest {
+export class PromptRequest extends Prompt {
     key: number;
-    id: number;
-    title: string;
-    description: string;
-    content: string;
-    technology: Technology;
-    provider: Provider;
     response: any;
 
     constructor(key: number = 0, id: number = 0) {
+        super();
         this.key = key;
         this.id = id;
-        this.title = "";
-        this.content = "";
-        this.description = "";
-        this.technology = new Technology();
-        this.provider = new Provider();
         this.response = "";
     }
 
