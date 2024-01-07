@@ -3,7 +3,6 @@ import { Select } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { useDefaultProvidersQuery, useProvidersQuery } from "../../../api/providersApi";
 import { Provider } from "../../../model/Provider";
-import { Request } from "../../../model/Request";
 import { PromptRequest } from "../../../model/PromptRequest";
 
 export function ChatPromptProvidersField() {
@@ -11,6 +10,7 @@ export function ChatPromptProvidersField() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
     const defaultProviderQuery = useDefaultProvidersQuery(userPromptRequest.technology.id);
+    console.log("prov");
 
     // Set providers data for selectbox
     useEffect(() => {
@@ -27,7 +27,7 @@ export function ChatPromptProvidersField() {
     }, [providersQuery, providersData]);
 
 
-    // Update UserRequest with default Technology
+    // Update UserRequest with default Provider
     useEffect(() => {
         if (defaultProviderQuery.data && userPromptRequest.provider.id <= 0) {
             updateProvider(defaultProviderQuery.data);

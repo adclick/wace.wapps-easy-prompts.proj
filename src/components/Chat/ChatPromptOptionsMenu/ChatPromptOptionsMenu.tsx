@@ -14,7 +14,7 @@ export function ChatPromptOptionsMenu() {
             </Popover.Target>
             <Popover.Dropdown>
                 <Stack>
-                    <ChatPromptProvidersField />
+                    <ChatPromptProvidersField key={23} />
                 </Stack>
             </Popover.Dropdown>
         </Popover>

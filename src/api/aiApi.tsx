@@ -24,22 +24,19 @@ export const imageGeneration = async (request: PromptRequest): Promise<string[]>
     return data;
 };
 
-export const chat = async (currentRequest: Request, requests: Request[]): Promise<string> => {
+export const chat = async (requests: PromptRequest[]): Promise<string> => {
     const lastRequest = requests.pop();
-
     if (!lastRequest) return "";
 
-    const threads = requests.filter(r => r.response !== "").map(r => {
-        return {
-            request: r.prompt,
-            response: r.response
-        }
-    })
-
-    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/ai/text/chat`, {
-        text: currentRequest.prompt,
-        provider: currentRequest.provider.slug,
-        threads
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/ai/chat`, {
+        text: lastRequest.content,
+        providerId: lastRequest.provider.id.toString(),
+        requests: requests.map(r => {
+            return {
+                request: r.content,
+                response: r.response
+            }
+        })
     });
 
     return data;

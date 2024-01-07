@@ -1,4 +1,4 @@
-import { Divider, Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center } from "@mantine/core";
+import { Divider, Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center, Tooltip } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../model/Prompt";
 import { Technology } from "../../../model/Technology";
@@ -12,23 +12,17 @@ import { PromptRequest } from "../../../model/PromptRequest";
 
 interface PromptCard {
     prompt: Prompt,
-    prompts: Prompt[],
-    setPrompts: any
 }
 
-export function PromptCard({ prompt, prompts, setPrompts }: PromptCard) {
+export function PromptCard({ prompt }: PromptCard) {
     const [craftDetailsOpened, craftDetailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
     const play = (e: any) => {
         e.stopPropagation();
 
-        const newPromptRequest = new PromptRequest();
+        const newPromptRequest = (prompt as PromptRequest);
         newPromptRequest.key = promptsRequests.length;
-        newPromptRequest.id = prompt.id;
-        newPromptRequest.title = prompt.title;
-        newPromptRequest.content = prompt.content;
-        newPromptRequest.technology = prompt.technology;
 
         setPromptsRequests([
             ...promptsRequests,
@@ -55,20 +49,22 @@ export function PromptCard({ prompt, prompts, setPrompts }: PromptCard) {
                                     {prompt.title}
                                 </Text>
                             </Stack>
-                            <ActionIcon component="a" variant="transparent" color="gray.9">
-                                {
-                                    Technology.getIcon(prompt.technology.slug, 16)
-                                }
-                            </ActionIcon>
+                            <Tooltip label={prompt.technology.name}>
+                                <ActionIcon component="a" variant="transparent" color="gray.9">
+                                    {
+                                        Technology.getIcon(prompt.technology.slug, 16)
+                                    }
+                                </ActionIcon>
+                            </Tooltip>
                         </Group>
 
                         <Group justify="space-between">
                             <Group>
-                                <Group gap={4}>
+                                <Group gap={6}>
                                     <IconPlayerPlayFilled size={12} />
                                     <Text size="xs">{prompt.plays}</Text>
                                 </Group>
-                                <Group gap={4}>
+                                <Group gap={6}>
                                     <IconStarFilled size={12} />
                                     <Text size="xs">{prompt.stars}</Text>
                                 </Group>
@@ -80,14 +76,9 @@ export function PromptCard({ prompt, prompts, setPrompts }: PromptCard) {
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
-
                     <Stack>
                         <Divider />
                         <Text size="xs">{prompt.description}</Text>
-                        <Stack gap={"xs"}>
-                            <Text size="xs" fw={500}>{Type.PROMPT}</Text>
-                            <Text size="xs" fw={500}>{prompt.technology.name}</Text>
-                        </Stack>
                         <Center>
                             <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>
                                 Read more

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { imageGeneration, textGeneration } from "../../../api/aiApi";
+import { chat, imageGeneration, textGeneration } from "../../../api/aiApi";
 import { Center, Group, Image, Loader, Text } from "@mantine/core";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
-interface ChatRequestResponse {
+interface PromptRequestCardResponse {
     promptRequest: PromptRequest
 }
 
-export function ChatRequestResponse({ promptRequest }: ChatRequestResponse) {
+export function PromptRequestCardResponse({ promptRequest }: PromptRequestCardResponse) {
     const {promptsRequests, setPromptsRequests} = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
 
@@ -31,12 +31,12 @@ export function ChatRequestResponse({ promptRequest }: ChatRequestResponse) {
     const fetch = async () => {
         try {
             switch (promptRequest.technology.slug) {
-                case 'text-generation': return updateResponse(await textGeneration(promptRequest), setTextResponse);
+                case 'text-generation': return updateResponse(await chat(promptsRequests), setTextResponse);
                 case 'image-generation': return updateResponse(await imageGeneration(promptRequest), setImageResponse);
             }
         } catch (error) {
-            console.error(error)
-            return setTextResponse("Something went wrong. Please contact support");
+            console.error(error);
+            return updateResponse("Something went wrong. Please contact support", setTextResponse);
         }
     }
 

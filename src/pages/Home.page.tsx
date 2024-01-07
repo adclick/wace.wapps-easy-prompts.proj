@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { AppShell, Box, Group, ScrollArea } from '@mantine/core';
+import { AppShell, Box, Collapse, Group, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { User } from '../model/User';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
@@ -16,6 +16,7 @@ import { HeaderBurgerMenu } from '../components/Layout/HeaderBurgerMenu/HeaderBu
 import classes from './Home.page.module.css';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 import { DatabaseListContainer } from '../components/Database/DatabaseListContainer/DatabaseListContainer';
+import { ChatPromptProvidersField } from '../components/Chat/ChatPromptProvidersField/ChatPromptProvidersField';
 
 export function HomePage() {
     const [navbarOpened, navbarHandle] = useDisclosure(false);

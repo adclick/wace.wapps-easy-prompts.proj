@@ -1,5 +1,8 @@
-import { Group, Menu, Title, UnstyledButton, rem } from "@mantine/core";
+import { Button, Collapse, Group, Menu, Stack, Title, UnstyledButton, rem } from "@mantine/core";
 import { IconChevronDown, IconHistory, IconPlus } from "@tabler/icons-react";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { useDisclosure } from "@mantine/hooks";
+import { ChatPromptProvidersField } from "../ChatPromptProvidersField/ChatPromptProvidersField";
 
 interface ChatMenu {
 
@@ -8,30 +11,13 @@ interface ChatMenu {
 export function ChatMenu({
 
 }: ChatMenu) {
+    const { setPromptsRequests } = usePromptsRequests();
+
     return (
-        <Menu shadow="md" position='bottom-start'>
-            <Menu.Target>
-                <UnstyledButton px={"md"} >
-                    <Group align='center' gap={"xs"}>
-                        <Title order={1} size={"h3"} style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                        }}>
-                            Chat
-                        </Title>
-                        <IconChevronDown size={18} />
-                    </Group>
-                </UnstyledButton>
-            </Menu.Target>
-            <Menu.Dropdown>
-                <Menu.Item color='blue' leftSection={<IconPlus size={14} />}>
-                    New Chat
-                </Menu.Item>
-                <Menu.Item disabled leftSection={<IconHistory size={14} />}>
-                    History
-                </Menu.Item>
-            </Menu.Dropdown>
-        </Menu>
+        <Stack>
+            <Button onClick={() => setPromptsRequests([])} variant="subtle" leftSection={<IconPlus size={16} stroke={3} />}>
+                New Chat
+            </Button>
+        </Stack>
     )
 }
