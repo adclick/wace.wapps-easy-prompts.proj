@@ -1,13 +1,15 @@
 import { Text, Checkbox, Stack, Title } from '@mantine/core';
 import { useSelectedFilters } from '../../../context/SelectedFiltersContext';
+import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
+import { ModifiersSelectedFilters } from '../../../model/ModifiersSelectedFilters';
 
 interface RepositoriesFilter {
     repositories: { id: number, name: string, slug: string }[],
+    selectedFilters: PromptsSelectedFilters | ModifiersSelectedFilters,
+    setSelectedFilters: any
 }
 
-export function RepositoriesFilter({ repositories }: RepositoriesFilter) {
-    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
-
+export function RepositoriesFilter({ repositories, selectedFilters, setSelectedFilters }: RepositoriesFilter) {
     const update = (ids: string[]) => {
         setSelectedFilters({
             ...selectedFilters,

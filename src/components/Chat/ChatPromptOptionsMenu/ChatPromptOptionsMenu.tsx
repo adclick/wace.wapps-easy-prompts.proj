@@ -2,21 +2,16 @@ import { ActionIcon, Popover, Stack, Tooltip } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { ChatPromptProvidersField } from "../ChatPromptProvidersField/ChatPromptProvidersField";
 
-export function ChatPromptOptionsMenu() {
+interface ChatPromptOptionsMenu {
+    optionsHandle: any
+}
+
+export function ChatPromptOptionsMenu({ optionsHandle }: ChatPromptOptionsMenu) {
     return (
-        <Popover position="top-start">
-            <Popover.Target>
-                <ActionIcon variant="subtle" size="lg" pos={"absolute"} left={"70px"}>
-                    <Tooltip label="Adjust parameters">
-                        <IconAdjustmentsHorizontal size={22} stroke={1.5} />
-                    </Tooltip>
-                </ActionIcon>
-            </Popover.Target>
-            <Popover.Dropdown>
-                <Stack>
-                    <ChatPromptProvidersField key={23} />
-                </Stack>
-            </Popover.Dropdown>
-        </Popover>
+        <ActionIcon onClick={optionsHandle.toggle} variant="subtle" size="lg" pos={"absolute"} left={"30px"}>
+            <Tooltip label="Adjust parameters">
+                <IconAdjustmentsHorizontal size={22} stroke={1.5} />
+            </Tooltip>
+        </ActionIcon>
     )
 }

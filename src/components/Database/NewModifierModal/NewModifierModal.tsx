@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Select, Collapse, Indicator, ActionIcon, Badge, Box, Burger, Button, Checkbox, Chip, Divider, Group, Loader, Menu, Stack, Text, Textarea, Title, UnstyledButton, rem, Card, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useUser } from "../../../context/UserContext";
-import { useCreateModifierMutation, usePromptsFiltersQuery } from "../../../api/promptsApi";
+import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../api/promptsApi";
 
 interface NewModifierModal {
     opened: boolean,
@@ -23,7 +23,7 @@ export function NewModifierModal({
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
 
-    const mutation = useCreateModifierMutation();
+    const mutation = useCreatePromptMutation();
 
     let languages = [];
     let repositories = [];

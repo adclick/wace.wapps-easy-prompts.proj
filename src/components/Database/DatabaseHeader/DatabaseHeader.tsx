@@ -42,39 +42,36 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
     })
 
     return (
-        <>
+        <Stack pb={"xl"} gap={"lg"}>
+            <Group h={"100%"} justify='space-between' pt={"xs"}>
+                <Group>
+                    <HeaderBurgerMenu navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
+                    <DatabaseMenu />
+                </Group>
+                <Group gap={"xs"}>
+                    <Tooltip label="Add">
+                        <ActionIcon size={"lg"} variant='subtle'>
+                            <IconPlus size={18} />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Sort">
+                        <ActionIcon size={"lg"} variant='subtle'>
+                            <IconArrowsSort size={18} />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Filters">
+                        <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
+                            <IconFilter size={18} />
+                        </ActionIcon>
+                    </Tooltip>
+                </Group>
+            </Group>
             <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}
                 promptsFiltersQuery={promptsFiltersQuery}
                 modifiersFiltersQuery={modifiersFiltersQuery}
             />
-            <Stack pb={"xl"} gap={"lg"}>
-                <Group h={"100%"} justify='space-between' pt={"xs"}>
-                    <Group>
-                        <HeaderBurgerMenu navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
-                        <DatabaseMenu />
-                    </Group>
-                    <Group gap={"xs"}>
-                        <Tooltip label="Add">
-                            <ActionIcon size={"lg"} variant='subtle'>
-                                <IconPlus size={18} />
-                            </ActionIcon>
-                        </Tooltip>
-                        <Tooltip label="Sort">
-                            <ActionIcon size={"lg"} variant='subtle'>
-                                <IconArrowsSort size={18} />
-                            </ActionIcon>
-                        </Tooltip>
-                        <Tooltip label="Filters">
-                            <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
-                                <IconFilter size={18} />
-                            </ActionIcon>
-                        </Tooltip>
-                    </Group>
-                </Group>
-                <SearchTermFilter />
-            </Stack>
-        </>
+        </Stack>
     )
 }

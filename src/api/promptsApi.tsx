@@ -35,12 +35,12 @@ export const usePromptsQuery = (userId: string, selectedFilters: PromptsSelected
     });
 };
 
-export const useCreateModifierMutation = () => {
+export const useCreatePromptMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (formData: FormData) => {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/crafts/modifier`, {
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/prompt`, {
                 userId: formData.get('userId'),
                 name: formData.get('name'),
                 description: formData.get('description'),

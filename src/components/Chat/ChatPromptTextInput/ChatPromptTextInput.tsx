@@ -39,7 +39,7 @@ export function ChatPromptTextInput() {
             size={'lg'}
             styles={{
                 input: {
-                    paddingLeft: "100px",
+                    paddingLeft: "60px",
                     paddingRight: "50px",
                 },
 

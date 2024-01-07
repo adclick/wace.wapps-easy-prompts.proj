@@ -10,7 +10,6 @@ export function ChatPromptProvidersField() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
     const defaultProviderQuery = useDefaultProvidersQuery(userPromptRequest.technology.id);
-    console.log("prov");
 
     // Set providers data for selectbox
     useEffect(() => {
@@ -53,7 +52,6 @@ export function ChatPromptProvidersField() {
     return (
         providersQuery.data !== undefined && defaultProviderQuery.data !== undefined &&
         <Select
-            label="Provider"
             value={userPromptRequest.provider.id.toString()}
             data={providersData}
             onChange={onChange}

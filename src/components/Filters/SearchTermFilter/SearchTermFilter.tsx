@@ -1,9 +1,13 @@
 import { Textarea } from "@mantine/core";
-import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
+import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
+import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
 
+interface SearchTermFilter {
+    selectedFilters: PromptsSelectedFilters | ModifiersSelectedFilters,
+    setSelectedFilters: any
+}
 
-export function SearchTermFilter() {
-    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+export function SearchTermFilter({ selectedFilters, setSelectedFilters }: SearchTermFilter) {
 
     const searchSearchTerm = ((term: string) => {
         setSelectedFilters({
