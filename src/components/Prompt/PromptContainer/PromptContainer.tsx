@@ -1,13 +1,9 @@
-import { Card, Group, Stack, Transition } from "@mantine/core";
+import { Group, Stack } from "@mantine/core";
 import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
 import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
-import { useDisclosure } from "@mantine/hooks";
 import { PromptOptionsMenu } from "../PromptOptionsMenu/PromptOptionsMenu";
-import { PromptOptionsContainer } from "../PromptOptionsContainer/PromptOptionsContainer";
 
 export function PromptContainer() {
-    const [optionsOpened, optionsHandle] = useDisclosure(false);
-
     return (
         <Stack
             gap={'sm'}
@@ -17,10 +13,9 @@ export function PromptContainer() {
             py={"md"}
             px={"md"}
         >
-            <PromptOptionsContainer optionsOpened={optionsOpened} />          
              <Group w={"100%"} >
                 <PromptTextInput />
-                <PromptOptionsMenu optionsHandle={optionsHandle} />
+                <PromptOptionsMenu />
                 <PromptPlayButton />
             </Group>
         </Stack>

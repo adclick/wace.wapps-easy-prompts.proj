@@ -51,6 +51,7 @@ export function PromptOptionsTechnologiesField() {
     return (
         technologiesQuery.data !== undefined && defaultTechnologyQuery.data !== undefined &&
         <Select
+            comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.technology.id.toString()}
             data={technologyData}
             onChange={onChange}

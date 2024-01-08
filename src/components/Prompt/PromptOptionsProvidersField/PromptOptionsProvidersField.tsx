@@ -52,6 +52,7 @@ export function PromptOptionsProvidersField() {
     return (
         providersQuery.data !== undefined && defaultProviderQuery.data !== undefined &&
         <Select
+            comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.provider.id.toString()}
             data={providersData}
             onChange={onChange}
