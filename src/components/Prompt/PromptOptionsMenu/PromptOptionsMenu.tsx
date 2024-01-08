@@ -1,12 +1,11 @@
-import { ActionIcon, Popover, Stack, Tooltip } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
-import { ChatPromptProvidersField } from "../ChatPromptProvidersField/ChatPromptProvidersField";
 
-interface ChatPromptOptionsMenu {
+interface PromptOptionsMenu {
     optionsHandle: any
 }
 
-export function ChatPromptOptionsMenu({ optionsHandle }: ChatPromptOptionsMenu) {
+export function PromptOptionsMenu({ optionsHandle }: PromptOptionsMenu) {
     return (
         <ActionIcon onClick={optionsHandle.toggle} variant="subtle" size="lg" pos={"absolute"} left={"30px"}>
             <Tooltip label="Adjust parameters">

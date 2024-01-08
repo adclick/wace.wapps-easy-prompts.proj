@@ -3,7 +3,6 @@ import { IconFilter, IconArrowsSort, IconPlus } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
 import { useUser } from "../../../context/UserContext";
-import { SearchTermFilter } from "../../Filters/SearchTermFilter/SearchTermFilter";
 import { useEffect } from "react";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";

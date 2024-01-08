@@ -3,7 +3,7 @@ import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
-export function ChatPromptPlayButton() {
+export function PromptPlayButton() {
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { userPromptRequest } = useUserPromptRequest();
 

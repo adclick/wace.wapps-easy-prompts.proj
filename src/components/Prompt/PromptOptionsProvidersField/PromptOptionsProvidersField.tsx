@@ -5,7 +5,7 @@ import { useDefaultProvidersQuery, useProvidersQuery } from "../../../api/provid
 import { Provider } from "../../../model/Provider";
 import { PromptRequest } from "../../../model/PromptRequest";
 
-export function ChatPromptProvidersField() {
+export function PromptOptionsProvidersField() {
     const [providersData, setProvidersData] = useState<{ label: "", value: "" }[]>([]);
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const providersQuery = useProvidersQuery(userPromptRequest.technology.id);

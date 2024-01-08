@@ -2,7 +2,7 @@ import { Button, Collapse, Group, Menu, Stack, Title, UnstyledButton, rem } from
 import { IconChevronDown, IconHistory, IconPlus } from "@tabler/icons-react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { useDisclosure } from "@mantine/hooks";
-import { ChatPromptProvidersField } from "../ChatPromptProvidersField/ChatPromptProvidersField";
+import { ChatPromptProvidersField } from "../../Prompt/PromptOptionsProvidersField/PromptOptionsProvidersField";
 
 interface ChatMenu {
 

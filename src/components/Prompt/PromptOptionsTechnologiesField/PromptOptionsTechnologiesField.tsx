@@ -5,7 +5,7 @@ import { useDefaultTechnologyQuery, useTechnologiesQuery } from "../../../api/te
 import { useEffect, useState } from "react";
 import { PromptRequest } from "../../../model/PromptRequest";
 
-export function ChatPromptTechnologiesField() {
+export function PromptOptionsTechnologiesField() {
     const [technologyData, setTechnologyData] = useState<{ label: "", value: "" }[]>([]);
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const technologiesQuery = useTechnologiesQuery();

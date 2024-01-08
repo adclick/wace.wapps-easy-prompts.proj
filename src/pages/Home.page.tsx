@@ -11,12 +11,11 @@ import { ColorSchemeToggle } from '../components/Layout/ColorSchemeToggle/ColorS
 import { ChatMenu } from '../components/Chat/ChatMenu/ChatMenu';
 import { ChatContainer } from '../components/Chat/ChatContainer/ChatContainer';
 import { UserMenu } from '../components/User/UserMenu/UserMenu';
-import { ChatPromptContainer } from '../components/Chat/ChatPromptContainer/ChatPromptContainer';
+import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
 import { HeaderBurgerMenu } from '../components/Layout/HeaderBurgerMenu/HeaderBurgerMenu';
 import classes from './Home.page.module.css';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 import { DatabaseListContainer } from '../components/Database/DatabaseListContainer/DatabaseListContainer';
-import { ChatPromptProvidersField } from '../components/Chat/ChatPromptProvidersField/ChatPromptProvidersField';
 
 export function HomePage() {
     const [navbarOpened, navbarHandle] = useDisclosure(false);
@@ -84,7 +83,7 @@ export function HomePage() {
                 </AppShell.Main>
 
                 <AppShell.Footer withBorder={false}>
-                    <ChatPromptContainer />
+                    <PromptContainer />
                 </AppShell.Footer>
             </AppShell>
         </Box>

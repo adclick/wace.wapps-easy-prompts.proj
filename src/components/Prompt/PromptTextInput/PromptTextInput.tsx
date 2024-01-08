@@ -4,7 +4,7 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 
-export function ChatPromptTextInput() {
+export function PromptTextInput() {
     const { requests, setRequests } = useRequests();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const {promptsRequests, setPromptsRequests} = usePromptsRequests();
