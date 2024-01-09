@@ -7,6 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { ChatSavePromptModal } from "../ChatSavePromptModal/ChatSavePromptModal";
 import { useEffect, useState } from "react";
 import { chat } from "../../../api/aiApi";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
 interface ChatCard {
     promptRequest: PromptRequest,
@@ -21,6 +22,7 @@ interface Message {
 export function ChatCard({ promptRequest }: ChatCard) {
     const { user } = useUser();
     const [newPromptModalOpened, newPromptModaHandle] = useDisclosure(false);
+    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [replyOpened, replyHandle] = useDisclosure(false);
     const [replyValue, setReplyValue] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
@@ -54,7 +56,7 @@ export function ChatCard({ promptRequest }: ChatCard) {
                 response: ""
             };
             updateMessages(message.id, message.request, "");
-            fetch(message)
+            fetch(message);
             return;
         }
     });

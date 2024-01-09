@@ -24,11 +24,19 @@ export const imageGeneration = async (request: PromptRequest): Promise<string[]>
 };
 
 export const chat = async (text: string, providerId: number,  history: {request: string, response: string}[]): Promise<string> => {
-    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/ai/chat`, {
+    const { data } = await axios.post(`${API_URL}/ai/chat`, {
         promptId: 0,
         text,
         providerId: providerId.toString(),
         requests: history
+    });
+
+    return data;
+};
+
+export const play = async (promptId: number): Promise<string> => {
+    const { data } = await axios.post(`${API_URL}/ai/play`, {
+        promptId,
     });
 
     return data;
