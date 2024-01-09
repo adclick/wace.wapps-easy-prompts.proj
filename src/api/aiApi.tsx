@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Request } from '../model/Request';
 import { PromptRequest } from '../model/PromptRequest';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -29,6 +28,7 @@ export const chat = async (requests: PromptRequest[]): Promise<string> => {
     if (!lastRequest) return "";
 
     const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/ai/chat`, {
+        promptId: lastRequest.id.toString(),
         text: lastRequest.content,
         providerId: lastRequest.provider.id.toString(),
         requests: requests.map(r => {

@@ -32,6 +32,7 @@ export function PromptRequestCardResponse({ promptRequest }: PromptRequestCardRe
         try {
             switch (promptRequest.technology.slug) {
                 case 'text-generation': return updateResponse(await chat(promptsRequests), setTextResponse);
+                case 'chat': return updateResponse(await chat(promptsRequests), setTextResponse);
                 case 'image-generation': return updateResponse(await imageGeneration(promptRequest), setImageResponse);
             }
         } catch (error) {
