@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { SelectedFilters } from '../model/SelectedFilters';
 import { PromptsSelectedFilters } from '../model/PromptsSelectedFilters';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const usePromptsFiltersQuery = (userId: string) => {
     return useQuery({
         queryKey: ["prompts", "filters", userId],
         queryFn: async () => {
             // Your API call to fetch crafts
-            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/prompts/filters/?` + new URLSearchParams({userId}));
+            const {data} = await axios.get(`${API_URL}/prompts/filters/?` + new URLSearchParams({userId}));
 
             return data;
         },
@@ -21,7 +22,7 @@ export const usePromptsQuery = (userId: string, selectedFilters: PromptsSelected
         queryKey: ["prompts", selectedFilters],
         queryFn: async () => {
             const { search_term, languages_ids, repositories_ids, technologies_ids } = selectedFilters;
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/prompts/?` + new URLSearchParams({
+            const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
                 userId,
                 search_term,
                 languages_ids: languages_ids.join(','),
@@ -40,7 +41,7 @@ export const useCreatePromptMutation = () => {
 
     return useMutation({
         mutationFn: async (formData: FormData) => {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/prompt`, {
+            const { data } = await axios.post(`${API_URL}/prompts`, {
                 userId: formData.get('userId'),
                 name: formData.get('name'),
                 description: formData.get('description'),
@@ -48,13 +49,14 @@ export const useCreatePromptMutation = () => {
                 language_id: formData.get('language_id'),
                 repository_id: formData.get('repository_id'),
                 technology_id: formData.get('technology_id'),
+                provider_id: formData.get('provider_id'),
             })
 
             return data;
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["crafts"]
+                queryKey: ["prompts"]
             })
         }
     })
@@ -65,7 +67,7 @@ export const useDeleteCraftMutation = () => {
 
     return useMutation({
         mutationFn: async (id: number) => {
-            const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/crafts/${id}`)
+            const { data } = await axios.delete(`${API_URL}/crafts/${id}`)
 
             return data;
         },
