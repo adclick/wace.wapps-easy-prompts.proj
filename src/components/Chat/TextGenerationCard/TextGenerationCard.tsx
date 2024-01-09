@@ -1,22 +1,49 @@
-import { Avatar, Button, Card, Divider, Group, Space, Stack, Text } from "@mantine/core";
+import { Avatar, Button, Card, Center, Group, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import favicon from "../../../favicon.svg";
-import { PromptRequestCardResponse } from "../PromptRequestCardResponse/PromptRequestCardResponse";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { IconPlus } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { ChatSavePromptModal } from "../ChatSavePromptModal/ChatSavePromptModal";
+import { textGeneration } from "../../../api/aiApi";
+import { useEffect, useState } from "react";
+import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
-interface PromptRequestCard {
+interface TextGenerationCard {
     promptRequest: PromptRequest,
 }
 
-export function PromptRequestCard({ promptRequest }: PromptRequestCard) {
+export function TextGenerationCard({ promptRequest }: TextGenerationCard) {
     const { user } = useUser();
+    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const [response, setResponse] = useState<any>(false);
     const [newPromptModalOpened, newPromptModaHandle] = useDisclosure(false);
 
-    const save = () => {
+    useEffect(() => {
+        if (response) return;
+        setResponse(<Center><Loader size={"xs"} type="bars" /></Center>);
+        fetch();
+    });
 
+    const fetch = async () => {
+        try {
+            const response = await textGeneration(promptRequest);
+
+            setResponse(<Text style={{ whiteSpace: "pre-line" }}>{response}</Text>)
+
+            // Update request list
+            const newRequest = PromptRequest.clone(promptRequest);
+            newRequest.response = response;
+            promptsRequests[promptRequest.key] = newRequest;
+            setPromptsRequests(promptsRequests);
+
+        } catch (error) {
+            console.error(error);
+            setResponse(<Text style={{ whiteSpace: "pre-line" }}>"Something went wrong. Please contact support"</Text>)
+        }
+    }
+
+    const save = () => {
     }
 
     return (
@@ -38,7 +65,7 @@ export function PromptRequestCard({ promptRequest }: PromptRequestCard) {
                             <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
                             <Text>EasyPrompts</Text>
                         </Group>
-                        <PromptRequestCardResponse promptRequest={promptRequest} />
+                        {response}
                         <Group>
                             <Button
                                 onClick={newPromptModaHandle.open}
