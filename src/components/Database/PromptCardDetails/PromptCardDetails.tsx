@@ -1,8 +1,8 @@
-import { Card, Divider, Group, Modal, Stack, Tabs, Text, Title } from "@mantine/core";
+import { Button, Card, Divider, Group, Modal, SimpleGrid, Stack, Tabs, Text, Title } from "@mantine/core";
 import { Prompt } from "../../../model/Prompt";
 import { useDeleteCraftMutation } from "../../../api/promptsApi";
 import { notifications } from "@mantine/notifications";
-import { IconFileDescription, IconMessage } from "@tabler/icons-react";
+import { IconBulb, IconDatabase, IconFileDescription, IconLanguage, IconMessage, IconPlayerPlayFilled, IconStarFilled, IconTrash, IconWorld } from "@tabler/icons-react";
 
 interface PromptCardDetails {
     opened: boolean,
@@ -63,12 +63,45 @@ export function PromptCardDetails({
                                     <Text size="xs">{prompt.description}</Text>
                                 </Stack>
                                 <Divider />
-                                <Group>
+                                <SimpleGrid cols={2}>
+
                                     <Stack>
                                         <Title order={6}>Specifications</Title>
-                                        
+                                        <Group>
+                                            <IconLanguage size={12} />
+                                            <Text size="xs">Language</Text>
+                                            <Text size="xs">{prompt.language.name}</Text>
+                                        </Group>
+                                        <Group>
+                                            <IconDatabase size={12} />
+                                            <Text size="xs">Repository</Text>
+                                            <Text size="xs">{prompt.repository.name}</Text>
+                                        </Group>
+                                        <Group>
+                                            <IconBulb size={12} />
+                                            <Text size="xs">Technology</Text>
+                                            <Text size="xs">{prompt.technology.name}</Text>
+                                        </Group>
+                                        <Group>
+                                            <IconWorld size={12} />
+                                            <Text size="xs">Provider</Text>
+                                            <Text size="xs">{prompt.provider.name}</Text>
+                                        </Group>
                                     </Stack>
-                                </Group>
+                                    <Stack>
+                                        <Title order={6}>Statistics</Title>
+                                        <Group>
+                                            <IconPlayerPlayFilled size={12} />
+                                            <Text size="xs">Plays</Text>
+                                            <Text size="xs">{prompt.plays}</Text>
+                                        </Group>
+                                        <Group>
+                                            <IconStarFilled size={12} />
+                                            <Text size="xs">Stars</Text>
+                                            <Text size="xs">{prompt.stars}</Text>
+                                        </Group>
+                                    </Stack>
+                                </SimpleGrid>
                             </Stack>
                         </Card>
                     </Stack>
@@ -76,6 +109,10 @@ export function PromptCardDetails({
                 <Tabs.Panel value="reviews">
                 </Tabs.Panel>
             </Tabs>
+            <Group justify="space-between">
+                <Button size="xs" color="red" variant="subtle" leftSection={<IconTrash size={12} />}>Delete</Button>
+                <Button size="xs" leftSection={<IconPlayerPlayFilled size={12} />}>Play</Button>
+            </Group>
         </Modal>
     )
 }
