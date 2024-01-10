@@ -1,8 +1,8 @@
-import { Avatar, Button, Card, Center, Group, Image, Loader, Stack, Text } from "@mantine/core";
+import { ActionIcon, Avatar, Button, Card, Center, Group, Image, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import favicon from "../../../favicon.svg";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { ChatSavePromptModal } from "../ChatSavePromptModal/ChatSavePromptModal";
 import { imageGeneration } from "../../../api/aiApi";
@@ -11,9 +11,10 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
 interface ImageGenerationCard {
     promptRequest: PromptRequest,
+    deleteThread: any
 }
 
-export function ImageGenerationCard({ promptRequest }: ImageGenerationCard) {
+export function ImageGenerationCard({ promptRequest, deleteThread }: ImageGenerationCard) {
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
@@ -52,9 +53,14 @@ export function ImageGenerationCard({ promptRequest }: ImageGenerationCard) {
             <Card p={"md"} shadow="sm">
                 <Stack gap={"xl"}>
                     <Stack py={"xs"}>
-                        <Group>
-                            <Avatar src={user.picture} size={"sm"} />
-                            <Text>{user.username}</Text>
+                        <Group justify="space-between">
+                            <Group>
+                                <Avatar src={user.picture} size={"sm"} />
+                                <Text>{user.username}</Text>
+                            </Group>
+                            <ActionIcon variant="subtle" onClick={() => deleteThread(promptRequest)}>
+                                <IconX size={18} />
+                            </ActionIcon>
                         </Group>
                         <Text style={{ whiteSpace: "pre-line" }}>
                             {promptRequest.title}

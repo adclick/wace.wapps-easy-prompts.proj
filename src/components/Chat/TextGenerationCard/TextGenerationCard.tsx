@@ -1,19 +1,21 @@
-import { Avatar, Button, Card, Center, Group, Loader, Stack, Text } from "@mantine/core";
+import { ActionIcon, Avatar, Button, Card, Center, Group, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import favicon from "../../../favicon.svg";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { ChatSavePromptModal } from "../ChatSavePromptModal/ChatSavePromptModal";
 import { textGeneration } from "../../../api/aiApi";
 import { useEffect, useState } from "react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 
 interface TextGenerationCard {
     promptRequest: PromptRequest,
+    deleteThread: any
 }
 
-export function TextGenerationCard({ promptRequest }: TextGenerationCard) {
+export function TextGenerationCard({ promptRequest, deleteThread }: TextGenerationCard) {
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
@@ -21,7 +23,7 @@ export function TextGenerationCard({ promptRequest }: TextGenerationCard) {
 
     useEffect(() => {
         if (response) return;
-        setResponse(<Center><Loader size={"xs"} type="bars" /></Center>);
+        setResponse(<Center><Loader size={"xs"} mt={"lg"} type="bars" /></Center>);
         fetch();
     });
 
@@ -29,7 +31,7 @@ export function TextGenerationCard({ promptRequest }: TextGenerationCard) {
         try {
             const response = await textGeneration(promptRequest);
 
-            setResponse(<Text style={{ whiteSpace: "pre-line" }}>{response}</Text>)
+            setResponse(<Text style={{ whiteSpace: "pre-line" }}>{response.trim()}</Text>)
 
             // Update request list
             const newRequest = PromptRequest.clone(promptRequest);
@@ -49,33 +51,42 @@ export function TextGenerationCard({ promptRequest }: TextGenerationCard) {
     return (
         <>
             <ChatSavePromptModal opened={newPromptModalOpened} handle={newPromptModaHandle} request={promptRequest} />
-            <Card p={"md"} shadow="sm">
+            <Card p={"md"} shadow="sm" mx={"md"}>
                 <Stack gap={"xl"}>
-                    <Stack py={"xs"}>
-                        <Group>
-                            <Avatar src={user.picture} size={"sm"} />
-                            <Text>{user.username}</Text>
+                    <ThreadHeader promptRequest={promptRequest} deleteThread={deleteThread} />
+                    <Stack gap={"xl"}>
+                        <Group justify="space-between" w={"100%"} align="start">
+                            <Group align="flex-start" wrap="nowrap">
+                                <Avatar src={user.picture} size={"sm"} />
+                                <Stack gap={"xs"}>
+                                    <Text fw={700}>{user.username}</Text>
+                                    <Text style={{ whiteSpace: "pre-line" }}>
+                                        {promptRequest.title}
+                                    </Text>
+                                </Stack>
+                            </Group>
                         </Group>
-                        <Text style={{ whiteSpace: "pre-line" }}>
-                            {promptRequest.title}
-                        </Text>
-                    </Stack>
-                    <Stack>
-                        <Group>
+                        <Group w={"100%"} align="start" wrap="nowrap">
                             <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
-                            <Text>EasyPrompts</Text>
-                        </Group>
-                        {response}
-                        <Group>
-                            <Button
-                                onClick={newPromptModaHandle.open}
-                                variant="subtle"
-                                leftSection={<IconPlus size={14} />}
-                            >
-                                Save
-                            </Button>
+                            <Stack gap={"xs"}>
+                                <Text fw={700}>EasyPrompts</Text>
+                                {
+                                    response === ""
+                                        ? <Center><Loader size={"xs"} type="bars" /></Center>
+                                        : <Text style={{ whiteSpace: "pre-line" }}>{response}</Text>
+                                }
+                            </Stack>
                         </Group>
                     </Stack>
+                    <Group>
+                        <Button
+                            onClick={newPromptModaHandle.open}
+                            variant="subtle"
+                            leftSection={<IconPlus size={14} />}
+                        >
+                            Save
+                        </Button>
+                    </Group>
                 </Stack>
             </Card>
         </>

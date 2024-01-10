@@ -1,5 +1,4 @@
 import { Checkbox, Stack, Title } from '@mantine/core';
-import { useSelectedFilters } from '../../../context/SelectedFiltersContext';
 import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
 import { ModifiersSelectedFilters } from '../../../model/ModifiersSelectedFilters';
 
@@ -10,9 +9,6 @@ interface LanguagesFilter {
 }
 
 export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters }: LanguagesFilter) {
-
-    console.log(selectedFilters.languages_ids);
-
     const update = (ids: string[]) => {
         setSelectedFilters({
             ...selectedFilters,

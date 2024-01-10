@@ -34,10 +34,7 @@ export function HomePage() {
     // Login User on Database
     useEffect(() => {
         if (userLoginQuery.data) {
-            setUser({
-                ...user,
-                isLoggedIn: true
-            });
+            setUser({ ...user, isLoggedIn: true });
 
             overlayHandle.close();
         }

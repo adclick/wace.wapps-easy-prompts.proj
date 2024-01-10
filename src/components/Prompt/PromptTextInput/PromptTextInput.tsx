@@ -30,7 +30,7 @@ export function PromptTextInput() {
 
     return (
         <Textarea
-            placeholder={"write_a_message"}
+            placeholder={"Craft a new prompt"}
             autosize
             autoFocus
             minRows={1}
