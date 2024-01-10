@@ -1,21 +1,17 @@
 import { useEffect } from 'react';
-import { AppShell, Box, Collapse, Group, ScrollArea } from '@mantine/core';
+import { AppShell, Box, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { User } from '../model/User';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
-import { PromptsList } from '../components/Database/PromptsList/PromptsList';
 import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
-import { ColorSchemeToggle } from '../components/Layout/ColorSchemeToggle/ColorSchemeToggle';
-import { ChatMenu } from '../components/Chat/ChatMenu/ChatMenu';
-import { ChatContainer } from '../components/Chat/ChatContainer/ChatContainer';
-import { UserMenu } from '../components/User/UserMenu/UserMenu';
+import { ThreadList } from '../components/Threads/ThreadList/ThreadList';
 import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
-import { HeaderBurgerMenu } from '../components/Layout/HeaderBurgerMenu/HeaderBurgerMenu';
 import classes from './Home.page.module.css';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 import { DatabaseListContainer } from '../components/Database/DatabaseListContainer/DatabaseListContainer';
+import { Header } from '../components/Layout/Header/Header';
 
 export function HomePage() {
     const [navbarOpened, navbarHandle] = useDisclosure(false);
@@ -54,16 +50,7 @@ export function HomePage() {
                 }}
             >
                 <AppShell.Header withBorder={false} p={"md"} >
-                    <Group h={"100%"} justify="space-between" align="center">
-                        <Group align="center" gap={"xs"}>
-                            <HeaderBurgerMenu navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
-                            <ChatMenu />
-                        </Group>
-                        <Group>
-                            <ColorSchemeToggle />
-                            <UserMenu />
-                        </Group>
-                    </Group>
+                    <Header navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
                 </AppShell.Header>
 
                 <AppShell.Navbar withBorder={false} p="md" className={classes.navbar}>
@@ -76,7 +63,7 @@ export function HomePage() {
                 </AppShell.Navbar>
 
                 <AppShell.Main>
-                    <ChatContainer />
+                    <ThreadList />
                 </AppShell.Main>
 
                 <AppShell.Footer withBorder={false}>

@@ -1,16 +1,18 @@
-import { Stack } from "@mantine/core";
+import { Card, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { TextGenerationCard } from "../TextGenerationCard/TextGenerationCard";
-import { ChatCard } from "../ChatCard/ChatCard";
-import { ImageGenerationCard } from "../ImageGenerationCard/ImageGenerationCard";
+import { TextGenerationThread } from "../TextGenerationThread/TextGenerationThread";
+import { ChatThread } from "../ChatThread/ChatThread";
+import { ImageGenerationThread } from "../ImageGenerationThread/ImageGenerationThread";
 
-export function ChatContainer() {
+export function ThreadList() {
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
     const deleteThread = (promptRequest: PromptRequest) => {
         setPromptsRequests(promptsRequests.filter((p) => p.key !== promptRequest.key));
     }
+
+    let thread = <></>;
 
     return (
         <Stack gap={"xl"} my={"xs"}>
@@ -18,24 +20,35 @@ export function ChatContainer() {
                 promptsRequests.map((promptRequest: PromptRequest) => {
                     switch (promptRequest.technology.slug) {
                         case 'text-generation':
-                            return <TextGenerationCard
+                            thread = <TextGenerationThread
                                 key={promptRequest.key}
                                 promptRequest={promptRequest}
                                 deleteThread={deleteThread}
                             />
+                            break;
                         case 'chat':
-                            return <ChatCard
+                            thread = <ChatThread
                                 key={promptRequest.key}
                                 promptRequest={promptRequest}
                                 deleteThread={deleteThread}
                             />
+                            break;
                         case 'image-generation':
-                            return <ImageGenerationCard
+                            thread = <ImageGenerationThread
                                 key={promptRequest.key}
                                 promptRequest={promptRequest}
                                 deleteThread={deleteThread}
                             />
+                            break;
                     }
+
+                    return (
+                        <Card p={"lg"} shadow="sm" mx={"md"}>
+                            <Stack gap={"xl"}>
+                                {thread}
+                            </Stack>
+                        </Card>
+                    )
                 })
             }
         </Stack>

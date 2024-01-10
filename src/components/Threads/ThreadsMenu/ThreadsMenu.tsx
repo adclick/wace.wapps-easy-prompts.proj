@@ -2,7 +2,7 @@ import { Button, Group, Menu, Stack, Text, UnstyledButton } from "@mantine/core"
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
-export function ChatMenu() {
+export function ThreadsMenu() {
     const { setPromptsRequests } = usePromptsRequests();
 
     return (
