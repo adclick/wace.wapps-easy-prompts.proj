@@ -11,27 +11,32 @@ export function PromptModifiersList() {
     }
 
     return (
-        <Popover position="top-start">
-            <Popover.Target>
-                <Button variant="subtle" size="xs" leftSection={<IconSparkles size={14} />}>
-                    Using {modifiersSelected.length} modifiers
-                </Button>
-            </Popover.Target>
-            <Popover.Dropdown>
-                {
-                    modifiersSelected.map(modifier => {
-                        return (
-                            <Group justify="space-between">
-                                <Text size="xs">{modifier.title}</Text>
-                                <ActionIcon variant="subtle" onClick={() => removeModifier(modifier.id)}>
-                                    <IconX size={12} />
-                                </ActionIcon>
-                            </Group>
+        <Group gap={0}>
+            <Popover position="top-start">
+                <Popover.Target>
+                    <Button variant="subtle" size="xs" leftSection={<IconSparkles size={14} />}>
+                        Using {modifiersSelected.length} modifiers
+                    </Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                    {
+                        modifiersSelected.map(modifier => {
+                            return (
+                                <Group justify="space-between">
+                                    <Text size="xs">{modifier.title}</Text>
+                                    <ActionIcon variant="subtle" onClick={() => removeModifier(modifier.id)}>
+                                        <IconX size={12} />
+                                    </ActionIcon>
+                                </Group>
 
-                        )
-                    })
-                }
-            </Popover.Dropdown>
-        </Popover>
+                            )
+                        })
+                    }
+                </Popover.Dropdown>
+            </Popover>
+            <ActionIcon variant="subtle" onClick={() => setModifiersSelected([])}>
+                <IconX size={12} />
+            </ActionIcon>
+        </Group>
     )
 }
