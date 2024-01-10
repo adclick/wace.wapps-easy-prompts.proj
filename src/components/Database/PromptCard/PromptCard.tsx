@@ -1,11 +1,10 @@
-import { Divider, Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center, Tooltip } from "@mantine/core";
+import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center, Tooltip } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../model/Prompt";
 import { Technology } from "../../../model/Technology";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
-import { Type } from "../../../model/SelectedDatabaseType";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
@@ -21,7 +20,7 @@ export function PromptCard({ prompt }: PromptCard) {
     const play = (e: any) => {
         e.stopPropagation();
 
-        const newPromptRequest = (prompt as PromptRequest);
+        const newPromptRequest = Prompt.clone(prompt) as PromptRequest;
         newPromptRequest.key = Date.now();
         newPromptRequest.isPlayable = true;
 

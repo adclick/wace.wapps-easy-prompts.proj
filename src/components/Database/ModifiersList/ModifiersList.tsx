@@ -1,21 +1,24 @@
-import { Accordion, Box, Center, Checkbox, CheckboxGroup, Loader, Stack } from "@mantine/core";
+import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext copy";
 import { useModifierssQuery } from "../../../api/modifiersApi";
 import { Modifier } from "../../../model/Modifier";
-import { useState } from "react";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
+import { useModifiersSelected } from "../../../context/ModifiersSelectedContext";
 
 export function ModifiersList() {
-    const { modifiersSelectedFilters } = useModifiersSelectedFilters();
     const { user } = useUser();
+    const { modifiersSelectedFilters } = useModifiersSelectedFilters();
     const { isLoading, data } = useModifierssQuery(user.id, modifiersSelectedFilters);
-    const [modifiers, setModifiers] = useState<Modifier[]>([]);
-    const [value, setValue] = useState<string[]>([]);
+    const { modifiersSelected, setModifiersSelected } = useModifiersSelected();
 
-    const onChange = (value: string[]) => {
-        console.log(value);
+    const onChange = (ids: string[]) => {
+        const modifiers = data.filter((m: Modifier) => ids.includes(m.id.toString()));
+
+        setModifiersSelected(modifiers);
     }
+
+    console.log(modifiersSelected);
 
     return (
         <Box>
@@ -26,23 +29,11 @@ export function ModifiersList() {
                 </Center>
             }
             <Stack>
-                <Checkbox.Group value={value} onChange={setValue}>
-                    <Accordion variant="separated" chevron="" styles={{
-                        chevron: {
-                            display: "none"
-                        }
-                    }}>
+                <Checkbox.Group value={modifiersSelected.map(m => m.id.toString())} onChange={onChange}>
+                    <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
                         {
                             data !== undefined &&
-                            data.map((modifier: Modifier) => {
-                                return (
-                                    <ModifierCard key={modifier.id}
-                                        modifier={modifier}
-                                        modifiers={modifiers}
-                                        setModifiers={setModifiers}
-                                    />
-                                )
-                            })
+                            data.map((modifier: Modifier) => <ModifierCard key={modifier.id} modifier={modifier} />)
                         }
                     </Accordion>
                 </Checkbox.Group>

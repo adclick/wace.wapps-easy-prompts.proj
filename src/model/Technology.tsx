@@ -1,4 +1,4 @@
-import { IconMessage } from "@tabler/icons-react";
+import { IconMessage, IconMessages } from "@tabler/icons-react";
 import { IconLanguage, IconListSearch, IconPencilStar, IconPhoto } from "@tabler/icons-react";
 
 export class Technology {
@@ -28,9 +28,9 @@ export class Technology {
     static getIcon(slug: string, size: number | string) {
         switch (slug) {
             case 'text-generation':
-                return <IconPencilStar size={size} />
-            case 'chat':
                 return <IconMessage size={size} />
+            case 'chat':
+                return <IconMessages size={size} />
             case 'image-generation':
                 return <IconPhoto size={size} />
             case 'keywords-extraction':

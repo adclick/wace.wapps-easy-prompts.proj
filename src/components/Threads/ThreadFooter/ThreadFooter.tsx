@@ -1,10 +1,11 @@
-import { ActionIcon, Button, Group } from "@mantine/core";
+import { ActionIcon, Group } from "@mantine/core";
 import { ThreadSaveButton } from "../ThreadSaveButton/ThreadSaveButton";
 import { ThreadInfoButton } from "../ThreadInfoButton/ThreadInfoButton";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { ChatSavePromptModal } from "../../Chat/ChatSavePromptModal/ChatSavePromptModal";
+import { ThreadSaveModal } from "../ThreadSaveModal/ThreadSaveModal";
 import { useDisclosure } from "@mantine/hooks";
-import { IconStar } from "@tabler/icons-react";
+import { IconReload, IconStar } from "@tabler/icons-react";
+import { ThreadMenu } from "../ThreadMenu/ThreadMenu";
 
 interface ThreadFooter {
     promptRequest: PromptRequest
@@ -15,7 +16,7 @@ export function ThreadFooter({ promptRequest }: ThreadFooter) {
 
     return (
         <>
-            <ChatSavePromptModal
+            <ThreadSaveModal
                 opened={newPromptModalOpened}
                 handle={newPromptModalHandle}
                 request={promptRequest}
@@ -29,8 +30,10 @@ export function ThreadFooter({ promptRequest }: ThreadFooter) {
                             </ActionIcon>
                             : <ThreadSaveButton onClick={newPromptModalHandle.open} />
                     }
-
-
+                    <ActionIcon variant="subtle">
+                        <IconReload size={14} stroke={3} />
+                    </ActionIcon>
+                    <ThreadMenu />
                 </Group>
                 <ThreadInfoButton promptRequest={promptRequest} />
             </Group>

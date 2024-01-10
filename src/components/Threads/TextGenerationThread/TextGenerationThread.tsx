@@ -7,31 +7,38 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
+import { useModifiersSelected } from "../../../context/ModifiersSelectedContext";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
+    scrollIntoView: any
 }
 
-export function TextGenerationThread({ promptRequest }: TextGenerationThread) {
+export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
+    const { modifiersSelected } = useModifiersSelected();
 
     useEffect(() => {
         if (response) return;
         fetch();
-    });
+        scrollIntoView({ alignement: 'start' })
+    }, [scrollIntoView]);
 
     const fetch = async () => {
-        const response = await textGeneration(promptRequest);
+        const response = await textGeneration(promptRequest, modifiersSelected);
 
         setResponse(response.trim())
+
 
         // Update request list
         const newRequest = PromptRequest.clone(promptRequest);
         newRequest.response = response;
         promptsRequests[promptRequest.key] = newRequest;
         setPromptsRequests(promptsRequests);
+
+
     }
 
     return (
@@ -39,7 +46,7 @@ export function TextGenerationThread({ promptRequest }: TextGenerationThread) {
             {
                 !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
             }
-            <ThreadResponse response={response} reloadButton={true} />
+            <ThreadResponse response={response} />
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )

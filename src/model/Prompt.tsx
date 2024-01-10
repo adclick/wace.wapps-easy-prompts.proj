@@ -39,4 +39,27 @@ export class Prompt {
         this.provider = new Provider();
         this.crafts_parameters = [];
     }
+
+    static clone(prompt: Prompt): Prompt {
+        const newPrompt = new Prompt();
+
+        newPrompt.id = prompt.id;
+        newPrompt.title = prompt.title;
+        newPrompt.slug = prompt.slug;
+        newPrompt.content = prompt.content;
+        newPrompt.description = prompt.description;
+        newPrompt.stars = prompt.stars;
+        newPrompt.plays = prompt.plays;
+        newPrompt.created_at = prompt.created_at;
+        newPrompt.type = prompt.type;
+        newPrompt.metadata = prompt.metadata;
+        newPrompt.user = prompt.user;
+        newPrompt.language = prompt.language;
+        newPrompt.repository = prompt.repository;
+        newPrompt.technology = prompt.technology;
+        newPrompt.provider = prompt.provider;
+        newPrompt.crafts_parameters = prompt.crafts_parameters;
+
+        return newPrompt;
+    }
 }

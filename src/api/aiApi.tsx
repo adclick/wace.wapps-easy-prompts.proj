@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { PromptRequest } from '../model/PromptRequest';
+import { Modifier } from '../model/Modifier';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const ERROR_MESSAGE = "Something went wrong. Please contact support";
+const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
 
-export const textGeneration = async (request: PromptRequest): Promise<string> => {
+export const textGeneration = async (request: PromptRequest, modifiersSelected: Modifier[]): Promise<string> => {
     try {
         const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
             text: request.content,
             providerId: request.provider.id.toString(),
-            craftId: request.id.toString()
+            modifiersIds: JSON.stringify(modifiersSelected.map(m => m.id.toString()))
         }));
     
         return data;

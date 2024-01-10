@@ -8,10 +8,11 @@ import { Card, Collapse, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
 interface ThreadItem {
-    promptRequest: PromptRequest
+    promptRequest: PromptRequest,
+    scrollIntoView: any
 }
 
-export function ThreadItem({promptRequest}: ThreadItem) {
+export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
     const [minimized, minimizeHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
@@ -27,18 +28,21 @@ export function ThreadItem({promptRequest}: ThreadItem) {
             thread = <TextGenerationThread
                 key={promptRequest.key}
                 promptRequest={promptRequest}
+                scrollIntoView={scrollIntoView}
             />
             break;
         case 'chat':
             thread = <ChatThread
                 key={promptRequest.key}
                 promptRequest={promptRequest}
+                scrollIntoView={scrollIntoView}
             />
             break;
         case 'image-generation':
             thread = <ImageGenerationThread
                 key={promptRequest.key}
                 promptRequest={promptRequest}
+                scrollIntoView={scrollIntoView}
             />
             break;
     }

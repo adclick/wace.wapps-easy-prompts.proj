@@ -10,9 +10,10 @@ import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
+    scrollIntoView: any
 }
 
-export function ImageGenerationThread({ promptRequest }: ImageGenerationThread) {
+export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGenerationThread) {
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
@@ -20,7 +21,8 @@ export function ImageGenerationThread({ promptRequest }: ImageGenerationThread) 
     useEffect(() => {
         if (response) return;
         fetch();
-    });
+        scrollIntoView({alignement: 'start'})
+    }, [scrollIntoView]);
 
     const fetch = async () => {
         const response = await imageGeneration(promptRequest);
@@ -44,7 +46,7 @@ export function ImageGenerationThread({ promptRequest }: ImageGenerationThread) 
             {
                 !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
             }
-            <ThreadResponse response={response} reloadButton={true} />
+            <ThreadResponse response={response} />
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )

@@ -10,6 +10,7 @@ import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
 
 interface ChatThread {
     promptRequest: PromptRequest,
+    scrollIntoView: any
 }
 
 interface Message {
@@ -18,11 +19,12 @@ interface Message {
     response: string,
 }
 
-export function ChatThread({ promptRequest }: ChatThread) {
+export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
 
     useEffect(() => {
+        scrollIntoView({alignement: 'start'});
         if (messages.length === 0) {
             const message: Message = {
                 id: messages.length,
@@ -33,7 +35,7 @@ export function ChatThread({ promptRequest }: ChatThread) {
             fetch(message);
             return;
         }
-    });
+    }, [scrollIntoView]);
 
     const updateMessages = (id: number, request: string, response: string) => {
         const exists = messages[id];
@@ -72,6 +74,7 @@ export function ChatThread({ promptRequest }: ChatThread) {
         };
 
         updateMessages(message.id, message.request, "");
+        scrollIntoView({alignement: 'start'});
         fetch(message);
     }
 
@@ -84,7 +87,7 @@ export function ChatThread({ promptRequest }: ChatThread) {
                             {
                                 !promptRequest.isPlayable && <ThreadRequest request={message.request} user={user} />
                             }
-                            <ThreadResponse response={message.response} reloadButton={index === messages.length -1} />
+                            <ThreadResponse response={message.response} />
                         </Stack>
                     )
                 })

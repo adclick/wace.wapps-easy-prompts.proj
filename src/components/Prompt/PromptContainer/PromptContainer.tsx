@@ -2,8 +2,12 @@ import { Group, Stack } from "@mantine/core";
 import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
 import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
 import { PromptOptionsMenu } from "../PromptOptionsMenu/PromptOptionsMenu";
+import { useModifiersSelected } from "../../../context/ModifiersSelectedContext";
+import { PromptModifiersList } from "./PromptModifiersList/PromptModifiersList";
 
 export function PromptContainer() {
+    const { modifiersSelected } = useModifiersSelected();
+
     return (
         <Stack
             gap={'sm'}
@@ -13,7 +17,12 @@ export function PromptContainer() {
             py={"md"}
             px={"md"}
         >
-             <Group w={"100%"} >
+            <Group>
+                {
+                    modifiersSelected.length > 0 && <PromptModifiersList />
+                }
+            </Group>
+            <Group w={"100%"} >
                 <PromptTextInput />
                 <PromptOptionsMenu />
                 <PromptPlayButton />
