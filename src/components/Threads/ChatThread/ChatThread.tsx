@@ -78,13 +78,13 @@ export function ChatThread({ promptRequest }: ChatThread) {
     return (
         <Stack gap={"xl"}>
             {
-                messages.map(message => {
+                messages.map((message, index) => {
                     return (
                         <Stack key={message.id} gap={"xl"}>
                             {
                                 !promptRequest.isPlayable && <ThreadRequest request={message.request} user={user} />
                             }
-                            <ThreadResponse response={message.response} />
+                            <ThreadResponse response={message.response} reloadButton={index === messages.length -1} />
                         </Stack>
                     )
                 })

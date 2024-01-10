@@ -44,7 +44,7 @@ export function ImageGenerationThread({ promptRequest }: ImageGenerationThread) 
             {
                 !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
             }
-            <ThreadResponse response={response} />
+            <ThreadResponse response={response} reloadButton={true} />
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )
