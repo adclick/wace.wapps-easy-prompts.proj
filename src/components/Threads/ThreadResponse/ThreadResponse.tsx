@@ -1,4 +1,4 @@
-import { Avatar, Center, Group, Loader, Stack, Text } from "@mantine/core";
+import { Avatar, Box, Center, Group, Loader, Stack, Text } from "@mantine/core";
 import favicon from "../../../favicon.svg";
 
 interface ThreadResponse {
@@ -12,8 +12,8 @@ export function ThreadResponse({ response }: ThreadResponse) {
                 <Text size="sm" fw={700}>EasyPrompts</Text>
                 {
                     response
-                        ? <Text size="sm" style={{ whiteSpace: "pre-line" }}>{response}</Text>
-                        : <Center><Loader size={"xs"} type="bars" mt={"lg"} /></Center>
+                        ? <Box style={{fontSize: "var(--mantine-font-size-sm)"}}>{response}</Box>
+                        : <Loader size={"xs"} type="dots" />
                 }
             </Stack>
         </Group>

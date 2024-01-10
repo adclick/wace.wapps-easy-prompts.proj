@@ -9,10 +9,18 @@ interface ChatThreadReplyContainer {
 export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
     const [replyValue, setReplyValue] = useState('');
 
+    const onKeyDown = async (e: any) => {
+        if (e.keyCode === 13 && e.shiftKey === false) {
+            setReplyValue('');
+            reply(replyValue)
+            e.preventDefault();
+        }
+    }
+
     return (
         <Group>
             <Textarea
-                placeholder="Write a message"
+                placeholder="Reply here"
                 autosize
                 autoFocus
                 minRows={1}
@@ -27,6 +35,7 @@ export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
                 radius={"xl"}
                 value={replyValue}
                 onChange={e => setReplyValue(e.target.value)}
+                onKeyDown={onKeyDown}
             />
             <ActionIcon
                 variant="filled"

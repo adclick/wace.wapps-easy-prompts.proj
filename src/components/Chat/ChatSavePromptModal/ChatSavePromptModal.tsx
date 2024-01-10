@@ -1,10 +1,9 @@
 import { Button, Group, Modal, Select, Stack, TextInput, Textarea } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { useState } from "react";
-import { Request } from "../../../model/Request";
 import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
+import { IconCheck } from "@tabler/icons-react";
 
 interface ChatSavePromptModal {
     opened: boolean
@@ -17,14 +16,11 @@ export function ChatSavePromptModal({
     handle,
     request,
 }: ChatSavePromptModal) {
-    const {user} = useUser();
+    const { user } = useUser();
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');
-    const [technologyId, setTechnologyId] = useState('');
-    const [providerId, setProviderId] = useState('');
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
-    const [content, setContent] = useState(request.content);
 
     const mutation = useCreatePromptMutation();
 
@@ -35,18 +31,17 @@ export function ChatSavePromptModal({
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
         newFormData.append("repository_id", repositoryId.toString());
-        newFormData.append("technology_id", technologyId.toString());
+        newFormData.append("technology_id", request.technology.id.toString());
         newFormData.append("provider_id", request.provider.id.toString());
         newFormData.append("name", name);
         newFormData.append("description", description);
-        newFormData.append("content", content);
+        newFormData.append("content", request.content);
 
         mutation.mutate(newFormData);
     }
 
     let languages = [];
     let repositories = [];
-    let technologies = [];
 
     if (promptsFiltersQuery.data) {
         languages = promptsFiltersQuery.data.languages.map((r: { id: number, name: string, slug: string }) => {
@@ -62,25 +57,11 @@ export function ChatSavePromptModal({
                 value: r.id.toString()
             }
         });
-
-        technologies = promptsFiltersQuery.data.technologies.map((t: { id: number, name: string, slug: string }) => {
-            return {
-                label: t.name,
-                value: t.id.toString()
-            }
-        });
-
     }
 
     const updateLanguage = (value: string | null) => {
         if (value) {
             setLanguageId(value);
-        }
-    }
-
-    const updateTechnology = (value: string | null) => {
-        if (value) {
-            setTechnologyId(value);
         }
     }
 
@@ -92,8 +73,8 @@ export function ChatSavePromptModal({
     }
 
     return (
-        <Modal opened={opened} onClose={handle.close} title={`New Prompt`}>
-           <Stack my={"xs"}>
+        <Modal opened={opened} onClose={handle.close} title={`Create New Prompt`} size={"lg"}>
+            <Stack my={"xs"}>
                 <Select
                     label="Language"
                     required
@@ -103,23 +84,14 @@ export function ChatSavePromptModal({
                     allowDeselect={false}
                     onChange={updateLanguage}
                 />
-                    <Select
-                        label="Repository"
-                        required
-                        placeholder="Repository"
-                        data={repositories}
-                        value={repositoryId}
-                        allowDeselect={false}
-                        onChange={updateRepository}
-                    />
                 <Select
-                    label="Technology"
+                    label="Repository"
                     required
-                    placeholder="Technology"
-                    data={technologies}
-                    value={technologyId}
+                    placeholder="Repository"
+                    data={repositories}
+                    value={repositoryId}
                     allowDeselect={false}
-                    onChange={updateTechnology}
+                    onChange={updateRepository}
                 />
                 <TextInput
                     label="Name"
@@ -137,22 +109,12 @@ export function ChatSavePromptModal({
                     value={description}
                     placeholder="Description"
                 />
-                <Textarea
-                    label="Content"
-                    description="Max Characters: 500"
-                    autosize
-                    required
-                    minRows={3}
-                    maxLength={500}
-                    onChange={(e: any) => setContent(e.target.value)}
-                    value={content}
-                    placeholder="Modifier Text"
-                />
-                <Group>
+                <Group justify="flex-end">
                     <Button
-                        variant="subtle"
-                        size="compact-sm"
+                        variant="filled"
+                        size="xs"
                         onClick={save}
+                        leftSection={<IconCheck size={14} />}
                     >
                         Save
                     </Button>

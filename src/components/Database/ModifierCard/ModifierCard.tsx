@@ -60,7 +60,6 @@ export function ModifierCard({
                 <Accordion.Panel>
 
                     <Stack>
-                        <Divider />
                         <Text size="xs">{modifier.description}</Text>
                         <Center>
                             <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>

@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text, Tooltip } from "@mantine/core"
+import { ActionIcon, Button, Group, Text, Title, Tooltip, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../model/PromptRequest"
 import { IconChevronDown, IconChevronUp, IconX } from "@tabler/icons-react"
 import { Technology } from "../../../model/Technology"
@@ -13,14 +13,15 @@ interface ThreadHeader {
 export function ThreadHeader({ promptRequest, deleteThread, minimized, minimizeHandle }: ThreadHeader) {
     return (
         <Group justify="space-between" wrap="nowrap">
-            <Group>
-                <Tooltip label={promptRequest.technology.name}>
+            <UnstyledButton
+                onClick={minimizeHandle.toggle}
+            >
+                <Group>
                     {Technology.getIcon(promptRequest.technology.slug, 18)}
-                </Tooltip>
-                <Text size="sm" fw={700}>
-                    {promptRequest.provider.name} - "{promptRequest.content}"
-                </Text>
-            </Group>
+                    <Title order={6}>{promptRequest.title}</Title>
+                </Group>
+
+            </UnstyledButton>
             <Group>
                 <ActionIcon variant="subtle" onClick={minimizeHandle.toggle}>
                     {

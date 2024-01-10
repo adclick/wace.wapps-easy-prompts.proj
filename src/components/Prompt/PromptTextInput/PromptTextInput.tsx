@@ -5,13 +5,12 @@ import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 
 export function PromptTextInput() {
-    const { requests, setRequests } = useRequests();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const {promptsRequests, setPromptsRequests} = usePromptsRequests();
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
-        newUserRequest.key = promptsRequests.length;
+        newUserRequest.key = Date.now();
         newUserRequest.title = value;
         newUserRequest.content = value;
         setUserPromptRequest(newUserRequest);

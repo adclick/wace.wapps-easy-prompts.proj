@@ -4,6 +4,7 @@ import { ThreadInfoButton } from "../ThreadInfoButton/ThreadInfoButton";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { ChatSavePromptModal } from "../../Chat/ChatSavePromptModal/ChatSavePromptModal";
 import { useDisclosure } from "@mantine/hooks";
+import { ThreadRegenerateButton } from "../ThreadRegenerateButton/ThreadRegenerateButton";
 
 interface ThreadFooter {
     promptRequest: PromptRequest
@@ -22,10 +23,9 @@ export function ThreadFooter({ promptRequest }: ThreadFooter) {
             <Group justify="space-between">
                 <Group>
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
+                    <ThreadRegenerateButton />
                 </Group>
-                <Group gap={6}>
-                    <ThreadInfoButton promptRequest={promptRequest} />
-                </Group>
+                <ThreadInfoButton promptRequest={promptRequest} />
             </Group>
         </>
     )

@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconTool, IconTools } from "@tabler/icons-react";
 
 interface ThreadSaveButton {
     onClick: any
@@ -9,11 +9,11 @@ export function ThreadSaveButton({ onClick }: ThreadSaveButton) {
     return (
         <Button
             onClick={onClick}
-            variant="subtle"
+            variant="filled"
             size="xs"
-            leftSection={<IconPlus size={14} />}
+            leftSection={<IconPlus size={14} stroke={3} />}
         >
-            Save
+            Create
         </Button>
     )
 }

@@ -50,12 +50,11 @@ export function PromptOptionsTechnologiesField() {
 
     return (
         technologiesQuery.data !== undefined && defaultTechnologyQuery.data !== undefined &&
-        <SegmentedControl value={userPromptRequest.technology.id.toString()} onChange={onChange} data={technologyData} />
-        // <Select
-        //     comboboxProps={{ withinPortal: false }}
-        //     value={userPromptRequest.technology.id.toString()}
-        //     data={technologyData}
-        //     onChange={onChange}
-        // />
+        <Select
+            comboboxProps={{ withinPortal: false }}
+            value={userPromptRequest.technology.id.toString()}
+            data={technologyData}
+            onChange={onChange}
+        />
     )
 }

@@ -22,7 +22,8 @@ export function PromptCard({ prompt }: PromptCard) {
         e.stopPropagation();
 
         const newPromptRequest = (prompt as PromptRequest);
-        newPromptRequest.key = promptsRequests.length;
+        newPromptRequest.key = Date.now();
+        newPromptRequest.isPlayable = true;
 
         setPromptsRequests([
             ...promptsRequests,
@@ -77,7 +78,6 @@ export function PromptCard({ prompt }: PromptCard) {
                 </Accordion.Control >
                 <Accordion.Panel>
                     <Stack>
-                        <Divider />
                         <Text size="xs">{prompt.description}</Text>
                         <Center>
                             <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>

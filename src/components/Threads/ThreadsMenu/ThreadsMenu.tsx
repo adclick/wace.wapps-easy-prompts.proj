@@ -19,7 +19,7 @@ export function ThreadsMenu() {
             </Menu.Target>
             <Menu.Dropdown>
                 <Menu.Item onClick={() => setPromptsRequests([])} leftSection={<IconPlus size={14} />}>
-                    New Chat
+                    New Window
                 </Menu.Item>
             </Menu.Dropdown>
         </Menu>

@@ -6,4 +6,5 @@ export const theme = createTheme({
   primaryColor: "blue",
   white: "#F8F9FA",
   cursorType: 'pointer',
+  fontFamily: 'Helvetica, sans-serif'
 });
