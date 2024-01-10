@@ -9,6 +9,7 @@ import { textGeneration } from "../../../api/aiApi";
 import { useEffect, useState } from "react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
+import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 
 interface TextGenerationCard {
     promptRequest: PromptRequest,
@@ -55,17 +56,7 @@ export function TextGenerationCard({ promptRequest, deleteThread }: TextGenerati
                 <Stack gap={"xl"}>
                     <ThreadHeader promptRequest={promptRequest} deleteThread={deleteThread} />
                     <Stack gap={"xl"}>
-                        <Group justify="space-between" w={"100%"} align="start">
-                            <Group align="flex-start" wrap="nowrap">
-                                <Avatar src={user.picture} size={"sm"} />
-                                <Stack gap={"xs"}>
-                                    <Text fw={700}>{user.username}</Text>
-                                    <Text style={{ whiteSpace: "pre-line" }}>
-                                        {promptRequest.title}
-                                    </Text>
-                                </Stack>
-                            </Group>
-                        </Group>
+                    <ThreadRequest request={promptRequest.title} user={user} />
                         <Group w={"100%"} align="start" wrap="nowrap">
                             <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
                             <Stack gap={"xs"}>

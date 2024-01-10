@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { chat } from "../../../api/aiApi";
 import { Technology } from "../../../model/Technology";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
+import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
+import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 
 interface ChatCard {
     promptRequest: PromptRequest,
@@ -102,26 +104,8 @@ export function ChatCard({ promptRequest, deleteThread }: ChatCard) {
                         messages.map(message => {
                             return (
                                 <Stack key={message.id} gap={"xl"}>
-                                    <Group align="flex-start" wrap="nowrap">
-                                        <Avatar src={user.picture} size={"sm"} />
-                                        <Stack gap={"xs"}>
-                                            <Text size="sm" fw={700}>{user.username}</Text>
-                                            <Text size="sm" style={{ whiteSpace: "pre-line" }}>
-                                                {message.request}
-                                            </Text>
-                                        </Stack>
-                                    </Group>
-                                    <Group w={"100%"} align="flex-start" wrap="nowrap">
-                                        <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
-                                        <Stack gap={"xs"}>
-                                            <Text size="sm" fw={700}>EasyPrompts</Text>
-                                            {
-                                                message.response === ""
-                                                    ? <Center><Loader size={"xs"} type="bars" mt={"lg"} /></Center>
-                                                    : <Text size="sm" style={{ whiteSpace: "pre-line" }}>{message.response}</Text>
-                                            }
-                                        </Stack>
-                                    </Group>
+                                    <ThreadRequest request={message.request} user={user} />
+                                    <ThreadResponse response={message.response} />
                                 </Stack>
                             )
                         })

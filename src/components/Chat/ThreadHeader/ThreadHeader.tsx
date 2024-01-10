@@ -11,7 +11,7 @@ export function ThreadHeader({ promptRequest, deleteThread }: ThreadHeader) {
     return (
         <Group justify="space-between">
             <Text fw={700}>
-                {promptRequest.technology.name} | {promptRequest.provider.name} | "{promptRequest.content}"
+                {promptRequest.technology.name} by {promptRequest.provider.name} - "{promptRequest.content}"
             </Text>
             <ActionIcon variant="subtle" onClick={() => deleteThread(promptRequest)}>
                 <IconX size={18} />
