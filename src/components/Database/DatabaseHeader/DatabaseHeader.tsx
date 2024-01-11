@@ -9,9 +9,11 @@ import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
 import { usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useModifiersFiltersQuery } from "../../../api/modifiersApi";
 import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext copy";
+import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
 import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
+import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
+import { SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
 
 interface DatabaseHeader {
     navbarOpened: boolean,
@@ -19,6 +21,7 @@ interface DatabaseHeader {
 }
 
 export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
+    const { selectedDatabaseType } = useSelectedDatabaseType()
     const [filtersOpened, filtersHandle] = useDisclosure(false);
 
     const { user } = useUser();
@@ -48,11 +51,14 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
                     <DatabaseMenu />
                 </Group>
                 <Group gap={"xs"}>
-                    <Tooltip label="Add">
-                        <ActionIcon size={"lg"} variant='subtle'>
-                            <IconPlus size={18} />
-                        </ActionIcon>
-                    </Tooltip>
+                    {
+                        selectedDatabaseType.type === Type.MODIFIER &&
+                        <Tooltip label="Add">
+                            <ActionIcon size={"lg"} variant='subtle'>
+                                <IconPlus size={18} />
+                            </ActionIcon>
+                        </Tooltip>
+                    }
                     <Tooltip label="Sort">
                         <ActionIcon size={"lg"} variant='subtle'>
                             <IconArrowsSort size={18} />

@@ -1,7 +1,7 @@
 import { ActionIcon, Popover } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
-import { Technology } from "../../../model/Technology";
 import { PromptOptionsContainer } from "../PromptOptionsContainer/PromptOptionsContainer";
+import iconsUtils from "../../../utils/iconsUtils";
 
 export function PromptOptionsMenu() {
     const { userPromptRequest } = useUserPromptRequest();
@@ -11,7 +11,7 @@ export function PromptOptionsMenu() {
             <Popover.Target>
                 <ActionIcon variant="subtle" size="lg" pos={"absolute"} left={"30px"}>
                     {
-                        Technology.getIcon(userPromptRequest.technology.slug, 22)
+                        iconsUtils.getTechnologyIcon(userPromptRequest.technology.slug, 22)
                     }
                 </ActionIcon>
             </Popover.Target>

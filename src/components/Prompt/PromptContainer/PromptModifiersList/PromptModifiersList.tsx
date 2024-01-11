@@ -1,13 +1,13 @@
 import { ActionIcon, Button, Group, Popover, Text } from "@mantine/core"
-import { useModifiersSelected } from "../../../../context/ModifiersSelectedContext"
 import { IconSparkles, IconX } from "@tabler/icons-react";
+import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 
 export function PromptModifiersList() {
-    const { modifiersSelected, setModifiersSelected } = useModifiersSelected();
+    const {selectedModifiers, setSelectedModifiers} = useSelectedModifiers();
 
     const removeModifier = (id: number) => {
-        const newMOdifiersSelected = modifiersSelected.filter(m => m.id !== id);
-        setModifiersSelected(newMOdifiersSelected);
+        const newSelectedModifiers = selectedModifiers.filter(m => m.id !== id);
+        setSelectedModifiers(newSelectedModifiers);
     }
 
     return (
@@ -15,12 +15,12 @@ export function PromptModifiersList() {
             <Popover position="top-start">
                 <Popover.Target>
                     <Button variant="subtle" size="xs" leftSection={<IconSparkles size={14} />}>
-                        Using {modifiersSelected.length} modifiers
+                        Using {selectedModifiers.length} modifiers
                     </Button>
                 </Popover.Target>
                 <Popover.Dropdown>
                     {
-                        modifiersSelected.map(modifier => {
+                        selectedModifiers.map(modifier => {
                             return (
                                 <Group key={modifier.id} justify="space-between">
                                     <Text size="xs">{modifier.title}</Text>
@@ -34,7 +34,7 @@ export function PromptModifiersList() {
                     }
                 </Popover.Dropdown>
             </Popover>
-            <ActionIcon variant="subtle" onClick={() => setModifiersSelected([])}>
+            <ActionIcon variant="subtle" onClick={() => setSelectedModifiers([])}>
                 <IconX size={12} />
             </ActionIcon>
         </Group>

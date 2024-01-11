@@ -23,12 +23,18 @@ export function ThreadSaveModal({
     const [repositoryId, setRepositoryId] = useState(promptsSelectedFilters.repositories_ids[0].toString());
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
+    const [descriptionError, setDescriptionError] = useState('');
 
     const mutation = useCreatePromptMutation();
 
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
 
     const save = async () => {
+        if (description === "") {
+            setDescriptionError("Field is required");
+            return;
+        }
+
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
@@ -74,8 +80,13 @@ export function ThreadSaveModal({
         }
     }
 
+    const updateDescription = (value: string) => {
+        setDescription(value);
+        setDescriptionError("");
+    }
+
     return (
-        <Modal opened={opened} onClose={handle.close} title={`Create New Prompt`} size={"lg"}>
+        <Modal opened={opened} onClose={handle.close} title={`Create New Prompt`} size={"md"}>
             <Stack my={"xs"}>
                 <Select
                     label="Language"
@@ -107,9 +118,11 @@ export function ThreadSaveModal({
                     autosize
                     required
                     minRows={3}
-                    onChange={(e: any) => setDescription(e.target.value)}
+                    onChange={(e: any) => updateDescription(e.target.value)}
                     value={description}
-                    placeholder="Description"
+                    description="This is what others will see"
+                    placeholder="Write a brief description"
+                    error={descriptionError}
                 />
                 <Group justify="flex-end">
                     <Button

@@ -25,18 +25,18 @@ export class Technology {
         return newTechnology;
     }
 
-    static getIcon(slug: string, size: number | string) {
-        switch (slug) {
-            case 'text-generation':
-                return <IconMessage size={size} />
-            case 'chat':
-                return <IconMessages size={size} />
-            case 'image-generation':
-                return <IconPhoto size={size} />
-            case 'keywords-extraction':
-                return <IconListSearch size={size} />
-            case 'translation':
-                return <IconLanguage size={size} />
-        }
-    }
+    // static getIcon(slug: string, size: number | string) {
+    //     switch (slug) {
+    //         case 'text-generation':
+    //             return <IconMessage size={size} />
+    //         case 'chat':
+    //             return <IconMessages size={size} />
+    //         case 'image-generation':
+    //             return <IconPhoto size={size} />
+    //         case 'keywords-extraction':
+    //             return <IconListSearch size={size} />
+    //         case 'translation':
+    //             return <IconLanguage size={size} />
+    //     }
+    // }
 }

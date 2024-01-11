@@ -1,5 +1,4 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { Request } from '../model/Request';
 import { PromptRequest } from '../model/PromptRequest';
 
 interface PromptsRequestsContextProps {

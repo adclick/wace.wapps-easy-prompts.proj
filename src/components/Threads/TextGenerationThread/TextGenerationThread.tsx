@@ -7,7 +7,7 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
-import { useModifiersSelected } from "../../../context/ModifiersSelectedContext";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -18,7 +18,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
-    const { modifiersSelected } = useModifiersSelected();
+    const { selectedModifiers } = useSelectedModifiers();
 
     useEffect(() => {
         if (response) return;
@@ -27,7 +27,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     }, [scrollIntoView]);
 
     const fetch = async () => {
-        const response = await textGeneration(promptRequest, modifiersSelected);
+        const response = await textGeneration(promptRequest, selectedModifiers);
 
         setResponse(response.trim())
 

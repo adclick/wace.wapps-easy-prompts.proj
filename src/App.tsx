@@ -8,13 +8,12 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from './context/UserContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { RequestsProvider } from './context/RequestsContext';
 import { UserPromptRequestProvider } from './context/UserPromptRequestContext';
 import { PromptsSelectedFiltersProvider } from './context/ModifiersSelectedFiltersContext';
 import { SelectedDatabaseTypeProvider } from './context/SelectedDatabaseTypeContext';
-import { ModifiersSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext copy';
+import { ModifiersSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext';
 import { PromptsRequestsProvider } from './context/PromptsRequestsContext';
-import { ModifiersSelectedProvider } from './context/ModifiersSelectedContext';
+import { SelectedModifiersProvider } from './context/SelectedModifiersContext';
 
 
 export default function App() {
@@ -34,16 +33,14 @@ export default function App() {
             <SelectedDatabaseTypeProvider>
               <PromptsSelectedFiltersProvider>
                 <ModifiersSelectedFiltersProvider>
-                  <ModifiersSelectedProvider>
+                  <SelectedModifiersProvider>
                     <PromptsRequestsProvider>
-                      <RequestsProvider>
-                        <UserPromptRequestProvider>
-                          <Notifications />
-                          <Router />
-                        </UserPromptRequestProvider>
-                      </RequestsProvider>
+                      <UserPromptRequestProvider>
+                        <Notifications />
+                        <Router />
+                      </UserPromptRequestProvider>
                     </PromptsRequestsProvider>
-                  </ModifiersSelectedProvider>
+                  </SelectedModifiersProvider>
                 </ModifiersSelectedFiltersProvider>
               </PromptsSelectedFiltersProvider>
             </SelectedDatabaseTypeProvider>

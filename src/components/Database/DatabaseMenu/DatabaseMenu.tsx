@@ -4,10 +4,12 @@ import { NewModifierModal } from "../NewModifierModal/NewModifierModal";
 import { useDisclosure } from "@mantine/hooks";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
 export function DatabaseMenu() {
-    const {selectedDatabaseType, setSelectedDatabaseType} = useSelectedDatabaseType();
+    const { selectedDatabaseType, setSelectedDatabaseType } = useSelectedDatabaseType();
     const [newModifierOpened, newModifierHandle] = useDisclosure(false);
+    const {setSelectedModifiers} = useSelectedModifiers();
 
     const onChange = (type: Type, label: Label, labelPlural: LabelPlural) => {
         const newSelectedDatabaseType = new SelectedDatabaseType();
@@ -17,6 +19,8 @@ export function DatabaseMenu() {
         newSelectedDatabaseType.labelPlural = labelPlural;
 
         setSelectedDatabaseType(newSelectedDatabaseType);
+
+        setSelectedModifiers([]);
     }
 
     return (

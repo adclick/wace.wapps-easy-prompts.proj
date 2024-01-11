@@ -1,4 +1,3 @@
-import { CraftParameter } from "./CraftParameter";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 import { User } from "./User";
@@ -19,7 +18,6 @@ export class Prompt {
     repository: {id: number, name: string, slug: string}
     technology: Technology;
     provider: Provider;
-    crafts_parameters: CraftParameter[];
     
     constructor() {
         this.id = 0;
@@ -37,7 +35,6 @@ export class Prompt {
         this.repository = {id: 0, name: "", slug: ""}
         this.technology = new Technology();
         this.provider = new Provider();
-        this.crafts_parameters = [];
     }
 
     static clone(prompt: Prompt): Prompt {
@@ -58,7 +55,6 @@ export class Prompt {
         newPrompt.repository = prompt.repository;
         newPrompt.technology = prompt.technology;
         newPrompt.provider = prompt.provider;
-        newPrompt.crafts_parameters = prompt.crafts_parameters;
 
         return newPrompt;
     }

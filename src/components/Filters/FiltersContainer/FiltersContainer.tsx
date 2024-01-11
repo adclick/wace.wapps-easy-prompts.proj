@@ -5,7 +5,7 @@ import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { Type } from "../../../model/SelectedDatabaseType";
 import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext copy";
+import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
 
 interface FiltersContainer {

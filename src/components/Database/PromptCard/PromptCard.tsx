@@ -8,6 +8,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
+import iconsUtils from "../../../utils/iconsUtils";
 
 interface PromptCard {
     prompt: Prompt,
@@ -52,7 +53,7 @@ export function PromptCard({ prompt }: PromptCard) {
                             <Tooltip label={prompt.technology.name}>
                                 <ActionIcon component="a" variant="transparent" color="gray.9">
                                     {
-                                        Technology.getIcon(prompt.technology.slug, 16)
+                                        iconsUtils.getTechnologyIcon(prompt.technology.slug, 16)
                                     }
                                 </ActionIcon>
                             </Tooltip>

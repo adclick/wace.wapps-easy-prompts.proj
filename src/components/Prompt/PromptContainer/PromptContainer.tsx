@@ -2,11 +2,11 @@ import { Group, Stack } from "@mantine/core";
 import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
 import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
 import { PromptOptionsMenu } from "../PromptOptionsMenu/PromptOptionsMenu";
-import { useModifiersSelected } from "../../../context/ModifiersSelectedContext";
 import { PromptModifiersList } from "./PromptModifiersList/PromptModifiersList";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
 export function PromptContainer() {
-    const { modifiersSelected } = useModifiersSelected();
+    const { selectedModifiers } = useSelectedModifiers();
 
     return (
         <Stack
@@ -17,11 +17,9 @@ export function PromptContainer() {
             py={"md"}
             px={"md"}
         >
-            <Group>
-                {
-                    modifiersSelected.length > 0 && <PromptModifiersList />
-                }
-            </Group>
+            {
+                selectedModifiers.length > 0 && <PromptModifiersList />
+            }
             <Group w={"100%"} >
                 <PromptTextInput />
                 <PromptOptionsMenu />
