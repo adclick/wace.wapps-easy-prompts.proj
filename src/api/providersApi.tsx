@@ -6,7 +6,7 @@ export const useProvidersQuery = (technologyId: number) => {
         queryKey: ["providers", technologyId],
         queryFn: async () => {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/providers?` + new URLSearchParams({
-                technologyId: technologyId.toString()
+                technology_id: technologyId.toString()
             }));
 
             return data;
@@ -20,7 +20,7 @@ export const useDefaultProvidersQuery = (technologyId: number) => {
         queryKey: ["providers", "default", technologyId],
         queryFn: async () => {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/providers/default?` + new URLSearchParams({
-                technologyId: technologyId.toString()
+                technology_id: technologyId.toString()
             }));
 
             return data;

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { Request } from '../model/Request';
 
 export const useTechnologiesQuery = () => {
     return useQuery({

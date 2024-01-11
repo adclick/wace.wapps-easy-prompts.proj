@@ -8,7 +8,7 @@ export const useUsersLoginsQuery = (user: User) => {
         queryFn: async () => {
             // Your API call to fetch crafts
             const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/users/login/`, {
-                userId: user.id,
+                user_external_id: user.id,
                 email: user.email,
                 username: user.username
             });

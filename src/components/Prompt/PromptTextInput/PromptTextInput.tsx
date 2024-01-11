@@ -17,7 +17,7 @@ export function PromptTextInput() {
     }
 
     const play = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.code === "Enter" && e.shiftKey === false) {
+        if (e.keyCode === 13 && e.shiftKey === false) {
             setPromptsRequests([...promptsRequests, userPromptRequest])
             updateUserRequestText("");
             e.preventDefault();

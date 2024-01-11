@@ -8,8 +8,9 @@ export const usePromptsFiltersQuery = (userId: string) => {
     return useQuery({
         queryKey: ["prompts", "filters", userId],
         queryFn: async () => {
-            // Your API call to fetch crafts
-            const {data} = await axios.get(`${API_URL}/prompts/filters/?` + new URLSearchParams({userId}));
+            const { data } = await axios.get(`${API_URL}/prompts/filters/?` + new URLSearchParams({
+                user_external_id: userId
+            }));
 
             return data;
         },
@@ -21,13 +22,12 @@ export const usePromptsQuery = (userId: string, selectedFilters: PromptsSelected
     return useQuery({
         queryKey: ["prompts", selectedFilters],
         queryFn: async () => {
-            const { search_term, languages_ids, repositories_ids, technologies_ids } = selectedFilters;
             const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
-                userId,
-                search_term,
-                languages_ids: languages_ids.join(','),
-                repositories_ids: repositories_ids.join(','),
-                technologies_ids: technologies_ids.join(','),
+                user_external_id: userId,
+                search_term: selectedFilters.search_term,
+                languages_ids: JSON.stringify(selectedFilters.languages_ids),
+                repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
+                technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
             }));
 
             return data;
@@ -42,7 +42,7 @@ export const useCreatePromptMutation = () => {
     return useMutation({
         mutationFn: async (formData: FormData) => {
             const { data } = await axios.post(`${API_URL}/prompts`, {
-                userId: formData.get('userId'),
+                user_external_id: formData.get('userId'),
                 name: formData.get('name'),
                 description: formData.get('description'),
                 content: formData.get('content'),
