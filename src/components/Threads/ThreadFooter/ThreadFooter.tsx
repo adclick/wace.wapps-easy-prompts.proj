@@ -6,6 +6,7 @@ import { ThreadSaveModal } from "../ThreadSaveModal/ThreadSaveModal";
 import { useDisclosure } from "@mantine/hooks";
 import { IconReload, IconStar } from "@tabler/icons-react";
 import { ThreadMenu } from "../ThreadMenu/ThreadMenu";
+import { ThreadReloadButton } from "../ThreadReloadButton/ThreadReloadButton";
 
 interface ThreadFooter {
     promptRequest: PromptRequest
@@ -30,9 +31,7 @@ export function ThreadFooter({ promptRequest }: ThreadFooter) {
                             </ActionIcon>
                             : <ThreadSaveButton onClick={newPromptModalHandle.open} />
                     }
-                    <ActionIcon variant="subtle">
-                        <IconReload size={14} stroke={3} />
-                    </ActionIcon>
+                    <ThreadReloadButton promptRequest={promptRequest} />
                     <ThreadMenu />
                 </Group>
                 <ThreadInfoButton promptRequest={promptRequest} />

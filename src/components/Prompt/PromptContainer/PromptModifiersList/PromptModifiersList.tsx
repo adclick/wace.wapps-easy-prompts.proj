@@ -22,7 +22,7 @@ export function PromptModifiersList() {
                     {
                         modifiersSelected.map(modifier => {
                             return (
-                                <Group justify="space-between">
+                                <Group key={modifier.id} justify="space-between">
                                     <Text size="xs">{modifier.title}</Text>
                                     <ActionIcon variant="subtle" onClick={() => removeModifier(modifier.id)}>
                                         <IconX size={12} />
