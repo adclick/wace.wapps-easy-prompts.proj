@@ -14,7 +14,6 @@ export function ThreadReloadButton({ promptRequest }: ThreadReloadButton) {
         const newPromptRequest = PromptRequest.clone(promptRequest);
 
         for (const [p, index] of Object.entries(promptsRequests)) {
-            console.log("here", p, index);
         }
         
     }

@@ -7,8 +7,6 @@ export function ThreadsScrollToBottom() {
 
     const maxHeight =  999999;
 
-    console.log(scroll.y, maxHeight);
-
     return (
         <Affix
             position={{ bottom: 78, right: 600 }}

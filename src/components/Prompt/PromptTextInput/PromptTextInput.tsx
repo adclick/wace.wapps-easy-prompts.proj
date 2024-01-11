@@ -1,12 +1,12 @@
 import { Textarea } from "@mantine/core";
-import { useRequests } from "../../../context/RequestsContext";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
+import { KeyboardEvent } from "react";
 
 export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-    const {promptsRequests, setPromptsRequests} = usePromptsRequests();
+    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
@@ -16,12 +16,9 @@ export function PromptTextInput() {
         setUserPromptRequest(newUserRequest);
     }
 
-    const play = async (e: any) => {
-        if (e.keyCode === 13 && e.shiftKey === false) {
-            setPromptsRequests([
-                ...promptsRequests,
-                userPromptRequest
-            ])
+    const play = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.code === "Enter" && e.shiftKey === false) {
+            setPromptsRequests([...promptsRequests, userPromptRequest])
             updateUserRequestText("");
             e.preventDefault();
         }
@@ -46,7 +43,7 @@ export function PromptTextInput() {
             radius={'xl'}
             value={userPromptRequest.content}
             onChange={e => updateUserRequestText(e.target.value)}
-            onKeyDown={play}
+            onKeyDown={e => play(e)}
         />
     )
 }

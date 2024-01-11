@@ -5,6 +5,9 @@ import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { IconCheck } from "@tabler/icons-react";
 import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
+import { Language } from "../../../model/Language";
+import { Repository } from "../../../model/Repository";
 
 interface ThreadSaveModal {
     opened: boolean
@@ -24,6 +27,7 @@ export function ThreadSaveModal({
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
     const [descriptionError, setDescriptionError] = useState('');
+    const { selectedModifiers } = useSelectedModifiers();
 
     const mutation = useCreatePromptMutation();
 
@@ -35,6 +39,9 @@ export function ThreadSaveModal({
             return;
         }
 
+        const selectedModifiersIds = selectedModifiers.map(m => m.id);
+        console.log(selectedModifiersIds);
+
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
@@ -44,6 +51,7 @@ export function ThreadSaveModal({
         newFormData.append("name", name);
         newFormData.append("description", description);
         newFormData.append("content", request.content);
+        newFormData.append("modifiers_ids", JSON.stringify(selectedModifiersIds));
 
         mutation.mutate(newFormData);
     }
@@ -52,14 +60,14 @@ export function ThreadSaveModal({
     let repositories = [];
 
     if (promptsFiltersQuery.data) {
-        languages = promptsFiltersQuery.data.languages.map((r: { id: number, name: string, slug: string }) => {
+        languages = promptsFiltersQuery.data.languages.map((r: Language) => {
             return {
                 label: r.name,
                 value: r.id.toString()
             }
         });
 
-        repositories = promptsFiltersQuery.data.repositories.map((r: { id: number, name: string, slug: string }) => {
+        repositories = promptsFiltersQuery.data.repositories.map((r: Repository) => {
             return {
                 label: r.name,
                 value: r.id.toString()

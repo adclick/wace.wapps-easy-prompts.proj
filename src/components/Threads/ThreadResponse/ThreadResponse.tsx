@@ -9,10 +9,7 @@ export function ThreadResponse({ response }: ThreadResponse) {
         <Group w={"100%"} align="flex-start" wrap="nowrap">
             <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
             <Stack gap={"xs"}>
-                <Group>
-                    <Text size="sm" fw={700}>EasyPrompts</Text>
-
-                </Group>
+                <Text size="sm" fw={700}>EasyPrompts</Text>
                 {
                     response
                         ? <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>

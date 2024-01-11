@@ -1,6 +1,7 @@
-import { ActionIcon, Group, Textarea } from "@mantine/core";
+import { ActionIcon, Avatar, Group, Textarea } from "@mantine/core";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useState } from "react";
+import { useUser } from "../../../context/UserContext";
 
 interface ChatThreadReplyContainer {
     reply: any
@@ -8,17 +9,19 @@ interface ChatThreadReplyContainer {
 
 export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
     const [replyValue, setReplyValue] = useState('');
+    const {user} = useUser();
 
     const onKeyDown = async (e: any) => {
         if (e.keyCode === 13 && e.shiftKey === false) {
             setReplyValue('');
-            reply(replyValue)
+            reply(replyValue);
             e.preventDefault();
         }
     }
 
     return (
-        <Group>
+        <Group wrap="nowrap">
+            <Avatar src={user.picture} size={"sm"} />
             <Textarea
                 placeholder="Reply here"
                 autosize
@@ -32,7 +35,6 @@ export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
                     },
 
                 }}
-                radius={"xl"}
                 value={replyValue}
                 onChange={e => setReplyValue(e.target.value)}
                 onKeyDown={onKeyDown}

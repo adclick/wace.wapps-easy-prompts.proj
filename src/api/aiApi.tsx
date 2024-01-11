@@ -9,8 +9,9 @@ export const textGeneration = async (request: PromptRequest, modifiersSelected: 
     try {
         const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
             text: request.content,
-            providerId: request.provider.id.toString(),
-            modifiersIds: JSON.stringify(modifiersSelected.map(m => m.id.toString()))
+            provider_id: request.provider.id.toString(),
+            modifiers_ids: JSON.stringify(modifiersSelected.map(m => m.id.toString())),
+            prompt_id: request.id.toString()
         }));
     
         return data;
