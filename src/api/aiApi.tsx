@@ -11,8 +11,18 @@ export const textGeneration = async (request: PromptRequest, modifiersSelected: 
             text: request.content,
             provider_id: request.provider.id.toString(),
             modifiers_ids: JSON.stringify(modifiersSelected.map(m => m.id)),
-            prompt_id: request.id.toString()
         }));
+    
+        return data;
+    } catch(e) {
+        console.error(e);
+        return ERROR_MESSAGE;
+    }
+};
+
+export const textGenerationById = async (promptId: number): Promise<string> => {
+    try {
+        const { data } = await axios.get(`${API_URL}/ai/text-generation/${promptId}`);
     
         return data;
     } catch(e) {
@@ -26,8 +36,19 @@ export const imageGeneration = async (request: PromptRequest): Promise<string[]|
         const { data } = await axios.get(`${API_URL}/ai/image-generation?` + new URLSearchParams({
             text: request.content,
             provider_id: request.provider.id.toString(),
-            parameters: JSON.stringify("")
+            modifiers_ids: JSON.stringify([])
         }));
+    
+        return data;
+    } catch(e) {
+        console.error(e);
+        return ERROR_MESSAGE;
+    }
+};
+
+export const imageGenerationById = async (promptId: number): Promise<string[]|string> => {
+    try {
+        const { data } = await axios.get(`${API_URL}/ai/image-generation/${promptId}`);
     
         return data;
     } catch(e) {

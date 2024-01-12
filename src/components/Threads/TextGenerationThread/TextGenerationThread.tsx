@@ -1,7 +1,7 @@
 import { Stack } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { textGeneration } from "../../../api/aiApi";
+import { textGeneration, textGenerationById } from "../../../api/aiApi";
 import { useEffect, useState } from "react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
@@ -27,7 +27,9 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     }, [scrollIntoView]);
 
     const fetch = async () => {
-        const response = await textGeneration(promptRequest, selectedModifiers);
+        const response = promptRequest.isPlayable 
+            ? await textGenerationById(promptRequest.id)
+            : await textGeneration(promptRequest, selectedModifiers);
 
         setResponse(response.trim())
 

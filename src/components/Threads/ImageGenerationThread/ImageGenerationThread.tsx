@@ -1,7 +1,7 @@
 import { Group, Image, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { imageGeneration } from "../../../api/aiApi";
+import { imageGeneration, imageGenerationById } from "../../../api/aiApi";
 import { useEffect, useState } from "react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
@@ -21,11 +21,13 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
     useEffect(() => {
         if (response) return;
         fetch();
-        scrollIntoView({alignement: 'start'})
+        scrollIntoView({ alignement: 'start' })
     }, [scrollIntoView]);
 
     const fetch = async () => {
-        const response = await imageGeneration(promptRequest);
+        const response = promptRequest.isPlayable
+            ? await imageGenerationById(promptRequest.id)
+            : await imageGeneration(promptRequest)
 
         if (typeof response === "string") {
             setResponse(response)
