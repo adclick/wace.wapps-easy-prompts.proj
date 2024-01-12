@@ -1,19 +1,17 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
-import { useUser } from "../../../context/UserContext";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
-import { useModifierssQuery } from "../../../api/modifiersApi";
 import { Modifier } from "../../../model/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
-export function ModifiersList() {
-    const { user } = useUser();
-    const { modifiersSelectedFilters } = useModifiersSelectedFilters();
-    const { isLoading, data } = useModifierssQuery(user.id, modifiersSelectedFilters);
-    const {selectedModifiers, setSelectedModifiers} = useSelectedModifiers();
+interface ModifiersList {
+    modifiersQuery: any
+}
+
+export function ModifiersList({ modifiersQuery }: ModifiersList) {
+    const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
 
     const onChange = (ids: string[]) => {
-        const modifiers = data.filter((m: Modifier) => ids.includes(m.id.toString()));
+        const modifiers = modifiersQuery.data.filter((m: Modifier) => ids.includes(m.id.toString()));
 
         setSelectedModifiers(modifiers);
     }
@@ -21,7 +19,7 @@ export function ModifiersList() {
     return (
         <Box>
             {
-                isLoading &&
+                modifiersQuery.isLoading &&
                 <Center mb={"xl"}>
                     <Loader type="bars" size={"xs"} />
                 </Center>
@@ -30,8 +28,8 @@ export function ModifiersList() {
                 <Checkbox.Group value={selectedModifiers.map(m => m.id.toString())} onChange={onChange}>
                     <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
                         {
-                            data !== undefined &&
-                            data.map((modifier: Modifier) => <ModifierCard key={modifier.id} modifier={modifier} />)
+                            modifiersQuery.data !== undefined &&
+                            modifiersQuery.data.map((modifier: Modifier) => <ModifierCard key={modifier.id} modifier={modifier} />)
                         }
                     </Accordion>
                 </Checkbox.Group>

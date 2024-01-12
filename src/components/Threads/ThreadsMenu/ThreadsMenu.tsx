@@ -19,7 +19,15 @@ export function ThreadsMenu() {
             </Menu.Target>
             <Menu.Dropdown>
                 <Menu.Item onClick={() => setPromptsRequests([])} leftSection={<IconPlus size={14} />}>
-                    New Window
+                    New Private Window
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Label>Repositories</Menu.Label>
+                <Menu.Item disabled>
+                    New Reposity
+                </Menu.Item>
+                <Menu.Item disabled>
+                    Browse
                 </Menu.Item>
             </Menu.Dropdown>
         </Menu>

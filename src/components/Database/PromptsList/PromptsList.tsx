@@ -1,19 +1,16 @@
-import { Accordion, Box, Center, Loader, Stack } from "@mantine/core"
-import { usePromptsQuery } from "../../../api/promptsApi";
+import { Accordion, Box, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../model/Prompt";
-import { useUser } from "../../../context/UserContext";
 import { PromptCard } from "../PromptCard/PromptCard";
-import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 
-export function PromptsList() {
-    const {promptsSelectedFilters} = usePromptsSelectedFilters();
-    const { user } = useUser();
-    const { isLoading, data } = usePromptsQuery(user.id, promptsSelectedFilters);
+interface PromptsList {
+    promptsQuery: any
+}
 
+export function PromptsList({ promptsQuery }: PromptsList) {
     return (
         <Box>
             {
-                isLoading &&
+                promptsQuery.isLoading &&
                 <Center mb={"xl"}>
                     <Loader type="bars" size={"xs"} />
                 </Center>
@@ -25,8 +22,8 @@ export function PromptsList() {
                     }
                 }}>
                     {
-                        data !== undefined &&
-                        data.map((prompt: Prompt) => {
+                        promptsQuery.data !== undefined &&
+                        promptsQuery.data.map((prompt: Prompt) => {
                             return <PromptCard key={prompt.id} prompt={prompt} />
                         })
                     }
