@@ -57,13 +57,12 @@ export const imageGenerationById = async (promptId: number): Promise<string[]|st
     }
 };
 
-export const chat = async (text: string, providerId: number,  history: {request: string, response: string}[]): Promise<string> => {
+export const chat = async (text: string, providerId: number,  history: {role: string, message: string}[]): Promise<string> => {
     try {
         const { data } = await axios.post(`${API_URL}/ai/chat`, {
-            prompt_id: 0,
             text,
             provider_id: providerId,
-            requests: history
+            chat_history: JSON.stringify(history)
         });
     
         return data;
@@ -73,10 +72,13 @@ export const chat = async (text: string, providerId: number,  history: {request:
     }
 };
 
-export const play = async (promptId: number): Promise<string> => {
-    const { data } = await axios.post(`${API_URL}/ai/play`, {
-        promptId,
-    });
-
-    return data;
+export const chatById = async (promptId: number): Promise<string> => {
+    try {
+        const { data } = await axios.post(`${API_URL}/ai/chat/${promptId}`);
+    
+        return data;
+    } catch(e) {
+        console.error(e);
+        return ERROR_MESSAGE;
+    }
 };

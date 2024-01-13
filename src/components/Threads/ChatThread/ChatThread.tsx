@@ -1,12 +1,13 @@
-import { Stack } from "@mantine/core";
+import { Box, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { useEffect, useState } from "react";
-import { chat } from "../../../api/aiApi";
+import { chat, chatById } from "../../../api/aiApi";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ChatThreadReplyContainer } from "../ChatThreadReplyContainer/ChatThreadReplyContainer";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
+import { useScrollIntoView } from "@mantine/hooks";
 
 interface ChatThread {
     promptRequest: PromptRequest,
@@ -22,9 +23,10 @@ interface Message {
 export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
+    const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
 
     useEffect(() => {
-        scrollIntoView({alignement: 'start'});
+        scrollIntoView({ alignement: 'start' });
         if (messages.length === 0) {
             const message: Message = {
                 id: messages.length,
@@ -59,9 +61,17 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     }
 
     const fetch = async (message: Message) => {
-        const history = messages.filter(m => m.response !== "");
+        let history = [];
+        for (const message of messages) {
+            if (message.response === "") continue;
 
-        const response = await chat(message.request, promptRequest.provider.id, history);
+            history.push({ role: "user", message: message.request });
+            history.push({ role: "assistant", message: message.response });
+        }
+
+        const response = promptRequest.isPlayable
+            ? await chatById(promptRequest.id)
+            : await chat(message.request, promptRequest.provider.id, history);
 
         updateMessages(message.id, message.request, response);
     }
@@ -74,7 +84,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
         };
 
         updateMessages(message.id, message.request, "");
-        scrollIntoView({alignement: 'start'});
+        replyScrollIntoView.scrollIntoView();
         fetch(message);
     }
 
@@ -93,10 +103,12 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
                 })
             }
 
-            {
-                !promptRequest.isPlayable && <ChatThreadReplyContainer reply={reply} />
-            }
-            
+            <Box ref={replyScrollIntoView.targetRef}>
+                {
+                    !promptRequest.isPlayable && <ChatThreadReplyContainer reply={reply} />
+                }
+            </Box>
+
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )

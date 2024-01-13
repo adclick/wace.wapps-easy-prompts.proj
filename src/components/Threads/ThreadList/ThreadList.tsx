@@ -8,7 +8,7 @@ import { ThreadsScrollToBottom } from "../ThreadsScrollToBottom/ThreadsScrollToB
 
 export function ThreadList() {
     const { promptsRequests } = usePromptsRequests();
-    const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({ offset: 100 });
+    const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
     return (
         <Stack gap={"xl"} my={"xs"}>
