@@ -27,7 +27,6 @@ export function ThreadSaveModal({
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
     const [descriptionError, setDescriptionError] = useState('');
-    const { selectedModifiers } = useSelectedModifiers();
 
     const mutation = useCreatePromptMutation();
 
@@ -39,8 +38,7 @@ export function ThreadSaveModal({
             return;
         }
 
-        const selectedModifiersIds = selectedModifiers.map(m => m.id);
-        console.log(selectedModifiersIds);
+        const modifiersIds = request.metadata.modifiers.map(m => m.id);
 
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
@@ -48,10 +46,10 @@ export function ThreadSaveModal({
         newFormData.append("repository_id", repositoryId.toString());
         newFormData.append("technology_id", request.technology.id.toString());
         newFormData.append("provider_id", request.provider.id.toString());
-        newFormData.append("name", name);
+        newFormData.append("title", name);
         newFormData.append("description", description);
         newFormData.append("content", request.content);
-        newFormData.append("modifiers_ids", JSON.stringify(selectedModifiersIds));
+        newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
 
         mutation.mutate(newFormData);
     }

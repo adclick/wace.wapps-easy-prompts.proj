@@ -3,16 +3,19 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { KeyboardEvent } from "react";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
 export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const { selectedModifiers } = useSelectedModifiers();
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
         newUserRequest.key = Date.now();
         newUserRequest.title = value;
         newUserRequest.content = value;
+        newUserRequest.metadata.modifiers = selectedModifiers;
         setUserPromptRequest(newUserRequest);
     }
 

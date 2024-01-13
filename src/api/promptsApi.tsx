@@ -43,7 +43,7 @@ export const useCreatePromptMutation = () => {
         mutationFn: async (formData: FormData) => {
             const { data } = await axios.post(`${API_URL}/prompts`, {
                 user_external_id: formData.get('userId'),
-                name: formData.get('name'),
+                title: formData.get('title'),
                 description: formData.get('description'),
                 content: formData.get('content'),
                 language_id: formData.get('language_id'),
@@ -63,18 +63,18 @@ export const useCreatePromptMutation = () => {
     })
 }
 
-export const useDeleteCraftMutation = () => {
+export const useDeletePromptMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (id: number) => {
-            const { data } = await axios.delete(`${API_URL}/crafts/${id}`)
+            const { data } = await axios.delete(`${API_URL}/prompts/${id}`)
 
             return data;
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["crafts"]
+                queryKey: ["prompts"]
             })
         }
     })

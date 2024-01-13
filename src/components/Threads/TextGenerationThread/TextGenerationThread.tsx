@@ -18,7 +18,6 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
-    const { selectedModifiers } = useSelectedModifiers();
 
     useEffect(() => {
         if (response) return;
@@ -29,7 +28,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     const fetch = async () => {
         const response = promptRequest.isPlayable 
             ? await textGenerationById(promptRequest.id)
-            : await textGeneration(promptRequest, selectedModifiers);
+            : await textGeneration(promptRequest);
 
         setResponse(response.trim())
 

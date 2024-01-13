@@ -1,8 +1,8 @@
 import { Button, Card, Divider, Group, Modal, SimpleGrid, Stack, Tabs, Text, Title } from "@mantine/core";
 import { Prompt } from "../../../model/Prompt";
-import { useDeleteCraftMutation } from "../../../api/promptsApi";
 import { notifications } from "@mantine/notifications";
 import { IconBulb, IconDatabase, IconFileDescription, IconLanguage, IconMessage, IconPlayerPlayFilled, IconStarFilled, IconTrash, IconWorld } from "@tabler/icons-react";
+import { useDeletePromptMutation } from "../../../api/promptsApi";
 
 interface PromptCardDetails {
     opened: boolean,
@@ -15,7 +15,7 @@ export function PromptCardDetails({
     handle,
     prompt
 }: PromptCardDetails) {
-    const deleteMutation = useDeleteCraftMutation();
+    const deleteMutation = useDeletePromptMutation();
 
     const deleteItem = async (e: any) => {
         e.stopPropagation();
@@ -35,7 +35,7 @@ export function PromptCardDetails({
 
     if (deleteMutation.isSuccess) {
         notifications.show({
-            title: "Modifier Deleted",
+            title: "Prompt Deleted",
             message: "Your settings were saved",
             color: "blue"
         });
@@ -107,10 +107,19 @@ export function PromptCardDetails({
                     </Stack>
                 </Tabs.Panel>
                 <Tabs.Panel value="reviews">
+                    Not available yet
                 </Tabs.Panel>
             </Tabs>
             <Group justify="space-between">
-                <Button size="xs" color="red" variant="subtle" leftSection={<IconTrash size={12} />}>Delete</Button>
+                <Button
+                    size="xs"
+                    color="red"
+                    variant="subtle"
+                    leftSection={<IconTrash size={12} />}
+                    onClick={deleteItem}
+                >
+                    Delete
+                </Button>
                 <Button size="xs" leftSection={<IconPlayerPlayFilled size={12} />}>Play</Button>
             </Group>
         </Modal>
