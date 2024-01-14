@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Modal, Select, Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useUser } from "../../../context/UserContext";
-import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../api/promptsApi";
+import { usePromptsFiltersQuery } from "../../../api/promptsApi";
+import { useCreateModifierMutation } from "../../../api/modifiersApi";
 
 interface NewModifierModal {
     opened: boolean,
@@ -18,12 +19,11 @@ export function NewModifierModal({
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');
-    const [technologyId, setTechnologyId] = useState('');
-    const [name, setName] = useState('');
+    const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
 
-    const mutation = useCreatePromptMutation();
+    const mutation = useCreateModifierMutation();
 
     let languages = [];
     let repositories = [];
@@ -41,13 +41,6 @@ export function NewModifierModal({
             return {
                 label: r.name,
                 value: r.id.toString()
-            }
-        });
-
-        technologies = data.technologies.map((t: { id: number, name: string, slug: string }) => {
-            return {
-                label: t.name,
-                value: t.id.toString()
             }
         });
     }
@@ -79,8 +72,7 @@ export function NewModifierModal({
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
         newFormData.append("repository_id", repositoryId.toString());
-        newFormData.append("technology_id", technologyId.toString());
-        newFormData.append("name", name);
+        newFormData.append("title", title);
         newFormData.append("description", description);
         newFormData.append("content", content);
 
@@ -90,12 +82,6 @@ export function NewModifierModal({
     const updateLanguage = (value: string | null) => {
         if (value) {
             setLanguageId(value);
-        }
-    }
-
-    const updateTechnology = (value: string | null) => {
-        if (value) {
-            setTechnologyId(value);
         }
     }
 
@@ -118,15 +104,6 @@ export function NewModifierModal({
                     onChange={updateLanguage}
                 />
                 <Select
-                    label="Technology"
-                    required
-                    placeholder="Technology"
-                    data={technologies}
-                    value={technologyId}
-                    allowDeselect={false}
-                    onChange={updateTechnology}
-                />
-                <Select
                     label="Repository"
                     required
                     placeholder="Repository"
@@ -137,8 +114,8 @@ export function NewModifierModal({
                 />
                 <TextInput
                     label="Name"
-                    onChange={(e: any) => setName(e.target.value)}
-                    value={name}
+                    onChange={(e: any) => setTitle(e.target.value)}
+                    value={title}
                     required
                     placeholder="Name of the Modifier"
                 />
@@ -153,7 +130,6 @@ export function NewModifierModal({
                 />
                 <Textarea
                     label="Content"
-                    description="Max Characters: 500"
                     autosize
                     required
                     minRows={3}
@@ -162,10 +138,9 @@ export function NewModifierModal({
                     value={content}
                     placeholder="Modifier Text"
                 />
-                <Group>
+                <Group justify="flex-end">
                     <Button
-                        variant="subtle"
-                        size="compact-sm"
+                        size="xs"
                         onClick={save}
                     >
                         Save

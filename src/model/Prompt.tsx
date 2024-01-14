@@ -1,3 +1,4 @@
+import { Mode } from "./Mode";
 import { Modifier } from "./Modifier";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
@@ -28,6 +29,7 @@ export class Prompt {
     language: {id: number, name: string, slug: string}
     repository: {id: number, name: string, slug: string}
     technology: Technology;
+    mode: Mode;
     provider: Provider;
     
     constructor() {
@@ -45,6 +47,7 @@ export class Prompt {
         this.language = {id: 0, name: "", slug: ""}
         this.repository = {id: 0, name: "", slug: ""}
         this.technology = new Technology();
+        this.mode = new Mode();
         this.provider = new Provider();
     }
 
@@ -65,6 +68,7 @@ export class Prompt {
         newPrompt.language = prompt.language;
         newPrompt.repository = prompt.repository;
         newPrompt.technology = prompt.technology;
+        newPrompt.mode = prompt.mode;
         newPrompt.provider = prompt.provider;
 
         return newPrompt;

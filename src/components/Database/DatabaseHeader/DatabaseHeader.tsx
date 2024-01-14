@@ -1,19 +1,18 @@
-import { Tooltip, ActionIcon, Group, Stack } from "@mantine/core";
-import { IconFilter, IconArrowsSort, IconPlus } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { useUser } from "../../../context/UserContext";
-import { useEffect } from "react";
-import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
-import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
-import { usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useModifiersFiltersQuery } from "../../../api/modifiersApi";
-import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
-import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
-import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
+import { usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
-import { SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
+import { useUser } from "../../../context/UserContext";
+import { Type } from "../../../model/SelectedDatabaseType";
+import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
+import { ModifiersHeader } from "../ModifiersHeader/ModifiersHeader";
+import { PromptsHeader } from "../PromptsHeader/PromptsHeader";
+import { Stack } from "@mantine/core";
+import { useEffect } from "react";
+import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
+import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
+import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
+import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 
 interface DatabaseHeader {
     navbarOpened: boolean,
@@ -21,56 +20,56 @@ interface DatabaseHeader {
 }
 
 export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
-    const { selectedDatabaseType } = useSelectedDatabaseType()
-    const [filtersOpened, filtersHandle] = useDisclosure(false);
-
     const { user } = useUser();
-    const { promptsSelectedFilters, setPromptsSelectedFilters } = usePromptsSelectedFilters();
-    const { modifiersSelectedFilters, setModifiersSelectedFilters } = useModifiersSelectedFilters();
+    const { selectedDatabaseType } = useSelectedDatabaseType();
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
     const modifiersFiltersQuery = useModifiersFiltersQuery(user.id);
+    const [filtersOpened, filtersHandle] = useDisclosure(false);
+    const { modifiersSelectedFilters, setModifiersSelectedFilters } = useModifiersSelectedFilters();
+
+    const { promptsSelectedFilters, setPromptsSelectedFilters } = usePromptsSelectedFilters();
 
     // Init selectedFilters
     useEffect(() => {
-        if (promptsFiltersQuery.data && promptsSelectedFilters.isEmpty) {
+        if (promptsSelectedFilters.isEmpty && promptsFiltersQuery.data) {
             const newSelectedFilters = PromptsSelectedFilters.buildFromQuery(promptsFiltersQuery.data);
             setPromptsSelectedFilters(newSelectedFilters);
         }
+    }, [promptsSelectedFilters, promptsFiltersQuery])
 
-        if (modifiersFiltersQuery.data && modifiersSelectedFilters.isEmpty) {
+    // Init selectedFilters
+    useEffect(() => {
+        if (modifiersSelectedFilters.isEmpty && modifiersFiltersQuery.data) {
             const newSelectedFilters = ModifiersSelectedFilters.buildFromQuery(modifiersFiltersQuery.data);
             setModifiersSelectedFilters(newSelectedFilters);
         }
-    })
+    }, [modifiersSelectedFilters, modifiersFiltersQuery])
+
+    let header = <></>;
+    switch (selectedDatabaseType.type) {
+        case Type.MODIFIER:
+            header = <ModifiersHeader
+                navbarOpened={navbarOpened}
+                navbarHandle={navbarHandle}
+                filtersHandle={filtersHandle}
+                filtersQuery={modifiersFiltersQuery}
+            />
+            break;
+        case Type.PROMPT:
+            header = <PromptsHeader
+                navbarOpened={navbarOpened}
+                navbarHandle={navbarHandle}
+                filtersHandle={filtersHandle}
+                filtersQuery={promptsFiltersQuery}
+            />
+            break;
+        default:
+            header = <></>
+    }
 
     return (
-        <Stack pb={"xl"} gap={"lg"}>
-            <Group h={"100%"} justify='space-between' pt={"xs"}>
-                <Group>
-                    <HeaderBurgerMenu navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
-                    <DatabaseMenu />
-                </Group>
-                <Group gap={"xs"}>
-                    {
-                        selectedDatabaseType.type === Type.MODIFIER &&
-                        <Tooltip label="Add">
-                            <ActionIcon size={"lg"} variant='subtle'>
-                                <IconPlus size={18} />
-                            </ActionIcon>
-                        </Tooltip>
-                    }
-                    <Tooltip label="Sort">
-                        <ActionIcon size={"lg"} variant='subtle'>
-                            <IconArrowsSort size={18} />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Filters">
-                        <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
-                            <IconFilter size={18} />
-                        </ActionIcon>
-                    </Tooltip>
-                </Group>
-            </Group>
+        <Stack gap={"lg"} pb={"xl"}>
+            {header}
             <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}

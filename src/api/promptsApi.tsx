@@ -28,6 +28,7 @@ export const usePromptsQuery = (userId: string, selectedFilters: PromptsSelected
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
                 technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
+                modes_ids: JSON.stringify(selectedFilters.modes_ids),
             }));
 
             return data;
@@ -49,6 +50,7 @@ export const useCreatePromptMutation = () => {
                 language_id: formData.get('language_id'),
                 repository_id: formData.get('repository_id'),
                 technology_id: formData.get('technology_id'),
+                mode_id: formData.get('mode_id'),
                 provider_id: formData.get('provider_id'),
                 modifiers_ids: formData.get('modifiers_ids')
             })

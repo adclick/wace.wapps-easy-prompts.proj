@@ -7,6 +7,7 @@ import { Type } from "../../../model/SelectedDatabaseType";
 import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
+import { ModesFilter } from "../ModesFilter/ModesFilter";
 
 interface FiltersContainer {
     opened: boolean,
@@ -45,6 +46,11 @@ export function FiltersContainer({
                     />
                     <TechnologiesFilter
                         technologies={promptsFiltersQuery.data.technologies}
+                        selectedFilters={promptsSelectedFilters}
+                        setSelectedFilters={setPromptsSelectedFilters}
+                    />
+                    <ModesFilter
+                        modes={promptsFiltersQuery.data.modes}
                         selectedFilters={promptsSelectedFilters}
                         setSelectedFilters={setPromptsSelectedFilters}
                     />
