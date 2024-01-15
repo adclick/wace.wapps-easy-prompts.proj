@@ -38,8 +38,6 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         newRequest.response = response;
         promptsRequests[promptRequest.key] = newRequest;
         setPromptsRequests(promptsRequests);
-
-
     }
 
     return (

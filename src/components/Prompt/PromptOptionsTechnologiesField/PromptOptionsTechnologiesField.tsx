@@ -1,4 +1,4 @@
-import { Select } from "@mantine/core";
+import { SegmentedControl, Select } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { Technology } from "../../../model/Technology";
 
@@ -17,11 +17,17 @@ export function PromptOptionsTechnologiesField({ technologyData, technologies, o
     const { userPromptRequest } = useUserPromptRequest();
 
     return (
-        <Select
-            comboboxProps={{ withinPortal: false }}
-            value={userPromptRequest.technology.id.toString()}
+        <SegmentedControl
+            fullWidth
             data={technologyData}
+            value={userPromptRequest.technology.id.toString()}
             onChange={onChangeTechnology}
         />
+        // <Select
+        //     comboboxProps={{ withinPortal: false }}
+        //     value={userPromptRequest.technology.id.toString()}
+        //     data={technologyData}
+        //     onChange={onChangeTechnology}
+        // />
     )
 }

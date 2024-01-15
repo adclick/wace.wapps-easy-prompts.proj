@@ -25,8 +25,6 @@ export function PromptCard({ prompt }: PromptCard) {
         newPromptRequest.key = Date.now();
         newPromptRequest.isPlayable = true;
 
-        console.log(newPromptRequest);
-
         setPromptsRequests([
             ...promptsRequests,
             newPromptRequest

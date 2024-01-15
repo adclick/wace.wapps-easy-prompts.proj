@@ -3,6 +3,7 @@ import { Prompt } from "../../../model/Prompt";
 import { notifications } from "@mantine/notifications";
 import { IconBulb, IconDatabase, IconFileDescription, IconLanguage, IconMessage, IconPlayerPlayFilled, IconStarFilled, IconTrash, IconWorld } from "@tabler/icons-react";
 import { useDeletePromptMutation } from "../../../api/promptsApi";
+import { useEffect } from "react";
 
 interface PromptCardDetails {
     opened: boolean,
@@ -21,27 +22,32 @@ export function PromptCardDetails({
         e.stopPropagation();
 
         deleteMutation.mutate(prompt.id);
+
+        handle.close();
     }
 
-    if (deleteMutation.isError) {
-        notifications.show({
-            title: "Error",
-            message: deleteMutation.error.message,
-            color: "red"
-        });
+    useEffect(() => {
+        if (deleteMutation.isError) {
+            notifications.show({
+                title: "Error",
+                message: deleteMutation.error.message,
+                color: "red"
+            });
+    
+            deleteMutation.reset();
+        }
+    
+        if (deleteMutation.isSuccess) {
+            notifications.show({
+                title: "Prompt Deleted",
+                message: "Your settings were saved",
+                color: "blue"
+            });
+    
+            deleteMutation.reset();
+        }
+    }, [deleteMutation])
 
-        deleteMutation.reset();
-    }
-
-    if (deleteMutation.isSuccess) {
-        notifications.show({
-            title: "Prompt Deleted",
-            message: "Your settings were saved",
-            color: "blue"
-        });
-
-        deleteMutation.reset();
-    }
 
     return (
         <Modal opened={opened} onClose={handle.close} title={prompt.title} size={"lg"}>

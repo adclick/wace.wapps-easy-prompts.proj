@@ -56,6 +56,8 @@ export function ThreadSaveModal({
         newFormData.append("chat_history", JSON.stringify(chatHistory));
 
         mutation.mutate(newFormData);
+
+        handle.close();
     }
 
     let languages = [];

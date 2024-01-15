@@ -9,10 +9,12 @@ const ERROR_MESSAGE = "Something went wrong. Please try again later or contact s
 export const textGeneration = async (request: PromptRequest): Promise<string> => {
     try {
         const modifiersIds = request.metadata.modifiers.map(m => m.id);
+        const providersIds = request.providers.map(p => p.id.toString());
 
         const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
             text: request.content,
             provider_id: request.provider.id.toString(),
+            providers_ids: JSON.stringify(providersIds),
             modifiers_ids: JSON.stringify(modifiersIds),
         }));
     
@@ -36,9 +38,11 @@ export const textGenerationById = async (promptId: number): Promise<string> => {
 
 export const imageGeneration = async (request: PromptRequest): Promise<string[]|string> => {
     try {
+        const providersIds = request.providers.map(p => p.id);
         const { data } = await axios.get(`${API_URL}/ai/image-generation?` + new URLSearchParams({
             text: request.content,
             provider_id: request.provider.id.toString(),
+            providers_ids: JSON.stringify(providersIds),
             modifiers_ids: JSON.stringify([])
         }));
     
@@ -62,6 +66,7 @@ export const imageGenerationById = async (promptId: number): Promise<string[]|st
 
 export const chat = async (text: string, providerId: number,  history: {role: string, message: string}[]): Promise<string> => {
     try {
+        
         const { data } = await axios.post(`${API_URL}/ai/chat`, {
             text,
             provider_id: providerId,

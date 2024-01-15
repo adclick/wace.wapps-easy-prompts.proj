@@ -7,6 +7,7 @@ export class PromptRequest extends Prompt {
     response: any;
     isPlayable: boolean;
     chatReply: string;
+    providers: Provider[]
 
     constructor(key: number = 0, id: number = 0) {
         super();
@@ -15,6 +16,7 @@ export class PromptRequest extends Prompt {
         this.response = "";
         this.isPlayable = false;
         this.chatReply = "";
+        this.providers = [];
     }
 
     static clone(promptRequest: PromptRequest): PromptRequest {
@@ -30,6 +32,7 @@ export class PromptRequest extends Prompt {
         newPromptRequest.response = promptRequest.response;
         newPromptRequest.isPlayable = promptRequest.isPlayable
         newPromptRequest.chatReply = promptRequest.chatReply;
+        newPromptRequest.providers = promptRequest.providers;
 
         return newPromptRequest;
     }

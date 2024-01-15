@@ -19,9 +19,9 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
                     {iconsUtils.getTechnologyIcon(promptRequest.technology.slug, 18)}
-                    <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.provider.model_name}</Text>
+                    <Text maw={"90%"} lineClamp={1}>{promptRequest.provider.model_name}</Text>
                     <Divider orientation="vertical" />
-                    <Text size="sm" maw={"90%"} lineClamp={1}>"{promptRequest.title}"</Text>
+                    <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">

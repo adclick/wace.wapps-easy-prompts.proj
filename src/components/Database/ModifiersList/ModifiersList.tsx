@@ -19,7 +19,7 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
     return (
         <Box>
             {
-                modifiersQuery.isLoading &&
+                modifiersQuery.isFetching &&
                 <Center mb={"xl"}>
                     <Loader type="bars" size={"xs"} />
                 </Center>

@@ -10,7 +10,7 @@ export function PromptsList({ promptsQuery }: PromptsList) {
     return (
         <Box>
             {
-                promptsQuery.isLoading &&
+                promptsQuery.isFetching &&
                 <Center mb={"xl"}>
                     <Loader type="bars" size={"xs"} />
                 </Center>

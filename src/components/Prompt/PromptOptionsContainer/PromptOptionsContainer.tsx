@@ -59,6 +59,7 @@ export function PromptOptionsContainer() {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.technology = Technology.clone(technology);
             newUserRequest.provider = Provider.clone(providers[0]);
+            // newUserRequest.providers = [providers[0]];
 
             setUserPromptRequest(newUserRequest);
             setProviders(providers);

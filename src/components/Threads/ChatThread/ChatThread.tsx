@@ -26,7 +26,6 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-    const [replyValue, setReplyValue] = useState('');
 
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
@@ -130,7 +129,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
                 }
             </Box>
 
-            <ThreadFooter promptRequest={userPromptRequest} />
+            <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )
 }
