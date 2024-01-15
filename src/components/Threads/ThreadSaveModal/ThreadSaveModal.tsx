@@ -39,6 +39,9 @@ export function ThreadSaveModal({
         }
 
         const modifiersIds = request.metadata.modifiers.map(m => m.id);
+        const chatHistory = request.metadata.history;
+
+        const content = request.content === "" ? request.chatReply : request.content;
 
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
@@ -48,8 +51,9 @@ export function ThreadSaveModal({
         newFormData.append("provider_id", request.provider.id.toString());
         newFormData.append("title", name);
         newFormData.append("description", description);
-        newFormData.append("content", request.content);
+        newFormData.append("content", content);
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
+        newFormData.append("chat_history", JSON.stringify(chatHistory));
 
         mutation.mutate(newFormData);
     }

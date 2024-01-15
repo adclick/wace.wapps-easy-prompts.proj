@@ -8,6 +8,7 @@ import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ChatThreadReplyContainer } from "../ChatThreadReplyContainer/ChatThreadReplyContainer";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
 import { useScrollIntoView } from "@mantine/hooks";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 
 interface ChatThread {
     promptRequest: PromptRequest,
@@ -24,10 +25,14 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const [replyValue, setReplyValue] = useState('');
 
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
         if (messages.length === 0) {
+            updateUserPromptRequest(promptRequest.content);
+
             const message: Message = {
                 id: messages.length,
                 request: promptRequest.content,
@@ -60,8 +65,8 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
         ]);
     }
 
-    const fetch = async (message: Message) => {
-        let history = [];
+    const getHistory = () => {
+        const history = [];
         for (const message of messages) {
             if (message.response === "") continue;
 
@@ -69,10 +74,17 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
             history.push({ role: "assistant", message: message.response });
         }
 
-        const response = promptRequest.isPlayable
-            ? await chatById(promptRequest.id)
-            : await chat(message.request, promptRequest.provider.id, history);
+        return history;
+    }
 
+    const fetch = async (message: Message) => {
+        if (promptRequest.isPlayable) {
+            const { response } = await chatById(promptRequest.id);
+            updateMessages(message.id, message.request, response);
+            return;
+        }
+
+        const response = await chat(message.request, promptRequest.provider.id, getHistory());
         updateMessages(message.id, message.request, response);
     }
 
@@ -83,9 +95,18 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
             response: ""
         };
 
+        updateUserPromptRequest(replyValue);
+
         updateMessages(message.id, message.request, "");
         replyScrollIntoView.scrollIntoView();
         fetch(message);
+    }
+
+    const updateUserPromptRequest = (chatReply: string) => {
+        const newUserPromptRequest = PromptRequest.clone(userPromptRequest);
+        newUserPromptRequest.chatReply = chatReply;
+        newUserPromptRequest.metadata.history = getHistory();
+        setUserPromptRequest(newUserPromptRequest);
     }
 
     return (
@@ -109,7 +130,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
                 }
             </Box>
 
-            <ThreadFooter promptRequest={promptRequest} />
+            <ThreadFooter promptRequest={userPromptRequest} />
         </Stack>
     )
 }

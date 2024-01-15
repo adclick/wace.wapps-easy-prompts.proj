@@ -51,10 +51,11 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
         <Card p={"lg"} shadow="sm" mx={"md"} withBorder>
             <Stack gap={"xl"}>
                 <ThreadHeader
-                    promptRequest={promptRequest}
                     deleteThread={deleteThread}
                     minimized={minimized}
                     minimizeHandle={minimizeHandle}
+                    promptRequest={promptRequest}
+
                 />
                 <Collapse in={!minimized}>
                     <Stack gap={"xl"}>

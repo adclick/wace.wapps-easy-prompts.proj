@@ -1,23 +1,27 @@
-import { ActionIcon, Group, Text, Title, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Divider, Group, Text, Title, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../model/PromptRequest"
 import { IconChevronDown, IconChevronUp, IconX } from "@tabler/icons-react"
 import iconsUtils from "../../../utils/iconsUtils"
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 
 interface ThreadHeader {
-    promptRequest: PromptRequest,
     deleteThread: any,
     minimized: boolean,
-    minimizeHandle: any
+    minimizeHandle: any,
+    promptRequest: PromptRequest
 }
 
-export function ThreadHeader({ promptRequest, deleteThread, minimized, minimizeHandle }: ThreadHeader) {
+export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRequest }: ThreadHeader) {
+    const { userPromptRequest } = useUserPromptRequest();
+
     return (
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
                     {iconsUtils.getTechnologyIcon(promptRequest.technology.slug, 18)}
-                    {/* <Title lineClamp={1} order={6}>{promptRequest.title}</Title> */}
-                    <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
+                    <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.provider.model_name}</Text>
+                    <Divider orientation="vertical" />
+                    <Text size="sm" maw={"90%"} lineClamp={1}>"{promptRequest.title}"</Text>
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">
