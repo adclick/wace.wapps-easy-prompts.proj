@@ -13,10 +13,10 @@ export function PromptOptionsProvidersField() {
 
     // Set providers data for selectbox
     useEffect(() => {
-        if (providersQuery.data && providersData.length === 0) {
+        if (providersQuery.data) {
             const newProvidersData = providersQuery.data.map((provider: Provider) => {
                 return {
-                    label: provider.name,
+                    label: provider.model_name,
                     value: provider.id.toString()
                 }
             });
@@ -28,7 +28,7 @@ export function PromptOptionsProvidersField() {
 
     // Update UserRequest with default Provider
     useEffect(() => {
-        if (defaultProviderQuery.data && userPromptRequest.provider.id <= 0) {
+        if (defaultProviderQuery.data) {
             updateProvider(defaultProviderQuery.data);
         }
     }, [defaultProviderQuery]);

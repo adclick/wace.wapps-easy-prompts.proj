@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Group, Popover, Text } from "@mantine/core"
 import { IconSparkles, IconX } from "@tabler/icons-react";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
 export function PromptModifiersList() {
     const {selectedModifiers, setSelectedModifiers} = useSelectedModifiers();
