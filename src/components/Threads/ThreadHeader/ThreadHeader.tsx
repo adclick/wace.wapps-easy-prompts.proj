@@ -12,15 +12,13 @@ interface ThreadHeader {
 }
 
 export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRequest }: ThreadHeader) {
-    const { userPromptRequest } = useUserPromptRequest();
-
     return (
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
                     {iconsUtils.getTechnologyIcon(promptRequest.technology.slug, 18)}
-                    <Text maw={"90%"} lineClamp={1}>{promptRequest.provider.model_name}</Text>
-                    <Divider orientation="vertical" />
+                    {/* <Text maw={"90%"} lineClamp={1}>{promptRequest.provider.model_name}</Text> */}
+                    {/* <Divider orientation="vertical" /> */}
                     <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
                 </Group>
             </UnstyledButton>

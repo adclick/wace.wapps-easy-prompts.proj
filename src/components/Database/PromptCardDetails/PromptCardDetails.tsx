@@ -2,21 +2,33 @@ import { Button, Card, Divider, Group, Modal, SimpleGrid, Stack, Tabs, Text, Tit
 import { Prompt } from "../../../model/Prompt";
 import { notifications } from "@mantine/notifications";
 import { IconBulb, IconDatabase, IconFileDescription, IconLanguage, IconMessage, IconPlayerPlayFilled, IconStarFilled, IconTrash, IconWorld } from "@tabler/icons-react";
-import { useDeletePromptMutation } from "../../../api/promptsApi";
-import { useEffect } from "react";
+import { useDeletePromptMutation, usePromptQuery } from "../../../api/promptsApi";
+import { useEffect, useState } from "react";
+import { useUser } from "../../../context/UserContext";
+import { Modifier } from "../../../model/Modifier";
 
 interface PromptCardDetails {
     opened: boolean,
     handle: any,
-    prompt: Prompt
+    prompt: Prompt,
+    play: any
 }
 
 export function PromptCardDetails({
     opened,
     handle,
-    prompt
+    prompt,
+    play
 }: PromptCardDetails) {
     const deleteMutation = useDeletePromptMutation();
+    const { data: promptPrivate } = usePromptQuery(prompt.id);
+    const { user } = useUser();
+
+    const onClickPlay = (e: any) => {
+        play(e);
+
+        handle.close();
+    }
 
     const deleteItem = async (e: any) => {
         e.stopPropagation();
@@ -33,21 +45,25 @@ export function PromptCardDetails({
                 message: deleteMutation.error.message,
                 color: "red"
             });
-    
+
             deleteMutation.reset();
         }
-    
+
         if (deleteMutation.isSuccess) {
             notifications.show({
                 title: "Prompt Deleted",
                 message: "Your settings were saved",
                 color: "blue"
             });
-    
+
             deleteMutation.reset();
         }
     }, [deleteMutation])
 
+    let modifiers = [];
+    if (promptPrivate && "modifiers" in promptPrivate.metadata) {
+        modifiers = promptPrivate.metadata['modifiers'];
+    }
 
     return (
         <Modal opened={opened} onClose={handle.close} title={prompt.title} size={"lg"}>
@@ -108,8 +124,40 @@ export function PromptCardDetails({
                                         </Group>
                                     </Stack>
                                 </SimpleGrid>
+                                <Divider />
+                                <Group justify="space-between">
+                                    <Text size="xs">{prompt.user.username}</Text>
+                                    <Text size="xs">{prompt.created_at.toLocaleString()}</Text>
+                                </Group>
                             </Stack>
                         </Card>
+                        {
+                            user.username === prompt.user.username && promptPrivate &&
+                            <Card>
+                                <Stack>
+                                    <Stack gap={4}>
+                                        <Title order={6}>Content</Title>
+                                        <Text size="xs">{promptPrivate.content}</Text>
+                                    </Stack>
+                                    {
+                                        promptPrivate.metadata && "modifiers" in promptPrivate.metadata &&
+                                        <Stack gap={4}>
+                                            <Title order={6}>Modifiers</Title>
+                                            {
+                                                modifiers.map((modifier: Modifier) => {
+                                                    return (
+                                                        <Stack>
+                                                            <Text size="xs">{modifier.title}</Text>
+                                                            <Text size="xs">{modifier.content}</Text>
+                                                        </Stack>
+                                                    )
+                                                })
+                                            }
+                                        </Stack>
+                                    }
+                                </Stack>
+                            </Card>
+                        }
                     </Stack>
                 </Tabs.Panel>
                 <Tabs.Panel value="reviews">
@@ -126,7 +174,13 @@ export function PromptCardDetails({
                 >
                     Delete
                 </Button>
-                <Button size="xs" leftSection={<IconPlayerPlayFilled size={12} />}>Play</Button>
+                <Button
+                    size="xs"
+                    leftSection={<IconPlayerPlayFilled size={12} />}
+                    onClick={onClickPlay}
+                >
+                    Play
+                </Button>
             </Group>
         </Modal>
     )

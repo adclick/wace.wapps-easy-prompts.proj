@@ -4,6 +4,17 @@ import { PromptsSelectedFilters } from '../model/PromptsSelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+export const usePromptQuery = (promptId: number) => {
+    return useQuery({
+        queryKey: ["prompts", promptId],
+        queryFn: async () => {
+            const { data } = await axios.get(`${API_URL}/prompts/${promptId}`);
+
+            return data;
+        },
+    });
+};
+
 export const usePromptsFiltersQuery = (userId: string) => {
     return useQuery({
         queryKey: ["prompts", "filters", userId],

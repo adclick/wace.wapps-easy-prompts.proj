@@ -8,6 +8,8 @@ import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFilte
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { Language } from "../../../model/Language";
 import { Repository } from "../../../model/Repository";
+import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
+import { SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
 
 interface ThreadSaveModal {
     opened: boolean
@@ -27,6 +29,7 @@ export function ThreadSaveModal({
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
     const [descriptionError, setDescriptionError] = useState('');
+    const { setSelectedDatabaseType } = useSelectedDatabaseType();
 
     const mutation = useCreatePromptMutation();
 
@@ -56,6 +59,10 @@ export function ThreadSaveModal({
         newFormData.append("chat_history", JSON.stringify(chatHistory));
 
         mutation.mutate(newFormData);
+
+        const newType = new SelectedDatabaseType();
+        newType.type = Type.PROMPT;
+        setSelectedDatabaseType(newType);
 
         handle.close();
     }

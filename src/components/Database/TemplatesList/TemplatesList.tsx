@@ -1,4 +1,4 @@
-import { Accordion, Checkbox, Radio, Stack } from "@mantine/core";
+import { Accordion, Button, Checkbox, Radio, Stack } from "@mantine/core";
 import { Template } from "../../../model/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
@@ -12,7 +12,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
 
 
     const onChange = (id: string) => {
-        const template = templatesQuery.data.filter((m: Template) => m.id === parseInt(id));
+        const template = templatesQuery.data.find((m: Template) => m.id === parseInt(id));
 
         setSelectedTemplate(template);
     }

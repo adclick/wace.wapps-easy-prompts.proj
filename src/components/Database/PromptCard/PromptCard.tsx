@@ -37,6 +37,7 @@ export function PromptCard({ prompt }: PromptCard) {
                 opened={craftDetailsOpened}
                 handle={craftDetailsHandle}
                 prompt={prompt}
+                play={play}
             />
             <Accordion.Item value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
