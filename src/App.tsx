@@ -16,6 +16,7 @@ import { PromptsRequestsProvider } from './context/PromptsRequestsContext';
 import { SelectedModifiersProvider } from './context/SelectedModifiersContext';
 import { SelectedTemplateProvider } from './context/SelectedTemplateContext';
 import { TemplatesSelectedFiltersProvider } from './context/TemplatesSelectedFiltersContext';
+import { PromptModeProvider } from './context/PromptModeContext';
 
 
 export default function App() {
@@ -40,8 +41,10 @@ export default function App() {
                       <SelectedTemplateProvider>
                         <PromptsRequestsProvider>
                           <UserPromptRequestProvider>
-                            <Notifications />
-                            <Router />
+                            <PromptModeProvider>
+                              <Notifications />
+                              <Router />
+                            </PromptModeProvider>
                           </UserPromptRequestProvider>
                         </PromptsRequestsProvider>
                       </SelectedTemplateProvider>

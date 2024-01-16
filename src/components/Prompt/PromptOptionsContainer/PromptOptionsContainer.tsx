@@ -8,6 +8,7 @@ import { Provider } from "../../../model/Provider";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { getProviders } from "../../../api/providersApi";
+import { usePromptMode } from "../../../context/PromptModeContext";
 
 export function PromptOptionsContainer() {
     const [technologyData, setTechnologyData] = useState<TechnologyDataItem[]>([]);
@@ -15,28 +16,32 @@ export function PromptOptionsContainer() {
     const [providerData, setProviderData] = useState<ProvidersDataItem[]>([]);
     const [providers, setProviders] = useState<Provider[]>([]);
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-
+    const { promptMode } = usePromptMode();
 
     const technologiesQuery = useTechnologiesQuery();
 
     // Get Technologies List
     useEffect(() => {
-        if (technologiesQuery.data && technologyData.length === 0) {
-            const technologysData = technologiesQuery.data.map((technology: Technology) => {
+        if (technologiesQuery.data) {
+            const technologies = technologiesQuery.data.filter((technology: Technology) => {
+                return Technology.getMode(technology.slug) === promptMode
+            });
+
+            const technologysData = technologies.map((technology: Technology) => {
                 return {
                     label: technology.name,
                     value: technology.id.toString()
                 }
             });
 
-            setTechnologies(technologiesQuery.data);
+            setTechnologies(technologies);
             setTechnologyData(technologysData);
         }
-    }, [technologiesQuery, technologyData]);
+    }, [technologiesQuery, technologyData, promptMode]);
 
     // Set Default Technology
     useEffect(() => {
-        if (technologies.length > 0 && userPromptRequest.technology.id <= 0) {
+        if (technologies.length > 0 && promptMode !== Technology.getMode(userPromptRequest.technology.slug) && userPromptRequest.technology.id <= 0) {
             const defaultTechnology = technologies.find((technology: Technology) => technology.default === true);
             if (defaultTechnology) {
                 updateTechnology(defaultTechnology.id.toString());
@@ -74,7 +79,7 @@ export function PromptOptionsContainer() {
                 technologies={technologies}
                 onChangeTechnology={updateTechnology}
             />
-            
+
             <PromptOptionsProvidersField
                 providerData={providerData}
                 providers={providers}

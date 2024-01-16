@@ -1,5 +1,6 @@
 import { IconMessage, IconMessages } from "@tabler/icons-react";
 import { IconLanguage, IconListSearch, IconPencilStar, IconPhoto } from "@tabler/icons-react";
+import { PromptMode } from "./PromptMode";
 
 export class Technology {
     id: number;
@@ -14,15 +15,24 @@ export class Technology {
         this.default = false;
     }
 
-    static clone (technology: Technology): Technology {
+    static clone(technology: Technology): Technology {
         const newTechnology = new Technology();
-        
+
         newTechnology.id = technology.id;
         newTechnology.name = technology.name;
         newTechnology.slug = technology.slug;
         newTechnology.default = technology.default;
 
         return newTechnology;
+    }
+
+    static getMode(slug: string): PromptMode {
+        switch (slug) {
+            case 'image-generation':
+                return PromptMode.Image;
+            default:
+                return PromptMode.Text;
+        }
     }
 
     // static getIcon(slug: string, size: number | string) {
