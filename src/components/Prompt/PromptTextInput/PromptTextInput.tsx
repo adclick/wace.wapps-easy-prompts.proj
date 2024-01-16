@@ -27,6 +27,10 @@ export function PromptTextInput() {
         }
     }
 
+    const paddingLeft = selectedModifiers.length > 0
+        ? "60px"
+        : "var(--_input-padding-left"
+
     return (
         <Textarea
             placeholder={"Craft a new prompt"}
@@ -38,7 +42,7 @@ export function PromptTextInput() {
             size={'lg'}
             styles={{
                 input: {
-                    paddingLeft: "60px",
+                    paddingLeft: paddingLeft,
                     paddingRight: "50px",
                 },
 

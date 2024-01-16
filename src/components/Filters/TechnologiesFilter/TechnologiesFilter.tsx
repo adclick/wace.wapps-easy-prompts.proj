@@ -1,10 +1,11 @@
 import { Checkbox, Stack, Title } from "@mantine/core";
 import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
 import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
+import { TemplatesSelectedFilters } from "../../../model/TemplatesSelectedFilters";
 
 interface TechnologiesFilter {
     technologies: { id: number, name: string, slug: string, default: boolean }[],
-    selectedFilters: PromptsSelectedFilters, 
+    selectedFilters: PromptsSelectedFilters|TemplatesSelectedFilters, 
     setSelectedFilters: any
 }
 

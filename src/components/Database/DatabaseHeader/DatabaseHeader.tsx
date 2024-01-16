@@ -96,6 +96,7 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
                 handle={filtersHandle}
                 promptsFiltersQuery={promptsFiltersQuery}
                 modifiersFiltersQuery={modifiersFiltersQuery}
+                templatesFiltersQuery={templatesFiltersQuery}
             />
         </Stack>
     )

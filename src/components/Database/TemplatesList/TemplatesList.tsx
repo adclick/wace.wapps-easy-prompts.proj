@@ -1,4 +1,4 @@
-import { Accordion, Button, Checkbox, Radio, Stack } from "@mantine/core";
+import { Accordion, Box, Button, Center, Checkbox, Loader, Radio, Stack } from "@mantine/core";
 import { Template } from "../../../model/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
@@ -8,7 +8,7 @@ interface TemplatesList {
 }
 
 export function TemplatesList({ templatesQuery }: TemplatesList) {
-    const { selectedTemplate, setSelectedTemplate } = useSelectedTemplate();
+    const { setSelectedTemplate } = useSelectedTemplate();
 
 
     const onChange = (id: string) => {
@@ -18,15 +18,23 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
     }
 
     return (
-        <Stack>
-            <Radio.Group onChange={onChange}>
-                <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
-                    {
-                        templatesQuery.data !== undefined &&
-                        templatesQuery.data.map((template: Template) => <TemplateCard key={template.id} template={template} />)
-                    }
-                </Accordion>
-            </Radio.Group>
-        </Stack>
+        <Box>
+            {
+                templatesQuery.isLoading &&
+                <Center mb={"xl"}>
+                    <Loader type="bars" size={"xs"} />
+                </Center>
+            }
+            <Stack>
+                <Radio.Group onChange={onChange}>
+                    <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
+                        {
+                            templatesQuery.data !== undefined &&
+                            templatesQuery.data.map((template: Template) => <TemplateCard key={template.id} template={template} />)
+                        }
+                    </Accordion>
+                </Radio.Group>
+            </Stack>
+        </Box>
     )
 }

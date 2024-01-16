@@ -1,4 +1,4 @@
-import { IconLanguage, IconListSearch, IconMessages, IconPhoto } from "@tabler/icons-react"
+import { IconHeadphones, IconLanguage, IconListSearch, IconMessages, IconPhoto, IconVideo } from "@tabler/icons-react"
 import { IconMessage } from "@tabler/icons-react"
 
 const getTechnologyIcon = (slug: string, size: number | string, stroke: number = 1.5) => {
@@ -9,6 +9,10 @@ const getTechnologyIcon = (slug: string, size: number | string, stroke: number =
             return <IconMessages size={size} stroke={stroke} />
         case 'image-generation':
             return <IconPhoto size={size} stroke={stroke} />
+        case 'audio-generation':
+            return <IconHeadphones size={size} stroke={stroke} />
+        case 'video-generation':
+            return <IconVideo size={size} stroke={stroke} />
         case 'keywords-extraction':
             return <IconListSearch size={size} stroke={stroke} />
         case 'translation':

@@ -7,12 +7,14 @@ import { Type } from "../../../model/SelectedDatabaseType";
 import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
+import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
 
 interface FiltersContainer {
     opened: boolean,
     handle: any
     promptsFiltersQuery: any,
     modifiersFiltersQuery: any,
+    templatesFiltersQuery: any
 }
 
 export function FiltersContainer({
@@ -20,10 +22,12 @@ export function FiltersContainer({
     handle,
     promptsFiltersQuery,
     modifiersFiltersQuery,
+    templatesFiltersQuery
 }: FiltersContainer) {
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const { promptsSelectedFilters, setPromptsSelectedFilters } = usePromptsSelectedFilters();
     const { modifiersSelectedFilters, setModifiersSelectedFilters } = useModifiersSelectedFilters();
+    const { templatesSelectedFilters, setTemplatesSelectedFilters } = useTemplatesSelectedFilters();
 
     const title = <Text fw={500} size={"lg"}>Filters</Text>;
 
@@ -48,11 +52,6 @@ export function FiltersContainer({
                         selectedFilters={promptsSelectedFilters}
                         setSelectedFilters={setPromptsSelectedFilters}
                     />
-                    {/* <ModesFilter
-                        modes={promptsFiltersQuery.data.modes}
-                        selectedFilters={promptsSelectedFilters}
-                        setSelectedFilters={setPromptsSelectedFilters}
-                    /> */}
                 </Stack>
                 searchTermFilter = <SearchTermFilter
                     selectedFilters={promptsSelectedFilters}
@@ -78,6 +77,32 @@ export function FiltersContainer({
                 searchTermFilter = <SearchTermFilter
                     selectedFilters={modifiersSelectedFilters}
                     setSelectedFilters={setModifiersSelectedFilters}
+                />
+            }
+            break;
+
+        case Type.TEMPLATE:
+            if (templatesFiltersQuery.data) {
+                filters = <Stack gap={"xl"} my={"xs"}>
+                    <LanguagesFilter
+                        languages={templatesFiltersQuery.data.languages}
+                        selectedFilters={templatesSelectedFilters}
+                        setSelectedFilters={setTemplatesSelectedFilters}
+                    />
+                    <RepositoriesFilter
+                        repositories={templatesFiltersQuery.data.repositories}
+                        selectedFilters={templatesSelectedFilters}
+                        setSelectedFilters={setTemplatesSelectedFilters}
+                    />
+                    <TechnologiesFilter
+                        technologies={templatesFiltersQuery.data.technologies}
+                        selectedFilters={templatesSelectedFilters}
+                        setSelectedFilters={setTemplatesSelectedFilters}
+                    />
+                </Stack>
+                searchTermFilter = <SearchTermFilter
+                    selectedFilters={templatesSelectedFilters}
+                    setSelectedFilters={setTemplatesSelectedFilters}
                 />
             }
             break;

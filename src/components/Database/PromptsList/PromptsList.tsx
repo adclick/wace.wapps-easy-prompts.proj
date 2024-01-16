@@ -1,4 +1,4 @@
-import { Accordion, Stack } from "@mantine/core";
+import { Accordion, Box, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 
@@ -8,19 +8,27 @@ interface PromptsList {
 
 export function PromptsList({ promptsQuery }: PromptsList) {
     return (
-        <Stack>
-            <Accordion variant="separated" chevron="" styles={{
-                chevron: {
-                    display: "none"
-                }
-            }}>
-                {
-                    promptsQuery.data !== undefined &&
-                    promptsQuery.data.map((prompt: Prompt) => {
-                        return <PromptCard key={prompt.id} prompt={prompt} />
-                    })
-                }
-            </Accordion>
-        </Stack>
+        <Box>
+            {
+                promptsQuery.isLoading &&
+                <Center mb={"xl"}>
+                    <Loader type="bars" size={"xs"} />
+                </Center>
+            }
+            <Stack>
+                <Accordion variant="separated" chevron="" styles={{
+                    chevron: {
+                        display: "none"
+                    }
+                }}>
+                    {
+                        promptsQuery.data !== undefined &&
+                        promptsQuery.data.map((prompt: Prompt) => {
+                            return <PromptCard key={prompt.id} prompt={prompt} />
+                        })
+                    }
+                </Accordion>
+            </Stack>
+        </Box>
     )
 }

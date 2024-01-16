@@ -17,17 +17,11 @@ export function PromptOptionsTechnologiesField({ technologyData, technologies, o
     const { userPromptRequest } = useUserPromptRequest();
 
     return (
-        <SegmentedControl
-            fullWidth
-            data={technologyData}
+        <Select
+            comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.technology.id.toString()}
+            data={technologyData}
             onChange={onChangeTechnology}
         />
-        // <Select
-        //     comboboxProps={{ withinPortal: false }}
-        //     value={userPromptRequest.technology.id.toString()}
-        //     data={technologyData}
-        //     onChange={onChangeTechnology}
-        // />
     )
 }

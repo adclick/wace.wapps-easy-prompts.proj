@@ -146,7 +146,7 @@ export function PromptCardDetails({
                                             {
                                                 modifiers.map((modifier: Modifier) => {
                                                     return (
-                                                        <Stack>
+                                                        <Stack key={modifier.id}>
                                                             <Text size="xs">{modifier.title}</Text>
                                                             <Text size="xs">{modifier.content}</Text>
                                                         </Stack>

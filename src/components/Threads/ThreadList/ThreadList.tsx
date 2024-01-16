@@ -20,7 +20,7 @@ export function ThreadList() {
                 />)
             }
             <Box ref={targetRef}>
-                <ThreadsScrollToTop />
+                <ThreadsScrollToBottom />
             </Box>
         </Stack>
     )

@@ -7,7 +7,7 @@ import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ChatThreadReplyContainer } from "../ChatThreadReplyContainer/ChatThreadReplyContainer";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
-import { useScrollIntoView } from "@mantine/hooks";
+import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
@@ -28,6 +28,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { selectedModifiers } = useSelectedModifiers();
+    const [isResponding, isRespondingHandle] = useDisclosure(false);
 
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
@@ -85,8 +86,10 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
             return;
         }
 
+        isRespondingHandle.open();
         const response = await chat(message.request, promptRequest.provider.id, getHistory(), selectedModifiers);
         updateMessages(message.id, message.request, response);
+        isRespondingHandle.close();
     }
 
     const reply = (replyValue: string) => {
@@ -127,11 +130,11 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
 
             <Box ref={replyScrollIntoView.targetRef}>
                 {
-                    !promptRequest.isPlayable && <ChatThreadReplyContainer reply={reply} />
+                    !promptRequest.isPlayable && !isResponding && <ChatThreadReplyContainer reply={reply} />
                 }
             </Box>
 
-            <ThreadFooter promptRequest={promptRequest} />
+            <ThreadFooter promptRequest={userPromptRequest} />
         </Stack>
     )
 }
