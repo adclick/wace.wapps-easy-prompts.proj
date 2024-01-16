@@ -1,0 +1,7 @@
+.inputCheckbox {
+    background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7));
+}
+
+.inputCheckbox:checked {
+    background-color: var(--_checkbox-bg);
+}

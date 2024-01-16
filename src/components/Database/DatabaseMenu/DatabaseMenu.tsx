@@ -1,5 +1,5 @@
 import { Group, Menu, Text, UnstyledButton } from "@mantine/core";
-import { IconChevronDown, IconPrompt, IconSparkles } from "@tabler/icons-react";
+import { IconChevronDown, IconPrompt, IconSparkles, IconTemplate } from "@tabler/icons-react";
 import { NewModifierModal } from "../NewModifierModal/NewModifierModal";
 import { useDisclosure } from "@mantine/hooks";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
@@ -44,6 +44,9 @@ export function DatabaseMenu() {
                     </Menu.Item>
                     <Menu.Item onClick={() => onChange(Type.MODIFIER, Label.Modifier, LabelPlural.Modifiers)} leftSection={<IconSparkles size={14} />}>
                         {LabelPlural.Modifiers}
+                    </Menu.Item>
+                    <Menu.Item onClick={() => onChange(Type.TEMPLATE, Label.Tempalate, LabelPlural.Tempalates)} leftSection={<IconTemplate size={14} />}>
+                        {LabelPlural.Tempalates}
                     </Menu.Item>
                 </Menu.Dropdown>
             </Menu>

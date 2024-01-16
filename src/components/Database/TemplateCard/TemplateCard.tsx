@@ -1,32 +1,32 @@
-import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox, UnstyledButton } from "@mantine/core";
+import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox, UnstyledButton, Radio } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../utils/dateUtils";
-import { Modifier } from "../../../model/Modifier";
+import { Template } from "../../../model/Template";
 import { useDisclosure } from "@mantine/hooks";
-import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
-import classes from './ModifierCard.module.css';
+import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
+import classes from './TemplateCard.module.css';
 
-interface ModifierCard {
-    modifier: Modifier,
+interface TemplateCard {
+    template: Template,
 }
 
-export function ModifierCard({ modifier }: ModifierCard) {
-    const [modifierDetailsOpened, modifierDetailsHandle] = useDisclosure(false);
+export function TemplateCard({ template }: TemplateCard) {
+    const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
 
     return (
         <>
-            <ModifierCardDetails opened={modifierDetailsOpened} handle={modifierDetailsHandle} modifier={modifier} />
-            <Accordion.Item value={modifier.id.toString()}>
+            <TemplateCardDetails opened={templateDetailsOpened} handle={templateDetailsHandle} template={template} />
+            <Accordion.Item value={template.id.toString()}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">
                             <Stack gap={0}>
                                 <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                    {modifier.repository.name}
+                                    {template.repository.name}
                                 </Badge>
                                 <Text size="sm" fw={500} lineClamp={20}>
-                                    {modifier.title}
+                                    {template.title}
                                 </Text>
                             </Stack>
                         </Group>
@@ -35,36 +35,34 @@ export function ModifierCard({ modifier }: ModifierCard) {
                             <Group>
                                 <Group gap={4}>
                                     <IconPlayerPlayFilled size={12} />
-                                    <Text size="xs">{modifier.plays}</Text>
+                                    <Text size="xs">{template.plays}</Text>
                                 </Group>
                                 <Group gap={4}>
                                     <IconStarFilled size={12} />
-                                    <Text size="xs">{modifier.stars}</Text>
+                                    <Text size="xs">{template.stars}</Text>
                                 </Group>
                             </Group>
-                            <Checkbox classNames={{
-                                input: classes.inputCheckbox
-                            }} value={modifier.id.toString()} size="md" onClick={e => e.stopPropagation()}  />
+                            <Radio value={template.id.toString()} size="md" onClick={e => e.stopPropagation()}  />
                         </Group>
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
 
                     <Stack>
-                        <Text size="xs">{modifier.description}</Text>
+                        <Text size="xs">{template.description}</Text>
                         <Center>
-                            <Button onClick={modifierDetailsHandle.open} variant="transparent" size="xs">
+                            <Button onClick={templateDetailsHandle.open} variant="transparent" size="xs">
                                 Read more
                             </Button>
                         </Center>
                         <Group justify="space-between">
                             <Group gap={"xs"}>
                                 <IconUser size={12} />
-                                <Text size="xs">{modifier.user.username}</Text>
+                                <Text size="xs">{template.user.username}</Text>
                             </Group>
                             <Group gap={"xs"}>
                                 <IconClock size={12} />
-                                <Text size="xs">{dateUtils.timeAgo(new Date(modifier.created_at))}</Text>
+                                <Text size="xs">{dateUtils.timeAgo(new Date(template.created_at))}</Text>
                             </Group>
                         </Group>
                     </Stack>

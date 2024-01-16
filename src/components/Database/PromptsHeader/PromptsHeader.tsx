@@ -3,7 +3,7 @@ import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
 import { IconArrowsSort, IconFilter } from "@tabler/icons-react";
 import { useEffect } from "react";
-import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
 
 interface PromptsHeader {
@@ -27,11 +27,6 @@ export function PromptsHeader({
                 <DatabaseMenu />
             </Group>
             <Group gap={"xs"}>
-                <Tooltip label="Sort">
-                    <ActionIcon size={"lg"} variant='subtle'>
-                        <IconArrowsSort size={18} />
-                    </ActionIcon>
-                </Tooltip>
                 <Tooltip label="Filters">
                     <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
                         <IconFilter size={18} />

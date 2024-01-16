@@ -9,11 +9,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from './context/UserContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { UserPromptRequestProvider } from './context/UserPromptRequestContext';
-import { PromptsSelectedFiltersProvider } from './context/ModifiersSelectedFiltersContext';
+import { PromptsSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext';
 import { SelectedDatabaseTypeProvider } from './context/SelectedDatabaseTypeContext';
-import { ModifiersSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext';
+import { ModifiersSelectedFiltersProvider } from './context/ModifiersSelectedFiltersContext';
 import { PromptsRequestsProvider } from './context/PromptsRequestsContext';
 import { SelectedModifiersProvider } from './context/SelectedModifiersContext';
+import { SelectedTemplateProvider } from './context/SelectedTemplateContext';
+import { TemplatesSelectedFiltersProvider } from './context/TemplatesSelectedFiltersContext';
 
 
 export default function App() {
@@ -33,14 +35,18 @@ export default function App() {
             <SelectedDatabaseTypeProvider>
               <PromptsSelectedFiltersProvider>
                 <ModifiersSelectedFiltersProvider>
-                  <SelectedModifiersProvider>
-                    <PromptsRequestsProvider>
-                      <UserPromptRequestProvider>
-                        <Notifications />
-                        <Router />
-                      </UserPromptRequestProvider>
-                    </PromptsRequestsProvider>
-                  </SelectedModifiersProvider>
+                  <TemplatesSelectedFiltersProvider>
+                    <SelectedModifiersProvider>
+                      <SelectedTemplateProvider>
+                        <PromptsRequestsProvider>
+                          <UserPromptRequestProvider>
+                            <Notifications />
+                            <Router />
+                          </UserPromptRequestProvider>
+                        </PromptsRequestsProvider>
+                      </SelectedTemplateProvider>
+                    </SelectedModifiersProvider>
+                  </TemplatesSelectedFiltersProvider>
                 </ModifiersSelectedFiltersProvider>
               </PromptsSelectedFiltersProvider>
             </SelectedDatabaseTypeProvider>

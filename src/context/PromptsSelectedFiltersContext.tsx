@@ -1,27 +1,27 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { ModifiersSelectedFilters } from '../model/ModifiersSelectedFilters';
+import { PromptsSelectedFilters } from '../model/PromptsSelectedFilters';
 
-interface ModifiersSelectedFiltersContextProps {
-    modifiersSelectedFilters: ModifiersSelectedFilters;
-    setModifiersSelectedFilters: React.Dispatch<React.SetStateAction<ModifiersSelectedFilters>>;
+interface PromptsSelectedFiltersContextProps {
+    promptsSelectedFilters: PromptsSelectedFilters;
+    setPromptsSelectedFilters: React.Dispatch<React.SetStateAction<PromptsSelectedFilters>>;
 }
 
-const ModifiersSelectedFiltersContext = createContext<ModifiersSelectedFiltersContextProps | undefined>(undefined);
+const PromptsSelectedFiltersContext = createContext<PromptsSelectedFiltersContextProps | undefined>(undefined);
 
-export const ModifiersSelectedFiltersProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [modifiersSelectedFilters, setModifiersSelectedFilters] = useState<ModifiersSelectedFilters>(new ModifiersSelectedFilters());
+export const PromptsSelectedFiltersProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [promptsSelectedFilters, setPromptsSelectedFilters] = useState<PromptsSelectedFilters>(new PromptsSelectedFilters());
 
     return (
-        <ModifiersSelectedFiltersContext.Provider value={{ modifiersSelectedFilters, setModifiersSelectedFilters }}>
+        <PromptsSelectedFiltersContext.Provider value={{ promptsSelectedFilters, setPromptsSelectedFilters }}>
             {children}
-        </ModifiersSelectedFiltersContext.Provider>
+        </PromptsSelectedFiltersContext.Provider>
     );
 };
 
-export const useModifiersSelectedFilters = () => {
-    const context = useContext(ModifiersSelectedFiltersContext);
+export const usePromptsSelectedFilters = () => {
+    const context = useContext(PromptsSelectedFiltersContext);
     if (!context) {
-        throw new Error('useSelectedFilters must be used within a ModifiersSelectedFiltersProvider');
+        throw new Error('useSelectedFilters must be used within a PromptsSelectedFiltersProvider');
     }
     return context;
 };

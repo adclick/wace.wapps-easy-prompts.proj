@@ -11,8 +11,12 @@ import { Stack } from "@mantine/core";
 import { useEffect } from "react";
 import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
 import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
-import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
+import { TemplatesHeader } from "../TemplatesHeader/TemplatesHeader";
+import { useTemplatesFiltersQuery } from "../../../api/templatesApi";
+import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
+import { TemplatesSelectedFilters } from "../../../model/TemplatesSelectedFilters";
 
 interface DatabaseHeader {
     navbarOpened: boolean,
@@ -24,9 +28,10 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
     const modifiersFiltersQuery = useModifiersFiltersQuery(user.id);
+    const templatesFiltersQuery = useTemplatesFiltersQuery(user.id);
     const [filtersOpened, filtersHandle] = useDisclosure(false);
     const { modifiersSelectedFilters, setModifiersSelectedFilters } = useModifiersSelectedFilters();
-
+    const { templatesSelectedFilters, setTemplatesSelectedFilters } = useTemplatesSelectedFilters();
     const { promptsSelectedFilters, setPromptsSelectedFilters } = usePromptsSelectedFilters();
 
     // Init selectedFilters
@@ -45,6 +50,14 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
         }
     }, [modifiersSelectedFilters, modifiersFiltersQuery])
 
+    // Init selectedFilters
+    useEffect(() => {
+        if (templatesSelectedFilters.isEmpty && templatesFiltersQuery.data) {
+            const newSelectedFilters = TemplatesSelectedFilters.buildFromQuery(templatesFiltersQuery.data);
+            setTemplatesSelectedFilters(newSelectedFilters);
+        }
+    }, [templatesSelectedFilters, templatesFiltersQuery])
+
     let header = <></>;
     switch (selectedDatabaseType.type) {
         case Type.MODIFIER:
@@ -53,6 +66,14 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
                 navbarHandle={navbarHandle}
                 filtersHandle={filtersHandle}
                 filtersQuery={modifiersFiltersQuery}
+            />
+            break;
+        case Type.TEMPLATE:
+            header = <TemplatesHeader
+                navbarOpened={navbarOpened}
+                navbarHandle={navbarHandle}
+                filtersHandle={filtersHandle}
+                filtersQuery={templatesFiltersQuery}
             />
             break;
         case Type.PROMPT:

@@ -4,7 +4,7 @@ import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../api/pr
 import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { IconCheck } from "@tabler/icons-react";
-import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { Language } from "../../../model/Language";
 import { Repository } from "../../../model/Repository";

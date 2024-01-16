@@ -3,21 +3,21 @@ import { Modal, Select, Button, Group, Stack, Textarea, TextInput } from "@manti
 import { notifications } from "@mantine/notifications";
 import { useUser } from "../../../context/UserContext";
 import { usePromptsFiltersQuery } from "../../../api/promptsApi";
-import { useCreateModifierMutation, useModifiersFiltersQuery } from "../../../api/modifiersApi";
-import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
+import { useCreateTemplateMutation, useTemplatesFiltersQuery } from "../../../api/templatesApi";
+import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
 
-interface NewModifierModal {
+interface NewTemplateModal {
     opened: boolean,
     handle: any
 }
 
-export function NewModifierModal({
+export function NewTemplateModal({
     opened,
     handle,
-}: NewModifierModal) {
-    const { modifiersSelectedFilters } = useModifiersSelectedFilters();
+}: NewTemplateModal) {
+    const { templatesSelectedFilters } = useTemplatesSelectedFilters();
     const { user } = useUser();
-    const { data } = useModifiersFiltersQuery(user.id);
+    const { data } = useTemplatesFiltersQuery(user.id);
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');
@@ -25,7 +25,7 @@ export function NewModifierModal({
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
 
-    const mutation = useCreateModifierMutation();
+    const mutation = useCreateTemplateMutation();
 
     let languages = [];
     let repositories = [];
@@ -59,7 +59,7 @@ export function NewModifierModal({
 
         if (mutation.isSuccess) {
             notifications.show({
-                title: "Modifier Saved",
+                title: "Template Saved",
                 message: "Your settings were saved",
                 color: "blue"
             });
@@ -95,7 +95,7 @@ export function NewModifierModal({
     }
 
     return (
-        <Modal opened={opened} onClose={handle.close} title="New Modifier">
+        <Modal opened={opened} onClose={handle.close} title="New Template">
             <Stack my={"xs"}>
                 <Select
                     label="Language"
@@ -120,7 +120,7 @@ export function NewModifierModal({
                     onChange={(e: any) => setTitle(e.target.value)}
                     value={title}
                     required
-                    placeholder="Name of the Modifier"
+                    placeholder="Name of the Template"
                 />
                 <Textarea
                     label="Description"
@@ -139,7 +139,7 @@ export function NewModifierModal({
                     maxLength={500}
                     onChange={(e: any) => setContent(e.target.value)}
                     value={content}
-                    placeholder="Modifier Text"
+                    placeholder="Template Text"
                 />
                 <Group justify="flex-end">
                     <Button

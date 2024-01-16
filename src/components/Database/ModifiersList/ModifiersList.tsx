@@ -1,4 +1,4 @@
-import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
+import { Accordion, Checkbox, Stack } from "@mantine/core";
 import { Modifier } from "../../../model/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
@@ -17,23 +17,15 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
     }
 
     return (
-        <Box>
-            {
-                modifiersQuery.isFetching &&
-                <Center mb={"xl"}>
-                    <Loader type="bars" size={"xs"} />
-                </Center>
-            }
-            <Stack>
-                <Checkbox.Group value={selectedModifiers.map(m => m.id.toString())} onChange={onChange}>
-                    <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
-                        {
-                            modifiersQuery.data !== undefined &&
-                            modifiersQuery.data.map((modifier: Modifier) => <ModifierCard key={modifier.id} modifier={modifier} />)
-                        }
-                    </Accordion>
-                </Checkbox.Group>
-            </Stack>
-        </Box>
+        <Stack>
+            <Checkbox.Group value={selectedModifiers.map(m => m.id.toString())} onChange={onChange}>
+                <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
+                    {
+                        modifiersQuery.data !== undefined &&
+                        modifiersQuery.data.map((modifier: Modifier) => <ModifierCard key={modifier.id} modifier={modifier} />)
+                    }
+                </Accordion>
+            </Checkbox.Group>
+        </Stack>
     )
 }

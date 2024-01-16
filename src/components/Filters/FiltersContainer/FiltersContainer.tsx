@@ -4,8 +4,8 @@ import { RepositoriesFilter } from "../RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { Type } from "../../../model/SelectedDatabaseType";
-import { usePromptsSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
+import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
+import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
 
 interface FiltersContainer {

@@ -9,6 +9,7 @@ import { ChatThreadReplyContainer } from "../ChatThreadReplyContainer/ChatThread
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
 import { useScrollIntoView } from "@mantine/hooks";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 
 interface ChatThread {
     promptRequest: PromptRequest,
@@ -26,6 +27,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const { selectedModifiers } = useSelectedModifiers();
 
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
@@ -83,7 +85,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
             return;
         }
 
-        const response = await chat(message.request, promptRequest.provider.id, getHistory());
+        const response = await chat(message.request, promptRequest.provider.id, getHistory(), selectedModifiers);
         updateMessages(message.id, message.request, response);
     }
 

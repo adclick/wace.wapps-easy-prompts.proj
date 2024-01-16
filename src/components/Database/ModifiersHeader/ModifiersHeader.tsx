@@ -5,7 +5,7 @@ import { IconArrowsSort, IconFilter, IconPlus } from "@tabler/icons-react";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
 import { useDisclosure } from "@mantine/hooks";
 import { useUser } from "../../../context/UserContext";
-import { useModifiersSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
+import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 import { usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useModifiersFiltersQuery } from "../../../api/modifiersApi";
 import { useEffect } from "react";
@@ -39,11 +39,6 @@ export function ModifiersHeader({
                     <Tooltip label="Add">
                         <ActionIcon size={"lg"} variant='subtle' onClick={newModifierModalHandle.open}>
                             <IconPlus size={18} />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Sort">
-                        <ActionIcon size={"lg"} variant='subtle'>
-                            <IconArrowsSort size={18} />
                         </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Filters">
