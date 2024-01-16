@@ -9,6 +9,7 @@ import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import iconsUtils from "../../../utils/iconsUtils";
+import { PromptCardMenu } from "../PromptCardMenu/PromptCardMenu";
 
 interface PromptCard {
     prompt: Prompt,
@@ -51,13 +52,14 @@ export function PromptCard({ prompt }: PromptCard) {
                                     {prompt.title}
                                 </Text>
                             </Stack>
-                            <Tooltip label={prompt.technology.name}>
+                            <PromptCardMenu />
+                            {/* <Tooltip label={prompt.technology.name}>
                                 <ActionIcon component="a" variant="transparent" color="gray.9">
                                     {
                                         iconsUtils.getTechnologyIcon(prompt.technology.slug, 16)
                                     }
                                 </ActionIcon>
-                            </Tooltip>
+                            </Tooltip> */}
                         </Group>
 
                         <Group justify="space-between">

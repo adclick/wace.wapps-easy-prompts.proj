@@ -5,6 +5,7 @@ import { PromptModifiersList } from "../PromptModifiersList/PromptModifiersList"
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { ThreadsScrollToBottom } from "../../Threads/ThreadsScrollToBottom/ThreadsScrollToBottom";
 import { PromptModeSwitcher } from "../PromptModeSwitcher/PromptModeSwitcher";
+import { PromptTemplateInfo } from "../PromptTemplateInfo/PromptTemplateInfo";
 
 export function PromptContainer() {
     const { selectedModifiers } = useSelectedModifiers();
@@ -23,6 +24,7 @@ export function PromptContainer() {
             <Group w={"100%"} >
                 <PromptTextInput />
                 <PromptModifiersList />
+                <PromptTemplateInfo />
                 <PromptPlayButton />
             </Group>
         </Stack>

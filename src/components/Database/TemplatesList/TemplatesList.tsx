@@ -8,7 +8,7 @@ interface TemplatesList {
 }
 
 export function TemplatesList({ templatesQuery }: TemplatesList) {
-    const { setSelectedTemplate } = useSelectedTemplate();
+    const { selectedTemplate, setSelectedTemplate } = useSelectedTemplate();
 
 
     const onChange = (id: string) => {
@@ -26,7 +26,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
                 </Center>
             }
             <Stack>
-                <Radio.Group onChange={onChange}>
+                <Radio.Group value={selectedTemplate.id.toString()} onChange={onChange}>
                     <Accordion variant="separated" chevron="" styles={{ chevron: { display: "none" } }}>
                         {
                             templatesQuery.data !== undefined &&

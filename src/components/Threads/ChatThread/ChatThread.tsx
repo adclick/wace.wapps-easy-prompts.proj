@@ -110,6 +110,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
         const newUserPromptRequest = PromptRequest.clone(userPromptRequest);
         newUserPromptRequest.chatReply = chatReply;
         newUserPromptRequest.metadata.history = getHistory();
+        newUserPromptRequest.metadata.modifiers = selectedModifiers;
         setUserPromptRequest(newUserPromptRequest);
     }
 

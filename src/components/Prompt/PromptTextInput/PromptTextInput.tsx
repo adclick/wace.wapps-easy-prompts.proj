@@ -4,11 +4,13 @@ import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
+import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
 
 export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { selectedModifiers } = useSelectedModifiers();
+    const {selectedTemplate } = useSelectedTemplate();
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
@@ -27,7 +29,7 @@ export function PromptTextInput() {
         }
     }
 
-    const paddingLeft = selectedModifiers.length > 0
+    const paddingLeft = selectedModifiers.length > 0 || selectedTemplate.id > 0
         ? "60px"
         : "var(--_input-padding-left"
 

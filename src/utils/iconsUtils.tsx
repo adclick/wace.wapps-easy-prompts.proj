@@ -1,13 +1,12 @@
-import { IconHeadphones, IconLanguage, IconListSearch, IconMessages, IconPhoto, IconVideo } from "@tabler/icons-react"
+import { IconHeadphones, IconLanguage, IconListSearch, IconPhoto, IconVideo } from "@tabler/icons-react"
 import { IconMessage } from "@tabler/icons-react"
 import { PromptMode } from "../model/PromptMode"
 
 const getTechnologyIcon = (slug: string, size: number | string, stroke: number = 1.5) => {
     switch (slug) {
         case 'text-generation':
-            return <IconMessage size={size} stroke={stroke} />
         case 'chat':
-            return <IconMessages size={size} stroke={stroke} />
+            return <IconMessage size={size} stroke={stroke} />
         case 'image-generation':
             return <IconPhoto size={size} stroke={stroke} />
         case 'audio-generation':

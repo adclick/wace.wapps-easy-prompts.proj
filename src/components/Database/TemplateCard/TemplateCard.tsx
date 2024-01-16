@@ -6,6 +6,8 @@ import { Template } from "../../../model/Template";
 import { useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
 import classes from './TemplateCard.module.css';
+import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
+import { useRef } from "react";
 
 interface TemplateCard {
     template: Template,
@@ -13,6 +15,17 @@ interface TemplateCard {
 
 export function TemplateCard({ template }: TemplateCard) {
     const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
+    const { selectedTemplate, setSelectedTemplate } = useSelectedTemplate();
+    const ref = useRef();
+    const [checked, checkedHandle] = useDisclosure(false);
+
+    const onRadioClick = (e: any) => {
+        e.stopPropagation();
+
+        if (e.target.value === selectedTemplate.id.toString()) {
+            setSelectedTemplate(new Template())
+        }
+    }
 
     return (
         <>
@@ -42,7 +55,7 @@ export function TemplateCard({ template }: TemplateCard) {
                                     <Text size="xs">{template.stars}</Text>
                                 </Group>
                             </Group>
-                            <Radio value={template.id.toString()} size="md" onClick={e => e.stopPropagation()}  />
+                            <Radio classNames={{radio: classes.inputRadio}} value={template.id.toString()} size="md" onClick={onRadioClick} />
                         </Group>
                     </Stack>
                 </Accordion.Control >

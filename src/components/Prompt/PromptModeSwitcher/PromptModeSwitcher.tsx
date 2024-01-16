@@ -35,13 +35,10 @@ export function PromptModeSwitcher() {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
         newUserRequest.technology = Technology.clone(technology);
         newUserRequest.provider = Provider.clone(providers[0]);
-        // newUserRequest.providers = [providers[0]];
 
         setUserPromptRequest(newUserRequest);
         setProviders(providers);
         setProviderData(providerData);
-
-        console.log(newUserRequest.technology);
     }
 
     const data = getAllPromptModes.map(mode => {
