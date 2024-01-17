@@ -26,12 +26,12 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
                 <ActionIcon variant="subtle" onClick={minimizeHandle.toggle}>
                     {
                         minimized
-                            ? <IconChevronUp size={18} />
-                            : <IconChevronDown size={18} />
+                            ? <IconChevronUp size={18} stroke={2} />
+                            : <IconChevronDown size={18} stroke={2} />
                     }
                 </ActionIcon>
                 <ActionIcon variant="subtle" onClick={() => deleteThread(promptRequest)}>
-                    <IconX size={18} />
+                    <IconX size={18} stroke={2} />
                 </ActionIcon>
             </Group>
         </Group>

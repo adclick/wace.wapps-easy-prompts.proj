@@ -1,0 +1,11 @@
+.header {
+    @mixin light {
+        background-color: var(--mantine-color-gray-2);
+    }
+}
+
+.content {
+    @mixin light {
+        background-color: var(--mantine-color-gray-2);
+    }
+}

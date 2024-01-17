@@ -31,7 +31,7 @@ export function PromptTextInput() {
     }
 
     const paddingLeft = selectedModifiers.length > 0 || selectedTemplate.id > 0
-        ? "60px"
+        ? "70px"
         : "var(--_input-padding-left"
 
     return (

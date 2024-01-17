@@ -10,10 +10,10 @@ export function ThreadsMenu() {
             <Menu.Target>
                 <UnstyledButton px={0}>
                     <Group align='center' gap={"xs"} wrap="nowrap">
-                        <Text size="xl" fw={500}>
+                        <Text size="xl" fw={700}>
                             Menu
                         </Text>
-                        <IconChevronDown size={16} />
+                        <IconChevronDown size={16} stroke={3} />
                     </Group>
                 </UnstyledButton>
             </Menu.Target>

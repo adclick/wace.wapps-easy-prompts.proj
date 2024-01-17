@@ -60,14 +60,12 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                                     ? <Button
                                         size='compact-xs'
                                         variant='transparent'
-                                        // leftSection={<IconX size={14} />}
-                                        // onClick={removeAll}
                                     >
                                         {selectedIds.length} selected
                                     </Button>
                                     :
                                     <Button onClick={selectAll} size='compact-xs' variant='light'>
-                                        Add all
+                                        Select all
                                     </Button>
                             }
                             <Combobox.EventsTarget>
@@ -86,9 +84,6 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                     </PillsInput>
                 </Combobox.DropdownTarget>
                 <Combobox.Dropdown>
-                    <Combobox.Header>
-                        <Button onClick={removeAll}>Remove all</Button>
-                    </Combobox.Header>
                     <ScrollArea.Autosize type="scroll" mah={200}>
 
                         {

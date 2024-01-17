@@ -38,12 +38,12 @@ export function ModifiersHeader({
                 <Group gap={"xs"}>
                     <Tooltip label="Add">
                         <ActionIcon size={"lg"} variant='subtle' onClick={newModifierModalHandle.open}>
-                            <IconPlus size={18} />
+                            <IconPlus size={18} stroke={3} />
                         </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Filters">
                         <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
-                            <IconFilter size={18} />
+                            <IconFilter size={18} stroke={3} />
                         </ActionIcon>
                     </Tooltip>
                 </Group>

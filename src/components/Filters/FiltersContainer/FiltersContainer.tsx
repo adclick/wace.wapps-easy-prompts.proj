@@ -8,6 +8,7 @@ import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFilte
 import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
 import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
+import classes from './FiltersContainer.module.css'
 
 interface FiltersContainer {
     opened: boolean,
@@ -110,7 +111,16 @@ export function FiltersContainer({
 
     return (
         <>
-            <Drawer opened={opened} onClose={handle.close} title={title} size={350}>
+            <Drawer
+                classNames={{
+                    header: classes.header,
+                    content: classes.content
+                }}
+                opened={opened}
+                onClose={handle.close}
+                title={title}
+                size={350}
+            >
                 {
                     filters
                 }

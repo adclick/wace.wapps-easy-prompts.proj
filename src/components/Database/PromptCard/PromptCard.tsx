@@ -16,7 +16,7 @@ interface PromptCard {
 }
 
 export function PromptCard({ prompt }: PromptCard) {
-    const [craftDetailsOpened, craftDetailsHandle] = useDisclosure(false);
+    const [detailsOpened, detailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
     const play = (e: any) => {
@@ -35,8 +35,8 @@ export function PromptCard({ prompt }: PromptCard) {
     return (
         <>
             <PromptCardDetails
-                opened={craftDetailsOpened}
-                handle={craftDetailsHandle}
+                opened={detailsOpened}
+                handle={detailsHandle}
                 prompt={prompt}
                 play={play}
             />
@@ -52,7 +52,7 @@ export function PromptCard({ prompt }: PromptCard) {
                                     {prompt.title}
                                 </Text>
                             </Stack>
-                            <PromptCardMenu />
+                            <PromptCardMenu detailsHandle={detailsHandle} />
                             {/* <Tooltip label={prompt.technology.name}>
                                 <ActionIcon component="a" variant="transparent" color="gray.9">
                                     {
@@ -83,7 +83,7 @@ export function PromptCard({ prompt }: PromptCard) {
                     <Stack>
                         <Text size="xs">{prompt.description}</Text>
                         <Center>
-                            <Button variant="transparent" size="xs" onClick={craftDetailsHandle.open}>
+                            <Button variant="transparent" size="xs" onClick={detailsHandle.open}>
                                 Read more
                             </Button>
                         </Center>

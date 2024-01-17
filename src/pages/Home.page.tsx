@@ -49,7 +49,7 @@ export function HomePage() {
                     collapsed: { mobile: !navbarOpened },
                 }}
             >
-                <AppShell.Header withBorder={false} p={"md"} >
+                <AppShell.Header withBorder={false} p={"md"} className={classes.header} >
                     <Header navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
                 </AppShell.Header>
 
@@ -62,11 +62,11 @@ export function HomePage() {
                     </AppShell.Section>
                 </AppShell.Navbar>
 
-                <AppShell.Main>
+                <AppShell.Main className={classes.main}>
                     <ThreadList />
                 </AppShell.Main>
 
-                <AppShell.Footer withBorder={false}>
+                <AppShell.Footer withBorder={false} className={classes.footer}>
                     <PromptContainer />
                 </AppShell.Footer>
             </AppShell>

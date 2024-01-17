@@ -12,6 +12,7 @@ import { Provider } from "../../../model/Provider";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptOptionsTechnologiesField, TechnologyDataItem } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
+import classes from './PromptModeSwitcher.module.css'
 
 export function PromptModeSwitcher() {
     const { promptMode, setPromptMode } = usePromptMode();
@@ -94,6 +95,9 @@ export function PromptModeSwitcher() {
                 onChange={onChangeMode}
                 fullWidth
                 data={data}
+                classNames={{
+                    root: classes.segment
+                }}
             />
             <Popover position="top" keepMounted>
                 <Popover.Target>
@@ -102,7 +106,7 @@ export function PromptModeSwitcher() {
                             variant="subtle"
                             size="sm"
                         >
-                            <IconDots size={18} />
+                            <IconDots size={18} stroke={2} />
                         </ActionIcon>
                     </Tooltip>
                 </Popover.Target>

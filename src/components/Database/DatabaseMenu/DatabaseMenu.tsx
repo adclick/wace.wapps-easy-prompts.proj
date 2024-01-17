@@ -34,10 +34,10 @@ export function DatabaseMenu() {
                 <Menu.Target>
                     <UnstyledButton px={0}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
-                            <Text truncate size="xl" fw={500}>
+                            <Text truncate size="xl" fw={700}>
                                 {selectedDatabaseType.labelPlural}
                             </Text>
-                            <IconChevronDown size={16} />
+                            <IconChevronDown size={16} stroke={3} />
                         </Group>
                     </UnstyledButton>
                 </Menu.Target>
