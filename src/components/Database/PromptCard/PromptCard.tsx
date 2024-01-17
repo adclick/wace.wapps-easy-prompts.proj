@@ -1,14 +1,12 @@
-import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center, Tooltip } from "@mantine/core";
+import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../model/Prompt";
-import { Technology } from "../../../model/Technology";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
-import iconsUtils from "../../../utils/iconsUtils";
 import { PromptCardMenu } from "../PromptCardMenu/PromptCardMenu";
 
 interface PromptCard {

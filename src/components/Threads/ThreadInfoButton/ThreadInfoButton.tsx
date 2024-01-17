@@ -1,7 +1,7 @@
 import { ActionIcon, Button } from "@mantine/core";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { IconInfoCircle } from "@tabler/icons-react";
-import iconsUtils from "../../../utils/iconsUtils";
+import { getTechnologyIcon } from "../../../utils/iconsUtils";
 
 interface ThreadInfoButton {
     promptRequest: PromptRequest
@@ -16,7 +16,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
             : <Button
                 size="xs"
                 variant="subtle"
-                leftSection={iconsUtils.getTechnologyIcon(promptRequest.technology.slug, 14)}
+                leftSection={getTechnologyIcon(promptRequest.technology.slug, 14)}
             >
                 {promptRequest.provider.name}
             </Button>

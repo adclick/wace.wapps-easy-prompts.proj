@@ -1,37 +1,37 @@
-import { ActionIcon, Group, Stack, Tooltip } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
-import { IconArrowsSort, IconFilter } from "@tabler/icons-react";
-import { useEffect } from "react";
-import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
-import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
+import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
+import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
 
 interface PromptsHeader {
-    navbarOpened: boolean,
-    navbarHandle: any,
+    navbarMobileOpened: boolean,
+    navbarDesktopOpened: boolean,
+    navbarMobileHandle: any,
+    navbarDesktopHandle: any,
     filtersHandle: any
-    filtersQuery: any
 }
 
 export function PromptsHeader({
-    navbarOpened,
-    navbarHandle,
+    navbarMobileOpened,
+    navbarDesktopOpened,
+    navbarMobileHandle,
+    navbarDesktopHandle,
     filtersHandle,
-    filtersQuery
 }: PromptsHeader) {
-
     return (
         <Group h={"100%"} justify='space-between' pt={"xs"}>
             <Group>
-                <HeaderBurgerMenu navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
+                <Box hiddenFrom="sm">
+                    <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
+                </Box>
                 <DatabaseMenu />
             </Group>
             <Group gap={"xs"}>
-                <Tooltip label="Filters">
-                    <ActionIcon onClick={filtersHandle.open} size={"lg"} variant='subtle'>
-                        <IconFilter size={18} />
-                    </ActionIcon>
-                </Tooltip>
+                <FiltersToggleIcon onClick={filtersHandle.open} />
+                <Box visibleFrom="sm">
+                    <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
+                </Box>
             </Group>
         </Group>
     )

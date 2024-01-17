@@ -1,4 +1,4 @@
-import { Accordion, Box, Center, Loader, Stack } from "@mantine/core";
+import { Accordion, Box, Button, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 
@@ -23,11 +23,27 @@ export function PromptsList({ promptsQuery }: PromptsList) {
                 }}>
                     {
                         promptsQuery.data !== undefined &&
-                        promptsQuery.data.map((prompt: Prompt) => {
-                            return <PromptCard key={prompt.id} prompt={prompt} />
+                        promptsQuery.data.pages.map((page: any) => {
+                            return page.map((prompt: Prompt) => {
+                                return <PromptCard key={prompt.id} prompt={prompt} />
+                            })
                         })
+
                     }
                 </Accordion>
+                <Button
+                    variant="default"
+                    onClick={() => promptsQuery.fetchNextPage()}
+                    disabled={!promptsQuery.hasNextPage || promptsQuery.isFetchingNextPage}
+                >
+                    {
+                        promptsQuery.isFetchingNextPage
+                            ? "Loading more..."
+                            : promptsQuery.hasNextPage
+                                ? "Load More"
+                                : "Nothing more to load"
+                    }
+                </Button>
             </Stack>
         </Box>
     )

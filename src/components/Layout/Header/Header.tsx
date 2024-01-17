@@ -1,19 +1,34 @@
-import { Group } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../HeaderBurgerMenu/HeaderBurgerMenu";
 import { ThreadsMenu } from "../../Threads/ThreadsMenu/ThreadsMenu";
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 import { UserMenu } from "../../User/UserMenu/UserMenu";
+import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
 
 interface Header {
-    navbarOpened: boolean,
-    navbarHandle: any
+    navbarMobileOpened: boolean,
+    navbarDesktopOpened: boolean,
+    navbarMobileHandle: any,
+    navbarDesktopHandle: any,
 }
 
-export function Header({navbarOpened, navbarHandle}: Header) {
+export function Header({
+    navbarMobileOpened,
+    navbarDesktopOpened,
+    navbarMobileHandle,
+    navbarDesktopHandle,
+}: Header) {
     return (
         <Group h={"100%"} justify="space-between" align="center">
-            <Group align="center" gap={"xs"}>
-                <HeaderBurgerMenu navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
+            <Group gap={"xs"}>
+                <Box visibleFrom="sm" >
+                    {
+                        !navbarDesktopOpened && <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
+                    }
+                </Box>
+                <Box hiddenFrom="sm">
+                    <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
+                </Box>
                 <ThreadsMenu />
             </Group>
             <Group>

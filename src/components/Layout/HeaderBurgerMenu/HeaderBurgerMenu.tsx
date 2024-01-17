@@ -10,7 +10,6 @@ export function HeaderBurgerMenu({navbarOpened, navbarHandle}: HeaderBurgerMenu)
         <Burger
             opened={navbarOpened}
             onClick={navbarHandle.toggle}
-            hiddenFrom="sm"
             size="sm"
         />
     )

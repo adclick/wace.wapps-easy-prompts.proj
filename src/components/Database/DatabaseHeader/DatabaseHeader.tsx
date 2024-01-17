@@ -19,11 +19,18 @@ import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedF
 import { TemplatesSelectedFilters } from "../../../model/TemplatesSelectedFilters";
 
 interface DatabaseHeader {
-    navbarOpened: boolean,
-    navbarHandle: any,
+    navbarMobileOpened: boolean,
+    navbarDesktopOpened: boolean,
+    navbarMobileHandle: any,
+    navbarDesktopHandle: any,
 }
 
-export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
+export function DatabaseHeader({
+    navbarMobileOpened,
+    navbarDesktopOpened,
+    navbarMobileHandle,
+    navbarDesktopHandle,
+}: DatabaseHeader) {
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
@@ -62,26 +69,29 @@ export function DatabaseHeader({ navbarOpened, navbarHandle }: DatabaseHeader) {
     switch (selectedDatabaseType.type) {
         case Type.MODIFIER:
             header = <ModifiersHeader
-                navbarOpened={navbarOpened}
-                navbarHandle={navbarHandle}
+                navbarMobileOpened={navbarMobileOpened}
+                navbarDesktopOpened={navbarDesktopOpened}
+                navbarMobileHandle={navbarMobileHandle}
+                navbarDesktopHandle={navbarDesktopHandle}
                 filtersHandle={filtersHandle}
-                filtersQuery={modifiersFiltersQuery}
             />
             break;
         case Type.TEMPLATE:
             header = <TemplatesHeader
-                navbarOpened={navbarOpened}
-                navbarHandle={navbarHandle}
+                navbarMobileOpened={navbarMobileOpened}
+                navbarDesktopOpened={navbarDesktopOpened}
+                navbarMobileHandle={navbarMobileHandle}
+                navbarDesktopHandle={navbarDesktopHandle}
                 filtersHandle={filtersHandle}
-                filtersQuery={templatesFiltersQuery}
             />
             break;
         case Type.PROMPT:
             header = <PromptsHeader
-                navbarOpened={navbarOpened}
-                navbarHandle={navbarHandle}
+                navbarMobileOpened={navbarMobileOpened}
+                navbarDesktopOpened={navbarDesktopOpened}
+                navbarMobileHandle={navbarMobileHandle}
+                navbarDesktopHandle={navbarDesktopHandle}
                 filtersHandle={filtersHandle}
-                filtersQuery={promptsFiltersQuery}
             />
             break;
         default:

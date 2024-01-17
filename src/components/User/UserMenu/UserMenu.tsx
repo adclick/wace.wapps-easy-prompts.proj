@@ -16,7 +16,7 @@ export function UserMenu() {
                 opened={userProfileOpened}
                 handle={userProfileHandle}
             />
-            <Menu position="bottom-end">
+            <Menu shadow="md" position="bottom-end">
                 <Menu.Target>
                     <UnstyledButton size="lg" px={"xs"} py={"xs"}>
                         <Avatar src={user?.picture} />

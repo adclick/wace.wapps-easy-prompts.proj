@@ -76,7 +76,6 @@ export function PromptOptionsContainer() {
         <Stack>
             <PromptOptionsTechnologiesField
                 technologyData={technologyData}
-                technologies={technologies}
                 onChangeTechnology={updateTechnology}
             />
 

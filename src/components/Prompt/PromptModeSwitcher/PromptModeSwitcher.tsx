@@ -1,9 +1,8 @@
-import { ActionIcon, Group, Popover, SegmentedControl, Stack, Tooltip } from "@mantine/core";
-import iconsUtils from "../../../utils/iconsUtils";
+import { ActionIcon, Divider, Group, Popover, SegmentedControl, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { PromptMode, getAllPromptModes, isPromptModeEnabled } from "../../../model/PromptMode";
 import { usePromptMode } from "../../../context/PromptModeContext";
-import { IconDots } from "@tabler/icons-react";
-import { useState } from "react";
+import { IconDots, IconMessage } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import { Technology } from "../../../model/Technology";
 import { getProviders } from "../../../api/providersApi";
 import { PromptOptionsProvidersField, ProvidersDataItem } from "../PromptOptionsProvidersField/PromptOptionsProvidersField";
@@ -13,6 +12,7 @@ import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 import { PromptOptionsTechnologiesField, TechnologyDataItem } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
 import classes from './PromptModeSwitcher.module.css'
+import { getPromptModeIcon, getTechnologyIcon } from "../../../utils/iconsUtils";
 
 export function PromptModeSwitcher() {
     const { promptMode, setPromptMode } = usePromptMode();
@@ -47,7 +47,7 @@ export function PromptModeSwitcher() {
             label: (
                 <Tooltip label={mode}>
                     <Group justify="center" wrap="nowrap" gap={"xs"} px={"sm"}>
-                        {iconsUtils.getPromptModeIcon(mode, 18)}
+                        {getPromptModeIcon(mode, 18)}
                     </Group>
                 </Tooltip>
             ),
@@ -75,8 +75,26 @@ export function PromptModeSwitcher() {
             setTechnologyData(technologysData);
             updateTechnology(technologies[0]);
         }
-
     }
+
+    useEffect(() => {
+        if (technologiesQuery.data && technologyData.length === 0) {
+            const technologies = technologiesQuery.data.filter((technology: Technology) => {
+                return Technology.getMode(technology.slug) === promptMode
+            });
+
+            const technologysData = technologies.map((technology: Technology) => {
+                return {
+                    label: technology.name,
+                    value: technology.id.toString()
+                }
+            });
+
+            setTechnologies(technologies);
+            setTechnologyData(technologysData);
+            updateTechnology(technologies[0]);
+        }
+    })
 
     const onChangeTechnology = (technologyId: string | null) => {
         const technology = technologies.find((t: Technology) => t.id === parseInt(technologyId as string));
@@ -104,7 +122,7 @@ export function PromptModeSwitcher() {
                     <Tooltip label="More Options">
                         <ActionIcon
                             variant="subtle"
-                            size="sm"
+                            size="md"
                         >
                             <IconDots size={18} stroke={2} />
                         </ActionIcon>
@@ -112,9 +130,10 @@ export function PromptModeSwitcher() {
                 </Popover.Target>
                 <Popover.Dropdown>
                     <Stack>
+                        <Title order={6}>Options</Title>
+                        <Divider />
                         <PromptOptionsTechnologiesField
                             technologyData={technologyData}
-                            technologies={technologies}
                             onChangeTechnology={onChangeTechnology}
                         />
 

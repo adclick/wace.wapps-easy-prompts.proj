@@ -2,19 +2,7 @@
     background-color: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-9));
 }
 
-.main {
-    @mixin light {
-        background-color: var(--mantine-color-gray-2);
-
-    }
-}
-.header {
-    @mixin light {
-        background-color: var(--mantine-color-gray-2);
-
-    }
-}
-.footer {
+.main, .header, .footer {
     @mixin light {
         background-color: var(--mantine-color-gray-2);
 

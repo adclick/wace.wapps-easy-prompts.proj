@@ -14,7 +14,8 @@ import { DatabaseListContainer } from '../components/Database/DatabaseListContai
 import { Header } from '../components/Layout/Header/Header';
 
 export function HomePage() {
-    const [navbarOpened, navbarHandle] = useDisclosure(false);
+    const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);
+    const [navbarDesktopOpened, navbarDesktopHandle] = useDisclosure(true);
     const [overlayVisible, overlayHandle] = useDisclosure(true);
     const { user, setUser } = useUser();
     const auth0 = useAuth0();
@@ -46,16 +47,26 @@ export function HomePage() {
                 navbar={{
                     width: { base: 350 },
                     breakpoint: 'sm',
-                    collapsed: { mobile: !navbarOpened },
+                    collapsed: { mobile: !navbarMobileOpened, desktop: !navbarDesktopOpened },
                 }}
             >
                 <AppShell.Header withBorder={false} p={"md"} className={classes.header} >
-                    <Header navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
+                    <Header
+                        navbarMobileOpened={navbarMobileOpened}
+                        navbarDesktopOpened={navbarDesktopOpened}
+                        navbarMobileHandle={navbarMobileHandle}
+                        navbarDesktopHandle={navbarDesktopHandle}
+                    />
                 </AppShell.Header>
 
                 <AppShell.Navbar withBorder={false} p="md" className={classes.navbar}>
                     <AppShell.Section >
-                        <DatabaseHeader navbarOpened={navbarOpened} navbarHandle={navbarHandle} />
+                        <DatabaseHeader
+                            navbarMobileOpened={navbarMobileOpened}
+                            navbarDesktopOpened={navbarDesktopOpened}
+                            navbarMobileHandle={navbarMobileHandle}
+                            navbarDesktopHandle={navbarDesktopHandle}
+                        />
                     </AppShell.Section>
                     <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
                         <DatabaseListContainer />

@@ -61,7 +61,7 @@ export function PromptCardDetails({
     }, [deleteMutation])
 
     let modifiers = [];
-    if (promptPrivate && "modifiers" in promptPrivate.metadata) {
+    if (promptPrivate && promptPrivate.metadata && "modifiers" in promptPrivate.metadata) {
         modifiers = promptPrivate.metadata['modifiers'];
     }
 

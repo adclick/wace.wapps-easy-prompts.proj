@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { PromptsSelectedFilters } from '../model/PromptsSelectedFilters';
 
@@ -30,18 +30,24 @@ export const usePromptsFiltersQuery = (userId: string) => {
 };
 
 export const usePromptsQuery = (userId: string, selectedFilters: PromptsSelectedFilters) => {
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: ["prompts", selectedFilters],
-        queryFn: async () => {
+        queryFn: async ({pageParam}) => {
             const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
                 user_external_id: userId,
                 search_term: selectedFilters.search_term,
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
                 technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
+                limit: '10',
+                offset: pageParam.toString()
             }));
 
             return data;
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => {
+            return 10 * pages.length;
         },
         enabled: !!userId && !selectedFilters.isEmpty
     });
