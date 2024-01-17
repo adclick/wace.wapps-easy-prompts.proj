@@ -5,6 +5,7 @@ import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
+import classes from './PromptTextInput.module.css';
 
 export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
@@ -42,6 +43,9 @@ export function PromptTextInput() {
             maxRows={6}
             w={"100%"}
             size={'lg'}
+            classNames={{
+                input: classes.input
+            }}
             styles={{
                 input: {
                     paddingLeft: paddingLeft,

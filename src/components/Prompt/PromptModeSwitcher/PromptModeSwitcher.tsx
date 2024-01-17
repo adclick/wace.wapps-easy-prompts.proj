@@ -45,8 +45,8 @@ export function PromptModeSwitcher() {
         return {
             label: (
                 <Tooltip label={mode}>
-                    <Group justify="center" wrap="nowrap" gap={"xs"} px={"md"}>
-                        {iconsUtils.getPromptModeIcon(mode, 16)}
+                    <Group justify="center" wrap="nowrap" gap={"xs"} px={"sm"}>
+                        {iconsUtils.getPromptModeIcon(mode, 18)}
                     </Group>
                 </Tooltip>
             ),

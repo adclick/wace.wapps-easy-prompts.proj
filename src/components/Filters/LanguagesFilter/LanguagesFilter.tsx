@@ -1,40 +1,95 @@
-import { Checkbox, Stack, Title } from '@mantine/core';
+import { useState } from 'react';
+import { Button, Checkbox, Combobox, Group, Pill, PillsInput, Stack, Text, Title, useCombobox } from '@mantine/core';
+import { TemplatesSelectedFilters } from '../../../model/TemplatesSelectedFilters';
 import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
 import { ModifiersSelectedFilters } from '../../../model/ModifiersSelectedFilters';
+import { useDisclosure } from '@mantine/hooks';
 
 interface LanguagesFilter {
-    languages: { id: number, name: string, slug: string }[],
-    selectedFilters: PromptsSelectedFilters|ModifiersSelectedFilters,
+    languages: { id: number, name: string, slug: string, default: boolean }[],
+    selectedFilters: PromptsSelectedFilters | TemplatesSelectedFilters | ModifiersSelectedFilters,
     setSelectedFilters: any
 }
 
 export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters }: LanguagesFilter) {
-    const update = (ids: string[]) => {
+    const selectedIds = selectedFilters.languages_ids.map(id => id.toString());
+    const [opened, openedHandle] = useDisclosure(false);
+
+    const combobox = useCombobox({
+        onDropdownClose: () => combobox.resetSelectedOption(),
+        onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
+        
+    });
+
+    const [search, setSearch] = useState('');
+
+    const handleValueSelect = (val: string) => {
+        const newValue = selectedIds.includes(val) ? selectedIds.filter((v) => v !== val) : [...selectedIds, val];
+
         setSelectedFilters({
             ...selectedFilters,
-            languages_ids: ids.map(id => parseInt(id))
+            languages_ids: newValue.map(id => parseInt(id))
+        })
+    }
+
+    const selectAll = () => {
+        const newValue = languages.map(l => l.id);
+
+        setSelectedFilters({
+            ...selectedFilters,
+            languages_ids: newValue
         })
     }
 
     return (
         <Stack>
             <Title order={5}>Languages</Title>
-            <Checkbox.Group value={selectedFilters.languages_ids.map(id => id.toString())} onChange={update}>
-                <Stack>
-                    {
-                        languages.map(language => {
-                            return (
-                                <Checkbox
-                                    key={language.id}
-                                    radius={"sm"}
-                                    value={language.id.toString()}
-                                    label={language.name}
+
+            <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
+                <Combobox.DropdownTarget>
+                    <PillsInput onClick={() => combobox.openDropdown()}>
+                        <Pill.Group>
+                            <Button size='compact-xs' variant='light'>
+                                {selectedIds.length} selected
+                            </Button>                            <Combobox.EventsTarget>
+                                <PillsInput.Field
+                                    onFocus={() => combobox.openDropdown()}
+                                    onBlur={() => combobox.closeDropdown()}
+                                    value={search}
+                                    placeholder="Search"
+                                    onChange={(event) => {
+                                        combobox.updateSelectedOptionIndex();
+                                        setSearch(event.currentTarget.value);
+                                    }}
                                 />
-                            )
-                        })
+                            </Combobox.EventsTarget>
+                        </Pill.Group>
+                    </PillsInput>
+                </Combobox.DropdownTarget>
+                <Combobox.Dropdown>
+                    {
+                        languages
+                            .filter((item) => item.name.toLowerCase().includes(search.trim().toLowerCase()))
+                            .map((item) => (
+                                <Combobox.Option value={item.id.toString()} key={item.id} active={selectedIds.includes(item.id.toString())}>
+                                    <Group gap="sm">
+                                        <Checkbox
+                                            size='xs'
+                                            checked={selectedIds.includes(item.id.toString())}
+                                            onChange={() => { }}
+                                            aria-hidden
+                                            tabIndex={-1}
+                                            style={{ pointerEvents: 'none' }}
+                                        />
+                                        <Text size='xs'>
+                                            {item.name}
+                                        </Text>
+                                    </Group>
+                                </Combobox.Option>
+                            ))
                     }
-                </Stack>
-            </Checkbox.Group>
+                </Combobox.Dropdown>
+            </Combobox>
         </Stack>
-    )
+    );
 }
