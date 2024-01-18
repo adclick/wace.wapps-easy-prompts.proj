@@ -3,5 +3,6 @@
 }
 
 .inputCheckbox:checked {
-    background-color: var(--_checkbox-bg);
+    background-color: gray;
+    border-color: gray;
 }

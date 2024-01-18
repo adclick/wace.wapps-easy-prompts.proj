@@ -22,6 +22,7 @@ export function PromptOptionsTechnologiesField({ technologyData, onChangeTechnol
     return (
         <Select
             label={label}
+            allowDeselect={false}
             variant="unstyled"
             checkIconPosition="right"
             size="xs"

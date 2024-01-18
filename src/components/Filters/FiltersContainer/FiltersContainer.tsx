@@ -1,4 +1,4 @@
-import { Collapse, Drawer, Loader, Stack, Text } from "@mantine/core";
+import { ActionIcon, Card, Collapse, Divider, Drawer, Group, Loader, Stack, Text, Title } from "@mantine/core";
 import { LanguagesFilter } from "../LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
@@ -9,6 +9,8 @@ import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedF
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
 import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
 import classes from './FiltersContainer.module.css'
+import { iconClose } from "../../../utils/iconsUtils";
+import { OrderField } from "../OrderField/OrderField";
 
 interface FiltersContainer {
     opened: boolean,
@@ -37,7 +39,8 @@ export function FiltersContainer({
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:
             if (promptsFiltersQuery.data) {
-                filters = <Stack gap={"lg"} >
+                filters = <Stack gap={"xl"}>
+                    <OrderField />
                     <LanguagesFilter
                         languages={promptsFiltersQuery.data.languages}
                         selectedFilters={promptsSelectedFilters}
@@ -127,7 +130,9 @@ export function FiltersContainer({
             </Drawer> */}
             {searchTermFilter}
             <Collapse in={opened}>
-                {filters}
+                <Card>
+                        {filters}
+                </Card>
             </Collapse>
         </>
     )

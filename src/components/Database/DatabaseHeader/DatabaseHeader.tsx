@@ -74,7 +74,6 @@ export function DatabaseHeader({
                 navbarMobileHandle={navbarMobileHandle}
                 navbarDesktopHandle={navbarDesktopHandle}
                 filtersHandle={filtersHandle}
-                filtersOpened={filtersOpened}
             />
             break;
         case Type.TEMPLATE:
@@ -84,7 +83,6 @@ export function DatabaseHeader({
                 navbarMobileHandle={navbarMobileHandle}
                 navbarDesktopHandle={navbarDesktopHandle}
                 filtersHandle={filtersHandle}
-                filtersOpened={filtersOpened}
             />
             break;
         case Type.PROMPT:
@@ -94,7 +92,6 @@ export function DatabaseHeader({
                 navbarMobileHandle={navbarMobileHandle}
                 navbarDesktopHandle={navbarDesktopHandle}
                 filtersHandle={filtersHandle}
-                filtersOpened={filtersOpened}
             />
             break;
         default:

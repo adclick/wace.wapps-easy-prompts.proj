@@ -1,7 +1,7 @@
-import { ActionIcon, Divider, Group, Popover, SegmentedControl, Stack, Text, Title, Tooltip } from "@mantine/core";
-import { PromptMode, getAllPromptModes, isPromptModeEnabled } from "../../../model/PromptMode";
+import { ActionIcon, Group, Popover, SegmentedControl, Stack, Tooltip } from "@mantine/core";
+import { PromptMode, getAllPromptModes, getPromptModeColor, isPromptModeEnabled } from "../../../model/PromptMode";
 import { usePromptMode } from "../../../context/PromptModeContext";
-import { IconAdjustments, IconAdjustmentsHorizontal, IconDots } from "@tabler/icons-react";
+import { IconDots } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Technology } from "../../../model/Technology";
 import { getProviders } from "../../../api/providersApi";
@@ -108,7 +108,7 @@ export function PromptModeSwitcher() {
             <SegmentedControl
                 py={0}
                 size="xs"
-                color="blue"
+                color={getPromptModeColor(promptMode)}
                 defaultValue={promptMode}
                 onChange={onChangeMode}
                 fullWidth
@@ -121,7 +121,8 @@ export function PromptModeSwitcher() {
                 <Popover.Target>
                     <Tooltip label="More Options">
                         <ActionIcon
-                            variant="subtle"
+                            variant="transparent"
+                            color="gray"
                             size="sm"
                         >
                             <IconDots size={18} stroke={2} />

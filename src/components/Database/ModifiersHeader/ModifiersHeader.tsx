@@ -1,7 +1,6 @@
-import { ActionIcon, Box, Group, Tooltip } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
-import { IconFilter, IconPlus } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { NewModifierModal } from "../NewModifierModal/NewModifierModal";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
@@ -14,7 +13,6 @@ interface ModifiersHeader {
     navbarMobileHandle: any,
     navbarDesktopHandle: any,
     filtersHandle: any,
-    filtersOpened: boolean
 }
 
 export function ModifiersHeader({
@@ -23,7 +21,6 @@ export function ModifiersHeader({
     navbarMobileHandle,
     navbarDesktopHandle,
     filtersHandle,
-    filtersOpened
 }: ModifiersHeader) {
     const [newModifierModalOpened, newModifierModalHandle] = useDisclosure(false);
 
@@ -39,7 +36,7 @@ export function ModifiersHeader({
                 </Group>
                 <Group gap={"xs"}>
                     <DatabaseAddIcon onClick={newModifierModalHandle.open} />
-                    <FiltersToggleIcon filled={filtersOpened} onClick={filtersHandle.toggle} />
+                    <FiltersToggleIcon onClick={filtersHandle.toggle} />
                     <Box visibleFrom="sm">
                         <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                     </Box>

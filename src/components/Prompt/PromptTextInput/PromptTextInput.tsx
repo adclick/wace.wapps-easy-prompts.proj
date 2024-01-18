@@ -6,12 +6,15 @@ import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
 import classes from './PromptTextInput.module.css';
+import { getPromptModeColor } from "../../../model/PromptMode";
+import { usePromptMode } from "../../../context/PromptModeContext";
 
 export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { selectedModifiers } = useSelectedModifiers();
     const {selectedTemplate } = useSelectedTemplate();
+    const {promptMode} = usePromptMode()
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
@@ -36,15 +39,16 @@ export function PromptTextInput() {
 
     return (
         <Textarea
-            placeholder={"Create a new thread"}
+            placeholder={`Create a new ${promptMode.toLowerCase()} thread`}
             autosize
             autoFocus
             minRows={1}
+            color="yellow"
             maxRows={6}
             w={"100%"}
             size={'md'}
             classNames={{
-                input: classes.input
+                input: classes.input + " " + classes["mode" + promptMode]
             }}
             styles={{
                 input: {

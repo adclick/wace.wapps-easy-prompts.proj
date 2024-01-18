@@ -9,6 +9,8 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { PromptCardMenu } from "../PromptCardMenu/PromptCardMenu";
 import { iconPlay } from "../../../utils/iconsUtils";
+import { usePromptMode } from "../../../context/PromptModeContext";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../model/PromptMode";
 
 interface PromptCard {
     prompt: Prompt,
@@ -17,6 +19,7 @@ interface PromptCard {
 export function PromptCard({ prompt }: PromptCard) {
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const { promptMode } = usePromptMode();
 
     const play = (e: any) => {
         e.stopPropagation();
@@ -30,6 +33,8 @@ export function PromptCard({ prompt }: PromptCard) {
             newPromptRequest
         ]);
     }
+
+    const color = getPromptModeColor(getPromptModeByTechnology(prompt.technology));
 
     return (
         <>
@@ -65,7 +70,7 @@ export function PromptCard({ prompt }: PromptCard) {
                                     <Text size="xs">{prompt.stars}</Text>
                                 </Group>
                             </Group>
-                            <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
+                            <ActionIcon color={color} component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
                                 {iconPlay(13)}
                             </ActionIcon>
                         </Group>
@@ -75,7 +80,7 @@ export function PromptCard({ prompt }: PromptCard) {
                     <Stack>
                         <Text size="xs">{prompt.description}</Text>
                         <Center>
-                            <Button variant="transparent" size="xs" onClick={detailsHandle.open}>
+                            <Button color={color} variant="transparent" size="xs" onClick={detailsHandle.open}>
                                 Read more
                             </Button>
                         </Center>

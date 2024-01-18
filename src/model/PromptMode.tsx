@@ -1,3 +1,5 @@
+import { Technology } from "./Technology";
+
 export enum PromptMode {
     Text = "Text",
     Image = "Image",
@@ -21,5 +23,27 @@ export const isPromptModeEnabled = (promptMode: PromptMode): boolean => {
             return true;
         default:
             return false;
+    }
+}
+
+export const getPromptModeByTechnology = (technology: Technology): PromptMode => {
+    switch (technology.slug) {
+        case 'image-generation':
+            return PromptMode.Image;
+        default:
+            return PromptMode.Text;
+    }
+}
+
+export const getPromptModeColor = (currentMode: PromptMode): string => {
+    switch (currentMode) {
+        case PromptMode.Image:
+            return "teal";
+        case PromptMode.Audio:
+            return "yellow.7";
+        case PromptMode.Video:
+            return "red"
+        default:
+            return "blue";
     }
 }

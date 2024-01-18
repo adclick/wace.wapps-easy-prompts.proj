@@ -30,7 +30,6 @@ export function UserMenu() {
                         </Stack>
                     </Menu.Item>
                     <Menu.Item
-                        color="blue"
                         leftSection={<IconExternalLink style={{ width: rem(14), height: rem(14) }} />}
                         component="a"
                         href="https://forms.clickup.com/4647457/f/4duh1-67272/60RTTBEBOVWBR6QBYM"

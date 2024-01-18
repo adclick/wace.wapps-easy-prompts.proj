@@ -1,26 +1,16 @@
-import { ActionIcon } from "@mantine/core"
-import { PromptRequest } from "../../../model/PromptRequest"
+import { ActionIcon, Tooltip } from "@mantine/core"
 import { IconReload } from "@tabler/icons-react"
-import { usePromptsRequests } from "../../../context/PromptsRequestsContext"
 
 interface ThreadReloadButton {
-    promptRequest: PromptRequest
+    reload: any
 }
 
-export function ThreadReloadButton({ promptRequest }: ThreadReloadButton) {
-    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-
-    const reload = () => {
-        const newPromptRequest = PromptRequest.clone(promptRequest);
-
-        for (const [p, index] of Object.entries(promptsRequests)) {
-        }
-        
-    }
-
+export function ThreadReloadButton({ reload }: ThreadReloadButton) {
     return (
-        <ActionIcon onClick={reload} variant="subtle">
-            <IconReload size={14} stroke={3} />
-        </ActionIcon>
+        <Tooltip label="Regenerate">
+            <ActionIcon onClick={reload} variant="transparent" color="gray">
+                <IconReload size={12} stroke={3} />
+            </ActionIcon>
+        </Tooltip>
     )
 }

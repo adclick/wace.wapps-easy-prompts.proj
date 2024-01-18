@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Select, Stack, TextInput, Textarea } from "@mantine/core";
+import { Button, Group, Modal, SegmentedControl, Select, Stack, TextInput, Textarea } from "@mantine/core";
 import { useState } from "react";
 import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useUser } from "../../../context/UserContext";
@@ -105,8 +105,9 @@ export function ThreadSaveModal({
     }
 
     return (
-        <Modal opened={opened} onClose={handle.close} title={`Create New Prompt`} size={"md"}>
+        <Modal opened={opened} onClose={handle.close} title={`Save Thread`} size={"md"}>
             <Stack my={"xs"}>
+                <SegmentedControl data={['Prompt', 'Template']} />
                 <Select
                     label="Language"
                     required
@@ -139,7 +140,6 @@ export function ThreadSaveModal({
                     minRows={3}
                     onChange={(e: any) => updateDescription(e.target.value)}
                     value={description}
-                    description="This is what others will see"
                     placeholder="Write a brief description"
                     error={descriptionError}
                 />

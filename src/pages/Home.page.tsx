@@ -45,7 +45,7 @@ export function HomePage() {
                 header={{ height: { base: 80 } }}
                 footer={{ height: { base: 120 } }}
                 navbar={{
-                    width: { base: 300 },
+                    width: { base: 350 },
                     breakpoint: 'sm',
                     collapsed: { mobile: !navbarMobileOpened, desktop: !navbarDesktopOpened },
                 }}

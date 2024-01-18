@@ -1,11 +1,13 @@
 import { useDisclosure } from "@mantine/hooks";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { TextGenerationThread } from "../TextGenerationThread/TextGenerationThread";
+import { TextGenerationThread } from "../TextGeneration/TextGenerationThread";
 import { ChatThread } from "../ChatThread/ChatThread";
-import { ImageGenerationThread } from "../ImageGenerationThread/ImageGenerationThread";
+import { ImageGenerationThread } from "../ImageGeneration/ImageGenerationThread";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { TextGenerationPlayableThread } from "../TextGeneration/TextGenerationPlayableThread";
+import { ImageGenerationPlayableThread } from "../ImageGeneration/ImageGenerationPlayableThread";
 
 interface ThreadItem {
     promptRequest: PromptRequest,
@@ -25,11 +27,17 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
 
     switch (promptRequest.technology.slug) {
         case 'text-generation':
-            thread = <TextGenerationThread
-                key={promptRequest.key}
-                promptRequest={promptRequest}
-                scrollIntoView={scrollIntoView}
-            />
+            thread = promptRequest.isPlayable
+                ? <TextGenerationPlayableThread
+                    key={promptRequest.key}
+                    promptRequest={promptRequest}
+                    scrollIntoView={scrollIntoView}
+                />
+                : <TextGenerationThread
+                    key={promptRequest.key}
+                    promptRequest={promptRequest}
+                    scrollIntoView={scrollIntoView}
+                />
             break;
         case 'chat':
             thread = <ChatThread
@@ -39,11 +47,17 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
             />
             break;
         case 'image-generation':
-            thread = <ImageGenerationThread
-                key={promptRequest.key}
-                promptRequest={promptRequest}
-                scrollIntoView={scrollIntoView}
-            />
+            thread = promptRequest.isPlayable
+                ? <ImageGenerationPlayableThread
+                    key={promptRequest.key}
+                    promptRequest={promptRequest}
+                    scrollIntoView={scrollIntoView}
+                />
+                : <ImageGenerationThread
+                    key={promptRequest.key}
+                    promptRequest={promptRequest}
+                    scrollIntoView={scrollIntoView}
+                />
             break;
     }
 

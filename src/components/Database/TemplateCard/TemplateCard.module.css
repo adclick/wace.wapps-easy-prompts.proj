@@ -3,5 +3,6 @@
 }
 
 .inputRadio:checked {
-    background-color: var(--_radio-bg);
+    background-color: gray;
+    border-color: gray;
 }

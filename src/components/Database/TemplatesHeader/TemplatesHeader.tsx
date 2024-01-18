@@ -1,8 +1,6 @@
 import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
-import { useDisclosure } from "@mantine/hooks";
-import { NewTemplateModal } from "../NewTemplateModal/NewTemplateModal";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
 
@@ -12,7 +10,6 @@ interface TemplatesHeader {
     navbarMobileHandle: any,
     navbarDesktopHandle: any,
     filtersHandle: any,
-    filtersOpened: boolean
 }
 
 export function TemplatesHeader({
@@ -21,7 +18,6 @@ export function TemplatesHeader({
     navbarMobileHandle,
     navbarDesktopHandle,
     filtersHandle,
-    filtersOpened
 }: TemplatesHeader) {
     return (
         <>
@@ -33,7 +29,7 @@ export function TemplatesHeader({
                     <DatabaseMenu />
                 </Group>
                 <Group gap={"xs"}>
-                    <FiltersToggleIcon filled={filtersOpened} onClick={filtersHandle.toggle} />
+                    <FiltersToggleIcon onClick={filtersHandle.toggle} />
                     <Box visibleFrom="sm">
                     <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                     </Box>

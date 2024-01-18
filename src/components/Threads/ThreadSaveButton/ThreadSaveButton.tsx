@@ -1,5 +1,5 @@
-import { Button, Menu } from "@mantine/core";
-import { IconChevronUp, IconMessage, IconPlus, IconTemplate, IconTool, IconTools } from "@tabler/icons-react";
+import { Button } from "@mantine/core";
+import { iconAdd } from "../../../utils/iconsUtils";
 
 interface ThreadSaveButton {
     onClick: any
@@ -7,25 +7,14 @@ interface ThreadSaveButton {
 
 export function ThreadSaveButton({ onClick }: ThreadSaveButton) {
     return (
-        <Menu position="top-start">
-            <Menu.Target>
-                <Button
-                    // onClick={onClick}
-                    variant="subtle"
-                    size="xs"
-                    leftSection={<IconChevronUp size={14} stroke={3} />}
-                >
-                    Actions
-                </Button>
-            </Menu.Target>
-            <Menu.Dropdown>
-                <Menu.Item onClick={onClick} leftSection={<IconMessage size={14} />}>
-                    Create Prompt
-                </Menu.Item>
-                <Menu.Item leftSection={<IconTemplate size={14} />}>
-                    Create Template
-                </Menu.Item>
-            </Menu.Dropdown>
-        </Menu>
+        <Button
+            variant="transparent"
+            color="gray"
+            size="xs"
+            leftSection={iconAdd(14)}
+            onClick={onClick}
+        >
+            Save
+        </Button>
     )
 }

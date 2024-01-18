@@ -6,6 +6,8 @@ import { useDeletePromptMutation, usePromptQuery } from "../../../api/promptsApi
 import { useEffect, useState } from "react";
 import { useUser } from "../../../context/UserContext";
 import { Modifier } from "../../../model/Modifier";
+import { usePromptMode } from "../../../context/PromptModeContext";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../model/PromptMode";
 
 interface PromptCardDetails {
     opened: boolean,
@@ -23,6 +25,9 @@ export function PromptCardDetails({
     const deleteMutation = useDeletePromptMutation();
     const { data: promptPrivate } = usePromptQuery(prompt.id);
     const { user } = useUser();
+    const { promptMode } = usePromptMode();
+
+    const color = getPromptModeColor(getPromptModeByTechnology(prompt.technology));
 
     const onClickPlay = (e: any) => {
         play(e);
@@ -67,7 +72,7 @@ export function PromptCardDetails({
 
     return (
         <Modal opened={opened} onClose={handle.close} title={prompt.title} size={"lg"}>
-            <Tabs defaultValue={"details"}>
+            <Tabs defaultValue={"details"} color={color}>
                 <Tabs.List grow>
                     <Tabs.Tab leftSection={<IconFileDescription size={14} />} value="details">
                         Details
@@ -175,6 +180,7 @@ export function PromptCardDetails({
                     Delete
                 </Button>
                 <Button
+                color={color}
                     size="xs"
                     leftSection={<IconPlayerPlayFilled size={12} />}
                     onClick={onClickPlay}

@@ -2,14 +2,15 @@ import { ActionIcon, Avatar, Button, Group, Textarea } from "@mantine/core";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useState } from "react";
 import { useUser } from "../../../context/UserContext";
+import { iconPlay } from "../../../utils/iconsUtils";
 
 interface ChatThreadReplyContainer {
     reply: any
 }
 
-export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
+export function ChatThreadReplyContainer({ reply }: ChatThreadReplyContainer) {
     const [replyValue, setReplyValue] = useState('');
-    const {user} = useUser();
+    const { user } = useUser();
 
     const onKeyDown = async (e: any) => {
         if (e.keyCode === 13 && e.shiftKey === false) {
@@ -39,17 +40,17 @@ export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
                 onChange={e => setReplyValue(e.target.value)}
                 onKeyDown={onKeyDown}
             />
-            <Button variant="transparent" size="xs" pos={"absolute"} right={"25px"}>
-                Reply
-            </Button>
-            {/* <ActionIcon
-                variant="filled"
+            <Button
+                onClick={() => reply(replyValue)}
+                rightSection={iconPlay(12)}
+                color="gray"
+                variant="transparent"
+                size="xs"
                 pos={"absolute"}
                 right={"25px"}
-                onClick={() => reply(replyValue, setReplyValue)}
             >
-                <IconPlayerPlayFilled size={14} stroke={1.5} />
-            </ActionIcon> */}
+                Reply
+            </Button>
         </Group>
     )
 }

@@ -5,6 +5,8 @@ import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
 import { IconPlus, IconTrack, IconTrash, IconX } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { iconChevronDown } from '../../../utils/iconsUtils';
+import { usePromptMode } from '../../../context/PromptModeContext';
+import { getPromptModeColor } from '../../../model/PromptMode';
 
 interface TechnologiesFilter {
     technologies: { id: number, name: string, slug: string, default: boolean }[],
@@ -14,6 +16,9 @@ interface TechnologiesFilter {
 
 export function TechnologiesFilter({ technologies, selectedFilters, setSelectedFilters }: TechnologiesFilter) {
     const selectedIds = selectedFilters.technologies_ids.map(id => id.toString());
+    const {promptMode} = usePromptMode();
+
+    const color = getPromptModeColor(promptMode);
 
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
@@ -73,7 +78,7 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                                     onFocus={() => combobox.openDropdown()}
                                     onBlur={() => combobox.closeDropdown()}
                                     value={search}
-                                    placeholder="Search"
+                                    placeholder="Filter Technologies"
                                     onChange={(event) => {
                                         combobox.updateSelectedOptionIndex();
                                         setSearch(event.currentTarget.value);
@@ -98,6 +103,7 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                                                 checked={selectedIds.includes(item.id.toString())}
                                                 onChange={() => { }}
                                                 aria-hidden
+                                                color={color}
                                                 tabIndex={-1}
                                                 style={{ pointerEvents: 'none' }}
                                             />
