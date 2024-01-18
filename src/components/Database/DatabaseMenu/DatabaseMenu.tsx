@@ -11,9 +11,8 @@ import { iconChevronDown } from "../../../utils/iconsUtils";
 
 export function DatabaseMenu() {
     const { selectedDatabaseType, setSelectedDatabaseType } = useSelectedDatabaseType();
-    const [newModifierOpened, newModifierHandle] = useDisclosure(false);
-    const {setSelectedModifiers} = useSelectedModifiers();
-    const {setSelectedTemplate} = useSelectedTemplate();
+    const { setSelectedModifiers } = useSelectedModifiers();
+    const { setSelectedTemplate } = useSelectedTemplate();
 
     const onChange = (type: Type, label: Label, labelPlural: LabelPlural) => {
         const newSelectedDatabaseType = new SelectedDatabaseType();
@@ -30,7 +29,6 @@ export function DatabaseMenu() {
 
     return (
         <>
-            <NewModifierModal opened={newModifierOpened} handle={newModifierHandle} />
             <Menu shadow="md" width={200} position='bottom-start'>
                 <Menu.Target>
                     <UnstyledButton px={0}>

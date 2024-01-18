@@ -23,11 +23,8 @@ export function TemplatesHeader({
     filtersHandle,
     filtersOpened
 }: TemplatesHeader) {
-    const [newTemplateModalOpened, newTemplateModalHandle] = useDisclosure(false);
-
     return (
         <>
-            <NewTemplateModal opened={newTemplateModalOpened} handle={newTemplateModalHandle} />
             <Group h={"100%"} justify='space-between' pt={"xs"}>
                 <Group>
                     <Box hiddenFrom="sm">

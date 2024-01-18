@@ -11,7 +11,7 @@ export function ThreadSaveButton({ onClick }: ThreadSaveButton) {
             <Menu.Target>
                 <Button
                     // onClick={onClick}
-                    variant="filled"
+                    variant="subtle"
                     size="xs"
                     leftSection={<IconChevronUp size={14} stroke={3} />}
                 >

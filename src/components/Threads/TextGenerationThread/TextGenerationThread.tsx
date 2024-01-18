@@ -1,14 +1,12 @@
-import { Stack } from "@mantine/core";
+import { ActionIcon, Avatar, Group, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../context/UserContext";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { textGeneration, textGenerationById } from "../../../api/aiApi";
-import { useEffect, useState } from "react";
-import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { useTextGenerationQuery } from "../../../api/aiApi";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
-import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
-import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
+import favicon from "../../../favicon.svg";
+import { IconReload } from "@tabler/icons-react";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -17,37 +15,58 @@ interface TextGenerationThread {
 
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const { user } = useUser();
-    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-    const {userPromptRequest} = useUserPromptRequest();
-    const [response, setResponse] = useState<any>(false);
+    const { userPromptRequest } = useUserPromptRequest();
 
-    useEffect(() => {
-        if (response) return;
-        console.log(promptRequest.content);
-        fetch();
-        scrollIntoView({ alignement: 'start' })
-    }, [scrollIntoView]);
 
-    const fetch = async () => {
-        const response = promptRequest.isPlayable 
-            ? await textGenerationById(promptRequest.id)
-            : await textGeneration(promptRequest);
+    
 
-        setResponse(response.trim())
+    const textGenerationQuery = useTextGenerationQuery(promptRequest);
 
-        // Update request list
-        const newRequest = PromptRequest.clone(promptRequest);
-        newRequest.response = response;
-        promptsRequests[promptRequest.key] = newRequest;
-        setPromptsRequests(promptsRequests);
+    const reload = () => {
+        console.log('reloading');
+        textGenerationQuery.refetch();
     }
+
+    const reloadIcon = <ActionIcon variant="transparent" onClick={reload}>
+        <IconReload size={14} />
+    </ActionIcon>;
+
+    scrollIntoView({ alignement: 'start' })
 
     return (
         <Stack gap={"xl"}>
             {
                 !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
             }
-            <ThreadResponse response={response} />
+            {/* <ThreadResponse response={response} /> */}
+
+            <Group w={"100%"} align="flex-start" wrap="nowrap">
+                <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
+                <Stack gap={"xs"}>
+                    <Text size="sm" fw={700}>EasyPrompts</Text>
+                    {
+                        (textGenerationQuery.isLoading || textGenerationQuery.isFetching) && <Loader size={"xs"} type="dots" />
+                    }
+                    {
+                        textGenerationQuery.error &&
+                        <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
+                            <Text>
+                                Error. Please try again later or contact support
+                            </Text>
+                            {reloadIcon}
+                        </Stack>
+                    }
+                    {
+                        textGenerationQuery.data && !textGenerationQuery.isFetching &&
+                        <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
+                            {textGenerationQuery.data.trim()}
+                            {reloadIcon}
+                        </Stack>
+                    }
+                </Stack>
+            </Group>
+
+
             <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
         </Stack>
     )
