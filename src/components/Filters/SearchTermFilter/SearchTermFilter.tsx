@@ -20,6 +20,7 @@ export function SearchTermFilter({ selectedFilters, setSelectedFilters }: Search
         <Textarea
             placeholder={"Search"}
             autosize
+            size="xs"
             minRows={1}
             maxRows={6}
             value={selectedFilters.search_term}

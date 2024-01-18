@@ -1,4 +1,4 @@
-import { ActionIcon, Affix, Box, Button, Transition } from "@mantine/core";
+import { ActionIcon, Affix, Box, Button, Group, Transition } from "@mantine/core";
 import { useViewportSize, useWindowScroll } from "@mantine/hooks";
 import { IconArrowDown } from "@tabler/icons-react";
 
@@ -8,12 +8,11 @@ export function ThreadsScrollToBottom() {
     const maxHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
 
     return (
-        <Box>
-            <Affix position={{ bottom: 78, right: 20 }}>
+        <Group justify="center" pos={"relative"} w={"100%"}>
                 <Transition
                     transition="slide-up" mounted={scroll.y < maxHeight}>
                     {(transitionStyles) => (
-                        <Box>
+                        <Group justify="center" pos={"absolute"} bottom={200}>
                             <ActionIcon
                                 hiddenFrom="sm"
                                 variant="subtle"
@@ -33,10 +32,9 @@ export function ThreadsScrollToBottom() {
                             >
                                 Scroll to bottom
                             </Button>
-                        </Box>
+                        </Group>
                     )}
                 </Transition>
-            </Affix>
-        </Box>
+        </Group>
     )
 }

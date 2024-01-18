@@ -3,6 +3,7 @@ import { Button, Checkbox, Combobox, Group, Pill, PillsInput, Stack, Text, Title
 import { TemplatesSelectedFilters } from '../../../model/TemplatesSelectedFilters';
 import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
 import { ModifiersSelectedFilters } from '../../../model/ModifiersSelectedFilters';
+import { iconChevronDown } from '../../../utils/iconsUtils';
 
 interface RepositoriesFilter {
     repositories: { id: number, name: string, slug: string, default: boolean }[],
@@ -40,16 +41,25 @@ export function RepositoriesFilter({ repositories, selectedFilters, setSelectedF
     }
 
     return (
-        <Stack>
-            <Title order={5}>Repositories</Title>
-
+        <Stack gap={"xs"}>
+            <Text size='sm'>Repositories</Text>
             <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
                 <Combobox.DropdownTarget>
-                    <PillsInput onClick={() => combobox.openDropdown()}>
+                    <PillsInput size='xs' onClick={() => combobox.openDropdown()}>
                         <Pill.Group>
-                            <Button size='compact-xs' variant='light'>
-                                {selectedIds.length} selected
-                            </Button>
+                            {
+                                selectedIds.length > 0
+                                    ? <Button
+                                        size='compact-xs'
+                                        variant='default'
+                                    >
+                                        {selectedIds.length} selected
+                                    </Button>
+                                    :
+                                    <Button onClick={selectAll} size='compact-xs' variant='default'>
+                                        Select all
+                                    </Button>
+                            }
                             <Combobox.EventsTarget>
                                 <PillsInput.Field
                                     onFocus={() => combobox.openDropdown()}
@@ -62,6 +72,7 @@ export function RepositoriesFilter({ repositories, selectedFilters, setSelectedF
                                     }}
                                 />
                             </Combobox.EventsTarget>
+                            {iconChevronDown("xs")}
                         </Pill.Group>
                     </PillsInput>
                 </Combobox.DropdownTarget>

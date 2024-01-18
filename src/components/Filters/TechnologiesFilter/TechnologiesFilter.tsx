@@ -4,6 +4,7 @@ import { TemplatesSelectedFilters } from '../../../model/TemplatesSelectedFilter
 import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
 import { IconPlus, IconTrack, IconTrash, IconX } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
+import { iconChevronDown } from '../../../utils/iconsUtils';
 
 interface TechnologiesFilter {
     technologies: { id: number, name: string, slug: string, default: boolean }[],
@@ -48,23 +49,22 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
     }
 
     return (
-        <Stack>
-            <Title order={5}>Technologies</Title>
-
+        <Stack gap={"xs"}>
+            <Text size='sm'>Technologies</Text>
             <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
                 <Combobox.DropdownTarget>
-                    <PillsInput onClick={() => combobox.openDropdown()}>
+                    <PillsInput size='xs' onClick={() => combobox.openDropdown()}>
                         <Pill.Group>
                             {
                                 selectedIds.length > 0
                                     ? <Button
                                         size='compact-xs'
-                                        variant='transparent'
+                                        variant='default'
                                     >
                                         {selectedIds.length} selected
                                     </Button>
                                     :
-                                    <Button onClick={selectAll} size='compact-xs' variant='light'>
+                                    <Button onClick={selectAll} size='compact-xs' variant='default'>
                                         Select all
                                     </Button>
                             }
@@ -80,6 +80,7 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                                     }}
                                 />
                             </Combobox.EventsTarget>
+                            {iconChevronDown("xs")}
                         </Pill.Group>
                     </PillsInput>
                 </Combobox.DropdownTarget>

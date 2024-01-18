@@ -8,9 +8,9 @@ interface DatabaseAddIcon {
 export function DatabaseAddIcon({ onClick }: DatabaseAddIcon) {
     return (
         <Tooltip label={"Filters"}>
-            <ActionIcon size="lg" onClick={onClick} variant="transparent">
+            <ActionIcon size="md" onClick={onClick} variant="transparent">
                 {
-                    iconAdd("sm")
+                    iconAdd("xs")
                 }
             </ActionIcon>
         </Tooltip>

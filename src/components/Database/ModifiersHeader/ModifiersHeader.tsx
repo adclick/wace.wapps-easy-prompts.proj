@@ -13,7 +13,8 @@ interface ModifiersHeader {
     navbarDesktopOpened: boolean,
     navbarMobileHandle: any,
     navbarDesktopHandle: any,
-    filtersHandle: any
+    filtersHandle: any,
+    filtersOpened: boolean
 }
 
 export function ModifiersHeader({
@@ -22,6 +23,7 @@ export function ModifiersHeader({
     navbarMobileHandle,
     navbarDesktopHandle,
     filtersHandle,
+    filtersOpened
 }: ModifiersHeader) {
     const [newModifierModalOpened, newModifierModalHandle] = useDisclosure(false);
 
@@ -37,7 +39,7 @@ export function ModifiersHeader({
                 </Group>
                 <Group gap={"xs"}>
                     <DatabaseAddIcon onClick={newModifierModalHandle.open} />
-                    <FiltersToggleIcon onClick={filtersHandle.open} />
+                    <FiltersToggleIcon filled={filtersOpened} onClick={filtersHandle.toggle} />
                     <Box visibleFrom="sm">
                         <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                     </Box>

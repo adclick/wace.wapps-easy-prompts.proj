@@ -33,7 +33,9 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
         if (messages.length === 0) {
-            updateUserPromptRequest(promptRequest.content);
+            if (!promptRequest.isPlayable) {
+                updateUserPromptRequest(promptRequest.content);
+            }
 
             const message: Message = {
                 id: messages.length,
@@ -112,6 +114,10 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
         newUserPromptRequest.metadata.history = getHistory();
         newUserPromptRequest.metadata.modifiers = selectedModifiers;
         setUserPromptRequest(newUserPromptRequest);
+
+        promptRequest.chatReply = chatReply;
+        promptRequest.metadata.history = getHistory();
+        promptRequest.metadata.modifiers = selectedModifiers;
     }
 
     return (
@@ -129,13 +135,17 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
                 })
             }
 
-            <Box ref={replyScrollIntoView.targetRef}>
-                {
-                    !promptRequest.isPlayable && !isResponding && <ChatThreadReplyContainer reply={reply} />
-                }
-            </Box>
+            {
+                !promptRequest.isPlayable && !isResponding && <ChatThreadReplyContainer reply={reply} />
+            }
 
-            <ThreadFooter promptRequest={userPromptRequest} />
+            <Box ref={replyScrollIntoView.targetRef}>
+                <ThreadFooter
+                    userPromptRequest={userPromptRequest}
+                    promptRequest={promptRequest}
+                />
+
+            </Box>
         </Stack>
     )
 }

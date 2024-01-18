@@ -8,6 +8,7 @@ import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -17,10 +18,12 @@ interface TextGenerationThread {
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const {userPromptRequest} = useUserPromptRequest();
     const [response, setResponse] = useState<any>(false);
 
     useEffect(() => {
         if (response) return;
+        console.log(promptRequest.content);
         fetch();
         scrollIntoView({ alignement: 'start' })
     }, [scrollIntoView]);
@@ -31,7 +34,6 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
             : await textGeneration(promptRequest);
 
         setResponse(response.trim())
-
 
         // Update request list
         const newRequest = PromptRequest.clone(promptRequest);
@@ -46,7 +48,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
                 !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
             }
             <ThreadResponse response={response} />
-            <ThreadFooter promptRequest={promptRequest} />
+            <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
         </Stack>
     )
 }

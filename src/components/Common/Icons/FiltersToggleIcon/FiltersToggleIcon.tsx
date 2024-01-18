@@ -1,16 +1,18 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
-import { iconFilter } from "../../../../utils/iconsUtils";
+import { iconFilter, iconFilterFilled } from "../../../../utils/iconsUtils";
+import classes from './FiltersToggleIcon.module.css';
 
 interface FiltersToggleIcon {
-    onClick: any
+    onClick: any,
+    filled: boolean
 }
 
-export function FiltersToggleIcon({ onClick }: FiltersToggleIcon) {
+export function FiltersToggleIcon({ onClick, filled }: FiltersToggleIcon) {
     return (
         <Tooltip label={"Filters"}>
-            <ActionIcon size="lg" onClick={onClick} variant="transparent">
+            <ActionIcon className={classes.icon} size="md" onClick={onClick} variant="transparent">
                 {
-                    iconFilter("sm")
+                    filled ? iconFilterFilled("xs") : iconFilter("xs")
                 }
             </ActionIcon>
         </Tooltip>

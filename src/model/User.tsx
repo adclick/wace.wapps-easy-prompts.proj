@@ -1,4 +1,5 @@
 import { Language } from "./Language";
+import { Prompt } from "./Prompt";
 
 export class User {
     isEmpty: boolean;
@@ -8,6 +9,7 @@ export class User {
     email: string;
     picture: string;
     theme: string;
+    external_id: string;
 
     constructor() {
         this.isEmpty = true;
@@ -17,6 +19,7 @@ export class User {
         this.email = "";
         this.picture = "";
         this.theme = "";
+        this.external_id = "";
     }
 
     static buildFromAuth0(auth0User: any) {
@@ -43,5 +46,9 @@ export class User {
         user.isEmpty = false;
 
         return user;
+    }
+
+    static hasPrompt(user: User, prompt: Prompt): boolean {
+        return user.id === prompt.user.id || user.id === prompt.user.external_id;
     }
 }

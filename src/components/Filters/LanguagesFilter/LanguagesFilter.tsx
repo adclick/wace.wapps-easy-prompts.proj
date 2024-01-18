@@ -4,6 +4,7 @@ import { TemplatesSelectedFilters } from '../../../model/TemplatesSelectedFilter
 import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
 import { ModifiersSelectedFilters } from '../../../model/ModifiersSelectedFilters';
 import { useDisclosure } from '@mantine/hooks';
+import { iconChevronDown } from '../../../utils/iconsUtils';
 
 interface LanguagesFilter {
     languages: { id: number, name: string, slug: string, default: boolean }[],
@@ -18,7 +19,7 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
         onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
-        
+
     });
 
     const [search, setSearch] = useState('');
@@ -42,16 +43,26 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
     }
 
     return (
-        <Stack>
-            <Title order={5}>Languages</Title>
-
+        <Stack gap={"xs"}>
+            <Text size='sm'>Languages</Text>
             <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
                 <Combobox.DropdownTarget>
-                    <PillsInput onClick={() => combobox.openDropdown()}>
+                    <PillsInput size='xs' onClick={() => combobox.openDropdown()}>
                         <Pill.Group>
-                            <Button size='compact-xs' variant='light'>
-                                {selectedIds.length} selected
-                            </Button>                            <Combobox.EventsTarget>
+                        {
+                                selectedIds.length > 0
+                                    ? <Button
+                                        size='compact-xs'
+                                        variant='default'
+                                    >
+                                        {selectedIds.length} selected
+                                    </Button>
+                                    :
+                                    <Button onClick={selectAll} size='compact-xs' variant='default'>
+                                        Select all
+                                    </Button>
+                            }
+                            <Combobox.EventsTarget>
                                 <PillsInput.Field
                                     onFocus={() => combobox.openDropdown()}
                                     onBlur={() => combobox.closeDropdown()}
@@ -63,6 +74,7 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
                                     }}
                                 />
                             </Combobox.EventsTarget>
+                            {iconChevronDown("xs")}
                         </Pill.Group>
                     </PillsInput>
                 </Combobox.DropdownTarget>

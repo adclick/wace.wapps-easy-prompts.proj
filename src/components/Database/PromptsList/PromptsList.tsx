@@ -33,6 +33,7 @@ export function PromptsList({ promptsQuery }: PromptsList) {
                 </Accordion>
                 <Button
                     variant="default"
+                    size="xs"
                     onClick={() => promptsQuery.fetchNextPage()}
                     disabled={!promptsQuery.hasNextPage || promptsQuery.isFetchingNextPage}
                 >

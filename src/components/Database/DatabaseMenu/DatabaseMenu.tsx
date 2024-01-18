@@ -7,6 +7,7 @@ import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../model/S
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
 import { Template } from "../../../model/Template";
+import { iconChevronDown } from "../../../utils/iconsUtils";
 
 export function DatabaseMenu() {
     const { selectedDatabaseType, setSelectedDatabaseType } = useSelectedDatabaseType();
@@ -34,10 +35,10 @@ export function DatabaseMenu() {
                 <Menu.Target>
                     <UnstyledButton px={0}>
                         <Group align='center' gap={"xs"} wrap="nowrap">
-                            <Text truncate size="xl" fw={700}>
+                            <Text truncate size="lg" fw={700}>
                                 {selectedDatabaseType.labelPlural}
                             </Text>
-                            <IconChevronDown size={16} stroke={3} />
+                            {iconChevronDown("xs", 3)}
                         </Group>
                     </UnstyledButton>
                 </Menu.Target>

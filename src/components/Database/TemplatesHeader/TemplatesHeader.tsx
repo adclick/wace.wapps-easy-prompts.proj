@@ -11,7 +11,8 @@ interface TemplatesHeader {
     navbarDesktopOpened: boolean,
     navbarMobileHandle: any,
     navbarDesktopHandle: any,
-    filtersHandle: any
+    filtersHandle: any,
+    filtersOpened: boolean
 }
 
 export function TemplatesHeader({
@@ -20,6 +21,7 @@ export function TemplatesHeader({
     navbarMobileHandle,
     navbarDesktopHandle,
     filtersHandle,
+    filtersOpened
 }: TemplatesHeader) {
     const [newTemplateModalOpened, newTemplateModalHandle] = useDisclosure(false);
 
@@ -34,7 +36,7 @@ export function TemplatesHeader({
                     <DatabaseMenu />
                 </Group>
                 <Group gap={"xs"}>
-                    <FiltersToggleIcon onClick={filtersHandle.open} />
+                    <FiltersToggleIcon filled={filtersOpened} onClick={filtersHandle.toggle} />
                     <Box visibleFrom="sm">
                     <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                     </Box>

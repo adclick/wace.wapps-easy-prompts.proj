@@ -8,6 +8,7 @@ import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { PromptCardMenu } from "../PromptCardMenu/PromptCardMenu";
+import { iconPlay } from "../../../utils/iconsUtils";
 
 interface PromptCard {
     prompt: Prompt,
@@ -51,13 +52,6 @@ export function PromptCard({ prompt }: PromptCard) {
                                 </Text>
                             </Stack>
                             <PromptCardMenu detailsHandle={detailsHandle} />
-                            {/* <Tooltip label={prompt.technology.name}>
-                                <ActionIcon component="a" variant="transparent" color="gray.9">
-                                    {
-                                        iconsUtils.getTechnologyIcon(prompt.technology.slug, 16)
-                                    }
-                                </ActionIcon>
-                            </Tooltip> */}
                         </Group>
 
                         <Group justify="space-between">
@@ -71,8 +65,8 @@ export function PromptCard({ prompt }: PromptCard) {
                                     <Text size="xs">{prompt.stars}</Text>
                                 </Group>
                             </Group>
-                            <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => play(e)}>
-                                <IconPlayerPlayFilled style={{ width: '50%', height: '50%' }} stroke={1.5} />
+                            <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
+                                {iconPlay(13)}
                             </ActionIcon>
                         </Group>
                     </Stack>

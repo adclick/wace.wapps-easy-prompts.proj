@@ -7,6 +7,7 @@ import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { ThreadRequest } from "../ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../ThreadResponse/ThreadResponse";
 import { ThreadFooter } from "../ThreadFooter/ThreadFooter";
+import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
@@ -17,6 +18,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
     const { user } = useUser();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [response, setResponse] = useState<any>(false);
+    const {userPromptRequest} = useUserPromptRequest();
 
     useEffect(() => {
         if (response) return;
@@ -49,7 +51,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
                 !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
             }
             <ThreadResponse response={response} />
-            <ThreadFooter promptRequest={promptRequest} />
+            <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
         </Stack>
     )
 }

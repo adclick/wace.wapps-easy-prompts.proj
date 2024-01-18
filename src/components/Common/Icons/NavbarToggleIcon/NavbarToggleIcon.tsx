@@ -1,5 +1,6 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { iconSideBar } from "../../../../utils/iconsUtils";
+import classes from './NavbarToggleIcon.module.css'
 
 interface NavbarToggleIcon {
     navbarOpened: boolean,
@@ -11,7 +12,7 @@ export function NavbarToggleIcon({ navbarOpened, navbarToggle }: NavbarToggleIco
 
     return (
         <Tooltip label={tooltip}>
-            <ActionIcon size="lg" onClick={navbarToggle} variant="transparent">
+            <ActionIcon className={classes.icon} size="lg" onClick={navbarToggle} variant="transparent">
                 {
                     iconSideBar("md")
                 }

@@ -20,7 +20,7 @@ export function Header({
 }: Header) {
     return (
         <Group h={"100%"} justify="space-between" align="center">
-            <Group gap={"xs"}>
+            <Group h={"100%"} gap={"xs"}>
                 <Box visibleFrom="sm" >
                     {
                         !navbarDesktopOpened && <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />

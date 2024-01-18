@@ -1,6 +1,7 @@
 import { Button, Group, Menu, Stack, Text, UnstyledButton } from "@mantine/core";
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
+import { iconChevronDown } from "../../../utils/iconsUtils";
 
 export function ThreadsMenu() {
     const { setPromptsRequests } = usePromptsRequests();
@@ -13,7 +14,7 @@ export function ThreadsMenu() {
                         <Text size="xl" fw={700}>
                             Menu
                         </Text>
-                        <IconChevronDown size={16} stroke={3} />
+                        {iconChevronDown("sm", 3)}
                     </Group>
                 </UnstyledButton>
             </Menu.Target>

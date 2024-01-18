@@ -14,7 +14,7 @@ export function PromptPlayButton() {
     return (
         <ActionIcon
             variant="filled"
-            size="lg"
+            size="md"
             pos={"absolute"}
             right={"25px"}
             onClick={play}

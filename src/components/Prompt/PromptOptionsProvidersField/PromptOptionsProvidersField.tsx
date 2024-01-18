@@ -1,4 +1,4 @@
-import { Select } from "@mantine/core";
+import { Select, Text } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { Provider } from "../../../model/Provider";
 import { PromptRequest } from "../../../model/PromptRequest";
@@ -48,8 +48,14 @@ export function PromptOptionsProvidersField({ providerData, providers }: PromptO
         }
     }
 
+    const label = <Text fw={700} size="xs">Providers</Text>
+
+
     return (
         <Select
+            label={label}
+            size="xs"
+            variant="unstyled"
             allowDeselect={false}
             comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.provider.id.toString()}

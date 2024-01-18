@@ -1,4 +1,4 @@
-import { IconFilter, IconHeadphones, IconLanguage, IconLayoutSidebar, IconListSearch, IconPhoto, IconPlus, IconVideo } from "@tabler/icons-react"
+import { IconChevronDown, IconChevronUp, IconFilter, IconFilterFilled, IconHeadphones, IconLanguage, IconLayoutSidebar, IconListSearch, IconPhoto, IconPlayerPlayFilled, IconPlus, IconVideo, IconX } from "@tabler/icons-react"
 import { IconMessage } from "@tabler/icons-react"
 import { PromptMode } from "../model/PromptMode"
 
@@ -41,11 +41,13 @@ export const iconSideBar = (size: number | string, stroke: number = 2) => {
     return <IconLayoutSidebar size={getSize(size)} stroke={stroke} />
 }
 
-export const iconFilter = (size: number | string, stroke: number = 2) => {
-    return <IconFilter size={getSize(size)} stroke={stroke} />
-}
-
+export const iconFilter = (size: number | string, stroke: number = 2) => <IconFilter size={getSize(size)} stroke={stroke} />;
+export const iconFilterFilled = (size: number | string, stroke: number = 2) => <IconFilterFilled size={getSize(size)} stroke={stroke} />;
 export const iconAdd = (size: number | string, stroke: number = 2) => <IconPlus size={getSize(size)} stroke={stroke} />;
+export const iconClose = (size: number | string, stroke: number = 2) => <IconX size={getSize(size)} stroke={stroke} />;
+export const iconChevronUp = (size: number | string, stroke: number = 2) => <IconChevronUp size={getSize(size)} stroke={stroke} />;
+export const iconChevronDown = (size: number | string, stroke: number = 2) => <IconChevronDown size={getSize(size)} stroke={stroke} />;
+export const iconPlay = (size: number | string, stroke: number = 2) => <IconPlayerPlayFilled size={getSize(size)} stroke={stroke} />;
 
 
 const getSize = (size: number | string): number => {

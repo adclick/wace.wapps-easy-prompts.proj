@@ -1,7 +1,7 @@
 import { ActionIcon, Divider, Group, Popover, SegmentedControl, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { PromptMode, getAllPromptModes, isPromptModeEnabled } from "../../../model/PromptMode";
 import { usePromptMode } from "../../../context/PromptModeContext";
-import { IconDots, IconMessage } from "@tabler/icons-react";
+import { IconAdjustments, IconAdjustmentsHorizontal, IconDots } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Technology } from "../../../model/Technology";
 import { getProviders } from "../../../api/providersApi";
@@ -11,8 +11,8 @@ import { Provider } from "../../../model/Provider";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptOptionsTechnologiesField, TechnologyDataItem } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
-import classes from './PromptModeSwitcher.module.css'
-import { getPromptModeIcon, getTechnologyIcon } from "../../../utils/iconsUtils";
+import classes from './PromptModeSwitcher.module.css';
+import { getPromptModeIcon } from "../../../utils/iconsUtils";
 
 export function PromptModeSwitcher() {
     const { promptMode, setPromptMode } = usePromptMode();
@@ -47,7 +47,7 @@ export function PromptModeSwitcher() {
             label: (
                 <Tooltip label={mode}>
                     <Group justify="center" wrap="nowrap" gap={"xs"} px={"sm"}>
-                        {getPromptModeIcon(mode, 18)}
+                        {getPromptModeIcon(mode, 16)}
                     </Group>
                 </Tooltip>
             ),
@@ -107,14 +107,14 @@ export function PromptModeSwitcher() {
         <Group justify="center" >
             <SegmentedControl
                 py={0}
-                size="sm"
+                size="xs"
                 color="blue"
                 defaultValue={promptMode}
                 onChange={onChangeMode}
                 fullWidth
                 data={data}
                 classNames={{
-                    root: classes.segment
+                    root: classes.segment,
                 }}
             />
             <Popover position="top" keepMounted>
@@ -122,21 +122,18 @@ export function PromptModeSwitcher() {
                     <Tooltip label="More Options">
                         <ActionIcon
                             variant="subtle"
-                            size="md"
+                            size="sm"
                         >
                             <IconDots size={18} stroke={2} />
                         </ActionIcon>
                     </Tooltip>
                 </Popover.Target>
-                <Popover.Dropdown>
-                    <Stack>
-                        <Title order={6}>Options</Title>
-                        <Divider />
+                <Popover.Dropdown className={classes.optionsContainer}>
+                    <Stack gap={"md"}>
                         <PromptOptionsTechnologiesField
                             technologyData={technologyData}
                             onChangeTechnology={onChangeTechnology}
                         />
-
                         <PromptOptionsProvidersField
                             providerData={providerData}
                             providers={providers}

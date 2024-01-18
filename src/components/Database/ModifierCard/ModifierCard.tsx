@@ -42,9 +42,13 @@ export function ModifierCard({ modifier }: ModifierCard) {
                                     <Text size="xs">{modifier.stars}</Text>
                                 </Group>
                             </Group>
-                            <Checkbox classNames={{
-                                input: classes.inputCheckbox
-                            }} value={modifier.id.toString()} size="md" onClick={e => e.stopPropagation()}  />
+                            <Checkbox
+                                classNames={{
+                                    input: classes.inputCheckbox
+                                }} value={modifier.id.toString()}
+                                size="sm"
+                                onClick={e => e.stopPropagation()}
+                            />
                         </Group>
                     </Stack>
                 </Accordion.Control >

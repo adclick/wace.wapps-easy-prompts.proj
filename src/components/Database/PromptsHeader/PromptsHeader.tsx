@@ -1,15 +1,17 @@
-import { Box, Group } from "@mantine/core";
+import { ActionIcon, Box, Group, Tooltip } from "@mantine/core";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
+import { IconArrowsUpDown, IconSortAscending } from "@tabler/icons-react";
 
 interface PromptsHeader {
     navbarMobileOpened: boolean,
     navbarDesktopOpened: boolean,
     navbarMobileHandle: any,
     navbarDesktopHandle: any,
-    filtersHandle: any
+    filtersHandle: any,
+    filtersOpened: boolean
 }
 
 export function PromptsHeader({
@@ -18,6 +20,7 @@ export function PromptsHeader({
     navbarMobileHandle,
     navbarDesktopHandle,
     filtersHandle,
+    filtersOpened
 }: PromptsHeader) {
     return (
         <Group h={"100%"} justify='space-between' pt={"xs"}>
@@ -28,7 +31,7 @@ export function PromptsHeader({
                 <DatabaseMenu />
             </Group>
             <Group gap={"xs"}>
-                <FiltersToggleIcon onClick={filtersHandle.open} />
+                <FiltersToggleIcon filled={filtersOpened} onClick={filtersHandle.toggle} />
                 <Box visibleFrom="sm">
                     <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                 </Box>

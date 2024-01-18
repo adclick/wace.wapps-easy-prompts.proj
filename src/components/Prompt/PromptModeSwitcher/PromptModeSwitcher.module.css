@@ -1,4 +1,4 @@
-.segment {
+.segment, .optionsContainer {
     @mixin light {
         background-color: var(--mantine-color-gray-0);
     }

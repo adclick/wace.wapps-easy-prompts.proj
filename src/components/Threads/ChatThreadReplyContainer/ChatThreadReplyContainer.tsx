@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Group, Textarea } from "@mantine/core";
+import { ActionIcon, Avatar, Button, Group, Textarea } from "@mantine/core";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useState } from "react";
 import { useUser } from "../../../context/UserContext";
@@ -39,14 +39,17 @@ export function ChatThreadReplyContainer({reply}: ChatThreadReplyContainer) {
                 onChange={e => setReplyValue(e.target.value)}
                 onKeyDown={onKeyDown}
             />
-            <ActionIcon
+            <Button variant="transparent" size="xs" pos={"absolute"} right={"25px"}>
+                Reply
+            </Button>
+            {/* <ActionIcon
                 variant="filled"
                 pos={"absolute"}
                 right={"25px"}
                 onClick={() => reply(replyValue, setReplyValue)}
             >
                 <IconPlayerPlayFilled size={14} stroke={1.5} />
-            </ActionIcon>
+            </ActionIcon> */}
         </Group>
     )
 }

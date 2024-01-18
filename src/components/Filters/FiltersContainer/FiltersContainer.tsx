@@ -1,4 +1,4 @@
-import { Drawer, Loader, Stack, Text } from "@mantine/core";
+import { Collapse, Drawer, Loader, Stack, Text } from "@mantine/core";
 import { LanguagesFilter } from "../LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
@@ -37,7 +37,7 @@ export function FiltersContainer({
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:
             if (promptsFiltersQuery.data) {
-                filters = <Stack gap={"xl"} my={"xs"}>
+                filters = <Stack gap={"lg"} >
                     <LanguagesFilter
                         languages={promptsFiltersQuery.data.languages}
                         selectedFilters={promptsSelectedFilters}
@@ -111,7 +111,7 @@ export function FiltersContainer({
 
     return (
         <>
-            <Drawer
+            {/* <Drawer
                 classNames={{
                     header: classes.header,
                     content: classes.content
@@ -119,13 +119,16 @@ export function FiltersContainer({
                 opened={opened}
                 onClose={handle.close}
                 title={title}
-                size={350}
+                size={300}
             >
                 {
                     filters
                 }
-            </Drawer>
+            </Drawer> */}
             {searchTermFilter}
+            <Collapse in={opened}>
+                {filters}
+            </Collapse>
         </>
     )
 }

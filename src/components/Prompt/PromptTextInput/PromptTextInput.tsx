@@ -36,13 +36,13 @@ export function PromptTextInput() {
 
     return (
         <Textarea
-            placeholder={"Craft a new prompt"}
+            placeholder={"Create a new thread"}
             autosize
             autoFocus
             minRows={1}
             maxRows={6}
             w={"100%"}
-            size={'lg'}
+            size={'md'}
             classNames={{
                 input: classes.input
             }}

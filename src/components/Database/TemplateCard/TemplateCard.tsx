@@ -55,7 +55,12 @@ export function TemplateCard({ template }: TemplateCard) {
                                     <Text size="xs">{template.stars}</Text>
                                 </Group>
                             </Group>
-                            <Radio classNames={{radio: classes.inputRadio}} value={template.id.toString()} size="md" onClick={onRadioClick} />
+                            <Radio
+                                classNames={{ radio: classes.inputRadio }}
+                                value={template.id.toString()}
+                                size="sm"
+                                onClick={onRadioClick}
+                            />
                         </Group>
                     </Stack>
                 </Accordion.Control >

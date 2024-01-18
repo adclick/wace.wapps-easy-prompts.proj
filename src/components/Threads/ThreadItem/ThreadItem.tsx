@@ -4,7 +4,7 @@ import { TextGenerationThread } from "../TextGenerationThread/TextGenerationThre
 import { ChatThread } from "../ChatThread/ChatThread";
 import { ImageGenerationThread } from "../ImageGenerationThread/ImageGenerationThread";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
-import { Card, Collapse, Stack } from "@mantine/core";
+import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 
 interface ThreadItem {
@@ -48,21 +48,24 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
     }
 
     return (
-        <Card p={"lg"} shadow="sm" mx={"md"} withBorder>
-            <Stack gap={"xl"}>
-                <ThreadHeader
-                    deleteThread={deleteThread}
-                    minimized={minimized}
-                    minimizeHandle={minimizeHandle}
-                    promptRequest={promptRequest}
+        <Group justify="center" >
 
-                />
-                <Collapse in={!minimized}>
-                    <Stack gap={"xl"}>
-                        {thread}
-                    </Stack>
-                </Collapse>
-            </Stack>
-        </Card>
+            <Card p={"lg"} shadow="sm" mx={"md"} withBorder w={800}>
+                <Stack gap={"xl"}>
+                    <ThreadHeader
+                        deleteThread={deleteThread}
+                        minimized={minimized}
+                        minimizeHandle={minimizeHandle}
+                        promptRequest={promptRequest}
+
+                    />
+                    <Collapse in={!minimized}>
+                        <Stack gap={"xl"}>
+                            {thread}
+                        </Stack>
+                    </Collapse>
+                </Stack>
+            </Card>
+        </Group>
     )
 }

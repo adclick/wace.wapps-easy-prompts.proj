@@ -44,7 +44,7 @@ export function ThreadSaveModal({
         const modifiersIds = request.metadata.modifiers.map(m => m.id);
         const chatHistory = request.metadata.history;
 
-        const content = request.content === "" ? request.chatReply : request.content;
+        const content = request.chatReply !== "" ? request.chatReply : request.content;
 
         const newFormData = new FormData();
         newFormData.append("userId", user.id);

@@ -1,8 +1,8 @@
-import { ActionIcon, Divider, Group, Text, Title, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Group, Text, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../model/PromptRequest"
-import { IconChevronDown, IconChevronUp, IconX } from "@tabler/icons-react"
-import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
-import { getTechnologyIcon } from "../../../utils/iconsUtils"
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react"
+import { getTechnologyIcon, iconChevronDown, iconChevronUp, iconClose } from "../../../utils/iconsUtils"
+import classes from './ThreadHeader.module.css'
 
 interface ThreadHeader {
     deleteThread: any,
@@ -17,21 +17,19 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
                     {getTechnologyIcon(promptRequest.technology.slug, 18)}
-                    {/* <Text maw={"90%"} lineClamp={1}>{promptRequest.provider.model_name}</Text> */}
-                    {/* <Divider orientation="vertical" /> */}
                     <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">
-                <ActionIcon variant="subtle" onClick={minimizeHandle.toggle}>
+                <ActionIcon className={classes.iconMinimize} variant="transparent" onClick={minimizeHandle.toggle}>
                     {
                         minimized
-                            ? <IconChevronUp size={18} stroke={2} />
-                            : <IconChevronDown size={18} stroke={2} />
+                            ? iconChevronUp("sm")
+                            : iconChevronDown("sm")
                     }
                 </ActionIcon>
-                <ActionIcon variant="subtle" onClick={() => deleteThread(promptRequest)}>
-                    <IconX size={18} stroke={2} />
+                <ActionIcon className={classes.iconClose} variant="transparent" onClick={() => deleteThread(promptRequest)}>
+                    {iconClose("sm")}
                 </ActionIcon>
             </Group>
         </Group>
