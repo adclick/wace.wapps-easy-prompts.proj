@@ -1,6 +1,5 @@
-import { ActionIcon, Group, Text, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Group, Text, Tooltip, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../model/PromptRequest"
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react"
 import { getTechnologyIcon, iconChevronDown, iconChevronUp, iconClose } from "../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
 
@@ -16,8 +15,10 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
-                    {getTechnologyIcon(promptRequest.technology.slug, 18)}
-                    <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
+                    <Tooltip label={promptRequest.technology.name}>
+                        {getTechnologyIcon(promptRequest.technology.slug, 18)}
+                    </Tooltip>
+                        <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">

@@ -1,5 +1,6 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { iconAdd } from "../../../../utils/iconsUtils";
+import classes from './DatabaseAddIcon.module.css'
 
 interface DatabaseAddIcon {
     onClick: any
@@ -8,9 +9,9 @@ interface DatabaseAddIcon {
 export function DatabaseAddIcon({ onClick }: DatabaseAddIcon) {
     return (
         <Tooltip label={"Filters"}>
-            <ActionIcon size="md" onClick={onClick} variant="transparent">
+            <ActionIcon className={classes.icon} size="lg" onClick={onClick} variant="transparent">
                 {
-                    iconAdd("xs")
+                    iconAdd("md")
                 }
             </ActionIcon>
         </Tooltip>

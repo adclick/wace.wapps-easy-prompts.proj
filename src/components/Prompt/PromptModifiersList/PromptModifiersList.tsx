@@ -1,9 +1,12 @@
 import { ActionIcon, Box, Button, Divider, Group, Indicator, Popover, Stack, Text } from "@mantine/core"
 import { IconSparkles, IconX } from "@tabler/icons-react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
+import { usePromptMode } from "../../../context/PromptModeContext";
+import { getPromptModeColor } from "../../../model/PromptMode";
 
 export function PromptModifiersList() {
     const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
+    const { promptMode } = usePromptMode();
 
     const removeModifier = (id: number) => {
         const newSelectedModifiers = selectedModifiers.filter(m => m.id !== id);
@@ -15,18 +18,12 @@ export function PromptModifiersList() {
         <Box pos={"absolute"} left={30}>
             <Popover position="top-start">
                 <Popover.Target>
-                    {
-                        selectedModifiers.length > 0
-                            ? <Indicator inline label={selectedModifiers.length} size={16}>
-                                <ActionIcon variant="subtle" size={"lg"}>
-                                    <IconSparkles size={20} />
-                                </ActionIcon>
-                            </Indicator>
-                            : <ActionIcon variant="subtle" size={"lg"}>
-                                <IconSparkles size={20} />
-                            </ActionIcon>
+                    <Indicator color={getPromptModeColor(promptMode)} inline label={selectedModifiers.length} size={16}>
+                        <ActionIcon color={getPromptModeColor(promptMode)} variant="transparent" size={"lg"}>
+                            <IconSparkles size={20} />
+                        </ActionIcon>
+                    </Indicator>
 
-                    }
                 </Popover.Target>
                 <Popover.Dropdown>
                     <Stack>
@@ -35,11 +32,11 @@ export function PromptModifiersList() {
                             {
                                 selectedModifiers.map(modifier => {
                                     return (
-                                        <Group key={modifier.id} justify="space-between">
-                                            <Text size="xs">{modifier.title}</Text>
-                                            <ActionIcon variant="subtle" onClick={() => removeModifier(modifier.id)}>
+                                        <Group gap={4} key={modifier.id} justify="space-between">
+                                            <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
                                                 <IconX size={12} />
                                             </ActionIcon>
+                                            <Text size="sm">{modifier.title}</Text>
                                         </Group>
                                     )
                                 })
@@ -48,9 +45,8 @@ export function PromptModifiersList() {
                         {
                             selectedModifiers.length > 0 &&
                             <Box>
-                                <Divider />
-                                <Button size="compact-xs" variant="subtle" onClick={() => setSelectedModifiers([])}>
-                                    Clear
+                                <Button size="compact-xs" variant="transparent" color="gray" onClick={() => setSelectedModifiers([])}>
+                                    Clear all
                                 </Button>
                             </Box>
                         }
