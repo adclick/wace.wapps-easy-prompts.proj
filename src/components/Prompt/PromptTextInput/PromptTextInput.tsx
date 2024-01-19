@@ -46,7 +46,7 @@ export function PromptTextInput() {
             color="yellow"
             maxRows={6}
             w={"100%"}
-            size={'md'}
+            size={'lg'}
             classNames={{
                 input: classes.input + " " + classes["mode" + promptMode]
             }}
