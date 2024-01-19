@@ -5,7 +5,7 @@ import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { IconReload } from "@tabler/icons-react";
-import favicon from "../../../favicon.svg";
+import favicon from "../../../../favicon.svg";
 import { useImageGenerationPlayableQuery } from "../../../../api/imageGenerationApi";
 
 interface ImageGenerationPlayableThread {

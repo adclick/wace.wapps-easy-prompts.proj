@@ -4,11 +4,11 @@ import { PromptRequest } from "../../../../model/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import favicon from "../../../favicon.svg";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { useTextGenerationPlayableQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
+import favicon from "../../../../favicon.svg";
 
 interface TextGenerationPlayableThread {
     promptRequest: PromptRequest,

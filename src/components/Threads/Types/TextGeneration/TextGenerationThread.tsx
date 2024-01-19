@@ -4,7 +4,7 @@ import { PromptRequest } from "../../../../model/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import favicon from "../../../favicon.svg";
+import favicon from "../../../../favicon.svg";
 import { IconAlertCircle, IconReload } from "@tabler/icons-react";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
