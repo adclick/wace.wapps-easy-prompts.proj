@@ -22,7 +22,7 @@ export const isPromptModeEnabled = (promptMode: PromptMode): boolean => {
         case PromptMode.Image:
             return true;
         default:
-            return false;
+            return true;
     }
 }
 
