@@ -1,6 +1,6 @@
 import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../HeaderBurgerMenu/HeaderBurgerMenu";
-import { ThreadsMenu } from "../../Threads/ThreadsMenu/ThreadsMenu";
+import { ThreadsMenu } from "../../Threads/Layout/ThreadsMenu/ThreadsMenu";
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 import { UserMenu } from "../../User/UserMenu/UserMenu";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";

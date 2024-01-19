@@ -5,9 +5,9 @@ import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedF
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext"
 import { useUser } from "../../../context/UserContext";
 import { Type } from "../../../model/SelectedDatabaseType";
-import { ModifiersList } from "../ModifiersList/ModifiersList";
-import { PromptsList } from "../PromptsList/PromptsList";
-import { TemplatesList } from "../TemplatesList/TemplatesList";
+import { ModifiersList } from "../Templates/TemplatesList/ModifiersList/ModifiersList";
+import { PromptsList } from "../Prompts/PromptsList/PromptsList";
+import { TemplatesList } from "../Templates/TemplatesList/TemplatesList";
 import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
 import { useTemplatessQuery } from "../../../api/templatesApi";
 

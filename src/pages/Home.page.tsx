@@ -6,7 +6,7 @@ import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
-import { ThreadList } from '../components/Threads/ThreadList/ThreadList';
+import { ThreadList } from '../components/Threads/Layout/ThreadList/ThreadList';
 import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
 import classes from './Home.page.module.css';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
