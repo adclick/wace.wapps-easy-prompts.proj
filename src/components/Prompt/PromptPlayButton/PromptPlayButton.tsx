@@ -4,6 +4,7 @@ import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { usePromptMode } from "../../../context/PromptModeContext";
 import { getPromptModeColor } from "../../../model/PromptMode";
+import { iconPlay } from "../../../utils/iconsUtils";
 
 export function PromptPlayButton() {
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();

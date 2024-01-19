@@ -7,3 +7,6 @@
     }
 }
 
+.segmentLabel[data-active="true"] {
+    color: white;
+}

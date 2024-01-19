@@ -115,6 +115,7 @@ export function PromptModeSwitcher() {
                 data={data}
                 classNames={{
                     root: classes.segment,
+                    label: classes.segmentLabel
                 }}
             />
             <Popover position="top" keepMounted>
