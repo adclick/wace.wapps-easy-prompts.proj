@@ -60,19 +60,6 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                 <Combobox.DropdownTarget>
                     <PillsInput size='xs' onClick={() => combobox.openDropdown()}>
                         <Pill.Group>
-                            {
-                                selectedIds.length > 0
-                                    ? <Button
-                                        size='compact-xs'
-                                        variant='default'
-                                    >
-                                        {selectedIds.length} selected
-                                    </Button>
-                                    :
-                                    <Button onClick={selectAll} size='compact-xs' variant='default'>
-                                        Select all
-                                    </Button>
-                            }
                             <Combobox.EventsTarget>
                                 <PillsInput.Field
                                     onFocus={() => combobox.openDropdown()}

@@ -40,7 +40,6 @@ export function FiltersContainer({
         case Type.PROMPT:
             if (promptsFiltersQuery.data) {
                 filters = <Stack gap={"xl"}>
-                    <OrderField />
                     <LanguagesFilter
                         languages={promptsFiltersQuery.data.languages}
                         selectedFilters={promptsSelectedFilters}
@@ -114,24 +113,18 @@ export function FiltersContainer({
 
     return (
         <>
-            {/* <Drawer
-                classNames={{
-                    header: classes.header,
-                    content: classes.content
-                }}
-                opened={opened}
-                onClose={handle.close}
-                title={title}
-                size={300}
-            >
-                {
-                    filters
-                }
-            </Drawer> */}
             {searchTermFilter}
             <Collapse in={opened}>
-                <Card>
-                        {filters}
+                <Card className={classes.containerCard}>
+                    <ActionIcon
+                        className={classes.closeIcon}
+                        color="gray"
+                        variant="transparent"
+                        onClick={handle.close}
+                    >
+                        {iconClose(14)}
+                    </ActionIcon>
+                    {filters}
                 </Card>
             </Collapse>
         </>

@@ -10,10 +10,11 @@ import { useImageGenerationPlayableQuery } from "../../../../api/imageGeneration
 
 interface ImageGenerationPlayableThread {
     promptRequest: PromptRequest,
-    scrollIntoView: any
+    scrollIntoView: any,
+    color: string
 }
 
-export function ImageGenerationPlayableThread({ promptRequest, scrollIntoView }: ImageGenerationPlayableThread) {
+export function ImageGenerationPlayableThread({ promptRequest, scrollIntoView, color }: ImageGenerationPlayableThread) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationPlayableQuery(promptRequest);

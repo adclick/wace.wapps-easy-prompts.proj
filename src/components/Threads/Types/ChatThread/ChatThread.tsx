@@ -13,7 +13,8 @@ import { useSelectedModifiers } from "../../../../context/SelectedModifiersConte
 
 interface ChatThread {
     promptRequest: PromptRequest,
-    scrollIntoView: any
+    scrollIntoView: any,
+    color: string
 }
 
 interface Message {
@@ -22,7 +23,7 @@ interface Message {
     response: string,
 }
 
-export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
+export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread) {
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
@@ -129,7 +130,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
                             {
                                 !promptRequest.isPlayable && <ThreadRequest request={message.request} user={user} />
                             }
-                            <ThreadResponse response={message.response} />
+                            <ThreadResponse response={message.response} color={color} />
                         </Stack>
                     )
                 })

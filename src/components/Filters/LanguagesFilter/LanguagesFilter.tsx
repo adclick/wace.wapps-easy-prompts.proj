@@ -18,7 +18,7 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
     const selectedIds = selectedFilters.languages_ids.map(id => id.toString());
     const [opened, openedHandle] = useDisclosure(false);
 
-    const {promptMode} = usePromptMode();
+    const { promptMode } = usePromptMode();
 
     const color = getPromptModeColor(promptMode);
 
@@ -55,19 +55,6 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
                 <Combobox.DropdownTarget>
                     <PillsInput size='xs' onClick={() => combobox.openDropdown()}>
                         <Pill.Group>
-                        {
-                                selectedIds.length > 0
-                                    ? <Button
-                                        size='compact-xs'
-                                        variant='default'
-                                    >
-                                        {selectedIds.length} selected
-                                    </Button>
-                                    :
-                                    <Button onClick={selectAll} size='compact-xs' variant='default'>
-                                        Select all
-                                    </Button>
-                            }
                             <Combobox.EventsTarget>
                                 <PillsInput.Field
                                     onFocus={() => combobox.openDropdown()}

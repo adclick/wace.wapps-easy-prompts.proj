@@ -1,42 +1,33 @@
-import { ActionIcon, Avatar, Group, Image, Loader, Stack, Text } from "@mantine/core";
+import { Avatar, Group, Image, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { IconReload } from "@tabler/icons-react";
 import { useImageGenerationQuery } from "../../../../api/imageGenerationApi";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
-    scrollIntoView: any
+    scrollIntoView: any,
+    color: string
 }
 
-export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGenerationThread) {
+export function ImageGenerationThread({ promptRequest, scrollIntoView, color }: ImageGenerationThread) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationQuery(promptRequest);
 
     scrollIntoView({ alignement: 'start' });
 
-    const reloadIcon = <ActionIcon variant="transparent" onClick={() => refetch()}>
-        <IconReload size={14} />
-    </ActionIcon>;
-
     const response = () => {
-        if (isLoading || isFetching) return <Loader color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} size={"xs"} type="dots" />;
+        if (isLoading || isFetching) return <Loader color={color} size={"xs"} type="dots" />;
 
         if (error) {
-            return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                {error.message}
-                <Group gap={"xs"}>
-                    <ThreadReloadButton reload={refetch} />
-                </Group>
-            </Stack>;
+            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
         }
 
         if (data && !isFetching) {
@@ -62,17 +53,17 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
     return (
         <Stack gap={"xl"}>
             {
-                !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
+                !promptRequest.isPlayable 
+                && <ThreadRequest request={promptRequest.title} user={user} />
             }
 
             <Group w={"100%"} align="flex-start" wrap="nowrap">
-                <Avatar variant="filled" color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} size={"sm"} src={null} alt="no image here">
+                <Avatar variant="filled" color={color} size={"sm"} src={null} alt="no image here">
                     {iconPlay(14)}
                 </Avatar>
                 <Stack gap={"xs"}>
                     <Text size="sm" fw={700}>EasyPrompts</Text>
                     {response()}
-
                 </Stack>
             </Group>
 

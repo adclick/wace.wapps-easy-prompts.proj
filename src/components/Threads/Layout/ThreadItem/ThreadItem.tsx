@@ -8,6 +8,7 @@ import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { TextGenerationPlayableThread } from "../../Types/TextGenerationPlayable/TextGenerationPlayableThread";
 import { ImageGenerationPlayableThread } from "../../Types/ImageGenerationPlayable/ImageGenerationPlayableThread";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 
 interface ThreadItem {
     promptRequest: PromptRequest,
@@ -17,7 +18,8 @@ interface ThreadItem {
 export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
     const [minimized, minimizeHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-
+    
+    const color = getPromptModeColor(getPromptModeByTechnology(promptRequest.technology));
 
     const deleteThread = (promptRequest: PromptRequest) => {
         setPromptsRequests(promptsRequests.filter((p) => p.key !== promptRequest.key));
@@ -44,6 +46,7 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                 key={promptRequest.key}
                 promptRequest={promptRequest}
                 scrollIntoView={scrollIntoView}
+                color={color}
             />
             break;
         case 'image-generation':
@@ -52,11 +55,13 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                     key={promptRequest.key}
                     promptRequest={promptRequest}
                     scrollIntoView={scrollIntoView}
+                    color={color}
                 />
                 : <ImageGenerationThread
                     key={promptRequest.key}
                     promptRequest={promptRequest}
                     scrollIntoView={scrollIntoView}
+                    color={color}
                 />
             break;
     }
