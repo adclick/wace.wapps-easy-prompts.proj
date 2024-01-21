@@ -9,6 +9,7 @@ import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../../api
 import { SelectedDatabaseType, Type } from "../../../../model/SelectedDatabaseType";
 import { Repository } from "../../../../model/Repository";
 import { Language } from "../../../../model/Language";
+import { useCreateTemplateMutation } from "../../../../api/templatesApi";
 
 interface ThreadSaveModal {
     opened: boolean
@@ -29,8 +30,10 @@ export function ThreadSaveModal({
     const [description, setDescription] = useState(request.description);
     const [descriptionError, setDescriptionError] = useState('');
     const { setSelectedDatabaseType } = useSelectedDatabaseType();
+    const [type, setType] = useState('prompt');
 
-    const mutation = useCreatePromptMutation();
+    const createPromptMutation = useCreatePromptMutation();
+    const createTemplateMutation = useCreateTemplateMutation();
 
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
 
@@ -57,11 +60,19 @@ export function ThreadSaveModal({
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("chat_history", JSON.stringify(chatHistory));
 
-        mutation.mutate(newFormData);
+        if (type === "prompt") {
+            createPromptMutation.mutate(newFormData);
 
-        const newType = new SelectedDatabaseType();
-        newType.type = Type.PROMPT;
-        setSelectedDatabaseType(newType);
+            const newType = new SelectedDatabaseType();
+            newType.type = Type.PROMPT;
+            setSelectedDatabaseType(newType);
+        } else if (type === "template") {
+            createTemplateMutation.mutate(newFormData);
+
+            const newType = new SelectedDatabaseType();
+            newType.type = Type.TEMPLATE;
+            setSelectedDatabaseType(newType);
+        }
 
         handle.close();
     }
@@ -106,7 +117,14 @@ export function ThreadSaveModal({
     return (
         <Modal opened={opened} onClose={handle.close} title={`Save Thread`} size={"md"}>
             <Stack my={"xs"}>
-                <SegmentedControl data={['Prompt', 'Template']} />
+                <SegmentedControl
+                    value={type}
+                    data={[
+                        { value: "prompt", label: "Prompt" },
+                        { value: "template", label: "Template" },
+                    ]}
+                    onChange={setType}
+                />
                 <Select
                     label="Language"
                     required
@@ -144,7 +162,8 @@ export function ThreadSaveModal({
                 />
                 <Group justify="flex-end">
                     <Button
-                        variant="filled"
+                        variant="transparent"
+                        color="gray"
                         size="xs"
                         onClick={save}
                         leftSection={<IconCheck size={14} />}

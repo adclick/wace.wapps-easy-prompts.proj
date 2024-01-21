@@ -1,4 +1,4 @@
-import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox, UnstyledButton, Radio } from "@mantine/core";
+import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox, UnstyledButton, Radio, Textarea } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
@@ -55,19 +55,32 @@ export function TemplateCard({ template }: TemplateCard) {
                                     <Text size="xs">{template.stars}</Text>
                                 </Group>
                             </Group>
-                            <Radio
+                            {/* <Radio
                                 classNames={{ radio: classes.inputRadio }}
                                 value={template.id.toString()}
                                 size="sm"
                                 onClick={onRadioClick}
-                            />
+                            /> */}
                         </Group>
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
 
-                    <Stack>
-                        <Text size="xs">{template.description}</Text>
+                    <Stack gap={"xl"}>
+                        <Text size="xs">
+                            {template.description}
+                        </Text>
+                        <Group pos={"relative"}>
+                            <Textarea
+                                pos={"absolute"}
+                                w={"100%"}
+                                size="xs"
+                                placeholder="Type a message"
+                                autosize
+                                minRows={1}
+                                maxRows={6}
+                            />
+                        </Group>
                         <Center>
                             <Button onClick={templateDetailsHandle.open} variant="transparent" size="xs">
                                 Read more
