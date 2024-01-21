@@ -29,11 +29,25 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
     });
 };
 
-export const useTextGenerationPlayableQuery = (request: PromptRequest) => {
+export const useTextGenerationByPromptIdQuery = (request: PromptRequest) => {
     return useQuery({
-        queryKey: ["textGeneration-playable", request.key],
+        queryKey: ["textGeneration-playable", "prompt", request.key],
         queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/ai/text-generation/${request.id}`);
+            const { data } = await axios.get(`${API_URL}/ai/text-generation/prompt/${request.id}`);
+
+            return data;
+        },
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+    });
+};
+
+export const useTextGenerationByTemplateIdQuery = (request: PromptRequest) => {
+    return useQuery({
+        queryKey: ["textGeneration-playable", "template", request.key],
+        queryFn: async () => {
+            const { data } = await axios.get(`${API_URL}/ai/text-generation/template/${request.id}`);
 
             return data;
         },

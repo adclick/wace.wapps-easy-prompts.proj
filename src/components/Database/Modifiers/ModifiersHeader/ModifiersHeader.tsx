@@ -26,7 +26,7 @@ export function ModifiersHeader({
 
     return (
         <>
-            <NewModifierModal opened={newModifierModalOpened} handle={newModifierModalHandle} />
+            {/* <NewModifierModal opened={newModifierModalOpened} handle={newModifierModalHandle} /> */}
             <Group h={"100%"} justify='space-between' pt={"xs"}>
                 <Group>
                     <Box hiddenFrom="sm">
@@ -35,7 +35,7 @@ export function ModifiersHeader({
                     <DatabaseMenu />
                 </Group>
                 <Group gap={"xs"}>
-                    <DatabaseAddIcon onClick={newModifierModalHandle.open} />
+                    {/* <DatabaseAddIcon onClick={newModifierModalHandle.open} /> */}
                     <FiltersToggleIcon onClick={filtersHandle.toggle} />
                     <Box visibleFrom="sm">
                         <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />

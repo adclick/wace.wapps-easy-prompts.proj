@@ -15,7 +15,7 @@ export function PromptModifiersList() {
 
     return (
         selectedModifiers.length > 0 &&
-        <Box pos={"absolute"} left={30}>
+        <Box pos={"absolute"} left={12}>
             <Popover position="top-start">
                 <Popover.Target>
                     <Indicator color={getPromptModeColor(promptMode)} inline label={selectedModifiers.length} size={16}>

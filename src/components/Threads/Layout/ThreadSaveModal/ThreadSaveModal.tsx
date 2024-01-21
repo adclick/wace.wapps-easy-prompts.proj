@@ -10,6 +10,7 @@ import { SelectedDatabaseType, Type } from "../../../../model/SelectedDatabaseTy
 import { Repository } from "../../../../model/Repository";
 import { Language } from "../../../../model/Language";
 import { useCreateTemplateMutation } from "../../../../api/templatesApi";
+import { useCreateModifierMutation } from "../../../../api/modifiersApi";
 
 interface ThreadSaveModal {
     opened: boolean
@@ -34,6 +35,7 @@ export function ThreadSaveModal({
 
     const createPromptMutation = useCreatePromptMutation();
     const createTemplateMutation = useCreateTemplateMutation();
+    const createModifierMutation = useCreateModifierMutation();
 
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
 
@@ -71,6 +73,12 @@ export function ThreadSaveModal({
 
             const newType = new SelectedDatabaseType();
             newType.type = Type.TEMPLATE;
+            setSelectedDatabaseType(newType);
+        } else if (type === "modifier") {
+            createModifierMutation.mutate(newFormData);
+
+            const newType = new SelectedDatabaseType();
+            newType.type = Type.MODIFIER;
             setSelectedDatabaseType(newType);
         }
 
@@ -122,6 +130,7 @@ export function ThreadSaveModal({
                     data={[
                         { value: "prompt", label: "Prompt" },
                         { value: "template", label: "Template" },
+                        { value: "modifier", label: "Modifier" },
                     ]}
                     onChange={setType}
                 />

@@ -15,17 +15,7 @@ interface TemplateCard {
 
 export function TemplateCard({ template }: TemplateCard) {
     const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
-    const { selectedTemplate, setSelectedTemplate } = useSelectedTemplate();
     const ref = useRef();
-    const [checked, checkedHandle] = useDisclosure(false);
-
-    const onRadioClick = (e: any) => {
-        e.stopPropagation();
-
-        if (e.target.value === selectedTemplate.id.toString()) {
-            setSelectedTemplate(new Template())
-        }
-    }
 
     return (
         <>

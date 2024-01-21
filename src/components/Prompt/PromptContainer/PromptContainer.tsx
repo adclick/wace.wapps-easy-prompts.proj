@@ -3,7 +3,6 @@ import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
 import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
 import { PromptModifiersList } from "../PromptModifiersList/PromptModifiersList";
 import { PromptModeSwitcher } from "../PromptModeSwitcher/PromptModeSwitcher";
-import { PromptTemplateInfo } from "../PromptTemplateInfo/PromptTemplateInfo";
 
 export function PromptContainer() {
     return (
@@ -15,13 +14,11 @@ export function PromptContainer() {
                     pos={"absolute"}
                     bottom={"0"}
                     py={"md"}
-                    px={"md"}
                 >
                     <PromptModeSwitcher />
                     <Group w={"100%"} >
                         <PromptTextInput />
                         <PromptModifiersList />
-                        <PromptTemplateInfo />
                         <PromptPlayButton />
                     </Group>
                 </Stack>

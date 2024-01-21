@@ -6,7 +6,6 @@ import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
 import classes from './PromptTextInput.module.css';
-import { getPromptModeColor } from "../../../model/PromptMode";
 import { usePromptMode } from "../../../context/PromptModeContext";
 
 export function PromptTextInput() {
@@ -35,7 +34,7 @@ export function PromptTextInput() {
     }
 
     const paddingLeft = selectedModifiers.length > 0 || selectedTemplate.id > 0
-        ? "70px"
+        ? "65px"
         : "var(--_input-padding-left"
 
     return (
@@ -54,7 +53,7 @@ export function PromptTextInput() {
             styles={{
                 input: {
                     paddingLeft: paddingLeft,
-                    paddingRight: "50px",
+                    paddingRight: "60px",
                 },
 
             }}

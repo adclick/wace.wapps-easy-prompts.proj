@@ -21,7 +21,7 @@ export function PromptPlayButton() {
             color={getPromptModeColor(promptMode)}
             size="lg"
             pos={"absolute"}
-            right={"25px"}
+            right={"11px"}
             onClick={play}
         >
             <IconPlayerPlayFilled size={16} stroke={1.5} />
