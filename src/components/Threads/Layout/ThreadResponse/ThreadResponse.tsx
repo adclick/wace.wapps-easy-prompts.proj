@@ -9,7 +9,7 @@ interface ThreadResponse {
 export function ThreadResponse({ response, color }: ThreadResponse) {
     return (
         <Group w={"100%"} align="flex-start" wrap="nowrap">
-            <Avatar variant="filled" size={"sm"} src={null} alt="no image here">
+            <Avatar color={color} variant="filled" size={"sm"} src={null} alt="no image here">
                 {iconPlay(14)}
             </Avatar>
             <Stack gap={"xs"}>

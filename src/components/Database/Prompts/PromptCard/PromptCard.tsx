@@ -10,6 +10,7 @@ import { PromptRequest, PromptRequestType } from "../../../../model/PromptReques
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
+import { useDeletePromptMutation } from "../../../../api/promptsApi";
 
 interface PromptCard {
     prompt: Prompt,
@@ -18,6 +19,8 @@ interface PromptCard {
 export function PromptCard({ prompt }: PromptCard) {
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+
+    const deleteMutation = useDeletePromptMutation();
 
     const play = (e: any) => {
         e.stopPropagation();
@@ -41,7 +44,6 @@ export function PromptCard({ prompt }: PromptCard) {
                 opened={detailsOpened}
                 handle={detailsHandle}
                 prompt={prompt}
-                play={play}
             />
             <Accordion.Item value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
@@ -55,7 +57,11 @@ export function PromptCard({ prompt }: PromptCard) {
                                     {prompt.title}
                                 </Text>
                             </Stack>
-                            <CardMenu detailsHandle={detailsHandle} />
+                            <CardMenu
+                                detailsHandle={detailsHandle}
+                                deleteMutation={deleteMutation}
+                                itemId={prompt.id}
+                            />
                         </Group>
 
                         <Group justify="space-between">
@@ -79,7 +85,7 @@ export function PromptCard({ prompt }: PromptCard) {
                     <Stack>
                         <Text size="xs">{prompt.description}</Text>
                         <Center>
-                            <Button color={color} variant="transparent" size="xs" onClick={detailsHandle.open}>
+                            <Button variant="transparent" size="xs" onClick={detailsHandle.open}>
                                 Read more
                             </Button>
                         </Center>

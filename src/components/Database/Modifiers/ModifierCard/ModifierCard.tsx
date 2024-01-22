@@ -6,6 +6,8 @@ import { Modifier } from "../../../../model/Modifier";
 import { useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
 import classes from './ModifierCard.module.css';
+import { CardMenu } from "../../../Common/CardMenu/CardMenu";
+import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -13,6 +15,7 @@ interface ModifierCard {
 
 export function ModifierCard({ modifier }: ModifierCard) {
     const [modifierDetailsOpened, modifierDetailsHandle] = useDisclosure(false);
+    const deleteMutation = useDeleteModifierMutation();
 
     return (
         <>
@@ -29,6 +32,11 @@ export function ModifierCard({ modifier }: ModifierCard) {
                                     {modifier.title}
                                 </Text>
                             </Stack>
+                            <CardMenu
+                                detailsHandle={modifierDetailsHandle}
+                                deleteMutation={deleteMutation}
+                                itemId={modifier.id}
+                            />
                         </Group>
 
                         <Group justify="space-between">

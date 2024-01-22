@@ -18,7 +18,7 @@ export function PromptPlayButton() {
         <ActionIcon
             variant="filled"
             color={getPromptModeColor(promptMode)}
-            size="lg"
+            size="md"
             pos={"absolute"}
             right={"23px"}
             onClick={play}

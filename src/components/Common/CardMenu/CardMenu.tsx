@@ -1,14 +1,43 @@
 import { ActionIcon, Menu, Text } from "@mantine/core";
-import { IconDetails, IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
+import { IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
 
 interface CardMenu {
-    detailsHandle: any
+    detailsHandle: any,
+    deleteMutation: any,
+    itemId: number,
 }
 
-export function CardMenu({detailsHandle}: CardMenu) {
+export function CardMenu({detailsHandle, deleteMutation, itemId}: CardMenu) {
     const openDetails = (e: any) => {
         e.stopPropagation();
         detailsHandle.open()
+    }
+
+    if (deleteMutation.isError) {
+        notifications.show({
+            title: "Error",
+            message: deleteMutation.error.message,
+            color: "red"
+        });
+
+        deleteMutation.reset();
+    }
+
+    if (deleteMutation.isSuccess) {
+        notifications.show({
+            title: "Item Deleted",
+            message: "Your settings were saved",
+            color: "blue"
+        });
+
+        deleteMutation.reset();
+    }
+
+    const deleteItem = async (e: any) => {
+        e.stopPropagation();
+
+        deleteMutation.mutate(itemId);
     }
 
     return (
@@ -22,7 +51,7 @@ export function CardMenu({detailsHandle}: CardMenu) {
                 <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                     <Text size="xs">Details</Text>
                 </Menu.Item>
-                <Menu.Item leftSection={<IconTrash size={14} />} color="red">
+                <Menu.Item onClick={deleteItem} leftSection={<IconTrash size={14} />} color="red">
                     <Text size="xs">Delete</Text>
                 </Menu.Item>
             </Menu.Dropdown>

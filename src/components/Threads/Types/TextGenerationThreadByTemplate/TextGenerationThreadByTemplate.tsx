@@ -19,7 +19,7 @@ export function TextGenerationThreadByTemplate({ promptRequest, scrollIntoView }
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationByTemplateQuery(promptRequest);
 
     const response = () => {
-        if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
+        if (isLoading || isFetching) return <Loader color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} size={"xs"} type="dots" />;
 
         if (error) {
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>

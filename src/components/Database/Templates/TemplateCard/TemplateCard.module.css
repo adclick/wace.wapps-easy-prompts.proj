@@ -1,8 +1,9 @@
 .inputRadio {
+    border-color: var(--mantine-color-blue-9);
     background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7));
 }
 
 .inputRadio:checked {
-    background-color: gray;
-    border-color: gray;
+    background-color: var(--mantine-color-blue-9);
+    border-color: var(--mantine-color-blue-9);
 }

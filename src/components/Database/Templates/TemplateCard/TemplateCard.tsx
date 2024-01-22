@@ -12,16 +12,18 @@ import { Prompt } from "../../../../model/Prompt";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import classes from './TemplateCard.module.css'
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
+import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
 
 interface TemplateCard {
     template: Template,
+    cardValue: string | null
 }
 
-export function TemplateCard({ template }: TemplateCard) {
+export function TemplateCard({ template, cardValue }: TemplateCard) {
     const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const [text, setText] = useState('');
-    const ref = useRef();
+    const deleteMutation = useDeleteTemplateMutation();
 
     const play = (e: any) => {
         e.stopPropagation();
@@ -53,7 +55,11 @@ export function TemplateCard({ template }: TemplateCard) {
                                     {template.title}
                                 </Text>
                             </Stack>
-                            <CardMenu detailsHandle={templateDetailsHandle} />
+                            <CardMenu
+                                detailsHandle={templateDetailsHandle}
+                                deleteMutation={deleteMutation}
+                                itemId={template.id}
+                            />
                         </Group>
 
                         <Group justify="space-between">
@@ -71,7 +77,8 @@ export function TemplateCard({ template }: TemplateCard) {
                                 classNames={{ radio: classes.inputRadio }}
                                 value={template.id.toString()}
                                 size="sm"
-
+                                readOnly
+                                checked={template.id.toString() === cardValue}
                             />
                         </Group>
                     </Stack>
@@ -100,8 +107,7 @@ export function TemplateCard({ template }: TemplateCard) {
                                 value={text}
                                 onChange={e => setText(e.target.value)}
                             />
-                            <Button
-                                rightSection={iconPlay(12)}
+                            <ActionIcon
                                 color="gray"
                                 variant="transparent"
                                 size="xs"
@@ -109,8 +115,8 @@ export function TemplateCard({ template }: TemplateCard) {
                                 right={"25px"}
                                 onClick={play}
                             >
-                                Run
-                            </Button>
+                                {iconPlay(12)}
+                            </ActionIcon>
                         </Group>
                         <Center>
                             <Button onClick={templateDetailsHandle.open} variant="transparent" size="xs">
