@@ -1,6 +1,6 @@
 import { Avatar, Group, Loader, Stack, Text } from "@mantine/core";
 import favicon from "../../../../../favicon.svg";
-import { iconPlay } from "../../../../../utils/iconsUtils";
+import { iconPlay } from "../../../../utils/iconsUtils";
 
 interface ThreadResponse {
     response: any,

@@ -13,13 +13,13 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
             const templateId = request.metadata && "template" in request.metadata ? request.metadata.template : "";
             console.log(templateId);
 
-            const { data } = await axios.get(`${API_URL}/ai/text-generation?` + new URLSearchParams({
+            const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
                 text: request.content,
                 provider_id: request.provider.id.toString(),
                 providers_ids: "[]",
                 modifiers_ids: JSON.stringify(modifiersIds),
                 template_id: JSON.stringify(templateId)
-            }));
+            });
 
             return data;
         },
@@ -29,11 +29,11 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
     });
 };
 
-export const useTextGenerationByPromptIdQuery = (request: PromptRequest) => {
+export const useTextGenerationByPromptQuery = (request: PromptRequest) => {
     return useQuery({
         queryKey: ["textGeneration-playable", "prompt", request.key],
         queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/ai/text-generation/prompt/${request.id}`);
+            const { data } = await axios.post(`${API_URL}/ai/text-generation/prompt/${request.id}`);
 
             return data;
         },
@@ -43,11 +43,13 @@ export const useTextGenerationByPromptIdQuery = (request: PromptRequest) => {
     });
 };
 
-export const useTextGenerationByTemplateIdQuery = (request: PromptRequest) => {
+export const useTextGenerationByTemplateQuery = (request: PromptRequest) => {
     return useQuery({
         queryKey: ["textGeneration-playable", "template", request.key],
         queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/ai/text-generation/template/${request.id}`);
+            const { data } = await axios.post(`${API_URL}/ai/text-generation/template/${request.id}`, {
+                text: request.content
+            });
 
             return data;
         },

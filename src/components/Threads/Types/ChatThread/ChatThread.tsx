@@ -4,7 +4,7 @@ import { PromptRequest } from "../../../../model/PromptRequest";
 import { useEffect, useState } from "react";
 import { chat, chatById, useChatQuery } from "../../../../api/chatApi";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
-import { ThreadResponse } from "../TextGenerationPlayable/ThreadResponse/ThreadResponse";
+import { ThreadResponse } from "../../Layout/ThreadResponse/ThreadResponse";
 import { ChatThreadReplyContainer } from "../../Layout/ChatThreadReplyContainer/ChatThreadReplyContainer";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useDisclosure, useScrollIntoView } from "@mantine/hooks";

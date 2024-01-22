@@ -1,26 +1,22 @@
-import { ActionIcon, Alert, Avatar, Group, Loader, Stack, Text } from "@mantine/core";
-import { useUser } from "../../../../context/UserContext";
+import { Alert, Avatar, Group, Loader, Stack, Text } from "@mantine/core";
 import { PromptRequest } from "../../../../model/PromptRequest";
-import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import favicon from "../../../../favicon.svg";
-import { IconAlertCircle, IconReload } from "@tabler/icons-react";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
-import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
+import { useTextGenerationByTemplateQuery } from "../../../../api/textGenerationApi";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { iconPlay } from "../../../../utils/iconsUtils";
 
-interface TextGenerationThread {
+interface TextGenerationThreadByTemplate {
     promptRequest: PromptRequest,
     scrollIntoView: any
 }
 
-export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
-    const { user } = useUser();
+export function TextGenerationThreadByTemplate({ promptRequest, scrollIntoView }: TextGenerationThreadByTemplate) {
     const { userPromptRequest } = useUserPromptRequest();
-    const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
-
-    scrollIntoView({ alignement: 'start' });
+    const { data, refetch, error, isLoading, isFetching } = useTextGenerationByTemplateQuery(promptRequest);
 
     const response = () => {
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
@@ -33,7 +29,8 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         }
 
         if (data && !isFetching) {
-            return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
+            scrollIntoView({ alignement: 'start' });
+            return <Stack gap={"xs"} style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
                 {data.trim()}
                 <Group gap={"xs"}>
                     <ThreadCopyButton value={data.trim()} />
@@ -45,18 +42,20 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
 
     return (
         <Stack gap={"xl"}>
-            {
-                !promptRequest.isPlayable && <ThreadRequest request={promptRequest.title} user={user} />
-            }
-
             <Group w={"100%"} align="flex-start" wrap="nowrap">
-                <Avatar variant="white" size={"sm"} src={favicon} alt="no image here" />
+                <Avatar
+                    variant="filled"
+                    color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))}
+                    size={"sm"}
+                    src={null}
+                >
+                    {iconPlay(14)}
+                </Avatar>
                 <Stack gap={"xs"}>
                     <Text size="sm" fw={700}>EasyPrompts</Text>
                     {response()}
                 </Stack>
             </Group>
-
 
             <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
         </Stack>

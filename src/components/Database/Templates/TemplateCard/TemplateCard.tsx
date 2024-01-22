@@ -1,13 +1,17 @@
-import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox, UnstyledButton, Radio, Textarea } from "@mantine/core";
+import { Accordion, Badge, Button, Group, Stack, Text, Center, Textarea, ActionIcon, Radio } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
 import { Template } from "../../../../model/Template";
 import { useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
-import classes from './TemplateCard.module.css';
-import { useSelectedTemplate } from "../../../../context/SelectedTemplateContext";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
+import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
+import { Prompt } from "../../../../model/Prompt";
+import { iconPlay } from "../../../../utils/iconsUtils";
+import classes from './TemplateCard.module.css'
+import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 
 interface TemplateCard {
     template: Template,
@@ -15,7 +19,24 @@ interface TemplateCard {
 
 export function TemplateCard({ template }: TemplateCard) {
     const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
+    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const [text, setText] = useState('');
     const ref = useRef();
+
+    const play = (e: any) => {
+        e.stopPropagation();
+
+        const newPromptRequest = Prompt.buildFromTemplate(template) as PromptRequest;
+        newPromptRequest.key = Date.now();
+        newPromptRequest.isPlayable = true;
+        newPromptRequest.type = PromptRequestType.Template;
+        newPromptRequest.content = text;
+
+        setPromptsRequests([
+            ...promptsRequests,
+            newPromptRequest
+        ]);
+    }
 
     return (
         <>
@@ -32,6 +53,7 @@ export function TemplateCard({ template }: TemplateCard) {
                                     {template.title}
                                 </Text>
                             </Stack>
+                            <CardMenu detailsHandle={templateDetailsHandle} />
                         </Group>
 
                         <Group justify="space-between">
@@ -45,12 +67,12 @@ export function TemplateCard({ template }: TemplateCard) {
                                     <Text size="xs">{template.stars}</Text>
                                 </Group>
                             </Group>
-                            {/* <Radio
+                            <Radio
                                 classNames={{ radio: classes.inputRadio }}
                                 value={template.id.toString()}
                                 size="sm"
-                                onClick={onRadioClick}
-                            /> */}
+
+                            />
                         </Group>
                     </Stack>
                 </Accordion.Control >
@@ -60,16 +82,35 @@ export function TemplateCard({ template }: TemplateCard) {
                         <Text size="xs">
                             {template.description}
                         </Text>
-                        <Group pos={"relative"}>
+                        <Group wrap="nowrap">
                             <Textarea
-                                pos={"absolute"}
-                                w={"100%"}
-                                size="xs"
-                                placeholder="Type a message"
+                                placeholder="Reply here"
                                 autosize
+                                autoFocus
                                 minRows={1}
                                 maxRows={6}
+                                size="xs"
+                                w={"100%"}
+                                styles={{
+                                    input: {
+                                        paddingRight: "50px",
+                                    },
+
+                                }}
+                                value={text}
+                                onChange={e => setText(e.target.value)}
                             />
+                            <Button
+                                rightSection={iconPlay(12)}
+                                color="gray"
+                                variant="transparent"
+                                size="xs"
+                                pos={"absolute"}
+                                right={"25px"}
+                                onClick={play}
+                            >
+                                Run
+                            </Button>
                         </Group>
                         <Center>
                             <Button onClick={templateDetailsHandle.open} variant="transparent" size="xs">

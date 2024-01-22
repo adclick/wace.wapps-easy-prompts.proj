@@ -4,7 +4,7 @@ import { TemplatesSelectedFilters } from '../model/TemplatesSelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useTemplatesFiltersQuery = (userId: string) => {
+export const useTemplatesFiltersQuery = (userId: string, enabled: boolean = true) => {
     return useQuery({
         queryKey: ["templates", "filters", userId],
         queryFn: async () => {
@@ -15,7 +15,7 @@ export const useTemplatesFiltersQuery = (userId: string) => {
 
             return data;
         },
-        enabled: !!userId
+        enabled: !!userId && enabled
     });
 };
 

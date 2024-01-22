@@ -1,11 +1,11 @@
 import { ActionIcon, Menu, Text } from "@mantine/core";
 import { IconDetails, IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
 
-interface PromptCardMenu {
+interface CardMenu {
     detailsHandle: any
 }
 
-export function PromptCardMenu({detailsHandle}: PromptCardMenu) {
+export function CardMenu({detailsHandle}: CardMenu) {
     const openDetails = (e: any) => {
         e.stopPropagation();
         detailsHandle.open()

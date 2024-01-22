@@ -33,10 +33,10 @@ export function DatabaseHeader({
 }: DatabaseHeader) {
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
+    const [filtersOpened, filtersHandle] = useDisclosure(false);
     const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
     const modifiersFiltersQuery = useModifiersFiltersQuery(user.id);
     const templatesFiltersQuery = useTemplatesFiltersQuery(user.id);
-    const [filtersOpened, filtersHandle] = useDisclosure(false);
     const { modifiersSelectedFilters, setModifiersSelectedFilters } = useModifiersSelectedFilters();
     const { templatesSelectedFilters, setTemplatesSelectedFilters } = useTemplatesSelectedFilters();
     const { promptsSelectedFilters, setPromptsSelectedFilters } = usePromptsSelectedFilters();

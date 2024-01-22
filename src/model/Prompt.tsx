@@ -1,6 +1,7 @@
 import { Modifier } from "./Modifier";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
+import { Template } from "./Template";
 import { User } from "./User";
 
 interface ChatHistory {
@@ -8,7 +9,7 @@ interface ChatHistory {
     message: string
 }
 
-interface Metadata {
+export interface Metadata {
     modifiers: Modifier[],
     template: number,
     history: ChatHistory[]
@@ -67,6 +68,27 @@ export class Prompt {
         newPrompt.repository = prompt.repository;
         newPrompt.technology = prompt.technology;
         newPrompt.provider = prompt.provider;
+
+        return newPrompt;
+    }
+
+    static buildFromTemplate(template: Template): Prompt {
+        const newPrompt = new Prompt();
+
+        newPrompt.id = template.id;
+        newPrompt.title = template.title;
+        newPrompt.slug = template.slug;
+        newPrompt.description = template.description;
+        newPrompt.stars = template.stars;
+        newPrompt.plays = template.plays;
+        newPrompt.created_at = template.created_at;
+        newPrompt.type = template.type;
+        newPrompt.metadata = template.metadata;
+        newPrompt.user = template.user;
+        newPrompt.language = template.language;
+        newPrompt.repository = template.repository;
+        newPrompt.technology = template.technology;
+        newPrompt.provider = template.provider;
 
         return newPrompt;
     }

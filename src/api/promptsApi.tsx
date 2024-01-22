@@ -4,7 +4,7 @@ import { PromptsSelectedFilters } from '../model/PromptsSelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const usePromptQuery = (promptId: number) => {
+export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     return useQuery({
         queryKey: ["prompts", promptId],
         queryFn: async () => {
@@ -12,10 +12,11 @@ export const usePromptQuery = (promptId: number) => {
 
             return data;
         },
+        enabled
     });
 };
 
-export const usePromptsFiltersQuery = (userId: string) => {
+export const usePromptsFiltersQuery = (userId: string, enabled: boolean = true) => {
     return useQuery({
         queryKey: ["prompts", "filters", userId],
         queryFn: async () => {
@@ -25,7 +26,7 @@ export const usePromptsFiltersQuery = (userId: string) => {
 
             return data;
         },
-        enabled: !!userId
+        enabled: !!userId && enabled
     });
 };
 

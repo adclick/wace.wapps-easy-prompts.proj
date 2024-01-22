@@ -4,7 +4,6 @@ import { PromptRequest } from "../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
-import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
 import classes from './PromptTextInput.module.css';
 import { usePromptMode } from "../../../context/PromptModeContext";
 
@@ -12,7 +11,6 @@ export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { selectedModifiers } = useSelectedModifiers();
-    const {selectedTemplate } = useSelectedTemplate();
     const {promptMode} = usePromptMode()
 
     const updateUserRequestText = (value: string) => {
@@ -21,7 +19,6 @@ export function PromptTextInput() {
         newUserRequest.title = value;
         newUserRequest.content = value;
         newUserRequest.metadata.modifiers = selectedModifiers;
-        newUserRequest.metadata.template = selectedTemplate.id;
         setUserPromptRequest(newUserRequest);
     }
 
@@ -33,13 +30,13 @@ export function PromptTextInput() {
         }
     }
 
-    const paddingLeft = selectedModifiers.length > 0 || selectedTemplate.id > 0
+    const paddingLeft = selectedModifiers.length > 0
         ? "65px"
         : "var(--_input-padding-left"
 
     return (
         <Textarea
-            placeholder={`Create a new ${promptMode.toLowerCase()} thread`}
+            placeholder={`Start building`}
             autosize
             autoFocus
             minRows={1}

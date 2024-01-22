@@ -23,9 +23,10 @@ export function PromptCardDetails({
     play
 }: PromptCardDetails) {
     const deleteMutation = useDeletePromptMutation();
-    const { data: promptPrivate } = usePromptQuery(prompt.id);
     const { user } = useUser();
-    const { promptMode } = usePromptMode();
+    
+    const enabled = user.username === prompt.user.username && opened
+    const { data: promptPrivate } = usePromptQuery(prompt.id, enabled);
 
     const color = getPromptModeColor(getPromptModeByTechnology(prompt.technology));
 

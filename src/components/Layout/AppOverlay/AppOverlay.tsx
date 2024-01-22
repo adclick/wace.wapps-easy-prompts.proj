@@ -13,7 +13,7 @@ export function AppOverlay({visible}: AppOverlay) {
                     <Image src={favicon} w={40} />
                     <Title order={1}>EasyPrompts</Title>
                 </Group>
-                <Loader size={"sm"} />
+                <Loader color="blue" size={"sm"} />
             </Stack>
         }} />
     )

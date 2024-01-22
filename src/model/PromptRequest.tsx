@@ -2,12 +2,19 @@ import { Prompt } from "./Prompt";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 
+export enum PromptRequestType {
+    New = "New",
+    Prompt = "Prompt",
+    Template = "Template",
+}
+
 export class PromptRequest extends Prompt {
     key: number;
     response: any;
     isPlayable: boolean;
     chatReply: string;
-    providers: Provider[]
+    providers: Provider[];
+    type: PromptRequestType;
 
     constructor(key: number = 0, id: number = 0) {
         super();
@@ -17,6 +24,7 @@ export class PromptRequest extends Prompt {
         this.isPlayable = false;
         this.chatReply = "";
         this.providers = [];
+        this.type = PromptRequestType.New;
     }
 
     static clone(promptRequest: PromptRequest): PromptRequest {
@@ -33,6 +41,7 @@ export class PromptRequest extends Prompt {
         newPromptRequest.isPlayable = promptRequest.isPlayable
         newPromptRequest.chatReply = promptRequest.chatReply;
         newPromptRequest.providers = promptRequest.providers;
+        newPromptRequest.type = promptRequest.type;
 
         return newPromptRequest;
     }

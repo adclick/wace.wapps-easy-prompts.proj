@@ -6,11 +6,10 @@ import dateUtils from "../../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptsList/PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
-import { PromptCardMenu } from "../PromptCardMenu/PromptCardMenu";
+import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { usePromptMode } from "../../../../context/PromptModeContext";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 
 interface PromptCard {
     prompt: Prompt,
@@ -19,7 +18,6 @@ interface PromptCard {
 export function PromptCard({ prompt }: PromptCard) {
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-    const { promptMode } = usePromptMode();
 
     const play = (e: any) => {
         e.stopPropagation();
@@ -27,6 +25,7 @@ export function PromptCard({ prompt }: PromptCard) {
         const newPromptRequest = Prompt.clone(prompt) as PromptRequest;
         newPromptRequest.key = Date.now();
         newPromptRequest.isPlayable = true;
+        newPromptRequest.type = PromptRequestType.Prompt;
 
         setPromptsRequests([
             ...promptsRequests,
@@ -56,7 +55,7 @@ export function PromptCard({ prompt }: PromptCard) {
                                     {prompt.title}
                                 </Text>
                             </Stack>
-                            <PromptCardMenu detailsHandle={detailsHandle} />
+                            <CardMenu detailsHandle={detailsHandle} />
                         </Group>
 
                         <Group justify="space-between">

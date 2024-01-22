@@ -1,3 +1,6 @@
+import { Metadata } from "./Prompt";
+import { Provider } from "./Provider";
+import { Technology } from "./Technology";
 import { User } from "./User";
 
 export class Template {
@@ -9,10 +12,12 @@ export class Template {
     plays: number;
     created_at: Date;
     type: string;
-    metadata: string;
+    metadata: Metadata;
     user: User
     language: {id: number, name: string, slug: string}
     repository: {id: number, name: string, slug: string}
+    technology: Technology;
+    provider: Provider;
     
     constructor() {
         this.id = 0;
@@ -23,10 +28,12 @@ export class Template {
         this.plays = 0;
         this.created_at = new Date();
         this.type = "";
-        this.metadata = "";
+        this.metadata = {modifiers: [], history: [], template: 0};
         this.user = new User()
         this.language = {id: 0, name: "", slug: ""}
         this.repository = {id: 0, name: "", slug: ""}
+        this.technology = new Technology();
+        this.provider = new Provider();
     }
 
     static clone(template: Template): Template {

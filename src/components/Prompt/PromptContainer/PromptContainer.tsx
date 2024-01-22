@@ -14,6 +14,7 @@ export function PromptContainer() {
                     pos={"absolute"}
                     bottom={"0"}
                     py={"md"}
+                    px={"md"}
                 >
                     <PromptModeSwitcher />
                     <Group w={"100%"} >

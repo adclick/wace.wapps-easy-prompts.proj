@@ -4,7 +4,7 @@ import { ModifiersSelectedFilters } from '../model/ModifiersSelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useModifiersFiltersQuery = (userId: string) => {
+export const useModifiersFiltersQuery = (userId: string, enabled: boolean = true) => {
     return useQuery({
         queryKey: ["modifiers", "filters", userId],
         queryFn: async () => {
@@ -15,7 +15,7 @@ export const useModifiersFiltersQuery = (userId: string) => {
 
             return data;
         },
-        enabled: !!userId
+        enabled: !!userId && enabled
     });
 };
 

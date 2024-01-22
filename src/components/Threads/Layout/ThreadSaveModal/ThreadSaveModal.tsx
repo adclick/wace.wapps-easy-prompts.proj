@@ -6,7 +6,7 @@ import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTyp
 import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../../api/promptsApi";
-import { SelectedDatabaseType, Type } from "../../../../model/SelectedDatabaseType";
+import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../../model/SelectedDatabaseType";
 import { Repository } from "../../../../model/Repository";
 import { Language } from "../../../../model/Language";
 import { useCreateTemplateMutation } from "../../../../api/templatesApi";
@@ -29,7 +29,9 @@ export function ThreadSaveModal({
     const [repositoryId, setRepositoryId] = useState(promptsSelectedFilters.repositories_ids[0].toString());
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
+    const [content, setContent] = useState(request.content);
     const [descriptionError, setDescriptionError] = useState('');
+    const [contentError, setContentError] = useState('');
     const { setSelectedDatabaseType } = useSelectedDatabaseType();
     const [type, setType] = useState('prompt');
 
@@ -45,10 +47,15 @@ export function ThreadSaveModal({
             return;
         }
 
+        if (content === "" && (type === Type.PROMPT || type == Type.MODIFIER)) {
+            setContentError("Field is required");
+            return;
+        }
+
         const modifiersIds = request.metadata.modifiers.map(m => m.id);
         const chatHistory = request.metadata.history;
 
-        const content = request.chatReply !== "" ? request.chatReply : request.content;
+        const contentValue = request.chatReply !== "" ? request.chatReply : content;
 
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
@@ -58,27 +65,33 @@ export function ThreadSaveModal({
         newFormData.append("provider_id", request.provider.id.toString());
         newFormData.append("title", name);
         newFormData.append("description", description);
-        newFormData.append("content", content);
+        newFormData.append("content", contentValue);
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("chat_history", JSON.stringify(chatHistory));
 
-        if (type === "prompt") {
+        if (type === Type.PROMPT) {
             createPromptMutation.mutate(newFormData);
 
             const newType = new SelectedDatabaseType();
             newType.type = Type.PROMPT;
+            newType.label = Label.Prompt;
+            newType.labelPlural = LabelPlural.Prompts
             setSelectedDatabaseType(newType);
-        } else if (type === "template") {
+        } else if (type === Type.TEMPLATE) {
             createTemplateMutation.mutate(newFormData);
 
             const newType = new SelectedDatabaseType();
             newType.type = Type.TEMPLATE;
+            newType.label = Label.Tempalate;
+            newType.labelPlural = LabelPlural.Tempalates
             setSelectedDatabaseType(newType);
-        } else if (type === "modifier") {
+        } else if (type === Type.MODIFIER) {
             createModifierMutation.mutate(newFormData);
 
             const newType = new SelectedDatabaseType();
             newType.type = Type.MODIFIER;
+            newType.label = Label.Modifier;
+            newType.labelPlural = LabelPlural.Modifiers
             setSelectedDatabaseType(newType);
         }
 
@@ -122,15 +135,20 @@ export function ThreadSaveModal({
         setDescriptionError("");
     }
 
+    const updateContent = (value: string) => {
+        setContent(value);
+        setContentError("");
+    }
+
     return (
         <Modal opened={opened} onClose={handle.close} title={`Save Thread`} size={"md"}>
             <Stack my={"xs"}>
                 <SegmentedControl
                     value={type}
                     data={[
-                        { value: "prompt", label: "Prompt" },
-                        { value: "template", label: "Template" },
-                        { value: "modifier", label: "Modifier" },
+                        { value: Type.PROMPT, label: "Prompt" },
+                        { value: Type.TEMPLATE, label: "Template" },
+                        { value: Type.MODIFIER, label: "Modifier" },
                     ]}
                     onChange={setType}
                 />
@@ -169,6 +187,18 @@ export function ThreadSaveModal({
                     placeholder="Write a brief description"
                     error={descriptionError}
                 />
+                {
+                    (type === Type.PROMPT || type === Type.MODIFIER) &&
+                    <Textarea
+                        label="Content"
+                        autosize
+                        required
+                        minRows={3}
+                        onChange={(e: any) => updateContent(e.target.value)}
+                        value={content}
+                        error={contentError}
+                    />
+                }
                 <Group justify="flex-end">
                     <Button
                         variant="transparent"
