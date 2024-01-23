@@ -1,4 +1,4 @@
-import { Group } from "@mantine/core";
+import { Group, Modal } from "@mantine/core";
 import { ThreadSaveButton } from "../../Buttons/ThreadSaveButton/ThreadSaveButton";
 import { ThreadInfoButton } from "../../Buttons/ThreadInfoButton/ThreadInfoButton";
 import { PromptRequest } from "../../../../model/PromptRequest";
@@ -15,15 +15,17 @@ interface ThreadFooter {
 
 export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter) {
     const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);
+
     const { user } = useUser();
 
     return (
         <>
-            <SaveModal
-                opened={newPromptModalOpened}
-                handle={newPromptModalHandle}
-                request={promptRequest}
-            />
+            <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title={`Save Thread`} size={"md"}>
+                <SaveModal
+                    handle={newPromptModalHandle}
+                    request={promptRequest}
+                />
+            </Modal>
             {
                 User.hasPrompt(user, promptRequest) && !promptRequest.isPlayable &&
                 <Group justify="space-between">
@@ -33,8 +35,7 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
             }
             {
                 User.hasPrompt(user, promptRequest) && promptRequest.isPlayable &&
-                <Group justify="space-between">
-                    <ThreadScoreButton />
+                <Group justify="end">
                     <ThreadInfoButton promptRequest={promptRequest} />
                 </Group>
             }

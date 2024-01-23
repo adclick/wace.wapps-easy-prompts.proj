@@ -29,6 +29,7 @@ export class User {
 
         if ("sub" in auth0User) {
             user.id = auth0User.sub;
+            user.external_id = auth0User.sub;
         }
 
         if ("nickname" in auth0User) {

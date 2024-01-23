@@ -107,9 +107,6 @@ export function PromptModeSwitcher() {
     return (
         <Stack>
             <Group justify="center" >
-                <Group justify="center">
-
-                </Group>
                 {/* <SegmentedControl
                     py={0}
                     size="xs"

@@ -10,3 +10,7 @@
 .segmentLabel[data-active="true"] {
     color: white;
 }
+
+.badge:hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-gray-7));
+}

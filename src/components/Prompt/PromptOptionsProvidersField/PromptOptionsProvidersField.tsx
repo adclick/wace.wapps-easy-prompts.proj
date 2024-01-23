@@ -16,26 +16,6 @@ interface PromptOptionsProvidersField {
 export function PromptOptionsProvidersField({ providerData, providers }: PromptOptionsProvidersField) {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
-    // const onChangeMultiple = (providersSelected: string[]) => {
-    //     if (providersSelected.length > 0) {
-    //         const providersFound = providers.filter((p: Provider) => providersSelected.includes(p.id.toString()));
-    //         const newUserRequest = PromptRequest.clone(userPromptRequest);
-    //         newUserRequest.providers = providersFound;
-    //         setUserPromptRequest(newUserRequest);
-    //     }
-    // }
-
-    // const value = userPromptRequest.providers.map(p => p.id.toString());
-
-    // return (
-    //     <MultiSelect
-    //         comboboxProps={{ withinPortal: false }}
-    //         value={value}
-    //         data={providerData}
-    //         onChange={onChangeMultiple}
-    //     />
-    // )
-
     const onChange = (providerId: string | null) => {
         if (providerId !== "") {
             const provider = providers.find((p: Provider) => p.id === parseInt(providerId as string));

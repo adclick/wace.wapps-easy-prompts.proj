@@ -9,6 +9,7 @@ import favicon from "../../../../favicon.svg";
 import { useImageGenerationByPromptIdQuery } from "../../../../api/imageGenerationApi";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 
 interface ImageGenerationThreadByPromptId {
     promptRequest: PromptRequest,
@@ -20,7 +21,7 @@ export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView,
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationByPromptIdQuery(promptRequest);
-    
+
     scrollIntoView({ alignement: 'start' });
 
     const reloadIcon = <ActionIcon variant="transparent" onClick={() => refetch()}>
@@ -28,7 +29,7 @@ export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView,
     </ActionIcon>;
 
     const response = () => {
-        if (isLoading || isFetching) return <Loader size={"xs"} type="dots" color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} />;
+        if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
@@ -59,9 +60,7 @@ export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView,
             }
 
             <Group w={"100%"} align="flex-start" wrap="nowrap">
-                <Avatar color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} variant="filled" size={"sm"} src={null} alt="no image here">
-                    {iconPlay(14)}
-                </Avatar>
+                <EasyPromptsAvatar size="sm" />
                 <Stack gap={"xs"}>
                     <Text size="sm" fw={700}>EasyPrompts</Text>
                     {response()}

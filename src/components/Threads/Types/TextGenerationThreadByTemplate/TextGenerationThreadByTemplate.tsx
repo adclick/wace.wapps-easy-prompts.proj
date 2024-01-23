@@ -8,6 +8,7 @@ import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButto
 import { useTextGenerationByTemplateQuery } from "../../../../api/textGenerationApi";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { iconPlay } from "../../../../utils/iconsUtils";
+import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 
 interface TextGenerationThreadByTemplate {
     promptRequest: PromptRequest,
@@ -19,7 +20,7 @@ export function TextGenerationThreadByTemplate({ promptRequest, scrollIntoView }
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationByTemplateQuery(promptRequest);
 
     const response = () => {
-        if (isLoading || isFetching) return <Loader color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} size={"xs"} type="dots" />;
+        if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
@@ -43,14 +44,7 @@ export function TextGenerationThreadByTemplate({ promptRequest, scrollIntoView }
     return (
         <Stack gap={"xl"}>
             <Group w={"100%"} align="flex-start" wrap="nowrap">
-                <Avatar
-                    variant="filled"
-                    color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))}
-                    size={"sm"}
-                    src={null}
-                >
-                    {iconPlay(14)}
-                </Avatar>
+                <EasyPromptsAvatar size="sm" />
                 <Stack gap={"xs"}>
                     <Text size="sm" fw={700}>EasyPrompts</Text>
                     {response()}

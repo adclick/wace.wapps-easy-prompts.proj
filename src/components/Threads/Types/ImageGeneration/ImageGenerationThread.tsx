@@ -9,6 +9,7 @@ import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloa
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
+import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
@@ -24,7 +25,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView, color }: 
     scrollIntoView({ alignement: 'start' });
 
     const response = () => {
-        if (isLoading || isFetching) return <Loader color={color} size={"xs"} type="dots" />;
+        if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
             return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
@@ -53,14 +54,12 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView, color }: 
     return (
         <Stack gap={"xl"}>
             {
-                !promptRequest.isPlayable 
+                !promptRequest.isPlayable
                 && <ThreadRequest request={promptRequest.title} user={user} />
             }
 
             <Group w={"100%"} align="flex-start" wrap="nowrap">
-                <Avatar variant="filled" color={color} size={"sm"} src={null} alt="no image here">
-                    {iconPlay(14)}
-                </Avatar>
+                <EasyPromptsAvatar size="sm" />
                 <Stack gap={"xs"}>
                     <Text size="sm" fw={700}>EasyPrompts</Text>
                     {response()}

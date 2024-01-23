@@ -10,15 +10,13 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
         queryKey: ["textGeneration", request.key],
         queryFn: async () => {
             const modifiersIds = request.metadata && "modifiers" in request.metadata ? request.metadata.modifiers.map(m => m.id) : [];
-            const templateId = request.metadata && "template" in request.metadata ? request.metadata.template : "";
-            console.log(templateId);
+            const templatesIds = request.metadata && "templates" in request.metadata ? request.metadata.templates.map(t => t.id) : [];
 
             const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
                 text: request.content,
                 provider_id: request.provider.id.toString(),
-                providers_ids: "[]",
                 modifiers_ids: JSON.stringify(modifiersIds),
-                template_id: JSON.stringify(templateId)
+                templates_ids: JSON.stringify(templatesIds)
             });
 
             return data;

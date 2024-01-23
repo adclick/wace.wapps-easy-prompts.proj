@@ -1,14 +1,21 @@
 import { ActionIcon, Menu, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { useUser } from "../../../context/UserContext";
+import { User } from "../../../model/User";
 
 interface CardMenu {
     detailsHandle: any,
     deleteMutation: any,
     itemId: number,
+    itemUser: User
 }
 
-export function CardMenu({detailsHandle, deleteMutation, itemId}: CardMenu) {
+export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: CardMenu) {
+    const { user } = useUser();
+
+    const isUserItem = user.external_id === itemUser.external_id;
+
     const openDetails = (e: any) => {
         e.stopPropagation();
         detailsHandle.open()
@@ -51,9 +58,12 @@ export function CardMenu({detailsHandle, deleteMutation, itemId}: CardMenu) {
                 <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                     <Text size="xs">Details</Text>
                 </Menu.Item>
-                <Menu.Item onClick={deleteItem} leftSection={<IconTrash size={14} />} color="red">
-                    <Text size="xs">Delete</Text>
-                </Menu.Item>
+                {
+                    isUserItem &&
+                    <Menu.Item onClick={deleteItem} leftSection={<IconTrash size={14} />} color="red">
+                        <Text size="xs">Delete</Text>
+                    </Menu.Item>
+                }
             </Menu.Dropdown>
         </Menu>
     )

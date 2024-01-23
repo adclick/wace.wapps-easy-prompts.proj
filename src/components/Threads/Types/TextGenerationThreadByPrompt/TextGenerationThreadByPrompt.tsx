@@ -8,6 +8,7 @@ import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButto
 import { useTextGenerationByPromptQuery } from "../../../../api/textGenerationApi";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { iconPlay } from "../../../../utils/iconsUtils";
+import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 
 interface TextGenerationThreadByPrompt {
     promptRequest: PromptRequest,
@@ -43,14 +44,7 @@ export function TextGenerationThreadByPrompt({ promptRequest, scrollIntoView }: 
     return (
         <Stack gap={"xl"}>
             <Group w={"100%"} align="flex-start" wrap="nowrap">
-                <Avatar
-                    variant="filled"
-                    color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))}
-                    size={"sm"}
-                    src={null}
-                >
-                    {iconPlay(14)}
-                </Avatar>
+                <EasyPromptsAvatar size="sm" />
                 <Stack gap={"xs"}>
                     <Text size="sm" fw={700}>EasyPrompts</Text>
                     {response()}

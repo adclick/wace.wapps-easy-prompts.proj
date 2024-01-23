@@ -2,6 +2,7 @@ import { ActionIcon, Group, Text, Tooltip, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../../model/PromptRequest"
 import { getTechnologyIcon, iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
+import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel"
 
 interface ThreadHeader {
     deleteThread: any,
@@ -15,6 +16,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
+                    {/* <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} /> */}
                     <Tooltip label={promptRequest.technology.name}>
                         {getTechnologyIcon(promptRequest.technology.slug, 16)}
                     </Tooltip>

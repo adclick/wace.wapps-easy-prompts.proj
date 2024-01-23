@@ -5,12 +5,17 @@ import { Type } from "../../../model/SelectedDatabaseType";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
 import { ModifiersHeader } from "../Modifiers/ModifiersHeader/ModifiersHeader";
 import { PromptsHeader } from "../Prompts/PromptsHeader/PromptsHeader";
-import { Stack } from "@mantine/core";
+import { Box, Group, Stack } from "@mantine/core";
 import { useEffect } from "react";
 import { TemplatesHeader } from "../Templates/TemplatesHeader/TemplatesHeader";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { SelectedFilters } from "../../../model/SelectedFilters";
+import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
+import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
+import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
+import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
+import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
 
 interface DatabaseHeader {
     navbarMobileOpened: boolean,
@@ -26,7 +31,6 @@ export function DatabaseHeader({
     navbarDesktopHandle,
 }: DatabaseHeader) {
     const { user } = useUser();
-    const { selectedDatabaseType } = useSelectedDatabaseType();
     const [filtersOpened, filtersHandle] = useDisclosure(false);
         
     const selectedFiltersQuery = useFiltersQuery(user.id);
@@ -39,43 +43,23 @@ export function DatabaseHeader({
         }
     }, [selectedFilters, selectedFiltersQuery]);
 
-
-    let header = <></>;
-    switch (selectedDatabaseType.type) {
-        case Type.MODIFIER:
-            header = <ModifiersHeader
-                navbarMobileOpened={navbarMobileOpened}
-                navbarDesktopOpened={navbarDesktopOpened}
-                navbarMobileHandle={navbarMobileHandle}
-                navbarDesktopHandle={navbarDesktopHandle}
-                filtersHandle={filtersHandle}
-            />
-            break;
-        case Type.TEMPLATE:
-            header = <TemplatesHeader
-                navbarMobileOpened={navbarMobileOpened}
-                navbarDesktopOpened={navbarDesktopOpened}
-                navbarMobileHandle={navbarMobileHandle}
-                navbarDesktopHandle={navbarDesktopHandle}
-                filtersHandle={filtersHandle}
-            />
-            break;
-        case Type.PROMPT:
-            header = <PromptsHeader
-                navbarMobileOpened={navbarMobileOpened}
-                navbarDesktopOpened={navbarDesktopOpened}
-                navbarMobileHandle={navbarMobileHandle}
-                navbarDesktopHandle={navbarDesktopHandle}
-                filtersHandle={filtersHandle}
-            />
-            break;
-        default:
-            header = <></>
-    }
-
     return (
         <Stack gap={"lg"} pb={"xl"}>
-            {header}
+            <Group h={"100%"} justify='space-between' pt={"xs"}>
+                <Group>
+                    <Box hiddenFrom="sm">
+                        <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
+                    </Box>
+                    <DatabaseMenu />
+                </Group>
+                <Group gap={"xs"}>
+                    <DatabaseAddIcon onClick={null} />
+                    <FiltersToggleIcon onClick={filtersHandle.toggle} />
+                    <Box visibleFrom="sm">
+                        <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
+                    </Box>
+                </Group>
+            </Group>
             <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}

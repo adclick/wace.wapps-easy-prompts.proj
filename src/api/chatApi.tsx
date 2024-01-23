@@ -14,7 +14,6 @@ export const useChatQuery = (request: PromptRequest, text: string, providerId: n
         queryFn: async () => {
             const modifiersIds = modifiers.map(m => m.id);
 
-
             const { data } = await axios.post(`${API_URL}/ai/chat`, {
                 text: request.content,
                 provider_id: providerId,
@@ -47,9 +46,26 @@ export const chat = async (text: string, providerId: number, history: { role: st
     }
 };
 
-export const chatById = async (promptId: number): Promise<{ response: string, technology: Technology | undefined, provider: Provider | undefined }> => {
+export const chatByPromptId = async (promptId: number): Promise<{ response: string, technology: Technology | undefined, provider: Provider | undefined }> => {
     try {
-        const { data } = await axios.post(`${API_URL}/ai/chat/${promptId}`);
+        const { data } = await axios.post(`${API_URL}/ai/chat/prompt/${promptId}`);
+
+        return data;
+    } catch (e) {
+        console.error(e);
+        return {
+            response: ERROR_MESSAGE,
+            technology: undefined,
+            provider: undefined
+        };
+    }
+};
+
+export const chatByTemplateId = async (templateId: number, content: string): Promise<{ response: string, technology: Technology | undefined, provider: Provider | undefined }> => {
+    try {
+        const { data } = await axios.post(`${API_URL}/ai/chat/template/${templateId}`, {
+            text: content
+        });
 
         return data;
     } catch (e) {

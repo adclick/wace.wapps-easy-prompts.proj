@@ -3,7 +3,7 @@ import { usePromptsQuery } from "../../../api/promptsApi";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext"
 import { useUser } from "../../../context/UserContext";
 import { Type } from "../../../model/SelectedDatabaseType";
-import { ModifiersList } from "../Templates/TemplatesList/ModifiersList/ModifiersList";
+import { ModifiersList } from "../Modifiers/ModifiersList/ModifiersList";
 import { PromptsList } from "../Prompts/PromptsList/PromptsList";
 import { TemplatesList } from "../Templates/TemplatesList/TemplatesList";
 import { useTemplatessQuery } from "../../../api/templatesApi";

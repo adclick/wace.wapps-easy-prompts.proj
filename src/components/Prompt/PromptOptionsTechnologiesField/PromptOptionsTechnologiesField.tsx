@@ -15,9 +15,6 @@ interface PromptOptionsTechnologiesField {
 
 export function PromptOptionsTechnologiesField({ technologyData, onChangeTechnology }: PromptOptionsTechnologiesField) {
     const { userPromptRequest } = useUserPromptRequest();
-    // const { promptMode } = usePromptMode();
-
-    // const label = <Text fw={700} size="xs">{`${promptMode} technologies`}</Text>
 
     return (
         <Select

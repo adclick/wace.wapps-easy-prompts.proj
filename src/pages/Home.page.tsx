@@ -12,6 +12,7 @@ import classes from './Home.page.module.css';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 import { DatabaseListContainer } from '../components/Database/DatabaseListContainer/DatabaseListContainer';
 import { Header } from '../components/Layout/Header/Header';
+import { SaveModal } from '../components/Common/SaveModal/SaveModal';
 
 export function HomePage() {
     const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);

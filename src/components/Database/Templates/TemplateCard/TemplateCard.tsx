@@ -1,18 +1,14 @@
-import { Accordion, Badge, Button, Group, Stack, Text, Center, Textarea, ActionIcon, Radio, Checkbox } from "@mantine/core";
+import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
 import { Template } from "../../../../model/Template";
 import { useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
-import { useRef, useState } from "react";
-import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
-import { Prompt } from "../../../../model/Prompt";
-import { iconPlay } from "../../../../utils/iconsUtils";
-import classes from './TemplateCard.module.css'
+import classes from './TemplateCard.module.css';
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
+import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 
 interface TemplateCard {
     template: Template,
@@ -21,24 +17,7 @@ interface TemplateCard {
 
 export function TemplateCard({ template, cardValue }: TemplateCard) {
     const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
-    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-    const [text, setText] = useState('');
     const deleteMutation = useDeleteTemplateMutation();
-
-    const play = (e: any) => {
-        e.stopPropagation();
-
-        const newPromptRequest = Prompt.buildFromTemplate(template) as PromptRequest;
-        newPromptRequest.key = Date.now();
-        newPromptRequest.isPlayable = true;
-        newPromptRequest.type = PromptRequestType.Template;
-        newPromptRequest.content = text;
-
-        setPromptsRequests([
-            ...promptsRequests,
-            newPromptRequest
-        ]);
-    }
 
     return (
         <>
@@ -59,20 +38,12 @@ export function TemplateCard({ template, cardValue }: TemplateCard) {
                                 detailsHandle={templateDetailsHandle}
                                 deleteMutation={deleteMutation}
                                 itemId={template.id}
+                                itemUser={template.user}
                             />
                         </Group>
 
                         <Group justify="space-between">
-                            <Group>
-                                <Group gap={4}>
-                                    <IconPlayerPlayFilled size={12} />
-                                    <Text size="xs">{template.plays}</Text>
-                                </Group>
-                                <Group gap={4}>
-                                    <IconStarFilled size={12} />
-                                    <Text size="xs">{template.stars}</Text>
-                                </Group>
-                            </Group>
+                            <ProviderLabel technology={template.technology} provider={template.provider} />
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
@@ -89,35 +60,6 @@ export function TemplateCard({ template, cardValue }: TemplateCard) {
                         <Text size="xs">
                             {template.description}
                         </Text>
-                        <Group wrap="nowrap">
-                            <Textarea
-                                placeholder="Reply here"
-                                autosize
-                                autoFocus
-                                minRows={1}
-                                maxRows={6}
-                                size="xs"
-                                w={"100%"}
-                                styles={{
-                                    input: {
-                                        paddingRight: "50px",
-                                    },
-
-                                }}
-                                value={text}
-                                onChange={e => setText(e.target.value)}
-                            />
-                            <ActionIcon
-                                color="gray"
-                                variant="transparent"
-                                size="xs"
-                                pos={"absolute"}
-                                right={"25px"}
-                                onClick={play}
-                            >
-                                {iconPlay(12)}
-                            </ActionIcon>
-                        </Group>
                         <Center>
                             <Button onClick={templateDetailsHandle.open} variant="transparent" size="xs">
                                 Read more

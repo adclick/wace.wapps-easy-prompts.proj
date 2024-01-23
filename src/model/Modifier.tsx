@@ -1,3 +1,5 @@
+import { Provider } from "./Provider";
+import { Technology } from "./Technology";
 import { User } from "./User";
 
 export class Modifier {
@@ -14,6 +16,8 @@ export class Modifier {
     user: User
     language: {id: number, name: string, slug: string}
     repository: {id: number, name: string, slug: string}
+    technology: Technology;
+    provider: Provider;
     
     constructor() {
         this.id = 0;
@@ -29,6 +33,8 @@ export class Modifier {
         this.user = new User()
         this.language = {id: 0, name: "", slug: ""}
         this.repository = {id: 0, name: "", slug: ""}
+        this.technology = new Technology();
+        this.provider = new Provider();
     }
 
     static clone(modifier: Modifier): Modifier {
@@ -47,6 +53,8 @@ export class Modifier {
         newModifier.user = modifier.user;
         newModifier.language = modifier.language;
         newModifier.repository = modifier.repository;
+        newModifier.technology = modifier.technology;
+        newModifier.provider = modifier.provider;
 
         return newModifier;
     }

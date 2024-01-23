@@ -11,6 +11,7 @@ import { iconPlay } from "../../../../utils/iconsUtils";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeletePromptMutation } from "../../../../api/promptsApi";
+import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 
 interface PromptCard {
     prompt: Prompt,
@@ -61,21 +62,13 @@ export function PromptCard({ prompt }: PromptCard) {
                                 detailsHandle={detailsHandle}
                                 deleteMutation={deleteMutation}
                                 itemId={prompt.id}
+                                itemUser={prompt.user}
                             />
                         </Group>
 
                         <Group justify="space-between">
-                            <Group>
-                                <Group gap={6}>
-                                    <IconPlayerPlayFilled size={12} />
-                                    <Text size="xs">{prompt.plays}</Text>
-                                </Group>
-                                <Group gap={6}>
-                                    <IconStarFilled size={12} />
-                                    <Text size="xs">{prompt.stars}</Text>
-                                </Group>
-                            </Group>
-                            <ActionIcon color={color} component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
+                            <ProviderLabel technology={prompt.technology} provider={prompt.provider} />
+                            <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
                                 {iconPlay(13)}
                             </ActionIcon>
                         </Group>
@@ -85,7 +78,7 @@ export function PromptCard({ prompt }: PromptCard) {
                     <Stack>
                         <Text size="xs">{prompt.description}</Text>
                         <Center>
-                            <Button variant="transparent" size="xs" onClick={detailsHandle.open}>
+                            <Button variant="transparent" color="gray" size="xs" onClick={detailsHandle.open}>
                                 Read more
                             </Button>
                         </Center>

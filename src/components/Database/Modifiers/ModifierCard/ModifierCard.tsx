@@ -8,6 +8,7 @@ import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails"
 import classes from './ModifierCard.module.css';
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
+import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -36,24 +37,16 @@ export function ModifierCard({ modifier }: ModifierCard) {
                                 detailsHandle={modifierDetailsHandle}
                                 deleteMutation={deleteMutation}
                                 itemId={modifier.id}
+                                itemUser={modifier.user}
                             />
                         </Group>
 
                         <Group justify="space-between">
-                            <Group>
-                                <Group gap={4}>
-                                    <IconPlayerPlayFilled size={12} />
-                                    <Text size="xs">{modifier.plays}</Text>
-                                </Group>
-                                <Group gap={4}>
-                                    <IconStarFilled size={12} />
-                                    <Text size="xs">{modifier.stars}</Text>
-                                </Group>
-                            </Group>
+                            <ProviderLabel technology={modifier.technology} provider={modifier.provider} />
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
-                                }} 
+                                }}
                                 value={modifier.id.toString()}
                                 size="sm"
                                 onClick={e => e.stopPropagation()}

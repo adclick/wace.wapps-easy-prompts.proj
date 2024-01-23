@@ -11,7 +11,7 @@ interface ChatHistory {
 
 export interface Metadata {
     modifiers: Modifier[],
-    template: number,
+    templates: Template[],
     history: ChatHistory[]
 }
 
@@ -42,7 +42,7 @@ export class Prompt {
         this.plays = 0;
         this.created_at = new Date();
         this.type = "";
-        this.metadata = {modifiers: [], history: [], template: 0}
+        this.metadata = {modifiers: [], history: [], templates: []}
         this.user = new User()
         this.language = {id: 0, name: "", slug: ""}
         this.repository = {id: 0, name: "", slug: ""}

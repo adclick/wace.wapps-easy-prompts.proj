@@ -38,10 +38,9 @@ export function PromptCardDetails({
                             <Text size="xs">{prompt.description}</Text>
                         </Stack>
                         <Divider />
+                        <Title order={6}>Specifications</Title>
                         <SimpleGrid cols={2}>
-
                             <Stack>
-                                <Title order={6}>Specifications</Title>
                                 <Group>
                                     <IconLanguage size={12} />
                                     <Text size="xs">Language</Text>
@@ -52,6 +51,8 @@ export function PromptCardDetails({
                                     <Text size="xs">Repository</Text>
                                     <Text size="xs">{prompt.repository.name}</Text>
                                 </Group>
+                            </Stack>
+                            <Stack>
                                 <Group>
                                     <IconBulb size={12} />
                                     <Text size="xs">Technology</Text>
@@ -61,19 +62,6 @@ export function PromptCardDetails({
                                     <IconWorld size={12} />
                                     <Text size="xs">Provider</Text>
                                     <Text size="xs">{prompt.provider.name}</Text>
-                                </Group>
-                            </Stack>
-                            <Stack>
-                                <Title order={6}>Statistics</Title>
-                                <Group>
-                                    <IconPlayerPlayFilled size={12} />
-                                    <Text size="xs">Plays</Text>
-                                    <Text size="xs">{prompt.plays}</Text>
-                                </Group>
-                                <Group>
-                                    <IconStarFilled size={12} />
-                                    <Text size="xs">Stars</Text>
-                                    <Text size="xs">{prompt.stars}</Text>
                                 </Group>
                             </Stack>
                         </SimpleGrid>

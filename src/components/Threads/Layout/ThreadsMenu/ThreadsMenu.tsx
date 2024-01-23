@@ -1,7 +1,7 @@
 import { Button, Group, Menu, Stack, Text, UnstyledButton } from "@mantine/core";
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { iconChevronDown } from "../../../../utils/iconsUtils";
+import { iconAdd, iconChevronDown, iconPlay } from "../../../../utils/iconsUtils";
 
 export function ThreadsMenu() {
     const { setPromptsRequests } = usePromptsRequests();
@@ -19,16 +19,8 @@ export function ThreadsMenu() {
                 </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
-                <Menu.Item onClick={() => setPromptsRequests([])} leftSection={<IconPlus size={14} />}>
+                <Menu.Item onClick={() => setPromptsRequests([])} leftSection={iconAdd(14)}>
                     New Private Window
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Label>Repositories</Menu.Label>
-                <Menu.Item disabled>
-                    New Reposity
-                </Menu.Item>
-                <Menu.Item disabled>
-                    Browse
                 </Menu.Item>
             </Menu.Dropdown>
         </Menu>

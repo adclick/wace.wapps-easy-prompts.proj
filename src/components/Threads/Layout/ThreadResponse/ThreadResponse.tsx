@@ -1,6 +1,7 @@
 import { Avatar, Group, Loader, Stack, Text } from "@mantine/core";
 import favicon from "../../../../../favicon.svg";
 import { iconPlay } from "../../../../utils/iconsUtils";
+import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 
 interface ThreadResponse {
     response: any,
@@ -9,9 +10,7 @@ interface ThreadResponse {
 export function ThreadResponse({ response, color }: ThreadResponse) {
     return (
         <Group w={"100%"} align="flex-start" wrap="nowrap">
-            <Avatar color={color} variant="filled" size={"sm"} src={null} alt="no image here">
-                {iconPlay(14)}
-            </Avatar>
+            <EasyPromptsAvatar size="sm" />
             <Stack gap={"xs"}>
                 <Text size="sm" fw={700}>EasyPrompts</Text>
                 {
