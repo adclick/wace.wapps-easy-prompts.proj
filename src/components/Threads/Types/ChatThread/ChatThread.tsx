@@ -145,7 +145,6 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
                     userPromptRequest={userPromptRequest}
                     promptRequest={promptRequest}
                 />
-
             </Box>
         </Stack>
     )

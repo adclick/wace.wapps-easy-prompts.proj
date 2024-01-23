@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { PromptsSelectedFilters } from '../model/PromptsSelectedFilters';
+import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,21 +16,7 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     });
 };
 
-export const usePromptsFiltersQuery = (userId: string, enabled: boolean = true) => {
-    return useQuery({
-        queryKey: ["prompts", "filters", userId],
-        queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/prompts/filters/?` + new URLSearchParams({
-                user_external_id: userId
-            }));
-
-            return data;
-        },
-        enabled: !!userId && enabled
-    });
-};
-
-export const usePromptsQuery = (userId: string, selectedFilters: PromptsSelectedFilters) => {
+export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useInfiniteQuery({
         queryKey: ["prompts", selectedFilters],
         queryFn: async ({pageParam}) => {

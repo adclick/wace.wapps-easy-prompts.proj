@@ -1,25 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { TemplatesSelectedFilters } from '../model/TemplatesSelectedFilters';
+import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useTemplatesFiltersQuery = (userId: string, enabled: boolean = true) => {
-    return useQuery({
-        queryKey: ["templates", "filters", userId],
-        queryFn: async () => {
-            // Your API call to fetch crafts
-            const {data} = await axios.get(`${API_URL}/templates/filters/?` + new URLSearchParams({
-                user_external_id: userId
-            }));
-
-            return data;
-        },
-        enabled: !!userId && enabled
-    });
-};
-
-export const useTemplatessQuery = (userId: string, selectedFilters: TemplatesSelectedFilters) => {
+export const useTemplatessQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useQuery({
         queryKey: ["templates", selectedFilters],
         queryFn: async () => {

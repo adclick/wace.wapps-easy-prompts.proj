@@ -1,25 +1,21 @@
 import { useModifierssQuery } from "../../../api/modifiersApi";
 import { usePromptsQuery } from "../../../api/promptsApi";
-import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
-import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext"
 import { useUser } from "../../../context/UserContext";
 import { Type } from "../../../model/SelectedDatabaseType";
 import { ModifiersList } from "../Templates/TemplatesList/ModifiersList/ModifiersList";
 import { PromptsList } from "../Prompts/PromptsList/PromptsList";
 import { TemplatesList } from "../Templates/TemplatesList/TemplatesList";
-import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
 import { useTemplatessQuery } from "../../../api/templatesApi";
+import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 
 export function DatabaseListContainer() {
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
-    const { promptsSelectedFilters } = usePromptsSelectedFilters();
-    const { modifiersSelectedFilters } = useModifiersSelectedFilters();
-    const { templatesSelectedFilters } = useTemplatesSelectedFilters();
-    const promptsQuery = usePromptsQuery(user.id, promptsSelectedFilters);
-    const modifiersQuery = useModifierssQuery(user.id, modifiersSelectedFilters);
-    const templatesQuery = useTemplatessQuery(user.id, templatesSelectedFilters);
+    const { selectedFilters } = useSelectedFilters();
+    const promptsQuery = usePromptsQuery(user.id, selectedFilters);
+    const modifiersQuery = useModifierssQuery(user.id, selectedFilters);
+    const templatesQuery = useTemplatessQuery(user.id, selectedFilters);
 
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:

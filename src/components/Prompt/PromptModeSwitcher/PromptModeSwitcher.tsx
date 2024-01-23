@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Popover, SegmentedControl, Stack, Tooltip } from "@mantine/core";
+import { ActionIcon, Badge, Group, Popover, SegmentedControl, Stack, Text, Tooltip } from "@mantine/core";
 import { PromptMode, getAllPromptModes, getPromptModeColor, isPromptModeEnabled } from "../../../model/PromptMode";
 import { usePromptMode } from "../../../context/PromptModeContext";
 import { IconDots } from "@tabler/icons-react";
@@ -104,45 +104,53 @@ export function PromptModeSwitcher() {
     }
 
     return (
-        <Group justify="center" >
-            <SegmentedControl
-                py={0}
-                size="xs"
-                color={getPromptModeColor(promptMode)}
-                defaultValue={promptMode}
-                onChange={onChangeMode}
-                fullWidth
-                data={data}
-                classNames={{
-                    root: classes.segment,
-                    label: classes.segmentLabel
-                }}
-            />
-            <Popover position="top" keepMounted>
-                <Popover.Target>
-                    <Tooltip label="More Options">
-                        <ActionIcon
-                            variant="transparent"
-                            color="gray"
-                            size="sm"
-                        >
-                            <IconDots size={18} stroke={2} />
-                        </ActionIcon>
-                    </Tooltip>
-                </Popover.Target>
-                <Popover.Dropdown className={classes.optionsContainer}>
-                    <Stack gap={"md"}>
-                        <PromptOptionsTechnologiesField
-                            technologyData={technologyData}
-                            onChangeTechnology={onChangeTechnology}
-                        />
-                        <PromptOptionsProvidersField
-                            providerData={providerData}
-                            providers={providers}
-                        />
-                    </Stack>
-                </Popover.Dropdown>
-            </Popover>
-        </Group>
+        <Stack>
+
+            <Group justify="center">
+                <Badge size="xs" variant="dot" color={getPromptModeColor(promptMode)}>
+                    {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
+                </Badge>
+            </Group>
+            <Group justify="center" >
+                <SegmentedControl
+                    py={0}
+                    size="xs"
+                    color={getPromptModeColor(promptMode)}
+                    defaultValue={promptMode}
+                    onChange={onChangeMode}
+                    fullWidth
+                    data={data}
+                    classNames={{
+                        root: classes.segment,
+                        label: classes.segmentLabel
+                    }}
+                />
+                <Popover position="top" keepMounted>
+                    <Popover.Target>
+                        <Tooltip label="More Options">
+                            <ActionIcon
+                                variant="transparent"
+                                color="gray"
+                                size="sm"
+                            >
+                                <IconDots size={18} stroke={2} />
+                            </ActionIcon>
+                        </Tooltip>
+                    </Popover.Target>
+                    <Popover.Dropdown className={classes.optionsContainer}>
+                        <Stack gap={"md"}>
+                            <PromptOptionsTechnologiesField
+                                technologyData={technologyData}
+                                onChangeTechnology={onChangeTechnology}
+                            />
+                            <PromptOptionsProvidersField
+                                providerData={providerData}
+                                providers={providers}
+                            />
+                        </Stack>
+                    </Popover.Dropdown>
+                </Popover>
+            </Group>
+        </Stack>
     )
 }

@@ -14,6 +14,7 @@ export function ThreadDownloadButton({ url }: ThreadDownloadButton) {
                 href={url}
                 variant="transparent"
                 color="gray"
+                target="_blank"
             >
                 <IconDownload size={12} stroke={3} />
             </ActionIcon>

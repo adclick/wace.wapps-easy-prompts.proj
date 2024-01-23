@@ -1,25 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { ModifiersSelectedFilters } from '../model/ModifiersSelectedFilters';
+import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useModifiersFiltersQuery = (userId: string, enabled: boolean = true) => {
-    return useQuery({
-        queryKey: ["modifiers", "filters", userId],
-        queryFn: async () => {
-            // Your API call to fetch crafts
-            const {data} = await axios.get(`${API_URL}/modifiers/filters/?` + new URLSearchParams({
-                user_external_id: userId
-            }));
-
-            return data;
-        },
-        enabled: !!userId && enabled
-    });
-};
-
-export const useModifierssQuery = (userId: string, selectedFilters: ModifiersSelectedFilters) => {
+export const useModifierssQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useQuery({
         queryKey: ["modifiers", selectedFilters],
         queryFn: async () => {

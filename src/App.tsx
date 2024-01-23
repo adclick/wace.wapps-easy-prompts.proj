@@ -9,14 +9,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from './context/UserContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { UserPromptRequestProvider } from './context/UserPromptRequestContext';
-import { PromptsSelectedFiltersProvider } from './context/PromptsSelectedFiltersContext';
 import { SelectedDatabaseTypeProvider } from './context/SelectedDatabaseTypeContext';
-import { ModifiersSelectedFiltersProvider } from './context/ModifiersSelectedFiltersContext';
 import { PromptsRequestsProvider } from './context/PromptsRequestsContext';
 import { SelectedModifiersProvider } from './context/SelectedModifiersContext';
 import { SelectedTemplateProvider } from './context/SelectedTemplateContext';
-import { TemplatesSelectedFiltersProvider } from './context/TemplatesSelectedFiltersContext';
 import { PromptModeProvider } from './context/PromptModeContext';
+import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 
 
 export default function App() {
@@ -34,24 +32,20 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <UserProvider>
             <SelectedDatabaseTypeProvider>
-              <PromptsSelectedFiltersProvider>
-                <ModifiersSelectedFiltersProvider>
-                  <TemplatesSelectedFiltersProvider>
-                    <SelectedModifiersProvider>
-                      <SelectedTemplateProvider>
-                        <PromptsRequestsProvider>
-                          <UserPromptRequestProvider>
-                            <PromptModeProvider>
-                              <Notifications />
-                              <Router />
-                            </PromptModeProvider>
-                          </UserPromptRequestProvider>
-                        </PromptsRequestsProvider>
-                      </SelectedTemplateProvider>
-                    </SelectedModifiersProvider>
-                  </TemplatesSelectedFiltersProvider>
-                </ModifiersSelectedFiltersProvider>
-              </PromptsSelectedFiltersProvider>
+              <SelectedFiltersProvider>
+                <SelectedModifiersProvider>
+                  <SelectedTemplateProvider>
+                    <PromptsRequestsProvider>
+                      <UserPromptRequestProvider>
+                        <PromptModeProvider>
+                          <Notifications />
+                          <Router />
+                        </PromptModeProvider>
+                      </UserPromptRequestProvider>
+                    </PromptsRequestsProvider>
+                  </SelectedTemplateProvider>
+                </SelectedModifiersProvider>
+              </SelectedFiltersProvider>
             </SelectedDatabaseTypeProvider>
           </UserProvider>
           <ReactQueryDevtools initialIsOpen={false} />

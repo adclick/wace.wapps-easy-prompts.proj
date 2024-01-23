@@ -1,4 +1,4 @@
-export class PromptsSelectedFilters {
+export class SelectedFilters {
     isEmpty: boolean;
     search_term: string;
     languages_ids: number[];
@@ -14,7 +14,7 @@ export class PromptsSelectedFilters {
     }
 
     static buildFromQuery(data: any) {
-        const newFilters = new PromptsSelectedFilters();
+        const newFilters = new SelectedFilters();
 
         newFilters.search_term = data.searchTerm;
         newFilters.languages_ids = data.languages.map((l: {id: number}) => l.id);

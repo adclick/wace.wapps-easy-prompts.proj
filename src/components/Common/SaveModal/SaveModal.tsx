@@ -1,32 +1,33 @@
 import { Button, Group, Modal, SegmentedControl, Select, Stack, TextInput, Textarea } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
-import { usePromptsSelectedFilters } from "../../../../context/PromptsSelectedFiltersContext";
-import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTypeContext";
-import { useUser } from "../../../../context/UserContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
-import { useCreatePromptMutation, usePromptsFiltersQuery } from "../../../../api/promptsApi";
-import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../../model/SelectedDatabaseType";
-import { Repository } from "../../../../model/Repository";
-import { Language } from "../../../../model/Language";
-import { useCreateTemplateMutation } from "../../../../api/templatesApi";
-import { useCreateModifierMutation } from "../../../../api/modifiersApi";
+import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
+import { useUser } from "../../../context/UserContext";
+import { PromptRequest } from "../../../model/PromptRequest";
+import { useCreatePromptMutation } from "../../../api/promptsApi";
+import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
+import { Repository } from "../../../model/Repository";
+import { Language } from "../../../model/Language";
+import { useCreateTemplateMutation } from "../../../api/templatesApi";
+import { useCreateModifierMutation } from "../../../api/modifiersApi";
+import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
+import { useFiltersQuery } from "../../../api/filtersApi";
 
-interface ThreadSaveModal {
+interface SaveModal {
     opened: boolean
     handle: any
     request: PromptRequest,
 }
 
-export function ThreadSaveModal({
+export function SaveModal({
     opened,
     handle,
     request,
-}: ThreadSaveModal) {
-    const { promptsSelectedFilters } = usePromptsSelectedFilters();
+}: SaveModal) {
+    const { selectedFilters } = useSelectedFilters();
     const { user } = useUser();
-    const [languageId, setLanguageId] = useState(promptsSelectedFilters.languages_ids[0].toString());
-    const [repositoryId, setRepositoryId] = useState(promptsSelectedFilters.repositories_ids[0].toString());
+    const [languageId, setLanguageId] = useState(selectedFilters.languages_ids[0].toString());
+    const [repositoryId, setRepositoryId] = useState(selectedFilters.repositories_ids[0].toString());
     const [name, setName] = useState(request.title);
     const [description, setDescription] = useState(request.description);
     const [content, setContent] = useState(request.content);
@@ -39,7 +40,7 @@ export function ThreadSaveModal({
     const createTemplateMutation = useCreateTemplateMutation();
     const createModifierMutation = useCreateModifierMutation();
 
-    const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
+    const filtersQuery = useFiltersQuery(user.id);
 
     const save = async () => {
         if (description === "") {
@@ -101,15 +102,15 @@ export function ThreadSaveModal({
     let languages = [];
     let repositories = [];
 
-    if (promptsFiltersQuery.data) {
-        languages = promptsFiltersQuery.data.languages.map((r: Language) => {
+    if (filtersQuery.data) {
+        languages = filtersQuery.data.languages.map((r: Language) => {
             return {
                 label: r.name,
                 value: r.id.toString()
             }
         });
 
-        repositories = promptsFiltersQuery.data.repositories.map((r: Repository) => {
+        repositories = filtersQuery.data.repositories.map((r: Repository) => {
             return {
                 label: r.name,
                 value: r.id.toString()

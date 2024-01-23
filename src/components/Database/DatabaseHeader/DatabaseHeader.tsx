@@ -1,6 +1,4 @@
 import { useDisclosure } from "@mantine/hooks";
-import { useModifiersFiltersQuery } from "../../../api/modifiersApi";
-import { usePromptsFiltersQuery } from "../../../api/promptsApi";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { useUser } from "../../../context/UserContext";
 import { Type } from "../../../model/SelectedDatabaseType";
@@ -9,14 +7,10 @@ import { ModifiersHeader } from "../Modifiers/ModifiersHeader/ModifiersHeader";
 import { PromptsHeader } from "../Prompts/PromptsHeader/PromptsHeader";
 import { Stack } from "@mantine/core";
 import { useEffect } from "react";
-import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
-import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
-import { useModifiersSelectedFilters } from "../../../context/ModifiersSelectedFiltersContext";
-import { usePromptsSelectedFilters } from "../../../context/PromptsSelectedFiltersContext";
 import { TemplatesHeader } from "../Templates/TemplatesHeader/TemplatesHeader";
-import { useTemplatesFiltersQuery } from "../../../api/templatesApi";
-import { useTemplatesSelectedFilters } from "../../../context/TemplatesSelectedFiltersContext";
-import { TemplatesSelectedFilters } from "../../../model/TemplatesSelectedFilters";
+import { useFiltersQuery } from "../../../api/filtersApi";
+import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
+import { SelectedFilters } from "../../../model/SelectedFilters";
 
 interface DatabaseHeader {
     navbarMobileOpened: boolean,
@@ -34,36 +28,17 @@ export function DatabaseHeader({
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const [filtersOpened, filtersHandle] = useDisclosure(false);
-    const promptsFiltersQuery = usePromptsFiltersQuery(user.id);
-    const modifiersFiltersQuery = useModifiersFiltersQuery(user.id);
-    const templatesFiltersQuery = useTemplatesFiltersQuery(user.id);
-    const { modifiersSelectedFilters, setModifiersSelectedFilters } = useModifiersSelectedFilters();
-    const { templatesSelectedFilters, setTemplatesSelectedFilters } = useTemplatesSelectedFilters();
-    const { promptsSelectedFilters, setPromptsSelectedFilters } = usePromptsSelectedFilters();
-
+        
+    const selectedFiltersQuery = useFiltersQuery(user.id);
+    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
     // Init selectedFilters
     useEffect(() => {
-        if (promptsSelectedFilters.isEmpty && promptsFiltersQuery.data) {
-            const newSelectedFilters = PromptsSelectedFilters.buildFromQuery(promptsFiltersQuery.data);
-            setPromptsSelectedFilters(newSelectedFilters);
+        if (selectedFilters.isEmpty && selectedFiltersQuery.data) {
+            const newSelectedFilters = SelectedFilters.buildFromQuery(selectedFiltersQuery.data);
+            setSelectedFilters(newSelectedFilters);
         }
-    }, [promptsSelectedFilters, promptsFiltersQuery])
+    }, [selectedFilters, selectedFiltersQuery]);
 
-    // Init selectedFilters
-    useEffect(() => {
-        if (modifiersSelectedFilters.isEmpty && modifiersFiltersQuery.data) {
-            const newSelectedFilters = ModifiersSelectedFilters.buildFromQuery(modifiersFiltersQuery.data);
-            setModifiersSelectedFilters(newSelectedFilters);
-        }
-    }, [modifiersSelectedFilters, modifiersFiltersQuery])
-
-    // Init selectedFilters
-    useEffect(() => {
-        if (templatesSelectedFilters.isEmpty && templatesFiltersQuery.data) {
-            const newSelectedFilters = TemplatesSelectedFilters.buildFromQuery(templatesFiltersQuery.data);
-            setTemplatesSelectedFilters(newSelectedFilters);
-        }
-    }, [templatesSelectedFilters, templatesFiltersQuery])
 
     let header = <></>;
     switch (selectedDatabaseType.type) {
@@ -104,9 +79,7 @@ export function DatabaseHeader({
             <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}
-                promptsFiltersQuery={promptsFiltersQuery}
-                modifiersFiltersQuery={modifiersFiltersQuery}
-                templatesFiltersQuery={templatesFiltersQuery}
+                selectedFiltersQuery={selectedFiltersQuery}
             />
         </Stack>
     )

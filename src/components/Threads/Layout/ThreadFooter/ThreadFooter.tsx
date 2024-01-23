@@ -6,7 +6,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { User } from "../../../../model/User";
 import { useUser } from "../../../../context/UserContext";
 import { ThreadScoreButton } from "../../Buttons/ThreadScoreButton/ThreadScoreButton";
-import { ThreadSaveModal } from "../ThreadSaveModal/ThreadSaveModal";
+import { SaveModal } from "../../../Common/SaveModal/SaveModal";
 
 interface ThreadFooter {
     promptRequest: PromptRequest,
@@ -19,7 +19,7 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
 
     return (
         <>
-            <ThreadSaveModal
+            <SaveModal
                 opened={newPromptModalOpened}
                 handle={newPromptModalHandle}
                 request={promptRequest}
