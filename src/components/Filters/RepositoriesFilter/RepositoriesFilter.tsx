@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { Button, Checkbox, Combobox, Group, Pill, PillsInput, Stack, Text, Title, useCombobox } from '@mantine/core';
-import { TemplatesSelectedFilters } from '../../../model/TemplatesSelectedFilters';
-import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
-import { ModifiersSelectedFilters } from '../../../model/ModifiersSelectedFilters';
+import { Checkbox, Combobox, Group, Pill, PillsInput, Stack, Text, useCombobox } from '@mantine/core';
 import { iconChevronDown } from '../../../utils/iconsUtils';
 import { usePromptMode } from '../../../context/PromptModeContext';
 import { getPromptModeColor } from '../../../model/PromptMode';
+import { SelectedFilters } from '../../../model/SelectedFilters';
 
 interface RepositoriesFilter {
     repositories: { id: number, name: string, slug: string, default: boolean }[],
-    selectedFilters: PromptsSelectedFilters | TemplatesSelectedFilters | ModifiersSelectedFilters,
+    selectedFilters: SelectedFilters,
     setSelectedFilters: any
 }
 

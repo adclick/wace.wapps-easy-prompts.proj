@@ -1,9 +1,8 @@
 import { Textarea } from "@mantine/core";
-import { PromptsSelectedFilters } from "../../../model/PromptsSelectedFilters";
-import { ModifiersSelectedFilters } from "../../../model/ModifiersSelectedFilters";
+import { SelectedFilters } from "../../../model/SelectedFilters";
 
 interface SearchTermFilter {
-    selectedFilters: PromptsSelectedFilters | ModifiersSelectedFilters,
+    selectedFilters: SelectedFilters,
     setSelectedFilters: any
 }
 

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Modal, Select, Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useUser } from "../../../../context/UserContext";
-import { usePromptsFiltersQuery } from "../../../../api/promptsApi";
-import { useCreateModifierMutation, useModifiersFiltersQuery } from "../../../../api/modifiersApi";
-import { useModifiersSelectedFilters } from "../../../../context/ModifiersSelectedFiltersContext";
+import { useCreateModifierMutation } from "../../../../api/modifiersApi";
+import { useFiltersQuery } from "../../../../api/filtersApi";
 
 interface NewModifierModal {
     opened: boolean,
@@ -15,9 +14,8 @@ export function NewModifierModal({
     opened,
     handle,
 }: NewModifierModal) {
-    const { modifiersSelectedFilters } = useModifiersSelectedFilters();
     const { user } = useUser();
-    const { data } = useModifiersFiltersQuery(user.id);
+    const { data } = useFiltersQuery(user.id);
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');

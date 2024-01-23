@@ -45,11 +45,9 @@ export function PromptModeSwitcher() {
     const data = getAllPromptModes.map(mode => {
         return {
             label: (
-                <Tooltip label={mode}>
-                    <Group justify="center" wrap="nowrap" gap={"xs"} px={"sm"}>
-                        {getPromptModeIcon(mode, 16)}
-                    </Group>
-                </Tooltip>
+                <Group justify="center" wrap="nowrap" gap={"xs"} px={"sm"}>
+                    {getPromptModeIcon(mode, 16)}
+                </Group>
             ),
             value: mode,
             disabled: !isPromptModeEnabled(mode)

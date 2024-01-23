@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import { ActionIcon, Button, Checkbox, Combobox, Group, Pill, PillsInput, ScrollArea, Stack, Text, Title, useCombobox } from '@mantine/core';
-import { TemplatesSelectedFilters } from '../../../model/TemplatesSelectedFilters';
-import { PromptsSelectedFilters } from '../../../model/PromptsSelectedFilters';
-import { IconPlus, IconTrack, IconTrash, IconX } from '@tabler/icons-react';
-import { useDisclosure } from '@mantine/hooks';
+import { Checkbox, Combobox, Group, Pill, PillsInput, ScrollArea, Stack, Text, useCombobox } from '@mantine/core';
 import { iconChevronDown } from '../../../utils/iconsUtils';
 import { usePromptMode } from '../../../context/PromptModeContext';
 import { getPromptModeColor } from '../../../model/PromptMode';
+import { SelectedFilters } from '../../../model/SelectedFilters';
 
 interface TechnologiesFilter {
     technologies: { id: number, name: string, slug: string, default: boolean }[],
-    selectedFilters: PromptsSelectedFilters | TemplatesSelectedFilters,
+    selectedFilters: SelectedFilters
     setSelectedFilters: any
 }
 
