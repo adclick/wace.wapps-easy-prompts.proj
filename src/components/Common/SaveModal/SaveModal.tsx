@@ -34,7 +34,7 @@ export function SaveModal({
     const [descriptionError, setDescriptionError] = useState('');
     const [contentError, setContentError] = useState('');
     const { setSelectedDatabaseType } = useSelectedDatabaseType();
-    const [type, setType] = useState(Type.PROMPT);
+    const [type, setType] = useState(Type.PROMPT.toString());
 
     const createPromptMutation = useCreatePromptMutation();
     const createTemplateMutation = useCreateTemplateMutation();
