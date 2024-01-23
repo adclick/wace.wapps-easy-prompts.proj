@@ -13,7 +13,7 @@ export function ThreadScoreButton({ }: ThreadScoreButton) {
             size="xs"
             leftSection={iconStar(14)}
         >
-            Great
+            Good
         </Button>
     )
 }

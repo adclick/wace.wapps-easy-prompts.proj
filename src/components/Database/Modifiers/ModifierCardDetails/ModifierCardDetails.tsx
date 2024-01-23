@@ -1,6 +1,8 @@
 import { Card, Divider, Group, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
-import { IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled } from "@tabler/icons-react";
+import { IconClock, IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled } from "@tabler/icons-react";
 import { Modifier } from "../../../../model/Modifier";
+import { IconUser } from "@tabler/icons-react";
+import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 
 interface ModifierCardDetails {
     opened: boolean,
@@ -52,6 +54,8 @@ export function ModifierCardDetails({
                                 </Group>
                             </Stack>
                         </SimpleGrid>
+                        <Divider />
+                        <CardDetailsAuthor item={modifier} />
                     </Stack>
                 </Card>
             </Stack>

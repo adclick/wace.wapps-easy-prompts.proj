@@ -11,7 +11,7 @@ export const useImageGenerationQuery = (request: PromptRequest) => {
             const modifiersIds = request.metadata.modifiers.map(m => m.id);
             const providersIds = request.providers.map(p => p.id.toString());
 
-            const { data } = await axios.get(`${API_URL}/ai/image-generation?` + new URLSearchParams({
+            const { data } = await axios.post(`${API_URL}/ai/image-generation?` + new URLSearchParams({
                 text: request.content,
                 provider_id: request.provider.id.toString(),
                 providers_ids: JSON.stringify(providersIds),
@@ -26,11 +26,27 @@ export const useImageGenerationQuery = (request: PromptRequest) => {
     });
 };
 
-export const useImageGenerationPlayableQuery = (request: PromptRequest) => {
+export const useImageGenerationByPromptIdQuery = (request: PromptRequest) => {
     return useQuery({
-        queryKey: ["imageGeneration-playable", request.key],
+        queryKey: ["imageGeneration-playable", "prompt", request.key],
         queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/ai/image-generation/${request.id}`);
+            const { data } = await axios.post(`${API_URL}/ai/image-generation/prompt/${request.id}`);
+
+            return data;
+        },
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+    });
+};
+
+export const useImageGenerationByTemplateIdQuery = (request: PromptRequest) => {
+    return useQuery({
+        queryKey: ["imageGeneration-playable", "template", request.key],
+        queryFn: async () => {
+            const { data } = await axios.post(`${API_URL}/ai/image-generation/template/${request.id}`, {
+                text: request.content
+            });
 
             return data;
         },

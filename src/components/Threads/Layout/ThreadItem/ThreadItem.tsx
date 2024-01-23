@@ -6,10 +6,11 @@ import { ImageGenerationThread } from "../../Types/ImageGeneration/ImageGenerati
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { ImageGenerationPlayableThread } from "../../Types/ImageGenerationPlayable/ImageGenerationPlayableThread";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadByPrompt/TextGenerationThreadByPrompt";
 import { TextGenerationThreadByTemplate } from "../../Types/TextGenerationThreadByTemplate/TextGenerationThreadByTemplate";
+import { ImageGenerationThreadByTemplateId } from "../../Types/ImageGenerationThreadByTemplateId/ImageGenerationThreadByTemplateId";
+import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 
 interface ThreadItem {
     promptRequest: PromptRequest,
@@ -63,19 +64,32 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
             />
             break;
         case 'image-generation':
-            thread = promptRequest.isPlayable
-                ? <ImageGenerationPlayableThread
-                    key={promptRequest.key}
-                    promptRequest={promptRequest}
-                    scrollIntoView={scrollIntoView}
-                    color={color}
-                />
-                : <ImageGenerationThread
-                    key={promptRequest.key}
-                    promptRequest={promptRequest}
-                    scrollIntoView={scrollIntoView}
-                    color={color}
-                />
+            switch (promptRequest.type) {
+                case PromptRequestType.New:
+                    thread = <ImageGenerationThread
+                        key={promptRequest.key}
+                        promptRequest={promptRequest}
+                        scrollIntoView={scrollIntoView}
+                        color={color}
+                    />;
+                    break;
+                case PromptRequestType.Prompt:
+                    thread = <ImageGenerationThreadByPromptId
+                        key={promptRequest.key}
+                        promptRequest={promptRequest}
+                        scrollIntoView={scrollIntoView}
+                        color={color}
+                    />;
+                    break;
+                case PromptRequestType.Template:
+                    thread = <ImageGenerationThreadByTemplateId
+                        key={promptRequest.key}
+                        promptRequest={promptRequest}
+                        scrollIntoView={scrollIntoView}
+                        color={color}
+                    />;
+                    break;
+            }
             break;
     }
 

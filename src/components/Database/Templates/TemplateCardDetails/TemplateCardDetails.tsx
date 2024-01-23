@@ -1,6 +1,7 @@
 import { Card, Divider, Group, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
-import { IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled } from "@tabler/icons-react";
+import { IconClock, IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { Template } from "../../../../model/Template";
+import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 
 interface TemplateCardDetails {
     opened: boolean,
@@ -24,7 +25,6 @@ export function TemplateCardDetails({
                         </Stack>
                         <Divider />
                         <SimpleGrid cols={2}>
-
                             <Stack>
                                 <Title order={6}>Specifications</Title>
                                 <Group>
@@ -52,6 +52,8 @@ export function TemplateCardDetails({
                                 </Group>
                             </Stack>
                         </SimpleGrid>
+                        <Divider />
+                        <CardDetailsAuthor item={template} />
                     </Stack>
                 </Card>
             </Stack>

@@ -1,9 +1,11 @@
 import { Card, Divider, Group, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { Prompt } from "../../../../../model/Prompt";
-import { IconBulb, IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
+import { IconBulb, IconClock, IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
 import { usePromptQuery } from "../../../../../api/promptsApi";
 import { useUser } from "../../../../../context/UserContext";
 import { Modifier } from "../../../../../model/Modifier";
+import { IconUser } from "@tabler/icons-react";
+import { CardDetailsAuthor } from "../../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 
 interface PromptCardDetails {
     opened: boolean,
@@ -76,10 +78,7 @@ export function PromptCardDetails({
                             </Stack>
                         </SimpleGrid>
                         <Divider />
-                        <Group justify="space-between">
-                            <Text size="xs">{prompt.user.username}</Text>
-                            <Text size="xs">{prompt.created_at.toLocaleString()}</Text>
-                        </Group>
+                        <CardDetailsAuthor item={prompt} />
                     </Stack>
                 </Card>
                 {
