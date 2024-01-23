@@ -13,6 +13,7 @@ export const useModifierssQuery = (userId: string, selectedFilters: SelectedFilt
                 search_term: selectedFilters.search_term,
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
+                technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
             }));
 
             return data;
