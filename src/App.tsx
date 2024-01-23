@@ -15,6 +15,7 @@ import { SelectedModifiersProvider } from './context/SelectedModifiersContext';
 import { SelectedTemplateProvider } from './context/SelectedTemplateContext';
 import { PromptModeProvider } from './context/PromptModeContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
+import { SelectedTemplatesProvider } from './context/SelectedTemplatesContext';
 
 
 export default function App() {
@@ -34,16 +35,18 @@ export default function App() {
             <SelectedDatabaseTypeProvider>
               <SelectedFiltersProvider>
                 <SelectedModifiersProvider>
-                  <SelectedTemplateProvider>
-                    <PromptsRequestsProvider>
-                      <UserPromptRequestProvider>
-                        <PromptModeProvider>
-                          <Notifications />
-                          <Router />
-                        </PromptModeProvider>
-                      </UserPromptRequestProvider>
-                    </PromptsRequestsProvider>
-                  </SelectedTemplateProvider>
+                  <SelectedTemplatesProvider>
+                    <SelectedTemplateProvider>
+                      <PromptsRequestsProvider>
+                        <UserPromptRequestProvider>
+                          <PromptModeProvider>
+                            <Notifications />
+                            <Router />
+                          </PromptModeProvider>
+                        </UserPromptRequestProvider>
+                      </PromptsRequestsProvider>
+                    </SelectedTemplateProvider>
+                  </SelectedTemplatesProvider>
                 </SelectedModifiersProvider>
               </SelectedFiltersProvider>
             </SelectedDatabaseTypeProvider>

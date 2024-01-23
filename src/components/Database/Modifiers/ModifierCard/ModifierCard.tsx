@@ -53,7 +53,8 @@ export function ModifierCard({ modifier }: ModifierCard) {
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
-                                }} value={modifier.id.toString()}
+                                }} 
+                                value={modifier.id.toString()}
                                 size="sm"
                                 onClick={e => e.stopPropagation()}
                             />

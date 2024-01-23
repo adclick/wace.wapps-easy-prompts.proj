@@ -3,6 +3,7 @@ import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
 import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
 import { PromptModifiersList } from "../PromptModifiersList/PromptModifiersList";
 import { PromptModeSwitcher } from "../PromptModeSwitcher/PromptModeSwitcher";
+import { PromptTemplatesList } from "../PromptTemplatesList/PromptTemplatesList";
 
 export function PromptContainer() {
     return (
@@ -20,6 +21,7 @@ export function PromptContainer() {
                     <Group w={"100%"} >
                         <PromptTextInput />
                         <PromptModifiersList />
+                        <PromptTemplatesList />
                         <PromptPlayButton />
                     </Group>
                 </Stack>

@@ -48,13 +48,13 @@ export function PromptOptionsProvidersField({ providerData, providers }: PromptO
         }
     }
 
-    const label = <Text fw={700} size="xs">Providers</Text>
+    // const label = <Text fw={700} size="xs">Providers</Text>
 
 
     return (
         <Select
-            label={label}
-            size="xs"
+            label={"Provider"}
+            size="sm"
             variant="unstyled"
             allowDeselect={false}
             comboboxProps={{ withinPortal: false }}

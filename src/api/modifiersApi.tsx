@@ -33,6 +33,8 @@ export const useCreateModifierMutation = () => {
                 content: formData.get('content'),
                 language_id: formData.get('language_id'),
                 repository_id: formData.get('repository_id'),
+                technology_id: formData.get('technology_id'),
+                provider_id: formData.get('provider_id'),
             })
 
             return data;

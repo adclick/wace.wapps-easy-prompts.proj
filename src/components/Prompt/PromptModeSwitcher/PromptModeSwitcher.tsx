@@ -58,9 +58,10 @@ export function PromptModeSwitcher() {
         setPromptMode(value as PromptMode);
 
         if (technologiesQuery.data) {
-            const technologies = technologiesQuery.data.filter((technology: Technology) => {
-                return Technology.getMode(technology.slug) === value
-            });
+            // const technologies = technologiesQuery.data.filter((technology: Technology) => {
+            //     return Technology.getMode(technology.slug) === value
+            // });
+            const technologies = technologiesQuery.data;
 
             const technologysData = technologies.map((technology: Technology) => {
                 return {
@@ -77,9 +78,11 @@ export function PromptModeSwitcher() {
 
     useEffect(() => {
         if (technologiesQuery.data && technologyData.length === 0) {
-            const technologies = technologiesQuery.data.filter((technology: Technology) => {
-                return Technology.getMode(technology.slug) === promptMode
-            });
+            // const technologies = technologiesQuery.data.filter((technology: Technology) => {
+            //     return Technology.getMode(technology.slug) === promptMode
+            // });
+
+            const technologies = technologiesQuery.data;
 
             const technologysData = technologies.map((technology: Technology) => {
                 return {
@@ -103,14 +106,11 @@ export function PromptModeSwitcher() {
 
     return (
         <Stack>
-
-            <Group justify="center">
-                <Badge size="xs" variant="dot" color={getPromptModeColor(promptMode)}>
-                    {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
-                </Badge>
-            </Group>
             <Group justify="center" >
-                <SegmentedControl
+                <Group justify="center">
+
+                </Group>
+                {/* <SegmentedControl
                     py={0}
                     size="xs"
                     color={getPromptModeColor(promptMode)}
@@ -122,10 +122,13 @@ export function PromptModeSwitcher() {
                         root: classes.segment,
                         label: classes.segmentLabel
                     }}
-                />
+                /> */}
                 <Popover position="top" keepMounted>
                     <Popover.Target>
-                        <Tooltip label="More Options">
+                        <Badge style={{cursor: "pointer"}} size="md" variant="dot" color={getPromptModeColor(promptMode)}>
+                            {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
+                        </Badge>
+                        {/* <Tooltip label="More Options">
                             <ActionIcon
                                 variant="transparent"
                                 color="gray"
@@ -133,7 +136,7 @@ export function PromptModeSwitcher() {
                             >
                                 <IconDots size={18} stroke={2} />
                             </ActionIcon>
-                        </Tooltip>
+                        </Tooltip> */}
                     </Popover.Target>
                     <Popover.Dropdown className={classes.optionsContainer}>
                         <Stack gap={"md"}>

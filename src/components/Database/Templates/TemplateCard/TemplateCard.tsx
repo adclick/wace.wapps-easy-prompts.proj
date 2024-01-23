@@ -1,4 +1,4 @@
-import { Accordion, Badge, Button, Group, Stack, Text, Center, Textarea, ActionIcon, Radio } from "@mantine/core";
+import { Accordion, Badge, Button, Group, Stack, Text, Center, Textarea, ActionIcon, Radio, Checkbox } from "@mantine/core";
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
@@ -73,12 +73,12 @@ export function TemplateCard({ template, cardValue }: TemplateCard) {
                                     <Text size="xs">{template.stars}</Text>
                                 </Group>
                             </Group>
-                            <Radio
-                                classNames={{ radio: classes.inputRadio }}
-                                value={template.id.toString()}
+                            <Checkbox
+                                classNames={{
+                                    input: classes.inputCheckbox
+                                }} value={template.id.toString()}
                                 size="sm"
-                                readOnly
-                                checked={template.id.toString() === cardValue}
+                                onClick={e => e.stopPropagation()}
                             />
                         </Group>
                     </Stack>

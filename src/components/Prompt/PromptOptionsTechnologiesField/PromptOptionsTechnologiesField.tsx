@@ -15,17 +15,17 @@ interface PromptOptionsTechnologiesField {
 
 export function PromptOptionsTechnologiesField({ technologyData, onChangeTechnology }: PromptOptionsTechnologiesField) {
     const { userPromptRequest } = useUserPromptRequest();
-    const { promptMode } = usePromptMode();
+    // const { promptMode } = usePromptMode();
 
-    const label = <Text fw={700} size="xs">{`${promptMode} technologies`}</Text>
+    // const label = <Text fw={700} size="xs">{`${promptMode} technologies`}</Text>
 
     return (
         <Select
-            label={label}
+            label={"Technologies"}
             allowDeselect={false}
             variant="unstyled"
             checkIconPosition="right"
-            size="xs"
+            size="sm"
             comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.technology.id.toString()}
             data={technologyData}

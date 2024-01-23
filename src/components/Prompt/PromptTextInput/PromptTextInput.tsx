@@ -6,12 +6,14 @@ import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import classes from './PromptTextInput.module.css';
 import { usePromptMode } from "../../../context/PromptModeContext";
+import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
 
 export function PromptTextInput() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { selectedModifiers } = useSelectedModifiers();
-    const {promptMode} = usePromptMode()
+    const { selectedTemplates } = useSelectedTemplates();
+    const { promptMode } = usePromptMode()
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
@@ -30,7 +32,7 @@ export function PromptTextInput() {
         }
     }
 
-    const paddingLeft = selectedModifiers.length > 0
+    const paddingLeft = selectedModifiers.length > 0 || selectedTemplates.length > 0
         ? "65px"
         : "var(--_input-padding-left"
 
