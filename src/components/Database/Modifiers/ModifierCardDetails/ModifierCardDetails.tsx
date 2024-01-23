@@ -3,6 +3,7 @@ import { IconClock, IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFi
 import { Modifier } from "../../../../model/Modifier";
 import { IconUser } from "@tabler/icons-react";
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
+import { useUser } from "../../../../context/UserContext";
 
 interface ModifierCardDetails {
     opened: boolean,
@@ -15,6 +16,8 @@ export function ModifierCardDetails({
     handle,
     modifier
 }: ModifierCardDetails) {
+    const { user } = useUser();
+
     return (
         <Modal opened={opened} onClose={handle.close} title={modifier.title} size={"lg"}>
             <Stack my={"md"}>
@@ -58,6 +61,17 @@ export function ModifierCardDetails({
                         <CardDetailsAuthor item={modifier} />
                     </Stack>
                 </Card>
+                {
+                    user.username === modifier.user.username &&
+                    <Card>
+                        <Stack>
+                            <Stack gap={4}>
+                                <Title order={6}>Content</Title>
+                                <Text size="xs">{modifier.content}</Text>
+                            </Stack>
+                        </Stack>
+                    </Card>
+                }
             </Stack>
         </Modal>
     )

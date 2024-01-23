@@ -10,7 +10,7 @@ export function ThreadScoreButton({ }: ThreadScoreButton) {
         <Button
             variant="transparent"
             color="gray"
-            size="xs"
+            size="compact-xs"
             leftSection={iconStar(14)}
         >
             Good

@@ -15,8 +15,8 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
             <Popover.Target>
                 <Button
                     className={classes.button}
-                    size="xs"
-                    variant="light"
+                    size="compact-xs"
+                    variant="transparent"
                     color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))}
                     leftSection={getTechnologyIcon(promptRequest.technology.slug, 14)}
                 >

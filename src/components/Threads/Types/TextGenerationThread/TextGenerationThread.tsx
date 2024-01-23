@@ -24,7 +24,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     scrollIntoView({ alignement: 'start' });
 
     const response = () => {
-        if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
+        if (isLoading || isFetching) return <Loader color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))} size={"xs"} type="dots" />;
 
         if (error) {
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>

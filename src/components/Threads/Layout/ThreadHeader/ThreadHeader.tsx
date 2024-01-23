@@ -16,21 +16,23 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
                     <Tooltip label={promptRequest.technology.name}>
-                        {getTechnologyIcon(promptRequest.technology.slug, 18)}
+                        {getTechnologyIcon(promptRequest.technology.slug, 16)}
                     </Tooltip>
-                        <Text fw={700} maw={"90%"} lineClamp={1}>{promptRequest.title}</Text>
+                    <Text size="sm" fw={700} maw={"90%"} lineClamp={1}>
+                        {promptRequest.title}
+                    </Text>
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">
                 <ActionIcon className={classes.iconMinimize} variant="transparent" onClick={minimizeHandle.toggle}>
                     {
                         minimized
-                            ? iconChevronUp("sm")
-                            : iconChevronDown("sm")
+                            ? iconChevronUp("xs")
+                            : iconChevronDown("xs")
                     }
                 </ActionIcon>
                 <ActionIcon className={classes.iconClose} variant="transparent" onClick={() => deleteThread(promptRequest)}>
-                    {iconClose("sm")}
+                    {iconClose("xs")}
                 </ActionIcon>
             </Group>
         </Group>
