@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Modal, Select, Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useUser } from "../../../../context/UserContext";
-import { usePromptsFiltersQuery } from "../../../../api/promptsApi";
-import { useCreateTemplateMutation, useTemplatesFiltersQuery } from "../../../../api/templatesApi";
-import { useTemplatesSelectedFilters } from "../../../../context/TemplatesSelectedFiltersContext";
+import { useCreateTemplateMutation } from "../../../../api/templatesApi";
+import { useFiltersQuery } from "../../../../api/filtersApi";
 
 interface NewTemplateModal {
     opened: boolean,
@@ -15,9 +14,8 @@ export function NewTemplateModal({
     opened,
     handle,
 }: NewTemplateModal) {
-    const { templatesSelectedFilters } = useTemplatesSelectedFilters();
     const { user } = useUser();
-    const { data } = useTemplatesFiltersQuery(user.id);
+    const { data } = useFiltersQuery(user.id);
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');
