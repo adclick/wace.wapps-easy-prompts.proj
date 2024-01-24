@@ -1,7 +1,4 @@
-import { ActionIcon, Badge, Group, Popover, SegmentedControl, Stack, Text, Tooltip } from "@mantine/core";
-import { PromptMode, getAllPromptModes, getPromptModeColor, isPromptModeEnabled } from "../../../model/PromptMode";
-import { usePromptMode } from "../../../context/PromptModeContext";
-import { IconDots } from "@tabler/icons-react";
+import { Badge, Group, Popover, Stack } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Technology } from "../../../model/Technology";
 import { getProviders } from "../../../api/providersApi";
@@ -12,10 +9,8 @@ import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 import { PromptOptionsTechnologiesField, TechnologyDataItem } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
 import classes from './PromptModeSwitcher.module.css';
-import { getPromptModeIcon } from "../../../utils/iconsUtils";
 
 export function PromptModeSwitcher() {
-    const { promptMode, setPromptMode } = usePromptMode();
     const [technologyData, setTechnologyData] = useState<TechnologyDataItem[]>([]);
     const [technologies, setTechnologies] = useState<Technology[]>([]);
     const [providerData, setProviderData] = useState<ProvidersDataItem[]>([]);
@@ -71,7 +66,7 @@ export function PromptModeSwitcher() {
             <Group justify="center" >
                 <Popover position="top" keepMounted>
                     <Popover.Target>
-                        <Badge style={{cursor: "pointer"}} size="md" variant="dot" color={getPromptModeColor(promptMode)}>
+                        <Badge style={{cursor: "pointer"}} size="md" variant="dot">
                             {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
                         </Badge>
                     </Popover.Target>

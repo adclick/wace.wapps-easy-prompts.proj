@@ -4,6 +4,10 @@ import { TemplateCard } from "../TemplateCard/TemplateCard";
 import { useState } from "react";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
+import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
+import { PromptRequest } from "../../../../model/PromptRequest";
+import { Technology } from "../../../../model/Technology";
+import { Provider } from "../../../../model/Provider";
 
 interface TemplatesList {
     templatesQuery: any
@@ -13,6 +17,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
     const { selectedTemplates, setSelectedTemplates } = useSelectedTemplates();
     const { setSelectedModifiers } = useSelectedModifiers();
     const [value, setValue] = useState<string | null>(null);
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
     const onChange = (ids: string[]) => {
         const templates: Template[] = [];
@@ -20,9 +25,18 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
             page.map((template: Template) => {
                 if (ids.includes(template.id.toString())) {
                     templates.push(template);
+
+
                 }
             })
         })
+
+        if (templates.length > 0) {
+            const newUserRequest = PromptRequest.clone(userPromptRequest);
+            newUserRequest.technology = Technology.clone(templates[0].technology);
+            newUserRequest.provider = Provider.clone(templates[0].provider);
+            setUserPromptRequest(newUserRequest);
+        }
 
         setSelectedModifiers([]);
         setSelectedTemplates(templates);
