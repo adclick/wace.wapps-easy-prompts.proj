@@ -2,7 +2,7 @@ import { Box, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { useEffect, useState } from "react";
-import { chat, chatById, useChatQuery } from "../../../../api/chatApi";
+import { chat, chatByPromptId } from "../../../../api/chatApi";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadResponse } from "../../Layout/ThreadResponse/ThreadResponse";
 import { ChatThreadReplyContainer } from "../../Layout/ChatThreadReplyContainer/ChatThreadReplyContainer";
@@ -84,7 +84,7 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
 
     const fetch = async (message: Message) => {
         if (promptRequest.isPlayable) {
-            const { response } = await chatById(promptRequest.id);
+            const { response } = await chatByPromptId(promptRequest.id);
             updateMessages(message.id, message.request, response);
             return;
         }
