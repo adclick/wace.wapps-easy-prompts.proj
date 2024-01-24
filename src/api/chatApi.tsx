@@ -60,20 +60,3 @@ export const chatByPromptId = async (promptId: number): Promise<{ response: stri
         };
     }
 };
-
-export const chatByTemplateId = async (templateId: number, content: string): Promise<{ response: string, technology: Technology | undefined, provider: Provider | undefined }> => {
-    try {
-        const { data } = await axios.post(`${API_URL}/ai/chat/template/${templateId}`, {
-            text: content
-        });
-
-        return data;
-    } catch (e) {
-        console.error(e);
-        return {
-            response: ERROR_MESSAGE,
-            technology: undefined,
-            provider: undefined
-        };
-    }
-};

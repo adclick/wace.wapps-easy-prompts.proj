@@ -16,13 +16,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
-                    {/* <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} /> */}
-                    <Tooltip label={promptRequest.technology.name}>
-                        {getTechnologyIcon(promptRequest.technology.slug, 16)}
-                    </Tooltip>
-                    <Text size="sm" fw={700} maw={"90%"} lineClamp={1}>
-                        {promptRequest.title}
-                    </Text>
+                    <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} />
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">

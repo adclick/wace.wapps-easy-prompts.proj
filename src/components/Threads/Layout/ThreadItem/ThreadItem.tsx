@@ -8,8 +8,6 @@ import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadByPrompt/TextGenerationThreadByPrompt";
-import { TextGenerationThreadByTemplate } from "../../Types/TextGenerationThreadByTemplate/TextGenerationThreadByTemplate";
-import { ImageGenerationThreadByTemplateId } from "../../Types/ImageGenerationThreadByTemplateId/ImageGenerationThreadByTemplateId";
 import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 
 interface ThreadItem {
@@ -46,13 +44,6 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                         scrollIntoView={scrollIntoView}
                     />;
                     break;
-                case PromptRequestType.Template:
-                    thread = <TextGenerationThreadByTemplate
-                        key={promptRequest.key}
-                        promptRequest={promptRequest}
-                        scrollIntoView={scrollIntoView}
-                    />;
-                    break;
             }
             break;
         case 'chat':
@@ -75,14 +66,6 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                     break;
                 case PromptRequestType.Prompt:
                     thread = <ImageGenerationThreadByPromptId
-                        key={promptRequest.key}
-                        promptRequest={promptRequest}
-                        scrollIntoView={scrollIntoView}
-                        color={color}
-                    />;
-                    break;
-                case PromptRequestType.Template:
-                    thread = <ImageGenerationThreadByTemplateId
                         key={promptRequest.key}
                         promptRequest={promptRequest}
                         scrollIntoView={scrollIntoView}

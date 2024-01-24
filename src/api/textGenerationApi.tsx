@@ -40,19 +40,3 @@ export const useTextGenerationByPromptQuery = (request: PromptRequest) => {
         refetchOnWindowFocus: false,
     });
 };
-
-export const useTextGenerationByTemplateQuery = (request: PromptRequest) => {
-    return useQuery({
-        queryKey: ["textGeneration-playable", "template", request.key],
-        queryFn: async () => {
-            const { data } = await axios.post(`${API_URL}/ai/text-generation/template/${request.id}`, {
-                text: request.content
-            });
-
-            return data;
-        },
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-    });
-};

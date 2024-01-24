@@ -12,7 +12,8 @@ interface ThreadInfoButton {
 export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
 
     return (
-        <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} />
+        <></>
+        // <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} />
         // <Button
         //     className={classes.button}
         //     size="compact-xs"

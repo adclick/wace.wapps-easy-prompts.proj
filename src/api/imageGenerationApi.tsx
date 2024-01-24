@@ -39,19 +39,3 @@ export const useImageGenerationByPromptIdQuery = (request: PromptRequest) => {
         refetchOnWindowFocus: false,
     });
 };
-
-export const useImageGenerationByTemplateIdQuery = (request: PromptRequest) => {
-    return useQuery({
-        queryKey: ["imageGeneration-playable", "template", request.key],
-        queryFn: async () => {
-            const { data } = await axios.post(`${API_URL}/ai/image-generation/template/${request.id}`, {
-                text: request.content
-            });
-
-            return data;
-        },
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-    });
-};
