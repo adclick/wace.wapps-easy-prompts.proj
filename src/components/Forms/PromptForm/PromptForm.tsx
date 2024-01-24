@@ -228,7 +228,7 @@ export function PromptForm({ promptRequest }: PromptForm) {
                                 onChange={e => setDescription(e.target.value)}
                                 value={description}
                                 placeholder="Write a brief description"
-                                />
+                            />
                             <Textarea
                                 label="Content"
                                 autosize
@@ -240,28 +240,6 @@ export function PromptForm({ promptRequest }: PromptForm) {
                                 placeholder="Prompt's content"
                             />
                         </Stack>
-                    </Accordion.Panel>
-                </Accordion.Item>
-                <Accordion.Item value="modifiers">
-                    <Accordion.Control>
-                        <Group>
-                            <Text fw={700}>Modifiers</Text>
-                            <Text size="xs">{modifiers.length} selected</Text>
-                        </Group>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        {
-                            modifiers.map(modifier => {
-                                return (
-                                    <Group gap={"xs"}>
-                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
-                                            {iconClose(14)}
-                                        </ActionIcon>
-                                        <Text size="xs">{modifier.title}</Text>
-                                    </Group>
-                                )
-                            })
-                        }
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item value="templates">
@@ -286,6 +264,29 @@ export function PromptForm({ promptRequest }: PromptForm) {
                         }
                     </Accordion.Panel>
                 </Accordion.Item>
+                <Accordion.Item value="modifiers">
+                    <Accordion.Control>
+                        <Group>
+                            <Text fw={700}>Modifiers</Text>
+                            <Text size="xs">{modifiers.length} selected</Text>
+                        </Group>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        {
+                            modifiers.map(modifier => {
+                                return (
+                                    <Group gap={"xs"}>
+                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
+                                            {iconClose(14)}
+                                        </ActionIcon>
+                                        <Text size="xs">{modifier.title}</Text>
+                                    </Group>
+                                )
+                            })
+                        }
+                    </Accordion.Panel>
+                </Accordion.Item>
+
             </Accordion>
             <Group justify="flex-end">
                 <Button

@@ -1,9 +1,5 @@
 import { Button, Popover, Text } from "@mantine/core";
 import { PromptRequest } from "../../../../model/PromptRequest";
-import { getTechnologyIcon } from "../../../../utils/iconsUtils";
-import classes from './ThreadInfoButton.module.css';
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
-import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { IconSparkles, IconTemplate } from "@tabler/icons-react";
 
 interface ThreadInfoButton {
@@ -18,7 +14,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
 
     if (templates.length > 0) {
         return (
-            <Popover>
+            <Popover position="top">
                 <Popover.Target>
                     <Button size="compact-xs" variant="transparent" color="gray" leftSection={<IconTemplate size={16} />}>
                         Selected templates
@@ -28,7 +24,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
                     {
                         templates.map(m => {
                             return (
-                                <Text>{m.title}</Text>
+                                <Text size="xs">{m.title}</Text>
                             )
                         })
                     }
@@ -39,7 +35,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
 
     if (modifiers.length > 0) {
         return (
-            <Popover>
+            <Popover position="top">
                 <Popover.Target>
                     <Button size="compact-xs" variant="transparent" color="gray" leftSection={<IconSparkles size={16} />}>
                         Selected modifiers
@@ -49,7 +45,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
                     {
                         modifiers.map(m => {
                             return (
-                                <Text>{m.title}</Text>
+                                <Text size="xs">{m.title}</Text>
                             )
                         })
                     }
