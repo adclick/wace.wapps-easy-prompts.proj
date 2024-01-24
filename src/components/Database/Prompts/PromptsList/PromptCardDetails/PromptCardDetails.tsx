@@ -58,11 +58,14 @@ export function PromptCardDetails({
                                     <Text size="xs">Technology</Text>
                                     <Text size="xs">{prompt.technology.name}</Text>
                                 </Group>
-                                <Group>
-                                    <IconWorld size={12} />
-                                    <Text size="xs">Provider</Text>
-                                    <Text size="xs">{prompt.provider.name}</Text>
-                                </Group>
+                                {
+                                    prompt.provider &&
+                                    <Group>
+                                        <IconWorld size={12} />
+                                        <Text size="xs">Provider</Text>
+                                        <Text size="xs">{prompt.provider.name}</Text>
+                                    </Group>
+                                }
                             </Stack>
                         </SimpleGrid>
                         <Divider />

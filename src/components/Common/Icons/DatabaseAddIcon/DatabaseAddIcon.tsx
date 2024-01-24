@@ -12,10 +12,10 @@ export function DatabaseAddIcon({ onClick }: DatabaseAddIcon) {
     const [opened, handle] = useDisclosure(false);
     return (
         <>
-            <Modal opened={opened} onClose={handle.close} title={`Save Thread`} size={"md"}>
+            <Modal opened={opened} onClose={handle.close} title={`Save Thread`} size={"lg"}>
                 <SaveModal
                     handle={handle}
-                    request={null}
+                    promptRequest={undefined}
                 />
             </Modal>
             <Tooltip label={"Add"}>

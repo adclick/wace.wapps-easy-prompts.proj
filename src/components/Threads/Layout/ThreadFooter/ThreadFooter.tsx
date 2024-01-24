@@ -20,10 +20,10 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
 
     return (
         <>
-            <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title={`Save Thread`} size={"md"}>
+            <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title={`Save Thread`} size={"lg"}>
                 <SaveModal
                     handle={newPromptModalHandle}
-                    request={promptRequest}
+                    promptRequest={promptRequest}
                 />
             </Modal>
             {

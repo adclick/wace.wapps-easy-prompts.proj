@@ -1,5 +1,5 @@
 import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center } from "@mantine/core";
-import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../../model/Prompt";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
@@ -12,6 +12,7 @@ import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeletePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
+import { getDefaultProvider } from "../../../../api/providersApi";
 
 interface PromptCard {
     prompt: Prompt,
@@ -23,13 +24,18 @@ export function PromptCard({ prompt }: PromptCard) {
 
     const deleteMutation = useDeletePromptMutation();
 
-    const play = (e: any) => {
+    const play = async (e: any) => {
         e.stopPropagation();
 
         const newPromptRequest = Prompt.clone(prompt) as PromptRequest;
         newPromptRequest.key = Date.now();
         newPromptRequest.isPlayable = true;
         newPromptRequest.type = PromptRequestType.Prompt;
+
+        // If there is no provider, get the default one
+        if (!newPromptRequest.provider) {
+            newPromptRequest.provider = await getDefaultProvider(newPromptRequest.technology.id);
+        }
 
         setPromptsRequests([
             ...promptsRequests,

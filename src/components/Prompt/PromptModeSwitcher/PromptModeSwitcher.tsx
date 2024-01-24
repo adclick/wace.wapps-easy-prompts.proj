@@ -42,46 +42,8 @@ export function PromptModeSwitcher() {
         setProviderData(providerData);
     }
 
-    const data = getAllPromptModes.map(mode => {
-        return {
-            label: (
-                <Group justify="center" wrap="nowrap" gap={"xs"} px={"sm"}>
-                    {getPromptModeIcon(mode, 16)}
-                </Group>
-            ),
-            value: mode,
-            disabled: !isPromptModeEnabled(mode)
-        }
-    });
-
-    const onChangeMode = (value: string) => {
-        setPromptMode(value as PromptMode);
-
-        if (technologiesQuery.data) {
-            // const technologies = technologiesQuery.data.filter((technology: Technology) => {
-            //     return Technology.getMode(technology.slug) === value
-            // });
-            const technologies = technologiesQuery.data;
-
-            const technologysData = technologies.map((technology: Technology) => {
-                return {
-                    label: technology.name,
-                    value: technology.id.toString()
-                }
-            });
-
-            setTechnologies(technologies);
-            setTechnologyData(technologysData);
-            updateTechnology(technologies[0]);
-        }
-    }
-
     useEffect(() => {
         if (technologiesQuery.data && technologyData.length === 0) {
-            // const technologies = technologiesQuery.data.filter((technology: Technology) => {
-            //     return Technology.getMode(technology.slug) === promptMode
-            // });
-
             const technologies = technologiesQuery.data;
 
             const technologysData = technologies.map((technology: Technology) => {
@@ -107,33 +69,11 @@ export function PromptModeSwitcher() {
     return (
         <Stack>
             <Group justify="center" >
-                {/* <SegmentedControl
-                    py={0}
-                    size="xs"
-                    color={getPromptModeColor(promptMode)}
-                    defaultValue={promptMode}
-                    onChange={onChangeMode}
-                    fullWidth
-                    data={data}
-                    classNames={{
-                        root: classes.segment,
-                        label: classes.segmentLabel
-                    }}
-                /> */}
                 <Popover position="top" keepMounted>
                     <Popover.Target>
                         <Badge style={{cursor: "pointer"}} size="md" variant="dot" color={getPromptModeColor(promptMode)}>
                             {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
                         </Badge>
-                        {/* <Tooltip label="More Options">
-                            <ActionIcon
-                                variant="transparent"
-                                color="gray"
-                                size="sm"
-                            >
-                                <IconDots size={18} stroke={2} />
-                            </ActionIcon>
-                        </Tooltip> */}
                     </Popover.Target>
                     <Popover.Dropdown className={classes.optionsContainer}>
                         <Stack gap={"md"}>

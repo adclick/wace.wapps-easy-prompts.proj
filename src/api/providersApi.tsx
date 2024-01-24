@@ -10,3 +10,11 @@ export const getProviders = async (technologyId: number): Promise<Provider[]> =>
 
     return data;
 }
+
+export const getDefaultProvider = async (technologyId: number): Promise<Provider> => {
+    const { data } = await axios.get(`${API_URL}/providers/default?` + new URLSearchParams({
+        technology_id: technologyId.toString()
+    }));
+
+    return data;
+}

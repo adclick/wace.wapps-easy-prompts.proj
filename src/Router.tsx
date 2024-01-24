@@ -6,15 +6,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <AuthenticationGuard component={HomePage} />,
-  },
-  {
-    path: '/v2',
-    element: <AuthenticationGuard component={HomePage} />,
-  },
-  {
-    path: '/mobile',
-    element: <HomePage />,
-  },
+  }
 ]);
 
 export function Router() {

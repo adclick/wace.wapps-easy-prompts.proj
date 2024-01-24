@@ -4,13 +4,13 @@ import { Provider } from "../../../model/Provider";
 
 interface ProviderLabel {
     technology: Technology,
-    provider: Provider
+    provider: Provider|undefined
 }
 
 export function ProviderLabel({ technology, provider }: ProviderLabel) {
     return (
         <Badge size="xs" variant="dot">
-            {technology.name} | {provider.model_name}
+            {technology.name}{provider && ` | ${provider.model_name}`}
         </Badge>
     )
 }
