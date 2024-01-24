@@ -5,6 +5,8 @@ import { PromptRequest } from "../../../model/PromptRequest";
 import { Label, Type } from "../../../model/SelectedDatabaseType";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { PromptForm } from "../../Forms/PromptForm/PromptForm";
+import { ModifierForm } from "../../Forms/ModifierForm/ModifierForm";
+import { TemplateForm } from "../../Forms/TemplateForm/TemplateForm";
 
 interface SaveModal {
     handle: any
@@ -25,6 +27,12 @@ export function SaveModal({
     switch (type) {
         case Type.PROMPT:
             form = <PromptForm promptRequest={promptRequest} />
+            break;
+        case Type.TEMPLATE:
+            form = <TemplateForm promptRequest={promptRequest} />
+            break;
+        case Type.MODIFIER:
+            form = <ModifierForm promptRequest={promptRequest} />
             break;
     }
 

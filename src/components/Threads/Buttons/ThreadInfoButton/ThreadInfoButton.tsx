@@ -1,28 +1,60 @@
-import { Button, Popover } from "@mantine/core";
+import { Button, Popover, Text } from "@mantine/core";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { getTechnologyIcon } from "../../../../utils/iconsUtils";
 import classes from './ThreadInfoButton.module.css';
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
+import { IconSparkles, IconTemplate } from "@tabler/icons-react";
 
 interface ThreadInfoButton {
     promptRequest: PromptRequest
 }
 
 export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
+    const modifiers = promptRequest.metadata.modifiers;
+    const templates = promptRequest.metadata.templates;
 
-    return (
-        <></>
-        // <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} />
-        // <Button
-        //     className={classes.button}
-        //     size="compact-xs"
-        //     variant="transparent"
-        //     color={getPromptModeColor(getPromptModeByTechnology(promptRequest.technology))}
-        //     leftSection={getTechnologyIcon(promptRequest.technology.slug, 14)}
-        // >
-        //     {promptRequest.provider.model_name}
-        // </Button>
+    if (modifiers.length <= 0 && templates.length <= 0) return <></>;
 
-    )
+    if (templates.length > 0) {
+        return (
+            <Popover>
+                <Popover.Target>
+                    <Button size="compact-xs" variant="transparent" color="gray" leftSection={<IconTemplate size={16} />}>
+                        Selected templates
+                    </Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                    {
+                        templates.map(m => {
+                            return (
+                                <Text>{m.title}</Text>
+                            )
+                        })
+                    }
+                </Popover.Dropdown>
+            </Popover>
+        )
+    }
+
+    if (modifiers.length > 0) {
+        return (
+            <Popover>
+                <Popover.Target>
+                    <Button size="compact-xs" variant="transparent" color="gray" leftSection={<IconSparkles size={16} />}>
+                        Selected modifiers
+                    </Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                    {
+                        modifiers.map(m => {
+                            return (
+                                <Text>{m.title}</Text>
+                            )
+                        })
+                    }
+                </Popover.Dropdown>
+            </Popover>
+        )
+    }
 }

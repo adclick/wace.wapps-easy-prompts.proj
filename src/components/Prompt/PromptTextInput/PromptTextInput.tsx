@@ -21,6 +21,7 @@ export function PromptTextInput() {
         newUserRequest.title = value;
         newUserRequest.content = value;
         newUserRequest.metadata.modifiers = selectedModifiers;
+        newUserRequest.metadata.templates = selectedTemplates;
         setUserPromptRequest(newUserRequest);
     }
 

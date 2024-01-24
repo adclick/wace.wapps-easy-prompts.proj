@@ -1,10 +1,9 @@
 import { Card, Divider, Group, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { Prompt } from "../../../../../model/Prompt";
-import { IconBulb, IconClock, IconDatabase, IconLanguage, IconPlayerPlayFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
+import { IconBulb, IconDatabase, IconLanguage, IconWorld } from "@tabler/icons-react";
 import { usePromptQuery } from "../../../../../api/promptsApi";
 import { useUser } from "../../../../../context/UserContext";
 import { Modifier } from "../../../../../model/Modifier";
-import { IconUser } from "@tabler/icons-react";
 import { CardDetailsAuthor } from "../../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 
 interface PromptCardDetails {

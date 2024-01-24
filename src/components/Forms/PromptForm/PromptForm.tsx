@@ -1,4 +1,4 @@
-import { Button, Group, Select, SimpleGrid, Stack, TextInput, Textarea } from "@mantine/core";
+import { Accordion, ActionIcon, Button, Divider, Group, MultiSelect, Select, SimpleGrid, Space, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
 import { useCreatePromptMutation } from "../../../api/promptsApi";
 import { useUser } from "../../../context/UserContext";
@@ -13,6 +13,11 @@ import { getProviders } from "../../../api/providersApi";
 import { Repository } from "../../../model/Repository";
 import { Technology } from "../../../model/Technology";
 import { Provider } from "../../../model/Provider";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
+import { iconClose } from "../../../utils/iconsUtils";
+import { Modifier } from "../../../model/Modifier";
+import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
+import { Template } from "../../../model/Template";
 
 interface PromptForm {
     promptRequest: PromptRequest | undefined
@@ -38,10 +43,19 @@ export function PromptForm({ promptRequest }: PromptForm) {
     const [name, setName] = useState(promptRequest ? promptRequest.title : "");
     const [description, setDescription] = useState(promptRequest ? promptRequest.description : "");
     const [content, setContent] = useState(promptRequest ? promptRequest.content : "");
+
+    const { selectedModifiers } = useSelectedModifiers();
+    const initialModifiers = promptRequest ? promptRequest.metadata.modifiers : selectedModifiers;
+    const [modifiers, setModifiers] = useState<Modifier[]>(initialModifiers);
+
+
+    const { selectedTemplates } = useSelectedTemplates();
+    const initialTempaltes = promptRequest ? promptRequest.metadata.templates : selectedTemplates;
+    const [templates, setTemplates] = useState<Template[]>(initialTempaltes);
+
+
     const { setSelectedDatabaseType } = useSelectedDatabaseType();
-
     const createPromptMutation = useCreatePromptMutation();
-
     const filtersQuery = useFiltersQuery(user.id);
 
     const save = async () => {
@@ -51,7 +65,7 @@ export function PromptForm({ promptRequest }: PromptForm) {
         const contentValue = promptRequest && promptRequest.chatReply !== "" ? promptRequest.chatReply : content;
 
         if (!languageId || !repositoryId || !technologyId) return false;
-        
+
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
@@ -135,69 +149,149 @@ export function PromptForm({ promptRequest }: PromptForm) {
         }
     }
 
+    const removeModifier = (id: number) => {
+        const newModifiers = modifiers.filter(m => m.id !== id);
+        setModifiers(newModifiers);
+    }
+
+    const removeTemplate = (id: number) => {
+        const newTemplates = templates.filter(t => t.id !== id);
+        setTemplates(newTemplates);
+    }
+
     return (
-        <Stack my={"xs"}>
-            <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <Select
-                    label="Language"
-                    required
-                    data={languageData}
-                    value={languageId}
-                    allowDeselect={false}
-                    onChange={setLanguageId}
-                />
-                <Select
-                    label="Repository"
-                    required
-                    data={repositoryData}
-                    value={repositoryId}
-                    allowDeselect={false}
-                    onChange={setRepositoryId}
-                />
-                <Select
-                    label="Technology"
-                    required
-                    data={technologyData}
-                    value={technologyId}
-                    allowDeselect={false}
-                    onChange={onChangeTechnology}
-                    />
-                <Select
-                    label="Provider"
-                    data={providerData}
-                    value={providerId}
-                    onChange={setProviderId}
-                />
-            </SimpleGrid>
-            <TextInput
-                label="Name"
-                onChange={(e: any) => setName(e.target.value)}
-                value={name}
-                required
-                placeholder="Name of the Modifier"
-            />
-            <Textarea
-                label="Description"
-                autosize
-                required
-                minRows={3}
-                onChange={e => setDescription(e.target.value)}
-                value={description}
-                placeholder="Write a brief description"
-            />
-            <Textarea
-                label="Content"
-                autosize
-                required
-                minRows={3}
-                onChange={(e: any) => setContent(e.target.value)}
-                value={content}
-            />
+        <Stack my={"md"}>
+            <Accordion variant="separated" defaultValue={'specifications'}>
+                <Accordion.Item value="specifications">
+                    <Accordion.Control>
+                        <Text fw={700}>Specifications</Text>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <SimpleGrid cols={{ base: 1, sm: 2 }} verticalSpacing={"xl"}>
+                            <Select
+                                label="Language"
+                                required
+                                variant="unstyled"
+                                data={languageData}
+                                value={languageId}
+                                allowDeselect={false}
+                                onChange={setLanguageId}
+                            />
+                            <Select
+                                label="Repository"
+                                variant="unstyled"
+                                required
+                                data={repositoryData}
+                                value={repositoryId}
+                                allowDeselect={false}
+                                onChange={setRepositoryId}
+                            />
+                            <Select
+                                label="Technology"
+                                variant="unstyled"
+                                required
+                                data={technologyData}
+                                value={technologyId}
+                                allowDeselect={false}
+                                onChange={onChangeTechnology}
+                            />
+                            <Select
+                                label="Provider"
+                                variant="unstyled"
+                                data={providerData}
+                                value={providerId}
+                                onChange={setProviderId}
+                            />
+                        </SimpleGrid>
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item value="content">
+                    <Accordion.Control>
+                        <Text fw={700}>Content</Text>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <Stack gap={"md"}>
+                            <TextInput
+                                label="Name"
+                                variant="unstyled"
+                                onChange={(e: any) => setName(e.target.value)}
+                                value={name}
+                                required
+                                placeholder="Write a name"
+                            />
+                            <Textarea
+                                label="Description"
+                                autosize
+                                variant="unstyled"
+                                required
+                                minRows={1}
+                                onChange={e => setDescription(e.target.value)}
+                                value={description}
+                                placeholder="Write a brief description"
+                                />
+                            <Textarea
+                                label="Content"
+                                autosize
+                                variant="unstyled"
+                                required
+                                minRows={1}
+                                onChange={(e: any) => setContent(e.target.value)}
+                                value={content}
+                                placeholder="Prompt's content"
+                            />
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item value="modifiers">
+                    <Accordion.Control>
+                        <Group>
+                            <Text fw={700}>Modifiers</Text>
+                            <Text size="xs">{modifiers.length} selected</Text>
+                        </Group>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        {
+                            modifiers.map(modifier => {
+                                return (
+                                    <Group gap={"xs"}>
+                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
+                                            {iconClose(14)}
+                                        </ActionIcon>
+                                        <Text size="xs">{modifier.title}</Text>
+                                    </Group>
+                                )
+                            })
+                        }
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item value="templates">
+                    <Accordion.Control>
+                        <Group>
+                            <Text fw={700}>Templates</Text>
+                            <Text size="xs">{templates.length} selected</Text>
+                        </Group>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        {
+                            templates.map(template => {
+                                return (
+                                    <Group gap={"xs"}>
+                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeTemplate(template.id)}>
+                                            {iconClose(14)}
+                                        </ActionIcon>
+                                        <Text size="xs">{template.title}</Text>
+                                    </Group>
+                                )
+                            })
+                        }
+                    </Accordion.Panel>
+                </Accordion.Item>
+            </Accordion>
             <Group justify="flex-end">
                 <Button
                     variant="transparent"
                     color="gray"
-                    size="xs"
+                    size="sm"
                     onClick={save}
                     leftSection={<IconCheck size={14} />}
                 >
