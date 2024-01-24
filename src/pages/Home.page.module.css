@@ -3,8 +3,5 @@
 }
 
 .main, .header, .footer {
-    @mixin light {
-        background-color: var(--mantine-color-gray-2);
-
-    }
+    background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
 }
