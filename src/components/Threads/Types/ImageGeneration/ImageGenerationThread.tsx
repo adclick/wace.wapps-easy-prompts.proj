@@ -38,7 +38,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView, color }: 
                     data.map((src: string) => {
                         return (
                             <Stack gap={"xs"}>
-                                <Image key={src} src={src} w={512} h={512} />
+                                <Image key={src} src={src} />
                                 <Group gap={"xs"}>
                                     <ThreadDownloadButton url={src} />
                                     <ThreadReloadButton reload={refetch} />
