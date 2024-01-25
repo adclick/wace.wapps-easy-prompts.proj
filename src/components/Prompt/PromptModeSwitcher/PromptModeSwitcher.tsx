@@ -47,15 +47,18 @@ export function PromptModeSwitcher() {
 
     // Provider List
     if (providersQuery.data) {
-        const firstProvider: Provider = providersQuery.data[0];
-        const data = providersQuery.data.map((provider: Provider) => {
-            return {
-                label: provider.model_name,
-                value: provider.id.toString()
-            }
-        });
+        
 
         if (providerData.length === 0 || technologyChanged) {
+            const data = providersQuery.data.map((provider: Provider) => {
+                return {
+                    label: provider.model_name,
+                    value: provider.id.toString()
+                }
+            });
+            
+            const firstProvider: Provider = providersQuery.data[0];
+
             setProviderData(data);
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.provider = Provider.clone(firstProvider);

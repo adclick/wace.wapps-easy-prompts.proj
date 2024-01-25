@@ -30,6 +30,7 @@ export const useProvidersQuery = (technologyId: number) => {
 
             return data;
         },
+        enabled: technologyId > 0
     });
 };
 
