@@ -13,6 +13,7 @@ import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeletePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { getDefaultProvider } from "../../../../api/providersApi";
+import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 
 interface PromptCard {
     prompt: Prompt,
@@ -81,24 +82,7 @@ export function PromptCard({ prompt }: PromptCard) {
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
-                    <Stack>
-                        <Text size="xs">{prompt.description}</Text>
-                        <Center>
-                            <Button variant="transparent" color="gray" size="xs" onClick={detailsHandle.open}>
-                                Read more
-                            </Button>
-                        </Center>
-                        <Group justify="space-between">
-                            <Group gap={"xs"}>
-                                <IconUser size={12} />
-                                <Text size="xs">{prompt.user.username}</Text>
-                            </Group>
-                            <Group gap={"xs"}>
-                                <IconClock size={12} />
-                                <Text size="xs">{dateUtils.timeAgo(new Date(prompt.created_at))}</Text>
-                            </Group>
-                        </Group>
-                    </Stack>
+                    <DatabaseCardContent item={prompt} detailsHandle={detailsHandle} />
                 </Accordion.Panel>
             </Accordion.Item >
         </>

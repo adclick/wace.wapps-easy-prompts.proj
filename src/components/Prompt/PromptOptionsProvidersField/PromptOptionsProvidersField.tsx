@@ -1,7 +1,5 @@
-import { Select, Text } from "@mantine/core";
+import { Select } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
-import { Provider } from "../../../model/Provider";
-import { PromptRequest } from "../../../model/PromptRequest";
 
 export interface ProvidersDataItem {
     label: string,
@@ -10,26 +8,11 @@ export interface ProvidersDataItem {
 
 interface PromptOptionsProvidersField {
     providerData: ProvidersDataItem[],
-    providers: Provider[]
+    onChangeProvider: any
 }
 
-export function PromptOptionsProvidersField({ providerData, providers }: PromptOptionsProvidersField) {
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-
-    const onChange = (providerId: string | null) => {
-        if (providerId !== "") {
-            const provider = providers.find((p: Provider) => p.id === parseInt(providerId as string));
-
-            if (provider) {
-                const newUserRequest = PromptRequest.clone(userPromptRequest);
-                newUserRequest.provider = Provider.clone(provider);
-                setUserPromptRequest(newUserRequest);
-            }
-        }
-    }
-
-    // const label = <Text fw={700} size="xs">Providers</Text>
-
+export function PromptOptionsProvidersField({ providerData, onChangeProvider }: PromptOptionsProvidersField) {
+    const { userPromptRequest } = useUserPromptRequest();
 
     return (
         <Select
@@ -40,7 +23,7 @@ export function PromptOptionsProvidersField({ providerData, providers }: PromptO
             comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.provider.id.toString()}
             data={providerData}
-            onChange={onChange}
+            onChange={onChangeProvider}
         />
     )
 }

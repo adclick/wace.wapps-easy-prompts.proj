@@ -9,6 +9,7 @@ import classes from './ModifierCard.module.css';
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
+import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -55,25 +56,7 @@ export function ModifierCard({ modifier }: ModifierCard) {
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
-
-                    <Stack>
-                        <Text size="xs">{modifier.description}</Text>
-                        <Center>
-                            <Button onClick={modifierDetailsHandle.open} variant="transparent" size="xs">
-                                Read more
-                            </Button>
-                        </Center>
-                        <Group justify="space-between">
-                            <Group gap={"xs"}>
-                                <IconUser size={12} />
-                                <Text size="xs">{modifier.user.username}</Text>
-                            </Group>
-                            <Group gap={"xs"}>
-                                <IconClock size={12} />
-                                <Text size="xs">{dateUtils.timeAgo(new Date(modifier.created_at))}</Text>
-                            </Group>
-                        </Group>
-                    </Stack>
+                    <DatabaseCardContent item={modifier} detailsHandle={modifierDetailsHandle} />
                 </Accordion.Panel>
             </Accordion.Item >
         </>

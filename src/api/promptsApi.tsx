@@ -55,6 +55,7 @@ export const useCreatePromptMutation = () => {
                 technology_id: formData.get('technology_id'),
                 provider_id: formData.get('provider_id'),
                 modifiers_ids: formData.get('modifiers_ids'),
+                templates_ids: formData.get('templates_ids'),
                 chat_history: formData.get('chat_history')
             })
 

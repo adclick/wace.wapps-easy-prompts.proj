@@ -9,6 +9,7 @@ import classes from './TemplateCard.module.css';
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
+import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 
 interface TemplateCard {
     template: Template,
@@ -55,27 +56,7 @@ export function TemplateCard({ template, cardValue }: TemplateCard) {
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
-
-                    <Stack gap={"xl"}>
-                        <Text size="xs">
-                            {template.description}
-                        </Text>
-                        <Center>
-                            <Button onClick={templateDetailsHandle.open} variant="transparent" size="xs">
-                                Read more
-                            </Button>
-                        </Center>
-                        <Group justify="space-between">
-                            <Group gap={"xs"}>
-                                <IconUser size={12} />
-                                <Text size="xs">{template.user.username}</Text>
-                            </Group>
-                            <Group gap={"xs"}>
-                                <IconClock size={12} />
-                                <Text size="xs">{dateUtils.timeAgo(new Date(template.created_at))}</Text>
-                            </Group>
-                        </Group>
-                    </Stack>
+                    <DatabaseCardContent item={template} detailsHandle={templateDetailsHandle} />
                 </Accordion.Panel>
             </Accordion.Item >
         </>
