@@ -38,7 +38,6 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
 
             if (modifiers[0].provider) {
                 newUserRequest.provider = Provider.clone(modifiers[0].provider);
-                console.log('here');
             } else {
                 if (providersQuery.data) {
                     newUserRequest.provider = Provider.clone(providersQuery.data[0]);

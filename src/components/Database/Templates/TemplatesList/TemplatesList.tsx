@@ -8,7 +8,7 @@ import { useUserPromptRequest } from "../../../../context/UserPromptRequestConte
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
-import { useDefaultProviderQuery } from "../../../../api/providersApi";
+import { useDefaultProviderQuery, useProvidersQuery } from "../../../../api/providersApi";
 
 interface TemplatesList {
     templatesQuery: any
@@ -20,21 +20,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
     const [value, setValue] = useState<string | null>(null);
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
-    const defaultProviderQuery = useDefaultProviderQuery(userPromptRequest.technology.id);
-
-    useEffect(() => {
-        if (defaultProviderQuery.data) {
-            const provider = Provider.clone(defaultProviderQuery.data);
-    
-            if (userPromptRequest.provider.id !== provider.id) {
-                const newUserRequest = PromptRequest.clone(userPromptRequest);
-                newUserRequest.provider = provider
-                setUserPromptRequest(newUserRequest);
-            }
-        }
-
-    }, [defaultProviderQuery]);
-
+    const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
 
     const onChange = async (ids: string[]) => {
         const templates: Template[] = [];
@@ -53,6 +39,13 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.technology = Technology.clone(templates[0].technology);
 
+            if (templates[0].provider) {
+                newUserRequest.provider = Provider.clone(templates[0].provider);
+            } else {
+                if (providersQuery.data) {
+                    newUserRequest.provider = Provider.clone(providersQuery.data[0]);
+                }
+            }
 
             setUserPromptRequest(newUserRequest);
         }
