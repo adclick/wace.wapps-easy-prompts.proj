@@ -1,14 +1,14 @@
-import { Accordion, Box, Button, Center, Checkbox, Loader, Radio, Stack } from "@mantine/core";
+import { Accordion, Box, Button, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Template } from "../../../../model/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
-import { getDefaultProvider, useDefaultProviderQuery } from "../../../../api/providersApi";
+import { useDefaultProviderQuery } from "../../../../api/providersApi";
 
 interface TemplatesList {
     templatesQuery: any
@@ -22,15 +22,19 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
 
     const defaultProviderQuery = useDefaultProviderQuery(userPromptRequest.technology.id);
 
-    if (defaultProviderQuery.data) {
-        const provider = Provider.clone(defaultProviderQuery.data);
-
-        if (userPromptRequest.provider.id !== provider.id) {
-            const newUserRequest = PromptRequest.clone(userPromptRequest);
-            newUserRequest.provider = provider
-            setUserPromptRequest(newUserRequest);
+    useEffect(() => {
+        if (defaultProviderQuery.data) {
+            const provider = Provider.clone(defaultProviderQuery.data);
+    
+            if (userPromptRequest.provider.id !== provider.id) {
+                const newUserRequest = PromptRequest.clone(userPromptRequest);
+                newUserRequest.provider = provider
+                setUserPromptRequest(newUserRequest);
+            }
         }
-    }
+
+    }, [defaultProviderQuery]);
+
 
     const onChange = async (ids: string[]) => {
         const templates: Template[] = [];

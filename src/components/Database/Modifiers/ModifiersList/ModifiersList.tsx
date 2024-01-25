@@ -7,7 +7,8 @@ import { PromptRequest } from "../../../../model/PromptRequest";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
-import { getDefaultProvider } from "../../../../api/providersApi";
+import { getDefaultProvider, useDefaultProviderQuery, useProvidersQuery } from "../../../../api/providersApi";
+import { useEffect } from "react";
 
 interface ModifiersList {
     modifiersQuery: any
@@ -17,6 +18,8 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
     const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
     const { setSelectedTemplates } = useSelectedTemplates();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+
+    const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
 
     const onChange = async (ids: string[]) => {
         const modifiers: Modifier[] = [];
@@ -28,16 +31,20 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
             })
         });
 
-        // Update userPromptRequest based on the first template selected
+        // Update userPromptRequest based on the first modifier selected
         if (modifiers.length > 0) {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.technology = Technology.clone(modifiers[0].technology);
+
             if (modifiers[0].provider) {
                 newUserRequest.provider = Provider.clone(modifiers[0].provider);
+                console.log('here');
             } else {
-                const provider = await getDefaultProvider(modifiers[0].technology.id);
-                newUserRequest.provider = Provider.clone(provider);
+                if (providersQuery.data) {
+                    newUserRequest.provider = Provider.clone(providersQuery.data[0]);
+                }
             }
+
             setUserPromptRequest(newUserRequest);
         }
 
