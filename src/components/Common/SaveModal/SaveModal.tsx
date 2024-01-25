@@ -30,13 +30,13 @@ export function SaveModal({
     let form = <></>;
     switch (type) {
         case Type.PROMPT:
-            form = <PromptForm promptRequest={promptRequest} />
+            form = <PromptForm promptRequest={promptRequest} handle={handle} />
             break;
         case Type.TEMPLATE:
-            form = <TemplateForm promptRequest={promptRequest} />
+            form = <TemplateForm promptRequest={promptRequest} handle={handle} />
             break;
         case Type.MODIFIER:
-            form = <ModifierForm promptRequest={promptRequest} />
+            form = <ModifierForm promptRequest={promptRequest} handle={handle} />
             break;
     }
 

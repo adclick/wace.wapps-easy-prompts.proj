@@ -4,10 +4,11 @@ import { useCreateTemplateMutation } from "../../../api/templatesApi";
 import { BaseForm } from "../BaseForm/BaseForm";
 
 interface TemplateForm {
-    promptRequest: PromptRequest | undefined
+    promptRequest: PromptRequest | undefined,
+    handle: any
 }
 
-export function TemplateForm({ promptRequest }: TemplateForm) {
+export function TemplateForm({ promptRequest, handle }: TemplateForm) {
     const createMutation = useCreateTemplateMutation();
 
     return <BaseForm 
@@ -17,5 +18,6 @@ export function TemplateForm({ promptRequest }: TemplateForm) {
         hasContent={false}
         hasTemplates={false}
         hasModifiers={true}
+        handle={handle}
     />
 }

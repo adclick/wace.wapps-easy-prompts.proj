@@ -5,9 +5,10 @@ import { BaseForm } from "../BaseForm/BaseForm";
 
 interface ModifierForm {
     promptRequest: PromptRequest | undefined
+    handle: any
 }
 
-export function ModifierForm({ promptRequest }: ModifierForm) {
+export function ModifierForm({ promptRequest, handle }: ModifierForm) {
     const createMutation = useCreateModifierMutation();
 
     return <BaseForm
@@ -17,5 +18,6 @@ export function ModifierForm({ promptRequest }: ModifierForm) {
         hasContent={true}
         hasTemplates={false}
         hasModifiers={false}
+        handle={handle}
     />
 }

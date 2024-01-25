@@ -27,8 +27,6 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
             message: deleteMutation.error.message,
             color: "red"
         });
-
-        deleteMutation.reset();
     }
 
     if (deleteMutation.isSuccess) {
@@ -37,8 +35,6 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
             message: "Your settings were saved",
             color: "blue"
         });
-
-        deleteMutation.reset();
     }
 
     const deleteItem = async (e: any) => {

@@ -18,6 +18,7 @@ import { iconClose } from "../../../utils/iconsUtils";
 import { Modifier } from "../../../model/Modifier";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
 import { Template } from "../../../model/Template";
+import { notifications } from "@mantine/notifications";
 
 interface BaseForm {
     promptRequest: PromptRequest | undefined,
@@ -25,7 +26,8 @@ interface BaseForm {
     type: Type,
     hasContent: boolean,
     hasTemplates: boolean,
-    hasModifiers: boolean
+    hasModifiers: boolean,
+    handle: any
 }
 
 export function BaseForm({
@@ -34,7 +36,8 @@ export function BaseForm({
     type,
     hasContent,
     hasTemplates,
-    hasModifiers
+    hasModifiers,
+    handle
 }: BaseForm) {
     const { selectedFilters } = useSelectedFilters();
     if (!selectedFilters) return <></>;
@@ -114,6 +117,15 @@ export function BaseForm({
                 break;
         }
         setSelectedDatabaseType(newType);
+
+        notifications.show({
+            title: "Saved",
+            message: "Your settings were saved",
+            color: "blue"
+        });
+
+
+        handle.close();
     }
 
     useEffect(() => {

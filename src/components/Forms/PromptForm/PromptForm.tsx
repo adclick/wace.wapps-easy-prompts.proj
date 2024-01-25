@@ -4,10 +4,11 @@ import { PromptRequest } from "../../../model/PromptRequest";
 import { BaseForm } from "../BaseForm/BaseForm";
 
 interface PromptForm {
-    promptRequest: PromptRequest | undefined
+    promptRequest: PromptRequest | undefined,
+    handle: any
 }
 
-export function PromptForm({ promptRequest }: PromptForm) {
+export function PromptForm({ promptRequest, handle }: PromptForm) {
     const createMutation = useCreatePromptMutation();
 
     return <BaseForm
@@ -17,5 +18,6 @@ export function PromptForm({ promptRequest }: PromptForm) {
         hasContent={true}
         hasTemplates={true}
         hasModifiers={true}
+        handle={handle}
     />
 }
