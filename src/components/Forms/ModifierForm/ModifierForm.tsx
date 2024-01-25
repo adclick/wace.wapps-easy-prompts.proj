@@ -1,4 +1,4 @@
-import { Button, Group, Select, SimpleGrid, Stack, TextInput, Textarea } from "@mantine/core";
+import { Accordion, ActionIcon, Button, Divider, Group, MultiSelect, Select, SimpleGrid, Space, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
 import { useCreatePromptMutation } from "../../../api/promptsApi";
 import { useUser } from "../../../context/UserContext";
@@ -13,6 +13,11 @@ import { getProviders } from "../../../api/providersApi";
 import { Repository } from "../../../model/Repository";
 import { Technology } from "../../../model/Technology";
 import { Provider } from "../../../model/Provider";
+import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
+import { iconClose } from "../../../utils/iconsUtils";
+import { Modifier } from "../../../model/Modifier";
+import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
+import { Template } from "../../../model/Template";
 import { useCreateModifierMutation } from "../../../api/modifiersApi";
 
 interface ModifierForm {
@@ -39,20 +44,14 @@ export function ModifierForm({ promptRequest }: ModifierForm) {
     const [name, setName] = useState(promptRequest ? promptRequest.title : "");
     const [description, setDescription] = useState(promptRequest ? promptRequest.description : "");
     const [content, setContent] = useState(promptRequest ? promptRequest.content : "");
+
     const { setSelectedDatabaseType } = useSelectedDatabaseType();
-
-    const createMutation = useCreateModifierMutation();
-
+    const cretateMutation = useCreateModifierMutation();
     const filtersQuery = useFiltersQuery(user.id);
 
     const save = async () => {
-        const modifiersIds = promptRequest ? promptRequest.metadata.modifiers.map(m => m.id) : [];
-        const templatesIds = promptRequest ? promptRequest.metadata.templates.map(t => t.id) : [];
-        const chatHistory = promptRequest ? promptRequest.metadata.history : [];
-        const contentValue = promptRequest && promptRequest.chatReply !== "" ? promptRequest.chatReply : content;
-
         if (!languageId || !repositoryId || !technologyId) return false;
-        
+
         const newFormData = new FormData();
         newFormData.append("userId", user.id);
         newFormData.append("language_id", languageId.toString());
@@ -62,18 +61,15 @@ export function ModifierForm({ promptRequest }: ModifierForm) {
             newFormData.append("provider_id", providerId.toString());
         }
         newFormData.append("title", name);
-        newFormData.append("description", description);
-        newFormData.append("content", contentValue);
-        newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
-        newFormData.append("templates_ids", JSON.stringify(templatesIds));
-        newFormData.append("chat_history", JSON.stringify(chatHistory));
+        newFormData.append("description", description === "" ? "No description" : description);
+        newFormData.append("content", content);
 
-        createMutation.mutate(newFormData);
+        cretateMutation.mutate(newFormData);
 
         const newType = new SelectedDatabaseType();
-        newType.type = Type.PROMPT;
-        newType.label = Label.Prompt;
-        newType.labelPlural = LabelPlural.Prompts
+        newType.type = Type.MODIFIER;
+        newType.label = Label.Modifier;
+        newType.labelPlural = LabelPlural.Modifiers
         setSelectedDatabaseType(newType);
     }
 
@@ -103,14 +99,17 @@ export function ModifierForm({ promptRequest }: ModifierForm) {
                     value: t.id.toString()
                 }
             });
+
+            setTechnologyData(technologies);
+            
             if (promptRequest) {
                 setTechnologyId(promptRequest.technology.id.toString())
+                updateProviderData(parseInt(promptRequest.technology.id.toString()));
             } else {
                 setTechnologyId(technologies[0].value)
+                updateProviderData(parseInt(technologies[0].value));
             }
-            setTechnologyData(technologies);
 
-            updateProviderData(parseInt(technologies[0].value));
         }
     }, []);
 
@@ -137,68 +136,94 @@ export function ModifierForm({ promptRequest }: ModifierForm) {
     }
 
     return (
-        <Stack my={"xs"}>
-            <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <Select
-                    label="Language"
-                    required
-                    data={languageData}
-                    value={languageId}
-                    allowDeselect={false}
-                    onChange={setLanguageId}
-                />
-                <Select
-                    label="Repository"
-                    required
-                    data={repositoryData}
-                    value={repositoryId}
-                    allowDeselect={false}
-                    onChange={setRepositoryId}
-                />
-                <Select
-                    label="Technology"
-                    required
-                    data={technologyData}
-                    value={technologyId}
-                    allowDeselect={false}
-                    onChange={onChangeTechnology}
-                    />
-                <Select
-                    label="Provider"
-                    data={providerData}
-                    value={providerId}
-                    onChange={setProviderId}
-                />
-            </SimpleGrid>
-            <TextInput
-                label="Name"
-                onChange={(e: any) => setName(e.target.value)}
-                value={name}
-                required
-                placeholder="Name of the Modifier"
-            />
-            <Textarea
-                label="Description"
-                autosize
-                required
-                minRows={3}
-                onChange={e => setDescription(e.target.value)}
-                value={description}
-                placeholder="Write a brief description"
-            />
-            <Textarea
-                label="Content"
-                autosize
-                required
-                minRows={3}
-                onChange={(e: any) => setContent(e.target.value)}
-                value={content}
-            />
+        <Stack my={"md"}>
+            <Accordion variant="separated" defaultValue={'content'}>
+                <Accordion.Item value="content">
+                    <Accordion.Control>
+                        <Text fw={700}>Content</Text>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <Stack gap={"md"}>
+                            <TextInput
+                                label="Name"
+                                variant="unstyled"
+                                onChange={(e: any) => setName(e.target.value)}
+                                value={name}
+                                required
+                                placeholder="Write a name"
+                            />
+                            <Textarea
+                                label="Description"
+                                autosize
+                                variant="unstyled"
+                                required
+                                minRows={1}
+                                onChange={e => setDescription(e.target.value)}
+                                value={description}
+                                placeholder="Write a brief description"
+                            />
+                            <Textarea
+                                label="Content"
+                                autosize
+                                variant="unstyled"
+                                required
+                                minRows={1}
+                                onChange={(e: any) => setContent(e.target.value)}
+                                value={content}
+                                placeholder="Prompt's content"
+                            />
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item value="specifications">
+                    <Accordion.Control>
+                        <Text fw={700}>Specifications</Text>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <SimpleGrid cols={{ base: 1, sm: 2 }} verticalSpacing={"xl"}>
+                            <Select
+                                label="Language"
+                                required
+                                variant="unstyled"
+                                data={languageData}
+                                value={languageId}
+                                allowDeselect={false}
+                                onChange={setLanguageId}
+                            />
+                            <Select
+                                label="Repository"
+                                variant="unstyled"
+                                required
+                                data={repositoryData}
+                                value={repositoryId}
+                                allowDeselect={false}
+                                onChange={setRepositoryId}
+                            />
+                            <Select
+                                label="Technology"
+                                variant="unstyled"
+                                required
+                                data={technologyData}
+                                value={technologyId}
+                                allowDeselect={false}
+                                onChange={onChangeTechnology}
+                            />
+                            <Select
+                                label="Provider"
+                                variant="unstyled"
+                                data={providerData}
+                                value={providerId}
+                                onChange={setProviderId}
+                            />
+                        </SimpleGrid>
+                    </Accordion.Panel>
+                </Accordion.Item>
+            </Accordion>
             <Group justify="flex-end">
                 <Button
                     variant="transparent"
                     color="gray"
-                    size="xs"
+                    size="sm"
                     onClick={save}
                     leftSection={<IconCheck size={14} />}
                 >

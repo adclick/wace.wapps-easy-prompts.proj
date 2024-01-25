@@ -75,7 +75,7 @@ export function PromptForm({ promptRequest }: PromptForm) {
             newFormData.append("provider_id", providerId.toString());
         }
         newFormData.append("title", name);
-        newFormData.append("description", description);
+        newFormData.append("description", description === "" ? "No description" : description);
         newFormData.append("content", contentValue);
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("templates_ids", JSON.stringify(templatesIds));
@@ -116,14 +116,17 @@ export function PromptForm({ promptRequest }: PromptForm) {
                     value: t.id.toString()
                 }
             });
+
+            setTechnologyData(technologies);
+            
             if (promptRequest) {
                 setTechnologyId(promptRequest.technology.id.toString())
+                updateProviderData(parseInt(promptRequest.technology.id.toString()));
             } else {
                 setTechnologyId(technologies[0].value)
+                updateProviderData(parseInt(technologies[0].value));
             }
-            setTechnologyData(technologies);
 
-            updateProviderData(parseInt(technologies[0].value));
         }
     }, []);
 
@@ -161,7 +164,44 @@ export function PromptForm({ promptRequest }: PromptForm) {
 
     return (
         <Stack my={"md"}>
-            <Accordion variant="separated" defaultValue={'specifications'}>
+            <Accordion variant="separated" defaultValue={'content'}>
+                <Accordion.Item value="content">
+                    <Accordion.Control>
+                        <Text fw={700}>Content</Text>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <Stack gap={"md"}>
+                            <TextInput
+                                label="Name"
+                                variant="unstyled"
+                                onChange={(e: any) => setName(e.target.value)}
+                                value={name}
+                                required
+                                placeholder="Write a name"
+                            />
+                            <Textarea
+                                label="Description"
+                                autosize
+                                variant="unstyled"
+                                required
+                                minRows={1}
+                                onChange={e => setDescription(e.target.value)}
+                                value={description}
+                                placeholder="Write a brief description"
+                            />
+                            <Textarea
+                                label="Content"
+                                autosize
+                                variant="unstyled"
+                                required
+                                minRows={1}
+                                onChange={(e: any) => setContent(e.target.value)}
+                                value={content}
+                                placeholder="Prompt's content"
+                            />
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
                 <Accordion.Item value="specifications">
                     <Accordion.Control>
                         <Text fw={700}>Specifications</Text>
@@ -205,43 +245,6 @@ export function PromptForm({ promptRequest }: PromptForm) {
                         </SimpleGrid>
                     </Accordion.Panel>
                 </Accordion.Item>
-                <Accordion.Item value="content">
-                    <Accordion.Control>
-                        <Text fw={700}>Content</Text>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <Stack gap={"md"}>
-                            <TextInput
-                                label="Name"
-                                variant="unstyled"
-                                onChange={(e: any) => setName(e.target.value)}
-                                value={name}
-                                required
-                                placeholder="Write a name"
-                            />
-                            <Textarea
-                                label="Description"
-                                autosize
-                                variant="unstyled"
-                                required
-                                minRows={1}
-                                onChange={e => setDescription(e.target.value)}
-                                value={description}
-                                placeholder="Write a brief description"
-                            />
-                            <Textarea
-                                label="Content"
-                                autosize
-                                variant="unstyled"
-                                required
-                                minRows={1}
-                                onChange={(e: any) => setContent(e.target.value)}
-                                value={content}
-                                placeholder="Prompt's content"
-                            />
-                        </Stack>
-                    </Accordion.Panel>
-                </Accordion.Item>
                 <Accordion.Item value="templates">
                     <Accordion.Control>
                         <Group>
@@ -251,7 +254,8 @@ export function PromptForm({ promptRequest }: PromptForm) {
                     </Accordion.Control>
                     <Accordion.Panel>
                         {
-                            templates.map(template => {
+                            templates.length > 0 
+                            ? templates.map(template => {
                                 return (
                                     <Group gap={"xs"}>
                                         <ActionIcon variant="transparent" color="gray" onClick={() => removeTemplate(template.id)}>
@@ -261,6 +265,9 @@ export function PromptForm({ promptRequest }: PromptForm) {
                                     </Group>
                                 )
                             })
+                            : <Text size="xs">
+                                To add templates, please select them from the database list before opening this dialog
+                            </Text>
                         }
                     </Accordion.Panel>
                 </Accordion.Item>
@@ -273,20 +280,23 @@ export function PromptForm({ promptRequest }: PromptForm) {
                     </Accordion.Control>
                     <Accordion.Panel>
                         {
-                            modifiers.map(modifier => {
-                                return (
-                                    <Group gap={"xs"}>
-                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
-                                            {iconClose(14)}
-                                        </ActionIcon>
-                                        <Text size="xs">{modifier.title}</Text>
-                                    </Group>
-                                )
-                            })
+                            modifiers.length > 0
+                                ? modifiers.map(modifier => {
+                                    return (
+                                        <Group gap={"xs"}>
+                                            <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
+                                                {iconClose(14)}
+                                            </ActionIcon>
+                                            <Text size="xs">{modifier.title}</Text>
+                                        </Group>
+                                    )
+                                })
+                                : <Text size="xs">
+                                    To add modifiers, please select them from the database list before opening this dialog
+                                </Text>
                         }
                     </Accordion.Panel>
                 </Accordion.Item>
-
             </Accordion>
             <Group justify="flex-end">
                 <Button

@@ -20,12 +20,11 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
 
     return (
         <>
-            <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title={`Save Thread`} size={"lg"}>
-                <SaveModal
-                    handle={newPromptModalHandle}
-                    promptRequest={promptRequest}
-                />
-            </Modal>
+            <SaveModal
+                opened={newPromptModalOpened}
+                handle={newPromptModalHandle}
+                promptRequest={promptRequest}
+            />
             {
                 User.hasPrompt(user, promptRequest) && !promptRequest.isPlayable &&
                 <Group justify="space-between">

@@ -1,4 +1,4 @@
-import { SegmentedControl, Stack } from "@mantine/core";
+import { Modal, SegmentedControl, Stack } from "@mantine/core";
 import { useState } from "react";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { PromptRequest } from "../../../model/PromptRequest";
@@ -7,16 +7,20 @@ import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { PromptForm } from "../../Forms/PromptForm/PromptForm";
 import { ModifierForm } from "../../Forms/ModifierForm/ModifierForm";
 import { TemplateForm } from "../../Forms/TemplateForm/TemplateForm";
+import { useDisclosure } from "@mantine/hooks";
 
 interface SaveModal {
-    handle: any
+    opened: boolean,
+    handle: any,
     promptRequest: PromptRequest | undefined,
 }
 
 export function SaveModal({
+    opened,
     handle,
     promptRequest,
 }: SaveModal) {
+
     const { selectedFilters } = useSelectedFilters();
     if (!selectedFilters) return <></>;
 
@@ -36,20 +40,24 @@ export function SaveModal({
             break;
     }
 
+    const title = `New ${type.toLowerCase()}`;
+
     return (
-        <Stack my={"xs"}>
-            <SegmentedControl
-                value={type}
-                size="sm"
-                color="blue"
-                data={[
-                    { value: Type.PROMPT, label: Label.Prompt },
-                    { value: Type.TEMPLATE, label: Label.Tempalate },
-                    { value: Type.MODIFIER, label: Label.Modifier },
-                ]}
-                onChange={setType}
-            />
-            {form}
-        </Stack>
+        <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
+            <Stack my={"xs"}>
+                <SegmentedControl
+                    value={type}
+                    size="sm"
+                    color="blue"
+                    data={[
+                        { value: Type.PROMPT, label: Label.Prompt },
+                        { value: Type.TEMPLATE, label: Label.Tempalate },
+                        { value: Type.MODIFIER, label: Label.Modifier },
+                    ]}
+                    onChange={setType}
+                />
+                {form}
+            </Stack>
+        </Modal>
     )
 }

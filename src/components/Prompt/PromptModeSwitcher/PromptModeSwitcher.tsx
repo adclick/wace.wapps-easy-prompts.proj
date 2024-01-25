@@ -1,4 +1,4 @@
-import { Badge, Group, Popover, Stack } from "@mantine/core";
+import { ActionIcon, Badge, Group, Popover, Stack } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Technology } from "../../../model/Technology";
 import { getProviders } from "../../../api/providersApi";
@@ -9,6 +9,8 @@ import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 import { PromptOptionsTechnologiesField, TechnologyDataItem } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
 import classes from './PromptModeSwitcher.module.css';
+import { IconChevronUp } from "@tabler/icons-react";
+import { PromptModifiersList } from "../PromptModifiersList/PromptModifiersList";
 
 export function PromptModeSwitcher() {
     const [technologyData, setTechnologyData] = useState<TechnologyDataItem[]>([]);
@@ -66,7 +68,7 @@ export function PromptModeSwitcher() {
             <Group justify="center" >
                 <Popover position="top" keepMounted>
                     <Popover.Target>
-                        <Badge style={{cursor: "pointer"}} size="md" variant="dot">
+                        <Badge style={{ cursor: "pointer" }} size="md" variant="dot">
                             {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
                         </Badge>
                     </Popover.Target>

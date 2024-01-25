@@ -10,6 +10,8 @@ import { useImageGenerationByPromptIdQuery } from "../../../../api/imageGenerati
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
+import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
+import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 
 interface ImageGenerationThreadByPromptId {
     promptRequest: PromptRequest,
@@ -44,11 +46,16 @@ export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView,
                     typeof data === "object" &&
                     data.map((src: string) => {
                         return (
-                            <Image key={src} src={src} />
+                            <Stack gap={"xs"}>
+                                <Image key={src} src={src} w={512} h={512} />
+                                <Group gap={"xs"}>
+                                    <ThreadDownloadButton url={src} />
+                                    <ThreadReloadButton reload={refetch} />
+                                </Group>
+                            </Stack>
                         )
                     })
                 }
-                {reloadIcon}
             </Stack>
         }
     }

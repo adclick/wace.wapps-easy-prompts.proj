@@ -8,6 +8,7 @@ import { useUserPromptRequest } from "../../../../context/UserPromptRequestConte
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
+import { getDefaultProvider } from "../../../../api/providersApi";
 
 interface TemplatesList {
     templatesQuery: any
@@ -19,7 +20,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
     const [value, setValue] = useState<string | null>(null);
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
-    const onChange = (ids: string[]) => {
+    const onChange = async (ids: string[]) => {
         const templates: Template[] = [];
         templatesQuery.data.pages.map((page: any) => {
             page.map((template: Template) => {
@@ -31,10 +32,16 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
             })
         })
 
+        // Update userPromptRequest based on the first template selected
         if (templates.length > 0) {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.technology = Technology.clone(templates[0].technology);
-            newUserRequest.provider = Provider.clone(templates[0].provider);
+            if (templates[0].provider) {
+                newUserRequest.provider = Provider.clone(templates[0].provider);
+            } else {
+                const provider = await getDefaultProvider(templates[0].technology.id);
+                newUserRequest.provider = Provider.clone(provider);
+            }
             setUserPromptRequest(newUserRequest);
         }
 

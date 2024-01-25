@@ -3,6 +3,11 @@ import { Modifier } from "../../../../model/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
+import { PromptRequest } from "../../../../model/PromptRequest";
+import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
+import { Technology } from "../../../../model/Technology";
+import { Provider } from "../../../../model/Provider";
+import { getDefaultProvider } from "../../../../api/providersApi";
 
 interface ModifiersList {
     modifiersQuery: any
@@ -11,8 +16,9 @@ interface ModifiersList {
 export function ModifiersList({ modifiersQuery }: ModifiersList) {
     const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
     const { setSelectedTemplates } = useSelectedTemplates();
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
-    const onChange = (ids: string[]) => {
+    const onChange = async (ids: string[]) => {
         const modifiers: Modifier[] = [];
         modifiersQuery.data.pages.map((page: any) => {
             page.map((modifier: Modifier) => {
@@ -20,7 +26,20 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
                     modifiers.push(modifier);
                 }
             })
-        })
+        });
+
+        // Update userPromptRequest based on the first template selected
+        if (modifiers.length > 0) {
+            const newUserRequest = PromptRequest.clone(userPromptRequest);
+            newUserRequest.technology = Technology.clone(modifiers[0].technology);
+            if (modifiers[0].provider) {
+                newUserRequest.provider = Provider.clone(modifiers[0].provider);
+            } else {
+                const provider = await getDefaultProvider(modifiers[0].technology.id);
+                newUserRequest.provider = Provider.clone(provider);
+            }
+            setUserPromptRequest(newUserRequest);
+        }
 
         setSelectedTemplates([]);
         setSelectedModifiers(modifiers);

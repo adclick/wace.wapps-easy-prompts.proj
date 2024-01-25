@@ -1,13 +1,8 @@
 import { useDisclosure } from "@mantine/hooks";
-import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { useUser } from "../../../context/UserContext";
-import { Type } from "../../../model/SelectedDatabaseType";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { ModifiersHeader } from "../Modifiers/ModifiersHeader/ModifiersHeader";
-import { PromptsHeader } from "../Prompts/PromptsHeader/PromptsHeader";
 import { Box, Group, Stack } from "@mantine/core";
 import { useEffect } from "react";
-import { TemplatesHeader } from "../Templates/TemplatesHeader/TemplatesHeader";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { SelectedFilters } from "../../../model/SelectedFilters";
@@ -53,7 +48,7 @@ export function DatabaseHeader({
                     <DatabaseMenu />
                 </Group>
                 <Group gap={"xs"}>
-                    <DatabaseAddIcon onClick={null} />
+                    <DatabaseAddIcon />
                     <FiltersToggleIcon onClick={filtersHandle.toggle} />
                     <Box visibleFrom="sm">
                         <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />

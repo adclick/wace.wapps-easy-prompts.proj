@@ -1,14 +1,25 @@
 import { Button, Popover, Text } from "@mantine/core";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { IconSparkles, IconTemplate } from "@tabler/icons-react";
+import { Modifier } from "../../../../model/Modifier";
+import { Template } from "../../../../model/Template";
 
 interface ThreadInfoButton {
     promptRequest: PromptRequest
 }
 
 export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
-    const modifiers = promptRequest.metadata.modifiers;
-    const templates = promptRequest.metadata.templates;
+    if (!promptRequest.metadata) return <></>;
+
+    let modifiers: Modifier[] = [];
+    if ("modifiers" in promptRequest.metadata) {
+        modifiers = promptRequest.metadata.modifiers;
+    }
+    
+    let templates: Template[] = [];
+    if ("templates" in promptRequest.metadata) {
+        templates = promptRequest.metadata.templates;
+    }
 
     if (modifiers.length <= 0 && templates.length <= 0) return <></>;
 
