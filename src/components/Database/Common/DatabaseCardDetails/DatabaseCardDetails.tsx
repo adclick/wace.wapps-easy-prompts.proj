@@ -1,5 +1,5 @@
 import { Card, Center, Divider, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { IconBulb, IconDatabase, IconLanguage, IconWorld } from "@tabler/icons-react"
+import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconWorld } from "@tabler/icons-react"
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
 import { useUser } from "../../../../context/UserContext";
 import { Modifier } from "../../../../model/Modifier";
@@ -31,8 +31,24 @@ export function DatabaseCardDetails({
     const { user } = useUser();
 
     let modifiers = [];
-    if (itemQuery.data && itemQuery.data.metadata && "modifiers" in itemQuery.data.metadata) {
-        modifiers = itemQuery.data.metadata['modifiers'];
+    if (itemQuery.data) {
+        switch (typeLabel) {
+            case Label.Prompt:
+                modifiers = itemQuery.data.prompts_modifiers.map((m: { modifier: Modifier }) => m.modifier);
+                break;
+            case Label.Tempalate:
+                modifiers = itemQuery.data.templates_modifiers.map((m: { modifier: Modifier }) => m.modifier);
+                break;
+        }
+    }
+
+    let templates = [];
+    if (itemQuery.data) {
+        switch (typeLabel) {
+            case Label.Prompt:
+                templates = itemQuery.data.prompts_templates.map((t: { template: Template }) => t.template);
+                break;
+        }
     }
 
     const title = `${typeLabel}: ${item.title}`;
@@ -102,16 +118,20 @@ export function DatabaseCardDetails({
                     </Card>
                 }
                 {
-                    hasModifiers && user.username === item.user.username && itemQuery.data && itemQuery.data.metadata && "modifiers" in itemQuery.data.metadata &&
+                    hasModifiers && user.username === item.user.username && itemQuery.data && modifiers.length > 0 &&
                     <Card>
-                        <Stack gap={4}>
-                            <Title order={6}>Modifiers</Title>
+                        <Stack>
+                            <Group gap={"xs"}>
+                                <IconSparkles size={14} />
+                                <Title order={6}>
+                                    Modifiers
+                                </Title>
+                            </Group>
                             {
-                                itemQuery.data.modifiers.map((modifier: Modifier) => {
+                                modifiers.map((modifier: Modifier) => {
                                     return (
-                                        <Stack key={modifier.id}>
+                                        <Stack key={modifier.id} gap={"xs"}>
                                             <Text size="xs">{modifier.title}</Text>
-                                            <Text size="xs">{modifier.content}</Text>
                                         </Stack>
                                     )
                                 })
@@ -120,12 +140,15 @@ export function DatabaseCardDetails({
                     </Card>
                 }
                 {
-                    hasTemplates && user.username === item.user.username && itemQuery.data && itemQuery.data.metadata && "templates" in itemQuery.data.metadata &&
+                    hasTemplates && user.username === item.user.username && itemQuery.data && templates.length > 0 &&
                     <Card>
-                        <Stack gap={4}>
-                            <Title order={6}>Templates</Title>
+                        <Stack>
+                            <Group gap={"xs"}>
+                                <IconTemplate size={14} />
+                                <Title order={6}>Templates</Title>
+                            </Group>
                             {
-                                itemQuery.data.templates.map((template: Template) => {
+                                templates.map((template: Template) => {
                                     return (
                                         <Stack key={template.id}>
                                             <Text size="xs">{template.title}</Text>
