@@ -1,7 +1,6 @@
-import { Button, Group, Menu, Stack, Text, UnstyledButton } from "@mantine/core";
-import { IconChevronDown, IconPlus } from "@tabler/icons-react";
+import { Group, Menu, Text, UnstyledButton } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { iconAdd, iconChevronDown, iconPlay } from "../../../../utils/iconsUtils";
+import { iconAdd, iconChevronDown } from "../../../../utils/iconsUtils";
 
 export function ThreadsMenu() {
     const { setPromptsRequests } = usePromptsRequests();

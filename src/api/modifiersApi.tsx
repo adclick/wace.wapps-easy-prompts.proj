@@ -4,7 +4,19 @@ import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useModifierssQuery = (userId: string, selectedFilters: SelectedFilters) => {
+export const useModifierQuery = (modifierId: number, enabled: boolean = true) => {
+    return useQuery({
+        queryKey: ["modifiers", modifierId],
+        queryFn: async () => {
+            const { data } = await axios.get(`${API_URL}/modifiers/${modifierId}`);
+
+            return data;
+        },
+        enabled
+    });
+};
+
+export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useInfiniteQuery({
         queryKey: ["modifiers", selectedFilters],
         queryFn: async ({pageParam}) => {
@@ -27,6 +39,7 @@ export const useModifierssQuery = (userId: string, selectedFilters: SelectedFilt
         enabled: !!userId && !selectedFilters.isEmpty
     });
 };
+
 
 export const useCreateModifierMutation = () => {
     const queryClient = useQueryClient();

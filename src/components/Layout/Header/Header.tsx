@@ -26,7 +26,7 @@ export function Header({
                         !navbarDesktopOpened && <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                     }
                 </Box>
-                <Box hiddenFrom="sm">
+                <Box hiddenFrom="sm" mb={3}>
                     <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
                 </Box>
                 <ThreadsMenu />

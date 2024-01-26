@@ -4,7 +4,19 @@ import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useTemplatessQuery = (userId: string, selectedFilters: SelectedFilters) => {
+export const useTemplateQuery = (templateId: number, enabled: boolean = true) => {
+    return useQuery({
+        queryKey: ["templates", templateId],
+        queryFn: async () => {
+            const { data } = await axios.get(`${API_URL}/templates/${templateId}`);
+
+            return data;
+        },
+        enabled
+    });
+};
+
+export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilters) => {
     return useInfiniteQuery({
         queryKey: ["templates", selectedFilters],
         queryFn: async ({pageParam}) => {

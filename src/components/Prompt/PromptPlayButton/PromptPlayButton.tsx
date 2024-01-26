@@ -4,14 +4,19 @@ import { useUserPromptRequest } from "../../../context/UserPromptRequestContext"
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
 import { usePromptMode } from "../../../context/PromptModeContext";
 import { getPromptModeColor } from "../../../model/PromptMode";
+import { PromptRequest } from "../../../model/PromptRequest";
 
 export function PromptPlayButton() {
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-    const { userPromptRequest } = useUserPromptRequest();
+    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptMode } = usePromptMode();
 
     const play = () => {
-        setPromptsRequests([...promptsRequests, userPromptRequest])
+        setPromptsRequests([...promptsRequests, userPromptRequest]);
+        
+        const newUserRequest = PromptRequest.clone(userPromptRequest);
+        newUserRequest.content = "";
+        setUserPromptRequest(newUserRequest);
     }
 
     return (

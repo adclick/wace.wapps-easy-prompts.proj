@@ -1,35 +1,44 @@
-import { Card, Divider, Group, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+import { Card, Center, Divider, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
 import { IconBulb, IconDatabase, IconLanguage, IconWorld } from "@tabler/icons-react"
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
 import { useUser } from "../../../../context/UserContext";
 import { Modifier } from "../../../../model/Modifier";
 import { Prompt } from "../../../../model/Prompt";
 import { Template } from "../../../../model/Template";
+import { Label } from "../../../../model/SelectedDatabaseType";
 
 interface DatabaseCardDetails {
     opened: boolean,
     handle: any,
-    item: Prompt|Template|Modifier,
-    itemQuery: any
+    item: Prompt | Template | Modifier,
+    itemQuery: any,
+    hasContent: boolean,
+    hasModifiers: boolean,
+    hasTemplates: boolean,
+    typeLabel: Label
 }
 
 export function DatabaseCardDetails({
     opened,
     handle,
     item,
-    itemQuery
- }: DatabaseCardDetails) {
+    itemQuery,
+    hasContent,
+    hasModifiers,
+    hasTemplates,
+    typeLabel
+}: DatabaseCardDetails) {
     const { user } = useUser();
 
-    const { data: itemPrivate } = itemQuery;
-
     let modifiers = [];
-    if (itemPrivate && itemPrivate.metadata && "modifiers" in itemPrivate.metadata) {
-        modifiers = itemPrivate.metadata['modifiers'];
+    if (itemQuery.data && itemQuery.data.metadata && "modifiers" in itemQuery.data.metadata) {
+        modifiers = itemQuery.data.metadata['modifiers'];
     }
 
+    const title = `${typeLabel}: ${item.title}`;
+
     return (
-        <Modal opened={opened} onClose={handle.close} title={item.title} size={"lg"}>
+        <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
             <Stack my={"md"}>
                 <Card>
                     <Stack>
@@ -73,28 +82,48 @@ export function DatabaseCardDetails({
                     </Stack>
                 </Card>
                 {
-                    user.username === item.user.username && itemPrivate &&
+                    itemQuery.isLoading && <Center><Loader size={"sm"} color="blue" type="dots" /></Center>
+                }
+                {
+                    hasContent && user.username === item.user.username && itemQuery.data &&
                     <Card>
-                        <Stack>
-                            <Stack gap={4}>
-                                <Title order={6}>Content</Title>
-                                <Text size="xs">{itemPrivate.content}</Text>
-                            </Stack>
+                        <Stack gap={4}>
+                            <Title order={6}>Content</Title>
+                            <Text size="xs">{itemQuery.data.content}</Text>
+                        </Stack>
+                    </Card>
+                }
+                {
+                    hasModifiers && user.username === item.user.username && itemQuery.data && itemQuery.data.metadata && "modifiers" in itemQuery.data.metadata &&
+                    <Card>
+                        <Stack gap={4}>
+                            <Title order={6}>Modifiers</Title>
                             {
-                                itemPrivate.metadata && "modifiers" in itemPrivate.metadata &&
-                                <Stack gap={4}>
-                                    <Title order={6}>Modifiers</Title>
-                                    {
-                                        modifiers.map((modifier: Modifier) => {
-                                            return (
-                                                <Stack key={modifier.id}>
-                                                    <Text size="xs">{modifier.title}</Text>
-                                                    <Text size="xs">{modifier.content}</Text>
-                                                </Stack>
-                                            )
-                                        })
-                                    }
-                                </Stack>
+                                itemQuery.data.modifiers.map((modifier: Modifier) => {
+                                    return (
+                                        <Stack key={modifier.id}>
+                                            <Text size="xs">{modifier.title}</Text>
+                                            <Text size="xs">{modifier.content}</Text>
+                                        </Stack>
+                                    )
+                                })
+                            }
+                        </Stack>
+                    </Card>
+                }
+                {
+                    hasTemplates && user.username === item.user.username && itemQuery.data && itemQuery.data.metadata && "templates" in itemQuery.data.metadata &&
+                    <Card>
+                        <Stack gap={4}>
+                            <Title order={6}>Templates</Title>
+                            {
+                                itemQuery.data.templates.map((template: Template) => {
+                                    return (
+                                        <Stack key={template.id}>
+                                            <Text size="xs">{template.title}</Text>
+                                        </Stack>
+                                    )
+                                })
                             }
                         </Stack>
                     </Card>
