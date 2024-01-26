@@ -50,7 +50,7 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
         console.log(modals.openConfirmModal);
 
         modals.openConfirmModal({
-            title: 'Delete your profile',
+            title: 'Delete this item',
             centered: true,
             children: (
                 <Text size="sm">
