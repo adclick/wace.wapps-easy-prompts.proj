@@ -3,6 +3,7 @@ import { notifications } from "@mantine/notifications";
 import { IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { useUser } from "../../../context/UserContext";
 import { User } from "../../../model/User";
+import { modals } from "@mantine/modals";
 
 interface CardMenu {
     detailsHandle: any,
@@ -43,6 +44,26 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
         deleteMutation.mutate(itemId);
     }
 
+    const openDeleteModal = (e: any) => {
+        e.stopPropagation();
+
+        console.log(modals.openConfirmModal);
+
+        modals.openConfirmModal({
+            title: 'Delete your profile',
+            centered: true,
+            children: (
+                <Text size="sm">
+                    Are you sure you want to delete this item? This action is will modify the outcome of other items
+                </Text>
+            ),
+            labels: { confirm: 'Delete', cancel: "Cancel" },
+            confirmProps: { color: 'red' },
+            onCancel: () => console.log('Cancel'),
+            onConfirm: () => deleteMutation.mutate(itemId),
+        });
+    }
+
     return (
         <Menu>
             <Menu.Target>
@@ -56,7 +77,7 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
                 </Menu.Item>
                 {
                     isUserItem &&
-                    <Menu.Item onClick={deleteItem} leftSection={<IconTrash size={14} />} color="red">
+                    <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
                         <Text size="xs">Delete</Text>
                     </Menu.Item>
                 }
