@@ -4,12 +4,15 @@ import { iconAdjustmentsHorizontal } from "../../../../utils/iconsUtils";
 
 interface FiltersToggleIcon {
     onClick: any,
+    filtersOpened: boolean
 }
 
-export function FiltersToggleIcon({ onClick }: FiltersToggleIcon) {
+export function FiltersToggleIcon({ onClick, filtersOpened }: FiltersToggleIcon) {
+    const variant = filtersOpened ? "light" : "transparent";
+
     return (
         <Tooltip label={"Filters"}>
-            <ActionIcon className={classes.icon} size="lg" onClick={onClick} variant="transparent">
+            <ActionIcon className={classes.icon} size="lg" onClick={onClick} variant={variant} color="gray">
                 {
                     iconAdjustmentsHorizontal("md")
                 }

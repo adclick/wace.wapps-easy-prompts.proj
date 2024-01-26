@@ -48,32 +48,40 @@ export function DatabaseCardDetails({
                         </Stack>
                         <Divider />
                         <Title order={6}>Specifications</Title>
-                        <SimpleGrid cols={2}>
+                        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={"xl"}>
                             <Stack>
-                                <Group>
-                                    <IconLanguage size={12} />
-                                    <Text size="xs">Language</Text>
-                                    <Text size="xs">{item.language.name}</Text>
-                                </Group>
-                                <Group>
-                                    <IconDatabase size={12} />
-                                    <Text size="xs">Repository</Text>
-                                    <Text size="xs">{item.repository.name}</Text>
-                                </Group>
+                                <SimpleGrid cols={2} spacing={"xs"}>
+                                    <Group gap={"xs"}>
+                                        <IconLanguage size={12} />
+                                        <Text size="xs">Language</Text>
+                                    </Group>
+                                    <Text fw={700} size="xs">{item.language.name}</Text>
+                                </SimpleGrid>
+                                <SimpleGrid cols={2} spacing={"xs"}>
+                                    <Group gap={"xs"}>
+                                        <IconDatabase size={12} />
+                                        <Text size="xs">Repository</Text>
+                                    </Group>
+                                    <Text fw={700} size="xs">{item.repository.name}</Text>
+                                </SimpleGrid>
                             </Stack>
                             <Stack>
-                                <Group>
-                                    <IconBulb size={12} />
-                                    <Text size="xs">Technology</Text>
-                                    <Text size="xs">{item.technology.name}</Text>
-                                </Group>
+                                <SimpleGrid cols={2} spacing={"xs"}>
+                                    <Group gap={"xs"}>
+                                        <IconBulb size={12} />
+                                        <Text size="xs">Technology</Text>
+                                    </Group>
+                                    <Text fw={700} size="xs">{item.technology.name}</Text>
+                                </SimpleGrid>
                                 {
                                     item.provider &&
-                                    <Group>
-                                        <IconWorld size={12} />
-                                        <Text size="xs">Provider</Text>
-                                        <Text size="xs">{item.provider.name}</Text>
-                                    </Group>
+                                    <SimpleGrid cols={2} spacing={"xs"}>
+                                        <Group gap={"xs"}>
+                                            <IconWorld size={12} />
+                                            <Text size="xs">Provider</Text>
+                                        </Group>
+                                        <Text fw={700} size="xs">{item.provider.name}</Text>
+                                    </SimpleGrid>
                                 }
                             </Stack>
                         </SimpleGrid>

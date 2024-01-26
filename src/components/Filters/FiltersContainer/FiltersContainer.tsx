@@ -1,4 +1,4 @@
-import { ActionIcon, Card, Collapse, Loader, Stack, Text } from "@mantine/core";
+import { ActionIcon, Card, Collapse, Divider, Group, Loader, Stack, Text, Title } from "@mantine/core";
 import { LanguagesFilter } from "../LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
@@ -26,7 +26,7 @@ export function FiltersContainer({
     let searchTermFilter = <></>;
 
     if (selectedFiltersQuery.data) {
-        filters = <Stack gap={"xl"}>
+        filters = <Stack gap={"xs"}>
             <LanguagesFilter
                 languages={selectedFiltersQuery.data.languages}
                 selectedFilters={selectedFilters}
@@ -53,16 +53,21 @@ export function FiltersContainer({
         <>
             {searchTermFilter}
             <Collapse in={opened}>
-                <Card className={classes.containerCard}>
-                    <ActionIcon
-                        className={classes.closeIcon}
-                        color="gray"
-                        variant="transparent"
-                        onClick={handle.close}
-                    >
-                        {iconClose(14)}
-                    </ActionIcon>
-                    {filters}
+                <Card>
+                    <Stack>
+                        <Group justify="space-between">
+                            <Title order={5}>Filters</Title>
+                            <ActionIcon
+                                color="gray"
+                                variant="transparent"
+                                onClick={handle.close}
+                            >
+
+                                {iconClose(14)}
+                            </ActionIcon>
+                        </Group>
+                        {filters}
+                    </Stack>
                 </Card>
             </Collapse>
         </>

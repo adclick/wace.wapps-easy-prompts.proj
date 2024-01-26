@@ -49,7 +49,7 @@ export function DatabaseHeader({
                 </Group>
                 <Group gap={"xs"}>
                     <DatabaseAddIcon />
-                    <FiltersToggleIcon onClick={filtersHandle.toggle} />
+                    <FiltersToggleIcon onClick={filtersHandle.toggle} filtersOpened={filtersOpened} />
                     <Box visibleFrom="sm">
                         <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                     </Box>
