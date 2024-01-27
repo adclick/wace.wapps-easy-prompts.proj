@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Text } from "@mantine/core";
+import { Button, Dialog, Group, Modal, Stack, Text, Title } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
@@ -39,30 +39,31 @@ const AppUpdateModal = () => {
   console.log("-->" + offlineReady);
   return (
     <>
-      <Modal
+      <Dialog
         opened={needRefresh}
         title="Install update"
-        centered
         onClose={close}
       >
-        <Text>A new app update is available.</Text>
+        <Stack gap={"xs"}>
+          <Title order={5}>A new update is available.</Title>
 
-        <Text c={"dimmed"} fz="xs" mt="sm">
-          <strong>Reload</strong> will refresh the app. You may lose the
-          progress, if any.
-        </Text>
-        <Text c={"dimmed"} fz="xs">
-          <strong>Cancel</strong> will install the update next time you visit
-          the app.
-        </Text>
+          <Stack gap={"xs"}>
+            <Text c={"dimmed"} fz="xs">
+              <strong>Reload</strong> will refresh the app. You may lose the progress, if any.
+            </Text>
+            <Text c={"dimmed"} fz="xs">
+              <strong>Cancel</strong> will install the update next time you visit the app.
+            </Text>
+          </Stack>
 
-        <Group mt="lg">
-          <Button variant="subtle" onClick={close}>
-            Cancel
-          </Button>
-          <Button onClick={() => updateServiceWorker(true)}>Reload</Button>
-        </Group>
-      </Modal>
+          <Group mt={"xs"} justify="flex-end">
+            <Button size="xs" variant="subtle" onClick={close}>
+              Cancel
+            </Button>
+            <Button size="xs" px={"md"} onClick={() => updateServiceWorker(true)}>Reload</Button>
+          </Group>
+        </Stack>
+      </Dialog>
     </>
   );
 };
