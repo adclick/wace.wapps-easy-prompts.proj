@@ -17,6 +17,7 @@ import { PromptModeProvider } from './context/PromptModeContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 import { SelectedTemplatesProvider } from './context/SelectedTemplatesContext';
 import { ModalsProvider } from '@mantine/modals';
+import AppUpdateModal from './components/Common/AppUpdateModal/AppUpdateModal';
 
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
                         <UserPromptRequestProvider>
                           <PromptModeProvider>
                             <ModalsProvider>
+                              <AppUpdateModal />
                               <Notifications />
                               <Router />
                             </ModalsProvider>
