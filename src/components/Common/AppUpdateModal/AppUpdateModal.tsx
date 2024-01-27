@@ -32,6 +32,8 @@ const AppUpdateModal = () => {
       });
   }, [offlineReady]);
 
+
+  console.log("teste");
   console.log("-->" + needRefresh);
   console.log("-->" + offlineReady);
   return (
