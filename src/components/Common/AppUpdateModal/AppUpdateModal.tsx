@@ -28,7 +28,6 @@ const AppUpdateModal = () => {
       showNotification({
         title: "Ready",
         message: "App is ready to work offline",
-        color: "blue",
       });
   }, [offlineReady]);
 
