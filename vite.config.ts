@@ -11,7 +11,15 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      workbox: {
+        globPatterns: ['**/*']
+      },
+      includeAssets: [
+        'favicon.ico',
+        'apple-touch-icon.png',
+        'mask-icon.svg',
+        '**/*'
+      ],
       manifest: {
         name: 'EasyPrompts',
         short_name: 'EasyPrompts',
@@ -43,20 +51,20 @@ export default defineConfig({
         ],
         screenshots: [
           {
-           src: "/screenshot-desktop.jpg",
+            src: "/screenshot-desktop.jpg",
             sizes: "640x320",
             type: "image/jpg",
             form_factor: "wide",
             label: "EasyPrompts"
           },
           {
-           src: "/screenshot-mobile.jpg",
+            src: "/screenshot-mobile.jpg",
             sizes: "435x786",
             type: "image/jpg",
             form_factor: "narrow",
             label: "EasyPrompts"
           }
-      ]
+        ]
       }
     })
   ],
