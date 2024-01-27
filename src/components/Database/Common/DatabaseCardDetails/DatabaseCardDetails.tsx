@@ -96,7 +96,7 @@ export function DatabaseCardDetails({
                                             <IconWorld size={12} />
                                             <Text size="xs">Provider</Text>
                                         </Group>
-                                        <Text fw={700} size="xs">{item.provider.name}</Text>
+                                        <Text fw={700} size="xs">{item.provider.model_name}</Text>
                                     </SimpleGrid>
                                 }
                             </Stack>
