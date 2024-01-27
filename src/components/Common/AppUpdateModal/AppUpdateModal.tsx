@@ -39,10 +39,11 @@ const AppUpdateModal = () => {
   console.log("-->" + offlineReady);
   return (
     <>
-      <Dialog
+      <Modal
         opened={needRefresh}
         title="Install update"
         onClose={close}
+        centered
       >
         <Stack gap={"xs"}>
           <Title order={5}>A new update is available.</Title>
@@ -57,13 +58,13 @@ const AppUpdateModal = () => {
           </Stack>
 
           <Group mt={"xs"} justify="flex-end">
-            <Button size="xs" variant="subtle" onClick={close}>
+            <Button size="xs" c={"var(--mantine-color-text)"} variant="subtle" onClick={close}>
               Cancel
             </Button>
-            <Button size="xs" px={"md"} onClick={() => updateServiceWorker(true)}>Reload</Button>
+            <Button size="xs" onClick={() => updateServiceWorker(true)}>Reload</Button>
           </Group>
         </Stack>
-      </Dialog>
+      </Modal>
     </>
   );
 };

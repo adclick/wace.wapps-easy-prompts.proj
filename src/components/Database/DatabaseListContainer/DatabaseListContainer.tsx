@@ -9,7 +9,11 @@ import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { useModifiersQuery } from "../../../api/modifiersApi";
 import { useTemplatesQuery } from "../../../api/templatesApi";
 
-export function DatabaseListContainer() {
+interface DatabaseListContainer {
+    navbarMobileHandle: any
+}
+
+export function DatabaseListContainer({navbarMobileHandle}: DatabaseListContainer) {
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const { selectedFilters } = useSelectedFilters();
@@ -19,7 +23,7 @@ export function DatabaseListContainer() {
 
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:
-            return <PromptsList promptsQuery={promptsQuery} />
+            return <PromptsList promptsQuery={promptsQuery} navbarMobileHandle={navbarMobileHandle} />
         case Type.MODIFIER:
             return <ModifiersList modifiersQuery={modifiersQuery} />
         case Type.TEMPLATE:

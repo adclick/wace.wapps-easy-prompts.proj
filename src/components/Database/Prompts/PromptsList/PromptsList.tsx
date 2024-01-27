@@ -3,10 +3,11 @@ import { Prompt } from "../../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 
 interface PromptsList {
-    promptsQuery: any
+    promptsQuery: any,
+    navbarMobileHandle: any
 }
 
-export function PromptsList({ promptsQuery }: PromptsList) {
+export function PromptsList({ promptsQuery, navbarMobileHandle }: PromptsList) {
     return (
         <Box>
             {
@@ -25,7 +26,11 @@ export function PromptsList({ promptsQuery }: PromptsList) {
                         promptsQuery.data !== undefined &&
                         promptsQuery.data.pages.map((page: any) => {
                             return page.map((prompt: Prompt) => {
-                                return <PromptCard key={prompt.id} prompt={prompt} />
+                                return <PromptCard
+                                    key={prompt.id}
+                                    prompt={prompt}
+                                    navbarMobileHandle={navbarMobileHandle}
+                                />
                             })
                         })
 

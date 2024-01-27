@@ -17,9 +17,10 @@ import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCa
 
 interface PromptCard {
     prompt: Prompt,
+    navbarMobileHandle: any
 }
 
-export function PromptCard({ prompt }: PromptCard) {
+export function PromptCard({ prompt, navbarMobileHandle }: PromptCard) {
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
@@ -37,6 +38,8 @@ export function PromptCard({ prompt }: PromptCard) {
         if (!newPromptRequest.provider) {
             newPromptRequest.provider = await getDefaultProvider(newPromptRequest.technology.id);
         }
+
+        navbarMobileHandle.close();
 
         setPromptsRequests([
             ...promptsRequests,

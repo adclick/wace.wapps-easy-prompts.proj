@@ -70,7 +70,7 @@ export function HomePage() {
                         />
                     </AppShell.Section>
                     <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-                        <DatabaseListContainer />
+                        <DatabaseListContainer navbarMobileHandle={navbarMobileHandle} />
                     </AppShell.Section>
                 </AppShell.Navbar>
 
