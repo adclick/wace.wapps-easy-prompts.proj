@@ -79,7 +79,7 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
     return (
         <Group justify="center" >
             <Card
-                p={"lg"}
+                p={"sm"}
                 shadow="sm"
                 mx={"md"}
                 withBorder w={800}

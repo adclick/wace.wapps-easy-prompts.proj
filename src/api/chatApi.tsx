@@ -4,6 +4,7 @@ import { Technology } from '../model/Technology';
 import { Provider } from '../model/Provider';
 import { Modifier } from '../model/Modifier';
 import { useQuery } from '@tanstack/react-query';
+import { Template } from '../model/Template';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
@@ -29,13 +30,22 @@ export const useChatQuery = (request: PromptRequest, text: string, providerId: n
     });
 };
 
-export const chat = async (text: string, providerId: number, history: { role: string, message: string }[], modifiers: Modifier[]): Promise<string> => {
+export const chat = async (
+    text: string,
+    providerId: number,
+    history: { role: string, message: string }[],
+    modifiers: Modifier[],
+    templates: Template[]
+): Promise<string> => {
     try {
         const modifiersIds = modifiers.map(m => m.id);
+        const templatesIds = templates.map(t => t.id);
+
         const { data } = await axios.post(`${API_URL}/ai/chat`, {
             text,
             provider_id: providerId,
             modifiers_ids: JSON.stringify(modifiersIds),
+            templates_ids: JSON.stringify(templatesIds),
             chat_messages: JSON.stringify(history)
         });
 

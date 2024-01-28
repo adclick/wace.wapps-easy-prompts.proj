@@ -9,6 +9,7 @@ import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
 import { getDefaultProvider, useDefaultProviderQuery, useProvidersQuery } from "../../../../api/providersApi";
 import { useEffect } from "react";
+import { DatabaseLoadMoreButton } from "../../Common/DatabaseLoadMoreButton/DatabaseLoadMoreButton";
 
 interface ModifiersList {
     modifiersQuery: any
@@ -72,20 +73,7 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
                         }
                     </Accordion>
                 </Checkbox.Group>
-                <Button
-                    variant="default"
-                    size="xs"
-                    onClick={() => modifiersQuery.fetchNextPage()}
-                    disabled={!modifiersQuery.hasNextPage || modifiersQuery.isFetchingNextPage}
-                >
-                    {
-                        modifiersQuery.isFetchingNextPage
-                            ? "Loading more..."
-                            : modifiersQuery.hasNextPage
-                                ? "Load More"
-                                : "Nothing more to load"
-                    }
-                </Button>
+                <DatabaseLoadMoreButton itemQuery={modifiersQuery} />
             </Stack>
         </Box>
     )

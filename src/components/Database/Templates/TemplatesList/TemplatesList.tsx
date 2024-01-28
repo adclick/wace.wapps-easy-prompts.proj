@@ -9,6 +9,7 @@ import { PromptRequest } from "../../../../model/PromptRequest";
 import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
 import { useDefaultProviderQuery, useProvidersQuery } from "../../../../api/providersApi";
+import { DatabaseLoadMoreButton } from "../../Common/DatabaseLoadMoreButton/DatabaseLoadMoreButton";
 
 interface TemplatesList {
     templatesQuery: any
@@ -85,20 +86,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
                         }
                     </Accordion>
                 </Checkbox.Group>
-                <Button
-                    variant="default"
-                    size="xs"
-                    onClick={() => templatesQuery.fetchNextPage()}
-                    disabled={!templatesQuery.hasNextPage || templatesQuery.isFetchingNextPage}
-                >
-                    {
-                        templatesQuery.isFetchingNextPage
-                            ? "Loading more..."
-                            : templatesQuery.hasNextPage
-                                ? "Load More"
-                                : "Nothing more to load"
-                    }
-                </Button>
+                <DatabaseLoadMoreButton itemQuery={templatesQuery} />
             </Stack>
         </Box>
     )

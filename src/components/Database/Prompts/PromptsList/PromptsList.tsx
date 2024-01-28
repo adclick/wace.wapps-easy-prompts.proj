@@ -1,6 +1,7 @@
 import { Accordion, Box, Button, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
+import { DatabaseLoadMoreButton } from "../../Common/DatabaseLoadMoreButton/DatabaseLoadMoreButton";
 
 interface PromptsList {
     promptsQuery: any,
@@ -36,20 +37,7 @@ export function PromptsList({ promptsQuery, navbarMobileHandle }: PromptsList) {
 
                     }
                 </Accordion>
-                <Button
-                    variant="default"
-                    size="xs"
-                    onClick={() => promptsQuery.fetchNextPage()}
-                    disabled={!promptsQuery.hasNextPage || promptsQuery.isFetchingNextPage}
-                >
-                    {
-                        promptsQuery.isFetchingNextPage
-                            ? "Loading more..."
-                            : promptsQuery.hasNextPage
-                                ? "Load More"
-                                : "Nothing more to load"
-                    }
-                </Button>
+                <DatabaseLoadMoreButton itemQuery={promptsQuery} />
             </Stack>
         </Box>
     )

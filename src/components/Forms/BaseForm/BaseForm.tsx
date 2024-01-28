@@ -68,8 +68,8 @@ export function BaseForm({
     const filtersQuery = useFiltersQuery(user.id);
 
     const save = async () => {
-        const modifiersIds = promptRequest ? promptRequest.metadata.modifiers.map(m => m.id) : [];
-        const templatesIds = promptRequest ? promptRequest.metadata.templates.map(t => t.id) : [];
+        const modifiersIds = modifiers.map(m => m.id);
+        const templatesIds = templates.map(t => t.id);
         const chatHistory = promptRequest ? promptRequest.metadata.history : [];
         const chatMessages = promptRequest ? promptRequest.metadata.history : [];
 

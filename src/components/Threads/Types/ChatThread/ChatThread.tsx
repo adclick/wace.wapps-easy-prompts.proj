@@ -10,6 +10,7 @@ import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
+import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 
 interface ChatThread {
     promptRequest: PromptRequest,
@@ -29,6 +30,7 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { selectedModifiers } = useSelectedModifiers();
+    const { selectedTemplates } = useSelectedTemplates();
     const [isResponding, isRespondingHandle] = useDisclosure(false);
 
     useEffect(() => {
@@ -90,7 +92,13 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
         }
 
         isRespondingHandle.open();
-        const response = await chat(message.request, promptRequest.provider.id, getHistory(), selectedModifiers);
+        const response = await chat(
+            message.request,
+            promptRequest.provider.id,
+            getHistory(),
+            selectedModifiers,
+            selectedTemplates
+        );
         updateMessages(message.id, message.request, response);
         isRespondingHandle.close();
     }
@@ -114,6 +122,7 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
         newUserPromptRequest.chatReply = chatReply;
         newUserPromptRequest.metadata.history = getHistory();
         newUserPromptRequest.metadata.modifiers = selectedModifiers;
+        newUserPromptRequest.metadata.templates = selectedTemplates;
         setUserPromptRequest(newUserPromptRequest);
 
         promptRequest.chatReply = chatReply;
