@@ -9,6 +9,11 @@ interface ChatHistory {
     message: string
 }
 
+interface ChatMessage {
+    role: string,
+    message: string
+}
+
 export interface Metadata {
     modifiers: Modifier[],
     templates: Template[],
@@ -31,6 +36,7 @@ export class Prompt {
     repository: {id: number, name: string, slug: string}
     technology: Technology;
     provider: Provider;
+    chat_messages: ChatMessage[]
     
     constructor() {
         this.id = 0;
@@ -48,6 +54,7 @@ export class Prompt {
         this.repository = {id: 0, name: "", slug: ""}
         this.technology = new Technology();
         this.provider = new Provider();
+        this.chat_messages = []
     }
 
     static clone(prompt: Prompt): Prompt {
@@ -68,6 +75,7 @@ export class Prompt {
         newPrompt.repository = prompt.repository;
         newPrompt.technology = prompt.technology;
         newPrompt.provider = prompt.provider;
+        newPrompt.chat_messages = prompt.chat_messages;
 
         return newPrompt;
     }

@@ -31,22 +31,17 @@ export function DatabaseCardDetails({
     const { user } = useUser();
 
     let modifiers = [];
+    let templates = [];
+    let chatMessages = [];
     if (itemQuery.data) {
         switch (typeLabel) {
             case Label.Prompt:
                 modifiers = itemQuery.data.prompts_modifiers.map((m: { modifier: Modifier }) => m.modifier);
+                templates = itemQuery.data.prompts_templates.map((t: { template: Template }) => t.template);
+                chatMessages = itemQuery.data.prompts_chat_messages;
                 break;
             case Label.Tempalate:
                 modifiers = itemQuery.data.templates_modifiers.map((m: { modifier: Modifier }) => m.modifier);
-                break;
-        }
-    }
-
-    let templates = [];
-    if (itemQuery.data) {
-        switch (typeLabel) {
-            case Label.Prompt:
-                templates = itemQuery.data.prompts_templates.map((t: { template: Template }) => t.template);
                 break;
         }
     }
@@ -111,8 +106,24 @@ export function DatabaseCardDetails({
                 {
                     hasContent && user.username === item.user.username && itemQuery.data &&
                     <Card>
-                        <Stack gap={4}>
+                        <Stack>
                             <Title order={6}>Content</Title>
+                            {
+                                chatMessages.length > 0 &&
+                                <Stack gap={"xs"}>
+                                    <Text size="xs" fw={500}>Messages</Text>
+                                    <Stack gap={4}>
+                                        {
+                                            chatMessages.map((m: { id:number, role: string, message: string }) => {
+                                                return <Group key={m.id}>
+                                                    <Text size="xs">{m.role}</Text>
+                                                    <Text size="xs">{m.message}</Text>
+                                                </Group>
+                                            })
+                                        }
+                                    </Stack>
+                                </Stack>
+                            }
                             <Text size="xs">{itemQuery.data.content}</Text>
                         </Stack>
                     </Card>

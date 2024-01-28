@@ -36,7 +36,7 @@ export const chat = async (text: string, providerId: number, history: { role: st
             text,
             provider_id: providerId,
             modifiers_ids: JSON.stringify(modifiersIds),
-            chat_history: JSON.stringify(history)
+            chat_messages: JSON.stringify(history)
         });
 
         return data;

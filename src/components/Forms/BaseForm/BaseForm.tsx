@@ -71,6 +71,7 @@ export function BaseForm({
         const modifiersIds = promptRequest ? promptRequest.metadata.modifiers.map(m => m.id) : [];
         const templatesIds = promptRequest ? promptRequest.metadata.templates.map(t => t.id) : [];
         const chatHistory = promptRequest ? promptRequest.metadata.history : [];
+        const chatMessages = promptRequest ? promptRequest.metadata.history : [];
 
         if (!languageId || !repositoryId || !technologyId) return false;
 
@@ -82,6 +83,7 @@ export function BaseForm({
         newFormData.append("title", name);
         newFormData.append("description", description === "" ? "No description" : description);
         newFormData.append("chat_history", JSON.stringify(chatHistory));
+        newFormData.append("chat_messages", JSON.stringify(chatMessages));
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("templates_ids", JSON.stringify(templatesIds));
 
