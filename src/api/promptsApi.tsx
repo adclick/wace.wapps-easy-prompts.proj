@@ -34,6 +34,8 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
         },
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
+            if (lastPage.length < 10) return null;
+            
             return 10 * pages.length;
         },
         enabled: !!userId && !selectedFilters.isEmpty

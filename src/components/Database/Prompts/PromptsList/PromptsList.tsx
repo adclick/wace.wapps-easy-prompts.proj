@@ -1,4 +1,4 @@
-import { Accordion, Box, Button, Center, Loader, Paper, Stack } from "@mantine/core";
+import { Accordion, Box, Button, Center, Loader, Paper, Stack, Text } from "@mantine/core";
 import { Prompt } from "../../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 
@@ -10,8 +10,9 @@ interface PromptsList {
 }
 
 export function PromptsList({ promptsQuery, navbarMobileHandle, itemRef, entry }: PromptsList) {
-
-
+    if (entry?.isIntersecting) {
+        promptsQuery.fetchNextPage();
+    }
 
     return (
         <Box>
@@ -30,38 +31,33 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, itemRef, entry }
                     {
                         promptsQuery.data !== undefined &&
                         promptsQuery.data.pages.map((page: any) => {
-                            const total = promptsQuery.data.pages.length * 10;
-                            console.log("total", total);
 
                             return page.map((prompt: Prompt, index: number) => {
-                                let r = itemRef;
-
-                                if (index !== page.length - 1) {
-                                    r = null;
-                                }
-
-                                console.log(r)
-
-                                if (index === page.length - 1) {
-                                    if (entry?.isIntersecting) {
-                                        console.log("intersected on " + index);
-                                        //promptsQuery.fetchNextPage();
-                                    }
-                                }
+                                const isTarget = index === 6;
 
                                 return (
-                                        <PromptCard
-                                            key={prompt.id}
-                                            itemRef={r}
-                                            prompt={prompt}
-                                            navbarMobileHandle={navbarMobileHandle}
-                                        />
+                                    <PromptCard
+                                        key={prompt.id}
+                                        itemRef={isTarget ? itemRef : undefined}
+                                        prompt={prompt}
+                                        navbarMobileHandle={navbarMobileHandle}
+                                    />
                                 )
                             })
                         })
 
                     }
                 </Accordion>
+                {
+                    promptsQuery.isFetchingNextPage
+                        ? <Center mb={"xl"}>
+                            <Loader type="bars" size={"xs"} />
+                        </Center>
+                        : (!promptsQuery.hasNextPage && promptsQuery.data) &&
+                        <Center mb={"xl"}>
+                            <Text size="sm" fw={700}>Nothing more to load</Text>
+                        </Center>
+                }
                 {/* <DatabaseLoadMoreButton itemQuery={promptsQuery} /> */}
             </Stack>
         </Box>
