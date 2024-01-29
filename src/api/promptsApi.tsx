@@ -18,7 +18,6 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
 };
 
 export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters) => {
-
     return useInfiniteQuery({
         queryKey: ["prompts", selectedFilters],
         queryFn: async ({ pageParam }) => {
