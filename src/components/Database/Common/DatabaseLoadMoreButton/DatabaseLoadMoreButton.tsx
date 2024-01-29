@@ -6,6 +6,7 @@ interface DatabaseLoadMoreButton {
 
 export function DatabaseLoadMoreButton({ itemQuery }: DatabaseLoadMoreButton) {
     return (
+        itemQuery.data &&
         itemQuery.data.pages.length > 1 &&
         <Button
             variant="default"

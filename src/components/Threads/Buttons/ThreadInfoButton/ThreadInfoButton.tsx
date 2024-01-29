@@ -35,7 +35,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
                     {
                         templates.map(m => {
                             return (
-                                <Text size="xs">{m.title}</Text>
+                                <Text key={m.id} size="xs">{m.title}</Text>
                             )
                         })
                     }

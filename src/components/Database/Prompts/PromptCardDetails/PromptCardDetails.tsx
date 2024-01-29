@@ -1,8 +1,8 @@
-import { Prompt } from "../../../../../model/Prompt";
-import { usePromptQuery } from "../../../../../api/promptsApi";
-import { useUser } from "../../../../../context/UserContext";
-import { DatabaseCardDetails } from "../../../Common/DatabaseCardDetails/DatabaseCardDetails";
-import { Label } from "../../../../../model/SelectedDatabaseType";
+import { Prompt } from "../../../../model/Prompt";
+import { usePromptQuery } from "../../../../api/promptsApi";
+import { useUser } from "../../../../context/UserContext";
+import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
+import { Label } from "../../../../model/SelectedDatabaseType";
 
 interface PromptCardDetails {
     opened: boolean,

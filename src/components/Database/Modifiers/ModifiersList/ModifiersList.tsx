@@ -20,8 +20,6 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
     const { setSelectedTemplates } = useSelectedTemplates();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
-    const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
-
     const onChange = async (ids: string[]) => {
         const modifiers: Modifier[] = [];
         modifiersQuery.data.pages.map((page: any) => {
@@ -40,9 +38,7 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
             if (modifiers[0].provider) {
                 newUserRequest.provider = Provider.clone(modifiers[0].provider);
             } else {
-                if (providersQuery.data) {
-                    newUserRequest.provider = Provider.clone(providersQuery.data[0]);
-                }
+                newUserRequest.provider = new Provider();
             }
 
             setUserPromptRequest(newUserRequest);

@@ -10,10 +10,12 @@ import { useModifiersQuery } from "../../../api/modifiersApi";
 import { useTemplatesQuery } from "../../../api/templatesApi";
 
 interface DatabaseListContainer {
-    navbarMobileHandle: any
+    navbarMobileHandle: any,
+    itemRef: any,
+    entry: any
 }
 
-export function DatabaseListContainer({navbarMobileHandle}: DatabaseListContainer) {
+export function DatabaseListContainer({navbarMobileHandle, itemRef, entry}: DatabaseListContainer) {
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const { selectedFilters } = useSelectedFilters();
@@ -23,7 +25,7 @@ export function DatabaseListContainer({navbarMobileHandle}: DatabaseListContaine
 
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:
-            return <PromptsList promptsQuery={promptsQuery} navbarMobileHandle={navbarMobileHandle} />
+            return <PromptsList itemRef={itemRef} entry={entry} promptsQuery={promptsQuery} navbarMobileHandle={navbarMobileHandle} />
         case Type.MODIFIER:
             return <ModifiersList modifiersQuery={modifiersQuery} />
         case Type.TEMPLATE:

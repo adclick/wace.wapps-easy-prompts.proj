@@ -1,10 +1,10 @@
-import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center } from "@mantine/core";
+import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center, Paper } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../../model/Prompt";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
-import { PromptCardDetails } from "../PromptsList/PromptCardDetails/PromptCardDetails";
+import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
@@ -17,10 +17,11 @@ import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCa
 
 interface PromptCard {
     prompt: Prompt,
-    navbarMobileHandle: any
+    navbarMobileHandle: any,
+    itemRef: any
 }
 
-export function PromptCard({ prompt, navbarMobileHandle }: PromptCard) {
+export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) {
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
@@ -56,7 +57,7 @@ export function PromptCard({ prompt, navbarMobileHandle }: PromptCard) {
                 handle={detailsHandle}
                 prompt={prompt}
             />
-            <Accordion.Item value={`${prompt.type}-${prompt.id}`}>
+            <Accordion.Item ref={itemRef}  value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">

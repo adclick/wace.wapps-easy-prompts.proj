@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AppShell, Box, ScrollArea } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useIntersection } from '@mantine/hooks';
 import { User } from '../model/User';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { useUser } from '../context/UserContext';
@@ -38,6 +38,12 @@ export function HomePage() {
         }
     })
 
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { ref, entry } = useIntersection({
+        root: containerRef.current,
+        threshold: 1,
+    });
+
     return (
         <Box>
             <AppOverlay visible={overlayVisible} />
@@ -69,8 +75,8 @@ export function HomePage() {
                             navbarDesktopHandle={navbarDesktopHandle}
                         />
                     </AppShell.Section>
-                    <AppShell.Section grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-                        <DatabaseListContainer navbarMobileHandle={navbarMobileHandle} />
+                    <AppShell.Section ref={containerRef} grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
+                        <DatabaseListContainer navbarMobileHandle={navbarMobileHandle} itemRef={ref} entry={entry} />
                     </AppShell.Section>
                 </AppShell.Navbar>
 
