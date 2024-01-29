@@ -4,12 +4,13 @@ import { Provider } from "../../../model/Provider";
 
 interface ProviderLabel {
     technology: Technology,
-    provider: Provider|undefined
+    provider: Provider|undefined,
+    size: string
 }
 
-export function ProviderLabel({ technology, provider }: ProviderLabel) {
+export function ProviderLabel({ technology, provider, size }: ProviderLabel) {
     return (
-        <Badge size="xs" variant="dot">
+        <Badge size={size} variant="dot">
             {technology.name}{provider && ` | ${provider.model_name}`}
         </Badge>
     )

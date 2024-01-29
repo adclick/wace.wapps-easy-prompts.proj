@@ -44,12 +44,12 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                         </Group>
 
                         <Group justify="space-between">
-                            <ProviderLabel technology={template.technology} provider={template.provider} />
+                            <ProviderLabel size="xs" technology={template.technology} provider={template.provider} />
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
                                 }} value={template.id.toString()}
-                                size="sm"
+                                size="md"
                                 onClick={e => e.stopPropagation()}
                             />
                         </Group>

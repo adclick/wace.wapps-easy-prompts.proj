@@ -60,7 +60,7 @@ export function PromptOptionsTechnologiesField() {
             allowDeselect={false}
             variant="unstyled"
             checkIconPosition="right"
-            size="sm"
+            size="md"
             comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.technology.id.toString()}
             data={data}

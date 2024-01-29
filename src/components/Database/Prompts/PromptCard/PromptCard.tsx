@@ -78,9 +78,9 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                         </Group>
 
                         <Group justify="space-between">
-                            <ProviderLabel technology={prompt.technology} provider={prompt.provider} />
-                            <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
-                                {iconPlay(13)}
+                            <ProviderLabel size="xs" technology={prompt.technology} provider={prompt.provider} />
+                            <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => play(e)}>
+                                {iconPlay(14)}
                             </ActionIcon>
                         </Group>
                     </Stack>

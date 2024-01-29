@@ -28,7 +28,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
             <Popover position="top">
                 <Popover.Target>
                     <Button size="compact-xs" variant="transparent" color="gray" leftSection={<IconTemplate size={16} />}>
-                        {`Templates used (${templates.length})`}
+                        {templates.length}
                     </Button>
                 </Popover.Target>
                 <Popover.Dropdown>
@@ -49,7 +49,7 @@ export function ThreadInfoButton({ promptRequest }: ThreadInfoButton) {
             <Popover position="top">
                 <Popover.Target>
                     <Button size="compact-xs" variant="transparent" color="gray" leftSection={<IconSparkles size={16} />}>
-                    {`Modifiers used (${modifiers.length})`}
+                    {modifiers.length}
                     </Button>
                 </Popover.Target>
                 <Popover.Dropdown>

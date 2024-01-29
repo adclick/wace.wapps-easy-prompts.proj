@@ -48,7 +48,7 @@ export function PromptOptionsProvidersField() {
         return (
             <Select
                 label={"Provider"}
-                size="sm"
+                size="md"
                 variant="unstyled"
                 allowDeselect={false}
                 comboboxProps={{ withinPortal: false }}

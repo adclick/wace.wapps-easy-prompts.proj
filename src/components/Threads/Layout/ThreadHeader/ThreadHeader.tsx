@@ -16,7 +16,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
-                    <ProviderLabel technology={promptRequest.technology} provider={promptRequest.provider} />
+                    <ProviderLabel size="sm" technology={promptRequest.technology} provider={promptRequest.provider} />
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">

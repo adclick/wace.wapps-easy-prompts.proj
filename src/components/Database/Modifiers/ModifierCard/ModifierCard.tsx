@@ -41,13 +41,13 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                         </Group>
 
                         <Group justify="space-between">
-                            <ProviderLabel technology={modifier.technology} provider={modifier.provider} />
+                            <ProviderLabel size="xs" technology={modifier.technology} provider={modifier.provider} />
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
                                 }}
                                 value={modifier.id.toString()}
-                                size="sm"
+                                size="md"
                                 onClick={e => e.stopPropagation()}
                             />
                         </Group>

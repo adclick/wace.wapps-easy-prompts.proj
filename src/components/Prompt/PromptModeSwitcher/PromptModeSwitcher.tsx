@@ -13,8 +13,8 @@ export function PromptModeSwitcher() {
             <Group justify="center" >
                 <Popover position="top" keepMounted>
                     <Popover.Target>
-                        <Button size="compact-xs" variant="transparent" color="gray" rightSection={iconChevronUp(16)}>
-                            <Badge style={{ cursor: "pointer" }} size="md" variant="dot">
+                        <Button size="compact-xs" variant="transparent" color="gray" rightSection={iconChevronUp(18)}>
+                            <Badge style={{ cursor: "pointer" }} size="lg" variant="dot">
                                 {userPromptRequest.technology.name} | {userPromptRequest.provider.model_name}
                             </Badge>
                         </Button>
