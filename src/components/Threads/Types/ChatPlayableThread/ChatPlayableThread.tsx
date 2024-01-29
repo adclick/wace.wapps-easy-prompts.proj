@@ -29,6 +29,7 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { selectedModifiers } = useSelectedModifiers();
+    const { selectedTemplates } = useSelectedTemplates();
     const [isResponding, isRespondingHandle] = useDisclosure(false);
 
     useEffect(() => {
@@ -90,7 +91,13 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
         }
 
         isRespondingHandle.open();
-        const response = await chat(message.request, promptRequest.provider.id, getHistory(), selectedModifiers);
+        const response = await chat(
+            message.request,
+            promptRequest.provider.id,
+            getHistory(),
+            selectedModifiers,
+            selectedTemplates
+        );
         updateMessages(message.id, message.request, response);
         isRespondingHandle.close();
     }
