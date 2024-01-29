@@ -13,17 +13,17 @@ import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCa
 
 interface TemplateCard {
     template: Template,
-    cardValue: string | null
+    itemRef: any
 }
 
-export function TemplateCard({ template, cardValue }: TemplateCard) {
+export function TemplateCard({ template, itemRef }: TemplateCard) {
     const [templateDetailsOpened, templateDetailsHandle] = useDisclosure(false);
     const deleteMutation = useDeleteTemplateMutation();
 
     return (
         <>
             <TemplateCardDetails opened={templateDetailsOpened} handle={templateDetailsHandle} template={template} />
-            <Accordion.Item value={template.id.toString()}>
+            <Accordion.Item ref={itemRef} value={template.id.toString()}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">

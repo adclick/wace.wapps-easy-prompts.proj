@@ -3,6 +3,7 @@ import axios from 'axios';
 import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const LIST_LIMIT = 20;
 
 export const useTemplateQuery = (templateId: number, enabled: boolean = true) => {
     return useQuery({
@@ -26,7 +27,7 @@ export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilte
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
                 technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
-                limit: '10',
+                limit: LIST_LIMIT.toString(),
                 offset: pageParam.toString()
             }));
 
@@ -34,7 +35,9 @@ export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilte
         },
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
-            return 10 * pages.length;
+            if (lastPage.length < LIST_LIMIT) return null;
+
+            return LIST_LIMIT * pages.length;
         },
         enabled: !!userId && !selectedFilters.isEmpty
     });

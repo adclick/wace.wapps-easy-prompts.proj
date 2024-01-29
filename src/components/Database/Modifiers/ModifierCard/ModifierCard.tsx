@@ -1,7 +1,4 @@
-import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox, UnstyledButton } from "@mantine/core";
-import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
-import { IconClock } from "@tabler/icons-react";
-import dateUtils from "../../../../utils/dateUtils";
+import { Accordion, Badge, Group, Stack, Text, Checkbox } from "@mantine/core";
 import { Modifier } from "../../../../model/Modifier";
 import { useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
@@ -13,16 +10,17 @@ import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCa
 
 interface ModifierCard {
     modifier: Modifier,
+    itemRef: any
 }
 
-export function ModifierCard({ modifier }: ModifierCard) {
+export function ModifierCard({ modifier, itemRef }: ModifierCard) {
     const [modifierDetailsOpened, modifierDetailsHandle] = useDisclosure(false);
     const deleteMutation = useDeleteModifierMutation();
 
     return (
         <>
             <ModifierCardDetails opened={modifierDetailsOpened} handle={modifierDetailsHandle} modifier={modifier} />
-            <Accordion.Item value={modifier.id.toString()}>
+            <Accordion.Item ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">

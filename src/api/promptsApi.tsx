@@ -3,6 +3,7 @@ import axios from 'axios';
 import { SelectedFilters } from '../model/SelectedFilters';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const LIST_LIMIT = 20;
 
 export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     return useQuery({
@@ -17,16 +18,17 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
 };
 
 export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters) => {
+
     return useInfiniteQuery({
         queryKey: ["prompts", selectedFilters],
-        queryFn: async ({pageParam}) => {
+        queryFn: async ({ pageParam }) => {
             const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
                 user_external_id: userId,
                 search_term: selectedFilters.search_term,
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
                 technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
-                limit: '10',
+                limit: LIST_LIMIT.toString(),
                 offset: pageParam.toString()
             }));
 
@@ -34,9 +36,9 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
         },
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
-            if (lastPage.length < 10) return null;
-            
-            return 10 * pages.length;
+            if (lastPage.length < LIST_LIMIT) return null;
+
+            return LIST_LIMIT * pages.length;
         },
         enabled: !!userId && !selectedFilters.isEmpty
     });

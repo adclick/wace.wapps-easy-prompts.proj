@@ -2,13 +2,12 @@ import { Accordion, Box, Button, Center, Loader, Paper, Stack, Text } from "@man
 import { Prompt } from "../../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 import { useIntersection } from "@mantine/hooks";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
+import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 
 interface PromptsList {
     promptsQuery: any,
     navbarMobileHandle: any,
-    itemRef: any,
-    entry: any,
     databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
@@ -18,10 +17,14 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
         threshold: 1,
     });
 
-    if (entry?.isIntersecting) {
-        promptsQuery.fetchNextPage();
-    }
-    
+    const {hasNextPage, fetchNextPage} = promptsQuery;
+
+    useEffect(() => {
+        if (entry?.isIntersecting && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [entry, hasNextPage, fetchNextPage])
+
     return (
         <Box>
             {
@@ -41,7 +44,7 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
                         promptsQuery.data.pages.map((page: any) => {
 
                             return page.map((prompt: Prompt, index: number) => {
-                                const isTarget = index === 6;
+                                const isTarget = index === page.length / 2;
 
                                 return (
                                     <PromptCard
@@ -56,17 +59,7 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
 
                     }
                 </Accordion>
-                {
-                    promptsQuery.isFetchingNextPage
-                        ? <Center mb={"xl"}>
-                            <Loader type="bars" size={"xs"} />
-                        </Center>
-                        : (!promptsQuery.hasNextPage && promptsQuery.data) &&
-                        <Center mb={"xl"}>
-                            <Text size="sm" fw={700}>Nothing more to load</Text>
-                        </Center>
-                }
-                {/* <DatabaseLoadMoreButton itemQuery={promptsQuery} /> */}
+                <DatabaseLoadMoreLoader itemQuery={promptsQuery} />
             </Stack>
         </Box>
     )

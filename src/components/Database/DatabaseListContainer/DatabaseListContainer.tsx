@@ -12,8 +12,6 @@ import { RefObject } from "react";
 
 interface DatabaseListContainer {
     navbarMobileHandle: any,
-    itemRef: any,
-    entry: any,
     databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
@@ -33,8 +31,14 @@ export function DatabaseListContainer({ navbarMobileHandle, databaseListContaine
                 navbarMobileHandle={navbarMobileHandle}
             />
         case Type.MODIFIER:
-            return <ModifiersList modifiersQuery={modifiersQuery} />
+            return <ModifiersList
+                databaseListContainerRef={databaseListContainerRef}
+                modifiersQuery={modifiersQuery}
+            />
         case Type.TEMPLATE:
-            return <TemplatesList templatesQuery={templatesQuery} />
+            return <TemplatesList
+                databaseListContainerRef={databaseListContainerRef}
+                templatesQuery={templatesQuery}
+            />
     }
 }

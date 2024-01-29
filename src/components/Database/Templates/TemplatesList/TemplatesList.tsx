@@ -1,21 +1,22 @@
-import { Accordion, Box, Button, Center, Checkbox, Loader, Stack } from "@mantine/core";
+import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Template } from "../../../../model/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
-import { useDefaultProviderQuery, useProvidersQuery } from "../../../../api/providersApi";
-import { DatabaseLoadMoreButton } from "../../Common/DatabaseLoadMoreButton/DatabaseLoadMoreButton";
+import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
+import { useIntersection } from "@mantine/hooks";
 
 interface TemplatesList {
-    templatesQuery: any
+    templatesQuery: any,
+    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function TemplatesList({ templatesQuery }: TemplatesList) {
+export function TemplatesList({ templatesQuery, databaseListContainerRef }: TemplatesList) {
     const { selectedTemplates, setSelectedTemplates } = useSelectedTemplates();
     const { setSelectedModifiers } = useSelectedModifiers();
     const [value, setValue] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
                 }
             })
         })
-        
+
         // Update userPromptRequest based on the first template selected
         if (templates.length > 0) {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
@@ -48,6 +49,19 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
         setSelectedModifiers([]);
         setSelectedTemplates(templates);
     }
+
+    const { ref, entry } = useIntersection({
+        root: databaseListContainerRef.current,
+        threshold: 1,
+    });
+
+    const {hasNextPage, fetchNextPage} = templatesQuery;
+
+    useEffect(() => {
+        if (entry?.isIntersecting && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [entry, hasNextPage, fetchNextPage])
 
     return (
         <Box>
@@ -69,18 +83,20 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
                         {
                             templatesQuery.data !== undefined &&
                             templatesQuery.data.pages.map((page: any) => {
-                                return page.map((template: Template) => {
+                                return page.map((template: Template, index: number) => {
+                                    const isTarget = index === page.length / 2;
+
                                     return <TemplateCard
+                                        itemRef={isTarget ? ref : undefined}
                                         key={template.id}
                                         template={template}
-                                        cardValue={value}
                                     />
                                 })
                             })
                         }
                     </Accordion>
                 </Checkbox.Group>
-                <DatabaseLoadMoreButton itemQuery={templatesQuery} />
+                <DatabaseLoadMoreLoader itemQuery={templatesQuery} />
             </Stack>
         </Box>
     )
