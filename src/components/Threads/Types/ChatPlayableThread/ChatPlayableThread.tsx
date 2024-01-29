@@ -10,6 +10,7 @@ import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
+import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 
 interface ChatThread {
     promptRequest: PromptRequest,
