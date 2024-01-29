@@ -53,14 +53,14 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                                 <Combobox.Option value={item.id.toString()} key={item.id} active={selectedIds.includes(item.id.toString())}>
                                     <Group gap="sm">
                                         <Checkbox
-                                            size='xs'
+                                            size='sm'
                                             checked={selectedIds.includes(item.id.toString())}
                                             onChange={() => { }}
                                             aria-hidden
                                             tabIndex={-1}
                                             style={{ pointerEvents: 'none' }}
                                         />
-                                        <Text size='xs'>
+                                        <Text size='sm'>
                                             {item.name}
                                         </Text>
                                     </Group>

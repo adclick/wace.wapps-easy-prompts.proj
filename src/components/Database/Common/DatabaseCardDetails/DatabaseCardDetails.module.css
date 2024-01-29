@@ -1,0 +1,5 @@
+.card {
+    @mixin light {
+        background-color: var(--mantine-color-gray-3);
+    }
+}

@@ -48,14 +48,13 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         ]);
     }
 
-    const color = getPromptModeColor(getPromptModeByTechnology(prompt.technology));
-
     return (
         <>
             <PromptCardDetails
                 opened={detailsOpened}
                 handle={detailsHandle}
                 prompt={prompt}
+                deleteMutation={deleteMutation}
             />
             <Accordion.Item ref={itemRef}  value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>

@@ -1,11 +1,13 @@
-import { Card, Center, Divider, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconWorld } from "@tabler/icons-react"
+import { Button, Card, Center, Divider, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
 import { useUser } from "../../../../context/UserContext";
 import { Modifier } from "../../../../model/Modifier";
 import { Prompt } from "../../../../model/Prompt";
 import { Template } from "../../../../model/Template";
 import { Label } from "../../../../model/SelectedDatabaseType";
+import { modals } from "@mantine/modals";
+import classes from './DatabaseCardDetails.module.css'
 
 interface DatabaseCardDetails {
     opened: boolean,
@@ -15,7 +17,8 @@ interface DatabaseCardDetails {
     hasContent: boolean,
     hasModifiers: boolean,
     hasTemplates: boolean,
-    typeLabel: Label
+    typeLabel: Label,
+    deleteMutation: any
 }
 
 export function DatabaseCardDetails({
@@ -26,7 +29,8 @@ export function DatabaseCardDetails({
     hasContent,
     hasModifiers,
     hasTemplates,
-    typeLabel
+    typeLabel,
+    deleteMutation
 }: DatabaseCardDetails) {
     const { user } = useUser();
 
@@ -48,10 +52,26 @@ export function DatabaseCardDetails({
 
     const title = `${typeLabel}: ${item.title}`;
 
+    const openDeleteModal = (e: any) => {
+        modals.openConfirmModal({
+            title: 'Delete this item',
+            centered: true,
+            children: (
+                <Text size="sm">
+                    Are you sure you want to delete this item? This action is will modify the outcome of other items
+                </Text>
+            ),
+            labels: { confirm: 'Delete', cancel: "Cancel" },
+            confirmProps: { color: 'red' },
+            onCancel: () => console.log('Cancel'),
+            onConfirm: () => deleteMutation.mutate(item.id),
+        });
+    }
+
     return (
         <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
             <Stack my={"md"}>
-                <Card>
+                <Card className={classes.card}>
                     <Stack>
                         <Stack gap={4}>
                             <Title order={6}>Description</Title>
@@ -105,7 +125,7 @@ export function DatabaseCardDetails({
                 }
                 {
                     hasContent && user.username === item.user.username && itemQuery.data &&
-                    <Card>
+                    <Card className={classes.card}>
                         <Stack>
                             <Title order={6}>Content</Title>
                             {
@@ -114,7 +134,7 @@ export function DatabaseCardDetails({
                                     <Text size="xs" fw={500}>Messages</Text>
                                     <Stack gap={4}>
                                         {
-                                            chatMessages.map((m: { id:number, role: string, message: string }) => {
+                                            chatMessages.map((m: { id: number, role: string, message: string }) => {
                                                 return <Group key={m.id}>
                                                     <Text size="xs">{m.role}</Text>
                                                     <Text size="xs">{m.message}</Text>
@@ -130,7 +150,7 @@ export function DatabaseCardDetails({
                 }
                 {
                     hasModifiers && user.username === item.user.username && itemQuery.data && modifiers.length > 0 &&
-                    <Card>
+                    <Card className={classes.card}>
                         <Stack>
                             <Group gap={"xs"}>
                                 <IconSparkles size={14} />
@@ -152,7 +172,7 @@ export function DatabaseCardDetails({
                 }
                 {
                     hasTemplates && user.username === item.user.username && itemQuery.data && templates.length > 0 &&
-                    <Card>
+                    <Card className={classes.card}>
                         <Stack>
                             <Group gap={"xs"}>
                                 <IconTemplate size={14} />
@@ -169,6 +189,20 @@ export function DatabaseCardDetails({
                             }
                         </Stack>
                     </Card>
+                }
+                {
+                    user.username === item.user.username &&
+                    <Group>
+                        <Button
+                            color="red"
+                            size="xs"
+                            variant="subtle"
+                            onClick={openDeleteModal}
+                            leftSection={<IconTrash size={14} />}
+                        >
+                            Delete
+                        </Button>
+                    </Group>
                 }
             </Stack>
         </Modal>

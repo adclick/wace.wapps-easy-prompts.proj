@@ -7,13 +7,15 @@ import { Label } from "../../../../model/SelectedDatabaseType";
 interface ModifierCardDetails {
     opened: boolean,
     handle: any,
-    modifier: Modifier
+    modifier: Modifier,
+    deleteMutation: any
 }
 
 export function ModifierCardDetails({
     opened,
     handle,
-    modifier
+    modifier,
+    deleteMutation
 }: ModifierCardDetails) {
     const { user } = useUser();
     const enabled = user.username === modifier.user.username && opened
@@ -29,5 +31,6 @@ export function ModifierCardDetails({
         hasModifiers={false}
         hasTemplates={false}
         typeLabel={Label.Modifier}
+        deleteMutation={deleteMutation}
     />
 }

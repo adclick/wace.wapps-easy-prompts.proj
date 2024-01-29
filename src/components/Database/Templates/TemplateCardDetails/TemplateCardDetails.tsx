@@ -7,13 +7,15 @@ import { Label } from "../../../../model/SelectedDatabaseType";
 interface TemplateCardDetails {
     opened: boolean,
     handle: any,
-    template: Template
+    template: Template,
+    deleteMutation: any
 }
 
 export function TemplateCardDetails({
     opened,
     handle,
-    template
+    template,
+    deleteMutation
 }: TemplateCardDetails) {
     const { user } = useUser();
     const enabled = user.username === template.user.username && opened
@@ -29,5 +31,6 @@ export function TemplateCardDetails({
         hasModifiers={true}
         hasTemplates={false}
         typeLabel={Label.Tempalate}
+        deleteMutation={deleteMutation}
     />
 }

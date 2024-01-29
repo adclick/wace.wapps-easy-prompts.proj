@@ -22,7 +22,12 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
 
     return (
         <>
-            <TemplateCardDetails opened={templateDetailsOpened} handle={templateDetailsHandle} template={template} />
+            <TemplateCardDetails
+                opened={templateDetailsOpened}
+                handle={templateDetailsHandle}
+                template={template}
+                deleteMutation={deleteMutation}
+            />
             <Accordion.Item ref={itemRef} value={template.id.toString()}>
                 <Accordion.Control>
                     <Stack>

@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Button, Divider, Group, MultiSelect, Select, SimpleGrid, Space, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
+import { Accordion, ActionIcon, Button, Card, Collapse, Divider, Group, MultiSelect, Select, SimpleGrid, Space, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
 import { useCreatePromptMutation } from "../../../api/promptsApi";
 import { useUser } from "../../../context/UserContext";
@@ -19,6 +19,7 @@ import { Modifier } from "../../../model/Modifier";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
 import { Template } from "../../../model/Template";
 import { notifications } from "@mantine/notifications";
+import { useDisclosure } from "@mantine/hooks";
 
 interface BaseForm {
     promptRequest: PromptRequest | undefined,
@@ -203,150 +204,135 @@ export function BaseForm({
     }
 
     return (
+
         <Stack mt={"md"}>
-            <Accordion variant="separated" defaultValue={'content'}>
-                <Accordion.Item value="content">
-                    <Accordion.Control>
-                        <Text size="sm" fw={700}>Content</Text>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <Stack gap={"md"}>
-                            <TextInput
-                                label="Name"
-                                variant="unstyled"
-                                onChange={(e: any) => setName(e.target.value)}
-                                value={name}
-                                required
-                                placeholder="Write a name"
-                            />
-                            <Textarea
-                                label="Description"
-                                autosize
-                                variant="unstyled"
-                                required
-                                minRows={1}
-                                onChange={e => setDescription(e.target.value)}
-                                value={description}
-                                placeholder="Write a brief description"
-                            />
-                            {
-                                hasContent &&
-                                <Textarea
-                                    label="Content"
-                                    autosize
-                                    variant="unstyled"
-                                    required
-                                    minRows={1}
-                                    onChange={(e: any) => setContent(e.target.value)}
-                                    value={content}
-                                    placeholder="Prompt's content"
-                                />
-                            }
-                        </Stack>
-                    </Accordion.Panel>
-                </Accordion.Item>
-                <Accordion.Item value="specifications">
-                    <Accordion.Control>
-                        <Text size="sm" fw={700}>Specifications</Text>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <SimpleGrid cols={{ base: 1, sm: 2 }} verticalSpacing={"xl"}>
-                            <Select
-                                label="Language"
-                                required
-                                variant="unstyled"
-                                data={languageData}
-                                value={languageId}
-                                allowDeselect={false}
-                                onChange={setLanguageId}
-                            />
-                            <Select
-                                label="Repository"
-                                variant="unstyled"
-                                required
-                                data={repositoryData}
-                                value={repositoryId}
-                                allowDeselect={false}
-                                onChange={setRepositoryId}
-                            />
-                            <Select
-                                label="Technology"
-                                variant="unstyled"
-                                required
-                                data={technologyData}
-                                value={technologyId}
-                                allowDeselect={false}
-                                onChange={onChangeTechnology}
-                            />
-                            <Select
-                                label="Provider"
-                                variant="unstyled"
-                                data={providerData}
-                                value={providerId}
-                                onChange={setProviderId}
-                            />
-                        </SimpleGrid>
-                    </Accordion.Panel>
-                </Accordion.Item>
-                {
-                    hasTemplates &&
-                    <Accordion.Item value="templates">
-                        <Accordion.Control>
-                            <Group>
-                                <Text size="sm" fw={700}>Templates</Text>
-                                <Text size="xs">{templates.length} selected</Text>
-                            </Group>
-                        </Accordion.Control>
-                        <Accordion.Panel>
-                            {
-                                templates.length > 0
-                                    ? templates.map(template => {
-                                        return (
-                                            <Group gap={"xs"}>
-                                                <ActionIcon variant="transparent" color="gray" onClick={() => removeTemplate(template.id)}>
-                                                    {iconClose(14)}
-                                                </ActionIcon>
-                                                <Text size="xs">{template.title}</Text>
-                                            </Group>
-                                        )
-                                    })
-                                    : <Text size="xs">
-                                        To add templates, please select them from the database list before opening this dialog
-                                    </Text>
-                            }
-                        </Accordion.Panel>
-                    </Accordion.Item>
-                }
-                {
-                    hasModifiers &&
-                    <Accordion.Item value="modifiers">
-                        <Accordion.Control>
-                            <Group>
-                                <Text size="sm" fw={700}>Modifiers</Text>
-                                <Text size="xs">{modifiers.length} selected</Text>
-                            </Group>
-                        </Accordion.Control>
-                        <Accordion.Panel>
-                            {
-                                modifiers.length > 0
-                                    ? modifiers.map(modifier => {
-                                        return (
-                                            <Group gap={"xs"}>
-                                                <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
-                                                    {iconClose(14)}
-                                                </ActionIcon>
-                                                <Text size="xs">{modifier.title}</Text>
-                                            </Group>
-                                        )
-                                    })
-                                    : <Text size="xs">
-                                        To add modifiers, please select them from the database list before opening this dialog
-                                    </Text>
-                            }
-                        </Accordion.Panel>
-                    </Accordion.Item>
-                }
-            </Accordion>
+            <Card>
+                <Stack>
+
+                    <TextInput
+                        label="Name"
+                        variant="unstyled"
+                        onChange={(e: any) => setName(e.target.value)}
+                        value={name}
+                        required
+                        autoFocus
+                        placeholder="Write a name"
+                    />
+                    {
+                        hasContent &&
+                        <Textarea
+                            label="Content"
+                            autosize
+                            required
+                            variant="unstyled"
+                            minRows={1}
+                            onChange={(e: any) => setContent(e.target.value)}
+                            value={content}
+                            placeholder="Prompt's content"
+                        />
+                    }
+
+
+                    <Accordion variant="filled" defaultValue={'content'}>
+                        <Accordion.Item value="specifications">
+                            <Accordion.Control>
+                                <Text size="sm" fw={700}>Advanced</Text>
+                            </Accordion.Control>
+                            <Accordion.Panel>
+                                <Stack>
+                                    <Text>Description</Text>
+                                    <Textarea
+                                        autosize
+                                        variant="unstyled"
+                                        required
+                                        minRows={1}
+                                        onChange={e => setDescription(e.target.value)}
+                                        value={description}
+                                        placeholder="Write a brief description"
+                                    />
+                                    <Text>Specifications</Text>
+                                    <SimpleGrid cols={{ base: 1, sm: 2 }} verticalSpacing={"xs"}>
+                                        <Select
+                                            label="Language"
+                                            required
+                                            variant="unstyled"
+                                            data={languageData}
+                                            value={languageId}
+                                            allowDeselect={false}
+                                            onChange={setLanguageId}
+                                        />
+                                        <Select
+                                            label="Repository"
+                                            variant="unstyled"
+                                            required
+                                            data={repositoryData}
+                                            value={repositoryId}
+                                            allowDeselect={false}
+                                            onChange={setRepositoryId}
+                                        />
+                                        <Select
+                                            label="Technology"
+                                            variant="unstyled"
+                                            required
+                                            data={technologyData}
+                                            value={technologyId}
+                                            allowDeselect={false}
+                                            onChange={onChangeTechnology}
+                                        />
+                                        <Select
+                                            label="Provider"
+                                            variant="unstyled"
+                                            data={providerData}
+                                            value={providerId}
+                                            onChange={setProviderId}
+                                        />
+                                    </SimpleGrid>
+                                    {
+                                        hasTemplates &&
+                                        <Text>Templates</Text>
+                                    }
+                                    {
+                                        templates.length > 0
+                                            ? templates.map(template => {
+                                                return (
+                                                    <Group gap={"xs"}>
+                                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeTemplate(template.id)}>
+                                                            {iconClose(14)}
+                                                        </ActionIcon>
+                                                        <Text size="xs">{template.title}</Text>
+                                                    </Group>
+                                                )
+                                            })
+                                            : <Text size="xs">
+                                                To add templates, please select them from the database list before opening this dialog
+                                            </Text>
+                                    }
+                                    {
+                                        hasModifiers &&
+                                        <Text>Modifiers</Text>
+                                    }
+                                    {
+                                        modifiers.length > 0
+                                            ? modifiers.map(modifier => {
+                                                return (
+                                                    <Group gap={"xs"}>
+                                                        <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
+                                                            {iconClose(14)}
+                                                        </ActionIcon>
+                                                        <Text size="xs">{modifier.title}</Text>
+                                                    </Group>
+                                                )
+                                            })
+                                            : <Text size="xs">
+                                                To add modifiers, please select them from the database list before opening this dialog
+                                            </Text>
+                                    }
+                                </Stack>
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                    </Accordion>
+                </Stack>
+            </Card>
             <Group justify="flex-end">
                 <Button
                     variant="transparent"

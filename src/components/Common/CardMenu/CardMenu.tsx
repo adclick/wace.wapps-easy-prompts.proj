@@ -4,6 +4,7 @@ import { IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-
 import { useUser } from "../../../context/UserContext";
 import { User } from "../../../model/User";
 import { modals } from "@mantine/modals";
+import classes from './CardMenu.module.css'
 
 interface CardMenu {
     detailsHandle: any,
@@ -38,12 +39,6 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
         });
     }
 
-    const deleteItem = async (e: any) => {
-        e.stopPropagation();
-
-        deleteMutation.mutate(itemId);
-    }
-
     const openDeleteModal = (e: any) => {
         e.stopPropagation();
 
@@ -67,7 +62,7 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
     return (
         <Menu>
             <Menu.Target>
-                <ActionIcon variant="transparent" color="gray.9" component="a" onClick={e => e.stopPropagation()}>
+                <ActionIcon className={classes.menuIcon} variant="transparent" color="gray.9" component="a" onClick={e => e.stopPropagation()}>
                     <IconDotsVertical size={16} />
                 </ActionIcon>
             </Menu.Target>

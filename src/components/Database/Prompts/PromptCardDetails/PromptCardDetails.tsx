@@ -8,12 +8,14 @@ interface PromptCardDetails {
     opened: boolean,
     handle: any,
     prompt: Prompt,
+    deleteMutation: any
 }
 
 export function PromptCardDetails({
     opened,
     handle,
     prompt,
+    deleteMutation
 }: PromptCardDetails) {
     const { user } = useUser();
     const enabled = user.username === prompt.user.username && opened
@@ -29,5 +31,6 @@ export function PromptCardDetails({
         hasModifiers={true}
         hasTemplates={true}
         typeLabel={Label.Prompt}
+        deleteMutation={deleteMutation}
     />
 }

@@ -19,7 +19,12 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
 
     return (
         <>
-            <ModifierCardDetails opened={modifierDetailsOpened} handle={modifierDetailsHandle} modifier={modifier} />
+            <ModifierCardDetails
+                opened={modifierDetailsOpened}
+                handle={modifierDetailsHandle}
+                modifier={modifier}
+                deleteMutation={deleteMutation}
+            />
             <Accordion.Item ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>
                     <Stack>
