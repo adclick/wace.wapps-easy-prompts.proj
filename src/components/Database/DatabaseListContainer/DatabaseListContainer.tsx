@@ -8,14 +8,16 @@ import { TemplatesList } from "../Templates/TemplatesList/TemplatesList";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { useModifiersQuery } from "../../../api/modifiersApi";
 import { useTemplatesQuery } from "../../../api/templatesApi";
+import { RefObject } from "react";
 
 interface DatabaseListContainer {
     navbarMobileHandle: any,
     itemRef: any,
-    entry: any
+    entry: any,
+    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function DatabaseListContainer({navbarMobileHandle, itemRef, entry}: DatabaseListContainer) {
+export function DatabaseListContainer({ navbarMobileHandle, databaseListContainerRef }: DatabaseListContainer) {
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const { selectedFilters } = useSelectedFilters();
@@ -25,7 +27,11 @@ export function DatabaseListContainer({navbarMobileHandle, itemRef, entry}: Data
 
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:
-            return <PromptsList itemRef={itemRef} entry={entry} promptsQuery={promptsQuery} navbarMobileHandle={navbarMobileHandle} />
+            return <PromptsList
+                databaseListContainerRef={databaseListContainerRef}
+                promptsQuery={promptsQuery}
+                navbarMobileHandle={navbarMobileHandle}
+            />
         case Type.MODIFIER:
             return <ModifiersList modifiersQuery={modifiersQuery} />
         case Type.TEMPLATE:

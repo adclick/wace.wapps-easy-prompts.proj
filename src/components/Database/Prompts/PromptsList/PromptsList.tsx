@@ -1,19 +1,27 @@
 import { Accordion, Box, Button, Center, Loader, Paper, Stack, Text } from "@mantine/core";
 import { Prompt } from "../../../../model/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
+import { useIntersection } from "@mantine/hooks";
+import { RefObject } from "react";
 
 interface PromptsList {
     promptsQuery: any,
     navbarMobileHandle: any,
     itemRef: any,
-    entry: any
+    entry: any,
+    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function PromptsList({ promptsQuery, navbarMobileHandle, itemRef, entry }: PromptsList) {
+export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListContainerRef }: PromptsList) {
+    const { ref, entry } = useIntersection({
+        root: databaseListContainerRef.current,
+        threshold: 1,
+    });
+
     if (entry?.isIntersecting) {
         promptsQuery.fetchNextPage();
     }
-
+    
     return (
         <Box>
             {
@@ -38,7 +46,7 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, itemRef, entry }
                                 return (
                                     <PromptCard
                                         key={prompt.id}
-                                        itemRef={isTarget ? itemRef : undefined}
+                                        itemRef={isTarget ? ref : undefined}
                                         prompt={prompt}
                                         navbarMobileHandle={navbarMobileHandle}
                                     />

@@ -38,9 +38,9 @@ export function HomePage() {
         }
     })
 
-    const containerRef = useRef<HTMLDivElement>(null);
+    const databaseListContainerRef = useRef<HTMLDivElement>(null);
     const { ref, entry } = useIntersection({
-        root: containerRef.current,
+        root: databaseListContainerRef.current,
         threshold: 1,
     });
 
@@ -75,8 +75,8 @@ export function HomePage() {
                             navbarDesktopHandle={navbarDesktopHandle}
                         />
                     </AppShell.Section>
-                    <AppShell.Section ref={containerRef} grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-                        <DatabaseListContainer navbarMobileHandle={navbarMobileHandle} itemRef={ref} entry={entry} />
+                    <AppShell.Section ref={databaseListContainerRef} grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
+                        <DatabaseListContainer navbarMobileHandle={navbarMobileHandle} databaseListContainerRef={databaseListContainerRef} />
                     </AppShell.Section>
                 </AppShell.Navbar>
 
