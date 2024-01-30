@@ -17,7 +17,7 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     });
 };
 
-export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters) => {
+export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["prompts", selectedFilters],
         queryFn: async ({ pageParam }) => {
@@ -39,7 +39,7 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
 
             return LIST_LIMIT * pages.length;
         },
-        enabled: !!userId && !selectedFilters.isEmpty
+        enabled: !!userId && !selectedFilters.isEmpty && enabled
     });
 };
 

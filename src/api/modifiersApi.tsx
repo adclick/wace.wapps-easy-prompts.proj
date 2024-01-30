@@ -17,7 +17,7 @@ export const useModifierQuery = (modifierId: number, enabled: boolean = true) =>
     });
 };
 
-export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilters) => {
+export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["modifiers", selectedFilters],
         queryFn: async ({pageParam}) => {
@@ -39,7 +39,7 @@ export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilte
 
             return LIST_LIMIT * pages.length;
         },
-        enabled: !!userId && !selectedFilters.isEmpty
+        enabled: !!userId && !selectedFilters.isEmpty && enabled
     });
 };
 

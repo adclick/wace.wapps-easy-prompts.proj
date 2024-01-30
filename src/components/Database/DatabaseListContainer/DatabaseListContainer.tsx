@@ -19,9 +19,9 @@ export function DatabaseListContainer({ navbarMobileHandle, databaseListContaine
     const { user } = useUser();
     const { selectedDatabaseType } = useSelectedDatabaseType();
     const { selectedFilters } = useSelectedFilters();
-    const promptsQuery = usePromptsQuery(user.id, selectedFilters);
-    const modifiersQuery = useModifiersQuery(user.id, selectedFilters);
-    const templatesQuery = useTemplatesQuery(user.id, selectedFilters);
+    const promptsQuery = usePromptsQuery(user.id, selectedFilters, selectedDatabaseType.type === Type.PROMPT);
+    const templatesQuery = useTemplatesQuery(user.id, selectedFilters, selectedDatabaseType.type === Type.TEMPLATE);
+    const modifiersQuery = useModifiersQuery(user.id, selectedFilters, selectedDatabaseType.type === Type.MODIFIER);
 
     switch (selectedDatabaseType.type) {
         case Type.PROMPT:

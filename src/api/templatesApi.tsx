@@ -17,7 +17,7 @@ export const useTemplateQuery = (templateId: number, enabled: boolean = true) =>
     });
 };
 
-export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilters) => {
+export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["templates", selectedFilters],
         queryFn: async ({pageParam}) => {
@@ -39,7 +39,7 @@ export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilte
 
             return LIST_LIMIT * pages.length;
         },
-        enabled: !!userId && !selectedFilters.isEmpty
+        enabled: !!userId && !selectedFilters.isEmpty && enabled
     });
 };
 
