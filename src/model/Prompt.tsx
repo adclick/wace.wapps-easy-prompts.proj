@@ -20,6 +20,14 @@ export interface Metadata {
     history: ChatHistory[]
 }
 
+interface PromptModifier {
+    modifier: Modifier
+}
+
+interface PromptTemplate {
+    template: Template
+}
+
 export class Prompt {
     id: number;
     title: string;
@@ -36,7 +44,9 @@ export class Prompt {
     repository: {id: number, name: string, slug: string}
     technology: Technology;
     provider: Provider;
-    chat_messages: ChatMessage[]
+    chat_messages: ChatMessage[];
+    prompts_modifiers: PromptModifier[];
+    prompts_templates: PromptTemplate[];
     
     constructor() {
         this.id = 0;
@@ -54,7 +64,9 @@ export class Prompt {
         this.repository = {id: 0, name: "", slug: ""}
         this.technology = new Technology();
         this.provider = new Provider();
-        this.chat_messages = []
+        this.chat_messages = [];
+        this.prompts_modifiers = [];
+        this.prompts_templates = [];
     }
 
     static clone(prompt: Prompt): Prompt {
@@ -76,6 +88,8 @@ export class Prompt {
         newPrompt.technology = prompt.technology;
         newPrompt.provider = prompt.provider;
         newPrompt.chat_messages = prompt.chat_messages;
+        newPrompt.prompts_modifiers = prompt.prompts_modifiers;
+        newPrompt.prompts_templates = prompt.prompts_templates;
 
         return newPrompt;
     }

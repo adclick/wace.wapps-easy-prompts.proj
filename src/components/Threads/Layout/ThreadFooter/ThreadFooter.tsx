@@ -29,7 +29,7 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
                 User.hasPrompt(user, promptRequest) && !promptRequest.isPlayable &&
                 <Group justify="space-between">
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
-                    <ThreadInfoButton promptRequest={promptRequest} />
+                    {/* <ThreadInfoButton promptRequest={promptRequest} /> */}
                 </Group>
             }
             {
@@ -42,7 +42,7 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
                 !User.hasPrompt(user, promptRequest) && !promptRequest.isPlayable &&
                 <Group justify="space-between">
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
-                    <ThreadInfoButton promptRequest={promptRequest} />
+                    {/* <ThreadInfoButton promptRequest={promptRequest} /> */}
                 </Group>
             }
             {

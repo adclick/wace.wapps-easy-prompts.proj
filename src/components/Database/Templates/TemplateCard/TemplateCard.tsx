@@ -49,7 +49,15 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                         </Group>
 
                         <Group justify="space-between">
-                            <ProviderLabel size="xs" technology={template.technology} provider={template.provider} />
+                            <Badge size={"xs"} variant="dot" h={"auto"}>
+                                <ProviderLabel
+                                    size="xs"
+                                    technology={template.technology}
+                                    provider={template.provider}
+                                    templates={[]}
+                                    modifiers={[]}
+                                />
+                            </Badge>
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox

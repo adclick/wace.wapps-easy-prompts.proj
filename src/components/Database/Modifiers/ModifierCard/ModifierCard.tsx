@@ -46,7 +46,15 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                         </Group>
 
                         <Group justify="space-between">
-                            <ProviderLabel size="xs" technology={modifier.technology} provider={modifier.provider} />
+                            <Badge size={"xs"} variant="dot" h={"auto"}>
+                                <ProviderLabel
+                                    size="xs"
+                                    technology={modifier.technology}
+                                    provider={modifier.provider}
+                                    templates={[]}
+                                    modifiers={[]}
+                                />
+                            </Badge>
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox

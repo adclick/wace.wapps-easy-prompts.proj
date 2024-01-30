@@ -56,7 +56,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 prompt={prompt}
                 deleteMutation={deleteMutation}
             />
-            <Accordion.Item ref={itemRef}  value={`${prompt.type}-${prompt.id}`}>
+            <Accordion.Item ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">
@@ -64,7 +64,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 <Badge size="xs" variant="transparent" px={0} color="gray.9">
                                     {prompt.repository.name}
                                 </Badge>
-                                <Text size="sm" fw={500} lineClamp={20}>
+                                <Text size="sm" fw={700} lineClamp={20}>
                                     {prompt.title}
                                 </Text>
                             </Stack>
@@ -77,7 +77,15 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                         </Group>
 
                         <Group justify="space-between">
-                            <ProviderLabel size="xs" technology={prompt.technology} provider={prompt.provider} />
+                            <Badge size={"xs"} variant="dot" h={"auto"}>
+                                <ProviderLabel
+                                    size="xs"
+                                    technology={prompt.technology}
+                                    provider={prompt.provider}
+                                    templates={prompt.prompts_templates.map(t => t.template)}
+                                    modifiers={prompt.prompts_modifiers.map(m => m.modifier)}
+                                />
+                            </Badge>
                             <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => play(e)}>
                                 {iconPlay(14)}
                             </ActionIcon>

@@ -58,7 +58,7 @@ export function PromptOptionsTechnologiesField() {
             variant="unstyled"
             checkIconPosition="right"
             size="md"
-            comboboxProps={{ withinPortal: true }}
+            comboboxProps={{ withinPortal: false }}
             value={userPromptRequest.technology.id.toString()}
             data={data}
             onChange={onChangeTechnology}
