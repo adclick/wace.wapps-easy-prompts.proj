@@ -33,11 +33,6 @@ export function PromptTextInput() {
         }
     }
 
-    const paddingLeft = selectedModifiers.length > 0 || selectedTemplates.length > 0
-        ? "65px"
-        : "65px"
-        // : "var(--_input-padding-left"
-
     return (
         <Textarea
             placeholder={`Start building`}
@@ -53,7 +48,6 @@ export function PromptTextInput() {
             }}
             styles={{
                 input: {
-                    paddingLeft: paddingLeft,
                     paddingRight: "60px",
                 },
 

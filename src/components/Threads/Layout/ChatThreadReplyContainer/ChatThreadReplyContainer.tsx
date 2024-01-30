@@ -31,7 +31,7 @@ export function ChatThreadReplyContainer({ reply }: ChatThreadReplyContainer) {
                 w={"100%"}
                 styles={{
                     input: {
-                        paddingRight: "50px",
+                        paddingRight: "90px",
                     },
 
                 }}

@@ -45,6 +45,7 @@ export function DatabaseCardDetails({
                 chatMessages = itemQuery.data.prompts_chat_messages;
                 break;
             case Label.Tempalate:
+                console.log(itemQuery.data);
                 modifiers = itemQuery.data.templates_modifiers.map((m: { modifier: Modifier }) => m.modifier);
                 break;
         }

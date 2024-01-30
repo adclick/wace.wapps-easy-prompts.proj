@@ -21,11 +21,6 @@ export function PromptContainer() {
                     <PromptModeSwitcher />
                     <Group w={"100%"} >
                         <PromptTextInput />
-                        <Box pos={"absolute"} left={28}>
-                            <DatabaseAddIcon />
-                        </Box>
-                        <PromptModifiersList />
-                        <PromptTemplatesList />
                         <PromptPlayButton />
                     </Group>
                 </Stack>

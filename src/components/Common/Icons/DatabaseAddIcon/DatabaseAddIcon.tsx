@@ -14,27 +14,18 @@ export function DatabaseAddIcon() {
                 handle={handle}
                 promptRequest={undefined}
             />
-            <Menu>
-                <Menu.Target>
-                    {/* <Tooltip label={"Create"}> */}
-                        <ActionIcon
-                            className={classes.icon}
-                            size="lg"
-                            // onClick={handle.open}
-                            variant="transparent"
-                        >
-                            {
-                                iconAdd("md")
-                            }
-                        </ActionIcon>
-                    {/* </Tooltip> */}
-                </Menu.Target>
-                <Menu.Dropdown>
-                    <Menu.Item>Prompt</Menu.Item>
-                    <Menu.Item>Template</Menu.Item>
-                    <Menu.Item>Modifier</Menu.Item>
-                </Menu.Dropdown>
-            </Menu>
+            <Tooltip label={"Create"}>
+                <ActionIcon
+                    className={classes.icon}
+                    size="lg"
+                    onClick={handle.open}
+                    variant="transparent"
+                >
+                    {
+                        iconAdd("md")
+                    }
+                </ActionIcon>
+            </Tooltip>
         </>
-    )
+    );
 }
