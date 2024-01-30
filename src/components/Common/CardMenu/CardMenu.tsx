@@ -11,10 +11,11 @@ interface CardMenu {
     detailsHandle: any,
     deleteMutation: any,
     itemId: number,
-    itemUser: User
+    itemUser: User,
+    hasPublicURL: boolean
 }
 
-export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: CardMenu) {
+export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser, hasPublicURL }: CardMenu) {
     const { user } = useUser();
     const clipboard = useClipboard({ timeout: 500 });
 
@@ -80,13 +81,16 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
                 <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                     <Text size="xs">Details</Text>
                 </Menu.Item>
-                <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
-                    {
-                        clipboard.copied 
-                        ? <Text size="xs">Copied</Text>
-                        : <Text size="xs">Copy URL</Text>
-                    }
-                </Menu.Item>
+                {
+                    hasPublicURL &&
+                    <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                        {
+                            clipboard.copied
+                                ? <Text size="xs">Copied</Text>
+                                : <Text size="xs">Copy URL</Text>
+                        }
+                    </Menu.Item>
+                }
                 {
                     isUserItem &&
                     <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">

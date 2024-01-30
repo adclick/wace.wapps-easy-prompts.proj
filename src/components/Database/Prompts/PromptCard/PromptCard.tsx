@@ -73,6 +73,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 deleteMutation={deleteMutation}
                                 itemId={prompt.id}
                                 itemUser={prompt.user}
+                                hasPublicURL={true}
                             />
                         </Group>
 

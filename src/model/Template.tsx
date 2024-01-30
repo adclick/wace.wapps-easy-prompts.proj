@@ -1,7 +1,12 @@
+import { Modifier } from "./Modifier";
 import { Metadata } from "./Prompt";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 import { User } from "./User";
+
+interface TemplateModifier {
+    modifier: Modifier
+}
 
 export class Template {
     id: number;
@@ -18,6 +23,7 @@ export class Template {
     repository: {id: number, name: string, slug: string}
     technology: Technology;
     provider: Provider;
+    templates_modifiers: TemplateModifier[]
     
     constructor() {
         this.id = 0;
@@ -34,6 +40,7 @@ export class Template {
         this.repository = {id: 0, name: "", slug: ""}
         this.technology = new Technology();
         this.provider = new Provider();
+        this.templates_modifiers = [];
     }
 
     static clone(template: Template): Template {
@@ -51,6 +58,8 @@ export class Template {
         newTemplate.user = template.user;
         newTemplate.language = template.language;
         newTemplate.repository = template.repository;
+        newTemplate.provider = template.provider;
+        newTemplate.templates_modifiers = template.templates_modifiers;
 
         return newTemplate;
     }

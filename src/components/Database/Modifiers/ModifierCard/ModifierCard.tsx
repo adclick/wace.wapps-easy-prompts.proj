@@ -42,6 +42,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                                 deleteMutation={deleteMutation}
                                 itemId={modifier.id}
                                 itemUser={modifier.user}
+                                hasPublicURL={false}
                             />
                         </Group>
 

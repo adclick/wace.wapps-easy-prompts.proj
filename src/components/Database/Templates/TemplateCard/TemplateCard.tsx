@@ -45,6 +45,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                                 deleteMutation={deleteMutation}
                                 itemId={template.id}
                                 itemUser={template.user}
+                                hasPublicURL={false}
                             />
                         </Group>
 
@@ -55,7 +56,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                                     technology={template.technology}
                                     provider={template.provider}
                                     templates={[]}
-                                    modifiers={[]}
+                                    modifiers={template.templates_modifiers.map(m => m.modifier)}
                                 />
                             </Badge>
                             <Checkbox
