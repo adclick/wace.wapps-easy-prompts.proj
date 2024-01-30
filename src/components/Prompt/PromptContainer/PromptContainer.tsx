@@ -1,9 +1,10 @@
-import { Group, Stack } from "@mantine/core";
+import { Box, Group, Stack } from "@mantine/core";
 import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
 import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
 import { PromptModifiersList } from "../PromptModifiersList/PromptModifiersList";
 import { PromptModeSwitcher } from "../PromptModeSwitcher/PromptModeSwitcher";
 import { PromptTemplatesList } from "../PromptTemplatesList/PromptTemplatesList";
+import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
 
 export function PromptContainer() {
     return (
@@ -20,6 +21,9 @@ export function PromptContainer() {
                     <PromptModeSwitcher />
                     <Group w={"100%"} >
                         <PromptTextInput />
+                        <Box pos={"absolute"} left={28}>
+                            <DatabaseAddIcon />
+                        </Box>
                         <PromptModifiersList />
                         <PromptTemplatesList />
                         <PromptPlayButton />

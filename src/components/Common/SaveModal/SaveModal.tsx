@@ -33,7 +33,7 @@ export function SaveModal({
     switch (type) {
         case Type.PROMPT:
             form = <PromptForm promptRequest={promptRequest} handle={handle} />
-            description = "Prompts are pre-made AI instruction to execute on the fly ";
+            description = "Prompts are pre-made AI instruction to execute on the fly ction to execute on the f";
             break;
         case Type.TEMPLATE:
             form = <TemplateForm promptRequest={promptRequest} handle={handle} />
@@ -53,53 +53,54 @@ export function SaveModal({
     return (
         <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
             <Stack my={"xs"}>
-                <Stack>
-                    <Group justify="space-between">
+                <Group justify="space-between">
+                    <Stack gap={"xs"}>
                         <Text size="sm">How it works?</Text>
-                        <SegmentedControl
-                            value={type}
-                            size="xs"
-                            color="blue"
-                            fullWidth
-                            radius={"sm"}
-                            data={[
-                                {
-                                    value: Type.PROMPT, label: (
-                                        <Group justify="space-between" wrap="nowrap" gap={4} px={4}>
-                                            <IconPrompt size={16} />
-                                            <Text size="xs">{Label.Prompt}</Text>
-                                        </Group>
+                        <Text size="xs">
+                            {
+                                description
+                            }
+                        </Text>
+                    </Stack>
+                    <SegmentedControl
+                        value={type}
+                        size="xs"
+                        color="blue"
+                        fullWidth
+                        radius={"sm"}
+                        data={[
+                            {
+                                value: Type.PROMPT, label: (
+                                    <Group justify="space-between" wrap="nowrap" gap={4} px={4}>
+                                        <IconPrompt size={16} />
+                                        <Text size="xs">{Label.Prompt}</Text>
+                                    </Group>
 
-                                    )
-                                },
-                                {
-                                    value: Type.TEMPLATE, label: (
-                                        <Group justify="space-between" wrap="nowrap" gap={4} px={4}>
-                                            <IconTemplate size={16} />
-                                            <Text size="xs">{Label.Tempalate}</Text>
-                                        </Group>
+                                )
+                            },
+                            {
+                                value: Type.TEMPLATE, label: (
+                                    <Group justify="space-between" wrap="nowrap" gap={4} px={4}>
+                                        <IconTemplate size={16} />
+                                        <Text size="xs">{Label.Tempalate}</Text>
+                                    </Group>
 
-                                    )
-                                },
-                                {
-                                    value: Type.MODIFIER, label: (
-                                        <Group justify="space-between" wrap="nowrap" gap={4} px={4}>
-                                            <IconSparkles size={16} />
-                                            <Text size="xs">{Label.Modifier}</Text>
-                                        </Group>
+                                )
+                            },
+                            {
+                                value: Type.MODIFIER, label: (
+                                    <Group justify="space-between" wrap="nowrap" gap={4} px={4}>
+                                        <IconSparkles size={16} />
+                                        <Text size="xs">{Label.Modifier}</Text>
+                                    </Group>
 
-                                    )
-                                },
-                            ]}
-                            onChange={setType}
-                        />
-                    </Group>
-                    <Text size="xs">
-                        {
-                            description
-                        }
-                    </Text>
-                </Stack>
+                                )
+                            },
+                        ]}
+                        onChange={setType}
+                    />
+                </Group>
+
                 {form}
             </Stack>
         </Modal>

@@ -35,7 +35,8 @@ export function PromptTextInput() {
 
     const paddingLeft = selectedModifiers.length > 0 || selectedTemplates.length > 0
         ? "65px"
-        : "var(--_input-padding-left"
+        : "65px"
+        // : "var(--_input-padding-left"
 
     return (
         <Textarea

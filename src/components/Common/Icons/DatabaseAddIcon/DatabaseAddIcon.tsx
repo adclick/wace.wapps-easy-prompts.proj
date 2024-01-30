@@ -1,4 +1,4 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
+import { ActionIcon, Menu, Tooltip } from "@mantine/core";
 import { iconAdd } from "../../../../utils/iconsUtils";
 import classes from './DatabaseAddIcon.module.css';
 import { SaveModal } from "../../SaveModal/SaveModal";
@@ -14,13 +14,27 @@ export function DatabaseAddIcon() {
                 handle={handle}
                 promptRequest={undefined}
             />
-            <Tooltip label={"Create"}>
-                <ActionIcon className={classes.icon} size="lg" onClick={handle.open} variant="transparent">
-                    {
-                        iconAdd("md")
-                    }
-                </ActionIcon>
-            </Tooltip>
+            <Menu>
+                <Menu.Target>
+                    {/* <Tooltip label={"Create"}> */}
+                        <ActionIcon
+                            className={classes.icon}
+                            size="lg"
+                            // onClick={handle.open}
+                            variant="transparent"
+                        >
+                            {
+                                iconAdd("md")
+                            }
+                        </ActionIcon>
+                    {/* </Tooltip> */}
+                </Menu.Target>
+                <Menu.Dropdown>
+                    <Menu.Item>Prompt</Menu.Item>
+                    <Menu.Item>Template</Menu.Item>
+                    <Menu.Item>Modifier</Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
         </>
     )
 }
