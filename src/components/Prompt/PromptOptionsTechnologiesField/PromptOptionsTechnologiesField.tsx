@@ -1,10 +1,7 @@
-import { Loader, Select, Text } from "@mantine/core";
+import { Loader, Select } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { Technology } from "../../../model/Technology";
-import { usePromptMode } from "../../../context/PromptModeContext";
-import { useEffect, useState } from "react";
-import { ProvidersDataItem } from "../PromptOptionsProvidersField/PromptOptionsProvidersField";
-import { useDisclosure } from "@mantine/hooks";
+import { useEffect } from "react";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { Provider } from "../../../model/Provider";
@@ -61,7 +58,7 @@ export function PromptOptionsTechnologiesField() {
             variant="unstyled"
             checkIconPosition="right"
             size="md"
-            comboboxProps={{ withinPortal: false }}
+            comboboxProps={{ withinPortal: true }}
             value={userPromptRequest.technology.id.toString()}
             data={data}
             onChange={onChangeTechnology}

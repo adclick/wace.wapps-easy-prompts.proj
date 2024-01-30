@@ -1,11 +1,11 @@
-import { ActionIcon, Badge, Button, Divider, Group, Indicator, Popover, ScrollArea, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Badge, Divider, Group, Popover, ScrollArea, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { PromptOptionsProvidersField } from "../PromptOptionsProvidersField/PromptOptionsProvidersField";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptOptionsTechnologiesField } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import classes from './PromptModeSwitcher.module.css';
-import { iconChevronUp, iconClose } from "../../../utils/iconsUtils";
+import { iconClose } from "../../../utils/iconsUtils";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
-import { IconSparkles, IconTemplate, IconTemplateOff } from "@tabler/icons-react";
+import { IconSparkles, IconTemplate } from "@tabler/icons-react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { Modifier } from "../../../model/Modifier";
 import { Template } from "../../../model/Template";
@@ -28,7 +28,7 @@ export function PromptModeSwitcher() {
     return (
         <Stack>
             <Group justify="center" >
-                <Popover position="top" keepMounted>
+                <Popover position="top" keepMounted closeOnClickOutside={false}>
                     <Popover.Target>
                         <Badge style={{ cursor: "pointer" }} size="md" variant="dot" h={"auto"}>
                             <Group p={5} gap={"xs"} justify="space-between" wrap="wrap" >
@@ -61,14 +61,11 @@ export function PromptModeSwitcher() {
                     <Popover.Dropdown className={classes.optionsContainer}>
                         <Stack my={"xs"}>
                             <Title order={5}>Options</Title>
-                            <ScrollArea.Autosize mah={200} w={300}>
+                            <ScrollArea.Autosize mah={500} w={300}>
                                 <Stack gap={"md"} my={"xs"}>
                                     <Divider label="Specifications" />
-                                    <PromptOptionsTechnologiesField
-                                    />
-                                    <PromptOptionsProvidersField
-                                    />
-
+                                    <PromptOptionsTechnologiesField />
+                                    <PromptOptionsProvidersField />
                                     {
                                         selectedTemplates.length > 0 &&
                                         <Stack>
@@ -99,7 +96,6 @@ export function PromptModeSwitcher() {
                                                     return (
                                                         <Group key={modifier.id} justify="space-between" wrap="nowrap">
                                                             <Tooltip label={modifier.title}>
-
                                                                 <Text lineClamp={1}>{modifier.title}</Text>
                                                             </Tooltip>
                                                             <ActionIcon mr={"xs"} onClick={() => removeModifier(modifier.id)} variant="transparent" color="gray">

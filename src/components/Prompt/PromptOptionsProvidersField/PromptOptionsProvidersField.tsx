@@ -51,7 +51,7 @@ export function PromptOptionsProvidersField() {
                 size="md"
                 variant="unstyled"
                 allowDeselect={false}
-                comboboxProps={{ withinPortal: false }}
+                comboboxProps={{ withinPortal: true }}
                 value={userPromptRequest.provider.id.toString()}
                 data={data}
                 onChange={onChangeProvider}
