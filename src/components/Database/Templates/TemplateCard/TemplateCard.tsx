@@ -49,7 +49,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                             />
                         </Group>
 
-                        <Group justify="space-between">
+                        <Group justify="space-between" wrap="nowrap">
                             <Badge size={"xs"} variant="dot" h={"auto"}>
                                 <ProviderLabel
                                     size="xs"

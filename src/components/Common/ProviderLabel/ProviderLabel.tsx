@@ -20,6 +20,7 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
     let iconSize = 16;
     let iconTextSize = rem(14);
     let fw = 600;
+    let gap: string|number = "xs";
 
     switch (size) {
         case 'sm':
@@ -29,16 +30,17 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
             iconTextSize = rem(12);
             break;
         case 'xs':
-            padding = 3;
-            textSize = rem(10);
+            padding = 0;
+            textSize = rem(8);
             iconSize = 12;
-            iconTextSize = rem(12);
+            iconTextSize = rem(10);
+            gap = 2;
             break;
 
     }
 
     return (
-        <Group p={padding} gap={"xs"} justify="space-between" wrap="wrap">
+        <Group p={padding} gap={gap} justify="space-between" wrap="wrap">
             <Text fw={fw} size={textSize}>{technology.name}</Text>
             {
                 provider &&

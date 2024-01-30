@@ -77,7 +77,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                             />
                         </Group>
 
-                        <Group justify="space-between">
+                        <Group justify="space-between" wrap="nowrap">
                             <Badge size={"xs"} variant="dot" h={"auto"}>
                                 <ProviderLabel
                                     size="xs"

@@ -46,7 +46,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                             />
                         </Group>
 
-                        <Group justify="space-between">
+                        <Group justify="space-between" wrap="nowrap">
                             <Badge size={"xs"} variant="dot" h={"auto"}>
                                 <ProviderLabel
                                     size="xs"
