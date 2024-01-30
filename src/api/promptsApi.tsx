@@ -13,7 +13,7 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
 
             return data;
         },
-        enabled
+        enabled: promptId > 0 && enabled
     });
 };
 

@@ -2,17 +2,16 @@ import { useEffect, useRef } from 'react';
 import { AppShell, Box, ScrollArea } from '@mantine/core';
 import { useDisclosure, useIntersection } from '@mantine/hooks';
 import { User } from '../model/User';
-import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
-import { useUser } from '../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
-import { ThreadList } from '../components/Threads/Layout/ThreadList/ThreadList';
-import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
 import classes from './Home.page.module.css';
+import { Header } from '../components/Layout/Header/Header';
 import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 import { DatabaseListContainer } from '../components/Database/DatabaseListContainer/DatabaseListContainer';
-import { Header } from '../components/Layout/Header/Header';
-import { SaveModal } from '../components/Common/SaveModal/SaveModal';
+import { ThreadList } from '../components/Threads/Layout/ThreadList/ThreadList';
+import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
+import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
+import { useUser } from '../context/UserContext';
 
 export function HomePage() {
     const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);
@@ -36,7 +35,9 @@ export function HomePage() {
 
             overlayHandle.close();
         }
-    })
+    });
+
+
 
     const databaseListContainerRef = useRef<HTMLDivElement>(null);
     const { ref, entry } = useIntersection({

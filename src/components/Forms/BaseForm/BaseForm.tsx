@@ -247,14 +247,13 @@ export function BaseForm({
 
                 </Stack>
             </Card>
-            <Accordion variant="filled" defaultValue={'content'}>
+            <Accordion variant="filled">
                 <Accordion.Item value="specifications">
                     <Accordion.Control>
                         <Text size="sm" fw={700}>Advanced</Text>
                     </Accordion.Control>
                     <Accordion.Panel>
                         <Stack gap={"xl"}>
-
                             <Divider label="Specifications" />
                             <SimpleGrid cols={{ base: 1, sm: 2 }} verticalSpacing={"lg"}>
                                 <Select
@@ -292,6 +291,7 @@ export function BaseForm({
                                     variant="unstyled"
                                     data={providerData}
                                     value={providerId}
+                                    placeholder="Select on provider"
                                     onChange={setProviderId}
                                     size="md"
                                 />
@@ -307,13 +307,13 @@ export function BaseForm({
                                                         <ActionIcon variant="transparent" color="gray" onClick={() => removeTemplate(template.id)}>
                                                             {iconClose(14)}
                                                         </ActionIcon>
-                                                        <Text size="xs">{template.title}</Text>
+                                                        <Text size="sm">{template.title}</Text>
                                                     </Group>
                                                 )
                                             })
                                         }
                                     </Stack>
-                                    : <Text size="xs">
+                                    : <Text size="sm">
                                         To add templates, please select them from the database list before opening this dialog
                                     </Text>
                             }
@@ -328,13 +328,13 @@ export function BaseForm({
                                                         <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
                                                             {iconClose(14)}
                                                         </ActionIcon>
-                                                        <Text size="xs">{modifier.title}</Text>
+                                                        <Text size="sm">{modifier.title}</Text>
                                                     </Group>
                                                 )
                                             })
                                         }
                                     </Stack>
-                                    : <Text size="xs">
+                                    : <Text size="sm">
                                         To add modifiers, please select them from the database list before opening this dialog
                                     </Text>
                             }

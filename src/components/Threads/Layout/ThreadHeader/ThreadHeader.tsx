@@ -1,8 +1,10 @@
-import { ActionIcon, Badge, Group, Text, Tooltip, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Badge, Group, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../../model/PromptRequest"
-import { getTechnologyIcon, iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
+import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel"
+import { Template } from "../../../../model/Template"
+import { Modifier } from "../../../../model/Modifier"
 
 interface ThreadHeader {
     deleteThread: any,
@@ -12,6 +14,20 @@ interface ThreadHeader {
 }
 
 export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRequest }: ThreadHeader) {
+    let templates: Template[] = [];
+    let modifiers: Modifier[] = [];
+    
+    if ("metadata" in promptRequest && promptRequest.metadata) {
+        if ("templates" in promptRequest.metadata) {
+            templates = promptRequest.metadata.templates;
+        }
+
+        if ("modifiers" in promptRequest.metadata) {
+            modifiers = promptRequest.metadata.modifiers;
+        }
+    }
+
+
     return (
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
@@ -21,8 +37,8 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
                             size="sm"
                             technology={promptRequest.technology}
                             provider={promptRequest.provider}
-                            templates={promptRequest.metadata.templates}
-                            modifiers={promptRequest.metadata.modifiers}
+                            templates={templates}
+                            modifiers={modifiers}
                         />
                     </Badge>
                 </Group>

@@ -1,4 +1,4 @@
-import { Center, Grid, Group, Modal, Radio, SegmentedControl, SimpleGrid, Stack, Text } from "@mantine/core";
+import { Card, Center, Grid, Group, Modal, Radio, SegmentedControl, SimpleGrid, Stack, Text } from "@mantine/core";
 import { useState } from "react";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { PromptRequest } from "../../../model/PromptRequest";
@@ -51,28 +51,22 @@ export function SaveModal({
     return (
         <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
             <Stack my={"xs"}>
-                <Grid gutter={"xs"} align="center">
-                    <Grid.Col span={{base: 12, sm: 4}}>
-                        <Stack gap={"md"}>
-                            <Text size="md">How it works?</Text>
-                            <Text size="sm">
-                                {
-                                    description
-                                }
-                            </Text>
-                        </Stack>
-
-                    </Grid.Col>
-                    <Grid.Col span={{base: 12, sm: 8}}>
-                        <Radio.Group value={type} onChange={setType} size="md">
-                            <Group justify="flex-end">
-                                <Radio value={Type.PROMPT} label={Label.Prompt} />
-                                <Radio value={Type.TEMPLATE} label={Label.Tempalate} />
-                                <Radio value={Type.MODIFIER} label={Label.Modifier} />
-                            </Group>
-                        </Radio.Group>
-                    </Grid.Col>
-                </Grid>
+                <Card>
+                    <Grid gutter={"xs"} align="center">
+                        <Grid.Col span={{ base: 12, sm: 7 }}>
+                            <Radio.Group value={type} onChange={setType} size="md">
+                                <Group justify="flex-start">
+                                    <Radio value={Type.PROMPT} label={Label.Prompt} />
+                                    <Radio value={Type.TEMPLATE} label={Label.Tempalate} />
+                                    <Radio value={Type.MODIFIER} label={Label.Modifier} />
+                                </Group>
+                            </Radio.Group>
+                        </Grid.Col>
+                        <Grid.Col span={{ base: 12, sm: 5 }}>
+                            <Text size="sm">{description}</Text>
+                        </Grid.Col>
+                    </Grid>
+                </Card>
                 {form}
             </Stack>
 

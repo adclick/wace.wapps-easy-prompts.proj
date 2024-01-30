@@ -1,10 +1,11 @@
 import { ActionIcon, Menu, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { useUser } from "../../../context/UserContext";
 import { User } from "../../../model/User";
 import { modals } from "@mantine/modals";
 import classes from './CardMenu.module.css'
+import { useClipboard } from "@mantine/hooks";
 
 interface CardMenu {
     detailsHandle: any,
@@ -15,6 +16,7 @@ interface CardMenu {
 
 export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: CardMenu) {
     const { user } = useUser();
+    const clipboard = useClipboard({ timeout: 500 });
 
     const isUserItem = user.external_id === itemUser.external_id;
 
@@ -42,8 +44,6 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
     const openDeleteModal = (e: any) => {
         e.stopPropagation();
 
-        console.log(modals.openConfirmModal);
-
         modals.openConfirmModal({
             title: 'Delete this item',
             centered: true,
@@ -59,6 +59,16 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
         });
     }
 
+    const copyPublicURL = (e: any) => {
+        clipboard.copy(window.location.origin + window.location.pathname + '?prompt_id=' + itemId);
+
+        notifications.show({
+            title: "URL Copied",
+            message: "",
+            color: "blue"
+        });
+    }
+
     return (
         <Menu>
             <Menu.Target>
@@ -69,6 +79,13 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser }: Ca
             <Menu.Dropdown>
                 <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                     <Text size="xs">Details</Text>
+                </Menu.Item>
+                <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                    {
+                        clipboard.copied 
+                        ? <Text size="xs">Copied</Text>
+                        : <Text size="xs">Copy URL</Text>
+                    }
                 </Menu.Item>
                 {
                     isUserItem &&
