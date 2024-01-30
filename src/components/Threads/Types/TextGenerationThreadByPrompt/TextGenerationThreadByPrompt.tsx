@@ -1,14 +1,12 @@
-import { Alert, Avatar, Group, Loader, Stack, Text } from "@mantine/core";
+import { Group, Loader, Stack, Text } from "@mantine/core";
 import { PromptRequest } from "../../../../model/PromptRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { IconAlertCircle } from "@tabler/icons-react";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
 import { useTextGenerationByPromptQuery } from "../../../../api/textGenerationApi";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
-import { iconPlay } from "../../../../utils/iconsUtils";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
+import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 
 interface TextGenerationThreadByPrompt {
     promptRequest: PromptRequest,
@@ -23,10 +21,7 @@ export function TextGenerationThreadByPrompt({ promptRequest, scrollIntoView }: 
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
-            return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                <Alert p={0} variant="transparent" color="red" title={error.message} icon={<IconAlertCircle size={14} />} />
-                <ThreadReloadButton reload={refetch} />
-            </Stack>;
+            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
         }
 
         if (data && !isFetching) {

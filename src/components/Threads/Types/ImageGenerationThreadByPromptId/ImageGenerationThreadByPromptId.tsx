@@ -12,6 +12,7 @@ import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
+import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 
 interface ImageGenerationThreadByPromptId {
     promptRequest: PromptRequest,
@@ -34,10 +35,7 @@ export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView,
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
-            return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                {error.message}
-                {reloadIcon}
-            </Stack>;
+            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
         }
 
         if (data && !isFetching) {

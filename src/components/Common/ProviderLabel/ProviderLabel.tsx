@@ -1,4 +1,4 @@
-import { Divider, Group, Text, rem } from "@mantine/core";
+import { Box, Divider, Group, Text, rem } from "@mantine/core";
 import { Technology } from "../../../model/Technology";
 import { Provider } from "../../../model/Provider";
 import { Template } from "../../../model/Template";
@@ -20,7 +20,8 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
     let iconSize = 16;
     let iconTextSize = rem(14);
     let fw = 600;
-    let gap: string|number = "xs";
+    let gap: string | number = "xs";
+    let maw = 150;
 
     switch (size) {
         case 'sm':
@@ -31,22 +32,27 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
             break;
         case 'xs':
             padding = 0;
-            textSize = rem(8);
+            textSize = rem(9);
             iconSize = 12;
             iconTextSize = rem(10);
-            gap = 2;
+            gap = 3;
+            maw = 80;
             break;
 
     }
 
     return (
         <Group p={padding} gap={gap} justify="space-between" wrap="wrap">
-            <Text fw={fw} size={textSize}>{technology.name}</Text>
+            <Box maw={maw}>
+                <Text truncate fw={fw} size={textSize}>{technology.name}</Text>
+            </Box>
             {
                 provider &&
                 <>
                     <Divider orientation="vertical" />
-                    <Text fw={fw} size={textSize}>{provider.model_name}</Text>
+                    <Box maw={maw}>
+                        <Text truncate fw={fw} size={textSize}>{provider.model_name}</Text>
+                    </Box>
                 </>
             }
             {

@@ -51,7 +51,7 @@ export function HomePage() {
             <AppShell
                 layout='alt'
                 header={{ height: { base: 80 } }}
-                footer={{ height: { base: 80 } }}
+                footer={{ height: { base: 130 } }}
                 navbar={{
                     width: { base: 350 },
                     breakpoint: 'sm',

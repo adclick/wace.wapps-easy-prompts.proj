@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useQuery } from "@tanstack/react-query";
 import { PromptRequest } from "../model/PromptRequest";
 
@@ -12,14 +12,18 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
             const modifiersIds = request.metadata && "modifiers" in request.metadata ? request.metadata.modifiers.map(m => m.id) : [];
             const templatesIds = request.metadata && "templates" in request.metadata ? request.metadata.templates.map(t => t.id) : [];
 
-            const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
-                text: request.content,
-                provider_id: request.provider.id.toString(),
-                modifiers_ids: JSON.stringify(modifiersIds),
-                templates_ids: JSON.stringify(templatesIds)
-            });
+            try {
+                const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
+                    text: request.content,
+                    provider_id: request.provider.id.toString(),
+                    modifiers_ids: JSON.stringify(modifiersIds),
+                    templates_ids: JSON.stringify(templatesIds)
+                });
 
-            return data;
+                return data;
+            } catch(e: any) {
+                throw new Error(e.response.data.message);
+            }
         },
         refetchOnMount: false,
         refetchOnReconnect: false,

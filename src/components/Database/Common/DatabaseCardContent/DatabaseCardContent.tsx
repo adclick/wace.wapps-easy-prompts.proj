@@ -14,7 +14,10 @@ interface DatabaseCardContent {
 export function DatabaseCardContent({ item, detailsHandle }: DatabaseCardContent) {
     return (
         <Stack>
-            <Text size="xs">{item.description}</Text>
+            {
+                item.description !== "" &&
+                <Text size="xs">{item.description}</Text>
+            }
             <Center>
                 <Button
                     className={classes.readMore}

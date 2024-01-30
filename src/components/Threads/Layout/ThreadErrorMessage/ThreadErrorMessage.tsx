@@ -6,13 +6,11 @@ interface ThreadErrorMessage {
     reloadFn: any
 }
 
-export function ThreadErrorMessage({ message, reloadFn}: ThreadErrorMessage) {
+export function ThreadErrorMessage({ message, reloadFn }: ThreadErrorMessage) {
     return (
         <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
             {message}
-            <Group gap={"xs"}>
-                <ThreadReloadButton reload={reloadFn} />
-            </Group>
+            <ThreadReloadButton reload={reloadFn} />
         </Stack>
     )
 }

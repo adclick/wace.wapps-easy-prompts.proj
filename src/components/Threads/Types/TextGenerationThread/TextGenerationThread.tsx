@@ -11,6 +11,7 @@ import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButto
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
+import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -28,10 +29,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
-            return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                <Alert p={0} variant="transparent" color="red" title={error.message} icon={<IconAlertCircle size={14} />} />
-                <ThreadReloadButton reload={refetch} />
-            </Stack>;
+            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
         }
 
         if (data && !isFetching) {
