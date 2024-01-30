@@ -25,9 +25,9 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
     switch (size) {
         case 'sm':
             padding = 3;
-            textSize = rem(12);
+            textSize = rem(10);
             iconSize = 14;
-            iconTextSize = rem(12);
+            iconTextSize = rem(10);
             break;
         case 'xs':
             padding = 0;
