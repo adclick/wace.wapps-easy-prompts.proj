@@ -19,6 +19,7 @@ import { SelectedTemplatesProvider } from './context/SelectedTemplatesContext';
 import { ModalsProvider } from '@mantine/modals';
 import AppUpdateModal from './components/Common/AppUpdateModal/AppUpdateModal';
 
+const auth0ClientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -26,7 +27,7 @@ export default function App() {
   return (
     <Auth0Provider
       domain='easyprompts.eu.auth0.com'
-      clientId='ah2cBGpaMydRymfVj1isGtFKFo3cfbue'
+      clientId={auth0ClientId}
       authorizationParams={{
         redirect_uri: window.location.origin
       }}
