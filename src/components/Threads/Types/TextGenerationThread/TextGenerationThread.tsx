@@ -43,12 +43,17 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         }
 
         if (data && !isFetching) {
+            let dataResponse = data;
+
+            if (typeof data === "string") dataResponse = data.trim();
+            if (typeof data === "number") dataResponse = data.toString().trim();
+
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
                 {
-                    data
+                    dataResponse
                 }
                 <Group gap={"xs"}>
-                    <ThreadCopyButton value={data} />
+                    <ThreadCopyButton value={dataResponse} />
                     <ThreadReloadButton reload={reload} />
                 </Group>
             </Stack>
