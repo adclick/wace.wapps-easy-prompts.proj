@@ -30,11 +30,11 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
             iconTextSize = rem(10);
             break;
         case 'xs':
-            padding = 0;
-            textSize = rem(8);
+            padding = 2;
+            textSize = rem(9);
             iconSize = 12;
-            iconTextSize = rem(10);
-            gap = 2;
+            iconTextSize = rem(9);
+            gap = 6;
             break;
 
     }
@@ -50,7 +50,7 @@ export function ProviderLabel({ technology, provider, templates, modifiers, size
                 </>
             }
             {
-                templates.length > 0 &&
+                templates.length > 0 && size !== "xs" &&
                 <>
                     <Divider orientation="vertical" />
                     <Group gap={4}>
