@@ -51,22 +51,13 @@ export function SaveModal({
     return (
         <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
             <Stack my={"xs"}>
-                <Card>
-                    <Grid gutter={"xs"} align="center">
-                        <Grid.Col span={{ base: 12, sm: 7 }}>
-                            <Radio.Group value={type} onChange={setType} size="md">
-                                <Group justify="flex-start">
-                                    <Radio value={Type.PROMPT} label={Label.Prompt} />
-                                    <Radio value={Type.TEMPLATE} label={Label.Tempalate} />
-                                    <Radio value={Type.MODIFIER} label={Label.Modifier} />
-                                </Group>
-                            </Radio.Group>
-                        </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 5 }}>
-                            <Text size="sm">{description}</Text>
-                        </Grid.Col>
-                    </Grid>
-                </Card>
+                <Radio.Group value={type} onChange={setType} size="md">
+                    <Group justify="flex-end">
+                        <Radio value={Type.PROMPT} label={Label.Prompt} />
+                        <Radio value={Type.TEMPLATE} label={Label.Tempalate} />
+                        <Radio value={Type.MODIFIER} label={Label.Modifier} />
+                    </Group>
+                </Radio.Group>
                 {form}
             </Stack>
 

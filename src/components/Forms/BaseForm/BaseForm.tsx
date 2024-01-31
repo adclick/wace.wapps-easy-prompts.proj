@@ -53,8 +53,10 @@ export function BaseForm({
     const [providerData, setProviderData] = useState<{ label: string, value: string }[]>([]);
     const [providerId, setProviderId] = useState<string | null>("");
     const [name, setName] = useState(promptRequest ? promptRequest.title : "");
+    const [nameError, setNameError] = useState('');
     const [description, setDescription] = useState(promptRequest ? promptRequest.description : "");
     const [content, setContent] = useState(promptRequest ? promptRequest.content : "");
+    const [contentError, setContentError] = useState('');
 
     const { selectedModifiers } = useSelectedModifiers();
     const initialModifiers = promptRequest ? promptRequest.metadata.modifiers : selectedModifiers;
@@ -69,6 +71,16 @@ export function BaseForm({
     const filtersQuery = useFiltersQuery(user.id);
 
     const save = async () => {
+        if (name === "") {
+            setNameError("Required field");
+            return;
+        }
+
+        if (hasContent && content === "") {
+            setContentError("Required field");
+            return;
+        }
+
         const modifiersIds = modifiers.map(m => m.id);
         const templatesIds = templates.map(t => t.id);
         const chatHistory = promptRequest ? promptRequest.metadata.history : [];
@@ -123,7 +135,7 @@ export function BaseForm({
 
         notifications.show({
             title: "Saved",
-            message: "Your settings were saved",
+            message: "",
             color: "blue"
         });
 
@@ -203,6 +215,16 @@ export function BaseForm({
         setTemplates(newTemplates);
     }
 
+    const onChangeName = (name: string) => {
+        setName(name);
+        setNameError("");
+    }
+
+    const onChangeContent = (content: string) => {
+        setContent(content);
+        setContentError("");
+    }
+
     return (
 
         <Stack mt={"md"}>
@@ -211,12 +233,12 @@ export function BaseForm({
                     <TextInput
                         label="Name"
                         variant="unstyled"
-                        onChange={(e: any) => setName(e.target.value)}
+                        onChange={(e: any) => onChangeName(e.target.value)}
                         value={name}
                         required
                         autoFocus
-                        placeholder="Write a name"
                         size="md"
+                        error={nameError}
                     />
                     <Textarea
                         label="Description"
@@ -225,21 +247,20 @@ export function BaseForm({
                         minRows={1}
                         onChange={e => setDescription(e.target.value)}
                         value={description}
-                        placeholder="Write a brief description"
                         size="md"
                     />
                     {
-                        hasContent &&
+                        hasContent && !promptRequest &&
                         <Textarea
                             label="Content"
                             autosize
                             required
                             variant="unstyled"
                             minRows={1}
-                            onChange={(e: any) => setContent(e.target.value)}
+                            onChange={(e: any) => onChangeContent(e.target.value)}
                             value={content}
-                            placeholder="Prompt's content"
                             size="md"
+                            error={contentError}
                         />
                     }
 
