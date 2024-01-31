@@ -239,6 +239,7 @@ export function BaseForm({
                         autoFocus
                         size="md"
                         error={nameError}
+                        placeholder="Type a name"
                     />
                     <Textarea
                         label="Description"
