@@ -74,13 +74,18 @@ export function DatabaseCardDetails({
             <Stack my={"md"}>
                 <Card className={classes.card}>
                     <Stack>
-                        <Stack gap={4}>
-                            <Title order={6}>Description</Title>
-                            <Text size="xs">{item.description}</Text>
-                        </Stack>
-                        <Divider />
+                        {
+                            item.description &&
+                            <>
+                                <Stack gap={4}>
+                                    <Title order={6}>Description</Title>
+                                    <Text size="xs">{item.description}</Text>
+                                </Stack>
+                                <Divider />
+                            </>
+                        }
                         <Title order={6}>Specifications</Title>
-                        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={"xl"}>
+                        <SimpleGrid cols={{ base: 1, sm: 2 }}>
                             <Stack>
                                 <SimpleGrid cols={2} spacing={"xs"}>
                                     <Group gap={"xs"}>
