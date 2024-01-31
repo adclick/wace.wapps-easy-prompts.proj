@@ -229,7 +229,7 @@ export function BaseForm({
                         size="md"
                     />
                     {
-                        hasContent &&
+                        hasContent && !promptRequest &&
                         <Textarea
                             label="Content"
                             autosize

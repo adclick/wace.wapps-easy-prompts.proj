@@ -12,6 +12,8 @@ import { iconPlay } from "../../../../utils/iconsUtils";
 import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -21,23 +23,33 @@ interface TextGenerationThread {
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
+    const [request, setRequest] = useState(promptRequest);
+    const queryClient = useQueryClient()
+
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
 
     scrollIntoView({ alignement: 'start' });
+
+    const reload = () => {
+        // queryClient.invalidateQueries({queryKey: ["textGemeration", promptRequest.key]});
+        refetch();
+    }
 
     const response = () => {
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
-            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
+            return <ThreadErrorMessage message={error.message} reloadFn={reload} />;
         }
 
         if (data && !isFetching) {
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                {data.trim()}
+                {
+                    data
+                }
                 <Group gap={"xs"}>
-                    <ThreadCopyButton value={data.trim()} />
-                    <ThreadReloadButton reload={refetch} />
+                    <ThreadCopyButton value={data} />
+                    <ThreadReloadButton reload={reload} />
                 </Group>
             </Stack>
         }

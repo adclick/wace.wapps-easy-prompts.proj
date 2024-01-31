@@ -12,7 +12,6 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
             const modifiersIds = request.metadata && "modifiers" in request.metadata ? request.metadata.modifiers.map(m => m.id) : [];
             const templatesIds = request.metadata && "templates" in request.metadata ? request.metadata.templates.map(t => t.id) : [];
 
-            try {
                 const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
                     text: request.content,
                     provider_id: request.provider.id.toString(),
@@ -21,9 +20,6 @@ export const useTextGenerationQuery = (request: PromptRequest) => {
                 });
 
                 return data;
-            } catch(e: any) {
-                throw new Error(e.response.data.message);
-            }
         },
         refetchOnMount: false,
         refetchOnReconnect: false,
