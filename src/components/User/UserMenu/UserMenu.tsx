@@ -38,12 +38,6 @@ export function UserMenu() {
                     >
                         Give Feedback
                     </Menu.Item>
-                    <Menu.Item leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
-                        Changelog
-                    </Menu.Item>
-                    <Menu.Item leftSection={<IconQuestionMark style={{ width: rem(14), height: rem(14) }} />}>
-                        How it works
-                    </Menu.Item>
                     <Menu.Divider />
                     <Menu.Item color="red" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}>
                         Logout

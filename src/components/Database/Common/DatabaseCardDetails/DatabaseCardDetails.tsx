@@ -1,4 +1,4 @@
-import { Button, Card, Center, Divider, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
 import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
 import { useUser } from "../../../../context/UserContext";
@@ -129,23 +129,35 @@ export function DatabaseCardDetails({
                     <Card className={classes.card}>
                         <Stack>
                             <Title order={6}>Content</Title>
+
+
                             {
-                                chatMessages.length > 0 &&
-                                <Stack gap={"xs"}>
-                                    <Text size="xs" fw={500}>Messages</Text>
-                                    <Stack gap={4}>
+                                chatMessages.length > 0
+                                    ? <Stack>
                                         {
                                             chatMessages.map((m: { id: number, role: string, message: string }) => {
-                                                return <Group key={m.id}>
-                                                    <Text size="xs">{m.role}</Text>
-                                                    <Text size="xs">{m.message}</Text>
-                                                </Group>
+                                                return <Grid key={m.id} gutter={2}>
+                                                    <Grid.Col span={{ base: 12, sm: 2 }}>
+                                                        <Text size="xs" fw={700}>{m.role}</Text>
+                                                    </Grid.Col>
+                                                    <Grid.Col span={{ base: 12, sm: 10 }}>
+                                                        <Text size="xs">{m.message}</Text>
+                                                    </Grid.Col>
+                                                </Grid>
                                             })
+
                                         }
+                                        <Grid gutter={2}>
+                                            <Grid.Col span={{ base: 12, sm: 2 }}>
+                                                <Text size="xs" fw={700}>user</Text>
+                                            </Grid.Col>
+                                            <Grid.Col span={{ base: 12, sm: 10 }}>
+                                                <Text size="xs">{itemQuery.data.content}</Text>
+                                            </Grid.Col>
+                                        </Grid>
                                     </Stack>
-                                </Stack>
+                                    : <Text size="xs">{itemQuery.data.content}</Text>
                             }
-                            <Text size="xs">{itemQuery.data.content}</Text>
                         </Stack>
                     </Card>
                 }

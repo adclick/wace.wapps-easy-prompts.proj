@@ -37,7 +37,7 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser, hasP
     if (deleteMutation.isSuccess) {
         notifications.show({
             title: "Item Deleted",
-            message: "Your settings were saved",
+            message: "",
             color: "blue"
         });
     }

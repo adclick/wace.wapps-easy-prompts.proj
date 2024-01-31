@@ -1,11 +1,10 @@
-import { ActionIcon, Badge, Divider, Group, Popover, ScrollArea, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Badge, Divider, Group, Popover, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { PromptOptionsProvidersField } from "../PromptOptionsProvidersField/PromptOptionsProvidersField";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptOptionsTechnologiesField } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import classes from './PromptModeSwitcher.module.css';
 import { iconClose } from "../../../utils/iconsUtils";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
-import { IconSparkles, IconTemplate } from "@tabler/icons-react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { Modifier } from "../../../model/Modifier";
 import { Template } from "../../../model/Template";
