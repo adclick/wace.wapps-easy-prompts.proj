@@ -12,10 +12,10 @@ export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImage
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
     const { min, max } = parameter.data;
-    const [value, setValue] = useState<number>(min);
+    const [value, setValue] = useState<number>(parseInt(parameter.value));
 
     const marks = [];
-    for (let i = min; i <= max; i++) {
+    for (let i = parseInt(min); i <= parseInt(max); i++) {
         marks.push({
             value: i,
             label: i
@@ -40,8 +40,8 @@ export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImage
                 value={value}
                 onChange={updateValue}
                 marks={marks}
-                min={min}
-                max={max}
+                min={parseInt(min)}
+                max={parseInt(max)}
             />
         </Stack>
     )

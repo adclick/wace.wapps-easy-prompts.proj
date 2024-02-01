@@ -5,7 +5,10 @@ import { useQuery } from '@tanstack/react-query';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useImageGenerationQuery = (request: PromptRequest) => {
-    const { num_images } = request.parametersList;
+    const { num_images, image_resolution } = request.parametersList;
+
+
+    console.log(request.parametersList.num_images);
 
     return useQuery({
         queryKey: ["imageGeneration", request.key],
@@ -18,7 +21,8 @@ export const useImageGenerationQuery = (request: PromptRequest) => {
                 provider_id: request.provider.id.toString(),
                 providers_ids: JSON.stringify(providersIds),
                 modifiers_ids: JSON.stringify(modifiersIds),
-                num_images: num_images.value
+                num_images: num_images.value,
+                image_resolution: image_resolution.value
             }));
 
             return data;

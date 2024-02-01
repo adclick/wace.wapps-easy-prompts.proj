@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Provider } from "../../../model/Provider";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { PromptOptionsNumImagesField } from "../PromptOptionsNumImagesField/PromptOptionsNumImagesField";
+import { PromptOptionsImageResolution } from "../PromptOptionsImageResolution/PromptOptionsImageResolution";
 
 export interface ProvidersDataItem {
     label: string,
@@ -45,11 +46,13 @@ export function PromptOptionsProvidersField() {
                 value: provider.id.toString()
             }
         });
-    
+
         const parameters = userPromptRequest.provider.parameters.map(parameter => {
             switch (parameter.slug) {
                 case 'num_images':
-                    return <PromptOptionsNumImagesField parameter={parameter} />
+                    return <PromptOptionsNumImagesField key={parameter.id} parameter={parameter} />
+                case 'image_resolution':
+                    return <PromptOptionsImageResolution key={parameter.id} parameter={parameter} />
             }
         })
     

@@ -5,12 +5,12 @@ export class Parameter {
     data: any;
     value: any;
 
-    constructor() {
+    constructor(name: string = "", slug: string = "", data: string = "", value: any = null) {
         this.id = 0;
-        this.name = "";
-        this.slug = "";
-        this.data = "";
-        this.value = null;
+        this.name = name;
+        this.slug = slug;
+        this.data = data;
+        this.value = value;
     }
 
     static clone (parameter: Parameter): Parameter {
