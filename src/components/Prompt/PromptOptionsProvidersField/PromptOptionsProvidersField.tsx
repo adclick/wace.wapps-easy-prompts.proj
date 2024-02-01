@@ -1,9 +1,10 @@
-import { Loader, Select } from "@mantine/core";
+import { Loader, Select, Slider, Stack, Text } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { useProvidersQuery } from "../../../api/providersApi";
 import { useEffect } from "react";
 import { Provider } from "../../../model/Provider";
 import { PromptRequest } from "../../../model/PromptRequest";
+import { PromptOptionsNumImagesField } from "../PromptOptionsNumImagesField/PromptOptionsNumImagesField";
 
 export interface ProvidersDataItem {
     label: string,
@@ -44,23 +45,30 @@ export function PromptOptionsProvidersField() {
                 value: provider.id.toString()
             }
         });
-
+    
+        const parameters = userPromptRequest.provider.parameters.map(parameter => {
+            switch (parameter.slug) {
+                case 'num_images':
+                    return <PromptOptionsNumImagesField parameter={parameter} />
+            }
+        })
+    
         return (
-            <Select
-                label={"Provider"}
-                size="md"
-                variant="unstyled"
-                allowDeselect={false}
-                comboboxProps={{ withinPortal: false }}
-                value={userPromptRequest.provider.id.toString()}
-                data={data}
-                onChange={onChangeProvider}
-            />
+            <Stack>
+                <Select
+                    label={"Provider"}
+                    size="md"
+                    variant="unstyled"
+                    allowDeselect={false}
+                    comboboxProps={{ withinPortal: false }}
+                    value={userPromptRequest.provider.id.toString()}
+                    data={data}
+                    onChange={onChangeProvider}
+                />
+                {parameters}
+            </Stack>
         )
     }
 
-
-    return (
-        <Loader size={"xs"} type="dot" />
-    )
+    return <Loader size={"xs"} type="dot" />
 }

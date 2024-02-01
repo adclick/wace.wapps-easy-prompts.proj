@@ -1,6 +1,9 @@
+import { Language } from "./Language";
 import { Modifier } from "./Modifier";
+import { ParametersList } from "./ParametersList";
 import { Metadata } from "./Prompt";
 import { Provider } from "./Provider";
+import { Repository } from "./Repository";
 import { Technology } from "./Technology";
 import { User } from "./User";
 
@@ -19,10 +22,11 @@ export class Template {
     type: string;
     metadata: Metadata;
     user: User
-    language: {id: number, name: string, slug: string}
-    repository: {id: number, name: string, slug: string}
+    language: Language;
+    repository: Repository;
     technology: Technology;
     provider: Provider;
+    parametersList: ParametersList;
     templates_modifiers: TemplateModifier[]
     
     constructor() {
@@ -36,10 +40,11 @@ export class Template {
         this.type = "";
         this.metadata = {modifiers: [], history: [], templates: []};
         this.user = new User()
-        this.language = {id: 0, name: "", slug: ""}
-        this.repository = {id: 0, name: "", slug: ""}
+        this.language = new Language();
+        this.repository = new Repository();
         this.technology = new Technology();
         this.provider = new Provider();
+        this.parametersList = new ParametersList()
         this.templates_modifiers = [];
     }
 
@@ -59,6 +64,7 @@ export class Template {
         newTemplate.language = template.language;
         newTemplate.repository = template.repository;
         newTemplate.provider = template.provider;
+        newTemplate.parametersList = template.parametersList;
         newTemplate.templates_modifiers = template.templates_modifiers;
 
         return newTemplate;

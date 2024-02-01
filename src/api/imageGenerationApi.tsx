@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useImageGenerationQuery = (request: PromptRequest) => {
+    const { num_images } = request.parametersList;
+
     return useQuery({
         queryKey: ["imageGeneration", request.key],
         queryFn: async () => {
@@ -16,6 +18,7 @@ export const useImageGenerationQuery = (request: PromptRequest) => {
                 provider_id: request.provider.id.toString(),
                 providers_ids: JSON.stringify(providersIds),
                 modifiers_ids: JSON.stringify(modifiersIds),
+                num_images: num_images.value
             }));
 
             return data;

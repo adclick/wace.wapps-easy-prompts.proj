@@ -1,3 +1,4 @@
+import { Parameter } from "./Parameter";
 import { Prompt } from "./Prompt";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
@@ -37,6 +38,7 @@ export class PromptRequest extends Prompt {
         newPromptRequest.description = promptRequest.description;
         newPromptRequest.technology = Technology.clone(promptRequest.technology);
         newPromptRequest.provider = Provider.clone(promptRequest.provider);
+        newPromptRequest.parametersList = promptRequest.parametersList;
         newPromptRequest.response = promptRequest.response;
         newPromptRequest.isPlayable = promptRequest.isPlayable
         newPromptRequest.chatReply = promptRequest.chatReply;

@@ -2,15 +2,15 @@ export class Parameter {
     id: number;
     name: string;
     slug: string;
-    content: any;
+    data: any;
     value: any;
 
     constructor() {
         this.id = 0;
         this.name = "";
         this.slug = "";
-        this.content = "";
-        this.value = "";
+        this.data = "";
+        this.value = null;
     }
 
     static clone (parameter: Parameter): Parameter {
@@ -19,7 +19,7 @@ export class Parameter {
         newParameter.id = parameter.id;
         newParameter.name = parameter.name;
         newParameter.slug = parameter.slug;
-        newParameter.content = parameter.content;
+        newParameter.data = parameter.data;
         newParameter.value = parameter.value;
 
         return newParameter;

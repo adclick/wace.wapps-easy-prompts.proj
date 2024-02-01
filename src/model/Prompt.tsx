@@ -1,5 +1,8 @@
+import { Language } from "./Language";
 import { Modifier } from "./Modifier";
+import { ParametersList } from "./ParametersList";
 import { Provider } from "./Provider";
+import { Repository } from "./Repository";
 import { Technology } from "./Technology";
 import { Template } from "./Template";
 import { User } from "./User";
@@ -40,10 +43,11 @@ export class Prompt {
     type: string;
     metadata: Metadata;
     user: User
-    language: {id: number, name: string, slug: string}
-    repository: {id: number, name: string, slug: string}
+    language: Language;
+    repository: Repository;
     technology: Technology;
     provider: Provider;
+    parametersList: ParametersList;
     chat_messages: ChatMessage[];
     prompts_modifiers: PromptModifier[];
     prompts_templates: PromptTemplate[];
@@ -60,10 +64,11 @@ export class Prompt {
         this.type = "";
         this.metadata = {modifiers: [], history: [], templates: []}
         this.user = new User()
-        this.language = {id: 0, name: "", slug: ""}
-        this.repository = {id: 0, name: "", slug: ""}
+        this.language = new Language();
+        this.repository = new Repository();
         this.technology = new Technology();
         this.provider = new Provider();
+        this.parametersList = new ParametersList();
         this.chat_messages = [];
         this.prompts_modifiers = [];
         this.prompts_templates = [];
@@ -87,6 +92,7 @@ export class Prompt {
         newPrompt.repository = prompt.repository;
         newPrompt.technology = prompt.technology;
         newPrompt.provider = prompt.provider;
+        newPrompt.parametersList = prompt.parametersList;
         newPrompt.chat_messages = prompt.chat_messages;
         newPrompt.prompts_modifiers = prompt.prompts_modifiers;
         newPrompt.prompts_templates = prompt.prompts_templates;
@@ -111,6 +117,7 @@ export class Prompt {
         newPrompt.repository = template.repository;
         newPrompt.technology = template.technology;
         newPrompt.provider = template.provider;
+        newPrompt.parametersList = template.parametersList;
 
         return newPrompt;
     }
