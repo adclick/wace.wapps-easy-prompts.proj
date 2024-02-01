@@ -10,6 +10,7 @@ import { Technology } from "../../../../model/Technology";
 import { Provider } from "../../../../model/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 import { useIntersection } from "@mantine/hooks";
+import { ParametersList } from "../../../../model/ParametersList";
 
 interface TemplatesList {
     templatesQuery: any,
@@ -39,6 +40,8 @@ export function TemplatesList({ templatesQuery, databaseListContainerRef }: Temp
 
             if (templates[0].provider) {
                 newUserRequest.provider = Provider.clone(templates[0].provider);
+                newUserRequest.parametersList = ParametersList.buildFromTemplate(templates[0]);
+                console.log(newUserRequest.parametersList);
             } else {
                 newUserRequest.provider = new Provider();
             }

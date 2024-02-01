@@ -20,6 +20,8 @@ import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext"
 import { Template } from "../../../model/Template";
 import { notifications } from "@mantine/notifications";
 import { useDisclosure } from "@mantine/hooks";
+import { ParametersList } from "../../../model/ParametersList";
+import { Parameter } from "../../../model/Parameter";
 
 interface BaseForm {
     promptRequest: PromptRequest | undefined,
@@ -99,6 +101,18 @@ export function BaseForm({
         newFormData.append("chat_messages", JSON.stringify(chatMessages));
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("templates_ids", JSON.stringify(templatesIds));
+
+        if (promptRequest) {
+            if (type === Type.PROMPT) {
+                const promptParameters = ParametersList.getActiveParameters(promptRequest.parametersList);
+                newFormData.append("prompt_parameters", JSON.stringify(promptParameters.map(pp => Parameter.getIdAndValue(pp))));
+            }
+
+            if (type === Type.TEMPLATE) {
+                const templateParameters = ParametersList.getActiveParameters(promptRequest.parametersList);
+                newFormData.append("template_parameters", JSON.stringify(templateParameters.map(tp => Parameter.getIdAndValue(tp))));
+            }
+        }
 
         if (providerId) {
             newFormData.append("provider_id", providerId.toString());

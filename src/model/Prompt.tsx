@@ -1,5 +1,6 @@
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
+import { Parameter } from "./Parameter";
 import { ParametersList } from "./ParametersList";
 import { Provider } from "./Provider";
 import { Repository } from "./Repository";
@@ -31,6 +32,11 @@ interface PromptTemplate {
     template: Template
 }
 
+interface PromptParameter {
+    parameter: Parameter,
+    value: string
+}
+
 export class Prompt {
     id: number;
     title: string;
@@ -51,6 +57,7 @@ export class Prompt {
     chat_messages: ChatMessage[];
     prompts_modifiers: PromptModifier[];
     prompts_templates: PromptTemplate[];
+    prompts_parameters: PromptParameter[];
     
     constructor() {
         this.id = 0;
@@ -72,6 +79,7 @@ export class Prompt {
         this.chat_messages = [];
         this.prompts_modifiers = [];
         this.prompts_templates = [];
+        this.prompts_parameters = [];
     }
 
     static clone(prompt: Prompt): Prompt {
@@ -96,6 +104,7 @@ export class Prompt {
         newPrompt.chat_messages = prompt.chat_messages;
         newPrompt.prompts_modifiers = prompt.prompts_modifiers;
         newPrompt.prompts_templates = prompt.prompts_templates;
+        newPrompt.prompts_parameters = prompt.prompts_parameters;
 
         return newPrompt;
     }
@@ -118,6 +127,7 @@ export class Prompt {
         newPrompt.technology = template.technology;
         newPrompt.provider = template.provider;
         newPrompt.parametersList = template.parametersList;
+        newPrompt.prompts_parameters = template.templates_parameters;
 
         return newPrompt;
     }

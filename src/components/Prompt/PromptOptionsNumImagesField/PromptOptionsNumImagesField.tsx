@@ -12,7 +12,7 @@ export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImage
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
     const { min, max } = parameter.data;
-    const [value, setValue] = useState<number>(parseInt(parameter.value));
+    const [value, setValue] = useState<number>(parseInt(userPromptRequest.parametersList.num_images.value));
 
     const marks = [];
     for (let i = parseInt(min); i <= parseInt(max); i++) {
@@ -26,7 +26,7 @@ export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImage
         setValue(value);
 
         const newParameter = Parameter.clone(parameter);
-        newParameter.value = value;
+        newParameter.value = value.toString();
 
         const newUserRequest = PromptRequest.clone(userPromptRequest);
         newUserRequest.parametersList.num_images = newParameter;

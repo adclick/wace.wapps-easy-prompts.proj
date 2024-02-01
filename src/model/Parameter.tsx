@@ -3,7 +3,7 @@ export class Parameter {
     name: string;
     slug: string;
     data: any;
-    value: any;
+    value: string;
 
     constructor(name: string = "", slug: string = "", data: string = "", value: any = null) {
         this.id = 0;
@@ -23,5 +23,12 @@ export class Parameter {
         newParameter.value = parameter.value;
 
         return newParameter;
+    }
+
+    static getIdAndValue = (parameter: Parameter) => {
+        return {
+            parameter_id: parameter.id,
+            value: parameter.value
+        };
     }
 }

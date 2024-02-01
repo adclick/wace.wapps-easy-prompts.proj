@@ -6,6 +6,7 @@ import { Provider } from "../../../model/Provider";
 import { PromptRequest } from "../../../model/PromptRequest";
 import { PromptOptionsNumImagesField } from "../PromptOptionsNumImagesField/PromptOptionsNumImagesField";
 import { PromptOptionsImageResolution } from "../PromptOptionsImageResolution/PromptOptionsImageResolution";
+import { ParametersList } from "../../../model/ParametersList";
 
 export interface ProvidersDataItem {
     label: string,
@@ -25,15 +26,17 @@ export function PromptOptionsProvidersField() {
     useEffect(() => {
         if (providersQuery.data && userPromptRequest.provider.id <= 0) {
             const firstProvider = Provider.clone(providersQuery.data[0]);
-            onChangeProvider(firstProvider.id.toString());
+            updateProvider(firstProvider.id.toString());
         }
     })
 
-    const onChangeProvider = (providerId: string | null) => {
-        const provider = providersQuery.data.find((p: Provider) => p.id === parseInt(providerId as string));
+    const updateProvider = (providerId: string | null) => {
+        const provider: Provider|undefined = providersQuery.data.find((p: Provider) => p.id === parseInt(providerId as string));
         if (provider) {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.provider = Provider.clone(provider);
+            newUserRequest.parametersList = ParametersList.buildFromProvider(provider);
+
             setUserPromptRequest(newUserRequest);
         }
     }
@@ -66,7 +69,7 @@ export function PromptOptionsProvidersField() {
                     comboboxProps={{ withinPortal: false }}
                     value={userPromptRequest.provider.id.toString()}
                     data={data}
-                    onChange={onChangeProvider}
+                    onChange={updateProvider}
                 />
                 {parameters}
             </Stack>

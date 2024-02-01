@@ -58,7 +58,8 @@ export const useCreateTemplateMutation = () => {
                 technology_id: formData.get('technology_id'),
                 provider_id: formData.get('provider_id'),
                 modifiers_ids: formData.get('modifiers_ids'),
-                chat_history: formData.get('chat_history')
+                chat_history: formData.get('chat_history'),
+                template_parameters: formData.get('template_parameters')
             })
 
             return data;

@@ -2,7 +2,7 @@ import { Select } from "@mantine/core";
 import { Parameter } from "../../../model/Parameter";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptRequest } from "../../../model/PromptRequest";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PromptOptionsImageResolution {
     parameter: Parameter
@@ -10,7 +10,7 @@ interface PromptOptionsImageResolution {
 
 export function PromptOptionsImageResolution({ parameter }: PromptOptionsImageResolution) {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-    const [value, setValue] = useState(parameter.value);
+    const [value, setValue] = useState(userPromptRequest.parametersList.image_resolution.value);
 
     const data = parameter.data;
 

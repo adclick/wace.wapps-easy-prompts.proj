@@ -7,19 +7,14 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const useImageGenerationQuery = (request: PromptRequest) => {
     const { num_images, image_resolution } = request.parametersList;
 
-
-    console.log(request.parametersList.num_images);
-
     return useQuery({
         queryKey: ["imageGeneration", request.key],
         queryFn: async () => {
             const modifiersIds = request.metadata.modifiers.map(m => m.id);
-            const providersIds = request.providers.map(p => p.id.toString());
 
             const { data } = await axios.post(`${API_URL}/ai/image-generation?` + new URLSearchParams({
                 text: request.content,
                 provider_id: request.provider.id.toString(),
-                providers_ids: JSON.stringify(providersIds),
                 modifiers_ids: JSON.stringify(modifiersIds),
                 num_images: num_images.value,
                 image_resolution: image_resolution.value

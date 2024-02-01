@@ -1,5 +1,6 @@
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
+import { Parameter } from "./Parameter";
 import { ParametersList } from "./ParametersList";
 import { Metadata } from "./Prompt";
 import { Provider } from "./Provider";
@@ -9,6 +10,11 @@ import { User } from "./User";
 
 interface TemplateModifier {
     modifier: Modifier
+}
+
+interface TemplateParameter {
+    parameter: Parameter,
+    value: string
 }
 
 export class Template {
@@ -27,7 +33,8 @@ export class Template {
     technology: Technology;
     provider: Provider;
     parametersList: ParametersList;
-    templates_modifiers: TemplateModifier[]
+    templates_modifiers: TemplateModifier[];
+    templates_parameters: TemplateParameter[];
     
     constructor() {
         this.id = 0;
@@ -46,6 +53,7 @@ export class Template {
         this.provider = new Provider();
         this.parametersList = new ParametersList()
         this.templates_modifiers = [];
+        this.templates_parameters = [];
     }
 
     static clone(template: Template): Template {
@@ -66,6 +74,7 @@ export class Template {
         newTemplate.provider = template.provider;
         newTemplate.parametersList = template.parametersList;
         newTemplate.templates_modifiers = template.templates_modifiers;
+        newTemplate.templates_parameters = template.templates_parameters;
 
         return newTemplate;
     }

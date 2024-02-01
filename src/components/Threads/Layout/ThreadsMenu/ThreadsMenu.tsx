@@ -19,7 +19,7 @@ export function ThreadsMenu() {
             </Menu.Target>
             <Menu.Dropdown>
                 <Menu.Item onClick={() => setPromptsRequests([])} leftSection={iconAdd(14)}>
-                    New Private Window
+                    Clear Threads
                 </Menu.Item>
             </Menu.Dropdown>
         </Menu>
