@@ -21,6 +21,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^2.2.1",
     "@mantine/core": "7.4.1",
+    "@mantine/form": "^7.5.1",
     "@mantine/hooks": "7.4.1",
     "@mantine/modals": "^7.4.1",
     "@mantine/notifications": "^7.4.1",

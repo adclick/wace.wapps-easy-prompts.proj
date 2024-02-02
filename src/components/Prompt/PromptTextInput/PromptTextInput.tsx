@@ -48,6 +48,7 @@ export function PromptTextInput() {
             }}
             styles={{
                 input: {
+                    paddingLeft: "60px",
                     paddingRight: "60px",
                 },
 
