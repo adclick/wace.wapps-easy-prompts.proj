@@ -71,12 +71,12 @@ export const useCreateModifierMutation = () => {
     })
 }
 
-export const useUpdateModifierMutation = () => {
+export const useUpdateModifierMutation = (modifierId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (formData: ModifierFormValues) => {
-            const { data } = await axios.put(`${API_URL}/modifiers/`, {
+            const { data } = await axios.put(`${API_URL}/modifiers/${modifierId}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
                 description: formData.description,

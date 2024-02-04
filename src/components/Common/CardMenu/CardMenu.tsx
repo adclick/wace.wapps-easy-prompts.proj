@@ -1,11 +1,12 @@
 import { ActionIcon, Menu, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconCopy, IconDotsVertical, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { useUser } from "../../../context/UserContext";
 import { User } from "../../../model/User";
 import { modals } from "@mantine/modals";
 import classes from './CardMenu.module.css';
 import { useClipboard } from "@mantine/hooks";
+import { ModifierEditButton } from "../../Database/Modifiers/ModifierEditButton/ModifierEditButton";
 
 interface CardMenu {
     detailsHandle: any,
@@ -13,7 +14,6 @@ interface CardMenu {
     itemId: number,
     itemUser: User,
     hasPublicURL: boolean,
-    editModalHandle: any
 }
 
 export function CardMenu({
@@ -22,7 +22,6 @@ export function CardMenu({
     itemId,
     itemUser,
     hasPublicURL,
-    editModalHandle
 }: CardMenu) {
     const { user } = useUser();
     const clipboard = useClipboard({ timeout: 500 });
@@ -101,8 +100,7 @@ export function CardMenu({
                 }
                 {
                     isUserItem &&
-                    <Menu.Item onClick={editModalHandle.open} leftSection={<IconTrash size={14} />} color="red">
-                        <Text size="xs">Edit</Text>
+                    <Menu.Item>
                     </Menu.Item>
                 }
                 {

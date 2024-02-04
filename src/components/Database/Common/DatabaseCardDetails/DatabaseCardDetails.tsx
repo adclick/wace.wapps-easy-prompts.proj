@@ -8,7 +8,7 @@ import { Template } from "../../../../model/Template";
 import { Label } from "../../../../model/SelectedDatabaseType";
 import { modals } from "@mantine/modals";
 import classes from './DatabaseCardDetails.module.css'
-import { ModifierForm } from "../../../../forms/ModifierForm";
+import { ModifierForm } from "../../../../forms/CreateModifierForm";
 import { useDisclosure } from "@mantine/hooks";
 
 interface DatabaseCardDetails {
