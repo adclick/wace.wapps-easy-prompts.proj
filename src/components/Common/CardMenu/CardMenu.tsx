@@ -4,7 +4,7 @@ import { IconCopy, IconDotsVertical, IconFileDescription, IconTrash } from "@tab
 import { useUser } from "../../../context/UserContext";
 import { User } from "../../../model/User";
 import { modals } from "@mantine/modals";
-import classes from './CardMenu.module.css'
+import classes from './CardMenu.module.css';
 import { useClipboard } from "@mantine/hooks";
 
 interface CardMenu {

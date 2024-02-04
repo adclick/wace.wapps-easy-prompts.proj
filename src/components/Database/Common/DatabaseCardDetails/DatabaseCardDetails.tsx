@@ -1,5 +1,5 @@
 import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
+import { IconBulb, IconDatabase, IconEdit, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
 import { useUser } from "../../../../context/UserContext";
 import { Modifier } from "../../../../model/Modifier";
@@ -8,6 +8,8 @@ import { Template } from "../../../../model/Template";
 import { Label } from "../../../../model/SelectedDatabaseType";
 import { modals } from "@mantine/modals";
 import classes from './DatabaseCardDetails.module.css'
+import { ModifierForm } from "../../../../forms/ModifierForm";
+import { useDisclosure } from "@mantine/hooks";
 
 interface DatabaseCardDetails {
     opened: boolean,
@@ -211,13 +213,12 @@ export function DatabaseCardDetails({
                     user.username === item.user.username &&
                     <Group>
                         <Button
-                            color="red"
                             size="xs"
                             variant="subtle"
                             onClick={openDeleteModal}
-                            leftSection={<IconTrash size={14} />}
+                            leftSection={<IconEdit size={14} />}
                         >
-                            Delete
+                            Edit
                         </Button>
                     </Group>
                 }

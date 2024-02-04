@@ -1,4 +1,6 @@
+import { Language } from "./Language";
 import { Provider } from "./Provider";
+import { Repository } from "./Repository";
 import { Technology } from "./Technology";
 import { User } from "./User";
 
@@ -13,9 +15,9 @@ export class Modifier {
     created_at: Date;
     type: string;
     metadata: string;
-    user: User
-    language: {id: number, name: string, slug: string}
-    repository: {id: number, name: string, slug: string}
+    user: User;
+    language: Language;
+    repository: Repository;
     technology: Technology;
     provider: Provider;
     
@@ -31,8 +33,8 @@ export class Modifier {
         this.type = "";
         this.metadata = "";
         this.user = new User()
-        this.language = {id: 0, name: "", slug: ""}
-        this.repository = {id: 0, name: "", slug: ""}
+        this.language = new Language()
+        this.repository = new Repository()
         this.technology = new Technology();
         this.provider = new Provider();
     }

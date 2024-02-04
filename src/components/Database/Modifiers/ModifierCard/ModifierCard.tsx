@@ -1,4 +1,4 @@
-import { Accordion, Badge, Group, Stack, Text, Checkbox } from "@mantine/core";
+import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Button } from "@mantine/core";
 import { Modifier } from "../../../../model/Modifier";
 import { useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
@@ -7,6 +7,7 @@ import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
+import { ModifierForm } from "../../../../forms/ModifierForm";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -16,6 +17,7 @@ interface ModifierCard {
 export function ModifierCard({ modifier, itemRef }: ModifierCard) {
     const [modifierDetailsOpened, modifierDetailsHandle] = useDisclosure(false);
     const deleteMutation = useDeleteModifierMutation();
+    const [editOpened, editHandle] = useDisclosure(false);
 
     return (
         <>
@@ -69,6 +71,10 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                 </Accordion.Control >
                 <Accordion.Panel>
                     <DatabaseCardContent item={modifier} detailsHandle={modifierDetailsHandle} />
+                    <Button onClick={editHandle.open}>Edit</Button>
+                    <Modal opened={editOpened} onClose={editHandle.close}>
+                        <ModifierForm modifier={modifier} />
+                    </Modal>
                 </Accordion.Panel>
             </Accordion.Item >
         </>
