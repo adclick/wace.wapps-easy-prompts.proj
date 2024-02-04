@@ -27,6 +27,9 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                 modifier={modifier}
                 deleteMutation={deleteMutation}
             />
+            <Modal opened={editOpened} onClose={editHandle.close}>
+                <ModifierForm modifier={modifier} />
+            </Modal>
             <Accordion.Item ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>
                     <Stack>
@@ -45,6 +48,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                                 itemId={modifier.id}
                                 itemUser={modifier.user}
                                 hasPublicURL={false}
+                                editModalHandle={editHandle}
                             />
                         </Group>
 

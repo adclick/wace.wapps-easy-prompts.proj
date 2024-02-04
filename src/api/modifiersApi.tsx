@@ -71,6 +71,32 @@ export const useCreateModifierMutation = () => {
     })
 }
 
+export const useUpdateModifierMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (formData: ModifierFormValues) => {
+            const { data } = await axios.put(`${API_URL}/modifiers/`, {
+                user_external_id: formData.user_id,
+                title: formData.title,
+                description: formData.description,
+                content: formData.content,
+                language_id: formData.language_id,
+                repository_id: formData.repository_id,
+                technology_id: formData.technology_id,
+                provider_id: formData.provider_id
+            })
+
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["modifiers"]
+            })
+        }
+    })
+}
+
 export const useDeleteModifierMutation = () => {
     const queryClient = useQueryClient();
 

@@ -213,12 +213,13 @@ export function DatabaseCardDetails({
                     user.username === item.user.username &&
                     <Group>
                         <Button
+                            color="red"
                             size="xs"
                             variant="subtle"
                             onClick={openDeleteModal}
                             leftSection={<IconEdit size={14} />}
                         >
-                            Edit
+                            Delete
                         </Button>
                     </Group>
                 }

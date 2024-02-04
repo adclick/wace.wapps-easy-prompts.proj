@@ -12,10 +12,18 @@ interface CardMenu {
     deleteMutation: any,
     itemId: number,
     itemUser: User,
-    hasPublicURL: boolean
+    hasPublicURL: boolean,
+    editModalHandle: any
 }
 
-export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser, hasPublicURL }: CardMenu) {
+export function CardMenu({
+    detailsHandle,
+    deleteMutation,
+    itemId,
+    itemUser,
+    hasPublicURL,
+    editModalHandle
+}: CardMenu) {
     const { user } = useUser();
     const clipboard = useClipboard({ timeout: 500 });
 
@@ -89,6 +97,12 @@ export function CardMenu({ detailsHandle, deleteMutation, itemId, itemUser, hasP
                                 ? <Text size="xs">Copied</Text>
                                 : <Text size="xs">Copy URL</Text>
                         }
+                    </Menu.Item>
+                }
+                {
+                    isUserItem &&
+                    <Menu.Item onClick={editModalHandle.open} leftSection={<IconTrash size={14} />} color="red">
+                        <Text size="xs">Edit</Text>
                     </Menu.Item>
                 }
                 {

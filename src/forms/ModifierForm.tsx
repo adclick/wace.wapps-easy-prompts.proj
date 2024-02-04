@@ -4,6 +4,9 @@ import { useCreateModifierMutation } from "../api/modifiersApi";
 import { useUser } from "../context/UserContext";
 import { LanguageField } from "./Fields/LanguageField";
 import { Modifier } from "../model/Modifier";
+import { RepositoryField } from "./Fields/RepositoryField";
+import { TechnologyField } from "./Fields/TechnologyField";
+import { ProviderField } from "./Fields/ProviderField";
 
 interface ModifierForm {
     modifier: Modifier | undefined
@@ -15,7 +18,7 @@ export function ModifierForm({ modifier }: ModifierForm) {
 
     const form = useModifierForm({
         initialValues: {
-            title: '',
+            title: modifier !== undefined ? modifier.title : '',
             description: '',
             content: '',
             language_id: 0,
@@ -38,6 +41,9 @@ export function ModifierForm({ modifier }: ModifierForm) {
                 <Textarea label='Content' {...form.getInputProps('content')} />
 
                 <LanguageField />
+                <RepositoryField />
+                <TechnologyField />
+                <ProviderField />
 
                 <Group>
                     <Button type="submit">Submit</Button>
