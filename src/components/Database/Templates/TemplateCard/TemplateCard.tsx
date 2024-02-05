@@ -79,7 +79,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                 template={template}
                 deleteMutation={deleteMutation}
             />
-            <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template">
+            <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template" size={"lg"}>
                 <UpdateTemplateForm template={template} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={template.id.toString()}>

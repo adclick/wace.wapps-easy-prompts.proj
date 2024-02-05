@@ -117,7 +117,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 prompt={prompt}
                 deleteMutation={deleteMutation}
             />
-            <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt">
+            <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
                 <UpdatePromptForm prompt={prompt} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
