@@ -48,7 +48,6 @@ export function UpdateTemplateForm({ template, handle }: UpdateTemplateForm) {
                 <Stack gap={"xs"}>
                     <TitleField />
                     <DescriptionField />
-                    <ContentField />
                     <LanguageField />
                     <RepositoryField />
                     <TechnologyField />
