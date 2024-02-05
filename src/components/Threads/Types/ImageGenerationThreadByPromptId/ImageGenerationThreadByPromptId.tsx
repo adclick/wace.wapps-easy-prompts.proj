@@ -1,14 +1,11 @@
-import { ActionIcon, Avatar, Group, Image, Loader, Stack, Text } from "@mantine/core";
+import { ActionIcon, Group, Image, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { IconReload } from "@tabler/icons-react";
-import favicon from "../../../../favicon.svg";
 import { useImageGenerationByPromptIdQuery } from "../../../../api/imageGenerationApi";
-import { iconPlay } from "../../../../utils/iconsUtils";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
@@ -17,10 +14,9 @@ import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorM
 interface ImageGenerationThreadByPromptId {
     promptRequest: PromptRequest,
     scrollIntoView: any,
-    color: string
 }
 
-export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView, color }: ImageGenerationThreadByPromptId) {
+export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView }: ImageGenerationThreadByPromptId) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationByPromptIdQuery(promptRequest);

@@ -15,7 +15,6 @@ import { useSelectedTemplates } from "../../../../context/SelectedTemplatesConte
 interface ChatThread {
     promptRequest: PromptRequest,
     scrollIntoView: any,
-    color: string
 }
 
 interface Message {
@@ -24,7 +23,7 @@ interface Message {
     response: string,
 }
 
-export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread) {
+export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
@@ -139,7 +138,7 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
                             {
                                 !promptRequest.isPlayable && <ThreadRequest request={message.request} user={user} />
                             }
-                            <ThreadResponse response={message.response} color={color} />
+                            <ThreadResponse response={message.response} />
                         </Stack>
                     )
                 })

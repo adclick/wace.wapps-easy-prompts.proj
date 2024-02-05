@@ -6,7 +6,6 @@ import { ImageGenerationThread } from "../../Types/ImageGeneration/ImageGenerati
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadByPrompt/TextGenerationThreadByPrompt";
 import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 
@@ -18,8 +17,6 @@ interface ThreadItem {
 export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
     const [minimized, minimizeHandle] = useDisclosure(false);
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-
-    const color = getPromptModeColor(getPromptModeByTechnology(promptRequest.technology));
 
     const deleteThread = (promptRequest: PromptRequest) => {
         setPromptsRequests(promptsRequests.filter((p) => p.key !== promptRequest.key));
@@ -51,7 +48,6 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                 key={promptRequest.key}
                 promptRequest={promptRequest}
                 scrollIntoView={scrollIntoView}
-                color={color}
             />
             break;
         case 'image-generation':
@@ -61,7 +57,6 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                         key={promptRequest.key}
                         promptRequest={promptRequest}
                         scrollIntoView={scrollIntoView}
-                        color={color}
                     />;
                     break;
                 case PromptRequestType.Prompt:
@@ -69,7 +64,6 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                         key={promptRequest.key}
                         promptRequest={promptRequest}
                         scrollIntoView={scrollIntoView}
-                        color={color}
                     />;
                     break;
             }

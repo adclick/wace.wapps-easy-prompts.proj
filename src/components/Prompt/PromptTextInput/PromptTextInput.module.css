@@ -1,16 +1,3 @@
 .input {
     background-color: light-dark(white, var(--mantine-color-dark-9));
 }
-
-.modeText:focus {
-    border-color: var(--mantine-color-blue-9);
-}
-.modeImage:focus {
-    border-color: var(--mantine-color-teal-9);
-}
-.modeAudio:focus {
-    border-color: var(--mantine-color-yellow-7);
-}
-.modeVideo:focus {
-    border-color: var(--mantine-color-red-9);
-}

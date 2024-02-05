@@ -1,4 +1,4 @@
-import { Avatar, Group, Image, Loader, Stack, Text } from "@mantine/core";
+import { Group, Image, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
@@ -7,17 +7,15 @@ import { useUserPromptRequest } from "../../../../context/UserPromptRequestConte
 import { useImageGenerationQuery } from "../../../../api/imageGenerationApi";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
-import { iconPlay } from "../../../../utils/iconsUtils";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
     scrollIntoView: any,
-    color: string
 }
 
-export function ImageGenerationThread({ promptRequest, scrollIntoView, color }: ImageGenerationThread) {
+export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGenerationThread) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationQuery(promptRequest);
