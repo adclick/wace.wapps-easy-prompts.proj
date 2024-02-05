@@ -101,6 +101,7 @@ export function BaseForm({
         newFormData.append("chat_messages", JSON.stringify(chatMessages));
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("templates_ids", JSON.stringify(templatesIds));
+        newFormData.append("prompt_parameters", JSON.stringify([]));
         newFormData.append("template_parameters", JSON.stringify([]));
 
         if (promptRequest) {
