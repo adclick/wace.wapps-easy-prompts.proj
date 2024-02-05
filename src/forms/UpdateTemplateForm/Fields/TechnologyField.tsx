@@ -1,14 +1,14 @@
 import { Select } from "@mantine/core";
-import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
+import { useUpdateTemplateFormContext } from "../../../context/UpdateTemplateFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useUser } from "../../../context/UserContext";
 import { Repository } from "../../../models/Repository";
 import { Technology } from "../../../models/Technology";
 
 export function TechnologyField() {
-    const form = useCreateModifierFormContext();
+    const form = useUpdateTemplateFormContext();
     const { user } = useUser();
-    const {data} = useFiltersQuery(user.id);
+    const { data } = useFiltersQuery(user.id);
 
     if (data) {
         const selectData = data.technologies.map((t: Technology) => {
@@ -19,6 +19,7 @@ export function TechnologyField() {
         });
 
         return <Select
+            allowDeselect={false}
             label="Technology"
             data={selectData}
             {...form.getInputProps('technology_id')}

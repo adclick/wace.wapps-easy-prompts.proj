@@ -1,10 +1,10 @@
 import { Select } from "@mantine/core";
-import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
+import { useUpdateTemplateFormContext } from "../../../context/UpdateTemplateFormContext";
 import { useProvidersQuery } from "../../../api/providersApi";
 import { Provider } from "../../../models/Provider";
 
 export function ProviderField() {
-    const form = useCreateModifierFormContext();
+    const form = useUpdateTemplateFormContext();
     const { data } = useProvidersQuery(parseInt(form.values.technology_id));
 
     if (data) {

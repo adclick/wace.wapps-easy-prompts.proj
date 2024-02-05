@@ -1,21 +1,23 @@
-import { Button, Group } from "@mantine/core";
+import { Button, Group, Stack } from "@mantine/core";
 import { UpdateModifierFormProvider, useUpdateModifierForm } from "../../context/UpdateModifierFormContext";
 import { useUpdateModifierMutation } from "../../api/modifiersApi";
 import { useUser } from "../../context/UserContext";
-import { LanguageField } from "../CreateModifierForm/Fields/LanguageField";
-import { RepositoryField } from "../CreateModifierForm/Fields/RepositoryField";
-import { TechnologyField } from "../CreateModifierForm/Fields/TechnologyField";
-import { ProviderField } from "../CreateModifierForm/Fields/ProviderField";
+import { LanguageField } from "../UpdateModifierForm/Fields/LanguageField";
+import { RepositoryField } from "../UpdateModifierForm/Fields/RepositoryField";
+import { TechnologyField } from "../UpdateModifierForm/Fields/TechnologyField";
+import { ProviderField } from "../UpdateModifierForm/Fields/ProviderField";
 import { Modifier } from "../../models/Modifier";
 import { TitleField } from "./Fields/TitleField";
 import { DescriptionField } from "./Fields/DescriptionField";
 import { ContentField } from "./Fields/ContentField";
+import { IconCheck } from "@tabler/icons-react";
 
 interface UpdateModifierForm {
-    modifier: Modifier
+    modifier: Modifier,
+    handle: any
 }
 
-export function UpdateModifierForm({ modifier }: UpdateModifierForm) {
+export function UpdateModifierForm({ modifier, handle }: UpdateModifierForm) {
     const mutation = useUpdateModifierMutation(modifier.id);
     const { user } = useUser();
 
@@ -27,29 +29,33 @@ export function UpdateModifierForm({ modifier }: UpdateModifierForm) {
             language_id: modifier.language.id.toString(),
             repository_id: modifier.repository.id.toString(),
             technology_id: modifier.technology.id.toString(),
-            provider_id: modifier.provider.id.toString(),
+            provider_id: modifier.provider ? modifier.provider.id.toString() : undefined,
             user_id: user.id
         }
     });
 
     const submit = () => {
         mutation.mutate(form.values);
+
+        handle.close();
     }
 
     return (
         <UpdateModifierFormProvider form={form}>
             <form onSubmit={form.onSubmit(submit)}>
-                <TitleField />
-                <DescriptionField />
-                <ContentField />
-                <LanguageField />
-                <RepositoryField />
-                <TechnologyField />
-                <ProviderField />
+                <Stack gap={"xs"}>
+                    <TitleField />
+                    <DescriptionField />
+                    <ContentField />
+                    <LanguageField />
+                    <RepositoryField />
+                    <TechnologyField />
+                    <ProviderField />
 
-                <Group>
-                    <Button type="submit">Submit</Button>
-                </Group>
+                    <Group justify="flex-end">
+                        <Button type="submit" variant="transparent" color="gray" leftSection={<IconCheck size={14} />}>Save</Button>
+                    </Group>
+                </Stack>
             </form>
         </UpdateModifierFormProvider>
     )

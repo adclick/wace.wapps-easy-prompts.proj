@@ -1,8 +1,8 @@
 import { TextInput } from "@mantine/core";
-import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
+import { useUpdateTemplateFormContext } from "../../../context/UpdateTemplateFormContext";
 
 export function TitleField() {
-    const form = useCreateModifierFormContext();
+    const form = useUpdateTemplateFormContext();
 
     return (
         <TextInput label='Title' {...form.getInputProps('title')} />

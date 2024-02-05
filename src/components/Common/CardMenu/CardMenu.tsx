@@ -7,10 +7,14 @@ import { modals } from "@mantine/modals";
 import classes from './CardMenu.module.css';
 import { useClipboard } from "@mantine/hooks";
 import { ModifierEditButton } from "../../Database/Modifiers/ModifierEditButton/ModifierEditButton";
+import { Prompt } from "../../../models/Prompt";
+import { Template } from "../../../models/Template";
+import { Modifier } from "../../../models/Modifier";
 
 interface CardMenu {
     detailsHandle: any,
     deleteMutation: any,
+    item: Prompt|Template|Modifier
     itemId: number,
     itemUser: User,
     hasPublicURL: boolean,
@@ -19,6 +23,7 @@ interface CardMenu {
 export function CardMenu({
     detailsHandle,
     deleteMutation,
+    item,
     itemId,
     itemUser,
     hasPublicURL,
@@ -101,6 +106,7 @@ export function CardMenu({
                 {
                     isUserItem &&
                     <Menu.Item>
+                        Edit
                     </Menu.Item>
                 }
                 {

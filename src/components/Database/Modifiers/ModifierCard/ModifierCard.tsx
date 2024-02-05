@@ -1,9 +1,8 @@
-import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Button, Menu, ActionIcon } from "@mantine/core";
+import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Menu, ActionIcon } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
-import { useClipboard, useDisclosure } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
 import classes from './ModifierCard.module.css';
-import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
@@ -12,7 +11,6 @@ import { IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tab
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { useUser } from "../../../../context/UserContext";
-import { ModifierEditButton } from "../ModifierEditButton/ModifierEditButton";
 import { MouseEvent } from "react";
 
 interface ModifierCard {
@@ -84,8 +82,8 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                 modifier={modifier}
                 deleteMutation={deleteMutation}
             />
-            <Modal opened={editOpened} onClose={editHandle.close}>
-                <UpdateModifierForm modifier={modifier} />
+            <Modal opened={editOpened} onClose={editHandle.close} title="Edit Modifier" size={"lg"}>
+                <UpdateModifierForm modifier={modifier} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>
@@ -101,7 +99,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                             </Stack>
                             <Menu>
                                 <Menu.Target>
-                                    <ActionIcon className={classes.menuIcon} variant="transparent" color="gray.9" component="a" onClick={e => e.stopPropagation()}>
+                                    <ActionIcon variant="transparent" color="gray.9" component="a" onClick={e => e.stopPropagation()}>
                                         <IconDotsVertical size={16} />
                                     </ActionIcon>
                                 </Menu.Target>

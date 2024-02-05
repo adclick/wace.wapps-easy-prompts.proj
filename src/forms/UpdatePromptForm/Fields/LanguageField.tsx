@@ -2,10 +2,10 @@ import { Select } from "@mantine/core";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useUser } from "../../../context/UserContext";
 import { Language } from "../../../models/Language";
-import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
+import { useUpdatePromptFormContext } from "../../../context/UpdatePromptFormContext";
 
 export function LanguageField() {
-    const form = useCreateModifierFormContext();
+    const form = useUpdatePromptFormContext();
     const { user } = useUser();
     const {data} = useFiltersQuery(user.id);
 

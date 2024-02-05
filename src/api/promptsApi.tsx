@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
+import { UpdatePromptFormValues } from '../context/UpdatePromptFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;
@@ -61,6 +62,32 @@ export const useCreatePromptMutation = () => {
                 templates_ids: formData.get('templates_ids'),
                 chat_messages: formData.get('chat_messages'),
                 prompt_parameters: formData.get('prompt_parameters')
+            })
+
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["prompts"]
+            })
+        }
+    })
+}
+
+export const useUpdatePromptMutation = (promptId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (formData: UpdatePromptFormValues) => {
+            const { data } = await axios.put(`${API_URL}/prompts/${promptId}`, {
+                user_external_id: formData.user_id,
+                title: formData.title,
+                description: formData.description,
+                content: formData.content,
+                language_id: formData.language_id,
+                repository_id: formData.repository_id,
+                technology_id: formData.technology_id,
+                provider_id: formData.provider_id,
             })
 
             return data;

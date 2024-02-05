@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
-import { ModifierFormValues } from '../context/CreateModifierFormContext';
+import { UpdateModifierFormValues } from '../context/UpdateModifierFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;
@@ -49,16 +49,16 @@ export const useCreateModifierMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: ModifierFormValues) => {
+        mutationFn: async (formData: FormData) => {
             const { data } = await axios.post(`${API_URL}/modifiers`, {
-                user_external_id: formData.user_id,
-                title: formData.title,
-                description: formData.description,
-                content: formData.content,
-                language_id: formData.language_id,
-                repository_id: formData.repository_id,
-                technology_id: formData.technology_id,
-                provider_id: formData.provider_id
+                user_external_id: formData.get('userId'),
+                title: formData.get('title'),
+                description: formData.get('description'),
+                content: formData.get('content'),
+                language_id: formData.get('language_id'),
+                repository_id: formData.get('repository_id'),
+                technology_id: formData.get('technology_id'),
+                provider_id: formData.get('provider_id'),
             })
 
             return data;
@@ -75,7 +75,7 @@ export const useUpdateModifierMutation = (modifierId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: ModifierFormValues) => {
+        mutationFn: async (formData: UpdateModifierFormValues) => {
             const { data } = await axios.put(`${API_URL}/modifiers/${modifierId}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,

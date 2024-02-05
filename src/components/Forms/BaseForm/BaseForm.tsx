@@ -101,6 +101,7 @@ export function BaseForm({
         newFormData.append("chat_messages", JSON.stringify(chatMessages));
         newFormData.append("modifiers_ids", JSON.stringify(modifiersIds));
         newFormData.append("templates_ids", JSON.stringify(templatesIds));
+        newFormData.append("template_parameters", JSON.stringify([]));
 
         if (promptRequest) {
             if (type === Type.PROMPT) {
@@ -111,6 +112,7 @@ export function BaseForm({
             if (type === Type.TEMPLATE) {
                 const templateParameters = ParametersList.getActiveParameters(promptRequest.parametersList);
                 newFormData.append("template_parameters", JSON.stringify(templateParameters.map(tp => Parameter.getIdAndValue(tp))));
+                console.log(templateParameters);
             }
         }
 
@@ -339,7 +341,7 @@ export function BaseForm({
                                         {
                                             templates.map(template => {
                                                 return (
-                                                    <Group gap={"xs"}>
+                                                    <Group key={template.id} gap={"xs"}>
                                                         <ActionIcon variant="transparent" color="gray" onClick={() => removeTemplate(template.id)}>
                                                             {iconClose(14)}
                                                         </ActionIcon>
@@ -360,7 +362,7 @@ export function BaseForm({
                                         {
                                             modifiers.map(modifier => {
                                                 return (
-                                                    <Group gap={"xs"}>
+                                                    <Group key={modifier.id} gap={"xs"}>
                                                         <ActionIcon variant="transparent" color="gray" onClick={() => removeModifier(modifier.id)}>
                                                             {iconClose(14)}
                                                         </ActionIcon>

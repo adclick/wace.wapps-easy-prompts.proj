@@ -1,18 +1,18 @@
 import { createFormContext } from '@mantine/form';
 
-export interface UpdateModifierFormValues {
+export interface UpdatePromptFormValues {
     title: string;
     description: string;
     content: string;
     language_id: string;
     repository_id: string;
     technology_id: string;
-    provider_id: string|undefined;
+    provider_id: string | undefined;
     user_id: string;
 }
 
 export const [
-    UpdateModifierFormProvider,
-    useUpdateModifierFormContext,
-    useUpdateModifierForm
-] = createFormContext<UpdateModifierFormValues>();
+    UpdatePromptFormProvider,
+    useUpdatePromptFormContext,
+    useUpdatePromptForm
+] = createFormContext<UpdatePromptFormValues>();

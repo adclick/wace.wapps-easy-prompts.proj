@@ -1,11 +1,11 @@
 import { Select } from "@mantine/core";
-import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
+import { useUpdatePromptFormContext } from "../../../context/UpdatePromptFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useUser } from "../../../context/UserContext";
 import { Repository } from "../../../models/Repository";
 
 export function RepositoryField() {
-    const form = useCreateModifierFormContext();
+    const form = useUpdatePromptFormContext();
     const { user } = useUser();
     const {data} = useFiltersQuery(user.id);
 

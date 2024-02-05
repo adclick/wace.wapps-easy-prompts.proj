@@ -30,6 +30,7 @@ export function DatabaseHeader({
         
     const selectedFiltersQuery = useFiltersQuery(user.id);
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
+    
     // Init selectedFilters
     useEffect(() => {
         if (selectedFilters.isEmpty && selectedFiltersQuery.data) {

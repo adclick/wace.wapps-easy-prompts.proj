@@ -2,7 +2,6 @@ import { Select } from "@mantine/core";
 import { useUpdateModifierFormContext } from "../../../context/UpdateModifierFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useUser } from "../../../context/UserContext";
-import { Repository } from "../../../models/Repository";
 import { Technology } from "../../../models/Technology";
 
 export function TechnologyField() {

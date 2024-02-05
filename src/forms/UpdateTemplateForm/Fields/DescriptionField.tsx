@@ -1,8 +1,8 @@
 import { Textarea } from "@mantine/core";
-import { useUpdateModifierFormContext } from "../../../context/UpdateModifierFormContext";
+import { useUpdateTemplateFormContext } from "../../../context/UpdateTemplateFormContext";
 
 export function DescriptionField() {
-    const form = useUpdateModifierFormContext();
+    const form = useUpdateTemplateFormContext();
 
     return (
         <Textarea
