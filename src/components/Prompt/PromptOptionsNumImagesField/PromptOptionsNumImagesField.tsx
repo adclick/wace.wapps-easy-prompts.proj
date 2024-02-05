@@ -1,8 +1,8 @@
 import { Slider, Stack, Text } from "@mantine/core";
-import { Parameter } from "../../../model/Parameter";
+import { Parameter } from "../../../models/Parameter";
 import { useState } from "react";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { PromptRequest } from "../../../models/PromptRequest";
 
 interface PromptOptionsNumImagesField {
     parameter: Parameter

@@ -1,8 +1,8 @@
-import { Template } from "../../../../model/Template";
+import { Template } from "../../../../models/Template";
 import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
 import { useTemplateQuery } from "../../../../api/templatesApi";
 import { useUser } from "../../../../context/UserContext";
-import { Label } from "../../../../model/SelectedDatabaseType";
+import { Label } from "../../../../models/SelectedDatabaseType";
 
 interface TemplateCardDetails {
     opened: boolean,

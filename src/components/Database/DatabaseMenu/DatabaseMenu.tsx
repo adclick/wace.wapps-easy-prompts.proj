@@ -1,10 +1,10 @@
 import { Group, Menu, Text, UnstyledButton } from "@mantine/core";
 import { IconChevronDown, IconPrompt, IconSparkles, IconTemplate } from "@tabler/icons-react";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
-import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
+import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
-import { Template } from "../../../model/Template";
+import { Template } from "../../../models/Template";
 import { iconChevronDown } from "../../../utils/iconsUtils";
 
 export function DatabaseMenu() {

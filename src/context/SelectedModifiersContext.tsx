@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { Modifier } from '../model/Modifier';
+import { Modifier } from '../models/Modifier';
 
 interface SelectedModifiersContextProps {
     selectedModifiers: Modifier[];

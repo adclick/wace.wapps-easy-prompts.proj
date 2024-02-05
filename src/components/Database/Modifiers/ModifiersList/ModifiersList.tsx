@@ -1,12 +1,12 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
-import { Modifier } from "../../../../model/Modifier";
+import { Modifier } from "../../../../models/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { Technology } from "../../../../model/Technology";
-import { Provider } from "../../../../model/Provider";
+import { Technology } from "../../../../models/Technology";
+import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 import { useIntersection } from "@mantine/hooks";
 import { RefObject, useEffect } from "react";

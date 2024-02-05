@@ -2,13 +2,13 @@ import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, 
 import { IconBulb, IconDatabase, IconEdit, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
 import { useUser } from "../../../../context/UserContext";
-import { Modifier } from "../../../../model/Modifier";
-import { Prompt } from "../../../../model/Prompt";
-import { Template } from "../../../../model/Template";
-import { Label } from "../../../../model/SelectedDatabaseType";
+import { Modifier } from "../../../../models/Modifier";
+import { Prompt } from "../../../../models/Prompt";
+import { Template } from "../../../../models/Template";
+import { Label } from "../../../../models/SelectedDatabaseType";
 import { modals } from "@mantine/modals";
 import classes from './DatabaseCardDetails.module.css'
-import { ModifierForm } from "../../../../forms/CreateModifierForm";
+import { ModifierForm } from "../../../../forms/CreateModifierForm/CreateModifierForm";
 import { useDisclosure } from "@mantine/hooks";
 
 interface DatabaseCardDetails {

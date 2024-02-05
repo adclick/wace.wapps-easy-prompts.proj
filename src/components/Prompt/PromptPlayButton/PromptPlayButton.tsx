@@ -2,14 +2,11 @@ import { ActionIcon } from "@mantine/core";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
-import { usePromptMode } from "../../../context/PromptModeContext";
-import { getPromptModeColor } from "../../../model/PromptMode";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { PromptRequest } from "../../../models/PromptRequest";
 
 export function PromptPlayButton() {
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-    const { promptMode } = usePromptMode();
 
     const play = () => {
         setPromptsRequests([...promptsRequests, userPromptRequest]);
@@ -22,7 +19,6 @@ export function PromptPlayButton() {
     return (
         <ActionIcon
             variant="filled"
-            color={getPromptModeColor(promptMode)}
             size="lg"
             pos={"absolute"}
             right={"23px"}

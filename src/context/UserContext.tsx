@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { User } from '../model/User';
+import { User } from '../models/User';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface UserContextProps {

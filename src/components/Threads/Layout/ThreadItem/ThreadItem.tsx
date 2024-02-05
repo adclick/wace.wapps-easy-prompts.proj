@@ -1,12 +1,12 @@
 import { useDisclosure } from "@mantine/hooks";
-import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
+import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { TextGenerationThread } from "../../Types/TextGenerationThread/TextGenerationThread";
 import { ChatThread } from "../../Types/ChatThread/ChatThread";
 import { ImageGenerationThread } from "../../Types/ImageGeneration/ImageGenerationThread";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadByPrompt/TextGenerationThreadByPrompt";
 import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { PromptRequest } from '../model/PromptRequest';
-import { Technology } from '../model/Technology';
-import { Provider } from '../model/Provider';
-import { Modifier } from '../model/Modifier';
+import { PromptRequest } from '../models/PromptRequest';
+import { Technology } from '../models/Technology';
+import { Provider } from '../models/Provider';
+import { Modifier } from '../models/Modifier';
 import { useQuery } from '@tanstack/react-query';
-import { Template } from '../model/Template';
+import { Template } from '../models/Template';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";

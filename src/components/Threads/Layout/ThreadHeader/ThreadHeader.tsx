@@ -1,10 +1,10 @@
 import { ActionIcon, Badge, Group, UnstyledButton } from "@mantine/core"
-import { PromptRequest } from "../../../../model/PromptRequest"
+import { PromptRequest } from "../../../../models/PromptRequest"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel"
-import { Template } from "../../../../model/Template"
-import { Modifier } from "../../../../model/Modifier"
+import { Template } from "../../../../models/Template"
+import { Modifier } from "../../../../models/Modifier"
 
 interface ThreadHeader {
     deleteThread: any,

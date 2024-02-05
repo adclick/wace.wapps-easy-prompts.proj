@@ -2,7 +2,7 @@ import { ActionIcon, Box, Button, Divider, Group, Indicator, Popover, Stack, Tex
 import { IconSparkles, IconX } from "@tabler/icons-react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { usePromptMode } from "../../../context/PromptModeContext";
-import { getPromptModeColor } from "../../../model/PromptMode";
+import { getPromptModeColor } from "../../../models/PromptMode";
 
 export function PromptModifiersList() {
     const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();

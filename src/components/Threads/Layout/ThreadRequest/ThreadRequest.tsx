@@ -1,5 +1,5 @@
 import { Avatar, Group, Stack, Text } from "@mantine/core"
-import { User } from "../../../../model/User"
+import { User } from "../../../../models/User"
 
 interface ThreadRequest {
     request: string,

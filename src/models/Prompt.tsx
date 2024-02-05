@@ -2,6 +2,7 @@ import { Language } from "./Language";
 import { Modifier } from "./Modifier";
 import { Parameter } from "./Parameter";
 import { ParametersList } from "./ParametersList";
+import { PromptChatMessage } from "./PromptChatMessage";
 import { Provider } from "./Provider";
 import { Repository } from "./Repository";
 import { Technology } from "./Technology";
@@ -9,11 +10,6 @@ import { Template } from "./Template";
 import { User } from "./User";
 
 interface ChatHistory {
-    role: string,
-    message: string
-}
-
-interface ChatMessage {
     role: string,
     message: string
 }
@@ -54,7 +50,7 @@ export class Prompt {
     technology: Technology;
     provider: Provider;
     parametersList: ParametersList;
-    chat_messages: ChatMessage[];
+    chat_messages: PromptChatMessage[];
     prompts_modifiers: PromptModifier[];
     prompts_templates: PromptTemplate[];
     prompts_parameters: PromptParameter[];

@@ -1,7 +1,7 @@
 import { Select } from "@mantine/core";
-import { Parameter } from "../../../model/Parameter";
+import { Parameter } from "../../../models/Parameter";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { PromptRequest } from "../../../models/PromptRequest";
 import { useEffect, useState } from "react";
 
 interface PromptOptionsImageResolution {

@@ -1,7 +1,7 @@
 import { Group, Text } from "@mantine/core";
-import { Modifier } from "../../../model/Modifier";
-import { Prompt } from "../../../model/Prompt";
-import { Template } from "../../../model/Template";
+import { Modifier } from "../../../models/Modifier";
+import { Prompt } from "../../../models/Prompt";
+import { Template } from "../../../models/Template";
 import { IconClock, IconUser } from "@tabler/icons-react";
 
 interface CardDetailsAuthor {

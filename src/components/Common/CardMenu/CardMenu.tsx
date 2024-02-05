@@ -2,7 +2,7 @@ import { ActionIcon, Menu, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { useUser } from "../../../context/UserContext";
-import { User } from "../../../model/User";
+import { User } from "../../../models/User";
 import { modals } from "@mantine/modals";
 import classes from './CardMenu.module.css';
 import { useClipboard } from "@mantine/hooks";

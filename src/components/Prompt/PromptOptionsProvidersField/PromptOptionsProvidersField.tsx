@@ -2,11 +2,11 @@ import { Loader, Select, Slider, Stack, Text } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { useProvidersQuery } from "../../../api/providersApi";
 import { useEffect } from "react";
-import { Provider } from "../../../model/Provider";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { Provider } from "../../../models/Provider";
+import { PromptRequest } from "../../../models/PromptRequest";
 import { PromptOptionsNumImagesField } from "../PromptOptionsNumImagesField/PromptOptionsNumImagesField";
 import { PromptOptionsImageResolution } from "../PromptOptionsImageResolution/PromptOptionsImageResolution";
-import { ParametersList } from "../../../model/ParametersList";
+import { ParametersList } from "../../../models/ParametersList";
 
 export interface ProvidersDataItem {
     label: string,

@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Button, Divider, Group, Indicator, Popover, Stack, Text } from "@mantine/core"
 import { IconSparkles, IconTemplate, IconX } from "@tabler/icons-react";
 import { useSelectedTemplate } from "../../../context/SelectedTemplateContext";
-import { Template } from "../../../model/Template";
+import { Template } from "../../../models/Template";
 
 export function PromptTemplateInfo() {
     const { selectedTemplate, setSelectedTemplate } = useSelectedTemplate();

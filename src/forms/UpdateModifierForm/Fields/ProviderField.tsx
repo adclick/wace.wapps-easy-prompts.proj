@@ -1,11 +1,11 @@
 import { Select } from "@mantine/core";
-import { useModifierFormContext } from "../../context/ModifierFormContext";
-import { useProvidersQuery } from "../../api/providersApi";
-import { Provider } from "../../model/Provider";
+import { useUpdateModifierFormContext } from "../../../context/UpdateModifierFormContext";
+import { useProvidersQuery } from "../../../api/providersApi";
+import { Provider } from "../../../models/Provider";
 
 export function ProviderField() {
-    const form = useModifierFormContext();
-    const { data } = useProvidersQuery(form.values.technology_id);
+    const form = useUpdateModifierFormContext();
+    const { data } = useProvidersQuery(parseInt(form.values.technology_id));
 
     if (data) {
         const selectData = data.map((p: Provider) => {

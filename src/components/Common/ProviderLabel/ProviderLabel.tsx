@@ -1,8 +1,8 @@
 import { Box, Divider, Group, Text, rem } from "@mantine/core";
-import { Technology } from "../../../model/Technology";
-import { Provider } from "../../../model/Provider";
-import { Template } from "../../../model/Template";
-import { Modifier } from "../../../model/Modifier";
+import { Technology } from "../../../models/Technology";
+import { Provider } from "../../../models/Provider";
+import { Template } from "../../../models/Template";
+import { Modifier } from "../../../models/Modifier";
 import { IconSparkles, IconTemplate } from "@tabler/icons-react";
 
 interface ProviderLabel {

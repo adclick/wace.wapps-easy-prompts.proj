@@ -1,14 +1,14 @@
 import { Accordion, ActionIcon, Badge, Button, Group, Stack, Text, Center, Paper } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
-import { Prompt } from "../../../../model/Prompt";
+import { Prompt } from "../../../../models/Prompt";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
 import { useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
+import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeletePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";

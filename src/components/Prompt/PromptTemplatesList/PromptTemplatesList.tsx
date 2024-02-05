@@ -2,7 +2,7 @@ import { ActionIcon, Box, Button, Group, Indicator, Popover, Stack, Text } from 
 import { IconTemplate, IconX } from "@tabler/icons-react";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
 import { usePromptMode } from "../../../context/PromptModeContext";
-import { getPromptModeColor } from "../../../model/PromptMode";
+import { getPromptModeColor } from "../../../models/PromptMode";
 
 export function PromptTemplatesList() {
     const { selectedTemplates, setSelectedTemplates } = useSelectedTemplates();

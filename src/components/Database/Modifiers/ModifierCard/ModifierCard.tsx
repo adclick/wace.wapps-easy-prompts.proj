@@ -1,5 +1,5 @@
 import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Button, Menu, ActionIcon } from "@mantine/core";
-import { Modifier } from "../../../../model/Modifier";
+import { Modifier } from "../../../../models/Modifier";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
 import classes from './ModifierCard.module.css';
@@ -7,7 +7,7 @@ import { CardMenu } from "../../../Common/CardMenu/CardMenu";
 import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm";
+import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm/UpdateModifierForm";
 import { IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";

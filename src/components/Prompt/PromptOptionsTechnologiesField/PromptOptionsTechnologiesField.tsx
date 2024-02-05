@@ -1,10 +1,10 @@
 import { Loader, Select } from "@mantine/core";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
-import { Technology } from "../../../model/Technology";
+import { Technology } from "../../../models/Technology";
 import { useEffect } from "react";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
-import { PromptRequest } from "../../../model/PromptRequest";
-import { Provider } from "../../../model/Provider";
+import { PromptRequest } from "../../../models/PromptRequest";
+import { Provider } from "../../../models/Provider";
 
 export interface TechnologyDataItem {
     label: string,

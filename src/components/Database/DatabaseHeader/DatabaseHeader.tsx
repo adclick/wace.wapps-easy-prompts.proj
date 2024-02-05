@@ -5,7 +5,7 @@ import { Box, Group, Stack } from "@mantine/core";
 import { useEffect } from "react";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
-import { SelectedFilters } from "../../../model/SelectedFilters";
+import { SelectedFilters } from "../../../models/SelectedFilters";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
 import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";

@@ -1,5 +1,5 @@
 import { Accordion, Box, Button, Center, Loader, Paper, Stack, Text } from "@mantine/core";
-import { Prompt } from "../../../../model/Prompt";
+import { Prompt } from "../../../../models/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 import { useIntersection } from "@mantine/hooks";
 import { RefObject, useEffect } from "react";

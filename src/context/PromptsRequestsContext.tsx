@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { PromptRequest } from '../model/PromptRequest';
+import { PromptRequest } from '../models/PromptRequest';
 
 interface PromptsRequestsContextProps {
     promptsRequests: PromptRequest[]; 

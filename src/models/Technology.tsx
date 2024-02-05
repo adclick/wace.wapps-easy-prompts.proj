@@ -1,5 +1,3 @@
-import { PromptMode } from "./PromptMode";
-
 export class Technology {
     id: number;
     name: string;
@@ -22,14 +20,5 @@ export class Technology {
         newTechnology.default = technology.default;
 
         return newTechnology;
-    }
-
-    static getMode(slug: string): PromptMode {
-        switch (slug) {
-            case 'image-generation':
-                return PromptMode.Image;
-            default:
-                return PromptMode.Text;
-        }
     }
 }

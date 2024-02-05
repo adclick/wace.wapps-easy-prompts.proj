@@ -1,9 +1,9 @@
 import { Button, Center, Group, Stack, Text } from "@mantine/core";
 import { IconClock, IconUser } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
-import { Prompt } from "../../../../model/Prompt";
-import { Template } from "../../../../model/Template";
-import { Modifier } from "../../../../model/Modifier";
+import { Prompt } from "../../../../models/Prompt";
+import { Template } from "../../../../models/Template";
+import { Modifier } from "../../../../models/Modifier";
 import classes from './DatabaseCardContent.module.css'
 
 interface DatabaseCardContent {

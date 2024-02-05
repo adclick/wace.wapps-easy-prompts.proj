@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { User } from '../model/User';
+import { User } from '../models/User';
 
 export const useUsersLoginsQuery = (user: User) => {
     return useQuery({

@@ -7,13 +7,12 @@ import { Notifications } from '@mantine/notifications';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from './context/UserContext';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UserPromptRequestProvider } from './context/UserPromptRequestContext';
 import { SelectedDatabaseTypeProvider } from './context/SelectedDatabaseTypeContext';
 import { PromptsRequestsProvider } from './context/PromptsRequestsContext';
 import { SelectedModifiersProvider } from './context/SelectedModifiersContext';
 import { SelectedTemplateProvider } from './context/SelectedTemplateContext';
-import { PromptModeProvider } from './context/PromptModeContext';
 import { SelectedFiltersProvider } from './context/SelectedFiltersContext';
 import { SelectedTemplatesProvider } from './context/SelectedTemplatesContext';
 import { ModalsProvider } from '@mantine/modals';
@@ -43,13 +42,11 @@ export default function App() {
                     <SelectedTemplateProvider>
                       <PromptsRequestsProvider>
                         <UserPromptRequestProvider>
-                          <PromptModeProvider>
-                            <ModalsProvider>
-                              <AppUpdateModal />
-                              <Notifications />
-                              <Router />
-                            </ModalsProvider>
-                          </PromptModeProvider>
+                          <ModalsProvider>
+                            <AppUpdateModal />
+                            <Notifications />
+                            <Router />
+                          </ModalsProvider>
                         </UserPromptRequestProvider>
                       </PromptsRequestsProvider>
                     </SelectedTemplateProvider>

@@ -6,15 +6,11 @@ import { Metadata } from "./Prompt";
 import { Provider } from "./Provider";
 import { Repository } from "./Repository";
 import { Technology } from "./Technology";
+import { TemplateParameter } from "./TemplateParameter";
 import { User } from "./User";
 
 interface TemplateModifier {
     modifier: Modifier
-}
-
-interface TemplateParameter {
-    parameter: Parameter,
-    value: string
 }
 
 export class Template {

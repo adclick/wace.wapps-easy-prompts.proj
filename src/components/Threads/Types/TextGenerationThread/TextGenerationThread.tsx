@@ -1,6 +1,6 @@
 import { Alert, Avatar, Group, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
@@ -9,7 +9,7 @@ import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloa
 import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 import { useState } from "react";

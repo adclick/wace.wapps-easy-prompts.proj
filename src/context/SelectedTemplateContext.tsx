@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { Template } from '../model/Template';
+import { Template } from '../models/Template';
 
 interface SelectedTemplateContextProps {
     selectedTemplate: Template;

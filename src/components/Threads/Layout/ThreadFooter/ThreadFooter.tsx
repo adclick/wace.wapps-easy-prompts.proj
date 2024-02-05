@@ -1,9 +1,9 @@
 import { Group, Modal } from "@mantine/core";
 import { ThreadSaveButton } from "../../Buttons/ThreadSaveButton/ThreadSaveButton";
 import { ThreadInfoButton } from "../../Buttons/ThreadInfoButton/ThreadInfoButton";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { useDisclosure } from "@mantine/hooks";
-import { User } from "../../../../model/User";
+import { User } from "../../../../models/User";
 import { useUser } from "../../../../context/UserContext";
 import { ThreadScoreButton } from "../../Buttons/ThreadScoreButton/ThreadScoreButton";
 import { SaveModal } from "../../../Common/SaveModal/SaveModal";

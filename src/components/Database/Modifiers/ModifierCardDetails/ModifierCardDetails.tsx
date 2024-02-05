@@ -1,8 +1,8 @@
-import { Modifier } from "../../../../model/Modifier";
+import { Modifier } from "../../../../models/Modifier";
 import { useUser } from "../../../../context/UserContext";
 import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
 import { useModifierQuery } from "../../../../api/modifiersApi";
-import { Label } from "../../../../model/SelectedDatabaseType";
+import { Label } from "../../../../models/SelectedDatabaseType";
 
 interface ModifierCardDetails {
     opened: boolean,

@@ -1,6 +1,6 @@
 import { useCreatePromptMutation } from "../../../api/promptsApi";
-import { Type } from "../../../model/SelectedDatabaseType";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { Type } from "../../../models/SelectedDatabaseType";
+import { PromptRequest } from "../../../models/PromptRequest";
 import { BaseForm } from "../BaseForm/BaseForm";
 
 interface PromptForm {

@@ -1,11 +1,11 @@
 import { Box, Stack } from "@mantine/core";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
-import { PromptRequest, PromptRequestType } from "../../../../model/PromptRequest";
+import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { ThreadItem } from "../ThreadItem/ThreadItem";
 import { useScrollIntoView } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { usePromptQuery } from "../../../../api/promptsApi";
-import { Prompt } from "../../../../model/Prompt";
+import { Prompt } from "../../../../models/Prompt";
 
 export function ThreadList() {
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();

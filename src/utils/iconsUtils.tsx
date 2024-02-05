@@ -1,6 +1,5 @@
 import { IconAdjustmentsHorizontal, IconChevronDown, IconChevronUp, IconHeadphones, IconLanguage, IconLayoutSidebar, IconListSearch, IconPhoto, IconPlayerPlayFilled, IconPlus, IconStar, IconVideo, IconX } from "@tabler/icons-react"
 import { IconMessage } from "@tabler/icons-react"
-import { PromptMode } from "../model/PromptMode"
 
 export const getTechnologyIcon = (slug: string, size: number | string, stroke: number = 1.5) => {
     switch (slug) {
@@ -19,21 +18,6 @@ export const getTechnologyIcon = (slug: string, size: number | string, stroke: n
             return <IconLanguage size={size} stroke={stroke} />
         default:
             return <></>
-    }
-}
-
-export const getPromptModeIcon = (promptMode: PromptMode, size: number | string, stroke: number = 2) => {
-    switch (promptMode) {
-        case PromptMode.Text:
-            return <IconMessage size={size} stroke={stroke} />
-        case PromptMode.Image:
-            return <IconPhoto size={size} stroke={stroke} />
-        case PromptMode.Audio:
-            return <IconHeadphones size={size} stroke={stroke} />
-        case PromptMode.Video:
-            return <IconVideo size={size} stroke={stroke} />
-        default: 
-            return <></>;
     }
 }
 

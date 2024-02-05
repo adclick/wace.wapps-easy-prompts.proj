@@ -1,12 +1,12 @@
 import { Select } from "@mantine/core";
-import { useModifierFormContext } from "../../context/ModifierFormContext";
-import { useFiltersQuery } from "../../api/filtersApi";
-import { useUser } from "../../context/UserContext";
-import { Repository } from "../../model/Repository";
-import { Technology } from "../../model/Technology";
+import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
+import { useFiltersQuery } from "../../../api/filtersApi";
+import { useUser } from "../../../context/UserContext";
+import { Repository } from "../../../models/Repository";
+import { Technology } from "../../../models/Technology";
 
 export function TechnologyField() {
-    const form = useModifierFormContext();
+    const form = useCreateModifierFormContext();
     const { user } = useUser();
     const {data} = useFiltersQuery(user.id);
 

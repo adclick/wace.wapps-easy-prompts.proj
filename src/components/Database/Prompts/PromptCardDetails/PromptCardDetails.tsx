@@ -1,8 +1,8 @@
-import { Prompt } from "../../../../model/Prompt";
+import { Prompt } from "../../../../models/Prompt";
 import { usePromptQuery } from "../../../../api/promptsApi";
 import { useUser } from "../../../../context/UserContext";
 import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
-import { Label } from "../../../../model/SelectedDatabaseType";
+import { Label } from "../../../../models/SelectedDatabaseType";
 
 interface PromptCardDetails {
     opened: boolean,

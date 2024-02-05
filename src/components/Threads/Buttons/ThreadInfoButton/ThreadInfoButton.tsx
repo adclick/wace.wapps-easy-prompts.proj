@@ -1,8 +1,8 @@
 import { Button, Popover, Text } from "@mantine/core";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { IconSparkles, IconTemplate } from "@tabler/icons-react";
-import { Modifier } from "../../../../model/Modifier";
-import { Template } from "../../../../model/Template";
+import { Modifier } from "../../../../models/Modifier";
+import { Template } from "../../../../models/Template";
 
 interface ThreadInfoButton {
     promptRequest: PromptRequest

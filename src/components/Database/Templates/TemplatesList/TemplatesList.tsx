@@ -1,16 +1,16 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
-import { Template } from "../../../../model/Template";
+import { Template } from "../../../../models/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
 import { RefObject, useEffect, useState } from "react";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
-import { Technology } from "../../../../model/Technology";
-import { Provider } from "../../../../model/Provider";
+import { PromptRequest } from "../../../../models/PromptRequest";
+import { Technology } from "../../../../models/Technology";
+import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 import { useIntersection } from "@mantine/hooks";
-import { ParametersList } from "../../../../model/ParametersList";
+import { ParametersList } from "../../../../models/ParametersList";
 
 interface TemplatesList {
     templatesQuery: any,

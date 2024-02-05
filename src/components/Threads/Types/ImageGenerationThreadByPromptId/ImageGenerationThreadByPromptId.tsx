@@ -1,6 +1,6 @@
 import { ActionIcon, Avatar, Group, Image, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
@@ -8,7 +8,7 @@ import { IconReload } from "@tabler/icons-react";
 import favicon from "../../../../favicon.svg";
 import { useImageGenerationByPromptIdQuery } from "../../../../api/imageGenerationApi";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../model/PromptMode";
+import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";

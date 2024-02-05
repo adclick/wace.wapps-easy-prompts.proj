@@ -1,6 +1,6 @@
 import { Textarea } from "@mantine/core";
 import { usePromptsRequests } from "../../../context/PromptsRequestsContext";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { PromptRequest } from "../../../models/PromptRequest";
 import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { KeyboardEvent } from "react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";

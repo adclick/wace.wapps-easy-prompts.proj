@@ -1,5 +1,5 @@
 import { Group, Loader, Stack, Text } from "@mantine/core";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";

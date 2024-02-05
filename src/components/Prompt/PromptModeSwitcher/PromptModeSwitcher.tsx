@@ -6,8 +6,8 @@ import classes from './PromptModeSwitcher.module.css';
 import { iconClose } from "../../../utils/iconsUtils";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
-import { Modifier } from "../../../model/Modifier";
-import { Template } from "../../../model/Template";
+import { Modifier } from "../../../models/Modifier";
+import { Template } from "../../../models/Template";
 import { ProviderLabel } from "../../Common/ProviderLabel/ProviderLabel";
 
 export function PromptModeSwitcher() {

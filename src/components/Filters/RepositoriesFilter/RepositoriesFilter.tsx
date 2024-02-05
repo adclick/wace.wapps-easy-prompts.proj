@@ -1,6 +1,6 @@
 import { Button, Checkbox, Combobox, Group, Pill, PillsInput, Stack, Text, useCombobox } from '@mantine/core';
 import { iconChevronDown } from '../../../utils/iconsUtils';
-import { SelectedFilters } from '../../../model/SelectedFilters';
+import { SelectedFilters } from '../../../models/SelectedFilters';
 import { IconDatabase } from '@tabler/icons-react';
 
 interface RepositoriesFilter {

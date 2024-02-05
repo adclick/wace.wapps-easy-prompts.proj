@@ -1,5 +1,5 @@
 import { Textarea } from "@mantine/core";
-import { SelectedFilters } from "../../../model/SelectedFilters";
+import { SelectedFilters } from "../../../models/SelectedFilters";
 import { useEffect, useState } from "react";
 import { useDebouncedValue } from "@mantine/hooks";
 

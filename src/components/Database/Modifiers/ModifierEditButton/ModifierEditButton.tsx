@@ -1,6 +1,6 @@
 import { Button, Modal } from "@mantine/core";
-import { Modifier } from "../../../../model/Modifier";
-import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm";
+import { Modifier } from "../../../../models/Modifier";
+import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm/UpdateModifierForm";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
 

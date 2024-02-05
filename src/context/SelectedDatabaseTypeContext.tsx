@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { SelectedDatabaseType } from '../model/SelectedDatabaseType';
+import { SelectedDatabaseType } from '../models/SelectedDatabaseType';
 
 interface SelectedDatabaseTypeContextProps {
     selectedDatabaseType: SelectedDatabaseType;

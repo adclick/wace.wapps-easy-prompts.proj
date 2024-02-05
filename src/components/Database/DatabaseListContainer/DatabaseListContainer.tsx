@@ -1,7 +1,7 @@
 import { usePromptsQuery } from "../../../api/promptsApi";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext"
 import { useUser } from "../../../context/UserContext";
-import { Type } from "../../../model/SelectedDatabaseType";
+import { Type } from "../../../models/SelectedDatabaseType";
 import { ModifiersList } from "../Modifiers/ModifiersList/ModifiersList";
 import { PromptsList } from "../Prompts/PromptsList/PromptsList";
 import { TemplatesList } from "../Templates/TemplatesList/TemplatesList";

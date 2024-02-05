@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Provider } from '../model/Provider';
+import { Provider } from '../models/Provider';
 import { useQuery } from '@tanstack/react-query';
 
 const API_URL = import.meta.env.VITE_API_URL;

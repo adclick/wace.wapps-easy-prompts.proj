@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { SelectedFilters } from '../model/SelectedFilters';
+import { SelectedFilters } from '../models/SelectedFilters';
 
 interface SelectedFiltersContextProps {
     selectedFilters: SelectedFilters;

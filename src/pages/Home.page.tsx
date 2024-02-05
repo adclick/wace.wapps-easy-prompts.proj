@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { AppShell, Box, ScrollArea } from '@mantine/core';
 import { useDisclosure, useIntersection } from '@mantine/hooks';
-import { User } from '../model/User';
+import { User } from '../models/User';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
 import classes from './Home.page.module.css';

@@ -1,6 +1,6 @@
 import { Box, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { useEffect, useState } from "react";
 import { chat, chatByPromptId } from "../../../../api/chatApi";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";

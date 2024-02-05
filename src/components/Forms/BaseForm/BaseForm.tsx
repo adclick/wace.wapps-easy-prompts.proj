@@ -2,26 +2,26 @@ import { Accordion, ActionIcon, Button, Card, Collapse, Divider, Group, MultiSel
 import { IconCheck } from "@tabler/icons-react";
 import { useCreatePromptMutation } from "../../../api/promptsApi";
 import { useUser } from "../../../context/UserContext";
-import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../model/SelectedDatabaseType";
-import { Language } from "../../../model/Language";
-import { PromptRequest } from "../../../model/PromptRequest";
+import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
+import { Language } from "../../../models/Language";
+import { PromptRequest } from "../../../models/PromptRequest";
 import { useEffect, useState } from "react";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { getProviders } from "../../../api/providersApi";
-import { Repository } from "../../../model/Repository";
-import { Technology } from "../../../model/Technology";
-import { Provider } from "../../../model/Provider";
+import { Repository } from "../../../models/Repository";
+import { Technology } from "../../../models/Technology";
+import { Provider } from "../../../models/Provider";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { iconClose } from "../../../utils/iconsUtils";
-import { Modifier } from "../../../model/Modifier";
+import { Modifier } from "../../../models/Modifier";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
-import { Template } from "../../../model/Template";
+import { Template } from "../../../models/Template";
 import { notifications } from "@mantine/notifications";
 import { useDisclosure } from "@mantine/hooks";
-import { ParametersList } from "../../../model/ParametersList";
-import { Parameter } from "../../../model/Parameter";
+import { ParametersList } from "../../../models/ParametersList";
+import { Parameter } from "../../../models/Parameter";
 
 interface BaseForm {
     promptRequest: PromptRequest | undefined,

@@ -1,8 +1,8 @@
 import { Card, Center, Grid, Group, Modal, Radio, SegmentedControl, SimpleGrid, Stack, Text } from "@mantine/core";
 import { useState } from "react";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
-import { PromptRequest } from "../../../model/PromptRequest";
-import { Label, Type } from "../../../model/SelectedDatabaseType";
+import { PromptRequest } from "../../../models/PromptRequest";
+import { Label, Type } from "../../../models/SelectedDatabaseType";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { PromptForm } from "../../Forms/PromptForm/PromptForm";
 import { ModifierForm } from "../../Forms/ModifierForm/ModifierForm";

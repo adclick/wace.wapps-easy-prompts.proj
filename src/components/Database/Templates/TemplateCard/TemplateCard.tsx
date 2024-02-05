@@ -2,7 +2,7 @@ import { Accordion, Badge, Button, Group, Stack, Text, Center, Checkbox } from "
 import { IconPlayerPlayFilled, IconStarFilled, IconUser } from "@tabler/icons-react";
 import { IconClock } from "@tabler/icons-react";
 import dateUtils from "../../../../utils/dateUtils";
-import { Template } from "../../../../model/Template";
+import { Template } from "../../../../models/Template";
 import { useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
 import classes from './TemplateCard.module.css';

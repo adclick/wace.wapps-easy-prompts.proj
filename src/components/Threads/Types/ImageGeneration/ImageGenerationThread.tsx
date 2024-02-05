@@ -1,6 +1,6 @@
 import { Avatar, Group, Image, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
-import { PromptRequest } from "../../../../model/PromptRequest";
+import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
