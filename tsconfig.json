@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["node", "@testing-library/jest-dom", "vitest/globals", "vite-plugin-pwa/react"],
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -18,11 +19,7 @@
     "paths": {
       // "@/*": ["./src/*"],
       "@test-utils": ["./test-utils"]
-    },
-    "types": [
-      "vite-plugin-pwa/react",
-    ]
+    }
   },
-  "include": ["src", "test-utils"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "test-utils"]
 }
