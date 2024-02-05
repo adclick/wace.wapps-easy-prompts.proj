@@ -6,7 +6,7 @@ import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { useDeletePromptMutation } from "../../../../api/promptsApi";
+import { useDeletePromptMutation, usePromptQuery } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { getDefaultProvider } from "../../../../api/providersApi";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
@@ -27,6 +27,10 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
     const { user } = useUser();
     const clipboard = useClipboard({ timeout: 500 });
+
+    const enabled = user.username === prompt.user.username;
+
+    const { data: promptPrivate } = usePromptQuery(prompt.id, enabled);
 
     const deleteMutation = useDeletePromptMutation();
 
@@ -118,7 +122,10 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 deleteMutation={deleteMutation}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt">
-                <UpdatePromptForm prompt={prompt} handle={editHandle} />
+                {
+                    promptPrivate &&
+                    <UpdatePromptForm prompt={promptPrivate} handle={editHandle} />
+                }
             </Modal>
             <Accordion.Item ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>

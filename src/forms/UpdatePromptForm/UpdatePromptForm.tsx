@@ -1,6 +1,6 @@
 import { Button, Group, Stack } from "@mantine/core";
 import { UpdatePromptFormProvider, useUpdatePromptForm } from "../../context/UpdatePromptFormContext";
-import { usePromptQuery, useUpdatePromptMutation } from "../../api/promptsApi";
+import { useUpdatePromptMutation } from "../../api/promptsApi";
 import { useUser } from "../../context/UserContext";
 import { LanguageField } from "./Fields/LanguageField";
 import { RepositoryField } from "./Fields/RepositoryField";
@@ -21,14 +21,11 @@ export function UpdatePromptForm({ prompt, handle }: UpdatePromptForm) {
     const UpdateMutation = useUpdatePromptMutation(prompt.id);
     const { user } = useUser();
     
-    // Fetch content
-    const {data} = usePromptQuery(prompt.id);
-
     const form = useUpdatePromptForm({
         initialValues: {
             title: prompt.title,
             description: prompt.description,
-            content: data.content,
+            content: prompt.content,
             language_id: prompt.language.id.toString(),
             repository_id: prompt.repository.id.toString(),
             technology_id: prompt.technology.id.toString(),
@@ -62,4 +59,5 @@ export function UpdatePromptForm({ prompt, handle }: UpdatePromptForm) {
             </form>
         </UpdatePromptFormProvider>
     )
+
 }
