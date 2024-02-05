@@ -28,10 +28,6 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
     const { user } = useUser();
     const clipboard = useClipboard({ timeout: 500 });
 
-    const enabled = user.username === prompt.user.username;
-
-    const { data: promptPrivate } = usePromptQuery(prompt.id, enabled);
-
     const deleteMutation = useDeletePromptMutation();
 
     const play = async (e: any) => {
@@ -122,10 +118,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 deleteMutation={deleteMutation}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt">
-                {
-                    promptPrivate &&
-                    <UpdatePromptForm prompt={promptPrivate} handle={editHandle} />
-                }
+                <UpdatePromptForm prompt={prompt} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
