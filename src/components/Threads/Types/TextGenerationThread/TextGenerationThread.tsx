@@ -1,15 +1,12 @@
-import { Alert, Avatar, Group, Loader, Stack, Text } from "@mantine/core";
+import { Group, Loader, Stack, Text } from "@mantine/core";
 import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { IconAlertCircle } from "@tabler/icons-react";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
-import { iconPlay } from "../../../../utils/iconsUtils";
-import { getPromptModeByTechnology, getPromptModeColor } from "../../../../models/PromptMode";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 import { useState } from "react";
@@ -23,8 +20,6 @@ interface TextGenerationThread {
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
-    const [request, setRequest] = useState(promptRequest);
-    const queryClient = useQueryClient()
 
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
 

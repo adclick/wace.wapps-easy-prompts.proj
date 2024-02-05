@@ -1,12 +1,9 @@
-import { ActionIcon, Box, Button, Divider, Group, Indicator, Popover, Stack, Text } from "@mantine/core"
+import { ActionIcon, Box, Button, Group, Indicator, Popover, Stack, Text } from "@mantine/core";
 import { IconSparkles, IconX } from "@tabler/icons-react";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
-import { usePromptMode } from "../../../context/PromptModeContext";
-import { getPromptModeColor } from "../../../models/PromptMode";
 
 export function PromptModifiersList() {
     const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
-    const { promptMode } = usePromptMode();
 
     const removeModifier = (id: number) => {
         const newSelectedModifiers = selectedModifiers.filter(m => m.id !== id);
@@ -18,8 +15,8 @@ export function PromptModifiersList() {
         <Box pos={"absolute"} left={28}>
             <Popover position="top-start">
                 <Popover.Target>
-                    <Indicator color={getPromptModeColor(promptMode)} inline label={selectedModifiers.length} size={16}>
-                        <ActionIcon color={getPromptModeColor(promptMode)} variant="transparent" size={"lg"}>
+                    <Indicator inline label={selectedModifiers.length} size={16}>
+                        <ActionIcon variant="transparent" size={"lg"}>
                             <IconSparkles size={20} />
                         </ActionIcon>
                     </Indicator>

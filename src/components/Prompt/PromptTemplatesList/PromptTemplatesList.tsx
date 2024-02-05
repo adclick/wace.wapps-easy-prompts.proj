@@ -1,12 +1,9 @@
 import { ActionIcon, Box, Button, Group, Indicator, Popover, Stack, Text } from "@mantine/core";
 import { IconTemplate, IconX } from "@tabler/icons-react";
 import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
-import { usePromptMode } from "../../../context/PromptModeContext";
-import { getPromptModeColor } from "../../../models/PromptMode";
 
 export function PromptTemplatesList() {
     const { selectedTemplates, setSelectedTemplates } = useSelectedTemplates();
-    const { promptMode } = usePromptMode();
 
     const removeTemplate = (id: number) => {
         const newSelectedTemplates = selectedTemplates.filter(m => m.id !== id);
@@ -18,8 +15,8 @@ export function PromptTemplatesList() {
         <Box pos={"absolute"} left={28}>
             <Popover position="top-start">
                 <Popover.Target>
-                    <Indicator color={getPromptModeColor(promptMode)} inline label={selectedTemplates.length} size={16}>
-                        <ActionIcon color={getPromptModeColor(promptMode)} variant="transparent" size={"lg"}>
+                    <Indicator inline label={selectedTemplates.length} size={16}>
+                        <ActionIcon variant="transparent" size={"lg"}>
                             <IconTemplate size={20} />
                         </ActionIcon>
                     </Indicator>

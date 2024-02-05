@@ -138,7 +138,7 @@ export function ChatThread({ promptRequest, scrollIntoView, color }: ChatThread)
                             {
                                 !promptRequest.isPlayable && <ThreadRequest request={message.request} user={user} />
                             }
-                            <ThreadResponse response={message.response} color={color} />
+                            <ThreadResponse response={message.response} />
                         </Stack>
                     )
                 })

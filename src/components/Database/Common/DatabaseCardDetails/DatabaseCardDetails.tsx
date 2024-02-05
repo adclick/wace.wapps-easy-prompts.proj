@@ -8,8 +8,6 @@ import { Template } from "../../../../models/Template";
 import { Label } from "../../../../models/SelectedDatabaseType";
 import { modals } from "@mantine/modals";
 import classes from './DatabaseCardDetails.module.css'
-import { ModifierForm } from "../../../../forms/CreateModifierForm/CreateModifierForm";
-import { useDisclosure } from "@mantine/hooks";
 
 interface DatabaseCardDetails {
     opened: boolean,
@@ -217,7 +215,7 @@ export function DatabaseCardDetails({
                             size="xs"
                             variant="subtle"
                             onClick={openDeleteModal}
-                            leftSection={<IconEdit size={14} />}
+                            leftSection={<IconTrash size={14} />}
                         >
                             Delete
                         </Button>
