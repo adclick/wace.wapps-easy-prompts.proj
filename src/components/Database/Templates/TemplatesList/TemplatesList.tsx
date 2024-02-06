@@ -40,7 +40,9 @@ export function TemplatesList({ templatesQuery, databaseListContainerRef }: Temp
 
             if (templates[0].provider) {
                 newUserRequest.provider = Provider.clone(templates[0].provider);
-                newUserRequest.parametersList = ParametersList.buildFromTemplate(templates[0]);
+                // newUserRequest.parametersList = ParametersList.buildFromTemplate(templates[0]);
+                // newUserRequest.parametersList = userPromptRequest.parametersList;
+                // console.log(newUserRequest.parametersList);
             } else {
                 newUserRequest.provider = new Provider();
             }
