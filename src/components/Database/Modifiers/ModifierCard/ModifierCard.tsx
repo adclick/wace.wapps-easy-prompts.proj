@@ -1,13 +1,13 @@
 import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Menu, ActionIcon } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
-import { useDisclosure } from "@mantine/hooks";
+import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
 import classes from './ModifierCard.module.css';
 import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm/UpdateModifierForm";
-import { IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { useUser } from "../../../../context/UserContext";
@@ -21,6 +21,7 @@ interface ModifierCard {
 export function ModifierCard({ modifier, itemRef }: ModifierCard) {
     const [modifierDetailsOpened, modifierDetailsHandle] = useDisclosure(false);
     const deleteMutation = useDeleteModifierMutation();
+    const clipboard = useClipboard({ timeout: 500 });
 
     const [editOpened, editHandle] = useDisclosure(false);
 
@@ -67,6 +68,17 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
         });
     }
 
+    const copyPublicURL = (e: any) => {
+        e.stopPropagation();
+        clipboard.copy(window.location.origin + window.location.pathname + '?modifier_id=' + modifier.id);
+
+        notifications.show({
+            title: "URL Copied",
+            message: "",
+            color: "blue"
+        });
+    }
+
 
     const openEditModal = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.stopPropagation();
@@ -106,6 +118,13 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                                 <Menu.Dropdown>
                                     <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                                         <Text size="xs">Details</Text>
+                                    </Menu.Item>
+                                    <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                                        {
+                                            clipboard.copied
+                                                ? <Text size="xs">Copied</Text>
+                                                : <Text size="xs">Copy URL</Text>
+                                        }
                                     </Menu.Item>
                                     {
                                         isUserItem &&

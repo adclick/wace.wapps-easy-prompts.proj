@@ -1,7 +1,7 @@
 import { Accordion, Badge, Group, Stack, Text, Checkbox, Menu, ActionIcon, Modal } from "@mantine/core";
-import { IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { Template } from "../../../../models/Template";
-import { useDisclosure } from "@mantine/hooks";
+import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
 import classes from './TemplateCard.module.css';
 import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
@@ -21,6 +21,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const [editOpened, editHandle] = useDisclosure(false);
     const deleteMutation = useDeleteTemplateMutation();
+    const clipboard = useClipboard({ timeout: 500 });
 
     const { user } = useUser();
 
@@ -64,6 +65,17 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             onConfirm: () => deleteMutation.mutate(template.id),
         });
     }
+    
+    const copyPublicURL = (e: any) => {
+        e.stopPropagation();
+        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + template.id);
+
+        notifications.show({
+            title: "URL Copied",
+            message: "",
+            color: "blue"
+        });
+    }
 
     const openEdit = (e: any) => {
         e.stopPropagation();
@@ -103,6 +115,13 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                                 <Menu.Dropdown>
                                     <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                                         <Text size="xs">Details</Text>
+                                    </Menu.Item>
+                                    <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                                        {
+                                            clipboard.copied
+                                                ? <Text size="xs">Copied</Text>
+                                                : <Text size="xs">Copy URL</Text>
+                                        }
                                     </Menu.Item>
                                     {
                                         isUserItem &&
