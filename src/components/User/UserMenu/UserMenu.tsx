@@ -6,7 +6,6 @@ import { UserProfile } from "../UserProfile/UserProfile";
 import { useDisclosure } from "@mantine/hooks";
 
 export function UserMenu() {
-    const { t } = useTranslation();
     const { user, logout } = useAuth0();
     const [userProfileOpened, userProfileHandle] = useDisclosure(false);
 
