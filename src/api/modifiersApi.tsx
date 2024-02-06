@@ -14,7 +14,7 @@ export const useModifierQuery = (modifierId: number, enabled: boolean = true) =>
 
             return data;
         },
-        enabled
+        enabled: modifierId > 0 && enabled
     });
 };
 

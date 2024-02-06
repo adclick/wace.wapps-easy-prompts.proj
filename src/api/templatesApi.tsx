@@ -15,7 +15,7 @@ export const useTemplateQuery = (templateId: number, enabled: boolean = true) =>
 
             return data;
         },
-        enabled
+        enabled: templateId > 0 && enabled
     });
 };
 
