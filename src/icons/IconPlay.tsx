@@ -6,10 +6,8 @@ interface IconPlayProps {
     stroke: number;
 }
 
-const IconPlay: FC<IconPlayProps> = ({size, stroke}: IconPlayProps) => {
+export const IconPlay: FC<IconPlayProps> = ({size, stroke}: IconPlayProps) => {
     return (
         <IconPlayerPlayFilled size={size} stroke={stroke} />
     )
 }
-
-export default IconPlay;

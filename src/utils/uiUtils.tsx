@@ -5,3 +5,9 @@ export enum Size {
     lg = 'lg',
     xl = 'xl'
 };
+
+export enum Variant {
+    filled = 'filled',
+    subtle = 'subtle',
+    transparent = 'transparent'
+}

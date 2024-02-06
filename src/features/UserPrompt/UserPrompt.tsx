@@ -4,12 +4,12 @@ import { usePromptsRequests } from "../../context/PromptsRequestsContext";
 import { useUserPromptRequest } from "../../context/UserPromptRequestContext";
 import { Textarea } from "../../components/UI/Inputs/Textarea";
 import { IconButton } from "../../components/UI/Buttons/IconButton";
-import classes from "./UserPrompt.module.css";
-import { Size } from "../../utils/uiUtils";
-import IconPlay from "../../icons/IconPlay";
+import { Size, Variant } from "../../utils/uiUtils";
 import { FlexH } from "../../components/UI/Layout/Flex";
 import { useSelectedModifiers } from "../../context/SelectedModifiersContext";
 import { useSelectedTemplates } from "../../context/SelectedTemplatesContext";
+import { IconPlay } from "../../icons";
+import classes from "./UserPrompt.module.css";
 
 const UserPrompt: FC = () => {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
@@ -22,12 +22,13 @@ const UserPrompt: FC = () => {
         newUserRequest.key = Date.now();
         newUserRequest.title = value;
         newUserRequest.content = value;
-        newUserRequest.metadata.modifiers = selectedModifiers;
-        newUserRequest.metadata.templates = selectedTemplates;
         setUserPromptRequest(newUserRequest);
     }
 
     const play = () => {
+        userPromptRequest.metadata.modifiers = selectedModifiers;
+        userPromptRequest.metadata.templates = selectedTemplates;
+
         setPromptsRequests([...promptsRequests, userPromptRequest]);
         updateUserRequestText("");
     }
@@ -53,7 +54,7 @@ const UserPrompt: FC = () => {
             />
 
             <IconButton
-                variant="filled"
+                variant={Variant.filled}
                 size={Size.lg}
                 onClick={play}
                 icon={<IconPlay size={16} stroke={1.5} />}

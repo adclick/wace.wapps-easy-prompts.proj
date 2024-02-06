@@ -1,11 +1,11 @@
 import { ActionIcon } from "@mantine/core"
 import { FC, MouseEvent, ReactNode } from "react"
-import { Size } from "../../../../utils/uiUtils";
+import { Size, Variant } from "../../../../utils/uiUtils";
 
 interface IconButtonProps {
     size?: Size;
     color?: string;
-    variant?: 'filled' | 'transparent' | 'subtle';
+    variant?: Variant;
     icon: ReactNode;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     className?: string;
@@ -14,7 +14,7 @@ interface IconButtonProps {
 const IconButton: FC<IconButtonProps> = ({
     size = Size.md,
     color = 'blue',
-    variant = 'transparent',
+    variant = Variant.transparent,
     icon,
     onClick,
     className
