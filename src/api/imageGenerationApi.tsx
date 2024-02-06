@@ -11,11 +11,13 @@ export const useImageGenerationQuery = (request: PromptRequest) => {
         queryKey: ["imageGeneration", request.key],
         queryFn: async () => {
             const modifiersIds = request.metadata.modifiers.map(m => m.id);
+            const templatesIds = request.metadata.templates.map(t => t.id);
 
             const { data } = await axios.post(`${API_URL}/ai/image-generation?` + new URLSearchParams({
                 text: request.content,
                 provider_id: request.provider.id.toString(),
                 modifiers_ids: JSON.stringify(modifiersIds),
+                templates_ids: JSON.stringify(templatesIds),
                 num_images: num_images.value,
                 image_resolution: image_resolution.value
             }));

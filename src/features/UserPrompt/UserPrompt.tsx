@@ -8,16 +8,22 @@ import classes from "./UserPrompt.module.css";
 import { Size } from "../../utils/uiUtils";
 import IconPlay from "../../icons/IconPlay";
 import { FlexH } from "../../components/UI/Layout/Flex";
+import { useSelectedModifiers } from "../../context/SelectedModifiersContext";
+import { useSelectedTemplates } from "../../context/SelectedTemplatesContext";
 
 const UserPrompt: FC = () => {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
     const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const { selectedModifiers } = useSelectedModifiers();
+    const { selectedTemplates } = useSelectedTemplates();
 
     const updateUserRequestText = (value: string) => {
         const newUserRequest = PromptRequest.clone(userPromptRequest);
         newUserRequest.key = Date.now();
         newUserRequest.title = value;
         newUserRequest.content = value;
+        newUserRequest.metadata.modifiers = selectedModifiers;
+        newUserRequest.metadata.templates = selectedTemplates;
         setUserPromptRequest(newUserRequest);
     }
 
