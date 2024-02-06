@@ -1,7 +1,6 @@
 import { Group, Stack } from "@mantine/core";
-import { PromptTextInput } from "../PromptTextInput/PromptTextInput";
-import { PromptPlayButton } from "../PromptPlayButton/PromptPlayButton";
 import { PromptModeSwitcher } from "../PromptModeSwitcher/PromptModeSwitcher";
+import UserPrompt from "../../../features/UserPrompt/UserPrompt";
 
 export function PromptContainer() {
     return (
@@ -16,10 +15,8 @@ export function PromptContainer() {
                     px={"md"}
                 >
                     <PromptModeSwitcher />
-                    <Group w={"100%"} >
-                        <PromptTextInput />
-                        <PromptPlayButton />
-                    </Group>
+                    
+                    <UserPrompt />
                 </Stack>
             </Group>
         </Group>

@@ -1,0 +1,14 @@
+.textarea {
+    width: 100%;
+    
+    textarea {
+        padding-right: 60px;
+        background-color: light-dark(white, var(--mantine-color-dark-9));
+
+    }
+}
+
+.playButton {
+    position: absolute;
+    right: 23px;
+}

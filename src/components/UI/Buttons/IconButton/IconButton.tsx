@@ -1,8 +1,9 @@
-import { ActionIcon, Button } from "@mantine/core"
+import { ActionIcon } from "@mantine/core"
 import { FC, MouseEvent, ReactNode } from "react"
+import { Size } from "../../../../utils/uiUtils";
 
-interface ButtonIconUIProps {
-    size?: 'xs' | 'sm' | 'md' | 'lg' | "xl";
+interface IconButtonProps {
+    size?: Size;
     color?: string;
     variant?: 'filled' | 'transparent' | 'subtle';
     icon: ReactNode;
@@ -10,14 +11,14 @@ interface ButtonIconUIProps {
     className?: string;
 }
 
-const ButtonIconUI: FC<ButtonIconUIProps> = ({
-    size = 'md',
+const IconButton: FC<IconButtonProps> = ({
+    size = Size.md,
     color = 'blue',
     variant = 'transparent',
     icon,
     onClick,
     className
-}: ButtonIconUIProps) => {
+}: IconButtonProps) => {
     return (
         <ActionIcon
             onClick={onClick}
@@ -31,4 +32,4 @@ const ButtonIconUI: FC<ButtonIconUIProps> = ({
     )
 }
 
-export default ButtonIconUI;
+export default IconButton;
