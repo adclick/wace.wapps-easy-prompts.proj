@@ -21,18 +21,6 @@ export function PromptOptionsTechnologiesField() {
 
     const technologiesQuery = useTechnologiesQuery();
 
-    useEffect(() => {
-        if (technologiesQuery.data) {
-            const firstTechnology: Technology = technologiesQuery.data[0];
-
-            if (userPromptRequest.technology.id <= 0) {
-                const newUserRequest = PromptRequest.clone(userPromptRequest);
-                newUserRequest.technology = Technology.clone(firstTechnology);
-                setUserPromptRequest(newUserRequest);
-            }
-        }
-    }, [technologiesQuery, userPromptRequest, setUserPromptRequest])  
-
     const onChangeTechnology = (technologyId: string | null) => {
         const technology = technologiesQuery.data.find((t: Technology) => t.id === parseInt(technologyId as string));
         if (technology) {
