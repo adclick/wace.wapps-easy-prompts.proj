@@ -70,7 +70,7 @@ export function BaseForm({
 
 
     const { setSelectedDatabaseType } = useSelectedDatabaseType();
-    const filtersQuery = useFiltersQuery(user.id);
+    const filtersQuery = useFiltersQuery(user);
 
     const save = async () => {
         if (name === "") {

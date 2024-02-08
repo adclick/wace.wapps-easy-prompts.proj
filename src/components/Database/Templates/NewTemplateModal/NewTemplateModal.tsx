@@ -15,7 +15,7 @@ export function NewTemplateModal({
     handle,
 }: NewTemplateModal) {
     const { user } = useUser();
-    const { data } = useFiltersQuery(user.id);
+    const { data } = useFiltersQuery(user);
 
     const [languageId, setLanguageId] = useState('');
     const [repositoryId, setRepositoryId] = useState('');

@@ -1,9 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Box, Menu, Stack, Text, UnstyledButton, rem } from "@mantine/core";
-import { IconBell, IconExternalLink, IconFileDescription, IconLogout, IconQuestionMark, IconUser } from "@tabler/icons-react";
-import { useTranslation } from "react-i18next";
+import { Avatar, Box, Stack, Text, UnstyledButton } from "@mantine/core";
 import { UserProfile } from "../UserProfile/UserProfile";
 import { useDisclosure } from "@mantine/hooks";
+import { Menu } from "../../UI/Menu";
+import { Position } from "../../../enums/Position";
+import { IconExternalLink, IconLogout, IconUser } from "@tabler/icons-react";
+import { Color } from "../../../enums/Color";
+import { MenuType } from "../../../enums/MenuType";
 
 export function UserMenu() {
     const { user, logout } = useAuth0();
@@ -15,34 +18,53 @@ export function UserMenu() {
                 opened={userProfileOpened}
                 handle={userProfileHandle}
             />
-            <Menu shadow="md" position="bottom-end">
-                <Menu.Target>
+
+            <Menu
+                target={(
                     <UnstyledButton size="lg" px={"xs"} py={"xs"}>
                         <Avatar src={user?.picture} />
                     </UnstyledButton>
-                </Menu.Target>
-                <Menu.Dropdown>
-                    <Menu.Item leftSection={<IconUser style={{ width: rem(14), height: rem(14) }} />} onClick={userProfileHandle.open}>
-                        <Stack gap={0} align="flex-start" >
-                            <Text>{user?.nickname}</Text>
-                            <Text size="xs">{user?.email}</Text>
-                        </Stack>
-                    </Menu.Item>
-                    <Menu.Divider />
-                    <Menu.Item
-                        leftSection={<IconExternalLink style={{ width: rem(14), height: rem(14) }} />}
-                        component="a"
-                        href="https://forms.clickup.com/4647457/f/4duh1-67272/60RTTBEBOVWBR6QBYM"
-                        target="_blank"
-                    >
-                        Give Feedback
-                    </Menu.Item>
-                    <Menu.Divider />
-                    <Menu.Item color="red" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}>
-                        Logout
-                    </Menu.Item>
-                </Menu.Dropdown>
-            </Menu>
+                )}
+                position={Position.bottom_end}
+                items={[
+                    {
+                        type: MenuType.button,
+                        id: 1,
+                        label: (
+                            <Stack gap={0} align="flex-start" >
+                                <Text>{user?.nickname}</Text>
+                                <Text size="xs">{user?.email}</Text>
+                            </Stack>
+                        ),
+                        onClick: userProfileHandle.open,
+                        icon: <IconUser size={14} />,
+                    },
+                    {
+                        type: MenuType.divider,
+                        id: 2,
+                    },
+                    {
+                        type: MenuType.link,
+                        id: 3,
+                        label: 'Give Feedback',
+                        href: 'https://forms.clickup.com/4647457/f/4duh1-67272/60RTTBEBOVWBR6QBYM',
+                        targetBlank: true,
+                        icon: <IconExternalLink size={14} />,
+                    },
+                    {
+                        type: MenuType.divider,
+                        id: 4,
+                    },
+                    {
+                        type: MenuType.button,
+                        id: 5,
+                        label: 'Logout',
+                        onClick: () => logout({ logoutParams: { returnTo: window.location.origin } }),
+                        color: Color.red,
+                        icon: <IconLogout size={14} />
+                    },
+                ]}
+            />
         </Box>
     )
 }

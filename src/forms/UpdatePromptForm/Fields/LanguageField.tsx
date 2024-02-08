@@ -7,7 +7,7 @@ import { useUpdatePromptFormContext } from "../../../context/UpdatePromptFormCon
 export function LanguageField() {
     const form = useUpdatePromptFormContext();
     const { user } = useUser();
-    const {data} = useFiltersQuery(user.id);
+    const {data} = useFiltersQuery(user);
 
     if (data) {
         const selectData = data.languages.map((l: Language) => {
