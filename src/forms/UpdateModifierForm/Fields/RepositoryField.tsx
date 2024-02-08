@@ -7,7 +7,7 @@ import { Repository } from "../../../models/Repository";
 export function RepositoryField() {
     const form = useUpdateModifierFormContext();
     const { user } = useUser();
-    const {data} = useFiltersQuery(user.id);
+    const {data} = useFiltersQuery(user);
 
     if (data) {
         const selectData = data.repositories.map((r: Repository) => {

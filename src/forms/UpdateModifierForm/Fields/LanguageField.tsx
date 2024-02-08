@@ -7,7 +7,7 @@ import { Language } from "../../../models/Language";
 export function LanguageField() {
     const form = useUpdateModifierFormContext();
     const { user } = useUser();
-    const {data} = useFiltersQuery(user.id);
+    const {data} = useFiltersQuery(user);
 
     if (data) {
         const selectData = data.languages.map((l: Language) => {

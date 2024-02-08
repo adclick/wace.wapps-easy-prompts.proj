@@ -8,7 +8,7 @@ import { Technology } from "../../../models/Technology";
 export function TechnologyField() {
     const form = useUpdateTemplateFormContext();
     const { user } = useUser();
-    const { data } = useFiltersQuery(user.id);
+    const { data } = useFiltersQuery(user);
 
     if (data) {
         const selectData = data.technologies.map((t: Technology) => {

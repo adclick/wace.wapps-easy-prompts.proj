@@ -7,7 +7,7 @@ import { useUpdateTemplateFormContext } from "../../../context/UpdateTemplateFor
 export function LanguageField() {
     const form = useUpdateTemplateFormContext();
     const { user } = useUser();
-    const {data} = useFiltersQuery(user.id);
+    const {data} = useFiltersQuery(user);
 
     if (data) {
         const selectData = data.languages.map((l: Language) => {
