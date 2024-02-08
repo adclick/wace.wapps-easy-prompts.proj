@@ -1,31 +1,74 @@
 import { FC, MouseEvent, ReactNode } from "react";
-import { Menu as MantineMenu, MenuItem as MantineMenuItem } from "@mantine/core";
+import { Menu as MantineMenu } from "@mantine/core";
+import { Position } from "../../../enums/Position";
+import { Color } from "../../../enums/Color";
+import { MenuType } from "../../../enums/MenuType";
+
+
+interface MenuItemProps {
+    type: MenuType
+    id: number;
+    label?: ReactNode;
+    icon?: ReactNode;
+    color?: Color;
+    targetBlank?: boolean;
+    href?: string;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+}
 
 interface MenuProps {
-    target: ReactNode
+    target: ReactNode,
+    position?: Position
     items: MenuItemProps[]
 }
 
-interface MenuItemProps {
-    id: number;
-    label: ReactNode;
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
-}
-
-const Menu: FC<MenuProps> = ({ target, items }: MenuProps) => {
+const Menu: FC<MenuProps> = ({ target, position, items }: MenuProps) => {
     return (
-        <MantineMenu>
+        <MantineMenu position={position}>
             <MantineMenu.Target>
                 {target}
             </MantineMenu.Target>
             <MantineMenu.Dropdown>
                 {
                     items.map(item => {
-                        return (
-                            <MantineMenu.Item onClick={item.onClick} key={item.id}>
-                                {item.label}
-                            </MantineMenu.Item>
-                        )
+                        switch (item.type) {
+                            case MenuType.button:
+                                return (
+                                    <MantineMenu.Item
+                                        key={item.id}
+                                        leftSection={item.icon}
+                                        onClick={item.onClick}
+                                        color={item.color}
+                                    >
+                                        {item.label}
+                                    </MantineMenu.Item>
+                                )
+                            case MenuType.link:
+                                return (
+                                    <MantineMenu.Item
+                                        key={item.id}
+                                        leftSection={item.icon}
+                                        href={item.href}
+                                        color={item.color}
+                                        component="a"
+                                        target="_blank"
+                                    >
+                                        {item.label}
+                                    </MantineMenu.Item>
+                                )
+                            case MenuType.divider:
+                                return (
+                                    <MantineMenu.Divider
+                                        key={item.id}
+                                        color={item.color}
+                                    >
+                                        {item.label}
+                                    </MantineMenu.Divider>
+                                )
+                            default:
+                                return <></>
+                        }
+
                     })
                 }
             </MantineMenu.Dropdown>

@@ -28,7 +28,7 @@ export function DatabaseHeader({
     const { user } = useUser();
     const [filtersOpened, filtersHandle] = useDisclosure(false);
         
-    const selectedFiltersQuery = useFiltersQuery(user.id);
+    const selectedFiltersQuery = useFiltersQuery(user);
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
     
     // Init selectedFilters
