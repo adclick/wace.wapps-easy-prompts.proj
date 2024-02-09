@@ -29,7 +29,6 @@ const PublicDatabase: FC = () => {
     const modifiersQuery = useModifiersQuery(user.id, selectedFilters);
     const [selectedDatabaseType, setSelectedDatabaseType] = useState<SelectedDatabaseType>(new SelectedDatabaseType());
 
-        
     // Init selectedFilters
     useEffect(() => {
         if (selectedFilters.isEmpty && selectedFiltersQuery.data) {

@@ -7,7 +7,7 @@ import { MenuType } from "../../../enums/MenuType";
 
 interface MenuItemProps {
     type: MenuType
-    id: number;
+    id: number | string;
     label?: ReactNode;
     icon?: ReactNode;
     color?: Color;

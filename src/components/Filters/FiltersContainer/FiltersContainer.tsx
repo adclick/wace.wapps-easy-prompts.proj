@@ -20,8 +20,6 @@ export function FiltersContainer({
 }: FiltersContainer) {
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
 
-    const title = <Text fw={500} size={"lg"}>Filters</Text>;
-
     let filters = <Loader />;
     let searchTermFilter = <></>;
 

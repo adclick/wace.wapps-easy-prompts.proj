@@ -37,19 +37,19 @@ const UserDatabseToggleMenu: FC = () => {
             items={[
                 {
                     type: MenuType.button,
-                    id: 1,
+                    id: Type.PROMPT,
                     label: LabelPlural.Prompts,
                     onClick: () => onChange(Type.PROMPT, Label.Prompt, LabelPlural.Prompts)
                 },
                 {
                     type: MenuType.button,
-                    id: 1,
+                    id: Type.TEMPLATE,
                     label: LabelPlural.Tempalates,
                     onClick: () => onChange(Type.TEMPLATE, Label.Tempalate, LabelPlural.Tempalates)
                 },
                 {
                     type: MenuType.button,
-                    id: 1,
+                    id: Type.MODIFIER,
                     label: LabelPlural.Modifiers,
                     onClick: () => onChange(Type.MODIFIER, Label.Modifier, LabelPlural.Modifiers)
                 },

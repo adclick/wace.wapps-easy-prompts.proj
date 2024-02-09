@@ -47,7 +47,7 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
 
 export const usePromptsHistoryQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
-        queryKey: ["prompts", "history"],
+        queryKey: ["prompts", "history", selectedFilters],
         queryFn: async ({ pageParam }) => {
             const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
                 user_external_id: user.external_id,
