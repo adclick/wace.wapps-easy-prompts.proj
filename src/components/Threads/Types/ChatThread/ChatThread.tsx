@@ -85,7 +85,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
 
     const fetch = async (message: Message) => {
         if (promptRequest.isPlayable) {
-            const { response } = await chatByPromptId(promptRequest.id);
+            const response = await chatByPromptId(promptRequest.id);
             updateMessages(message.id, message.request, response);
             return;
         }

@@ -56,10 +56,11 @@ export const chat = async (
     }
 };
 
-export const chatByPromptId = async (promptId: number): Promise<{ response: string, technology: Technology | undefined, provider: Provider | undefined }> => {
+export const chatByPromptId = async (promptId: number) => {
     try {
         const { data } = await axios.post(`${API_URL}/ai/chat/prompt/${promptId}`);
 
+        console.log(data);
         return data;
     } catch (e) {
         console.error(e);
