@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { PromptRequest } from '../models/PromptRequest';
 import { Technology } from '../models/Technology';
 import { Provider } from '../models/Provider';
@@ -51,7 +51,10 @@ export const chat = async (
 
         return data;
     } catch (e) {
-        console.error(e);
+        if (e instanceof AxiosError) {
+            return e.response?.data.message;
+        }
+
         return ERROR_MESSAGE;
     }
 };

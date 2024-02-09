@@ -26,7 +26,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
-            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
+            return <ThreadErrorMessage error={error} reloadFn={refetch} />;
         }
 
         if (data && !isFetching) {
