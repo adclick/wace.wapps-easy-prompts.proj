@@ -1,7 +1,7 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Template } from "../../../../models/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
-import { RefObject, useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
@@ -9,12 +9,10 @@ import { PromptRequest } from "../../../../models/PromptRequest";
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
-import { useIntersection } from "@mantine/hooks";
-import { ParametersList } from "../../../../models/ParametersList";
 
 interface TemplatesList {
     templatesQuery: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
+    databaseListContainerRef: any
 }
 
 export function TemplatesList({ templatesQuery, databaseListContainerRef }: TemplatesList) {
@@ -51,18 +49,6 @@ export function TemplatesList({ templatesQuery, databaseListContainerRef }: Temp
         setSelectedTemplates(templates);
     }
 
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = templatesQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
 
     return (
         <Box>
@@ -85,10 +71,9 @@ export function TemplatesList({ templatesQuery, databaseListContainerRef }: Temp
                             templatesQuery.data !== undefined &&
                             templatesQuery.data.pages.map((page: any) => {
                                 return page.map((template: Template, index: number) => {
-                                    const isTarget = index === page.length / 2;
 
                                     return <TemplateCard
-                                        itemRef={isTarget ? ref : undefined}
+                                        itemRef={undefined}
                                         key={template.id}
                                         template={template}
                                     />

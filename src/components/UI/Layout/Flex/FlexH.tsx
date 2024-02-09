@@ -4,15 +4,17 @@ import { Group } from "@mantine/core";
 
 interface FlexHProps {
     gap?: Size;
+    justify?: string;
     children?: ReactNode
 }
 
 const FlexH: FC<FlexHProps> = ({
     gap,
+    justify,
     children
 }: FlexHProps) => {
     return (
-        <Group gap={gap}>
+        <Group gap={gap} justify={justify}>
             {children}
         </Group>
     )

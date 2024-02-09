@@ -9,6 +9,11 @@ import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloa
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
+import { useCreatePromptMutation } from "../../../../api/promptsApi";
+import { useState } from "react";
+import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
+import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
+import { saveHistory } from "../../../../services/ThreadService";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
@@ -19,6 +24,10 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationQuery(promptRequest);
+    const createMutation = useCreatePromptMutation();
+    const [historySaved, setHistorySaved] = useState(false);
+    const { selectedTemplates } = useSelectedTemplates();
+    const { selectedModifiers } = useSelectedModifiers();
 
     scrollIntoView({ alignement: 'start' });
 
@@ -30,6 +39,16 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
         }
 
         if (data && !isFetching) {
+            if (!historySaved) {
+                saveHistory(
+                    user,
+                    promptRequest,
+                    selectedTemplates,
+                    selectedModifiers,
+                    createMutation
+                );
+                setHistorySaved(true);
+            }
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
                 {
                     typeof data === "object" &&

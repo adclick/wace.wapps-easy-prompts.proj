@@ -43,7 +43,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             newPromptRequest.provider = await getDefaultProvider(newPromptRequest.technology.id);
         }
 
-        navbarMobileHandle.close();
+        // navbarMobileHandle.close();
 
         setPromptsRequests([
             ...promptsRequests,

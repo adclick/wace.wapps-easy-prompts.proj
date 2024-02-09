@@ -18,13 +18,14 @@ interface MenuItemProps {
 
 interface MenuProps {
     target: ReactNode,
-    position?: Position
-    items: MenuItemProps[]
+    position?: Position,
+    items: MenuItemProps[],
+    width?: string
 }
 
-const Menu: FC<MenuProps> = ({ target, position, items }: MenuProps) => {
+const Menu: FC<MenuProps> = ({ target, position, items, width }: MenuProps) => {
     return (
-        <MantineMenu position={position}>
+        <MantineMenu position={position} width={width}>
             <MantineMenu.Target>
                 {target}
             </MantineMenu.Target>

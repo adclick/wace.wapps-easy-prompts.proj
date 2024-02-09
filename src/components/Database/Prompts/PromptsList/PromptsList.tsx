@@ -8,23 +8,10 @@ import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/Data
 interface PromptsList {
     promptsQuery: any,
     navbarMobileHandle: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
+    databaseListContainerRef: any
 }
 
 export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListContainerRef }: PromptsList) {
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = promptsQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
-
     return (
         <Box>
             {
@@ -44,12 +31,10 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
                         promptsQuery.data.pages.map((page: any) => {
 
                             return page.map((prompt: Prompt, index: number) => {
-                                const isTarget = index === page.length / 2;
-
                                 return (
                                     <PromptCard
                                         key={prompt.id}
-                                        itemRef={isTarget ? ref : undefined}
+                                        itemRef={undefined}
                                         prompt={prompt}
                                         navbarMobileHandle={navbarMobileHandle}
                                     />

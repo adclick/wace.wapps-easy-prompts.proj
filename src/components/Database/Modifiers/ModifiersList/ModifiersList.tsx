@@ -8,12 +8,10 @@ import { useUserPromptRequest } from "../../../../context/UserPromptRequestConte
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
-import { useIntersection } from "@mantine/hooks";
-import { RefObject, useEffect } from "react";
 
 interface ModifiersList {
     modifiersQuery: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
+    databaseListContainerRef: any
 }
 
 export function ModifiersList({ modifiersQuery, databaseListContainerRef }: ModifiersList) {
@@ -49,18 +47,6 @@ export function ModifiersList({ modifiersQuery, databaseListContainerRef }: Modi
         setSelectedModifiers(modifiers);
     }
 
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = modifiersQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
 
     return (
         <Box>
@@ -77,10 +63,8 @@ export function ModifiersList({ modifiersQuery, databaseListContainerRef }: Modi
                             modifiersQuery.data !== undefined &&
                             modifiersQuery.data.pages.map((page: any) => {
                                 return page.map((modifier: Modifier, index: number) => {
-                                    const isTarget = index === page.length / 2;
-
                                     return <ModifierCard
-                                        itemRef={isTarget ? ref : undefined}
+                                        itemRef={undefined}
                                         key={modifier.id}
                                         modifier={modifier}
                                     />;

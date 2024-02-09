@@ -1,5 +1,5 @@
 import { Group, Menu, Text, UnstyledButton } from "@mantine/core";
-import { IconChevronDown, IconPrompt, IconSparkles, IconTemplate } from "@tabler/icons-react";
+import { IconPrompt, IconSparkles, IconTemplate } from "@tabler/icons-react";
 import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
 import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";

@@ -11,6 +11,8 @@ import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
 import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
+import { saveHistory } from "../../../../services/ThreadService";
+import { useCreatePromptMutation } from "../../../../api/promptsApi";
 
 interface ChatThread {
     promptRequest: PromptRequest,
@@ -31,6 +33,8 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     const { selectedModifiers } = useSelectedModifiers();
     const { selectedTemplates } = useSelectedTemplates();
     const [isResponding, isRespondingHandle] = useDisclosure(false);
+    const createMutation = useCreatePromptMutation();
+    const [historySaved, setHistorySaved] = useState(false);
 
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
@@ -100,6 +104,17 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
         );
         updateMessages(message.id, message.request, response);
         isRespondingHandle.close();
+
+        if (!historySaved) {
+            saveHistory(
+                user,
+                promptRequest,
+                selectedTemplates,
+                selectedModifiers,
+                createMutation
+            );
+            setHistorySaved(true);
+        }
     }
 
     const reply = (replyValue: string) => {
@@ -117,6 +132,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     }
 
     const updateUserPromptRequest = (chatReply: string) => {
+        console.log(promptRequest);
         const newUserPromptRequest = PromptRequest.clone(userPromptRequest);
         newUserPromptRequest.chatReply = chatReply;
         newUserPromptRequest.metadata.history = getHistory();
@@ -145,7 +161,7 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
             }
 
             {
-                !promptRequest.isPlayable && !isResponding && <ChatThreadReplyContainer reply={reply} />
+                !isResponding && <ChatThreadReplyContainer reply={reply} />
             }
 
             <Box ref={replyScrollIntoView.targetRef}>

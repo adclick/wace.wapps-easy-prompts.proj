@@ -3,7 +3,7 @@ import { useUser } from "../../../context/UserContext";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
 import { Box, Group, Stack } from "@mantine/core";
 import { useEffect } from "react";
-import { useFiltersQuery } from "../../../api/filtersApi";
+import { useFiltersQuery, usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { SelectedFilters } from "../../../models/SelectedFilters";
 import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
@@ -11,6 +11,7 @@ import { DatabaseMenu } from "../DatabaseMenu/DatabaseMenu";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
 import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
+import UserDatabseToggleMenu from "../../../features/UserDatabaseToggleMenu/UserDatabaseToggleMenu";
 
 interface DatabaseHeader {
     navbarMobileOpened: boolean,
@@ -28,7 +29,7 @@ export function DatabaseHeader({
     const { user } = useUser();
     const [filtersOpened, filtersHandle] = useDisclosure(false);
         
-    const selectedFiltersQuery = useFiltersQuery(user);
+    const selectedFiltersQuery = usePrivateFiltersQuery(user);
     const { selectedFilters, setSelectedFilters } = useSelectedFilters();
     
     // Init selectedFilters
@@ -46,7 +47,7 @@ export function DatabaseHeader({
                     <Box hiddenFrom="sm">
                         <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
                     </Box>
-                    <DatabaseMenu />
+                    <UserDatabseToggleMenu />
                 </Group>
                 <Group gap={"xs"}>
                     <DatabaseAddIcon />

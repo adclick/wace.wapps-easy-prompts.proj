@@ -9,7 +9,11 @@ import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
-import { AxiosError } from "axios";
+import { useCreatePromptMutation } from "../../../../api/promptsApi";
+import { saveHistory } from "../../../../services/ThreadService";
+import { useState } from "react";
+import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
+import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -19,6 +23,10 @@ interface TextGenerationThread {
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const { user } = useUser();
     const { userPromptRequest } = useUserPromptRequest();
+    const createMutation = useCreatePromptMutation();
+    const [historySaved, setHistorySaved] = useState(false);
+    const { selectedTemplates } = useSelectedTemplates();
+    const { selectedModifiers } = useSelectedModifiers();
 
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
 
@@ -32,6 +40,17 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         }
 
         if (data && !isFetching) {
+            if (!historySaved) {
+                saveHistory(
+                    user,
+                    promptRequest,
+                    selectedTemplates,
+                    selectedModifiers,
+                    createMutation
+                );
+                setHistorySaved(true);
+            }
+
             let dataResponse = data;
 
             if (typeof data === "string") dataResponse = data.trim();

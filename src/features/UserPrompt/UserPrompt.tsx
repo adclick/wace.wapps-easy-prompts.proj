@@ -43,7 +43,7 @@ const UserPrompt: FC = () => {
     return (
         <FlexH>
             <Textarea
-                placeholder="Start building"
+                placeholder="Create a new prompt"
                 autofocus={true}
                 size={Size.lg}
                 radius={Size.xl}
@@ -52,7 +52,6 @@ const UserPrompt: FC = () => {
                 onKeyDown={e => onKeyDown(e)}
                 className={classes.textarea}
             />
-
             <IconButton
                 variant={Variant.filled}
                 size={Size.lg}

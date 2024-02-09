@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
 import { UpdatePromptFormValues } from '../context/UpdatePromptFormContext';
+import { User } from '../models/User';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;
@@ -41,6 +42,32 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
             return LIST_LIMIT * pages.length;
         },
         enabled: !!userId && !selectedFilters.isEmpty && enabled
+    });
+};
+
+export const usePromptsHistoryQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
+    return useInfiniteQuery({
+        queryKey: ["prompts", "history"],
+        queryFn: async ({ pageParam }) => {
+            const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
+                user_external_id: user.external_id,
+                search_term: selectedFilters.search_term,
+                languages_ids: JSON.stringify(selectedFilters.languages_ids),
+                repositories_ids: JSON.stringify([user.history_repository_id]),
+                technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
+                limit: LIST_LIMIT.toString(),
+                offset: pageParam.toString()
+            }));
+
+            return data;
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => {
+            if (lastPage.length < LIST_LIMIT) return null;
+
+            return LIST_LIMIT * pages.length;
+        },
+        enabled: !!user.id && !selectedFilters.isEmpty && enabled
     });
 };
 

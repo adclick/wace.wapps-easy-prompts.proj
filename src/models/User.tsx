@@ -10,6 +10,7 @@ export class User {
     picture: string;
     theme: string;
     external_id: string;
+    history_repository_id: number;
 
     constructor() {
         this.isEmpty = true;
@@ -20,6 +21,7 @@ export class User {
         this.picture = "";
         this.theme = "";
         this.external_id = "";
+        this.history_repository_id = 0;
     }
 
     static buildFromAuth0(auth0User: any) {
