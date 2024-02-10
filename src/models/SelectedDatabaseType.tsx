@@ -21,9 +21,23 @@ export class SelectedDatabaseType {
     label: Label;
     labelPlural: LabelPlural;
 
-    constructor() {
-        this.type = Type.PROMPT;
-        this.label = Label.Prompt;
-        this.labelPlural = LabelPlural.Prompts
+    constructor(type: Type = Type.PROMPT) {
+        switch(type) {
+            case Type.PROMPT:
+                this.type = Type.PROMPT;
+                this.label = Label.Prompt;
+                this.labelPlural = LabelPlural.Prompts;
+                break;
+            case Type.TEMPLATE:
+                this.type = Type.TEMPLATE;
+                this.label = Label.Tempalate;
+                this.labelPlural = LabelPlural.Tempalates;
+                break;
+            case Type.MODIFIER:
+                this.type = Type.MODIFIER;
+                this.label = Label.Modifier;
+                this.labelPlural = LabelPlural.Modifiers;
+                break;
+        }
     }
 }

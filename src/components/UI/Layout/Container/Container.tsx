@@ -1,15 +1,15 @@
 import { Box } from "@mantine/core";
 import { FC, ReactNode } from "react";
 
-interface BoxProps {
+interface ContainerProps {
     className?: string;
     children: ReactNode;
 }
 
-const BoxUI: FC<BoxProps> = ({
+const Container: FC<ContainerProps> = ({
     className,
     children
-}: BoxProps) => {
+}: ContainerProps) => {
     return (
         <Box className={className}>
             {children}
@@ -17,4 +17,4 @@ const BoxUI: FC<BoxProps> = ({
     )
 }
 
-export default BoxUI;
+export default Container;

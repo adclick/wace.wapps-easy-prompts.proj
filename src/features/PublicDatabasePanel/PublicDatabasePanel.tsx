@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { FlexH, FlexV } from "../../components/UI/Layout/Flex";
 import { Button, Chip, Modal } from "@mantine/core";
-import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
+import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
 import { Size } from "../../utils/uiUtils";
 import { LanguagesFilter } from "../../components/Filters/LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../../components/Filters/RepositoriesFilter/RepositoriesFilter";
@@ -15,21 +14,29 @@ import { usePromptsQuery } from "../../api/promptsApi";
 import { useUser } from "../../context/UserContext";
 import { useTemplatesQuery } from "../../api/templatesApi";
 import { useModifiersQuery } from "../../api/modifiersApi";
-import { useFiltersQuery, usePublicDatabaseFiltersQuery } from "../../api/filtersApi";
+import { usePublicDatabaseFiltersQuery } from "../../api/filtersApi";
 import { IconSearch } from "@tabler/icons-react";
 import { SelectedFilters } from "../../models/SelectedFilters";
+import { Column, Row } from "../../components/UI";
 
-const PublicDatabase: FC = () => {
-    const [opened, { open, close }] = useDisclosure(false);
+const PublicDatabasePanel: FC = () => {
+    // Current user
     const { user } = useUser();
-    const selectedFiltersQuery = usePublicDatabaseFiltersQuery(user);
+
+    // Modal Handle
+    const [opened, { open, close }] = useDisclosure(false);
+
+    // Filters
     const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(new SelectedFilters());
+    const [selectedDatabaseType, setSelectedDatabaseType] = useState<SelectedDatabaseType>(new SelectedDatabaseType());
+
+    // Queries
+    const selectedFiltersQuery = usePublicDatabaseFiltersQuery(user);
     const promptsQuery = usePromptsQuery(user.id, selectedFilters);
     const templatesQuery = useTemplatesQuery(user.id, selectedFilters);
     const modifiersQuery = useModifiersQuery(user.id, selectedFilters);
-    const [selectedDatabaseType, setSelectedDatabaseType] = useState<SelectedDatabaseType>(new SelectedDatabaseType());
 
-    // Init selectedFilters
+    // Pre select all Filters
     useEffect(() => {
         if (selectedFilters.isEmpty && selectedFiltersQuery.data) {
             const newSelectedFilters = SelectedFilters.buildFromQuery(selectedFiltersQuery.data);
@@ -37,70 +44,25 @@ const PublicDatabase: FC = () => {
         }
     }, [selectedFilters, selectedFiltersQuery]);
 
-
-    let list = () => {
-        switch (selectedDatabaseType.type) {
-            case Type.PROMPT:
-                return <PromptsList
-                    promptsQuery={promptsQuery}
-                    navbarMobileHandle={undefined}
-                    databaseListContainerRef={undefined}
-                />
-            case Type.TEMPLATE:
-                return <TemplatesList
-                    templatesQuery={templatesQuery}
-                    databaseListContainerRef={undefined}
-                />
-            case Type.MODIFIER:
-                return <ModifiersList
-                    modifiersQuery={modifiersQuery}
-                    databaseListContainerRef={undefined}
-                />
-
-        }
-    }
-
-    const onChangeDatabaseType = (value: string) => {
-        const newSelectedDatabaseType = new SelectedDatabaseType();
-
-        switch (value) {
-            case Type.PROMPT:
-                newSelectedDatabaseType.type = Type.PROMPT;
-                newSelectedDatabaseType.label = Label.Prompt;
-                newSelectedDatabaseType.labelPlural = LabelPlural.Prompts;
-                break;
-            case Type.TEMPLATE:
-                newSelectedDatabaseType.type = Type.TEMPLATE;
-                newSelectedDatabaseType.label = Label.Tempalate;
-                newSelectedDatabaseType.labelPlural = LabelPlural.Tempalates;
-                break;
-            case Type.MODIFIER:
-                newSelectedDatabaseType.type = Type.MODIFIER;
-                newSelectedDatabaseType.label = Label.Modifier;
-                newSelectedDatabaseType.labelPlural = LabelPlural.Modifiers;
-                break;
-
-        }
-
-        setSelectedDatabaseType(newSelectedDatabaseType);
-    }
-
     return (
         <>
             <Modal opened={opened} onClose={close} size={"75%"} title="Public Database">
-                <FlexV gap={Size.xl} >
-                    <FlexH justify="space-between">
-                        <FlexH>
-                            <Chip.Group defaultValue={selectedDatabaseType.type} onChange={onChangeDatabaseType} multiple={false}>
+                <Column gap={Size.xl} >
+                    <Row justify="space-between">
+                        <Row>
+                            <Chip.Group
+                                defaultValue={selectedDatabaseType.type}
+                                onChange={type => setSelectedDatabaseType(new SelectedDatabaseType(type as Type))}
+                                multiple={false}
+                            >
                                 <Chip value={Type.PROMPT}>Prompts</Chip>
                                 <Chip value={Type.TEMPLATE}>Templates</Chip>
                                 <Chip value={Type.MODIFIER}>Modifiers</Chip>
                             </Chip.Group>
-                        </FlexH>
-
+                        </Row>
                         {
                             selectedFiltersQuery.data &&
-                            <FlexH>
+                            <Row>
                                 <LanguagesFilter
                                     languages={selectedFiltersQuery.data.languages}
                                     selectedFilters={selectedFilters}
@@ -116,15 +78,33 @@ const PublicDatabase: FC = () => {
                                     selectedFilters={selectedFilters}
                                     setSelectedFilters={setSelectedFilters}
                                 />
-                            </FlexH>
+                            </Row>
                         }
-                    </FlexH>
+                    </Row>
                     <SearchTermFilter selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
-
                     {
-                        list()
+                        selectedDatabaseType.type === Type.PROMPT &&
+                        <PromptsList
+                            promptsQuery={promptsQuery}
+                            navbarMobileHandle={undefined}
+                            databaseListContainerRef={undefined}
+                        />
                     }
-                </FlexV >
+                    {
+                        selectedDatabaseType.type === Type.TEMPLATE &&
+                        <TemplatesList
+                            templatesQuery={templatesQuery}
+                            databaseListContainerRef={undefined}
+                        />
+                    }
+                    {
+                        selectedDatabaseType.type === Type.MODIFIER &&
+                        <ModifiersList
+                            modifiersQuery={modifiersQuery}
+                            databaseListContainerRef={undefined}
+                        />
+                    }
+                </Column >
             </Modal>
             <Button
                 fullWidth
@@ -139,4 +119,4 @@ const PublicDatabase: FC = () => {
     )
 }
 
-export default PublicDatabase;
+export default PublicDatabasePanel;

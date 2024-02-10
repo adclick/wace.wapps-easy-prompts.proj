@@ -2,22 +2,31 @@ import { FC, ReactNode } from "react";
 import { Size } from "../../../../utils/uiUtils";
 import { Group } from "@mantine/core";
 
-interface FlexHProps {
+interface RowProps {
     gap?: Size;
     justify?: string;
+    align?: string;
+    wrap?: 'wrap' | 'nowrap';
     children?: ReactNode
 }
 
-const FlexH: FC<FlexHProps> = ({
+const Row: FC<RowProps> = ({
     gap,
     justify,
+    align,
+    wrap,
     children
-}: FlexHProps) => {
+}: RowProps) => {
     return (
-        <Group gap={gap} justify={justify}>
+        <Group
+            gap={gap}
+            justify={justify}
+            align={align}
+            wrap={wrap}
+        >
             {children}
         </Group>
     )
 }
 
-export default FlexH;
+export default Row;

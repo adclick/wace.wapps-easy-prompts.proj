@@ -11,8 +11,9 @@ import { ThreadList } from '../components/Threads/Layout/ThreadList/ThreadList';
 import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { useUser } from '../context/UserContext';
-import PublicDatabase from '../features/PublicDatabase/PublicDatabase';
+import PublicDatabasePanel from '../features/PublicDatabasePanel/PublicDatabasePanel';
 import UserDatabaseList from '../features/UserDatabaseList/UserDatabaseList';
+import Sidebar from '../components/Layout/Sidebar/Sidebar';
 
 export function HomePage() {
     const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);
@@ -42,8 +43,6 @@ export function HomePage() {
         }
     });
 
-    const databaseListContainerRef = useRef<HTMLDivElement>(null);
-
     return (
         <Box>
             <AppOverlay visible={overlayVisible} />
@@ -66,23 +65,12 @@ export function HomePage() {
                     />
                 </AppShell.Header>
 
-                <AppShell.Navbar withBorder={false} p="md" className={classes.navbar}>
-                    <AppShell.Section >
-                        <DatabaseHeader
-                            navbarMobileOpened={navbarMobileOpened}
-                            navbarDesktopOpened={navbarDesktopOpened}
-                            navbarMobileHandle={navbarMobileHandle}
-                            navbarDesktopHandle={navbarDesktopHandle}
-                        />
-                    </AppShell.Section>
-                    <AppShell.Section ref={databaseListContainerRef} grow component={ScrollArea} style={{ borderRadius: "1rem" }}>
-                        <UserDatabaseList />
-                    </AppShell.Section>
-                    <AppShell.Section >
-                        <Divider my={"xs"} />
-                        <PublicDatabase />
-                    </AppShell.Section>
-                </AppShell.Navbar>
+                <Sidebar
+                    navbarMobileOpened={navbarMobileOpened}
+                    navbarDesktopOpened={navbarDesktopOpened}
+                    navbarMobileHandle={navbarMobileHandle}
+                    navbarDesktopHandle={navbarDesktopHandle}
+                />
 
                 <AppShell.Main className={classes.main}>
                     <ThreadList />

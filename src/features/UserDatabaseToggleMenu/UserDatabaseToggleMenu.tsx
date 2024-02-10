@@ -6,6 +6,8 @@ import { Position } from "../../enums/Position";
 import { MenuType } from "../../enums/MenuType";
 import { useSelectedDatabaseType } from "../../context/SelectedDatabaseTypeContext";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
+import { Row } from "../../components/UI";
+import { Size } from "../../utils/uiUtils";
 
 const UserDatabseToggleMenu: FC = () => {
     const { selectedDatabaseType, setSelectedDatabaseType } = useSelectedDatabaseType();
@@ -26,31 +28,31 @@ const UserDatabseToggleMenu: FC = () => {
             position={Position.bottom_start}
             target={(
                 <UnstyledButton px={0}>
-                    <Group align='center' gap={"xs"} wrap="nowrap">
+                    <Row align='center' gap={Size.xs} wrap="nowrap">
                         <Text truncate size="lg" fw={700}>
-                           My {selectedDatabaseType.labelPlural}
+                            My {selectedDatabaseType.labelPlural}
                         </Text>
                         {iconChevronDown("xs", 3)}
-                    </Group>
+                    </Row>
                 </UnstyledButton>
             )}
             items={[
                 {
                     type: MenuType.button,
                     id: Type.PROMPT,
-                    label: LabelPlural.Prompts,
+                    label: `My ${LabelPlural.Prompts}`,
                     onClick: () => onChange(Type.PROMPT, Label.Prompt, LabelPlural.Prompts)
                 },
                 {
                     type: MenuType.button,
                     id: Type.TEMPLATE,
-                    label: LabelPlural.Tempalates,
+                    label: `My ${LabelPlural.Tempalates}`,
                     onClick: () => onChange(Type.TEMPLATE, Label.Tempalate, LabelPlural.Tempalates)
                 },
                 {
                     type: MenuType.button,
                     id: Type.MODIFIER,
-                    label: LabelPlural.Modifiers,
+                    label: `My ${LabelPlural.Modifiers}`,
                     onClick: () => onChange(Type.MODIFIER, Label.Modifier, LabelPlural.Modifiers)
                 },
             ]}
