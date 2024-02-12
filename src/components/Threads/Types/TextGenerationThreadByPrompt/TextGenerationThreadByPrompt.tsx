@@ -27,24 +27,26 @@ export function TextGenerationThreadByPrompt({ promptRequest, scrollIntoView }: 
         console.log(promptRequest.response);
         const response = JSON.parse(promptRequest.response);
 
-        return (
-            <Stack gap={"xl"}>
-                <Group w={"100%"} align="flex-start" wrap="nowrap">
-                    <EasyPromptsAvatar size="sm" />
-                    <Stack gap={"xs"}>
-                        <Text size="sm" fw={700}>EasyPrompts</Text>
-                        <Stack gap={"xs"} style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                            {response.data.trim()}
-                            <Group gap={"xs"}>
-                                <ThreadCopyButton value={response.data.trim()} />
-                            </Group>
+        if (response && "data" in response) {
+            return (
+                <Stack gap={"xl"}>
+                    <Group w={"100%"} align="flex-start" wrap="nowrap">
+                        <EasyPromptsAvatar size="sm" />
+                        <Stack gap={"xs"}>
+                            <Text size="sm" fw={700}>EasyPrompts</Text>
+                            <Stack gap={"xs"} style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
+                                {response.data.trim()}
+                                <Group gap={"xs"}>
+                                    <ThreadCopyButton value={response.data.trim()} />
+                                </Group>
+                            </Stack>
                         </Stack>
-                    </Stack>
-                </Group>
+                    </Group>
 
-                <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
-            </Stack>
-        )
+                    <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
+                </Stack>
+            )
+        }
     }
 
 

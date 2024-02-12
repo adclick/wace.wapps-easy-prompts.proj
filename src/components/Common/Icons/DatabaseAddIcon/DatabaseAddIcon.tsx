@@ -1,30 +1,28 @@
-import { ActionIcon, Menu, Modal, Tooltip } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { iconAdd } from "../../../../utils/iconsUtils";
 import classes from './DatabaseAddIcon.module.css';
-import { SaveModal } from "../../SaveModal/SaveModal";
-import { useDisclosure } from "@mantine/hooks";
-import { CreateModifierForm } from "../../../../forms/CreateModifierForm/CreateModifierForm";
 
-export function DatabaseAddIcon() {
-    const [opened, handle] = useDisclosure(false);
+interface DatabaseAddIcon {
+    onClick: any,
+    createItemOpened: boolean
+}
+
+export function DatabaseAddIcon({onClick, createItemOpened}: DatabaseAddIcon) {
+    const variant = createItemOpened ? "light" : "transparent";
 
     return (
-        <>
-            <Modal opened={opened} onClose={handle.close} title="Create Modifier" size={"lg"}>
-                <CreateModifierForm handle={handle} />
-            </Modal>
-            <Tooltip label={"Create"}>
-                <ActionIcon
-                    className={classes.icon}
-                    size="lg"
-                    onClick={handle.open}
-                    variant="transparent"
-                >
-                    {
-                        iconAdd("md")
-                    }
-                </ActionIcon>
-            </Tooltip>
-        </>
+        <Tooltip label={"Create"}>
+            <ActionIcon
+                className={classes.icon}
+                size="lg"
+                onClick={onClick}
+                variant={variant}
+                color="gray"
+            >
+                {
+                    iconAdd("md")
+                }
+            </ActionIcon>
+        </Tooltip>
     );
 }

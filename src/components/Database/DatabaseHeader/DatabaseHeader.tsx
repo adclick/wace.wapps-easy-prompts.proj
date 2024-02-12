@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { Box, Collapse, Group, Stack } from "@mantine/core";
+import { ActionIcon, Box, Card, Collapse, Group, Stack, Title } from "@mantine/core";
 import { useEffect } from "react";
 import { usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { SelectedFilters } from "../../../models/SelectedFilters";
@@ -12,6 +12,9 @@ import { SelectedDatabaseType } from "../../../models/SelectedDatabaseType";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { CreateModifierButton } from "../../../features/CreateModifierButton/CreateModifierButton";
+import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
+import { CreateTemplateButton } from "../../../features/CreateTemplateButton/CreateTemplateButton";
+import { iconClose } from "../../../utils/iconsUtils";
 
 interface DatabaseHeader {
     selectedDatabaseType: SelectedDatabaseType,
@@ -35,10 +38,9 @@ export function DatabaseHeader({
     navbarDesktopHandle,
 }: DatabaseHeader) {
     const [user] = useStore(useShallow(state => [state.user]));
-
     const [filtersOpened, filtersHandle] = useDisclosure(false);
-
     const selectedFiltersQuery = usePrivateFiltersQuery(user);
+    const [createItemOpened, createItemHandle] = useDisclosure(false);
 
     // Init selectedFilters
     useEffect(() => {
@@ -62,13 +64,32 @@ export function DatabaseHeader({
                         />
                     </Group>
                     <Group gap={"xs"}>
-                        <CreateModifierButton />
+                        <DatabaseAddIcon onClick={createItemHandle.toggle} createItemOpened={createItemOpened} />
                         <FiltersToggleIcon onClick={filtersHandle.toggle} filtersOpened={filtersOpened} />
                         <Box visibleFrom="sm">
                             <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
                         </Box>
                     </Group>
                 </Group>
+                <Collapse in={createItemOpened}>
+                    <Card>
+                        <Stack>
+                            <Group justify="space-between">
+                                <Title order={5}>Create a new Item</Title>
+                                <ActionIcon
+                                    color="gray"
+                                    variant="transparent"
+                                    onClick={createItemHandle.close}
+                                >
+
+                                    {iconClose(14)}
+                                </ActionIcon>
+                            </Group>
+                        <CreateTemplateButton />
+                        <CreateModifierButton />
+                        </Stack>
+                    </Card>
+                </Collapse>
                 <FiltersContainer
                     opened={filtersOpened}
                     handle={filtersHandle}

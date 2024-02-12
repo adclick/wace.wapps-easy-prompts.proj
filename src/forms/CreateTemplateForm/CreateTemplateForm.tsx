@@ -1,35 +1,36 @@
 import { Button, Group, Stack } from "@mantine/core";
-import { CreateModifierFormProvider, useCreateModifierForm } from "../../context/CreateModifierFormContext";
-import { useCreateModifierMutation } from "../../api/modifiersApi";
-import { LanguageField } from "../CreateModifierForm/Fields/LanguageField";
-import { RepositoryField } from "../CreateModifierForm/Fields/RepositoryField";
-import { TechnologyField } from "../CreateModifierForm/Fields/TechnologyField";
-import { ProviderField } from "../CreateModifierForm/Fields/ProviderField";
+import { CreateTemplateFormProvider, useCreateTemplateForm } from "../../context/CreateTemplateFormContext";
+import { useCreateTemplateMutation } from "../../api/templatesApi";
+import { LanguageField } from "../CreateTemplateForm/Fields/LanguageField";
+import { RepositoryField } from "../CreateTemplateForm/Fields/RepositoryField";
+import { TechnologyField } from "../CreateTemplateForm/Fields/TechnologyField";
+import { ProviderField } from "../CreateTemplateForm/Fields/ProviderField";
 import { TitleField } from "./Fields/TitleField";
 import { DescriptionField } from "./Fields/DescriptionField";
-import { ContentField } from "./Fields/ContentField";
 import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 
-interface CreateModifierForm {
+interface CreateTemplateForm {
     handle: any
 }
 
-export function CreateModifierForm({ handle }: CreateModifierForm) {
-    const mutation = useCreateModifierMutation();
+export function CreateTemplateForm({ handle }: CreateTemplateForm) {
+    const mutation = useCreateTemplateMutation();
     const [user] = useStore(useShallow(state => [state.user]));
 
-    const form = useCreateModifierForm({
+    const form = useCreateTemplateForm({
         initialValues: {
             title: '',
             description: '',
-            content: '',
             language_id: '',
             repository_id: '',
             technology_id: '',
             provider_id: '',
-            user_id: user.id
+            user_id: user.id,
+            modifiers_ids: [],
+            template_parameters: [],
+            chat_messages: []
         }
     });
 
@@ -40,12 +41,11 @@ export function CreateModifierForm({ handle }: CreateModifierForm) {
     }
 
     return (
-        <CreateModifierFormProvider form={form}>
+        <CreateTemplateFormProvider form={form}>
             <form onSubmit={form.onSubmit(submit)}>
                 <Stack gap={"xs"}>
                     <TitleField />
                     <DescriptionField />
-                    <ContentField />
                     <LanguageField />
                     <RepositoryField />
                     <TechnologyField />
@@ -56,6 +56,6 @@ export function CreateModifierForm({ handle }: CreateModifierForm) {
                     </Group>
                 </Stack>
             </form>
-        </CreateModifierFormProvider>
+        </CreateTemplateFormProvider>
     )
 }

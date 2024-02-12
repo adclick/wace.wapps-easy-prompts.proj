@@ -76,18 +76,18 @@ export const useCreateTemplateMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: FormData) => {
+        mutationFn: async (formData: CreateTemplateFormValues) => {
             const { data } = await axios.post(`${API_URL}/templates`, {
-                user_external_id: formData.get('userId'),
-                title: formData.get('title'),
-                description: formData.get('description'),
-                language_id: formData.get('language_id'),
-                repository_id: formData.get('repository_id'),
-                technology_id: formData.get('technology_id'),
-                provider_id: formData.get('provider_id'),
-                modifiers_ids: formData.get('modifiers_ids'),
-                chat_history: formData.get('chat_history'),
-                template_parameters: formData.get('template_parameters'),
+                user_external_id: formData.user_id,
+                title: formData.title,
+                description: formData.description,
+                language_id: formData.language_id,
+                repository_id: formData.repository_id,
+                technology_id: formData.technology_id,
+                provider_id: formData.provider_id,
+                modifiers_ids: formData.modifiers_ids,
+                chat_history: formData.chat_messages,
+                template_parameters: formData.template_parameters
             })
 
             return data;
