@@ -30,14 +30,6 @@ export function Header({
                 <Box hiddenFrom="sm" mb={3}>
                     <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
                 </Box>
-                {/* <Anchor c={"gray"} underline="never" href="/">
-                    <Title order={3}>
-                        EasyPrompts
-                    </Title>
-                </Anchor>
-                <ActionIcon>
-                    <IconClearAll />
-                </ActionIcon> */}
                 <ThreadsMenu />
             </Group>
             <Group>

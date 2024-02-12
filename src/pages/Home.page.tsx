@@ -1,27 +1,30 @@
-import { useEffect, useRef } from 'react';
-import { AppShell, Box, Button, Divider, ScrollArea } from '@mantine/core';
+import { useEffect } from 'react';
+import { AppShell, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { User } from '../models/User';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUsersLoginsQuery } from '../api/usersApi';
 import classes from './Home.page.module.css';
 import { Header } from '../components/Layout/Header/Header';
-import { DatabaseHeader } from '../components/Database/DatabaseHeader/DatabaseHeader';
 import { ThreadList } from '../components/Threads/Layout/ThreadList/ThreadList';
 import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
 import { useUser } from '../context/UserContext';
-import PublicDatabasePanel from '../features/PublicDatabasePanel/PublicDatabasePanel';
-import UserDatabaseList from '../features/UserDatabaseList/UserDatabaseList';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
+import { useStore } from '../stores/store';
 
 export function HomePage() {
     const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);
     const [navbarDesktopOpened, navbarDesktopHandle] = useDisclosure(true);
     const [overlayVisible, overlayHandle] = useDisclosure(true);
+    
     const { user, setUser } = useUser();
+    // const {user, setUser} = useStore();
+    console.log(user);
+    
     const auth0 = useAuth0();
     const userLoginQuery = useUsersLoginsQuery(user);
+
 
     // Initialize User with Auth0 info
     useEffect(() => {
