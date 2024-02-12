@@ -1,8 +1,9 @@
 import { Prompt } from "../../../../models/Prompt";
 import { usePromptQuery } from "../../../../api/promptsApi";
-import { useUser } from "../../../../context/UserContext";
 import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
 import { Label } from "../../../../models/SelectedDatabaseType";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface PromptCardDetails {
     opened: boolean,
@@ -17,7 +18,7 @@ export function PromptCardDetails({
     prompt,
     deleteMutation
 }: PromptCardDetails) {
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === prompt.user.username && opened
 
     const itemQuery = usePromptQuery(prompt.id, enabled);

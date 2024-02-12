@@ -1,27 +1,27 @@
 import { Select } from "@mantine/core";
-import { useUpdateModifierFormContext } from "../../../context/UpdateModifierFormContext";
+import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
-import { Language } from "../../../models/Language";
+import { Repository } from "../../../models/Repository";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 
-export function LanguageField() {
-    const form = useUpdateModifierFormContext();
+export function RepositoryField() {
+    const form = useCreateModifierFormContext();
     const [user] = useStore(useShallow(state => [state.user]));
     const {data} = useFiltersQuery(user);
 
     if (data) {
-        const selectData = data.languages.map((l: Language) => {
+        const selectData = data.repositories.map((r: Repository) => {
             return {
-                label: l.name,
-                value: l.id.toString()
+                label: r.name,
+                value: r.id.toString()
             }
         });
 
         return <Select
-            label="Language"
+            label="Repository"
             data={selectData}
-            {...form.getInputProps('language_id')}
+            {...form.getInputProps('repository_id')}
         />
     }
 

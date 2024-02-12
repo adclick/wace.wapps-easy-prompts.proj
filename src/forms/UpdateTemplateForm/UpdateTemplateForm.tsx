@@ -1,16 +1,16 @@
 import { Button, Group, Stack } from "@mantine/core";
 import { UpdateTemplateFormProvider, useUpdateTemplateForm } from "../../context/UpdateTemplateFormContext";
 import { useUpdateTemplateMutation } from "../../api/templatesApi";
-import { useUser } from "../../context/UserContext";
 import { LanguageField } from "./Fields/LanguageField";
 import { RepositoryField } from "./Fields/RepositoryField";
 import { TechnologyField } from "./Fields/TechnologyField";
 import { ProviderField } from "./Fields/ProviderField";
 import { TitleField } from "./Fields/TitleField";
 import { DescriptionField } from "./Fields/DescriptionField";
-import { ContentField } from "./Fields/ContentField";
 import { Template } from "../../models/Template";
 import { IconCheck } from "@tabler/icons-react";
+import { useStore } from "../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface UpdateTemplateForm {
     template: Template;
@@ -19,7 +19,7 @@ interface UpdateTemplateForm {
 
 export function UpdateTemplateForm({ template, handle }: UpdateTemplateForm) {
     const UpdateMutation = useUpdateTemplateMutation(template.id);
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const form = useUpdateTemplateForm({
         initialValues: {

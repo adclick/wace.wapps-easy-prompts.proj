@@ -11,17 +11,18 @@ import { TemplatesList } from "../../components/Database/Templates/TemplatesList
 import { ModifiersList } from "../../components/Database/Modifiers/ModifiersList/ModifiersList";
 import { useDisclosure } from "@mantine/hooks";
 import { usePromptsQuery } from "../../api/promptsApi";
-import { useUser } from "../../context/UserContext";
 import { useTemplatesQuery } from "../../api/templatesApi";
 import { useModifiersQuery } from "../../api/modifiersApi";
 import { usePublicDatabaseFiltersQuery } from "../../api/filtersApi";
 import { IconSearch } from "@tabler/icons-react";
 import { SelectedFilters } from "../../models/SelectedFilters";
 import { Column, Row } from "../../components/UI";
+import { useStore } from "../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 const PublicDatabasePanel: FC = () => {
     // Current user
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     // Modal Handle
     const [opened, { open, close }] = useDisclosure(false);
@@ -87,7 +88,6 @@ const PublicDatabasePanel: FC = () => {
                         <PromptsList
                             promptsQuery={promptsQuery}
                             navbarMobileHandle={undefined}
-                            databaseListContainerRef={undefined}
                         />
                     }
                     {

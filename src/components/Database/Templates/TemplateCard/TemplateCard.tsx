@@ -7,10 +7,11 @@ import classes from './TemplateCard.module.css';
 import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { useUser } from "../../../../context/UserContext";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { UpdateTemplateForm } from "../../../../forms/UpdateTemplateForm/UpdateTemplateForm";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface TemplateCard {
     template: Template,
@@ -23,7 +24,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
     const deleteMutation = useDeleteTemplateMutation();
     const clipboard = useClipboard({ timeout: 500 });
 
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const isUserItem = user.external_id === template.user.external_id;
 
@@ -65,7 +66,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             onConfirm: () => deleteMutation.mutate(template.id),
         });
     }
-    
+
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
         clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + template.id);

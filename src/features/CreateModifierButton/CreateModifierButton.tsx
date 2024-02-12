@@ -1,11 +1,11 @@
-import { ActionIcon, Menu, Modal, Tooltip } from "@mantine/core";
-import { iconAdd } from "../../../../utils/iconsUtils";
-import classes from './DatabaseAddIcon.module.css';
-import { SaveModal } from "../../SaveModal/SaveModal";
+import { ActionIcon, Modal, Tooltip } from "@mantine/core";
+import { FC } from "react";
+import { CreateModifierForm } from "../../forms/CreateModifierForm/CreateModifierForm";
 import { useDisclosure } from "@mantine/hooks";
-import { CreateModifierForm } from "../../../../forms/CreateModifierForm/CreateModifierForm";
+import { iconAdd } from "../../utils/iconsUtils";
+import classes from './CreateModifierButton.module.css'
 
-export function DatabaseAddIcon() {
+export const CreateModifierButton: FC = () => {
     const [opened, handle] = useDisclosure(false);
 
     return (
@@ -26,5 +26,6 @@ export function DatabaseAddIcon() {
                 </ActionIcon>
             </Tooltip>
         </>
-    );
+    )
 }
+

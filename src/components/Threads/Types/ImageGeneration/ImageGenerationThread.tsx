@@ -1,9 +1,7 @@
 import { Group, Image, Loader, Stack, Text } from "@mantine/core";
-import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { useImageGenerationQuery } from "../../../../api/imageGenerationApi";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
@@ -11,9 +9,9 @@ import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorM
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { useCreatePromptMutation } from "../../../../api/promptsApi";
 import { useState } from "react";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { saveHistory } from "../../../../services/ThreadService";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ImageGenerationThread {
     promptRequest: PromptRequest,
@@ -21,13 +19,21 @@ interface ImageGenerationThread {
 }
 
 export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGenerationThread) {
-    const { user } = useUser();
-    const { userPromptRequest } = useUserPromptRequest();
+    const [
+        user,
+        selectedModifiers,
+        selectedTemplates,
+        userPromptRequest,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.selectedModifiers,
+        state.selectedTemplates,
+        state.userPromptRequest,
+    ]));
+
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationQuery(promptRequest);
     const createMutation = useCreatePromptMutation();
     const [historySaved, setHistorySaved] = useState(false);
-    const { selectedTemplates } = useSelectedTemplates();
-    const { selectedModifiers } = useSelectedModifiers();
 
     scrollIntoView({ alignement: 'start' });
 

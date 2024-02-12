@@ -1,4 +1,4 @@
-import { LoadingOverlay, Text, Stack, Loader, Title, Group, Image } from "@mantine/core";
+import { LoadingOverlay, Stack, Loader, Title, Group, Image } from "@mantine/core";
 import favicon from '../../../favicon.svg';
 
 interface AppOverlay {

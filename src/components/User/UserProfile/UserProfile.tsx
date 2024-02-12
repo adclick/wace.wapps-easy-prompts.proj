@@ -1,16 +1,14 @@
 import { Card, Input, Modal, SimpleGrid, Stack, Text } from "@mantine/core";
-import { useUser } from "../../../context/UserContext";
+import { useStore } from "../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface UserProfile {
     opened: boolean,
     handle: any,
 }
 
-export function UserProfile({
-    opened,
-    handle,
-}: UserProfile) {
-    const { user } = useUser();
+export function UserProfile({ opened, handle }: UserProfile) {
+    const [user] = useStore(useShallow(state => [state.user]));
 
     return (
         <Modal opened={opened} onClose={handle.close} title="Profile" size={"lg"}>

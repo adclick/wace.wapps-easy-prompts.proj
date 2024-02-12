@@ -1,19 +1,16 @@
-import { Accordion, Box, Button, Center, Loader, Paper, Stack, Text } from "@mantine/core";
+import { Accordion, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../../models/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
-import { useIntersection } from "@mantine/hooks";
-import { RefObject, useEffect } from "react";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 
 interface PromptsList {
     promptsQuery: any,
     navbarMobileHandle: any,
-    databaseListContainerRef: any
 }
 
-export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListContainerRef }: PromptsList) {
+export function PromptsList({ promptsQuery, navbarMobileHandle }: PromptsList) {
     return (
-        <Box>
+        <>
             {
                 promptsQuery.isLoading &&
                 <Center mb={"xl"}>
@@ -46,6 +43,6 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
                 </Accordion>
                 <DatabaseLoadMoreLoader itemQuery={promptsQuery} />
             </Stack>
-        </Box>
+        </>
     )
 }

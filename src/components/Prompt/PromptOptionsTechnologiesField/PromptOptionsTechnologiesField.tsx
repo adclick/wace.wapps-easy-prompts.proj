@@ -1,10 +1,10 @@
 import { Loader, Select } from "@mantine/core";
-import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { Technology } from "../../../models/Technology";
-import { useEffect } from "react";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
 import { PromptRequest } from "../../../models/PromptRequest";
 import { Provider } from "../../../models/Provider";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../stores/store";
 
 export interface TechnologyDataItem {
     label: string,
@@ -17,7 +17,13 @@ interface PromptOptionsTechnologiesField {
 }
 
 export function PromptOptionsTechnologiesField() {
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const [
+        userPromptRequest,
+        setUserPromptRequest
+    ] = useStore(useShallow(state => [
+        state.userPromptRequest,
+        state.setUserPromptRequest
+    ]));
 
     const technologiesQuery = useTechnologiesQuery();
 

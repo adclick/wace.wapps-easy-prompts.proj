@@ -1,7 +1,6 @@
 import { Button, Group, Stack } from "@mantine/core";
 import { UpdatePromptFormProvider, useUpdatePromptForm } from "../../context/UpdatePromptFormContext";
 import { usePromptQuery, useUpdatePromptMutation } from "../../api/promptsApi";
-import { useUser } from "../../context/UserContext";
 import { LanguageField } from "./Fields/LanguageField";
 import { RepositoryField } from "./Fields/RepositoryField";
 import { TechnologyField } from "./Fields/TechnologyField";
@@ -11,6 +10,8 @@ import { DescriptionField } from "./Fields/DescriptionField";
 import { ContentField } from "./Fields/ContentField";
 import { Prompt } from "../../models/Prompt";
 import { IconCheck } from "@tabler/icons-react";
+import { useStore } from "../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface UpdatePromptForm {
     prompt: Prompt;
@@ -19,7 +20,7 @@ interface UpdatePromptForm {
 
 export function UpdatePromptForm({ prompt, handle }: UpdatePromptForm) {
     const UpdateMutation = useUpdatePromptMutation(prompt.id);
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const enabled = user.username === prompt.user.username;
 

@@ -1,15 +1,22 @@
 import { Slider, Stack, Text } from "@mantine/core";
 import { Parameter } from "../../../models/Parameter";
 import { useState } from "react";
-import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptRequest } from "../../../models/PromptRequest";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../stores/store";
 
 interface PromptOptionsNumImagesField {
     parameter: Parameter
 }
 
 export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImagesField) {
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const [
+        userPromptRequest,
+        setUserPromptRequest,
+    ] = useStore(useShallow(state => [
+        state.userPromptRequest,
+        state.setUserPromptRequest
+    ]));
 
     const { min, max } = parameter.data;
     const [value, setValue] = useState<number>(parseInt(userPromptRequest.parametersList.num_images.value));

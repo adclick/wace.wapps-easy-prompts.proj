@@ -1,27 +1,22 @@
-import { Accordion, ActionIcon, Button, Card, Collapse, Divider, Group, MultiSelect, Select, SimpleGrid, Space, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
+import { Accordion, ActionIcon, Button, Card, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput, Textarea } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
-import { useCreatePromptMutation } from "../../../api/promptsApi";
-import { useUser } from "../../../context/UserContext";
-import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
+import { Type } from "../../../models/SelectedDatabaseType";
 import { Language } from "../../../models/Language";
 import { PromptRequest } from "../../../models/PromptRequest";
 import { useEffect, useState } from "react";
-import { useSelectedDatabaseType } from "../../../context/SelectedDatabaseTypeContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
-import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
 import { getProviders } from "../../../api/providersApi";
 import { Repository } from "../../../models/Repository";
 import { Technology } from "../../../models/Technology";
 import { Provider } from "../../../models/Provider";
-import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { iconClose } from "../../../utils/iconsUtils";
 import { Modifier } from "../../../models/Modifier";
-import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
 import { Template } from "../../../models/Template";
 import { notifications } from "@mantine/notifications";
-import { useDisclosure } from "@mantine/hooks";
 import { ParametersList } from "../../../models/ParametersList";
 import { Parameter } from "../../../models/Parameter";
+import { useStore } from "../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface BaseForm {
     promptRequest: PromptRequest | undefined,
@@ -42,10 +37,16 @@ export function BaseForm({
     hasModifiers,
     handle
 }: BaseForm) {
-    const { selectedFilters } = useSelectedFilters();
-    if (!selectedFilters) return <></>;
+    const [
+        user,
+        selectedModifiers,
+        selectedTemplates,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.selectedModifiers,
+        state.selectedTemplates,
+    ]));
 
-    const { user } = useUser();
     const [languageData, setLanguageData] = useState<{ label: string, value: string }[]>([]);
     const [languageId, setLanguageId] = useState<string | null>("");
     const [repositoryData, setRepositoryData] = useState<{ label: string, value: string }[]>([]);
@@ -60,16 +61,13 @@ export function BaseForm({
     const [content, setContent] = useState(promptRequest ? promptRequest.content : "");
     const [contentError, setContentError] = useState('');
 
-    const { selectedModifiers } = useSelectedModifiers();
     const initialModifiers = promptRequest ? promptRequest.metadata.modifiers : selectedModifiers;
     const [modifiers, setModifiers] = useState<Modifier[]>(initialModifiers);
 
-    const { selectedTemplates } = useSelectedTemplates();
     const initialTempaltes = promptRequest ? promptRequest.metadata.templates : selectedTemplates;
     const [templates, setTemplates] = useState<Template[]>(initialTempaltes);
 
 
-    const { setSelectedDatabaseType } = useSelectedDatabaseType();
     const filtersQuery = useFiltersQuery(user);
 
     const save = async () => {
@@ -128,27 +126,6 @@ export function BaseForm({
 
         createMutation.mutate(newFormData);
 
-        const newType = new SelectedDatabaseType();
-        switch (type) {
-            case Type.PROMPT:
-                newType.type = Type.PROMPT;
-                newType.label = Label.Prompt;
-                newType.labelPlural = LabelPlural.Prompts
-                setSelectedDatabaseType(newType);
-                break;
-            case Type.TEMPLATE:
-                newType.type = Type.TEMPLATE;
-                newType.label = Label.Tempalate;
-                newType.labelPlural = LabelPlural.Tempalates
-                setSelectedDatabaseType(newType);
-                break;
-            case Type.MODIFIER:
-                newType.type = Type.MODIFIER;
-                newType.label = Label.Modifier;
-                newType.labelPlural = LabelPlural.Modifiers
-                break;
-        }
-        setSelectedDatabaseType(newType);
 
         notifications.show({
             title: "Saved",

@@ -1,15 +1,15 @@
 import { ActionIcon, Group, Image, Loader, Stack, Text } from "@mantine/core";
-import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { IconReload } from "@tabler/icons-react";
 import { useImageGenerationByPromptIdQuery } from "../../../../api/imageGenerationApi";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadDownloadButton } from "../../Buttons/ThreadDownloadButton/ThreadDownloadButton";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ImageGenerationThreadByPromptId {
     promptRequest: PromptRequest,
@@ -17,8 +17,16 @@ interface ImageGenerationThreadByPromptId {
 }
 
 export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView }: ImageGenerationThreadByPromptId) {
-    const { user } = useUser();
-    const { userPromptRequest } = useUserPromptRequest();
+    const [
+        user,
+        userPromptRequest,
+        setUserPromptRequest
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.userPromptRequest,
+        state.setUserPromptRequest
+    ]));
+
     const { isLoading, isFetching, error, data, refetch } = useImageGenerationByPromptIdQuery(promptRequest);
 
     scrollIntoView({ alignement: 'start' });
@@ -31,7 +39,7 @@ export function ImageGenerationThreadByPromptId({ promptRequest, scrollIntoView 
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
 
         if (error) {
-            return <ThreadErrorMessage message={error.message} reloadFn={refetch} />;
+            return <ThreadErrorMessage error={error} reloadFn={refetch} />;
         }
 
         if (data && !isFetching) {

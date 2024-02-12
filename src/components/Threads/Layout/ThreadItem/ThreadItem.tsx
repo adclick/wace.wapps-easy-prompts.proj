@@ -5,9 +5,10 @@ import { ChatThread } from "../../Types/ChatThread/ChatThread";
 import { ImageGenerationThread } from "../../Types/ImageGeneration/ImageGenerationThread";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
-import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadByPrompt/TextGenerationThreadByPrompt";
 import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../../stores/store";
 
 interface ThreadItem {
     promptRequest: PromptRequest,
@@ -15,8 +16,15 @@ interface ThreadItem {
 }
 
 export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
+    const [
+        promptsRequests,
+        setPromptsRequests,
+    ] = useStore(useShallow(state => [
+        state.promptsRequests,
+        state.setPromptsRequests
+    ]));
+
     const [minimized, minimizeHandle] = useDisclosure(false);
-    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
 
     const deleteThread = (promptRequest: PromptRequest) => {
         setPromptsRequests(promptsRequests.filter((p) => p.key !== promptRequest.key));

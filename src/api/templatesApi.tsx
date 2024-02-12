@@ -3,6 +3,7 @@ import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
 import { CreateTemplateFormValues } from '../context/CreateTemplateFormContext';
 import { UpdateTemplateFormValues } from '../context/UpdateTemplateFormContext';
+import { User } from '../models/User';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;
@@ -42,6 +43,32 @@ export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilte
             return LIST_LIMIT * pages.length;
         },
         enabled: !!userId && !selectedFilters.isEmpty && enabled
+    });
+};
+
+export const usePrivateTemplatesQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
+    return useInfiniteQuery({
+        queryKey: ["templates", selectedFilters],
+        queryFn: async ({pageParam}) => {
+            const { data } = await axios.get(`${API_URL}/templates/?` + new URLSearchParams({
+                user_external_id: user.id,
+                search_term: selectedFilters.search_term,
+                languages_ids: JSON.stringify(selectedFilters.languages_ids),
+                repositories_ids: JSON.stringify([user.history_repository_id]),
+                technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
+                limit: LIST_LIMIT.toString(),
+                offset: pageParam.toString()
+            }));
+
+            return data;
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => {
+            if (lastPage.length < LIST_LIMIT) return null;
+
+            return LIST_LIMIT * pages.length;
+        },
+        enabled: !!user.id && !selectedFilters.isEmpty && enabled
     });
 };
 

@@ -1,31 +1,38 @@
 import { Box, Stack } from "@mantine/core";
-import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { ThreadItem } from "../ThreadItem/ThreadItem";
 import { useScrollIntoView } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { usePromptQuery } from "../../../../api/promptsApi";
 import { Prompt } from "../../../../models/Prompt";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { useTemplateQuery } from "../../../../api/templatesApi";
 import { Template } from "../../../../models/Template";
 import { useModifierQuery } from "../../../../api/modifiersApi";
 import { Modifier } from "../../../../models/Modifier";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
 import { useTechnologiesQuery } from "../../../../api/technologiesApi";
 import { Technology } from "../../../../models/Technology";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { Provider } from "../../../../models/Provider";
-import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTypeContext";
-import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../../models/SelectedDatabaseType";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 export function ThreadList() {
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
+    const [
+        promptsRequests,
+        userPromptRequest,
+        setPromptsRequests,
+        setSelectedTemplates,
+        setSelectedModifiers,
+        setUserPromptRequest
+    ] = useStore(useShallow(state => [
+        state.promptsRequests,
+        state.userPromptRequest,
+        state.setPromptsRequests,
+        state.setSelectedTemplates,
+        state.setSelectedModifiers,
+        state.setUserPromptRequest
+    ]));
+
     const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
-    const { setSelectedTemplates } = useSelectedTemplates()
-    const { setSelectedModifiers } = useSelectedModifiers()
-    const { setSelectedDatabaseType } = useSelectedDatabaseType();
 
     const [urlPromptId, setUrlPromptId] = useState(0);
     const [urlTemplateId, setUrlTemplateId] = useState(0);
@@ -76,11 +83,6 @@ export function ThreadList() {
                     provider = Provider.clone(urlTemplate.provider);
                 }
 
-                const newType = new SelectedDatabaseType();
-                newType.type = Type.TEMPLATE;
-                newType.label = Label.Tempalate;
-                newType.labelPlural = LabelPlural.Tempalates;
-                setSelectedDatabaseType(newType);
 
                 setUrlUsed(true);
             }
@@ -99,11 +101,6 @@ export function ThreadList() {
                     provider = Provider.clone(newModifier.provider);
                 }
                 
-                const newType = new SelectedDatabaseType();
-                newType.type = Type.MODIFIER;
-                newType.label = Label.Modifier;
-                newType.labelPlural = LabelPlural.Modifiers;
-                setSelectedDatabaseType(newType);
 
                 setUrlUsed(true);
             }
@@ -111,7 +108,7 @@ export function ThreadList() {
             technology = technologiesQuery.data[0];
         }
 
-        if (userPromptRequest.technology.id <= 0) {
+        if (technology.id > 0 && userPromptRequest.technology.id <= 0) {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.technology = Technology.clone(technology);
             newUserRequest.provider = Provider.clone(provider);

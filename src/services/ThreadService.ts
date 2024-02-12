@@ -26,6 +26,7 @@ export const saveHistory = (
     newFormData.append("prompt_parameters", JSON.stringify([]));
     newFormData.append("title", promptRequest.title);
     newFormData.append("content", promptRequest.content);
+    newFormData.append("response", JSON.stringify(promptRequest.response));
 
     mutation.mutate(newFormData);
 }

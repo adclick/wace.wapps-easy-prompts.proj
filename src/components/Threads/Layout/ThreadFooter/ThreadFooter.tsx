@@ -1,12 +1,12 @@
-import { Group, Modal } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import { ThreadSaveButton } from "../../Buttons/ThreadSaveButton/ThreadSaveButton";
-import { ThreadInfoButton } from "../../Buttons/ThreadInfoButton/ThreadInfoButton";
-import { PromptRequest } from "../../../../models/PromptRequest";
+import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { useDisclosure } from "@mantine/hooks";
 import { User } from "../../../../models/User";
-import { useUser } from "../../../../context/UserContext";
-import { ThreadScoreButton } from "../../Buttons/ThreadScoreButton/ThreadScoreButton";
 import { SaveModal } from "../../../Common/SaveModal/SaveModal";
+import { Prompt } from "../../../../models/Prompt";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ThreadFooter {
     promptRequest: PromptRequest,
@@ -14,9 +14,31 @@ interface ThreadFooter {
 }
 
 export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter) {
+    const [
+        user,
+        promptsRequests,
+        setPromptsRequests,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.promptsRequests,
+        state.setPromptsRequests,
+    ]));
+
     const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);
 
-    const { user } = useUser();
+    const regenerate = () => {
+        const newPromptRequest = Prompt.clone(promptRequest) as PromptRequest;
+        newPromptRequest.key = promptRequest.key;
+        newPromptRequest.isPlayable = true;
+        newPromptRequest.type = PromptRequestType.Prompt;
+        newPromptRequest.response = "";
+
+        const newPromptsRequests = promptsRequests.filter(p => p.key !== promptRequest.key);
+        newPromptsRequests.push(newPromptRequest);
+        console.log(newPromptRequest);
+
+        setPromptsRequests(newPromptsRequests);
+    }
 
     return (
         <>
@@ -37,6 +59,11 @@ export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter)
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
                 </Group>
             }
+            <Group>
+                <Button variant="default" size="xs" onClick={regenerate}>
+                    Regenerate
+                </Button>
+            </Group>
         </>
     )
 }

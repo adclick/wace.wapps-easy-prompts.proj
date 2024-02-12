@@ -1,23 +1,31 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../../stores/store";
 
 interface ModifiersList {
     modifiersQuery: any,
-    databaseListContainerRef: any
 }
 
-export function ModifiersList({ modifiersQuery, databaseListContainerRef }: ModifiersList) {
-    const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
-    const { setSelectedTemplates } = useSelectedTemplates();
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+export function ModifiersList({ modifiersQuery }: ModifiersList) {
+    const [
+        selectedModifiers,
+        userPromptRequest,
+        setSelectedTemplates,
+        setSelectedModifiers,
+        setUserPromptRequest
+    ] = useStore(useShallow(state => [
+        state.selectedModifiers,
+        state.userPromptRequest,
+        state.setSelectedTemplates,
+        state.setSelectedModifiers,
+        state.setUserPromptRequest
+    ]));
 
     const onChange = async (ids: string[]) => {
         const modifiers: Modifier[] = [];

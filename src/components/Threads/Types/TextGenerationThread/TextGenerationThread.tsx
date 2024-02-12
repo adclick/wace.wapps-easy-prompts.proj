@@ -1,10 +1,7 @@
 import { Group, Loader, Stack, Text } from "@mantine/core";
-import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
 import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
@@ -12,8 +9,8 @@ import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorM
 import { useCreatePromptMutation } from "../../../../api/promptsApi";
 import { saveHistory } from "../../../../services/ThreadService";
 import { useState } from "react";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -21,12 +18,20 @@ interface TextGenerationThread {
 }
 
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
-    const { user } = useUser();
-    const { userPromptRequest } = useUserPromptRequest();
+    const [
+        user,
+        selectedModifiers,
+        selectedTemplates,
+        userPromptRequest,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.selectedModifiers,
+        state.selectedTemplates,
+        state.userPromptRequest,
+    ]));
+
     const createMutation = useCreatePromptMutation();
     const [historySaved, setHistorySaved] = useState(false);
-    const { selectedTemplates } = useSelectedTemplates();
-    const { selectedModifiers } = useSelectedModifiers();
 
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
 
@@ -40,6 +45,13 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         }
 
         if (data && !isFetching) {
+            let dataResponse = data;
+
+            if (typeof data === "string") dataResponse = data.trim();
+            if (typeof data === "number") dataResponse = data.toString().trim();
+
+            promptRequest.response = JSON.stringify({ data: dataResponse });
+
             if (!historySaved) {
                 saveHistory(
                     user,
@@ -51,18 +63,12 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
                 setHistorySaved(true);
             }
 
-            let dataResponse = data;
-
-            if (typeof data === "string") dataResponse = data.trim();
-            if (typeof data === "number") dataResponse = data.toString().trim();
-
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
                 {
                     dataResponse
                 }
                 <Group gap={"xs"}>
                     <ThreadCopyButton value={dataResponse} />
-                    <ThreadReloadButton reload={refetch} />
                 </Group>
             </Stack>
         }

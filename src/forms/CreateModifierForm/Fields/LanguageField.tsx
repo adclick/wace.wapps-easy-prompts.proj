@@ -1,12 +1,12 @@
 import { Select } from "@mantine/core";
-import { useUpdateModifierFormContext } from "../../../context/UpdateModifierFormContext";
+import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { Language } from "../../../models/Language";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 
 export function LanguageField() {
-    const form = useUpdateModifierFormContext();
+    const form = useCreateModifierFormContext();
     const [user] = useStore(useShallow(state => [state.user]));
     const {data} = useFiltersQuery(user);
 

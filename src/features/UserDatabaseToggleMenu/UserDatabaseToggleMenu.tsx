@@ -4,14 +4,19 @@ import { iconChevronDown } from "../../utils/iconsUtils";
 import { Menu } from "../../components/UI/Menu";
 import { Position } from "../../enums/Position";
 import { MenuType } from "../../enums/MenuType";
-import { useSelectedDatabaseType } from "../../context/SelectedDatabaseTypeContext";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
 import { Row } from "../../components/UI";
 import { Size } from "../../utils/uiUtils";
 
-const UserDatabseToggleMenu: FC = () => {
-    const { selectedDatabaseType, setSelectedDatabaseType } = useSelectedDatabaseType();
+interface UserDatabaseToggleMenuProps {
+    selectedDatabaseType: SelectedDatabaseType,
+    setSelectedDatabaseType: React.Dispatch<React.SetStateAction<SelectedDatabaseType>>
+}
 
+const UserDatabseToggleMenu: FC<UserDatabaseToggleMenuProps> = ({
+    selectedDatabaseType,
+    setSelectedDatabaseType
+}: UserDatabaseToggleMenuProps) => {
     const onChange = (type: Type, label: Label, labelPlural: LabelPlural) => {
         const newSelectedDatabaseType = new SelectedDatabaseType();
 

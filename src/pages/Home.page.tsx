@@ -9,8 +9,8 @@ import { Header } from '../components/Layout/Header/Header';
 import { ThreadList } from '../components/Threads/Layout/ThreadList/ThreadList';
 import { PromptContainer } from '../components/Prompt/PromptContainer/PromptContainer';
 import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
-import { useUser } from '../context/UserContext';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
+import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '../stores/store';
 
 export function HomePage() {
@@ -18,13 +18,10 @@ export function HomePage() {
     const [navbarDesktopOpened, navbarDesktopHandle] = useDisclosure(true);
     const [overlayVisible, overlayHandle] = useDisclosure(true);
     
-    const { user, setUser } = useUser();
-    // const {user, setUser} = useStore();
-    console.log(user);
+    const [user, setUser] = useStore(useShallow(state => [state.user, state.setUser]));
     
     const auth0 = useAuth0();
     const userLoginQuery = useUsersLoginsQuery(user);
-
 
     // Initialize User with Auth0 info
     useEffect(() => {

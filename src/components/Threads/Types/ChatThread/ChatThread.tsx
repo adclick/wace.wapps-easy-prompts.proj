@@ -1,5 +1,4 @@
 import { Box, Stack, Text } from "@mantine/core";
-import { useUser } from "../../../../context/UserContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
 import { useEffect, useState } from "react";
 import { chat, chatByPromptId, useChatQuery } from "../../../../api/chatApi";
@@ -8,11 +7,10 @@ import { ThreadResponse } from "../../Layout/ThreadResponse/ThreadResponse";
 import { ChatThreadReplyContainer } from "../../Layout/ChatThreadReplyContainer/ChatThreadReplyContainer";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { saveHistory } from "../../../../services/ThreadService";
 import { useCreatePromptMutation } from "../../../../api/promptsApi";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ChatThread {
     promptRequest: PromptRequest,
@@ -26,12 +24,22 @@ interface Message {
 }
 
 export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
-    const { user } = useUser();
+    const [
+        user,
+        selectedModifiers,
+        selectedTemplates,
+        userPromptRequest,
+        setUserPromptRequest,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.selectedModifiers,
+        state.selectedTemplates,
+        state.userPromptRequest,
+        state.setUserPromptRequest
+    ]));
+
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
-    const { selectedModifiers } = useSelectedModifiers();
-    const { selectedTemplates } = useSelectedTemplates();
     const [isResponding, isRespondingHandle] = useDisclosure(false);
     const createMutation = useCreatePromptMutation();
     const [historySaved, setHistorySaved] = useState(false);

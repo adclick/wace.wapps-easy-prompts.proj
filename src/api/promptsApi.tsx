@@ -45,7 +45,7 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
     });
 };
 
-export const usePromptsHistoryQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
+export const usePrivatePromptsQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["prompts", "history", selectedFilters],
         queryFn: async ({ pageParam }) => {
@@ -81,6 +81,7 @@ export const useCreatePromptMutation = () => {
                 title: formData.get('title'),
                 description: formData.get('description'),
                 content: formData.get('content'),
+                response: formData.get('response'),
                 language_id: formData.get('language_id'),
                 repository_id: formData.get('repository_id'),
                 technology_id: formData.get('technology_id'),

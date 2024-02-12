@@ -1,13 +1,14 @@
 import { Group, Text, UnstyledButton } from "@mantine/core";
-import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { Menu } from "../../../UI/Menu";
 import { iconChevronDown } from "../../../../utils/iconsUtils";
 import { IconClearAll } from "@tabler/icons-react";
 import { Position } from "../../../../enums/Position";
 import { MenuType } from "../../../../enums/MenuType";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../../stores/store";
 
 export function ThreadsMenu() {
-    const { setPromptsRequests } = usePromptsRequests();
+    const [setPromptsRequests] = useStore(useShallow(state => [state.setPromptsRequests]));
 
     const target = <UnstyledButton px={0}>
         <Group align='center' gap={"xs"} wrap="nowrap">
