@@ -1,8 +1,9 @@
 import { Template } from "../../../../models/Template";
 import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
 import { useTemplateQuery } from "../../../../api/templatesApi";
-import { useUser } from "../../../../context/UserContext";
 import { Label } from "../../../../models/SelectedDatabaseType";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface TemplateCardDetails {
     opened: boolean,
@@ -17,7 +18,7 @@ export function TemplateCardDetails({
     template,
     deleteMutation
 }: TemplateCardDetails) {
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === template.user.username && opened
 
     const itemQuery = useTemplateQuery(template.id, enabled);

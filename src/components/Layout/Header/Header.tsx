@@ -1,10 +1,9 @@
-import { ActionIcon, Anchor, Box, Button, Group, Title } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../HeaderBurgerMenu/HeaderBurgerMenu";
 import { ThreadsMenu } from "../../Threads/Layout/ThreadsMenu/ThreadsMenu";
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 import { UserMenu } from "../../User/UserMenu/UserMenu";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
-import { IconClearAll, IconHome, IconPlayerPlayFilled } from "@tabler/icons-react";
 
 interface Header {
     navbarMobileOpened: boolean,
@@ -30,14 +29,6 @@ export function Header({
                 <Box hiddenFrom="sm" mb={3}>
                     <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
                 </Box>
-                {/* <Anchor c={"gray"} underline="never" href="/">
-                    <Title order={3}>
-                        EasyPrompts
-                    </Title>
-                </Anchor>
-                <ActionIcon>
-                    <IconClearAll />
-                </ActionIcon> */}
                 <ThreadsMenu />
             </Group>
             <Group>

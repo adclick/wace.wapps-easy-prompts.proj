@@ -1,32 +1,16 @@
-import { Accordion, Box, Button, Center, Loader, Paper, Stack, Text } from "@mantine/core";
+import { Accordion, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../../models/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
-import { useIntersection } from "@mantine/hooks";
-import { RefObject, useEffect } from "react";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 
 interface PromptsList {
     promptsQuery: any,
     navbarMobileHandle: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListContainerRef }: PromptsList) {
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = promptsQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
-
+export function PromptsList({ promptsQuery, navbarMobileHandle }: PromptsList) {
     return (
-        <Box>
+        <>
             {
                 promptsQuery.isLoading &&
                 <Center mb={"xl"}>
@@ -44,12 +28,10 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
                         promptsQuery.data.pages.map((page: any) => {
 
                             return page.map((prompt: Prompt, index: number) => {
-                                const isTarget = index === page.length / 2;
-
                                 return (
                                     <PromptCard
                                         key={prompt.id}
-                                        itemRef={isTarget ? ref : undefined}
+                                        itemRef={undefined}
                                         prompt={prompt}
                                         navbarMobileHandle={navbarMobileHandle}
                                     />
@@ -61,6 +43,6 @@ export function PromptsList({ promptsQuery, navbarMobileHandle, databaseListCont
                 </Accordion>
                 <DatabaseLoadMoreLoader itemQuery={promptsQuery} />
             </Stack>
-        </Box>
+        </>
     )
 }

@@ -1,7 +1,6 @@
 import { Button, Group, Stack } from "@mantine/core";
 import { UpdateModifierFormProvider, useUpdateModifierForm } from "../../context/UpdateModifierFormContext";
 import { useUpdateModifierMutation } from "../../api/modifiersApi";
-import { useUser } from "../../context/UserContext";
 import { LanguageField } from "../UpdateModifierForm/Fields/LanguageField";
 import { RepositoryField } from "../UpdateModifierForm/Fields/RepositoryField";
 import { TechnologyField } from "../UpdateModifierForm/Fields/TechnologyField";
@@ -11,6 +10,8 @@ import { TitleField } from "./Fields/TitleField";
 import { DescriptionField } from "./Fields/DescriptionField";
 import { ContentField } from "./Fields/ContentField";
 import { IconCheck } from "@tabler/icons-react";
+import { useStore } from "../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface UpdateModifierForm {
     modifier: Modifier,
@@ -19,7 +20,7 @@ interface UpdateModifierForm {
 
 export function UpdateModifierForm({ modifier, handle }: UpdateModifierForm) {
     const mutation = useUpdateModifierMutation(modifier.id);
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const form = useUpdateModifierForm({
         initialValues: {

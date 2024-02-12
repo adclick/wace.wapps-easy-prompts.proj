@@ -1,13 +1,13 @@
 import { Select } from "@mantine/core";
 import { useUpdateTemplateFormContext } from "../../../context/UpdateTemplateFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
-import { useUser } from "../../../context/UserContext";
-import { Repository } from "../../../models/Repository";
 import { Technology } from "../../../models/Technology";
+import { useStore } from "../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 export function TechnologyField() {
     const form = useUpdateTemplateFormContext();
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
     const { data } = useFiltersQuery(user);
 
     if (data) {

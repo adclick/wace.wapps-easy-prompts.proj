@@ -1,25 +1,31 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
 import { PromptRequest } from "../../../../models/PromptRequest";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
-import { useIntersection } from "@mantine/hooks";
-import { RefObject, useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../../stores/store";
 
 interface ModifiersList {
     modifiersQuery: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function ModifiersList({ modifiersQuery, databaseListContainerRef }: ModifiersList) {
-    const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
-    const { setSelectedTemplates } = useSelectedTemplates();
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+export function ModifiersList({ modifiersQuery }: ModifiersList) {
+    const [
+        selectedModifiers,
+        userPromptRequest,
+        setSelectedTemplates,
+        setSelectedModifiers,
+        setUserPromptRequest
+    ] = useStore(useShallow(state => [
+        state.selectedModifiers,
+        state.userPromptRequest,
+        state.setSelectedTemplates,
+        state.setSelectedModifiers,
+        state.setUserPromptRequest
+    ]));
 
     const onChange = async (ids: string[]) => {
         const modifiers: Modifier[] = [];
@@ -49,18 +55,6 @@ export function ModifiersList({ modifiersQuery, databaseListContainerRef }: Modi
         setSelectedModifiers(modifiers);
     }
 
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = modifiersQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
 
     return (
         <Box>
@@ -77,10 +71,8 @@ export function ModifiersList({ modifiersQuery, databaseListContainerRef }: Modi
                             modifiersQuery.data !== undefined &&
                             modifiersQuery.data.pages.map((page: any) => {
                                 return page.map((modifier: Modifier, index: number) => {
-                                    const isTarget = index === page.length / 2;
-
                                     return <ModifierCard
-                                        itemRef={isTarget ? ref : undefined}
+                                        itemRef={undefined}
                                         key={modifier.id}
                                         modifier={modifier}
                                     />;

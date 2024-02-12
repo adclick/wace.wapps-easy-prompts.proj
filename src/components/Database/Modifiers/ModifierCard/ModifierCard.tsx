@@ -10,8 +10,9 @@ import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm/UpdateM
 import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
-import { useUser } from "../../../../context/UserContext";
 import { MouseEvent } from "react";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -25,7 +26,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
 
     const [editOpened, editHandle] = useDisclosure(false);
 
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const isUserItem = user.external_id === modifier.user.external_id;
 

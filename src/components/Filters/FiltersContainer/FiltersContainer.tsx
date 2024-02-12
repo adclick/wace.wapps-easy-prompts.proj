@@ -3,25 +3,24 @@ import { LanguagesFilter } from "../LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
-import classes from './FiltersContainer.module.css';
 import { iconClose } from "../../../utils/iconsUtils";
-import { useSelectedFilters } from "../../../context/SelectedFiltersContext";
+import { SelectedFilters } from "../../../models/SelectedFilters";
 
 interface FiltersContainer {
     opened: boolean,
     handle: any
-    selectedFiltersQuery: any
+    selectedFiltersQuery: any,
+    selectedFilters: SelectedFilters,
+    setSelectedFilters: React.Dispatch<React.SetStateAction<SelectedFilters>>
 }
 
 export function FiltersContainer({
     opened,
     handle,
-    selectedFiltersQuery
+    selectedFiltersQuery,
+    selectedFilters,
+    setSelectedFilters,
 }: FiltersContainer) {
-    const { selectedFilters, setSelectedFilters } = useSelectedFilters();
-
-    const title = <Text fw={500} size={"lg"}>Filters</Text>;
-
     let filters = <Loader />;
     let searchTermFilter = <></>;
 

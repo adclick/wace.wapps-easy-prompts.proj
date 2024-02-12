@@ -3,19 +3,16 @@ import { iconAdd } from "../../../../utils/iconsUtils";
 import classes from './DatabaseAddIcon.module.css';
 import { SaveModal } from "../../SaveModal/SaveModal";
 import { useDisclosure } from "@mantine/hooks";
-import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTypeContext";
+import { CreateModifierForm } from "../../../../forms/CreateModifierForm/CreateModifierForm";
 
 export function DatabaseAddIcon() {
     const [opened, handle] = useDisclosure(false);
-    const { selectedDatabaseType } = useSelectedDatabaseType();
 
     return (
         <>
-            <SaveModal
-                opened={opened}
-                handle={handle}
-                promptRequest={undefined}
-            />
+            <Modal opened={opened} onClose={handle.close} title="Create Modifier" size={"lg"}>
+                <CreateModifierForm handle={handle} />
+            </Modal>
             <Tooltip label={"Create"}>
                 <ActionIcon
                     className={classes.icon}

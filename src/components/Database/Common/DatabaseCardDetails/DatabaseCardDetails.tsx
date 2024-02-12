@@ -1,13 +1,14 @@
-import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { IconBulb, IconDatabase, IconEdit, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
-import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
-import { useUser } from "../../../../context/UserContext";
+import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react";
+import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 import { Modifier } from "../../../../models/Modifier";
 import { Prompt } from "../../../../models/Prompt";
 import { Template } from "../../../../models/Template";
 import { Label } from "../../../../models/SelectedDatabaseType";
 import { modals } from "@mantine/modals";
-import classes from './DatabaseCardDetails.module.css'
+import classes from './DatabaseCardDetails.module.css';
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface DatabaseCardDetails {
     opened: boolean,
@@ -32,7 +33,7 @@ export function DatabaseCardDetails({
     typeLabel,
     deleteMutation
 }: DatabaseCardDetails) {
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     let modifiers = [];
     let templates = [];

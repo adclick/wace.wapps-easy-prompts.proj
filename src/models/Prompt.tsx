@@ -39,6 +39,7 @@ export class Prompt {
     slug: string;
     content: string;
     description: string;
+    response: string;
     stars: number;
     plays: number;
     created_at: Date;
@@ -61,6 +62,7 @@ export class Prompt {
         this.slug = "";
         this.content = "";
         this.description = "";
+        this.response = "";
         this.stars = 0;
         this.plays = 0;
         this.created_at = new Date();
@@ -86,6 +88,7 @@ export class Prompt {
         newPrompt.slug = prompt.slug;
         newPrompt.content = prompt.content;
         newPrompt.description = prompt.description;
+        newPrompt.response = prompt.response;
         newPrompt.stars = prompt.stars;
         newPrompt.plays = prompt.plays;
         newPrompt.created_at = prompt.created_at;

@@ -1,8 +1,9 @@
 import { Modifier } from "../../../../models/Modifier";
-import { useUser } from "../../../../context/UserContext";
 import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
 import { useModifierQuery } from "../../../../api/modifiersApi";
 import { Label } from "../../../../models/SelectedDatabaseType";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ModifierCardDetails {
     opened: boolean,
@@ -17,7 +18,7 @@ export function ModifierCardDetails({
     modifier,
     deleteMutation
 }: ModifierCardDetails) {
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === modifier.user.username && opened
 
     const itemQuery = useModifierQuery(modifier.id, enabled);

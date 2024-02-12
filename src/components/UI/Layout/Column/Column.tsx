@@ -2,15 +2,15 @@ import { FC, ReactNode } from "react";
 import { Size } from "../../../../utils/uiUtils";
 import { Stack } from "@mantine/core";
 
-interface FlexVProps {
+interface ColumnProps {
     gap?: Size;
     children?: ReactNode
 }
 
-const FlexV: FC<FlexVProps> = ({
+const Column: FC<ColumnProps> = ({
     gap,
     children
-}: FlexVProps) => {
+}: ColumnProps) => {
     return (
         <Stack gap={gap}>
             {children}
@@ -18,4 +18,4 @@ const FlexV: FC<FlexVProps> = ({
     )
 }
 
-export default FlexV;
+export default Column;

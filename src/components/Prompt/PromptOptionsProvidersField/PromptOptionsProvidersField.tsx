@@ -1,5 +1,4 @@
 import { Loader, Select, Slider, Stack, Text } from "@mantine/core";
-import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { useProvidersQuery } from "../../../api/providersApi";
 import { useEffect } from "react";
 import { Provider } from "../../../models/Provider";
@@ -7,6 +6,8 @@ import { PromptRequest } from "../../../models/PromptRequest";
 import { PromptOptionsNumImagesField } from "../PromptOptionsNumImagesField/PromptOptionsNumImagesField";
 import { PromptOptionsImageResolution } from "../PromptOptionsImageResolution/PromptOptionsImageResolution";
 import { ParametersList } from "../../../models/ParametersList";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../stores/store";
 
 export interface ProvidersDataItem {
     label: string,
@@ -19,7 +20,13 @@ interface PromptOptionsProvidersField {
 }
 
 export function PromptOptionsProvidersField() {
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const [
+        userPromptRequest,
+        setUserPromptRequest
+    ] = useStore(useShallow(state => [
+        state.userPromptRequest,
+        state.setUserPromptRequest
+    ]));
 
     const providersQuery = useProvidersQuery(userPromptRequest.technology.id);
 

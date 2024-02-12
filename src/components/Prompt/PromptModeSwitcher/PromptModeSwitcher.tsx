@@ -1,19 +1,29 @@
 import { ActionIcon, Badge, Divider, Group, Popover, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { PromptOptionsProvidersField } from "../PromptOptionsProvidersField/PromptOptionsProvidersField";
-import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptOptionsTechnologiesField } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
 import classes from './PromptModeSwitcher.module.css';
 import { iconClose } from "../../../utils/iconsUtils";
-import { useSelectedTemplates } from "../../../context/SelectedTemplatesContext";
-import { useSelectedModifiers } from "../../../context/SelectedModifiersContext";
 import { Modifier } from "../../../models/Modifier";
 import { Template } from "../../../models/Template";
 import { ProviderLabel } from "../../Common/ProviderLabel/ProviderLabel";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../stores/store";
 
 export function PromptModeSwitcher() {
-    const { userPromptRequest } = useUserPromptRequest();
-    const { selectedTemplates, setSelectedTemplates } = useSelectedTemplates();
-    const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
+    const [
+        selectedModifiers,
+        selectedTemplates,
+        userPromptRequest,
+        setSelectedTemplates,
+        setSelectedModifiers,
+    ] = useStore(useShallow(state => [
+        state.selectedModifiers,
+        state.selectedTemplates,
+        state.userPromptRequest,
+        state.setSelectedTemplates,
+        state.setSelectedModifiers,
+    ]));
+
 
     const removeTemplate = (id: number) => {
         const newSelectedTemplates = selectedTemplates.filter(m => m.id !== id);

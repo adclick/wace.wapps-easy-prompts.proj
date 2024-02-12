@@ -1,15 +1,23 @@
 import { Select } from "@mantine/core";
 import { Parameter } from "../../../models/Parameter";
-import { useUserPromptRequest } from "../../../context/UserPromptRequestContext";
 import { PromptRequest } from "../../../models/PromptRequest";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../stores/store";
 
 interface PromptOptionsImageResolution {
     parameter: Parameter
 }
 
 export function PromptOptionsImageResolution({ parameter }: PromptOptionsImageResolution) {
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+    const [
+        userPromptRequest,
+        setUserPromptRequest,
+    ] = useStore(useShallow(state => [
+        state.userPromptRequest,
+        state.setUserPromptRequest
+    ]));
+
     const [value, setValue] = useState(userPromptRequest.parametersList.image_resolution.value);
 
     const data = parameter.data;

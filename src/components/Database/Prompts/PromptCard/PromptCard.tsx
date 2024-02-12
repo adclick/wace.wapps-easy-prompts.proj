@@ -3,17 +3,17 @@ import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } 
 import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
-import { usePromptsRequests } from "../../../../context/PromptsRequestsContext";
 import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { useDeletePromptMutation, usePromptQuery } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { getDefaultProvider } from "../../../../api/providersApi";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { useUser } from "../../../../context/UserContext";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { UpdatePromptForm } from "../../../../forms/UpdatePromptForm/UpdatePromptForm";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface PromptCard {
     prompt: Prompt,
@@ -22,10 +22,18 @@ interface PromptCard {
 }
 
 export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) {
+    const [
+        user,
+        promptsRequests,
+        setPromptsRequests,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.promptsRequests,
+        state.setPromptsRequests,
+    ]));
+
     const [detailsOpened, detailsHandle] = useDisclosure(false);
     const [editOpened, editHandle] = useDisclosure(false);
-    const { promptsRequests, setPromptsRequests } = usePromptsRequests();
-    const { user } = useUser();
     const clipboard = useClipboard({ timeout: 500 });
 
     const deleteMutation = useDeletePromptMutation();
@@ -43,7 +51,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             newPromptRequest.provider = await getDefaultProvider(newPromptRequest.technology.id);
         }
 
-        navbarMobileHandle.close();
+        // navbarMobileHandle.close();
 
         setPromptsRequests([
             ...promptsRequests,

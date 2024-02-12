@@ -11,7 +11,6 @@ export enum PromptRequestType {
 
 export class PromptRequest extends Prompt {
     key: number;
-    response: any;
     isPlayable: boolean;
     chatReply: string;
     providers: Provider[];
@@ -21,7 +20,6 @@ export class PromptRequest extends Prompt {
         super();
         this.key = key;
         this.id = id;
-        this.response = "";
         this.isPlayable = false;
         this.chatReply = "";
         this.providers = [];

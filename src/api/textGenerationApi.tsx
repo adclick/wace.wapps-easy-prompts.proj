@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { PromptRequest } from "../models/PromptRequest";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
 
 export const useTextGenerationQuery = (request: PromptRequest) => {
     return useQuery({
@@ -38,5 +37,6 @@ export const useTextGenerationByPromptQuery = (request: PromptRequest) => {
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        enabled: request.response === ""
     });
 };
