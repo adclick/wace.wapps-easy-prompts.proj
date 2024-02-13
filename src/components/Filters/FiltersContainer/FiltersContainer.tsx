@@ -11,7 +11,7 @@ interface FiltersContainer {
     handle: any
     selectedFiltersQuery: any,
     selectedFilters: SelectedFilters,
-    setSelectedFilters: React.Dispatch<React.SetStateAction<SelectedFilters>>
+    setSelectedFilters: any
 }
 
 export function FiltersContainer({

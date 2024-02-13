@@ -4,7 +4,7 @@ import { ActionIcon, Box, Card, Collapse, Group, Stack, Title } from "@mantine/c
 import { useEffect } from "react";
 import { usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { SelectedFilters } from "../../../models/SelectedFilters";
-import { HeaderBurgerMenu } from "../../Layout/HeaderBurgerMenu/HeaderBurgerMenu";
+import { HeaderBurgerMenu } from "../../Common/HeaderBurgerMenu/HeaderBurgerMenu";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
 import UserDatabseToggleMenu from "../../../features/UserDatabaseToggleMenu/UserDatabaseToggleMenu";

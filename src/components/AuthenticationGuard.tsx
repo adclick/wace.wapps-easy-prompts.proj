@@ -8,7 +8,7 @@ interface Props {
 
 export const AuthenticationGuard = ({ component }: Props) => {
     const Component = withAuthenticationRequired(component, {
-        onRedirecting: () => <AppOverlay visible={true} />,
+        onRedirecting: () => <AppOverlay />,
     });
 
     return <Component />;

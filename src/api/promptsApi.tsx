@@ -53,7 +53,7 @@ export const usePrivatePromptsQuery = (user: User, selectedFilters: SelectedFilt
                 user_external_id: user.external_id,
                 search_term: selectedFilters.search_term,
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
-                repositories_ids: JSON.stringify([user.history_repository_id]),
+                repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
                 technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
                 limit: LIST_LIMIT.toString(),
                 offset: pageParam.toString()

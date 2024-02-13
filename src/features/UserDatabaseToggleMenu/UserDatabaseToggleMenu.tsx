@@ -10,7 +10,7 @@ import { Size } from "../../utils/uiUtils";
 
 interface UserDatabaseToggleMenuProps {
     selectedDatabaseType: SelectedDatabaseType,
-    setSelectedDatabaseType: React.Dispatch<React.SetStateAction<SelectedDatabaseType>>
+    setSelectedDatabaseType: any
 }
 
 const UserDatabseToggleMenu: FC<UserDatabaseToggleMenuProps> = ({
