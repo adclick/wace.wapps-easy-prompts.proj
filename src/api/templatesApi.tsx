@@ -1,8 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
-import { CreateTemplateFormValues } from '../context/TemplateFormContext';
-import { UpdateTemplateFormValues } from '../context/UpdateTemplateFormContext';
+import { TemplateFormValues } from '../context/TemplateFormContext';
 import { User } from '../models/User';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -90,7 +89,7 @@ export const useCreateTemplateMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: CreateTemplateFormValues) => {
+        mutationFn: async (formData: TemplateFormValues) => {
             const { data } = await axios.post(`${API_URL}/templates`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
@@ -118,7 +117,7 @@ export const useUpdateTemplateMutation = (templateId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: UpdateTemplateFormValues) => {
+        mutationFn: async (formData: TemplateFormValues) => {
             const { data } = await axios.put(`${API_URL}/templates/${templateId}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,

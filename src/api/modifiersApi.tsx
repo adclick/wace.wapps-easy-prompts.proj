@@ -1,9 +1,8 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
-import { UpdateModifierFormValues } from '../context/UpdateModifierFormContext';
 import { User } from '../models/User';
-import { CreateModifierFormValues } from '../context/ModifierFormContext';
+import { ModifierFormValues } from '../context/ModifierFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;
@@ -91,7 +90,7 @@ export const useCreateModifierMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: CreateModifierFormValues) => {
+        mutationFn: async (formData: ModifierFormValues) => {
             const { data } = await axios.post(`${API_URL}/modifiers`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
@@ -117,7 +116,7 @@ export const useUpdateModifierMutation = (modifierId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: UpdateModifierFormValues) => {
+        mutationFn: async (formData: ModifierFormValues) => {
             const { data } = await axios.put(`${API_URL}/modifiers/${modifierId}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,

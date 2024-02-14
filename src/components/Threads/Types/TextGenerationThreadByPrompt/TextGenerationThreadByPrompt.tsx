@@ -9,6 +9,9 @@ import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorM
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../../stores/store";
 import { Prompt } from "../../../../models/Prompt";
+import { useCreatePromptMutation, usePromptQuery } from "../../../../api/promptsApi";
+import { useState } from "react";
+import { saveHistory } from "../../../../services/ThreadService";
 
 interface TextGenerationThreadByPrompt {
     promptRequest: PromptRequest,
@@ -16,15 +19,27 @@ interface TextGenerationThreadByPrompt {
 }
 
 export function TextGenerationThreadByPrompt({ promptRequest, scrollIntoView }: TextGenerationThreadByPrompt) {
+    
+
     const [
-        userPromptRequest,
+        user,
         promptsRequests,
         setPromptsRequests,
+        selectedModifiers,
+        selectedTemplates,
+        userPromptRequest,
     ] = useStore(useShallow(state => [
-        state.userPromptRequest,
+        state.user,
         state.promptsRequests,
-        state.setPromptsRequests
+        state.setPromptsRequests,
+        state.selectedModifiers,
+        state.selectedTemplates,
+        state.userPromptRequest,
     ]));
+
+    const createMutation = useCreatePromptMutation();
+    const [historySaved, setHistorySaved] = useState(false);
+
 
     const regenerate = () => {
         const newPromptRequest = Prompt.clone(promptRequest) as PromptRequest;
@@ -41,7 +56,7 @@ export function TextGenerationThreadByPrompt({ promptRequest, scrollIntoView }: 
     const { data, error, isLoading, isFetching } = useTextGenerationByPromptQuery(promptRequest);
 
     const response = () => {
-        if (promptRequest.response !== "") {
+        if (promptRequest.response !== "" && promptRequest.response !== null) {
             const response = JSON.parse(promptRequest.response);
 
             return response.data.trim();
