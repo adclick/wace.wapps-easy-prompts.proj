@@ -11,6 +11,7 @@ import { Template } from "../../models/Template";
 import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { ModifiersField } from "./Fields/ModifiersField";
 
 interface UpdateTemplateForm {
     template: Template;
@@ -21,6 +22,8 @@ export function UpdateTemplateForm({ template, handle }: UpdateTemplateForm) {
     const UpdateMutation = useUpdateTemplateMutation(template.id);
     const [user] = useStore(useShallow(state => [state.user]));
 
+    const modifiersIds = template.templates_modifiers.map(tm => tm.modifier.id.toString());
+
     const form = useUpdateTemplateForm({
         initialValues: {
             title: template.title,
@@ -29,7 +32,7 @@ export function UpdateTemplateForm({ template, handle }: UpdateTemplateForm) {
             repository_id: template.repository.id.toString(),
             technology_id: template.technology.id.toString(),
             provider_id: template.provider ? template.provider.id.toString() : undefined,
-            modifiers_ids: [],
+            modifiers_ids: modifiersIds,
             chat_messages: [],
             template_parameters: [],
             user_id: user.id
@@ -52,6 +55,7 @@ export function UpdateTemplateForm({ template, handle }: UpdateTemplateForm) {
                     <RepositoryField />
                     <TechnologyField />
                     <ProviderField />
+                    <ModifiersField />
 
                     <Group justify="flex-end">
                         <Button type="submit" variant="transparent" color="gray" leftSection={<IconCheck size={14} />}>Save</Button>

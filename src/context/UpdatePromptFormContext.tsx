@@ -9,6 +9,8 @@ export interface UpdatePromptFormValues {
     technology_id: string;
     provider_id: string | undefined;
     user_id: string;
+    templates_ids: string[];
+    modifiers_ids: string[];
 }
 
 export const [

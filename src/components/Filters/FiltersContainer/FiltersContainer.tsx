@@ -57,7 +57,7 @@ export function FiltersContainer({
                         <Group justify="space-between">
                             <Title order={5}>Filters</Title>
                             <ActionIcon
-                                color="gray"
+                                color="--mantine-color-text"
                                 variant="transparent"
                                 onClick={handle.close}
                             >

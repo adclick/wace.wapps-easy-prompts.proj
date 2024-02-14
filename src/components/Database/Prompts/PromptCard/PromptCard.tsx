@@ -142,7 +142,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                             </Stack>
                             <Menu>
                                 <Menu.Target>
-                                    <ActionIcon variant="transparent" color="gray.9" component="a" onClick={e => e.stopPropagation()}>
+                                    <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
                                         <IconDotsVertical size={16} />
                                     </ActionIcon>
                                 </Menu.Target>

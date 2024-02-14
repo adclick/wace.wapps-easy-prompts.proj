@@ -11,6 +11,7 @@ import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
+import { ModifiersField } from "./Fields/ModifiersField";
 
 interface CreateTemplateForm {
     handle: any
@@ -61,6 +62,7 @@ export function CreateTemplateForm({ handle }: CreateTemplateForm) {
                     <RepositoryField />
                     <TechnologyField />
                     <ProviderField />
+                    <ModifiersField />
 
                     <Group justify="flex-end">
                         <Button type="submit" variant="transparent" color="gray" leftSection={<IconCheck size={14} />}>Save</Button>

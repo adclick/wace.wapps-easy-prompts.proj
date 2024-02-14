@@ -14,7 +14,7 @@ export interface CreatePromptFormValues {
     templates_ids: string[],
     modifiers_ids: string[],
     chat_messages: PromptChatMessage[],
-    prompt_parameters: any[]
+    prompt_parameters: any[],
 
 }
 

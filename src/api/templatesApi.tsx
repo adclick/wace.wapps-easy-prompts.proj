@@ -20,6 +20,20 @@ export const useTemplateQuery = (templateId: number, enabled: boolean = true) =>
     });
 };
 
+export const useAllTemplatesQuery = (userId: string, enabled: boolean = true) => {
+    return useQuery({
+        queryKey: ["templates", "all", userId],
+        queryFn: async () => {
+            const { data } = await axios.get(`${API_URL}/templates/all?` + new URLSearchParams({
+                user_external_id: userId,
+            }));
+
+            return data;
+        },
+        enabled: !!userId && enabled
+    });
+};
+
 export const useTemplatesQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["templates", selectedFilters],
@@ -85,9 +99,9 @@ export const useCreateTemplateMutation = () => {
                 repository_id: formData.repository_id,
                 technology_id: formData.technology_id,
                 provider_id: formData.provider_id,
-                modifiers_ids: formData.modifiers_ids,
-                chat_history: formData.chat_messages,
-                template_parameters: formData.template_parameters
+                modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
+                chat_history: JSON.stringify(formData.chat_messages),
+                template_parameters: JSON.stringify(formData.template_parameters)
             })
 
             return data;
@@ -113,7 +127,7 @@ export const useUpdateTemplateMutation = (templateId: number) => {
                 repository_id: formData.repository_id,
                 technology_id: formData.technology_id,
                 provider_id: formData.provider_id,
-                modifiers_ids: formData.modifiers_ids,
+                modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
                 chat_history: formData.chat_messages,
                 template_parameters: formData.template_parameters
             })

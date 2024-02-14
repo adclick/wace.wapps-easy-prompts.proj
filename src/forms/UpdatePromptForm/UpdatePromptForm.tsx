@@ -12,6 +12,8 @@ import { Prompt } from "../../models/Prompt";
 import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { TemplatesField } from "./Fields/TemplatesField";
+import { ModifiersField } from "./Fields/ModifiersField";
 
 interface UpdatePromptForm {
     prompt: Prompt;
@@ -25,7 +27,10 @@ export function UpdatePromptForm({ prompt, handle }: UpdatePromptForm) {
     const enabled = user.username === prompt.user.username;
 
     const { data: promptPrivate } = usePromptQuery(prompt.id, enabled);
-    
+
+    const templatesIds = prompt.prompts_templates.map(pt => pt.template.id.toString());
+    const modifiersIds = prompt.prompts_modifiers.map(pm => pm.modifier.id.toString());
+
     const form = useUpdatePromptForm({
         initialValues: {
             title: prompt.title,
@@ -35,7 +40,9 @@ export function UpdatePromptForm({ prompt, handle }: UpdatePromptForm) {
             repository_id: prompt.repository.id.toString(),
             technology_id: prompt.technology.id.toString(),
             provider_id: prompt.provider ? prompt.provider.id.toString() : undefined,
-            user_id: user.id
+            user_id: user.id,
+            templates_ids: templatesIds,
+            modifiers_ids: modifiersIds,
         }
     });
 
@@ -62,6 +69,8 @@ export function UpdatePromptForm({ prompt, handle }: UpdatePromptForm) {
                     <RepositoryField />
                     <TechnologyField />
                     <ProviderField />
+                    <TemplatesField />
+                    <ModifiersField />
 
                     <Group justify="flex-end">
                     <Button type="submit" variant="transparent" color="gray" leftSection={<IconCheck size={14} />}>Save</Button>

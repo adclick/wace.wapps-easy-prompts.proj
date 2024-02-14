@@ -16,9 +16,9 @@ export const CreateUserItemSection: FC<CreateUserItemSectionProps> = ({
         <Card>
             <Stack>
                 <Group justify="space-between">
-                    <Title order={5}>Create a new Item</Title>
+                    <Title order={5}>Creation toolbox</Title>
                     <ActionIcon
-                        color="gray"
+                        color="--mantine-color-text"
                         variant="transparent"
                         onClick={closeSection}
                     >

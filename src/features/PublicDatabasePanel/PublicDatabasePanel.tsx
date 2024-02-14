@@ -106,7 +106,7 @@ const PublicDatabasePanel: FC = () => {
             </Modal>
             <Button
                 fullWidth
-                color="gray"
+                color="--mantine-color-text"
                 leftSection={<IconDatabase size={16} />}
                 variant="transparent"
                 onClick={open}

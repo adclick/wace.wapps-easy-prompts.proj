@@ -12,6 +12,8 @@ import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
+import { TemplatesField } from "./Fields/TemplatesField";
+import { ModifiersField } from "./Fields/ModifiersField";
 
 interface CreatePromptForm {
     handle: any
@@ -66,6 +68,8 @@ export function CreatePromptForm({ handle }: CreatePromptForm) {
                     <RepositoryField />
                     <TechnologyField />
                     <ProviderField />
+                    <TemplatesField />
+                    <ModifiersField />
 
                     <Group justify="flex-end">
                         <Button type="submit" variant="transparent" color="gray" leftSection={<IconCheck size={14} />}>Save</Button>

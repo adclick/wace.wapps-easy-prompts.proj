@@ -2,7 +2,7 @@ import { Button, Group, Modal } from "@mantine/core";
 import { FC } from "react";
 import { CreatePromptForm } from "../../forms/CreatePromptForm/CreatePromptForm";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSparkles } from "@tabler/icons-react";
+import { IconPrompt, IconSparkles } from "@tabler/icons-react";
 
 export const CreatePromptButton: FC = () => {
     const [opened, handle] = useDisclosure(false);
@@ -14,11 +14,11 @@ export const CreatePromptButton: FC = () => {
             </Modal>
             <Group>
                 <Button
-                    leftSection={<IconSparkles size={14} />}
+                    leftSection={<IconPrompt size={14} />}
                     onClick={handle.open}
                     size="compact-sm"
                     variant="transparent"
-                    color="gray"
+                    color="--mantine-color-text"
                 >
                     Create Prompt
                 </Button>

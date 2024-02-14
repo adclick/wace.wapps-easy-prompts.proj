@@ -18,7 +18,7 @@ export const CreateModifierButton: FC = () => {
                     onClick={handle.open}
                     size="compact-sm"
                     variant="transparent"
-                    color="gray"
+                    color="--mantine-color-text"
                 >
                     Create Modifier
                 </Button>

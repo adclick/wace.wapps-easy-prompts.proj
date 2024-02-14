@@ -52,9 +52,7 @@ export function PromptModeSwitcher() {
                     </Popover.Target>
                     <Popover.Dropdown className={classes.optionsContainer}>
                         <Stack my={"xs"}>
-                            <Title order={5}>Options</Title>
                             <Stack gap={"md"} my={"xs"} maw={300}>
-                                <Divider label="Specifications" />
                                 <PromptOptionsTechnologiesField />
                                 <PromptOptionsProvidersField />
                                 {

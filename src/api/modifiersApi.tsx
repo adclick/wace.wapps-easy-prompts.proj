@@ -20,6 +20,20 @@ export const useModifierQuery = (modifierId: number, enabled: boolean = true) =>
     });
 };
 
+export const useAllModifiersQuery = (userId: string, enabled: boolean = true) => {
+    return useQuery({
+        queryKey: ["modifiers", "all", userId],
+        queryFn: async () => {
+            const { data } = await axios.get(`${API_URL}/modifiers/all?` + new URLSearchParams({
+                user_external_id: userId,
+            }));
+
+            return data;
+        },
+        enabled: !!userId && enabled
+    });
+};
+
 export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["modifiers", selectedFilters],
