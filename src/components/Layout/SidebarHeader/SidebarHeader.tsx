@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { ActionIcon, Box, Card, Collapse, Group, Stack, Title } from "@mantine/core";
+import { Collapse, Group, Stack } from "@mantine/core";
 import { useEffect } from "react";
 import { usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { SelectedFilters } from "../../../models/SelectedFilters";
@@ -10,10 +10,9 @@ import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarTogg
 import UserDatabseToggleMenu from "../../../features/UserDatabaseToggleMenu/UserDatabaseToggleMenu";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
-import { CreateModifierButton } from "../../../features/CreateModifierButton/CreateModifierButton";
 import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
-import { CreateTemplateButton } from "../../../features/CreateTemplateButton/CreateTemplateButton";
-import { iconClose } from "../../../utils/iconsUtils";
+import { CreateUserItemSection } from "../../../features/CreateUserItemSection/CreateUserItemSection";
+import { DesktopContainer, MobileContainer } from "../../UI/Layout";
 
 interface DatabaseHeader {
     navbarMobileOpened: boolean,
@@ -55,53 +54,35 @@ export function SidebarHeader({
     }, [selectedPrivateFilters, selectedFiltersQuery]);
 
     return (
-        <>
-            <Stack gap={"lg"} pb={"xl"}>
-                <Group h={"100%"} justify='space-between' pt={"xs"}>
-                    <Group>
-                        <Box hiddenFrom="sm">
-                            <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
-                        </Box>
-                        <UserDatabseToggleMenu
-                            selectedDatabaseType={selectedPrivateDatabaseType}
-                            setSelectedDatabaseType={setSelectedPrivateDatabaseType}
-                        />
-                    </Group>
-                    <Group gap={"xs"}>
-                        <DatabaseAddIcon onClick={createItemHandle.toggle} createItemOpened={createItemOpened} />
-                        <FiltersToggleIcon onClick={filtersHandle.toggle} filtersOpened={filtersOpened} />
-                        <Box visibleFrom="sm">
-                            <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
-                        </Box>
-                    </Group>
+        <Stack gap={"lg"} pb={"xl"}>
+            <Group justify='space-between' pt={"xs"}>
+                <Group>
+                    <MobileContainer>
+                        <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
+                    </MobileContainer>
+                    <UserDatabseToggleMenu
+                        selectedDatabaseType={selectedPrivateDatabaseType}
+                        setSelectedDatabaseType={setSelectedPrivateDatabaseType}
+                    />
                 </Group>
-                <Collapse in={createItemOpened}>
-                    <Card>
-                        <Stack>
-                            <Group justify="space-between">
-                                <Title order={5}>Create a new Item</Title>
-                                <ActionIcon
-                                    color="gray"
-                                    variant="transparent"
-                                    onClick={createItemHandle.close}
-                                >
-
-                                    {iconClose(14)}
-                                </ActionIcon>
-                            </Group>
-                        <CreateTemplateButton />
-                        <CreateModifierButton />
-                        </Stack>
-                    </Card>
-                </Collapse>
-                <FiltersContainer
-                    opened={filtersOpened}
-                    handle={filtersHandle}
-                    selectedFiltersQuery={selectedFiltersQuery}
-                    selectedFilters={selectedPrivateFilters}
-                    setSelectedFilters={setSelectedPrivateFilters}
-                />
-            </Stack>
-        </>
+                <Group gap={"xs"}>
+                    <DatabaseAddIcon onClick={createItemHandle.toggle} createItemOpened={createItemOpened} />
+                    <FiltersToggleIcon onClick={filtersHandle.toggle} filtersOpened={filtersOpened} />
+                    <DesktopContainer>
+                        <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
+                    </DesktopContainer>
+                </Group>
+            </Group>
+            <Collapse in={createItemOpened}>
+                <CreateUserItemSection closeSection={createItemHandle.close} />
+            </Collapse>
+            <FiltersContainer
+                opened={filtersOpened}
+                handle={filtersHandle}
+                selectedFiltersQuery={selectedFiltersQuery}
+                selectedFilters={selectedPrivateFilters}
+                setSelectedFilters={setSelectedPrivateFilters}
+            />
+        </Stack>
     )
 }

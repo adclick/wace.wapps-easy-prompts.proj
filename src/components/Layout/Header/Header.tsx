@@ -1,9 +1,11 @@
-import { Box, Group } from "@mantine/core";
 import { HeaderBurgerMenu } from "../../Common/HeaderBurgerMenu/HeaderBurgerMenu";
 import { ThreadsMenu } from "../../Threads/Layout/ThreadsMenu/ThreadsMenu";
 import { ColorSchemeToggle } from "../../Common/ColorSchemeToggle/ColorSchemeToggle";
 import { UserMenu } from "../../User/UserMenu/UserMenu";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
+import { Row } from "../../UI/Layout";
+import { Size } from "../../../utils/uiUtils";
+import { DesktopContainer, MobileContainer } from "../../UI/Layout";
 
 interface Header {
     navbarMobileOpened: boolean,
@@ -19,22 +21,30 @@ export function Header({
     navbarDesktopHandle,
 }: Header) {
     return (
-        <Group h={"100%"} justify="space-between" align="center">
-            <Group h={"100%"} gap={"xs"}>
-                <Box visibleFrom="sm" >
-                    {
-                        !navbarDesktopOpened && <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
-                    }
-                </Box>
-                <Box hiddenFrom="sm" mb={3}>
-                    <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
-                </Box>
+        <Row justify="space-between">
+            <Row gap={Size.xs}>
+                {
+                    !navbarDesktopOpened &&
+                    <DesktopContainer>
+                        <NavbarToggleIcon
+                            navbarOpened={navbarDesktopOpened}
+                            navbarToggle={navbarDesktopHandle.toggle}
+                        />
+                    </DesktopContainer>
+                }
+                <MobileContainer>
+                    <HeaderBurgerMenu
+                        navbarOpened={navbarMobileOpened}
+                        navbarHandle={navbarMobileHandle}
+                    />
+                </MobileContainer>
+
                 <ThreadsMenu />
-            </Group>
-            <Group>
+            </Row>
+            <Row>
                 <ColorSchemeToggle />
                 <UserMenu />
-            </Group>
-        </Group>
+            </Row>
+        </Row>
     )
 }

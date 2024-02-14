@@ -5,7 +5,7 @@ import { Menu } from "../../components/UI/Menu";
 import { Position } from "../../enums/Position";
 import { MenuType } from "../../enums/MenuType";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
-import { Row } from "../../components/UI";
+import { Row } from "../../components/UI/Layout";
 import { Size } from "../../utils/uiUtils";
 
 interface UserDatabaseToggleMenuProps {

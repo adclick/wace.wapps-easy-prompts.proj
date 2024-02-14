@@ -16,7 +16,7 @@ import { useModifiersQuery } from "../../api/modifiersApi";
 import { usePublicDatabaseFiltersQuery } from "../../api/filtersApi";
 import { IconSearch } from "@tabler/icons-react";
 import { SelectedFilters } from "../../models/SelectedFilters";
-import { Column, Row } from "../../components/UI";
+import { Column, Row } from "../../components/UI/Layout";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 
@@ -94,14 +94,12 @@ const PublicDatabasePanel: FC = () => {
                         selectedDatabaseType.type === Type.TEMPLATE &&
                         <TemplatesList
                             templatesQuery={templatesQuery}
-                            databaseListContainerRef={undefined}
                         />
                     }
                     {
                         selectedDatabaseType.type === Type.MODIFIER &&
                         <ModifiersList
                             modifiersQuery={modifiersQuery}
-                            databaseListContainerRef={undefined}
                         />
                     }
                 </Column >

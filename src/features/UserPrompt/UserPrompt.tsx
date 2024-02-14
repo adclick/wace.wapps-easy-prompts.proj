@@ -5,7 +5,7 @@ import { IconButton } from "../../components/UI/Buttons/IconButton";
 import { Size, Variant } from "../../utils/uiUtils";
 import { IconPlay } from "../../icons";
 import classes from "./UserPrompt.module.css";
-import { Row } from "../../components/UI";
+import { Row } from "../../components/UI/Layout";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../stores/store";
 
