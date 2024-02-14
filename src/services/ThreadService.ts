@@ -4,29 +4,32 @@ import { User } from "../models/User";
 import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
 import { Language } from "../models/Language";
+import { CreatePromptFormValues } from "../context/CreatePromptFormContext";
 
 export const saveHistory = (
     user: User,
     promptRequest: PromptRequest,
     templates: Template[],
     modifiers: Modifier[],
-    mutation: UseMutationResult<any, Error, FormData, unknown>
+    mutation: UseMutationResult<any, Error, CreatePromptFormValues, unknown>
 ) => {
     console.log(user);
-    const chatMessages = promptRequest.metadata.history;
 
-    const newFormData = new FormData();
-    newFormData.append("userId", user.id);
-    newFormData.append("language_id", '1');
-    newFormData.append("repository_id", user.history_repository_id.toString());
-    newFormData.append("technology_id", promptRequest.technology.id.toString());
-    newFormData.append("chat_messages", JSON.stringify(chatMessages));
-    newFormData.append("templates_ids", JSON.stringify(templates.map(t => t.id)));
-    newFormData.append("modifiers_ids", JSON.stringify(modifiers.map(m => m.id)));
-    newFormData.append("prompt_parameters", JSON.stringify([]));
-    newFormData.append("title", promptRequest.title);
-    newFormData.append("content", promptRequest.content);
-    newFormData.append("response", JSON.stringify(promptRequest.response));
+    const formValues: CreatePromptFormValues = {
+        user_id: user.id,
+        title: promptRequest.title,
+        description: 'No Description',
+        content: promptRequest.content,
+        response: promptRequest.response,
+        language_id: '1',
+        repository_id: user.history_repository_id.toString(),
+        technology_id: promptRequest.technology.id.toString(),
+        provider_id: promptRequest.provider.id.toString(),
+        templates_ids: [],
+        modifiers_ids: [],
+        chat_messages: [],
+        prompt_parameters: []
+    }
 
-    mutation.mutate(newFormData);
+    mutation.mutate(formValues);
 }

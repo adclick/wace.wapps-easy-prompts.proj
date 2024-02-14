@@ -3,6 +3,7 @@ import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
 import { UpdatePromptFormValues } from '../context/UpdatePromptFormContext';
 import { User } from '../models/User';
+import { CreatePromptFormValues } from '../context/CreatePromptFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;
@@ -75,21 +76,21 @@ export const useCreatePromptMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (formData: FormData) => {
+        mutationFn: async (formData: CreatePromptFormValues) => {
             const { data } = await axios.post(`${API_URL}/prompts`, {
-                user_external_id: formData.get('userId'),
-                title: formData.get('title'),
-                description: formData.get('description'),
-                content: formData.get('content'),
-                response: formData.get('response'),
-                language_id: formData.get('language_id'),
-                repository_id: formData.get('repository_id'),
-                technology_id: formData.get('technology_id'),
-                provider_id: formData.get('provider_id'),
-                modifiers_ids: formData.get('modifiers_ids'),
-                templates_ids: formData.get('templates_ids'),
-                chat_messages: formData.get('chat_messages'),
-                prompt_parameters: formData.get('prompt_parameters')
+                user_external_id: formData.user_id,
+                title: formData.title,
+                description: formData.description,
+                content: formData.content,
+                response: formData.response,
+                language_id: formData.language_id,
+                repository_id: formData.repository_id,
+                technology_id: formData.technology_id,
+                provider_id: formData.provider_id,
+                templates_ids: JSON.stringify(formData.templates_ids),
+                modifiers_ids: JSON.stringify(formData.modifiers_ids),
+                chat_messages: JSON.stringify(formData.chat_messages),
+                prompt_parameters: JSON.stringify(formData.prompt_parameters),
             })
 
             return data;

@@ -23,8 +23,7 @@ export function TextGenerationThreadByPrompt({ promptRequest, scrollIntoView }: 
 
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationByPromptQuery(promptRequest);
 
-    if (promptRequest.response !== "") {
-        console.log(promptRequest.response);
+    if (promptRequest.response !== null) {
         const response = JSON.parse(promptRequest.response);
 
         if (response && "data" in response) {

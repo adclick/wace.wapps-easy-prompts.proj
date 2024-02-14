@@ -3,6 +3,7 @@ import { FC } from "react";
 import { iconClose } from "../../utils/iconsUtils";
 import { CreateTemplateButton } from "../CreateTemplateButton/CreateTemplateButton";
 import { CreateModifierButton } from "../CreateModifierButton/CreateModifierButton";
+import { CreatePromptButton } from "../CreatePromptButton/CreatePromptButton";
 
 interface CreateUserItemSectionProps {
     closeSection: any
@@ -25,6 +26,7 @@ export const CreateUserItemSection: FC<CreateUserItemSectionProps> = ({
                         {iconClose(14)}
                     </ActionIcon>
                 </Group>
+                <CreatePromptButton />
                 <CreateTemplateButton />
                 <CreateModifierButton />
             </Stack>

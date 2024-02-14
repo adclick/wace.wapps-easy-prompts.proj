@@ -37,6 +37,6 @@ export const useTextGenerationByPromptQuery = (request: PromptRequest) => {
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: request.response === ""
+        enabled: request.response === null
     });
 };
