@@ -5,15 +5,15 @@ import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { useDeletePromptMutation, usePromptQuery } from "../../../../api/promptsApi";
+import { useDeletePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { getDefaultProvider } from "../../../../api/providersApi";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
-import { UpdatePromptForm } from "../../../../forms/UpdatePromptForm/UpdatePromptForm";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { PromptForm } from "../../../../forms/PromptForm/PromptForm";
 
 interface PromptCard {
     prompt: Prompt,
@@ -117,6 +117,8 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         editHandle.open();
     }
 
+    const updateMutation = useUpdatePromptMutation(prompt.id);
+
     return (
         <>
             <PromptCardDetails
@@ -126,7 +128,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 deleteMutation={deleteMutation}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
-                <UpdatePromptForm prompt={prompt} handle={editHandle} />
+                <PromptForm mutation={updateMutation} prompt={prompt} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>

@@ -1,16 +1,18 @@
 import { Button, Group, Modal } from "@mantine/core";
 import { FC } from "react";
-import { CreatePromptForm } from "../../forms/CreatePromptForm/CreatePromptForm";
+import { PromptForm } from "../../forms/PromptForm/PromptForm";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPrompt, IconSparkles } from "@tabler/icons-react";
+import { useCreatePromptMutation } from "../../api/promptsApi";
 
 export const CreatePromptButton: FC = () => {
     const [opened, handle] = useDisclosure(false);
+    const mutation = useCreatePromptMutation();
 
     return (
         <>
             <Modal opened={opened} onClose={handle.close} title="Create Prompt" size={"lg"}>
-                <CreatePromptForm handle={handle} />
+                <PromptForm mutation={mutation} handle={handle} />
             </Modal>
             <Group>
                 <Button

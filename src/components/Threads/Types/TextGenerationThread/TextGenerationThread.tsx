@@ -1,5 +1,5 @@
 import { Group, Loader, Stack, Text } from "@mantine/core";
-import { PromptRequest } from "../../../../models/PromptRequest";
+import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { ThreadRequest } from "../../Layout/ThreadRequest/ThreadRequest";
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
@@ -11,6 +11,8 @@ import { saveHistory } from "../../../../services/ThreadService";
 import { useState } from "react";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
+import { Prompt } from "../../../../models/Prompt";
 
 interface TextGenerationThread {
     promptRequest: PromptRequest,
@@ -20,11 +22,15 @@ interface TextGenerationThread {
 export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGenerationThread) {
     const [
         user,
+        promptsRequests,
+        setPromptsRequests,
         selectedModifiers,
         selectedTemplates,
         userPromptRequest,
     ] = useStore(useShallow(state => [
         state.user,
+        state.promptsRequests,
+        state.setPromptsRequests,
         state.selectedModifiers,
         state.selectedTemplates,
         state.userPromptRequest,
@@ -36,6 +42,18 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
 
     scrollIntoView({ alignement: 'start' });
+
+    const regenerate = () => {
+        const newPromptRequest = Prompt.clone(promptRequest) as PromptRequest;
+        newPromptRequest.key = promptRequest.key + 1;
+        newPromptRequest.isPlayable = false;
+        newPromptRequest.type = PromptRequestType.Prompt;
+        newPromptRequest.response = "";
+        
+        const newPromptsRequests = promptsRequests.map(p => p.key === promptRequest.key ? newPromptRequest : p);
+
+        setPromptsRequests(newPromptsRequests);
+    }
 
     const response = () => {
         if (isLoading || isFetching) return <Loader size={"xs"} type="dots" />;
@@ -69,6 +87,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
                 }
                 <Group gap={"xs"}>
                     <ThreadCopyButton value={dataResponse} />
+                    <ThreadReloadButton reload={regenerate} />
                 </Group>
             </Stack>
         }

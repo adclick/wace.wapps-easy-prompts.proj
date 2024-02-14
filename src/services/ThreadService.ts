@@ -4,7 +4,7 @@ import { User } from "../models/User";
 import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
 import { Language } from "../models/Language";
-import { CreatePromptFormValues } from "../context/CreatePromptFormContext";
+import { CreatePromptFormValues } from "../context/PromptFormContext";
 
 export const saveHistory = (
     user: User,

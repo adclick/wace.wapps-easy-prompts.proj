@@ -1,7 +1,7 @@
 import { createFormContext } from '@mantine/form';
 import { PromptChatMessage } from '../models/PromptChatMessage';
 
-export interface CreatePromptFormValues {
+export interface PromptFormValues {
     title: string;
     description: string;
     content: string;
@@ -19,7 +19,7 @@ export interface CreatePromptFormValues {
 }
 
 export const [
-    CreatePromptFormProvider,
-    useCreatePromptFormContext,
-    useCreatePromptForm
-] = createFormContext<CreatePromptFormValues>();
+    PromptFormProvider,
+    usePromptFormContext,
+    usePromptForm
+] = createFormContext<PromptFormValues>();

@@ -9,7 +9,7 @@ export function ThreadSaveButton({ onClick }: ThreadSaveButton) {
     return (
         <Button
             variant="transparent"
-            color="gray"
+            color="--mantine-color-text"
             size="xs"
             leftSection={iconAdd(14)}
             onClick={onClick}

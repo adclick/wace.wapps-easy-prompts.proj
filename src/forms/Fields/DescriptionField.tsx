@@ -1,9 +1,7 @@
 import { Textarea } from "@mantine/core";
-import { useCreatePromptFormContext } from "../../../context/CreatePromptFormContext";
+import { FieldProps } from "./FieldProps";
 
-export function DescriptionField() {
-    const form = useCreatePromptFormContext();
-
+export function DescriptionField({form}: FieldProps) {
     return (
         <Textarea
             autosize

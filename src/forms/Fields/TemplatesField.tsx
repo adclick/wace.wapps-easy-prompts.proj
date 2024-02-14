@@ -1,12 +1,11 @@
 import { MultiSelect } from "@mantine/core";
-import { useUpdatePromptFormContext } from "../../../context/UpdatePromptFormContext";
-import { useStore } from "../../../stores/store";
+import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
-import { Template } from "../../../models/Template";
-import { useAllTemplatesQuery } from "../../../api/templatesApi";
+import { Template } from "../../models/Template";
+import { useAllTemplatesQuery } from "../../api/templatesApi";
+import { FieldProps } from "./FieldProps";
 
-export function TemplatesField() {
-    const form = useUpdatePromptFormContext();
+export function TemplatesField({form}: FieldProps) {
     const [
         user,
     ] = useStore(useShallow(state => [
