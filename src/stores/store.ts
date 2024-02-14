@@ -4,7 +4,7 @@ import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
 import { User } from "../models/User";
 import { SelectedFilters } from "../models/SelectedFilters";
-import { SelectedDatabaseType } from "../models/SelectedDatabaseType";
+import { SelectedDatabaseType, Type } from "../models/SelectedDatabaseType";
 
 interface storeState {
     user: User,

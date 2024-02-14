@@ -1,4 +1,4 @@
-export enum Position {
+enum Position {
     top = "top",
     top_start = "top-start",
     top_end = "top-end",
@@ -12,3 +12,5 @@ export enum Position {
     right_start = "right-start",
     right_end = "right-end",
 }
+
+export default Position;

@@ -2,11 +2,11 @@ import { Group, Text, UnstyledButton } from "@mantine/core";
 import { FC } from "react";
 import { iconChevronDown } from "../../utils/iconsUtils";
 import { Menu } from "../../components/UI/Menu";
-import { Position } from "../../enums/Position";
-import { MenuType } from "../../enums/MenuType";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
-import { Row } from "../../components/UI/Layout";
-import { Size } from "../../utils/uiUtils";
+import { FlexRow } from "../../components/UI/Layout";
+import { MenuType, Position, Size } from "../../enums";
+import FlexAlign from "../../enums/FlexAlign";
+import FlexWrap from "../../enums/FlexWrap";
 
 interface UserDatabaseToggleMenuProps {
     selectedDatabaseType: SelectedDatabaseType,
@@ -33,12 +33,12 @@ const UserDatabseToggleMenu: FC<UserDatabaseToggleMenuProps> = ({
             position={Position.bottom_start}
             target={(
                 <UnstyledButton px={0}>
-                    <Row align='center' gap={Size.xs} wrap="nowrap">
+                    <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.wrap}>
                         <Text truncate size="lg" fw={700}>
                             My {selectedDatabaseType.labelPlural}
                         </Text>
                         {iconChevronDown("xs", 3)}
-                    </Row>
+                    </FlexRow>
                 </UnstyledButton>
             )}
             items={[

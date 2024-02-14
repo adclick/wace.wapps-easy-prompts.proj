@@ -1,6 +1,6 @@
 import { Textarea as MantineTextarea } from "@mantine/core";
 import { ChangeEventHandler, FC, KeyboardEventHandler } from "react";
-import { Size } from "../../../../utils/uiUtils";
+import { Size } from "../../../../enums";
 
 interface TextareaProps {
     placeholder?: string;

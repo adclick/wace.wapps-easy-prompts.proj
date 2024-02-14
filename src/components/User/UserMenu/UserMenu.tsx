@@ -3,10 +3,8 @@ import { Avatar, Box, Stack, Text, UnstyledButton } from "@mantine/core";
 import { UserProfile } from "../UserProfile/UserProfile";
 import { useDisclosure } from "@mantine/hooks";
 import { Menu } from "../../UI/Menu";
-import { Position } from "../../../enums/Position";
 import { IconExternalLink, IconLogout, IconUser } from "@tabler/icons-react";
-import { Color } from "../../../enums/Color";
-import { MenuType } from "../../../enums/MenuType";
+import { Color, MenuType, Position } from "../../../enums";
 
 export function UserMenu() {
     const { user, logout } = useAuth0();

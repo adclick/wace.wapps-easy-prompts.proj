@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { Button, Chip, Modal } from "@mantine/core";
 import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
-import { Size } from "../../utils/uiUtils";
 import { LanguagesFilter } from "../../components/Filters/LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../../components/Filters/RepositoriesFilter/RepositoriesFilter";
 import { TechnologiesFilter } from "../../components/Filters/TechnologiesFilter/TechnologiesFilter";
@@ -14,11 +13,12 @@ import { usePromptsQuery } from "../../api/promptsApi";
 import { useTemplatesQuery } from "../../api/templatesApi";
 import { useModifiersQuery } from "../../api/modifiersApi";
 import { usePublicDatabaseFiltersQuery } from "../../api/filtersApi";
-import { IconSearch } from "@tabler/icons-react";
+import { IconDatabase, IconSearch } from "@tabler/icons-react";
 import { SelectedFilters } from "../../models/SelectedFilters";
-import { Column, Row } from "../../components/UI/Layout";
+import { FlexColumn, FlexRow } from "../../components/UI/Layout";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { FlexJustify, Size } from "../../enums";
 
 const PublicDatabasePanel: FC = () => {
     // Current user
@@ -48,9 +48,9 @@ const PublicDatabasePanel: FC = () => {
     return (
         <>
             <Modal opened={opened} onClose={close} size={"75%"} title="Public Database">
-                <Column gap={Size.xl} >
-                    <Row justify="space-between">
-                        <Row>
+                <FlexColumn gap={Size.xl} >
+                    <FlexRow justify={FlexJustify.spaceBetween}>
+                        <FlexRow>
                             <Chip.Group
                                 defaultValue={selectedDatabaseType.type}
                                 onChange={type => setSelectedDatabaseType(new SelectedDatabaseType(type as Type))}
@@ -60,10 +60,10 @@ const PublicDatabasePanel: FC = () => {
                                 <Chip value={Type.TEMPLATE}>Templates</Chip>
                                 <Chip value={Type.MODIFIER}>Modifiers</Chip>
                             </Chip.Group>
-                        </Row>
+                        </FlexRow>
                         {
                             selectedFiltersQuery.data &&
-                            <Row>
+                            <FlexRow>
                                 <LanguagesFilter
                                     languages={selectedFiltersQuery.data.languages}
                                     selectedFilters={selectedFilters}
@@ -79,9 +79,9 @@ const PublicDatabasePanel: FC = () => {
                                     selectedFilters={selectedFilters}
                                     setSelectedFilters={setSelectedFilters}
                                 />
-                            </Row>
+                            </FlexRow>
                         }
-                    </Row>
+                    </FlexRow>
                     <SearchTermFilter selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
                     {
                         selectedDatabaseType.type === Type.PROMPT &&
@@ -102,16 +102,16 @@ const PublicDatabasePanel: FC = () => {
                             modifiersQuery={modifiersQuery}
                         />
                     }
-                </Column >
+                </FlexColumn >
             </Modal>
             <Button
                 fullWidth
                 color="gray"
-                leftSection={<IconSearch size={16} />}
+                leftSection={<IconDatabase size={16} />}
                 variant="transparent"
                 onClick={open}
             >
-                Public Database
+                Database
             </Button>
         </>
     )

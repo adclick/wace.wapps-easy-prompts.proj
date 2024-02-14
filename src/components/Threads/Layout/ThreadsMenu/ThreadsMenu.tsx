@@ -2,10 +2,9 @@ import { Group, Text, UnstyledButton } from "@mantine/core";
 import { Menu } from "../../../UI/Menu";
 import { iconChevronDown } from "../../../../utils/iconsUtils";
 import { IconClearAll } from "@tabler/icons-react";
-import { Position } from "../../../../enums/Position";
-import { MenuType } from "../../../../enums/MenuType";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../../stores/store";
+import { MenuType, Position } from "../../../../enums";
 
 export function ThreadsMenu() {
     const [setPromptsRequests] = useStore(useShallow(state => [state.setPromptsRequests]));

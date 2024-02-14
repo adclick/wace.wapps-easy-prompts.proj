@@ -2,12 +2,12 @@ import { FC, KeyboardEvent } from "react";
 import { PromptRequest } from "../../models/PromptRequest";
 import { Textarea } from "../../components/UI/Inputs/Textarea";
 import { IconButton } from "../../components/UI/Buttons/IconButton";
-import { Size, Variant } from "../../utils/uiUtils";
 import { IconPlay } from "../../icons";
 import classes from "./UserPrompt.module.css";
-import { Row } from "../../components/UI/Layout";
+import { FlexRow } from "../../components/UI/Layout";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../stores/store";
+import { Size, Variant } from "../../enums";
 
 const UserPrompt: FC = () => {
     const [
@@ -51,7 +51,7 @@ const UserPrompt: FC = () => {
     }
 
     return (
-        <Row>
+        <FlexRow>
             <Textarea
                 placeholder="Create a new prompt"
                 autofocus={true}
@@ -69,7 +69,7 @@ const UserPrompt: FC = () => {
                 icon={<IconPlay size={16} stroke={1.5} />}
                 className={classes.playButton}
             />
-        </Row>
+        </FlexRow>
     )
 }
 

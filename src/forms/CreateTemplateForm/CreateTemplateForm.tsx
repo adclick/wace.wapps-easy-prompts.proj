@@ -10,6 +10,7 @@ import { DescriptionField } from "./Fields/DescriptionField";
 import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
 
 interface CreateTemplateForm {
     handle: any
@@ -17,7 +18,13 @@ interface CreateTemplateForm {
 
 export function CreateTemplateForm({ handle }: CreateTemplateForm) {
     const mutation = useCreateTemplateMutation();
-    const [user] = useStore(useShallow(state => [state.user]));
+    const [
+        user,
+        setSelectedPrivateDatabaseType,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.setSelectedPrivateDatabaseType
+    ]));
 
     const form = useCreateTemplateForm({
         initialValues: {
@@ -36,6 +43,10 @@ export function CreateTemplateForm({ handle }: CreateTemplateForm) {
 
     const submit = () => {
         mutation.mutate(form.values);
+
+        setSelectedPrivateDatabaseType(
+            new SelectedDatabaseType(Type.TEMPLATE)
+        );
 
         handle.close();
     }

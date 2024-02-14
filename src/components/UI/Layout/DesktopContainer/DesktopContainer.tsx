@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core";
 import { FC, ReactNode } from "react";
-import { Size } from "../../../../utils/uiUtils";
+import { Size } from "../../../../enums";
 
 interface DesktopContainerProps {
     children: ReactNode

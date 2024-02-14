@@ -3,9 +3,10 @@ import { ThreadsMenu } from "../../Threads/Layout/ThreadsMenu/ThreadsMenu";
 import { ColorSchemeToggle } from "../../Common/ColorSchemeToggle/ColorSchemeToggle";
 import { UserMenu } from "../../User/UserMenu/UserMenu";
 import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
-import { Row } from "../../UI/Layout";
-import { Size } from "../../../utils/uiUtils";
+import { FlexRow } from "../../UI/Layout";
 import { DesktopContainer, MobileContainer } from "../../UI/Layout";
+import { FlexJustify, Size } from "../../../enums";
+import FlexAlign from "../../../enums/FlexAlign";
 
 interface Header {
     navbarMobileOpened: boolean,
@@ -21,8 +22,8 @@ export function Header({
     navbarDesktopHandle,
 }: Header) {
     return (
-        <Row justify="space-between">
-            <Row gap={Size.xs}>
+        <FlexRow justify={FlexJustify.spaceBetween} align={FlexAlign.center}>
+            <FlexRow gap={Size.xs}>
                 {
                     !navbarDesktopOpened &&
                     <DesktopContainer>
@@ -40,11 +41,11 @@ export function Header({
                 </MobileContainer>
 
                 <ThreadsMenu />
-            </Row>
-            <Row>
+            </FlexRow>
+            <FlexRow>
                 <ColorSchemeToggle />
                 <UserMenu />
-            </Row>
-        </Row>
+            </FlexRow>
+        </FlexRow>
     )
 }

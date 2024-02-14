@@ -11,6 +11,7 @@ import { ContentField } from "./Fields/ContentField";
 import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
 
 interface CreateModifierForm {
     handle: any
@@ -18,7 +19,13 @@ interface CreateModifierForm {
 
 export function CreateModifierForm({ handle }: CreateModifierForm) {
     const mutation = useCreateModifierMutation();
-    const [user] = useStore(useShallow(state => [state.user]));
+    const [
+        user,
+        setSelectedPrivateDatabaseType,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.setSelectedPrivateDatabaseType
+    ]));
 
     const form = useCreateModifierForm({
         initialValues: {
@@ -35,6 +42,10 @@ export function CreateModifierForm({ handle }: CreateModifierForm) {
 
     const submit = () => {
         mutation.mutate(form.values);
+
+        setSelectedPrivateDatabaseType(
+            new SelectedDatabaseType(Type.MODIFIER)
+        );
 
         handle.close();
     }

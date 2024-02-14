@@ -1,6 +1,6 @@
 import { ActionIcon } from "@mantine/core"
 import { FC, MouseEvent, ReactNode } from "react"
-import { Size, Variant } from "../../../../utils/uiUtils";
+import { Size, Variant } from "../../../../enums";
 
 interface IconButtonProps {
     size?: Size;

@@ -1,8 +1,6 @@
 import { FC, MouseEvent, ReactNode } from "react";
 import { Menu as MantineMenu } from "@mantine/core";
-import { Position } from "../../../enums/Position";
-import { Color } from "../../../enums/Color";
-import { MenuType } from "../../../enums/MenuType";
+import { Color, MenuType, Position } from "../../../enums";
 
 
 interface MenuItemProps {
