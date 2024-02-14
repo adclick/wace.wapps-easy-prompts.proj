@@ -1,10 +1,9 @@
 import { Select } from "@mantine/core";
-import { useUpdateModifierFormContext } from "../../../context/UpdateModifierFormContext";
 import { useProvidersQuery } from "../../../api/providersApi";
 import { Provider } from "../../../models/Provider";
+import { FieldProps } from "./FieldProps";
 
-export function ProviderField() {
-    const form = useUpdateModifierFormContext();
+export function ProviderField({form}: FieldProps) {
     const { data } = useProvidersQuery(parseInt(form.values.technology_id));
 
     if (data) {

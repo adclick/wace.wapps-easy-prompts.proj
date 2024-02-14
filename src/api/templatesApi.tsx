@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
-import { CreateTemplateFormValues } from '../context/CreateTemplateFormContext';
+import { CreateTemplateFormValues } from '../context/TemplateFormContext';
 import { UpdateTemplateFormValues } from '../context/UpdateTemplateFormContext';
 import { User } from '../models/User';
 

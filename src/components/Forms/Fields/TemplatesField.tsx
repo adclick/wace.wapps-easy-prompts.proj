@@ -1,8 +1,8 @@
 import { MultiSelect } from "@mantine/core";
-import { useStore } from "../../stores/store";
+import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
-import { Template } from "../../models/Template";
-import { useAllTemplatesQuery } from "../../api/templatesApi";
+import { Template } from "../../../models/Template";
+import { useAllTemplatesQuery } from "../../../api/templatesApi";
 import { FieldProps } from "./FieldProps";
 
 export function TemplatesField({form}: FieldProps) {

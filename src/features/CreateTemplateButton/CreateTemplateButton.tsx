@@ -1,16 +1,18 @@
 import { Button, Group, Modal } from "@mantine/core";
 import { FC } from "react";
-import { CreateTemplateForm } from "../../forms/CreateTemplateForm/CreateTemplateForm";
 import { useDisclosure } from "@mantine/hooks";
 import { IconTemplate } from "@tabler/icons-react";
+import { TemplateForm } from "../../components/Forms/TemplateForm/TemplateForm";
+import { useCreateTemplateMutation } from "../../api/templatesApi";
 
 export const CreateTemplateButton: FC = () => {
     const [opened, handle] = useDisclosure(false);
+    const mutation = useCreateTemplateMutation();
 
     return (
         <>
             <Modal opened={opened} onClose={handle.close} title="Create Template" size={"lg"}>
-                <CreateTemplateForm handle={handle} />
+                <TemplateForm mutation={mutation} handle={handle} />
             </Modal>
             <Group>
                 <Button

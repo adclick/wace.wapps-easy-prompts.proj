@@ -4,14 +4,14 @@ import { Template } from "../../../../models/Template";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
 import classes from './TemplateCard.module.css';
-import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
+import { useDeleteTemplateMutation, useUpdateTemplateMutation } from "../../../../api/templatesApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
-import { UpdateTemplateForm } from "../../../../forms/UpdateTemplateForm/UpdateTemplateForm";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { TemplateForm } from "../../../Forms/TemplateForm/TemplateForm";
 
 interface TemplateCard {
     template: Template,
@@ -84,6 +84,8 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
         editHandle.open();
     }
 
+    const updateMudation = useUpdateTemplateMutation(template.id);
+
     return (
         <>
             <TemplateCardDetails
@@ -93,7 +95,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                 deleteMutation={deleteMutation}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template" size={"lg"}>
-                <UpdateTemplateForm template={template} handle={editHandle} />
+                <TemplateForm mutation={updateMudation} template={template} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={template.id.toString()}>
                 <Accordion.Control>

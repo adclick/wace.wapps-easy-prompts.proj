@@ -1,5 +1,5 @@
 import { Button, Group, Stack } from "@mantine/core";
-import { usePromptQuery } from "../../api/promptsApi";
+import { usePromptQuery } from "../../../api/promptsApi";
 import { LanguageField } from "../Fields/LanguageField";
 import { RepositoryField } from "../Fields/RepositoryField";
 import { TechnologyField } from "../Fields/TechnologyField";
@@ -8,13 +8,13 @@ import { TitleField } from "../Fields/TitleField";
 import { DescriptionField } from "../Fields/DescriptionField";
 import { ContentField } from "../Fields/ContentField";
 import { IconCheck } from "@tabler/icons-react";
-import { useStore } from "../../stores/store";
+import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
-import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
+import { SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
 import { TemplatesField } from "../Fields/TemplatesField";
 import { ModifiersField } from "../Fields/ModifiersField";
-import { Prompt } from "../../models/Prompt";
-import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../context/PromptFormContext";
+import { Prompt } from "../../../models/Prompt";
+import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
 
 interface PromptForm {
     prompt?: Prompt,
@@ -31,6 +31,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         state.setSelectedPrivateDatabaseType
     ]));
 
+    // Create new form
     const initialValues: PromptFormValues = {
         title: '',
         description: '',
@@ -55,6 +56,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     const promptId = prompt ? prompt.id : 0;
     const { data } = usePromptQuery(promptId, enabled);
 
+    // Update existing form
     if (prompt && prompt.id > 0 && data) {
         const promptPrivate = data as Prompt;
 
@@ -65,7 +67,9 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         initialValues.language_id = promptPrivate.language.id.toString();
         initialValues.repository_id = promptPrivate.repository.id.toString();
         initialValues.technology_id = promptPrivate.technology.id.toString();
-        initialValues.provider_id = promptPrivate.provider.id.toString();
+        if (promptPrivate.provider) {
+            initialValues.provider_id = promptPrivate.provider.id.toString();
+        }
         initialValues.user_id = user.id;
         initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.id.toString());
@@ -75,6 +79,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         form.initialize(initialValues);
     }
 
+    // Create form based on prompt
     if (prompt && prompt.id <= 0) {
         initialValues.title = prompt.title;
         initialValues.description = prompt.description;

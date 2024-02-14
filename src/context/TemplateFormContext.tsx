@@ -2,7 +2,7 @@ import { createFormContext } from '@mantine/form';
 import { PromptChatMessage } from '../models/PromptChatMessage';
 import { TemplateParameter } from '../models/TemplateParameter';
 
-export interface CreateTemplateFormValues {
+export interface TemplateFormValues {
     title: string;
     description: string;
     language_id: string;
@@ -16,7 +16,7 @@ export interface CreateTemplateFormValues {
 }
 
 export const [
-    CreateTemplateFormProvider,
-    useCreateTemplateFormContext,
-    useCreateTemplateForm
-] = createFormContext<CreateTemplateFormValues>();
+    TemplateFormProvider,
+    useTemplateFormContext,
+    useTemplateForm
+] = createFormContext<TemplateFormValues>();

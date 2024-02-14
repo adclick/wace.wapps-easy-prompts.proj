@@ -3,7 +3,7 @@ import axios from 'axios';
 import { SelectedFilters } from '../models/SelectedFilters';
 import { UpdateModifierFormValues } from '../context/UpdateModifierFormContext';
 import { User } from '../models/User';
-import { CreateModifierFormValues } from '../context/CreateModifierFormContext';
+import { CreateModifierFormValues } from '../context/ModifierFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 20;

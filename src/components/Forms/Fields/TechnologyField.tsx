@@ -1,12 +1,11 @@
 import { Select } from "@mantine/core";
-import { useCreateModifierFormContext } from "../../../context/CreateModifierFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
 import { Technology } from "../../../models/Technology";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { FieldProps } from "./FieldProps";
 
-export function TechnologyField() {
-    const form = useCreateModifierFormContext();
+export function TechnologyField({form}: FieldProps) {
     const [user] = useStore(useShallow(state => [state.user]));
     const {data} = useFiltersQuery(user);
 

@@ -5,7 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { User } from "../../../../models/User";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
-import { PromptForm } from "../../../../forms/PromptForm/PromptForm";
+import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
 import { useCreatePromptMutation } from "../../../../api/promptsApi";
 
 interface ThreadFooter {

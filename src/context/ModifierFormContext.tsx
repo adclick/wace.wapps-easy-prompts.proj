@@ -1,6 +1,6 @@
 import { createFormContext } from '@mantine/form';
 
-export interface CreateModifierFormValues {
+export interface ModifierFormValues {
     title: string;
     description: string;
     content: string;
@@ -12,7 +12,7 @@ export interface CreateModifierFormValues {
 }
 
 export const [
-    CreateModifierFormProvider,
-    useCreateModifierFormContext,
-    useCreateModifierForm
-] = createFormContext<CreateModifierFormValues>();
+    ModifierFormProvider,
+    useModifierFormContext,
+    useModifierForm
+] = createFormContext<ModifierFormValues>();

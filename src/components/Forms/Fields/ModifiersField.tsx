@@ -1,8 +1,8 @@
 import { MultiSelect } from "@mantine/core";
-import { useStore } from "../../stores/store";
+import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
-import { Template } from "../../models/Template";
-import { useAllModifiersQuery } from "../../api/modifiersApi";
+import { Template } from "../../../models/Template";
+import { useAllModifiersQuery } from "../../../api/modifiersApi";
 import { FieldProps } from "./FieldProps";
 
 export function ModifiersField({form}: FieldProps) {

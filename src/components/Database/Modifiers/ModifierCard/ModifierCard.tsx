@@ -3,16 +3,16 @@ import { Modifier } from "../../../../models/Modifier";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
 import classes from './ModifierCard.module.css';
-import { useDeleteModifierMutation } from "../../../../api/modifiersApi";
+import { useDeleteModifierMutation, useUpdateModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { UpdateModifierForm } from "../../../../forms/UpdateModifierForm/UpdateModifierForm";
 import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { MouseEvent } from "react";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { ModifierForm } from "../../../Forms/ModifierForm/ModifierForm";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -87,6 +87,8 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
         editHandle.open();
     }
 
+    const updateMutation = useUpdateModifierMutation(modifier.id);
+
     return (
         <>
             <ModifierCardDetails
@@ -96,7 +98,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                 deleteMutation={deleteMutation}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Modifier" size={"lg"}>
-                <UpdateModifierForm modifier={modifier} handle={editHandle} />
+                <ModifierForm mutation={updateMutation} modifier={modifier} handle={editHandle} />
             </Modal>
             <Accordion.Item ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>

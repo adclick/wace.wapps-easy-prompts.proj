@@ -1,27 +1,26 @@
 import { Select } from "@mantine/core";
-import { useCreateTemplateFormContext } from "../../../context/CreateTemplateFormContext";
 import { useFiltersQuery } from "../../../api/filtersApi";
-import { Technology } from "../../../models/Technology";
+import { Language } from "../../../models/Language";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { FieldProps } from "./FieldProps";
 
-export function TechnologyField() {
-    const form = useCreateTemplateFormContext();
+export function LanguageField({form}: FieldProps) {
     const [user] = useStore(useShallow(state => [state.user]));
     const {data} = useFiltersQuery(user);
 
     if (data) {
-        const selectData = data.technologies.map((t: Technology) => {
+        const selectData = data.languages.map((l: Language) => {
             return {
-                label: t.name,
-                value: t.id.toString()
+                label: l.name,
+                value: l.id.toString()
             }
         });
 
         return <Select
-            label="Technology"
+            label="Language"
             data={selectData}
-            {...form.getInputProps('technology_id')}
+            {...form.getInputProps('language_id')}
         />
     }
 
