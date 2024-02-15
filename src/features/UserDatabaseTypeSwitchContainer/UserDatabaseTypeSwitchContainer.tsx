@@ -1,9 +1,10 @@
-import { Collapse, SegmentedControl } from "@mantine/core";
+import { Collapse, SegmentedControl, Text } from "@mantine/core";
 import { FC } from "react";
 import { BooleanHandle } from "../../types";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../stores/store";
 import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
+import classes from './UserDatabaseTypeSwitchContainer.module.css'
 
 interface UserDatabaseTypeSwitchContainerProps {
     opened: boolean,
@@ -25,15 +26,16 @@ const UserDatabaseTypeSwitchContainer: FC<UserDatabaseTypeSwitchContainerProps> 
     return (
         <Collapse in={opened}>
             <SegmentedControl
+                className={classes.switcher}
                 color="blue"
                 size="xs"
                 fullWidth
                 value={selectedPrivateDatabaseType.type}
                 onChange={type => setSelectedPrivateDatabaseType(new SelectedDatabaseType(type as Type))}
                 data={[
-                    { label: 'Promps', value: Type.PROMPT },
-                    { label: 'Templates', value: Type.TEMPLATE },
-                    { label: 'Modifiers', value: Type.MODIFIER },
+                    { label: (<Text fw={700} size="xs">Prompts</Text>), value: Type.PROMPT },
+                    { label: (<Text fw={700} size="xs">Templates</Text>), value: Type.TEMPLATE },
+                    { label: (<Text fw={700} size="xs">Modifiers</Text>), value: Type.MODIFIER },
                 ]}
             />
         </Collapse>

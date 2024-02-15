@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { Group, Stack, Text, UnstyledButton } from "@mantine/core";
+import { Button, Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import { FC } from "react";
 import SidebarHamburgerSwitcher from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
@@ -53,14 +53,16 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                             navbarHandle={navbarMobileHandle}
                         />
                     </MobileContainer>
-                    <UnstyledButton px={0} onClick={databaseTypeHandle.toggle}>
-                        <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.wrap}>
-                            <Text truncate size="lg" fw={700}>
-                                My {selectedPrivateDatabaseType.labelPlural}
-                            </Text>
-                            {iconChevronDown("xs", 3)}
-                        </FlexRow>
-                    </UnstyledButton>
+                    <Button
+                        rightSection={iconChevronDown("xs", 3)}
+                        color="--mantine-color-text"
+                        variant="transparent"
+                        size="compact-lg"
+                        px={0}
+                        onClick={databaseTypeHandle.toggle}
+                    >
+                        My {selectedPrivateDatabaseType.labelPlural}
+                    </Button>
                 </FlexRow>
                 <FlexRow gap={Size.xs}>
                     <DatabaseAddIcon

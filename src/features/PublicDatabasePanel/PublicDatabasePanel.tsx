@@ -57,9 +57,8 @@ const PublicDatabasePanel: FC = () => {
         <>
             <Modal opened={opened} onClose={close} size={"75%"} title="Database">
                 <Grid>
-                    <Grid.Col span={{ base: 12, sm: 3 }}>
+                    <Grid.Col span={{ base: 12, lg: 3 }}>
                         <Card>
-
                             <Stack>
                                 <Title order={5}>Filters</Title>
 
@@ -101,7 +100,7 @@ const PublicDatabasePanel: FC = () => {
                             </Stack>
                         </Card>
                     </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 9 }}>
+                    <Grid.Col span={{ base: 12, lg: 9 }}>
                         <Stack>
                             <Card>
                                 <Group justify="space-between">

@@ -12,8 +12,6 @@ export const saveHistory = (
     modifiers: Modifier[],
     mutation: UseMutationResult<any, Error, PromptFormValues, unknown>
 ) => {
-    console.log(user);
-
     const formValues: PromptFormValues = {
         user_id: user.id,
         title: promptRequest.title,
