@@ -14,6 +14,7 @@ import { modals } from "@mantine/modals";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
+import classes from './PromptCard.module.css'
 
 interface PromptCard {
     prompt: Prompt,
@@ -130,7 +131,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
                 <PromptForm mutation={updateMutation} prompt={prompt} handle={editHandle} />
             </Modal>
-            <Accordion.Item ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
+            <Accordion.Item className={classes.card} ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">

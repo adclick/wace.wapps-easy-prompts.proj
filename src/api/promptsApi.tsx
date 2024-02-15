@@ -5,7 +5,7 @@ import { User } from '../models/User';
 import { PromptFormValues } from '../context/PromptFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const LIST_LIMIT = 20;
+const LIST_LIMIT = 3;
 
 export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     return useQuery({

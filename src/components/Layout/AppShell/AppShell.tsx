@@ -47,7 +47,7 @@ const AppShell: FC = () => {
                     <Sidebar />
                 </MantineAppShell.Section>
 
-                <MantineAppShell.Section >
+                <MantineAppShell.Section pt={"md"} >
                     <SidebarFooter />
                 </MantineAppShell.Section>
             </MantineAppShell.Navbar>

@@ -5,7 +5,6 @@ import { PublicDatabasePanel } from "../../../features";
 export const SidebarFooter: FC = () => {
     return (
         <>
-            <Divider my={"xs"} />
             <PublicDatabasePanel />
         </>
     )

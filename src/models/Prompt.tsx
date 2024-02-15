@@ -1,3 +1,4 @@
+import { Color } from "../enums";
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
 import { Parameter } from "./Parameter";
@@ -129,5 +130,9 @@ export class Prompt {
         newPrompt.prompts_parameters = template.templates_parameters;
 
         return newPrompt;
+    }
+
+    static getColor(): Color {
+        return Color.blue;
     }
 }

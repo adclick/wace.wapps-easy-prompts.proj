@@ -3,19 +3,18 @@ import { PromptRequest } from "../models/PromptRequest";
 import { User } from "../models/User";
 import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
-import { Language } from "../models/Language";
-import { CreatePromptFormValues } from "../context/PromptFormContext";
+import { PromptFormValues } from "../context/PromptFormContext";
 
 export const saveHistory = (
     user: User,
     promptRequest: PromptRequest,
     templates: Template[],
     modifiers: Modifier[],
-    mutation: UseMutationResult<any, Error, CreatePromptFormValues, unknown>
+    mutation: UseMutationResult<any, Error, PromptFormValues, unknown>
 ) => {
     console.log(user);
 
-    const formValues: CreatePromptFormValues = {
+    const formValues: PromptFormValues = {
         user_id: user.id,
         title: promptRequest.title,
         description: 'No Description',
@@ -25,8 +24,8 @@ export const saveHistory = (
         repository_id: user.history_repository_id.toString(),
         technology_id: promptRequest.technology.id.toString(),
         provider_id: promptRequest.provider.id.toString(),
-        templates_ids: [],
-        modifiers_ids: [],
+        templates_ids: templates.map(t => t.id.toString()),
+        modifiers_ids: modifiers.map(m => m.id.toString()),
         chat_messages: [],
         prompt_parameters: []
     }

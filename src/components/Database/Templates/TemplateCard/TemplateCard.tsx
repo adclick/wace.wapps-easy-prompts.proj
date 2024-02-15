@@ -97,7 +97,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template" size={"lg"}>
                 <TemplateForm mutation={updateMudation} template={template} handle={editHandle} />
             </Modal>
-            <Accordion.Item ref={itemRef} value={template.id.toString()}>
+            <Accordion.Item className={classes.card} ref={itemRef} value={template.id.toString()}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">

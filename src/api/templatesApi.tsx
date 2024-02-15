@@ -5,7 +5,7 @@ import { TemplateFormValues } from '../context/TemplateFormContext';
 import { User } from '../models/User';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const LIST_LIMIT = 20;
+const LIST_LIMIT = 10;
 
 export const useTemplateQuery = (templateId: number, enabled: boolean = true) => {
     return useQuery({

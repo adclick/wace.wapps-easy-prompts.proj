@@ -51,7 +51,6 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
             setUserPromptRequest(newUserRequest);
         }
 
-        setSelectedTemplates([]);
         setSelectedModifiers(modifiers);
     }
 

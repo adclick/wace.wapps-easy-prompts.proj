@@ -16,7 +16,7 @@ const SidebarCollapseSwitcher: FC<SidebarCollapseSwitcherProps> = ({
 
     return (
         <Tooltip label={tooltip}>
-            <ActionIcon className={classes.icon} size="lg" onClick={navbarToggle} variant="transparent">
+            <ActionIcon className={classes.icon} size="lg" onClick={navbarToggle} variant="subtle" color="gray">
                 {
                     iconSideBar("md")
                 }

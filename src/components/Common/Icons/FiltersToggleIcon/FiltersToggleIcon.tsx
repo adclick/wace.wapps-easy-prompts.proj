@@ -8,7 +8,7 @@ interface FiltersToggleIcon {
 }
 
 export function FiltersToggleIcon({ onClick, filtersOpened }: FiltersToggleIcon) {
-    const variant = filtersOpened ? "light" : "transparent";
+    const variant = filtersOpened ? "light" : "subtle";
 
     return (
         <Tooltip label={"Filters"}>

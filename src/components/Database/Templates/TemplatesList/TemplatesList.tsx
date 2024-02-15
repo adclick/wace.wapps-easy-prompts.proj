@@ -54,7 +54,6 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
             setUserPromptRequest(newUserRequest);
         }
 
-        setSelectedModifiers([]);
         setSelectedTemplates(templates);
     }
 

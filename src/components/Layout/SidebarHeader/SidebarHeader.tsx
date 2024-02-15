@@ -1,9 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { Collapse, Group, Stack } from "@mantine/core";
-import { FC, useEffect } from "react";
-import { usePrivateFiltersQuery } from "../../../api/filtersApi";
-import { SelectedFilters } from "../../../models/SelectedFilters";
+import { Group, Stack, Text, UnstyledButton } from "@mantine/core";
+import { FC } from "react";
 import SidebarHamburgerSwitcher from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
 import SidebarCollapseSwitcher from "../../../features/SidebarCollapseSwitcher/SidebarCollapseSwitcher";
@@ -12,8 +10,12 @@ import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
 import { CreateUserItemSection } from "../../../features/CreateUserItemSection/CreateUserItemSection";
-import { DesktopContainer, MobileContainer } from "../../UI/Layout";
+import { DesktopContainer, FlexRow, MobileContainer } from "../../UI/Layout";
 import { BooleanHandle } from "../../../types";
+import { FlexAlign, Size } from "../../../enums";
+import UserDatabaseTypeSwitchContainer from "../../../features/UserDatabaseTypeSwitchContainer/UserDatabaseTypeSwitchContainer";
+import FlexWrap from "../../../enums/FlexWrap";
+import { iconChevronDown } from "../../../utils/iconsUtils";
 
 interface SidebarHeaderProps {
     navbarMobileOpened: boolean,
@@ -28,6 +30,10 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
     navbarMobileHandle,
     navbarDesktopHandle,
 }: SidebarHeaderProps) => {
+    const [databaseTypeOpened, databaseTypeHandle] = useDisclosure(false);
+    const [filtersOpened, filtersHandle] = useDisclosure(false);
+    const [createItemOpened, createItemHandle] = useDisclosure(false);
+
     const [
         selectedPrivateDatabaseType,
         setSelectedPrivateDatabaseType,
@@ -36,25 +42,27 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
         state.setSelectedPrivateDatabaseType,
 
     ]));
-    const [filtersOpened, filtersHandle] = useDisclosure(false);
-    const [createItemOpened, createItemHandle] = useDisclosure(false);
 
     return (
         <Stack gap={"lg"} pb={"xl"}>
             <Group justify='space-between' pt={"xs"}>
-                <Group>
+                <FlexRow>
                     <MobileContainer>
                         <SidebarHamburgerSwitcher
                             navbarOpened={navbarMobileOpened}
                             navbarHandle={navbarMobileHandle}
                         />
                     </MobileContainer>
-                    <UserDatabseToggleMenu
-                        selectedDatabaseType={selectedPrivateDatabaseType}
-                        setSelectedDatabaseType={setSelectedPrivateDatabaseType}
-                    />
-                </Group>
-                <Group gap={"xs"}>
+                    <UnstyledButton px={0} onClick={databaseTypeHandle.toggle}>
+                        <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.wrap}>
+                            <Text truncate size="lg" fw={700}>
+                                My {selectedPrivateDatabaseType.labelPlural}
+                            </Text>
+                            {iconChevronDown("xs", 3)}
+                        </FlexRow>
+                    </UnstyledButton>
+                </FlexRow>
+                <FlexRow gap={Size.xs}>
                     <DatabaseAddIcon
                         onClick={createItemHandle.toggle}
                         createItemOpened={createItemOpened}
@@ -69,8 +77,12 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                             navbarToggle={navbarDesktopHandle.toggle}
                         />
                     </DesktopContainer>
-                </Group>
+                </FlexRow>
             </Group>
+            <UserDatabaseTypeSwitchContainer
+                opened={databaseTypeOpened}
+                handle={databaseTypeHandle}
+            />
             <CreateUserItemSection
                 opened={createItemOpened}
                 handle={createItemHandle}

@@ -100,7 +100,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Modifier" size={"lg"}>
                 <ModifierForm mutation={updateMutation} modifier={modifier} handle={editHandle} />
             </Modal>
-            <Accordion.Item ref={itemRef} value={modifier.id.toString()}>
+            <Accordion.Item className={classes.card} ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="flex-start">

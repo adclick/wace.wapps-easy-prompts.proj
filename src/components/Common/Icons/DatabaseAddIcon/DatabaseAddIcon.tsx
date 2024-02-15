@@ -8,7 +8,7 @@ interface DatabaseAddIcon {
 }
 
 export function DatabaseAddIcon({onClick, createItemOpened}: DatabaseAddIcon) {
-    const variant = createItemOpened ? "light" : "transparent";
+    const variant = createItemOpened ? "light" : "subtle";
 
     return (
         <Tooltip label={"Create"}>

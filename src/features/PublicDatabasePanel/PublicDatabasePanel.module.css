@@ -1,0 +1,4 @@
+.typeSwitcher span {
+    --sc-indicator-width: 88px !important;
+    --sc-indicator-height: 25px !important;
+}
