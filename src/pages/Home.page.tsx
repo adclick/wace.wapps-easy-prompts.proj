@@ -1,5 +1,4 @@
-import { AppOverlay } from '../components/Layout/AppOverlay/AppOverlay';
-import { AppShell } from '../components/Layout/AppShell/AppShell';
+import { AppOverlay, AppShell } from '../components/Layout';
 
 export function HomePage() {
     return (

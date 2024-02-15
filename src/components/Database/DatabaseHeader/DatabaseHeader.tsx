@@ -4,9 +4,9 @@ import { ActionIcon, Box, Card, Collapse, Group, Stack, Title } from "@mantine/c
 import { useEffect } from "react";
 import { usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { SelectedFilters } from "../../../models/SelectedFilters";
-import { HeaderBurgerMenu } from "../../Common/HeaderBurgerMenu/HeaderBurgerMenu";
+import { HeaderBurgerMenu } from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
-import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
+import { NavbarToggleIcon } from "../../../features/SidebarCollapseSwitcher/SidebarCollapseSwitcher";
 import UserDatabseToggleMenu from "../../../features/UserDatabaseToggleMenu/UserDatabaseToggleMenu";
 import { SelectedDatabaseType } from "../../../models/SelectedDatabaseType";
 import { useStore } from "../../../stores/store";

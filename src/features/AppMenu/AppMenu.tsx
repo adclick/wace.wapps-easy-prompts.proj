@@ -1,21 +1,24 @@
-import { Group, Text, UnstyledButton } from "@mantine/core";
-import { Menu } from "../../../UI/Menu";
-import { iconChevronDown } from "../../../../utils/iconsUtils";
-import { IconClearAll } from "@tabler/icons-react";
+import { FC } from "react";
+import { Text, UnstyledButton } from "@mantine/core";
+import { Menu } from "../../components/UI/Menu";
+import { IconChevronDown, IconClearAll } from "@tabler/icons-react";
 import { useShallow } from "zustand/react/shallow";
-import { useStore } from "../../../../stores/store";
-import { MenuType, Position } from "../../../../enums";
+import { useStore } from "../../stores/store";
+import { MenuType, Position, Size } from "../../enums";
+import { FlexRow } from "../../components/UI/Layout";
+import FlexAlign from "../../enums/FlexAlign";
+import FlexWrap from "../../enums/FlexWrap";
 
-export function ThreadsMenu() {
+const AppMenu: FC = () => {
     const [setPromptsRequests] = useStore(useShallow(state => [state.setPromptsRequests]));
 
     const target = <UnstyledButton px={0}>
-        <Group align='center' gap={"xs"} wrap="nowrap">
+        <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.nowrap}>
             <Text size="xl" fw={700}>
                 Menu
             </Text>
-            {iconChevronDown("sm", 3)}
-        </Group>
+            <IconChevronDown size={18} stroke={3} />
+        </FlexRow>
     </UnstyledButton>
 
     return (
@@ -34,3 +37,5 @@ export function ThreadsMenu() {
         />
     )
 }
+
+export default AppMenu;

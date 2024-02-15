@@ -5,22 +5,43 @@ import { TechnologiesFilter } from "../TechnologiesFilter/TechnologiesFilter";
 import { SearchTermFilter } from "../SearchTermFilter/SearchTermFilter";
 import { iconClose } from "../../../utils/iconsUtils";
 import { SelectedFilters } from "../../../models/SelectedFilters";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../stores/store";
+import { usePrivateFiltersQuery } from "../../../api/filtersApi";
+import { useEffect } from "react";
+import { BooleanHandle } from "../../../types";
 
 interface FiltersContainer {
     opened: boolean,
-    handle: any
-    selectedFiltersQuery: any,
-    selectedFilters: SelectedFilters,
-    setSelectedFilters: any
+    handle: BooleanHandle
 }
 
 export function FiltersContainer({
     opened,
     handle,
-    selectedFiltersQuery,
-    selectedFilters,
-    setSelectedFilters,
 }: FiltersContainer) {
+    const [
+        user,
+        selectedPrivateFilters,
+        setSelectedPrivateFilters,
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.selectedPrivateFilters,
+        state.setSelectedPrivateFilters,
+
+    ]));
+    const selectedFiltersQuery = usePrivateFiltersQuery(user);
+
+    // Init selectedFilters
+    useEffect(() => {
+        if (selectedPrivateFilters.isEmpty && selectedFiltersQuery.data) {
+            const newSelectedFilters = SelectedFilters.buildFromQuery(selectedFiltersQuery.data);
+            setSelectedPrivateFilters(newSelectedFilters);
+        }
+    }, [selectedPrivateFilters, selectedFiltersQuery]);
+
+
+
     let filters = <Loader />;
     let searchTermFilter = <></>;
 
@@ -28,29 +49,28 @@ export function FiltersContainer({
         filters = <Stack gap={"xs"}>
             <LanguagesFilter
                 languages={selectedFiltersQuery.data.languages}
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
+                selectedFilters={selectedPrivateFilters}
+                setSelectedFilters={setSelectedPrivateFilters}
             />
             <RepositoriesFilter
                 repositories={selectedFiltersQuery.data.repositories}
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
+                selectedFilters={selectedPrivateFilters}
+                setSelectedFilters={setSelectedPrivateFilters}
             />
             <TechnologiesFilter
                 technologies={selectedFiltersQuery.data.technologies}
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
+                selectedFilters={selectedPrivateFilters}
+                setSelectedFilters={setSelectedPrivateFilters}
             />
         </Stack>
         searchTermFilter = <SearchTermFilter
-            selectedFilters={selectedFilters}
-            setSelectedFilters={setSelectedFilters}
+            selectedFilters={selectedPrivateFilters}
+            setSelectedFilters={setSelectedPrivateFilters}
         />
     }
 
     return (
         <>
-            {searchTermFilter}
             <Collapse in={opened}>
                 <Card>
                     <Stack>
@@ -69,6 +89,7 @@ export function FiltersContainer({
                     </Stack>
                 </Card>
             </Collapse>
+            {searchTermFilter}
         </>
     )
 }

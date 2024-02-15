@@ -1,51 +1,48 @@
-import { HeaderBurgerMenu } from "../../Common/HeaderBurgerMenu/HeaderBurgerMenu";
-import { ThreadsMenu } from "../../Threads/Layout/ThreadsMenu/ThreadsMenu";
-import { ColorSchemeToggle } from "../../Common/ColorSchemeToggle/ColorSchemeToggle";
-import { UserMenu } from "../../User/UserMenu/UserMenu";
-import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
-import { FlexRow } from "../../UI/Layout";
-import { DesktopContainer, MobileContainer } from "../../UI/Layout";
-import { FlexJustify, Size } from "../../../enums";
-import FlexAlign from "../../../enums/FlexAlign";
+import { DesktopContainer, FlexRow, MobileContainer } from "../../UI/Layout";
+import { FlexAlign, FlexJustify, Size } from "../../../enums";
+import { AppMenu, ColorThemeSwitcher, SidebarCollapseSwitcher, SidebarHamburgerSwitcher, UserMenu } from "../../../features";
+import { BooleanHandle } from "../../../types";
+import { FC } from "react";
 
-interface Header {
+interface HeaderProps {
     navbarMobileOpened: boolean,
     navbarDesktopOpened: boolean,
-    navbarMobileHandle: any,
-    navbarDesktopHandle: any,
+    navbarMobileHandle: BooleanHandle,
+    navbarDesktopHandle: BooleanHandle,
 }
 
-export function Header({
+const Header: FC<HeaderProps> = ({
     navbarMobileOpened,
     navbarDesktopOpened,
     navbarMobileHandle,
     navbarDesktopHandle,
-}: Header) {
+}: HeaderProps) => {
     return (
         <FlexRow justify={FlexJustify.spaceBetween} align={FlexAlign.center}>
             <FlexRow gap={Size.xs}>
                 {
                     !navbarDesktopOpened &&
                     <DesktopContainer>
-                        <NavbarToggleIcon
+                        <SidebarCollapseSwitcher
                             navbarOpened={navbarDesktopOpened}
                             navbarToggle={navbarDesktopHandle.toggle}
                         />
                     </DesktopContainer>
                 }
                 <MobileContainer>
-                    <HeaderBurgerMenu
+                    <SidebarHamburgerSwitcher
                         navbarOpened={navbarMobileOpened}
                         navbarHandle={navbarMobileHandle}
                     />
                 </MobileContainer>
-
-                <ThreadsMenu />
+                <AppMenu />
             </FlexRow>
             <FlexRow>
-                <ColorSchemeToggle />
+                <ColorThemeSwitcher />
                 <UserMenu />
             </FlexRow>
         </FlexRow>
     )
 }
+
+export default Header;

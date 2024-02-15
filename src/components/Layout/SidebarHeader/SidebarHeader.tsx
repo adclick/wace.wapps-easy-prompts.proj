@@ -1,64 +1,53 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
 import { Collapse, Group, Stack } from "@mantine/core";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { SelectedFilters } from "../../../models/SelectedFilters";
-import { HeaderBurgerMenu } from "../../Common/HeaderBurgerMenu/HeaderBurgerMenu";
+import SidebarHamburgerSwitcher from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
-import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
+import SidebarCollapseSwitcher from "../../../features/SidebarCollapseSwitcher/SidebarCollapseSwitcher";
 import UserDatabseToggleMenu from "../../../features/UserDatabaseToggleMenu/UserDatabaseToggleMenu";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
 import { CreateUserItemSection } from "../../../features/CreateUserItemSection/CreateUserItemSection";
 import { DesktopContainer, MobileContainer } from "../../UI/Layout";
+import { BooleanHandle } from "../../../types";
 
-interface DatabaseHeader {
+interface SidebarHeaderProps {
     navbarMobileOpened: boolean,
     navbarDesktopOpened: boolean,
-    navbarMobileHandle: any,
-    navbarDesktopHandle: any,
+    navbarMobileHandle: BooleanHandle,
+    navbarDesktopHandle: BooleanHandle,
 }
 
-export function SidebarHeader({
+const SidebarHeader: FC<SidebarHeaderProps> = ({
     navbarMobileOpened,
     navbarDesktopOpened,
     navbarMobileHandle,
     navbarDesktopHandle,
-}: DatabaseHeader) {
+}: SidebarHeaderProps) => {
     const [
-        user,
-        selectedPrivateFilters,
         selectedPrivateDatabaseType,
-        setSelectedPrivateFilters,
         setSelectedPrivateDatabaseType,
     ] = useStore(useShallow(state => [
-        state.user,
-        state.selectedPrivateFilters,
         state.selectedPrivateDatabaseType,
-        state.setSelectedPrivateFilters,
         state.setSelectedPrivateDatabaseType,
 
     ]));
     const [filtersOpened, filtersHandle] = useDisclosure(false);
-    const selectedFiltersQuery = usePrivateFiltersQuery(user);
     const [createItemOpened, createItemHandle] = useDisclosure(false);
-
-    // Init selectedFilters
-    useEffect(() => {
-        if (selectedPrivateFilters.isEmpty && selectedFiltersQuery.data) {
-            const newSelectedFilters = SelectedFilters.buildFromQuery(selectedFiltersQuery.data);
-            setSelectedPrivateFilters(newSelectedFilters);
-        }
-    }, [selectedPrivateFilters, selectedFiltersQuery]);
 
     return (
         <Stack gap={"lg"} pb={"xl"}>
             <Group justify='space-between' pt={"xs"}>
                 <Group>
                     <MobileContainer>
-                        <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
+                        <SidebarHamburgerSwitcher
+                            navbarOpened={navbarMobileOpened}
+                            navbarHandle={navbarMobileHandle}
+                        />
                     </MobileContainer>
                     <UserDatabseToggleMenu
                         selectedDatabaseType={selectedPrivateDatabaseType}
@@ -66,23 +55,32 @@ export function SidebarHeader({
                     />
                 </Group>
                 <Group gap={"xs"}>
-                    <DatabaseAddIcon onClick={createItemHandle.toggle} createItemOpened={createItemOpened} />
-                    <FiltersToggleIcon onClick={filtersHandle.toggle} filtersOpened={filtersOpened} />
+                    <DatabaseAddIcon
+                        onClick={createItemHandle.toggle}
+                        createItemOpened={createItemOpened}
+                    />
+                    <FiltersToggleIcon
+                        onClick={filtersHandle.toggle}
+                        filtersOpened={filtersOpened}
+                    />
                     <DesktopContainer>
-                        <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
+                        <SidebarCollapseSwitcher
+                            navbarOpened={navbarDesktopOpened}
+                            navbarToggle={navbarDesktopHandle.toggle}
+                        />
                     </DesktopContainer>
                 </Group>
             </Group>
-            <Collapse in={createItemOpened}>
-                <CreateUserItemSection closeSection={createItemHandle.close} />
-            </Collapse>
+            <CreateUserItemSection
+                opened={createItemOpened}
+                handle={createItemHandle}
+            />
             <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}
-                selectedFiltersQuery={selectedFiltersQuery}
-                selectedFilters={selectedPrivateFilters}
-                setSelectedFilters={setSelectedPrivateFilters}
             />
         </Stack>
     )
 }
+
+export default SidebarHeader;

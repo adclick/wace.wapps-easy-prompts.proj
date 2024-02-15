@@ -1,7 +1,5 @@
 import axios, { AxiosError } from 'axios';
 import { PromptRequest } from '../models/PromptRequest';
-import { Technology } from '../models/Technology';
-import { Provider } from '../models/Provider';
 import { Modifier } from '../models/Modifier';
 import { useQuery } from '@tanstack/react-query';
 import { Template } from '../models/Template';

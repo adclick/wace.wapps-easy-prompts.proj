@@ -2,12 +2,12 @@ import { FC, KeyboardEvent } from "react";
 import { PromptRequest } from "../../models/PromptRequest";
 import { Textarea } from "../../components/UI/Inputs/Textarea";
 import { IconButton } from "../../components/UI/Buttons/IconButton";
-import { IconPlay } from "../../icons";
 import classes from "./UserPrompt.module.css";
 import { FlexRow } from "../../components/UI/Layout";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../stores/store";
 import { Size, Variant } from "../../enums";
+import { IconPlayerPlayFilled } from "@tabler/icons-react";
 
 const UserPrompt: FC = () => {
     const [
@@ -66,7 +66,7 @@ const UserPrompt: FC = () => {
                 variant={Variant.filled}
                 size={Size.lg}
                 onClick={play}
-                icon={<IconPlay size={16} stroke={1.5} />}
+                icon={<IconPlayerPlayFilled size={16} stroke={1.5} />}
                 className={classes.playButton}
             />
         </FlexRow>

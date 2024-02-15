@@ -1,9 +1,10 @@
 import { ActionIcon, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 import { IconMoon, IconSun } from '@tabler/icons-react';
 import cx from 'clsx';
-import classes from './ColorSchemeToggle.module.css';
+import classes from './ColorThemeSwitcher.module.css';
+import { FC } from 'react';
 
-export function ColorSchemeToggle() {
+const ColorThemeSwitcher: FC = () => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
@@ -19,3 +20,5 @@ export function ColorSchemeToggle() {
     </ActionIcon>
   );
 }
+
+export default ColorThemeSwitcher;

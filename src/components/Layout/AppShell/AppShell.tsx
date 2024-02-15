@@ -1,15 +1,15 @@
 import { AppShell as MantineAppShell, ScrollArea } from '@mantine/core';
 import { FC } from "react";
 import Sidebar from '../Sidebar/Sidebar';
-import { Header } from '../Header/Header';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './AppShell.module.css';
-import { SidebarHeader } from '../SidebarHeader/SidebarHeader';
 import { SidebarFooter } from '../SidebarFooter/SidebarFooter';
 import { Main } from '../Main/Main';
 import { Footer } from '../Footer/Footer';
+import Header from '../Header/Header';
+import SidebarHeader from '../SidebarHeader/SidebarHeader';
 
-export const AppShell: FC = () => {
+const AppShell: FC = () => {
     const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);
     const [navbarDesktopOpened, navbarDesktopHandle] = useDisclosure(true);
 
@@ -62,3 +62,5 @@ export const AppShell: FC = () => {
         </MantineAppShell>
     )
 }
+
+export default AppShell;

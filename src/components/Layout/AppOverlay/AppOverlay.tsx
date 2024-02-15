@@ -5,10 +5,10 @@ import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUsersLoginsQuery } from "../../../api/usersApi";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { User } from "../../../models/User";
 
-export function AppOverlay() {
+const AppOverlay: FC = () => {
     const auth0 = useAuth0();
     const [user, setUser] = useStore(useShallow(state => [state.user, state.setUser]));
     const userLoginQuery = useUsersLoginsQuery(user);
@@ -46,3 +46,5 @@ export function AppOverlay() {
         }} />
     )
 }
+
+export default AppOverlay;

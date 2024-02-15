@@ -1,13 +1,17 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
-import { iconSideBar } from "../../../../utils/iconsUtils";
-import classes from './NavbarToggleIcon.module.css'
+import { iconSideBar } from "../../utils/iconsUtils";
+import classes from './SidebarCollapseSwitcher.module.css'
+import { FC } from "react";
 
-interface NavbarToggleIcon {
+interface SidebarCollapseSwitcherProps {
     navbarOpened: boolean,
     navbarToggle: any
 }
 
-export function NavbarToggleIcon({ navbarOpened, navbarToggle }: NavbarToggleIcon) {
+const SidebarCollapseSwitcher: FC<SidebarCollapseSwitcherProps> = ({
+    navbarOpened,
+    navbarToggle
+}: SidebarCollapseSwitcherProps) => {
     const tooltip = navbarOpened ? "Close navbar" : "Open navbar";
 
     return (
@@ -20,3 +24,5 @@ export function NavbarToggleIcon({ navbarOpened, navbarToggle }: NavbarToggleIco
         </Tooltip>
     )
 }
+
+export default SidebarCollapseSwitcher;

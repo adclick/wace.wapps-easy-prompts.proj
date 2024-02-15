@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Box, Stack, Text, UnstyledButton } from "@mantine/core";
-import { UserProfile } from "../UserProfile/UserProfile";
+import { UserProfile } from "../../components/User/UserProfile/UserProfile";
 import { useDisclosure } from "@mantine/hooks";
-import { Menu } from "../../UI/Menu";
+import { Menu } from "../../components/UI/Menu";
 import { IconExternalLink, IconLogout, IconUser } from "@tabler/icons-react";
-import { Color, MenuType, Position } from "../../../enums";
+import { Color, MenuType, Position } from "../../enums";
+import { FC } from "react";
 
-export function UserMenu() {
+const UserMenu: FC = () => {
     const { user, logout } = useAuth0();
     const [userProfileOpened, userProfileHandle] = useDisclosure(false);
 
@@ -66,3 +67,5 @@ export function UserMenu() {
         </Box>
     )
 }
+
+export default UserMenu;
