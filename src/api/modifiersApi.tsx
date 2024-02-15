@@ -5,7 +5,7 @@ import { User } from '../models/User';
 import { ModifierFormValues } from '../context/ModifierFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const LIST_LIMIT = 20;
+const LIST_LIMIT = 10;
 
 export const useModifierQuery = (modifierId: number, enabled: boolean = true) => {
     return useQuery({

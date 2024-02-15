@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Group, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Badge, Group, Text, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../../models/PromptRequest"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
@@ -16,7 +16,7 @@ interface ThreadHeader {
 export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRequest }: ThreadHeader) {
     let templates: Template[] = [];
     let modifiers: Modifier[] = [];
-    
+
     if ("metadata" in promptRequest && promptRequest.metadata) {
         if ("templates" in promptRequest.metadata) {
             templates = promptRequest.metadata.templates;
@@ -32,15 +32,11 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
         <Group justify="space-between" wrap="nowrap" gap={0}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
                 <Group wrap="nowrap">
-                    <Badge size={"sm"} variant="dot" h={"auto"}>
-                        <ProviderLabel
-                            size="sm"
-                            technology={promptRequest.technology}
-                            provider={promptRequest.provider}
-                            templates={templates}
-                            modifiers={modifiers}
-                        />
-                    </Badge>
+                    <Text>
+                        {
+                            promptRequest.title
+                        }
+                    </Text>
                 </Group>
             </UnstyledButton>
             <Group wrap="nowrap">

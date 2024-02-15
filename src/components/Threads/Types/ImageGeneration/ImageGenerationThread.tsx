@@ -51,6 +51,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
                     promptRequest,
                     selectedTemplates,
                     selectedModifiers,
+                    [],
                     createMutation
                 );
                 setHistorySaved(true);

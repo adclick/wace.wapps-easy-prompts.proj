@@ -9,6 +9,7 @@ import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadBy
 import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../../stores/store";
+import ThreadChat from "../../../../features/ThreadChat/ThreadChat";
 
 interface ThreadItem {
     promptRequest: PromptRequest,
@@ -52,10 +53,14 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
             }
             break;
         case 'chat':
-            thread = <ChatThread
+            // thread = <ChatThread
+            //     key={promptRequest.key}
+            //     promptRequest={promptRequest}
+            //     scrollIntoView={scrollIntoView}
+            // />
+            thread = <ThreadChat
                 key={promptRequest.key}
                 promptRequest={promptRequest}
-                scrollIntoView={scrollIntoView}
             />
             break;
         case 'image-generation':

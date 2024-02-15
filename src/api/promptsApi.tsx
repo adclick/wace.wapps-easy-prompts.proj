@@ -5,7 +5,7 @@ import { User } from '../models/User';
 import { PromptFormValues } from '../context/PromptFormContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const LIST_LIMIT = 3;
+const LIST_LIMIT = 10;
 
 export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     return useQuery({
@@ -118,6 +118,7 @@ export const useUpdatePromptMutation = (promptId: number) => {
                 provider_id: formData.provider_id,
                 templates_ids: JSON.stringify(formData.templates_ids.map(id => parseInt(id))),
                 modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
+                chat_messages: JSON.stringify(formData.chat_messages),
             })
 
             return data;

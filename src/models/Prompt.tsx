@@ -52,7 +52,7 @@ export class Prompt {
     technology: Technology;
     provider: Provider;
     parametersList: ParametersList;
-    chat_messages: PromptChatMessage[];
+    prompts_chat_messages: PromptChatMessage[];
     prompts_modifiers: PromptModifier[];
     prompts_templates: PromptTemplate[];
     prompts_parameters: PromptParameter[];
@@ -75,7 +75,7 @@ export class Prompt {
         this.technology = new Technology();
         this.provider = new Provider();
         this.parametersList = new ParametersList();
-        this.chat_messages = [];
+        this.prompts_chat_messages = [];
         this.prompts_modifiers = [];
         this.prompts_templates = [];
         this.prompts_parameters = [];
@@ -101,7 +101,7 @@ export class Prompt {
         newPrompt.technology = prompt.technology;
         newPrompt.provider = prompt.provider;
         newPrompt.parametersList = prompt.parametersList;
-        newPrompt.chat_messages = prompt.chat_messages;
+        newPrompt.prompts_chat_messages = prompt.prompts_chat_messages;
         newPrompt.prompts_modifiers = prompt.prompts_modifiers;
         newPrompt.prompts_templates = prompt.prompts_templates;
         newPrompt.prompts_parameters = prompt.prompts_parameters;

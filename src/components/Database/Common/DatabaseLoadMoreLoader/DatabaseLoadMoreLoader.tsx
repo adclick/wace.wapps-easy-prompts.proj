@@ -5,6 +5,10 @@ interface DatabaseLoadMoreLoader {
 }
 
 export function DatabaseLoadMoreLoader({ itemQuery }: DatabaseLoadMoreLoader) {
+    if (!itemQuery.hasNextPage) {
+        return <></>
+    }
+
     return (
         <Stack>
             <Button

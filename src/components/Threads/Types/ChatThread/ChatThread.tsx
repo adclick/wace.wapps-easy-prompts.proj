@@ -8,7 +8,7 @@ import { ChatThreadReplyContainer } from "../../Layout/ChatThreadReplyContainer/
 import { ThreadFooter } from "../../Layout/ThreadFooter/ThreadFooter";
 import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
 import { saveHistory } from "../../../../services/ThreadService";
-import { useCreatePromptMutation } from "../../../../api/promptsApi";
+import { useCreatePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 
@@ -38,11 +38,20 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
         state.setUserPromptRequest
     ]));
 
+    const [id, setId] = useState(0);
+
     const [messages, setMessages] = useState<Message[]>([]);
     const replyScrollIntoView = useScrollIntoView<HTMLDivElement>();
     const [isResponding, isRespondingHandle] = useDisclosure(false);
     const createMutation = useCreatePromptMutation();
+    const updateMutation = useUpdatePromptMutation(id);
     const [historySaved, setHistorySaved] = useState(false);
+
+    useEffect(() => {
+        if (createMutation.data) {
+            setId(createMutation.data.id);
+        }
+    }, [createMutation])
 
     useEffect(() => {
         scrollIntoView({ alignement: 'start' });
@@ -119,9 +128,19 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
                 promptRequest,
                 selectedTemplates,
                 selectedModifiers,
+                getHistory(),
                 createMutation
             );
             setHistorySaved(true);
+        } else {
+            saveHistory(
+                user,
+                promptRequest,
+                selectedTemplates,
+                selectedModifiers,
+                getHistory(),
+                updateMutation
+            );
         }
     }
 
@@ -140,7 +159,6 @@ export function ChatThread({ promptRequest, scrollIntoView }: ChatThread) {
     }
 
     const updateUserPromptRequest = (chatReply: string) => {
-        console.log(promptRequest);
         const newUserPromptRequest = PromptRequest.clone(userPromptRequest);
         newUserPromptRequest.chatReply = chatReply;
         newUserPromptRequest.metadata.history = getHistory();

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Button, Card, Grid, Group, Modal, SegmentedControl, Stack, Title } from "@mantine/core";
+import { Box, Button, Card, Divider, Grid, Group, Modal, SegmentedControl, Stack, Title } from "@mantine/core";
 import { SelectedDatabaseType, Type } from "../../models/SelectedDatabaseType";
 import { LanguagesFilter } from "../../components/Filters/LanguagesFilter/LanguagesFilter";
 import { RepositoriesFilter } from "../../components/Filters/RepositoriesFilter/RepositoriesFilter";
@@ -56,55 +56,62 @@ const PublicDatabasePanel: FC = () => {
     return (
         <>
             <Modal opened={opened} onClose={close} size={"75%"} title="Database">
-                <Grid>
-                    <Grid.Col span={{ base: 12, lg: 3 }}>
-                        <Card>
-                            <Stack>
-                                <Title order={5}>Filters</Title>
-
-                                <SegmentedControl
-                                    className={classes.typeSwitcher}
-                                    size="xs"
-                                    color="blue"
-                                    fullWidth
-                                    value={selectedDatabaseType.type}
-                                    onChange={type => setSelectedDatabaseType(new SelectedDatabaseType(type as Type))}
-                                    data={[
-                                        { label: 'Promps', value: Type.PROMPT },
-                                        { label: 'Templates', value: Type.TEMPLATE },
-                                        { label: 'Modifiers', value: Type.MODIFIER },
-                                    ]}
-                                />
-
-                                <SearchTermFilter selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
-                                {
-                                    selectedFiltersQuery.data &&
-                                    <FlexRow>
-                                        <LanguagesFilter
-                                            languages={selectedFiltersQuery.data.languages}
-                                            selectedFilters={selectedFilters}
-                                            setSelectedFilters={setSelectedFilters}
-                                        />
-                                        <RepositoriesFilter
-                                            repositories={selectedFiltersQuery.data.repositories}
-                                            selectedFilters={selectedFilters}
-                                            setSelectedFilters={setSelectedFilters}
-                                        />
-                                        <TechnologiesFilter
-                                            technologies={selectedFiltersQuery.data.technologies}
-                                            selectedFilters={selectedFilters}
-                                            setSelectedFilters={setSelectedFilters}
-                                        />
-                                    </FlexRow>
-                                }
-                            </Stack>
-                        </Card>
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, lg: 9 }}>
-                        <Stack>
+                <Stack>
+                    <Grid>
+                        <Grid.Col span={{ base: 12, lg: 4 }}>
                             <Card>
+                                <Stack>
+                                    <Title order={5}>Filters</Title>
+
+                                    <SegmentedControl
+                                        className={classes.typeSwitcher}
+                                        size="xs"
+                                        color="blue"
+                                        fullWidth
+                                        value={selectedDatabaseType.type}
+                                        onChange={type => setSelectedDatabaseType(new SelectedDatabaseType(type as Type))}
+                                        data={[
+                                            { label: 'Promps', value: Type.PROMPT },
+                                            { label: 'Templates', value: Type.TEMPLATE },
+                                            { label: 'Modifiers', value: Type.MODIFIER },
+                                        ]}
+                                    />
+
+                                    <SearchTermFilter selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
+                                    {
+                                        selectedFiltersQuery.data &&
+                                        <FlexRow>
+                                            <Box w={"100%"}>
+                                                <LanguagesFilter
+                                                    languages={selectedFiltersQuery.data.languages}
+                                                    selectedFilters={selectedFilters}
+                                                    setSelectedFilters={setSelectedFilters}
+                                                />
+                                            </Box>
+                                            <Box w={"100%"}>
+
+                                                <RepositoriesFilter
+                                                    repositories={selectedFiltersQuery.data.repositories}
+                                                    selectedFilters={selectedFilters}
+                                                    setSelectedFilters={setSelectedFilters}
+                                                />
+                                            </Box>
+                                            <Box w={"100%"}>
+                                                <TechnologiesFilter
+                                                    technologies={selectedFiltersQuery.data.technologies}
+                                                    selectedFilters={selectedFilters}
+                                                    setSelectedFilters={setSelectedFilters}
+                                                />
+                                            </Box>
+                                        </FlexRow>
+                                    }
+                                </Stack>
+                            </Card>
+                        </Grid.Col>
+                        <Grid.Col span={{ base: 12, lg: 8 }}>
+                            <Stack>
                                 <Group justify="space-between">
-                                    <Title order={5}>{selectedDatabaseType.labelPlural}</Title>
+                                    <Title order={3}>{selectedDatabaseType.labelPlural}</Title>
 
                                     <Group gap={2}>
                                         {
@@ -121,29 +128,29 @@ const PublicDatabasePanel: FC = () => {
                                         }
                                     </Group>
                                 </Group>
-                            </Card>
-                            {
-                                selectedDatabaseType.type === Type.PROMPT &&
-                                <PromptsList
-                                    promptsQuery={promptsQuery}
-                                    navbarMobileHandle={undefined}
-                                />
-                            }
-                            {
-                                selectedDatabaseType.type === Type.TEMPLATE &&
-                                <TemplatesList
-                                    templatesQuery={templatesQuery}
-                                />
-                            }
-                            {
-                                selectedDatabaseType.type === Type.MODIFIER &&
-                                <ModifiersList
-                                    modifiersQuery={modifiersQuery}
-                                />
-                            }
-                        </Stack>
-                    </Grid.Col>
-                </Grid>
+                                {
+                                    selectedDatabaseType.type === Type.PROMPT &&
+                                    <PromptsList
+                                        promptsQuery={promptsQuery}
+                                        navbarMobileHandle={undefined}
+                                    />
+                                }
+                                {
+                                    selectedDatabaseType.type === Type.TEMPLATE &&
+                                    <TemplatesList
+                                        templatesQuery={templatesQuery}
+                                    />
+                                }
+                                {
+                                    selectedDatabaseType.type === Type.MODIFIER &&
+                                    <ModifiersList
+                                        modifiersQuery={modifiersQuery}
+                                    />
+                                }
+                            </Stack>
+                        </Grid.Col>
+                    </Grid>
+                </Stack>
             </Modal>
             <Button
                 fullWidth

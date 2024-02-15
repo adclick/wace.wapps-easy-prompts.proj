@@ -4,12 +4,14 @@ import { User } from "../models/User";
 import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
 import { PromptFormValues } from "../context/PromptFormContext";
+import { PromptChatMessage } from "../models/PromptChatMessage";
 
 export const saveHistory = (
     user: User,
     promptRequest: PromptRequest,
     templates: Template[],
     modifiers: Modifier[],
+    chatMessages: PromptChatMessage[],
     mutation: UseMutationResult<any, Error, PromptFormValues, unknown>
 ) => {
     const formValues: PromptFormValues = {
@@ -24,7 +26,7 @@ export const saveHistory = (
         provider_id: promptRequest.provider.id.toString(),
         templates_ids: templates.map(t => t.id.toString()),
         modifiers_ids: modifiers.map(m => m.id.toString()),
-        chat_messages: [],
+        chat_messages: chatMessages,
         prompt_parameters: []
     }
 

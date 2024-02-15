@@ -76,6 +76,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
                     promptRequest,
                     selectedTemplates,
                     selectedModifiers,
+                    [],
                     createMutation
                 );
                 setHistorySaved(true);

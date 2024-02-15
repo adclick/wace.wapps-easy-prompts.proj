@@ -7,17 +7,21 @@ import { Template } from '../models/Template';
 const API_URL = import.meta.env.VITE_API_URL;
 const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
 
-export const useChatQuery = (request: PromptRequest, text: string, providerId: number, history: { role: string, message: string }[], modifiers: Modifier[]) => {
+export const useChatQuery = (
+    promptRequest: PromptRequest,
+) => {
     return useQuery({
-        queryKey: ["chat", request.key],
+        queryKey: ["chat", promptRequest.key],
         queryFn: async () => {
-            const modifiersIds = modifiers.map(m => m.id);
+            const modifiersIds = promptRequest.metadata && "modifiers" in promptRequest.metadata ? promptRequest.metadata.modifiers.map(m => m.id) : [];
+            const templatesIds = promptRequest.metadata && "templates" in promptRequest.metadata ? promptRequest.metadata.templates.map(t => t.id) : [];
 
             const { data } = await axios.post(`${API_URL}/ai/chat`, {
-                text: request.content,
-                provider_id: providerId,
-                providers_ids: JSON.stringify(providerId),
+                text: promptRequest.content,
+                provider_id: promptRequest.provider.id,
                 modifiers_ids: JSON.stringify(modifiersIds),
+                templates_ids: JSON.stringify(templatesIds),
+                chat_messages: JSON.stringify(promptRequest.prompts_chat_messages)
             });
 
             return data;
@@ -25,6 +29,7 @@ export const useChatQuery = (request: PromptRequest, text: string, providerId: n
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        enabled: promptRequest.content !== ""
     });
 };
 

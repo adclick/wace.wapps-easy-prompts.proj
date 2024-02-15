@@ -3,15 +3,14 @@ import { User } from "../../../../models/User"
 
 interface ThreadRequest {
     request: string,
-    user: User
 }
 
-export function ThreadRequest({ request, user }: ThreadRequest) {
+export function ThreadRequest({ request }: ThreadRequest) {
     return (
         <Group align="flex-start" wrap="nowrap">
-            <Avatar src={user.picture} size={"sm"} />
+            <Avatar src={null} size={"sm"} />
             <Stack gap={"xs"}>
-                <Text size="sm" fw={700}>{user.username}</Text>
+                <Text size="sm" fw={700}>User</Text>
                 <Text size="sm" style={{ whiteSpace: "pre-line" }}>
                     {request}
                 </Text>
