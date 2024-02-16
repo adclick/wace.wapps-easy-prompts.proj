@@ -15,6 +15,7 @@ import { TemplatesField } from "../Fields/TemplatesField";
 import { ModifiersField } from "../Fields/ModifiersField";
 import { Prompt } from "../../../models/Prompt";
 import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
+import { ParametersList } from "../../../models/ParametersList";
 
 interface PromptForm {
     prompt?: Prompt,
@@ -81,6 +82,17 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
 
     // Create form based on prompt
     if (prompt && prompt.id <= 0) {
+        console.log(prompt);
+
+        const parameters = ParametersList.getActiveParameters(prompt.parametersList);
+
+        const promptParameters = parameters.map(p => {
+            return {
+                parameter_id: p.id,
+                value: p.value
+            }
+        })
+
         initialValues.title = prompt.title;
         initialValues.description = prompt.description;
         initialValues.content = prompt.content;
@@ -93,7 +105,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         initialValues.templates_ids = prompt.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = prompt.prompts_modifiers.map(pm => pm.modifier.id.toString());
         initialValues.prompt_chat_messages = prompt.prompts_chat_messages;
-        initialValues.prompt_parameters = [];
+        initialValues.prompt_parameters = promptParameters
 
         form.initialize(initialValues);
     }
