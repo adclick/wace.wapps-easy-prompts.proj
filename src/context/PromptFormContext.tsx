@@ -13,7 +13,7 @@ export interface PromptFormValues {
     user_id: string;
     templates_ids: string[],
     modifiers_ids: string[],
-    chat_messages: PromptChatMessage[],
+    prompt_chat_messages: PromptChatMessage[],
     prompt_parameters: any[],
 
 }

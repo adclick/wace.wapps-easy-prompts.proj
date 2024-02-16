@@ -44,7 +44,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         user_id: user.id,
         templates_ids: [],
         modifiers_ids: [],
-        chat_messages: [],
+        prompt_chat_messages: [],
         prompt_parameters: []
     };
 
@@ -73,7 +73,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         initialValues.user_id = user.id;
         initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.id.toString());
-        initialValues.chat_messages = [];
+        initialValues.prompt_chat_messages = [];
         initialValues.prompt_parameters = [];
 
         form.initialize(initialValues);
@@ -92,7 +92,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         initialValues.user_id = user.id;
         initialValues.templates_ids = prompt.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = prompt.prompts_modifiers.map(pm => pm.modifier.id.toString());
-        initialValues.chat_messages = [];
+        initialValues.prompt_chat_messages = prompt.prompts_chat_messages;
         initialValues.prompt_parameters = [];
 
         form.initialize(initialValues);

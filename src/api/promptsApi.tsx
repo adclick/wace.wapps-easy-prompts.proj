@@ -88,7 +88,7 @@ export const useCreatePromptMutation = () => {
                 provider_id: formData.provider_id,
                 templates_ids: JSON.stringify(formData.templates_ids.map(id => parseInt(id))),
                 modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
-                chat_messages: JSON.stringify(formData.chat_messages),
+                chat_messages: JSON.stringify(formData.prompt_chat_messages),
                 prompt_parameters: JSON.stringify(formData.prompt_parameters),
             })
 
@@ -118,7 +118,7 @@ export const useUpdatePromptMutation = (promptId: number) => {
                 provider_id: formData.provider_id,
                 templates_ids: JSON.stringify(formData.templates_ids.map(id => parseInt(id))),
                 modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
-                chat_messages: JSON.stringify(formData.chat_messages),
+                chat_messages: JSON.stringify(formData.prompt_chat_messages),
             })
 
             return data;

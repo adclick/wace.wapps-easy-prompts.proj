@@ -3,25 +3,29 @@ import { PromptRequest } from '../models/PromptRequest';
 import { Modifier } from '../models/Modifier';
 import { useQuery } from '@tanstack/react-query';
 import { Template } from '../models/Template';
+import { PromptChatMessage } from '../models/PromptChatMessage';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
 
 export const useChatQuery = (
     promptRequest: PromptRequest,
+    chatMessages: PromptChatMessage[]
 ) => {
+    const lastMessage = chatMessages[chatMessages.length - 1];
+
     return useQuery({
-        queryKey: ["chat", promptRequest.key],
+        queryKey: ["chat", promptRequest.key, chatMessages.length],
         queryFn: async () => {
             const modifiersIds = promptRequest.metadata && "modifiers" in promptRequest.metadata ? promptRequest.metadata.modifiers.map(m => m.id) : [];
             const templatesIds = promptRequest.metadata && "templates" in promptRequest.metadata ? promptRequest.metadata.templates.map(t => t.id) : [];
 
             const { data } = await axios.post(`${API_URL}/ai/chat`, {
-                text: promptRequest.content,
+                text: lastMessage?.message,
                 provider_id: promptRequest.provider.id,
                 modifiers_ids: JSON.stringify(modifiersIds),
                 templates_ids: JSON.stringify(templatesIds),
-                chat_messages: JSON.stringify(promptRequest.prompts_chat_messages)
+                chat_messages: JSON.stringify(chatMessages)
             });
 
             return data;
@@ -29,7 +33,7 @@ export const useChatQuery = (
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: promptRequest.content !== ""
+        enabled: lastMessage && lastMessage.role === "user"
     });
 };
 

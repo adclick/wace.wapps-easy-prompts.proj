@@ -32,6 +32,7 @@ const UserPrompt: FC = () => {
         newUserRequest.key = Date.now();
         newUserRequest.title = value;
         newUserRequest.content = value;
+        newUserRequest.prompts_chat_messages.push({role: 'user', message: value})
         setUserPromptRequest(newUserRequest);
     }
 

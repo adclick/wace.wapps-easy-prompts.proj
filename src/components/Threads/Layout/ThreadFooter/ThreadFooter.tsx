@@ -13,10 +13,9 @@ import { Modifier } from "../../../../models/Modifier";
 
 interface ThreadFooter {
     promptRequest: PromptRequest,
-    userPromptRequest: PromptRequest
 }
 
-export function ThreadFooter({ promptRequest, userPromptRequest }: ThreadFooter) {
+export function ThreadFooter({ promptRequest }: ThreadFooter) {
     const [
         user,
         promptsRequests,

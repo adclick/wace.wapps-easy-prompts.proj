@@ -6,9 +6,6 @@ import { useTextGenerationQuery } from "../../../../api/textGenerationApi";
 import { ThreadCopyButton } from "../../Buttons/ThreadCopyButton/ThreadCopyButton";
 import { EasyPromptsAvatar } from "../../../Common/EasyPromptsAvatar/EasyPromptsAvatar";
 import { ThreadErrorMessage } from "../../Layout/ThreadErrorMessage/ThreadErrorMessage";
-import { useCreatePromptMutation } from "../../../../api/promptsApi";
-import { saveHistory } from "../../../../services/ThreadService";
-import { useState } from "react";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { ThreadReloadButton } from "../../Buttons/ThreadReloadButton/ThreadReloadButton";
@@ -36,8 +33,6 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
         state.userPromptRequest,
     ]));
 
-    const createMutation = useCreatePromptMutation();
-    const [historySaved, setHistorySaved] = useState(false);
 
     const { data, refetch, error, isLoading, isFetching } = useTextGenerationQuery(promptRequest);
 
@@ -69,18 +64,6 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
             if (typeof data === "number") dataResponse = data.toString().trim();
 
             promptRequest.response = JSON.stringify({ data: dataResponse });
-
-            if (!historySaved) {
-                saveHistory(
-                    user,
-                    promptRequest,
-                    selectedTemplates,
-                    selectedModifiers,
-                    [],
-                    createMutation
-                );
-                setHistorySaved(true);
-            }
 
             return <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
                 {

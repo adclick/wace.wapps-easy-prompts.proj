@@ -152,14 +152,6 @@ export function DatabaseCardDetails({
                                             })
 
                                         }
-                                        <Grid gutter={2}>
-                                            <Grid.Col span={{ base: 12, sm: 2 }}>
-                                                <Text size="xs" fw={700}>user</Text>
-                                            </Grid.Col>
-                                            <Grid.Col span={{ base: 12, sm: 10 }}>
-                                                <Text size="xs">{itemQuery.data.content}</Text>
-                                            </Grid.Col>
-                                        </Grid>
                                     </Stack>
                                     : <Text size="xs">{itemQuery.data.content}</Text>
                             }
