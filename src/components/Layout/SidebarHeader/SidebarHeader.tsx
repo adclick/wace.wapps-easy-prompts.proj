@@ -64,6 +64,16 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                                 My Database
                             </Button>
                         </Menu.Target>
+                        <Menu.Dropdown>
+
+                            <Menu.Item>
+                                Public Database
+                            </Menu.Item>
+                            <Menu.Divider />
+                            <Menu.Item>
+                                Favorites
+                            </Menu.Item>
+                        </Menu.Dropdown>
                     </Menu>
                 </FlexRow>
                 <FlexRow gap={Size.xs}>
@@ -83,7 +93,7 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                     </DesktopContainer>
                 </FlexRow>
             </Group>
-            
+
             <CreateUserItemSection
                 opened={createItemOpened}
                 handle={createItemHandle}

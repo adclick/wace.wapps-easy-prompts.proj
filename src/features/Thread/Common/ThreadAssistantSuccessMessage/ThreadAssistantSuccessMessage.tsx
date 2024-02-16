@@ -3,6 +3,8 @@ import { FC } from "react";
 import { ThreadCopyButton } from "../../../../components/Threads/Buttons/ThreadCopyButton/ThreadCopyButton";
 import { ThreadReloadButton } from "../../../../components/Threads/Buttons/ThreadReloadButton/ThreadReloadButton";
 import { EasyPromptsAvatar } from "../../../../components/Common/EasyPromptsAvatar/EasyPromptsAvatar";
+import { useHover } from "@mantine/hooks";
+import { DesktopContainer, MobileContainer } from "../../../../components/UI/Layout";
 
 interface ThreadAssistantSuccessMessageProps {
     message: any,
@@ -15,20 +17,33 @@ const ThreadAssistantSuccessMessage: FC<ThreadAssistantSuccessMessageProps> = ({
     copyButton = true,
     reloadFn
 }: ThreadAssistantSuccessMessageProps) => {
+    const { hovered, ref } = useHover();
+
     return (
-        <Group w={"100%"} align="flex-start" wrap="nowrap">
-            <EasyPromptsAvatar size="sm" />
-            <Stack gap={"xs"}>
-                <Text size="sm" fw={700}>EasyPrompts</Text>
-                <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
-                    {message}
+        <div ref={ref}>
+            <Group w={"100%"} align="flex-start" wrap="nowrap">
+                <EasyPromptsAvatar size="sm" />
+                <Stack gap={"xs"}>
+                    <Text size="sm" fw={700}>EasyPrompts</Text>
+                    <Stack style={{ fontSize: "var(--mantine-font-size-sm)", whiteSpace: "pre-wrap" }}>
+                        {message}
+                    </Stack>
+
+                    <MobileContainer>
+                        <Group gap={"xs"}>
+                            {copyButton && <ThreadCopyButton value={message} />}
+                            {reloadFn && <ThreadReloadButton reload={reloadFn} />}
+                        </Group>
+                    </MobileContainer>
+                    <DesktopContainer>
+                        <Group gap={"xs"}>
+                            {copyButton && hovered && <ThreadCopyButton value={message} />}
+                            {reloadFn && hovered && <ThreadReloadButton reload={reloadFn} />}
+                        </Group>
+                    </DesktopContainer>
                 </Stack>
-                <Group gap={"xs"}>
-                    {copyButton && <ThreadCopyButton value={message} />}
-                    {reloadFn && <ThreadReloadButton reload={reloadFn} />}
-                </Group>
-            </Stack>
-        </Group>
+            </Group>
+        </div>
     )
 }
 
