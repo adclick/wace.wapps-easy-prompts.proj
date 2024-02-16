@@ -15,7 +15,7 @@ const AppMenu: FC = () => {
     const target = <UnstyledButton px={0}>
         <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.nowrap}>
             <Text size="xl" fw={700}>
-                Menu
+                My Workspace
             </Text>
             <IconChevronDown size={18} stroke={3} />
         </FlexRow>
@@ -29,7 +29,7 @@ const AppMenu: FC = () => {
                 {
                     type: MenuType.button,
                     id: 1,
-                    label: "Clear Threads",
+                    label: "Clear Workspace",
                     icon: <IconClearAll size={14} />,
                     onClick: () => setPromptsRequests([])
                 }

@@ -70,7 +70,7 @@ export function ImageGenerationThread({ promptRequest, scrollIntoView }: ImageGe
                 </Stack>
             </Group>
 
-            <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
+            <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )
 }

@@ -89,7 +89,7 @@ export function TextGenerationThread({ promptRequest, scrollIntoView }: TextGene
                 </Stack>
             </Group>
 
-            <ThreadFooter promptRequest={promptRequest} userPromptRequest={userPromptRequest} />
+            <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     )
 }

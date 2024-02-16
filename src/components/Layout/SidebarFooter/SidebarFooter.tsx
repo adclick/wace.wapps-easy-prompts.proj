@@ -1,11 +1,8 @@
-import { Divider } from "@mantine/core";
 import { FC } from "react";
-import { PublicDatabasePanel } from "../../../features";
+import UserDatabaseTypeSwitchContainer from "../../../features/UserDatabaseTypeSwitchContainer/UserDatabaseTypeSwitchContainer";
 
 export const SidebarFooter: FC = () => {
     return (
-        <>
-            <PublicDatabasePanel />
-        </>
+        <UserDatabaseTypeSwitchContainer />
     )
 }

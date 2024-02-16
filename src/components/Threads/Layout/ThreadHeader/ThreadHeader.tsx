@@ -1,10 +1,11 @@
-import { ActionIcon, Badge, Group, Text, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Badge, Center, Group, SimpleGrid, Text, UnstyledButton } from "@mantine/core"
 import { PromptRequest } from "../../../../models/PromptRequest"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel"
 import { Template } from "../../../../models/Template"
 import { Modifier } from "../../../../models/Modifier"
+import { DesktopContainer } from "../../../UI/Layout"
 
 interface ThreadHeader {
     deleteThread: any,
@@ -29,28 +30,29 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
 
 
     return (
-        <Group justify="space-between" wrap="nowrap" gap={0}>
+        <Group justify="space-between" wrap="nowrap" gap={"xs"}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
-                <Group wrap="nowrap">
+                <Group justify="space-between">
+                    {/* <DesktopContainer>
+                        <Badge variant="dot">{promptRequest.technology.name} | {promptRequest.provider.model_name}</Badge>
+                    </DesktopContainer> */}
                     <Text>
                         {
                             promptRequest.title
                         }
                     </Text>
+                    <Group wrap="nowrap" justify="flex-end">
+                        {
+                            minimized
+                                ? iconChevronUp("xs")
+                                : iconChevronDown("xs")
+                        }
+                        <ActionIcon component="div" className={classes.iconClose} variant="transparent" onClick={() => deleteThread(promptRequest)}>
+                            {iconClose("xs")}
+                        </ActionIcon>
+                    </Group>
                 </Group>
             </UnstyledButton>
-            <Group wrap="nowrap">
-                <ActionIcon className={classes.iconMinimize} variant="transparent" onClick={minimizeHandle.toggle}>
-                    {
-                        minimized
-                            ? iconChevronUp("xs")
-                            : iconChevronDown("xs")
-                    }
-                </ActionIcon>
-                <ActionIcon className={classes.iconClose} variant="transparent" onClick={() => deleteThread(promptRequest)}>
-                    {iconClose("xs")}
-                </ActionIcon>
-            </Group>
         </Group>
     )
 }

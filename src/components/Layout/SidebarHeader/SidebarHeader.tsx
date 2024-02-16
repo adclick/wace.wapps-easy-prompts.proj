@@ -1,20 +1,18 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { Button, Group, Stack, Text, UnstyledButton } from "@mantine/core";
+import { Button, Group, Menu, Stack } from "@mantine/core";
 import { FC } from "react";
 import SidebarHamburgerSwitcher from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
 import SidebarCollapseSwitcher from "../../../features/SidebarCollapseSwitcher/SidebarCollapseSwitcher";
-import UserDatabseToggleMenu from "../../../features/UserDatabaseToggleMenu/UserDatabaseToggleMenu";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddIcon";
 import { CreateUserItemSection } from "../../../features/CreateUserItemSection/CreateUserItemSection";
 import { DesktopContainer, FlexRow, MobileContainer } from "../../UI/Layout";
 import { BooleanHandle } from "../../../types";
-import { FlexAlign, Size } from "../../../enums";
+import { Size } from "../../../enums";
 import UserDatabaseTypeSwitchContainer from "../../../features/UserDatabaseTypeSwitchContainer/UserDatabaseTypeSwitchContainer";
-import FlexWrap from "../../../enums/FlexWrap";
 import { iconChevronDown } from "../../../utils/iconsUtils";
 
 interface SidebarHeaderProps {
@@ -53,16 +51,20 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                             navbarHandle={navbarMobileHandle}
                         />
                     </MobileContainer>
-                    <Button
-                        rightSection={iconChevronDown("xs", 3)}
-                        color="--mantine-color-text"
-                        variant="transparent"
-                        size="compact-lg"
-                        px={0}
-                        onClick={databaseTypeHandle.toggle}
-                    >
-                        My {selectedPrivateDatabaseType.labelPlural}
-                    </Button>
+                    <Menu>
+                        <Menu.Target>
+                            <Button
+                                rightSection={iconChevronDown("xs", 3)}
+                                color="--mantine-color-text"
+                                variant="transparent"
+                                size="compact-lg"
+                                px={0}
+                                onClick={databaseTypeHandle.toggle}
+                            >
+                                My Database
+                            </Button>
+                        </Menu.Target>
+                    </Menu>
                 </FlexRow>
                 <FlexRow gap={Size.xs}>
                     <DatabaseAddIcon
@@ -81,10 +83,7 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                     </DesktopContainer>
                 </FlexRow>
             </Group>
-            <UserDatabaseTypeSwitchContainer
-                opened={databaseTypeOpened}
-                handle={databaseTypeHandle}
-            />
+            
             <CreateUserItemSection
                 opened={createItemOpened}
                 handle={createItemHandle}

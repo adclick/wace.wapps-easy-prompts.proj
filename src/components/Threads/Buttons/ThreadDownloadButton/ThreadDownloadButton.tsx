@@ -6,7 +6,6 @@ interface ThreadDownloadButton {
 }
 
 export function ThreadDownloadButton({ url }: ThreadDownloadButton) {
-    console.log(url);
     return (
         <Tooltip label="Download">
             <ActionIcon

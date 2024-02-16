@@ -5,6 +5,7 @@ import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
 import { PromptFormValues } from "../context/PromptFormContext";
 import { PromptChatMessage } from "../models/PromptChatMessage";
+import { AxiosError } from "axios";
 
 export const saveHistory = (
     user: User,
@@ -26,9 +27,13 @@ export const saveHistory = (
         provider_id: promptRequest.provider.id.toString(),
         templates_ids: templates.map(t => t.id.toString()),
         modifiers_ids: modifiers.map(m => m.id.toString()),
-        chat_messages: chatMessages,
+        prompt_chat_messages: chatMessages,
         prompt_parameters: []
     }
 
     mutation.mutate(formValues);
+}
+
+export const parseError = (error: any) => {
+    return error instanceof AxiosError ? error.response?.data.message : error.message;
 }

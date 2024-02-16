@@ -9,7 +9,9 @@ import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadBy
 import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../../stores/store";
-import ThreadChat from "../../../../features/ThreadChat/ThreadChat";
+import ThreadChat from "../../../../features/Thread/ThreadChat/ThreadChat";
+import ThreadTextGeneration from "../../../../features/Thread/ThreadTextGeneration/ThreadTextGeneration";
+import ThreadImageGeneration from "../../../../features/Thread/ThreadImageGeneration/ThreadImageGeneration";
 
 interface ThreadItem {
     promptRequest: PromptRequest,
@@ -35,51 +37,19 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
 
     switch (promptRequest.technology.slug) {
         case 'text-generation':
-            switch (promptRequest.type) {
-                case PromptRequestType.New:
-                    thread = <TextGenerationThread
-                        key={promptRequest.key}
-                        promptRequest={promptRequest}
-                        scrollIntoView={scrollIntoView}
-                    />;
-                    break;
-                case PromptRequestType.Prompt:
-                    thread = <TextGenerationThreadByPrompt
-                        key={promptRequest.key}
-                        promptRequest={promptRequest}
-                        scrollIntoView={scrollIntoView}
-                    />;
-                    break;
-            }
+            thread = <ThreadTextGeneration
+                promptRequest={promptRequest}
+            />;
             break;
         case 'chat':
-            // thread = <ChatThread
-            //     key={promptRequest.key}
-            //     promptRequest={promptRequest}
-            //     scrollIntoView={scrollIntoView}
-            // />
             thread = <ThreadChat
-                key={promptRequest.key}
                 promptRequest={promptRequest}
             />
             break;
         case 'image-generation':
-            switch (promptRequest.type) {
-                case PromptRequestType.New:
-                    thread = <ImageGenerationThread
-                        key={promptRequest.key}
-                        promptRequest={promptRequest}
-                        scrollIntoView={scrollIntoView}
-                    />;
-                    break;
-                case PromptRequestType.Prompt:
-                    thread = <ImageGenerationThreadByPromptId
-                        key={promptRequest.key}
-                        promptRequest={promptRequest}
-                        scrollIntoView={scrollIntoView}
-                    />;
-                    break;
-            }
+            thread = <ThreadImageGeneration
+                promptRequest={promptRequest}
+            />;
             break;
     }
 
