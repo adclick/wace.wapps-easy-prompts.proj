@@ -105,7 +105,14 @@ const ThreadChat: FC<ThreadChatProps> = ({
                                     !promptRequest.isPlayable
                                         ? <>
                                             <Box key={index}>
-                                                {!promptRequest.isPlayable && <ThreadUserMessage userPicture={user.picture} message={message.message} />}
+                                                {
+                                                    !promptRequest.isPlayable &&
+                                                    <ThreadUserMessage
+                                                        username={user.username}
+                                                        userPicture={user.picture}
+                                                        message={message.message}
+                                                    />
+                                                }
                                             </Box>
                                             <Box key={index + 1}>
                                                 <ThreadAssistantLoadingMessage />
@@ -122,7 +129,11 @@ const ThreadChat: FC<ThreadChatProps> = ({
                         return (
                             !promptRequest.isPlayable &&
                             <Box key={index}>
-                                <ThreadUserMessage userPicture={user.picture} message={message.message} />
+                                <ThreadUserMessage
+                                    username={user.username}
+                                    userPicture={user.picture}
+                                    message={message.message}
+                                />
                             </Box>
                         )
                     }

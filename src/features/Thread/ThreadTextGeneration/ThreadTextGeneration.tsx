@@ -44,21 +44,42 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         const message = parseError(error);
 
         return <Stack gap={"lg"}>
-            {!promptRequest.isPlayable && <ThreadUserMessage userPicture={user.picture} message={promptRequest.content} />}
+            {
+                !promptRequest.isPlayable &&
+                <ThreadUserMessage
+                    username={user.username}
+                    userPicture={user.picture}
+                    message={promptRequest.content}
+                />
+            }
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
     }
 
     if (data) {
         return <Stack gap={"lg"}>
-            {!promptRequest.isPlayable && <ThreadUserMessage userPicture={user.picture} message={promptRequest.content} />}
+            {
+                !promptRequest.isPlayable &&
+                <ThreadUserMessage
+                    username={user.username}
+                    userPicture={user.picture}
+                    message={promptRequest.content}
+                />
+            }
             <ThreadAssistantSuccessMessage message={data} reloadFn={regenerate} />
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
-        {!promptRequest.isPlayable && <ThreadUserMessage userPicture={user.picture} message={promptRequest.content} />}
+        {
+            !promptRequest.isPlayable &&
+            <ThreadUserMessage
+                username={user.username}
+                userPicture={user.picture}
+                message={promptRequest.content}
+            />
+        }
         <ThreadAssistantLoadingMessage />
     </Stack>
 

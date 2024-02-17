@@ -14,11 +14,26 @@ const UserDatabaseTypeSwitchContainer: FC = () => {
         state.setSelectedPrivateDatabaseType,
     ]));
 
+    let color = 'blue';
+    switch (selectedPrivateDatabaseType.type) {
+        case Type.TEMPLATE:
+            color = 'yellow';
+            break;
+        case Type.MODIFIER:
+            color = 'teal';
+            break;
+    }
+
     return (
         <SegmentedControl
             className={classes.switcher}
-            color="blue"
-            size="sm"
+            color={color}
+            styles={{
+                label: {
+                    color: "white"
+                }
+            }}
+            size="xs"
             fullWidth
             value={selectedPrivateDatabaseType.type}
             onChange={type => setSelectedPrivateDatabaseType(new SelectedDatabaseType(type as Type))}
