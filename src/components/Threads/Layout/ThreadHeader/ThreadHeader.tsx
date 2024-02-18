@@ -6,6 +6,7 @@ import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel"
 import { Template } from "../../../../models/Template"
 import { Modifier } from "../../../../models/Modifier"
 import { DesktopContainer } from "../../../UI/Layout"
+import { Technology } from "../../../../models/Technology"
 
 interface ThreadHeader {
     deleteThread: any,
@@ -36,11 +37,16 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
                     {/* <DesktopContainer>
                         <Badge variant="dot">{promptRequest.technology.name} | {promptRequest.provider.model_name}</Badge>
                     </DesktopContainer> */}
-                    <Text>
+                    <Group>
                         {
-                            promptRequest.title
+                            Technology.getIcon(promptRequest.technology)
                         }
-                    </Text>
+                        <Text>
+                            {
+                                promptRequest.title
+                            }
+                        </Text>
+                    </Group>
                     <Group wrap="nowrap" justify="flex-end">
                         {
                             minimized

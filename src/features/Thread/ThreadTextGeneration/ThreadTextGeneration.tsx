@@ -66,7 +66,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
                     message={promptRequest.content}
                 />
             }
-            <ThreadAssistantSuccessMessage message={data} reloadFn={regenerate} />
+            <ThreadAssistantSuccessMessage message={data.trim()} reloadFn={regenerate} />
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     }

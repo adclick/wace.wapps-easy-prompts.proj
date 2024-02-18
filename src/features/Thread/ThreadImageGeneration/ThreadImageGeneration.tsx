@@ -45,7 +45,7 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         const message = parseError(error);
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage userPicture={user.picture} message={promptRequest.content} />
+            <ThreadUserMessage username={user.username} userPicture={user.picture} message={promptRequest.content} />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
     }
@@ -66,14 +66,14 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         </Stack>
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage userPicture={user.picture} message={promptRequest.content} />
+            <ThreadUserMessage username={user.username} userPicture={user.picture} message={promptRequest.content} />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate}  />
             <ThreadFooter promptRequest={promptRequest} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
-        <ThreadUserMessage userPicture={user.picture} message={promptRequest.content} />
+        <ThreadUserMessage username={user.username} userPicture={user.picture} message={promptRequest.content} />
         <ThreadAssistantLoadingMessage />
     </Stack>
 }

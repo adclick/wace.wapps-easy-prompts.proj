@@ -8,17 +8,29 @@ import { MenuType, Position, Size } from "../../enums";
 import { FlexRow } from "../../components/UI/Layout";
 import FlexAlign from "../../enums/FlexAlign";
 import FlexWrap from "../../enums/FlexWrap";
+import { useWorkspaceQuery } from "../../api/workspacesApi";
 
 const AppMenu: FC = () => {
-    const [setPromptsRequests] = useStore(useShallow(state => [state.setPromptsRequests]));
+    const [
+        user,
+        setPromptsRequests
+    ] = useStore(useShallow(state => [
+        state.user,
+        state.setPromptsRequests
+    ]));
+
+    const { data: workspace } = useWorkspaceQuery(user.id);
 
     const target = <UnstyledButton px={0}>
-        <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.nowrap}>
-            <Text size="xl" fw={700}>
-                My Workspace
-            </Text>
-            <IconChevronDown size={18} stroke={3} />
-        </FlexRow>
+        {
+            workspace &&
+            <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.nowrap}>
+                <Text size="xl" fw={700}>
+                    {workspace.name}
+                </Text>
+                <IconChevronDown size={18} stroke={3} />
+            </FlexRow>
+        }
     </UnstyledButton>
 
     return (
@@ -29,7 +41,7 @@ const AppMenu: FC = () => {
                 {
                     type: MenuType.button,
                     id: 1,
-                    label: "Clear Workspace",
+                    label: "Clear",
                     icon: <IconClearAll size={14} />,
                     onClick: () => setPromptsRequests([])
                 }

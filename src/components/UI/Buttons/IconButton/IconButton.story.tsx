@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import IconButton from './IconButton';
 import { IconCheck } from '@tabler/icons-react';
-import { Size, Variant } from '../../../../utils/uiUtils';
+import { Size, Variant } from '../../../../enums';
 
 const meta: Meta<typeof IconButton> = {
     component: IconButton,

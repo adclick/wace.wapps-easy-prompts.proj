@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Menu from './Menu';
-import { Position } from '../../../enums/Position';
-import { MenuType } from '../../../enums/MenuType';
 import { IconExternalLink, IconLogout, IconUser } from '@tabler/icons-react';
-import { Color } from '../../../enums/Color';
+import { Color, MenuType, Position } from '../../../enums';
 
 const meta: Meta<typeof Menu> = {
     component: Menu,

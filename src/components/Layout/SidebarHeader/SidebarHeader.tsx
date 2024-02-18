@@ -14,6 +14,7 @@ import { BooleanHandle } from "../../../types";
 import { Size } from "../../../enums";
 import UserDatabaseTypeSwitchContainer from "../../../features/UserDatabaseTypeSwitchContainer/UserDatabaseTypeSwitchContainer";
 import { iconChevronDown } from "../../../utils/iconsUtils";
+import { IconPlug, IconPlus } from "@tabler/icons-react";
 
 interface SidebarHeaderProps {
     navbarMobileOpened: boolean,
@@ -65,13 +66,15 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                             </Button>
                         </Menu.Target>
                         <Menu.Dropdown>
-
                             <Menu.Item>
                                 Public Database
                             </Menu.Item>
-                            <Menu.Divider />
                             <Menu.Item>
                                 Favorites
+                            </Menu.Item>
+                            <Menu.Divider />
+                            <Menu.Item  leftSection={<IconPlus size={14} />}>
+                                New Filter Set
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
