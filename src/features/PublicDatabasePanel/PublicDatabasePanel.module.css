@@ -1,8 +1,0 @@
-.typeSwitcher {
-    background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
-}
-
-.typeSwitcher span {
-    /* --sc-indicator-width: 88px !important;
-    --sc-indicator-height: 25px !important; */
-}

@@ -33,7 +33,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
     return (
         <Group justify="space-between" wrap="nowrap" gap={"xs"}>
             <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
-                <Group justify="space-between">
+                <Group justify="space-between" wrap="nowrap">
                     {/* <DesktopContainer>
                         <Badge variant="dot">{promptRequest.technology.name} | {promptRequest.provider.model_name}</Badge>
                     </DesktopContainer> */}
