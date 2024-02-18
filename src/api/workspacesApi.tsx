@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useWorkspaceQuery = (userId: string) => {
+export const useWorkspacesQuery = (userId: string) => {
     return useQuery({
         queryKey: ["workspaces", userId],
         queryFn: async () => {

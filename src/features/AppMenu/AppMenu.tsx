@@ -8,25 +8,46 @@ import { MenuType, Position, Size } from "../../enums";
 import { FlexRow } from "../../components/UI/Layout";
 import FlexAlign from "../../enums/FlexAlign";
 import FlexWrap from "../../enums/FlexWrap";
-import { useWorkspaceQuery } from "../../api/workspacesApi";
+import { useWorkspacesQuery } from "../../api/workspacesApi";
+import { Workspace } from "../../models/Workspace";
 
 const AppMenu: FC = () => {
     const [
         user,
+        selectedWorkspace,
+        setSelectedWorkspace,
         setPromptsRequests
     ] = useStore(useShallow(state => [
         state.user,
+        state.selectedWorkspace,
+        state.setSelectedWorkspace,
         state.setPromptsRequests
     ]));
 
-    const { data: workspace } = useWorkspaceQuery(user.id);
+    const { data } = useWorkspacesQuery(user.id);
+
+    let menus = [];
+
+    if (data && data.length > 0) {
+        if (selectedWorkspace.id <= 0) {
+            setSelectedWorkspace(data[0]);
+        }
+
+        menus = data.map((w: Workspace) => {
+            return {
+                type: MenuType.button,
+                id: w.id,
+                label: w.name,
+            }
+        })
+    }
 
     const target = <UnstyledButton px={0}>
         {
-            workspace &&
+            selectedWorkspace.id > 0 &&
             <FlexRow align={FlexAlign.center} gap={Size.xs} wrap={FlexWrap.nowrap}>
                 <Text size="xl" fw={700}>
-                    {workspace.name}
+                    {selectedWorkspace.name}
                 </Text>
                 <IconChevronDown size={18} stroke={3} />
             </FlexRow>
@@ -37,15 +58,7 @@ const AppMenu: FC = () => {
         <Menu
             target={target}
             position={Position.bottom_start}
-            items={[
-                {
-                    type: MenuType.button,
-                    id: 1,
-                    label: "Clear",
-                    icon: <IconClearAll size={14} />,
-                    onClick: () => setPromptsRequests([])
-                }
-            ]}
+            items={menus}
         />
     )
 }
