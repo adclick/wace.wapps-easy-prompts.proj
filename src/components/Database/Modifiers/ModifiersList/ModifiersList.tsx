@@ -1,12 +1,12 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
-import { PromptRequest } from "../../../../models/PromptRequest";
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../../stores/store";
+import { Thread } from "../../../../models/Thread";
 
 interface ModifiersList {
     modifiersQuery: any,
@@ -15,16 +15,16 @@ interface ModifiersList {
 export function ModifiersList({ modifiersQuery }: ModifiersList) {
     const [
         selectedModifiers,
-        userPromptRequest,
+        nextThread,
         setSelectedTemplates,
         setSelectedModifiers,
-        setUserPromptRequest
+        setNextThread
     ] = useStore(useShallow(state => [
         state.selectedModifiers,
-        state.userPromptRequest,
+        state.nextThread,
         state.setSelectedTemplates,
         state.setSelectedModifiers,
-        state.setUserPromptRequest
+        state.setNextThread
     ]));
 
     const onChange = async (ids: string[]) => {
@@ -39,16 +39,16 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
 
         // Update userPromptRequest based on the first modifier selected
         if (modifiers.length > 0) {
-            const newUserRequest = PromptRequest.clone(userPromptRequest);
-            newUserRequest.technology = Technology.clone(modifiers[0].technology);
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.prompt.technology = Technology.clone(modifiers[0].technology);
 
             if (modifiers[0].provider) {
-                newUserRequest.provider = Provider.clone(modifiers[0].provider);
+                newNextThread.prompt.provider = Provider.clone(modifiers[0].provider);
             } else {
-                newUserRequest.provider = new Provider();
+                newNextThread.prompt.provider = new Provider();
             }
 
-            setUserPromptRequest(newUserRequest);
+            setNextThread(newNextThread);
         }
 
         setSelectedModifiers(modifiers);

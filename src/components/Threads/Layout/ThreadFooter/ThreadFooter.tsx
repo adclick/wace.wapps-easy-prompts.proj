@@ -1,6 +1,5 @@
 import { Badge, Group, Modal } from "@mantine/core";
 import { ThreadSaveButton } from "../../Buttons/ThreadSaveButton/ThreadSaveButton";
-import { PromptRequest } from "../../../../models/PromptRequest";
 import { useDisclosure } from "@mantine/hooks";
 import { User } from "../../../../models/User";
 import { useStore } from "../../../../stores/store";
@@ -10,32 +9,33 @@ import { useCreatePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { Template } from "../../../../models/Template";
 import { Modifier } from "../../../../models/Modifier";
+import { Thread } from "../../../../models/Thread";
 
 interface ThreadFooter {
-    promptRequest: PromptRequest,
+    thread: Thread,
 }
 
-export function ThreadFooter({ promptRequest }: ThreadFooter) {
+export function ThreadFooter({ thread }: ThreadFooter) {
     const [
         user,
-        promptsRequests,
-        setPromptsRequests,
+        threads,
+        setThreads,
     ] = useStore(useShallow(state => [
         state.user,
-        state.promptsRequests,
-        state.setPromptsRequests,
+        state.threads,
+        state.setThreads,
     ]));
 
     let templates: Template[] = [];
     let modifiers: Modifier[] = [];
 
-    if ("metadata" in promptRequest && promptRequest.metadata) {
-        if ("templates" in promptRequest.metadata) {
-            templates = promptRequest.metadata.templates;
+    if ("metadata" in thread.prompt && thread.prompt.metadata) {
+        if ("templates" in thread.prompt.metadata) {
+            templates = thread.prompt.metadata.templates;
         }
 
-        if ("modifiers" in promptRequest.metadata) {
-            modifiers = promptRequest.metadata.modifiers;
+        if ("modifiers" in thread.prompt.metadata) {
+            modifiers = thread.prompt.metadata.modifiers;
         }
     }
 
@@ -45,17 +45,17 @@ export function ThreadFooter({ promptRequest }: ThreadFooter) {
     return (
         <>
             <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title="Create Prompt" size={"lg"}>
-                <PromptForm handle={newPromptModalHandle} prompt={promptRequest} mutation={createMutation} />
+                <PromptForm handle={newPromptModalHandle} prompt={thread.prompt} mutation={createMutation} />
             </Modal>
             {
-                User.hasPrompt(user, promptRequest) && !promptRequest.isPlayable &&
+                User.hasPrompt(user, thread.prompt) && thread.prompt.id <= 0 &&
                 <Group justify="space-between">
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
                     <Badge size={"sm"} variant="dot" h={"auto"}>
                         <ProviderLabel
                             size="sm"
-                            technology={promptRequest.technology}
-                            provider={promptRequest.provider}
+                            technology={thread.prompt.technology}
+                            provider={thread.prompt.provider}
                             templates={templates}
                             modifiers={modifiers}
                         />
@@ -63,14 +63,14 @@ export function ThreadFooter({ promptRequest }: ThreadFooter) {
                 </Group>
             }
             {
-                !User.hasPrompt(user, promptRequest) && !promptRequest.isPlayable &&
+                !User.hasPrompt(user, thread.prompt) && thread.prompt.id <= 0 &&
                 <Group justify="space-between">
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
                     <Badge size={"sm"} variant="dot" h={"auto"}>
                         <ProviderLabel
                             size="sm"
-                            technology={promptRequest.technology}
-                            provider={promptRequest.provider}
+                            technology={thread.prompt.technology}
+                            provider={thread.prompt.provider}
                             templates={templates}
                             modifiers={modifiers}
                         />

@@ -1,5 +1,4 @@
 import { Box, Stack } from "@mantine/core";
-import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { ThreadItem } from "../ThreadItem/ThreadItem";
 import { useScrollIntoView } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -14,22 +13,25 @@ import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
+import { Thread } from "../../../../models/Thread";
 
 export function ThreadList() {
     const [
-        promptsRequests,
-        userPromptRequest,
-        setPromptsRequests,
+        user,
+        threads,
+        nextThread,
+        setThreads,
         setSelectedTemplates,
         setSelectedModifiers,
-        setUserPromptRequest
+        setNextThread
     ] = useStore(useShallow(state => [
-        state.promptsRequests,
-        state.userPromptRequest,
-        state.setPromptsRequests,
+        state.user,
+        state.threads,
+        state.nextThread,
+        state.setThreads,
         state.setSelectedTemplates,
         state.setSelectedModifiers,
-        state.setUserPromptRequest
+        state.setNextThread
     ]));
 
     const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
@@ -42,7 +44,7 @@ export function ThreadList() {
     const { data: urlModifier } = useModifierQuery(urlModifierId);
     const [urlUsed, setUrlUsed] = useState(false);
 
-    const technologiesQuery = useTechnologiesQuery();
+    const technologiesQuery = useTechnologiesQuery(user);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -56,14 +58,13 @@ export function ThreadList() {
             setUrlPromptId(parseInt(promptId));
 
             if (urlPrompt) {
-                const newPromptRequest = Prompt.clone(urlPrompt) as PromptRequest;
-                newPromptRequest.key = Date.now();
-                newPromptRequest.isPlayable = true;
-                newPromptRequest.type = PromptRequestType.Prompt;
+                const newNextThread = Thread.clone(nextThread);
+                newNextThread.prompt = Prompt.clone(urlPrompt);
+                newNextThread.key = Date.now();
 
-                setPromptsRequests([
-                    ...promptsRequests,
-                    newPromptRequest
+                setThreads([
+                    ...threads,
+                    newNextThread
                 ]);
 
                 setUrlUsed(true);
@@ -108,20 +109,20 @@ export function ThreadList() {
             technology = technologiesQuery.data[0];
         }
 
-        if (technology.id > 0 && userPromptRequest.technology.id <= 0) {
-            const newUserRequest = PromptRequest.clone(userPromptRequest);
-            newUserRequest.technology = Technology.clone(technology);
-            newUserRequest.provider = Provider.clone(provider);
-            setUserPromptRequest(newUserRequest);
+        if (technology.id > 0 && nextThread.prompt.technology.id <= 0) {
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.prompt.technology = Technology.clone(technology);
+            newNextThread.prompt.provider = Provider.clone(provider);
+            setNextThread(newNextThread);
         }
-    }, [technologiesQuery, userPromptRequest, setUserPromptRequest])
+    }, [technologiesQuery, nextThread, setNextThread])
 
     return (
         <Stack gap={"xl"} my={"xs"}>
             {
-                promptsRequests.map((promptRequest: PromptRequest) => <ThreadItem
-                    key={promptRequest.key}
-                    promptRequest={promptRequest}
+                threads.map((thread: Thread) => <ThreadItem
+                    key={thread.key}
+                    thread={thread}
                     scrollIntoView={scrollIntoView}
                 />)
             }

@@ -1,9 +1,9 @@
 import { Slider, Stack, Text } from "@mantine/core";
 import { Parameter } from "../../../models/Parameter";
 import { useState } from "react";
-import { PromptRequest } from "../../../models/PromptRequest";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
+import { Thread } from "../../../models/Thread";
 
 interface PromptOptionsNumImagesField {
     parameter: Parameter
@@ -11,15 +11,15 @@ interface PromptOptionsNumImagesField {
 
 export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImagesField) {
     const [
-        userPromptRequest,
-        setUserPromptRequest,
+        nextThread,
+        setNextThread,
     ] = useStore(useShallow(state => [
-        state.userPromptRequest,
-        state.setUserPromptRequest
+        state.nextThread,
+        state.setNextThread
     ]));
 
     const { min, max } = parameter.data;
-    const [value, setValue] = useState<number>(parseInt(userPromptRequest.parametersList.num_images.value));
+    const [value, setValue] = useState<number>(parseInt(nextThread.prompt.parametersList.num_images.value));
 
     const marks = [];
     for (let i = parseInt(min); i <= parseInt(max); i++) {
@@ -35,9 +35,9 @@ export function PromptOptionsNumImagesField({ parameter }: PromptOptionsNumImage
         const newParameter = Parameter.clone(parameter);
         newParameter.value = value.toString();
 
-        const newUserRequest = PromptRequest.clone(userPromptRequest);
-        newUserRequest.parametersList.num_images = newParameter;
-        setUserPromptRequest(newUserRequest);
+        const newNextThread = Thread.clone(nextThread);
+        newNextThread.prompt.parametersList.num_images = newParameter;
+        setNextThread(newNextThread);
     }
 
     return (

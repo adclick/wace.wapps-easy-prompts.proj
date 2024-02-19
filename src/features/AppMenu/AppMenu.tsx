@@ -16,15 +16,13 @@ const AppMenu: FC = () => {
         user,
         selectedWorkspace,
         setSelectedWorkspace,
-        setPromptsRequests
     ] = useStore(useShallow(state => [
         state.user,
         state.selectedWorkspace,
         state.setSelectedWorkspace,
-        state.setPromptsRequests
     ]));
 
-    const { data } = useWorkspacesQuery(user.id);
+    const { data } = useWorkspacesQuery(user);
 
     let menus = [];
 

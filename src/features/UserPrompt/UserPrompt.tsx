@@ -1,53 +1,53 @@
 import { FC, KeyboardEvent } from "react";
-import { PromptRequest } from "../../models/PromptRequest";
 import { Textarea } from "../../components/UI/Inputs/Textarea";
 import { IconButton } from "../../components/UI/Buttons/IconButton";
 import classes from "./UserPrompt.module.css";
 import { FlexRow } from "../../components/UI/Layout";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../stores/store";
-import { Size, Variant } from "../../enums";
+import { PromptChatMessageRole, Size, Variant } from "../../enums";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
+import { Thread } from "../../models/Thread";
 
 const UserPrompt: FC = () => {
     const [
-        promptsRequests,
+        nextThread,
+        setNextThread,
+        threads,
+        setThreads,
         selectedModifiers,
         selectedTemplates,
-        userPromptRequest,
-        setPromptsRequests,
-        setUserPromptRequest
     ] = useStore(useShallow(state => [
-        state.promptsRequests,
+        state.nextThread,
+        state.setNextThread,
+        state.threads,
+        state.setThreads,
         state.selectedModifiers,
         state.selectedTemplates,
-        state.userPromptRequest,
-        state.setPromptsRequests,
-        state.setUserPromptRequest
     ]));
 
 
-    const updateUserRequestText = (value: string) => {
-        const newUserRequest = PromptRequest.clone(userPromptRequest);
-        newUserRequest.key = Date.now();
-        newUserRequest.title = value;
-        newUserRequest.content = value;
-        newUserRequest.prompts_chat_messages.push({role: 'user', message: value})
-        setUserPromptRequest(newUserRequest);
+    const updateNextThread = (value: string) => {
+        const newNextThread = Thread.clone(nextThread);
+        newNextThread.key = Date.now();
+        newNextThread.title = value;
+        newNextThread.prompt.content = value;
+        newNextThread.prompt.prompts_chat_messages = [{role: PromptChatMessageRole.USER, message: value}];
+        setNextThread(newNextThread);
     }
 
-    const play = () => {
-        userPromptRequest.metadata.modifiers = selectedModifiers;
-        userPromptRequest.metadata.templates = selectedTemplates;
+    const submit = () => {
+        nextThread.prompt.metadata.modifiers = selectedModifiers;
+        nextThread.prompt.metadata.templates = selectedTemplates;
+        setThreads([...threads, nextThread]);
 
-        setPromptsRequests([...promptsRequests, userPromptRequest]);
-        updateUserRequestText("");
+        updateNextThread("");
     }
 
     const onKeyDown = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.keyCode === 13 && e.shiftKey === false) {
             e.preventDefault();
-            play();
+            submit();
         }
     }
 
@@ -58,15 +58,15 @@ const UserPrompt: FC = () => {
                 autofocus={true}
                 size={Size.lg}
                 radius={Size.xl}
-                value={userPromptRequest.content}
-                onChange={e => updateUserRequestText(e.target.value)}
+                value={nextThread.prompt.content}
+                onChange={e => updateNextThread(e.target.value)}
                 onKeyDown={e => onKeyDown(e)}
                 className={classes.textarea}
             />
             <IconButton
                 variant={Variant.filled}
                 size={Size.lg}
-                onClick={play}
+                onClick={submit}
                 icon={<IconPlayerPlayFilled size={16} stroke={1.5} />}
                 className={classes.playButton}
             />

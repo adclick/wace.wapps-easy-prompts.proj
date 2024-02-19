@@ -1,9 +1,9 @@
 import { Select } from "@mantine/core";
 import { Parameter } from "../../../models/Parameter";
-import { PromptRequest } from "../../../models/PromptRequest";
 import { useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
+import { Thread } from "../../../models/Thread";
 
 interface PromptOptionsImageResolution {
     parameter: Parameter
@@ -11,14 +11,14 @@ interface PromptOptionsImageResolution {
 
 export function PromptOptionsImageResolution({ parameter }: PromptOptionsImageResolution) {
     const [
-        userPromptRequest,
-        setUserPromptRequest,
+        nextThread,
+        setNextThread,
     ] = useStore(useShallow(state => [
-        state.userPromptRequest,
-        state.setUserPromptRequest
+        state.nextThread,
+        state.setNextThread
     ]));
 
-    const [value, setValue] = useState(userPromptRequest.parametersList.image_resolution.value);
+    const [value, setValue] = useState(nextThread.prompt.parametersList.image_resolution.value);
 
     const data = parameter.data;
 
@@ -30,9 +30,9 @@ export function PromptOptionsImageResolution({ parameter }: PromptOptionsImageRe
         const newParameter = Parameter.clone(parameter);
         newParameter.value = resolution;
 
-        const newUserRequest = PromptRequest.clone(userPromptRequest);
-        newUserRequest.parametersList.image_resolution = newParameter;
-        setUserPromptRequest(newUserRequest);
+        const newNextthread = Thread.clone(nextThread);
+        newNextthread.prompt.parametersList.image_resolution = newParameter;
+        setNextThread(newNextthread);
     }
 
     return (

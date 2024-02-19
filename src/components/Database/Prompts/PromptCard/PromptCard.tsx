@@ -3,7 +3,6 @@ import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } 
 import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
-import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { useDeletePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
@@ -15,6 +14,7 @@ import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
 import classes from './PromptCard.module.css'
+import { Thread } from "../../../../models/Thread";
 
 interface PromptCard {
     prompt: Prompt,
@@ -25,12 +25,12 @@ interface PromptCard {
 export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) {
     const [
         user,
-        promptsRequests,
-        setPromptsRequests,
+        threads,
+        setThreads,
     ] = useStore(useShallow(state => [
         state.user,
-        state.promptsRequests,
-        state.setPromptsRequests,
+        state.threads,
+        state.setThreads,
     ]));
 
     const [detailsOpened, detailsHandle] = useDisclosure(false);
@@ -42,21 +42,20 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
     const play = async (e: any) => {
         e.stopPropagation();
 
-        const newPromptRequest = Prompt.clone(prompt) as PromptRequest;
-        newPromptRequest.key = Date.now();
-        newPromptRequest.isPlayable = true;
-        newPromptRequest.type = PromptRequestType.Prompt;
+        const newThread = new Thread();
+        newThread.prompt = Prompt.clone(prompt);
+        newThread.key = Date.now();
 
         // If there is no provider, get the default one
-        if (!newPromptRequest.provider) {
-            newPromptRequest.provider = await getDefaultProvider(newPromptRequest.technology.id);
+        if (!newThread.prompt.provider) {
+            newThread.prompt.provider = await getDefaultProvider(newThread.prompt.technology.id);
         }
 
         // navbarMobileHandle.close();
 
-        setPromptsRequests([
-            ...promptsRequests,
-            newPromptRequest
+        setThreads([
+            ...threads,
+            newThread
         ]);
     }
 

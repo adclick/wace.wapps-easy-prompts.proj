@@ -1,10 +1,10 @@
 import { Loader, Select } from "@mantine/core";
 import { Technology } from "../../../models/Technology";
 import { useTechnologiesQuery } from "../../../api/technologiesApi";
-import { PromptRequest } from "../../../models/PromptRequest";
 import { Provider } from "../../../models/Provider";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
+import { Thread } from "../../../models/Thread";
 
 export interface TechnologyDataItem {
     label: string,
@@ -18,22 +18,24 @@ interface PromptOptionsTechnologiesField {
 
 export function PromptOptionsTechnologiesField() {
     const [
-        userPromptRequest,
-        setUserPromptRequest
+        user,
+        nextThread,
+        setNextThread
     ] = useStore(useShallow(state => [
-        state.userPromptRequest,
-        state.setUserPromptRequest
+        state.user,
+        state.nextThread,
+        state.setNextThread
     ]));
 
-    const technologiesQuery = useTechnologiesQuery();
+    const technologiesQuery = useTechnologiesQuery(user);
 
     const onChangeTechnology = (technologyId: string | null) => {
         const technology = technologiesQuery.data.find((t: Technology) => t.id === parseInt(technologyId as string));
         if (technology) {
-            const newUserRequest = PromptRequest.clone(userPromptRequest);
-            newUserRequest.technology = Technology.clone(technology);
-            newUserRequest.provider = new Provider();
-            setUserPromptRequest(newUserRequest);
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.prompt.technology = Technology.clone(technology);
+            newNextThread.prompt.provider = new Provider();
+            setNextThread(newNextThread);
         }
     }
 
@@ -53,7 +55,7 @@ export function PromptOptionsTechnologiesField() {
             checkIconPosition="right"
             size="md"
             comboboxProps={{ withinPortal: false }}
-            value={userPromptRequest.technology.id.toString()}
+            value={nextThread.prompt.technology.id.toString()}
             data={data}
             onChange={onChangeTechnology}
         />

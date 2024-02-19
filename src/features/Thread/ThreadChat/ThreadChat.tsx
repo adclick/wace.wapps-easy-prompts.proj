@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import { PromptRequest, PromptRequestType } from "../../../models/PromptRequest";
 import { Avatar, Box, Button, Group, Stack, Textarea } from "@mantine/core";
 import { useChatQuery } from "../../../api/chatApi";
 import { PromptChatMessage } from "../../../models/PromptChatMessage";
@@ -11,34 +10,35 @@ import { PromptChatMessageRole } from "../../../enums";
 import { Prompt } from "../../../models/Prompt";
 import { parseError } from "../../../services/ThreadService";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
+import { Thread } from "../../../models/Thread";
 
 interface ThreadChatProps {
-    promptRequest: PromptRequest
+    thread: Thread
 }
 
 const ThreadChat: FC<ThreadChatProps> = ({
-    promptRequest
+    thread
 }: ThreadChatProps) => {
-    const [updatedPromptRequest, setUpdatedPromptRequest] = useState<PromptRequest>(promptRequest);
+    const [updatedNextThread, setUpdatedNextThread] = useState<Thread>(thread);
     const [
         user,
-        promptsRequests,
-        setPromptsRequests
+        threads,
+        setThreads
     ] = useStore(useShallow(state => [
         state.user,
-        state.promptsRequests,
-        state.setPromptsRequests
+        state.threads,
+        state.setThreads
     ]));
     const [reply, setReply] = useState('');
 
-    let promptChatMessages = promptRequest.prompts_chat_messages;
-    if (promptRequest.isPlayable) {
+    let promptChatMessages = thread.prompt.prompts_chat_messages;
+    if (thread.prompt.id > 0) {
         promptChatMessages = [promptChatMessages[promptChatMessages.length - 1]];
     }
 
     const [chatMessages, setChatMessages] = useState<PromptChatMessage[]>(promptChatMessages);
 
-    const { data, error } = useChatQuery(promptRequest, chatMessages);
+    const { data, error } = useChatQuery(thread, chatMessages);
 
     const updateChatMessages = (role: string, message: string) => {
         const newChatMessages = [
@@ -52,9 +52,9 @@ const ThreadChat: FC<ThreadChatProps> = ({
     }
 
     const updatePromptRequest = () => {
-        const newPromptRequest = promptRequest;
-        newPromptRequest.prompts_chat_messages = chatMessages;
-        setUpdatedPromptRequest(newPromptRequest);
+        const newThread = thread;
+        newThread.prompt.prompts_chat_messages = chatMessages;
+        setUpdatedNextThread(newThread);
     }
 
     const onKeyDown = async (e: any) => {
@@ -80,15 +80,14 @@ const ThreadChat: FC<ThreadChatProps> = ({
     }
 
     const regenerate = () => {
-        const newPromptRequest = Prompt.clone(promptRequest) as PromptRequest;
-        newPromptRequest.key = promptRequest.key + 1;
-        newPromptRequest.isPlayable = promptRequest.isPlayable;
-        newPromptRequest.type = PromptRequestType.Prompt;
-        newPromptRequest.response = "";
+        const newThread = new Thread();
+        newThread.prompt = Prompt.clone(thread.prompt);
+        newThread.key = thread.key + 1;
+        newThread.response = "";
 
-        const newPromptsRequests = promptsRequests.map(p => p.key === promptRequest.key ? newPromptRequest : p);
+        const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
 
-        setPromptsRequests(newPromptsRequests);
+        setThreads(newThreads);
     }
 
     return (
@@ -102,11 +101,11 @@ const ThreadChat: FC<ThreadChatProps> = ({
                             // User message with Assistant Loader
                             return <>
                                 {
-                                    !promptRequest.isPlayable
+                                    thread.prompt.id <= 0
                                         ? <>
                                             <Box key={index}>
                                                 {
-                                                    !promptRequest.isPlayable &&
+                                                    thread.prompt.id <= 0 &&
                                                     <ThreadUserMessage
                                                         username={user.username}
                                                         userPicture={user.picture}
@@ -127,7 +126,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
                         // User Messsage
                         return (
-                            !promptRequest.isPlayable &&
+                            thread.prompt.id <= 0 &&
                             <Box key={index}>
                                 <ThreadUserMessage
                                     username={user.username}
@@ -152,7 +151,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
             }
 
             {
-                !promptRequest.isPlayable && canReply() &&
+                thread.prompt.id <= 0 && canReply() &&
                 <Stack>
                     <Group wrap="nowrap">
                         <Avatar src={user.picture} size={"sm"} />
@@ -188,7 +187,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
                 </Stack>
             }
 
-            <ThreadFooter promptRequest={updatedPromptRequest} />
+            <ThreadFooter thread={updatedNextThread} />
         </Stack>
     )
 }

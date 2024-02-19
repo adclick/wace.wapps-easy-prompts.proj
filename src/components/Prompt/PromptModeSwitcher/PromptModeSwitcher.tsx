@@ -13,13 +13,13 @@ export function PromptModeSwitcher() {
     const [
         selectedModifiers,
         selectedTemplates,
-        userPromptRequest,
+        nextThread,
         setSelectedTemplates,
         setSelectedModifiers,
     ] = useStore(useShallow(state => [
         state.selectedModifiers,
         state.selectedTemplates,
-        state.userPromptRequest,
+        state.nextThread,
         state.setSelectedTemplates,
         state.setSelectedModifiers,
     ]));
@@ -42,8 +42,8 @@ export function PromptModeSwitcher() {
                     <Popover.Target>
                         <Badge style={{ cursor: "pointer" }} size={"sm"} variant="dot" h={"auto"}>
                             <ProviderLabel
-                                technology={userPromptRequest.technology}
-                                provider={userPromptRequest.provider}
+                                technology={nextThread.prompt.technology}
+                                provider={nextThread.prompt.provider}
                                 templates={selectedTemplates}
                                 modifiers={selectedModifiers}
                                 size="md"

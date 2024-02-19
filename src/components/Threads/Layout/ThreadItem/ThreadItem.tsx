@@ -1,54 +1,49 @@
 import { useDisclosure } from "@mantine/hooks";
-import { PromptRequest, PromptRequestType } from "../../../../models/PromptRequest";
-import { TextGenerationThread } from "../../Types/TextGenerationThread/TextGenerationThread";
-import { ChatThread } from "../../Types/ChatThread/ChatThread";
-import { ImageGenerationThread } from "../../Types/ImageGeneration/ImageGenerationThread";
 import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
-import { TextGenerationThreadByPrompt } from "../../Types/TextGenerationThreadByPrompt/TextGenerationThreadByPrompt";
-import { ImageGenerationThreadByPromptId } from "../../Types/ImageGenerationThreadByPromptId/ImageGenerationThreadByPromptId";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../../stores/store";
 import ThreadChat from "../../../../features/Thread/ThreadChat/ThreadChat";
 import ThreadTextGeneration from "../../../../features/Thread/ThreadTextGeneration/ThreadTextGeneration";
 import ThreadImageGeneration from "../../../../features/Thread/ThreadImageGeneration/ThreadImageGeneration";
+import { Thread } from "../../../../models/Thread";
 
 interface ThreadItem {
-    promptRequest: PromptRequest,
+    thread: Thread,
     scrollIntoView: any
 }
 
-export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
+export function ThreadItem({ thread, scrollIntoView }: ThreadItem) {
     const [
-        promptsRequests,
-        setPromptsRequests,
+        threads,
+        setThreads,
     ] = useStore(useShallow(state => [
-        state.promptsRequests,
-        state.setPromptsRequests
+        state.threads,
+        state.setThreads
     ]));
 
     const [minimized, minimizeHandle] = useDisclosure(false);
 
-    const deleteThread = (promptRequest: PromptRequest) => {
-        setPromptsRequests(promptsRequests.filter((p) => p.key !== promptRequest.key));
+    const deleteThread = (thread: Thread) => {
+        setThreads(threads.filter((t) => t.key !== thread.key));
     }
 
-    let thread = <></>;
+    let threadComponent = <></>;
 
-    switch (promptRequest.technology.slug) {
+    switch (thread.prompt.technology.slug) {
         case 'text-generation':
-            thread = <ThreadTextGeneration
-                promptRequest={promptRequest}
+            threadComponent = <ThreadTextGeneration
+                thread={thread}
             />;
             break;
         case 'chat':
-            thread = <ThreadChat
-                promptRequest={promptRequest}
+            threadComponent = <ThreadChat
+                thread={thread}
             />
             break;
         case 'image-generation':
-            thread = <ThreadImageGeneration
-                promptRequest={promptRequest}
+            threadComponent = <ThreadImageGeneration
+                thread={thread}
             />;
             break;
     }
@@ -66,12 +61,12 @@ export function ThreadItem({ promptRequest, scrollIntoView }: ThreadItem) {
                         deleteThread={deleteThread}
                         minimized={minimized}
                         minimizeHandle={minimizeHandle}
-                        promptRequest={promptRequest}
+                        thread={thread}
 
                     />
                     <Collapse in={!minimized}>
                         <Stack gap={"xl"}>
-                            {thread}
+                            {threadComponent}
                         </Stack>
                     </Collapse>
                 </Stack>

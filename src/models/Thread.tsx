@@ -16,4 +16,17 @@ export class Thread {
         this.prompt = new Prompt();
         this.key = key;
     }
+
+    static clone (thread: Thread): Thread {
+        const newThread = new Thread();
+
+        newThread.id = thread.id;
+        newThread.title = thread.title;
+        newThread.created_at = thread.created_at;
+        newThread.response = thread.response;
+        newThread.prompt = Prompt.clone(thread.prompt);
+        newThread.key = thread.key;
+
+        return newThread;
+    }
 }

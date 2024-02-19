@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { PromptRequest } from "../models/PromptRequest";
 import { Template } from "../models/Template";
 import { Modifier } from "../models/Modifier";
 import { User } from "../models/User";
@@ -17,8 +16,6 @@ interface storeState {
     selectedWorkspace: Workspace,
     threads: Thread[],
     nextThread: Thread,
-    promptsRequests: PromptRequest[],
-    userPromptRequest: PromptRequest,
     setUser: (user: User) => void,
     setSelectedPrivateFilters: (selectedPrivateFilters: SelectedFilters) => void,
     setSelectedPrivateDatabaseType: (selectedPrivateDatabaseType: SelectedDatabaseType) => void,
@@ -27,8 +24,6 @@ interface storeState {
     setSelectedWorkspace: (selectedWorkspace: Workspace) => void,
     setThreads: (threads: Thread[]) => void,
     setNextThread: (thread: Thread) => void,
-    setPromptsRequests: (promptsRequests: PromptRequest[]) => void,
-    setUserPromptRequest: (userPromptRequest: PromptRequest) => void,
 }
 
 export const useStore = create<storeState>()(set => ({
@@ -40,8 +35,6 @@ export const useStore = create<storeState>()(set => ({
     selectedWorkspace: new Workspace(),
     threads: [],
     nextThread: new Thread(),
-    promptsRequests: [],
-    userPromptRequest: new PromptRequest(),
     setUser: user => set(() => ({user})),
     setSelectedPrivateFilters: selectedPrivateFilters => set(() => ({selectedPrivateFilters})),
     setSelectedPrivateDatabaseType: selectedPrivateDatabaseType => set(() => ({selectedPrivateDatabaseType})),
@@ -50,6 +43,4 @@ export const useStore = create<storeState>()(set => ({
     setSelectedWorkspace: selectedWorkspace => set(() => ({selectedWorkspace})),
     setThreads: threads => set(() => ({threads})),
     setNextThread: nextThread => set(() => ({nextThread})),
-    setPromptsRequests: promptsRequests => set(() => ({promptsRequests})),
-    setUserPromptRequest: userPromptRequest => set(() => ({userPromptRequest})),
 }));

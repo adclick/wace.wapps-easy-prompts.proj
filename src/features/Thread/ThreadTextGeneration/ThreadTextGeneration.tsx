@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { PromptRequest, PromptRequestType } from "../../../models/PromptRequest";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { useTextGenerationQuery } from "../../../api/textGenerationApi";
@@ -8,36 +7,36 @@ import { Prompt } from "../../../models/Prompt";
 import { ThreadFooter } from "../../../components/Threads/Layout/ThreadFooter/ThreadFooter";
 import { parseError } from "../../../services/ThreadService";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
+import { Thread } from "../../../models/Thread";
 
 interface ThreadTextGenerationProps {
-    promptRequest: PromptRequest
+    thread: Thread
 }
 
 const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
-    promptRequest
+    thread
 }: ThreadTextGenerationProps) => {
     const [
         user,
-        promptsRequests,
-        setPromptsRequests
+        threads,
+        setThreads
     ] = useStore(useShallow(state => [
         state.user,
-        state.promptsRequests,
-        state.setPromptsRequests
+        state.threads,
+        state.setThreads
     ]));
 
-    const { data, error } = useTextGenerationQuery(promptRequest);
+    const { data, error } = useTextGenerationQuery(thread);
 
     const regenerate = () => {
-        const newPromptRequest = Prompt.clone(promptRequest) as PromptRequest;
-        newPromptRequest.key = promptRequest.key + 1;
-        newPromptRequest.isPlayable = promptRequest.isPlayable;
-        newPromptRequest.type = PromptRequestType.Prompt;
-        newPromptRequest.response = "";
+        const newThread = new Thread();
+        newThread.prompt = Prompt.clone(thread.prompt);
+        newThread.key = thread.key + 1;
+        newThread.response = "";
 
-        const newPromptsRequests = promptsRequests.map(p => p.key === promptRequest.key ? newPromptRequest : p);
+        const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
 
-        setPromptsRequests(newPromptsRequests);
+        setThreads(newThreads);
     }
 
     if (error) {
@@ -45,11 +44,11 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
 
         return <Stack gap={"lg"}>
             {
-                !promptRequest.isPlayable &&
+                thread.prompt.id <= 0 &&
                 <ThreadUserMessage
                     username={user.username}
                     userPicture={user.picture}
-                    message={promptRequest.content}
+                    message={thread.prompt.content}
                 />
             }
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
@@ -59,25 +58,25 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
     if (data) {
         return <Stack gap={"lg"}>
             {
-                !promptRequest.isPlayable &&
+                thread.prompt.id <= 0 &&
                 <ThreadUserMessage
                     username={user.username}
                     userPicture={user.picture}
-                    message={promptRequest.content}
+                    message={thread.prompt.content}
                 />
             }
             <ThreadAssistantSuccessMessage message={data.trim()} reloadFn={regenerate} />
-            <ThreadFooter promptRequest={promptRequest} />
+            <ThreadFooter thread={thread} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
         {
-            !promptRequest.isPlayable &&
+            thread.prompt.id <= 0 &&
             <ThreadUserMessage
                 username={user.username}
                 userPicture={user.picture}
-                message={promptRequest.content}
+                message={thread.prompt.content}
             />
         }
         <ThreadAssistantLoadingMessage />

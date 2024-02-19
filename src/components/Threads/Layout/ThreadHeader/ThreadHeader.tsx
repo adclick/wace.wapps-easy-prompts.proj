@@ -1,31 +1,29 @@
-import { ActionIcon, Badge, Center, Group, SimpleGrid, Text, UnstyledButton } from "@mantine/core"
-import { PromptRequest } from "../../../../models/PromptRequest"
+import { ActionIcon, Group, Text, UnstyledButton } from "@mantine/core"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
-import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel"
 import { Template } from "../../../../models/Template"
 import { Modifier } from "../../../../models/Modifier"
-import { DesktopContainer } from "../../../UI/Layout"
 import { Technology } from "../../../../models/Technology"
+import { Thread } from "../../../../models/Thread"
 
 interface ThreadHeader {
     deleteThread: any,
     minimized: boolean,
     minimizeHandle: any,
-    promptRequest: PromptRequest
+    thread: Thread
 }
 
-export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRequest }: ThreadHeader) {
+export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread }: ThreadHeader) {
     let templates: Template[] = [];
     let modifiers: Modifier[] = [];
 
-    if ("metadata" in promptRequest && promptRequest.metadata) {
-        if ("templates" in promptRequest.metadata) {
-            templates = promptRequest.metadata.templates;
+    if ("metadata" in thread.prompt && thread.prompt.metadata) {
+        if ("templates" in thread.prompt.metadata) {
+            templates = thread.prompt.metadata.templates;
         }
 
-        if ("modifiers" in promptRequest.metadata) {
-            modifiers = promptRequest.metadata.modifiers;
+        if ("modifiers" in thread.prompt.metadata) {
+            modifiers = thread.prompt.metadata.modifiers;
         }
     }
 
@@ -39,11 +37,11 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
                     </DesktopContainer> */}
                     <Group>
                         {
-                            Technology.getIcon(promptRequest.technology)
+                            Technology.getIcon(thread.prompt.technology)
                         }
                         <Text>
                             {
-                                promptRequest.title
+                                thread.title
                             }
                         </Text>
                     </Group>
@@ -53,7 +51,12 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, promptRe
                                 ? iconChevronUp("xs")
                                 : iconChevronDown("xs")
                         }
-                        <ActionIcon component="div" className={classes.iconClose} variant="transparent" onClick={() => deleteThread(promptRequest)}>
+                        <ActionIcon
+                            component="div"
+                            className={classes.iconClose}
+                            variant="transparent"
+                            onClick={() => deleteThread(thread)}
+                        >
                             {iconClose("xs")}
                         </ActionIcon>
                     </Group>

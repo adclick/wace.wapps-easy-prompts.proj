@@ -1,19 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { User } from "../models/User";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useWorkspacesQuery = (userId: string) => {
+export const useWorkspacesQuery = (user: User) => {
     return useQuery({
-        queryKey: ["workspaces", userId],
+        queryKey: ["workspaces", user.id],
         queryFn: async () => {
 
             const { data } = await axios.get(`${API_URL}/workspaces/?` + new URLSearchParams({
-                user_external_id: userId,
+                user_external_id: user.id,
             }));
 
             return data;
         },
-        enabled: !!userId
+        enabled: !!user.id && user.isLoggedIn
     });
 };

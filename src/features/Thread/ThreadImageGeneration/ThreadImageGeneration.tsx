@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { PromptRequest, PromptRequestType } from "../../../models/PromptRequest";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { useImageGenerationQuery } from "../../../api/imageGenerationApi";
@@ -9,43 +8,43 @@ import { Image, Stack } from "@mantine/core";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
 import { ThreadFooter } from "../../../components/Threads/Layout/ThreadFooter/ThreadFooter";
 import { ThreadDownloadButton } from "../../../components/Threads/Buttons/ThreadDownloadButton/ThreadDownloadButton";
+import { Thread } from "../../../models/Thread";
 
 interface ThreadImageGenerationProps {
-    promptRequest: PromptRequest
+    thread: Thread
 }
 
 const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
-    promptRequest
+    thread
 }: ThreadImageGenerationProps) => {
     const [
         user,
-        promptsRequests,
-        setPromptsRequests
+        threads,
+        setThreads
     ] = useStore(useShallow(state => [
         state.user,
-        state.promptsRequests,
-        state.setPromptsRequests
+        state.threads,
+        state.setThreads
     ]));
 
-    const { data, error } = useImageGenerationQuery(promptRequest);
+    const { data, error } = useImageGenerationQuery(thread);
 
     const regenerate = () => {
-        const newPromptRequest = Prompt.clone(promptRequest) as PromptRequest;
-        newPromptRequest.key = promptRequest.key + 1;
-        newPromptRequest.isPlayable = false;
-        newPromptRequest.type = PromptRequestType.Prompt;
-        newPromptRequest.response = "";
+        const newThread = new Thread();
+        newThread.prompt = Prompt.clone(thread.prompt);
+        newThread.key = thread.key + 1;
+        newThread.response = "";
 
-        const newPromptsRequests = promptsRequests.map(p => p.key === promptRequest.key ? newPromptRequest : p);
+        const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
 
-        setPromptsRequests(newPromptsRequests);
+        setThreads(newThreads);
     }
 
     if (error) {
         const message = parseError(error);
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage username={user.username} userPicture={user.picture} message={promptRequest.content} />
+            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.prompt.content} />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
     }
@@ -66,14 +65,14 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         </Stack>
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage username={user.username} userPicture={user.picture} message={promptRequest.content} />
+            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.prompt.content} />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate}  />
-            <ThreadFooter promptRequest={promptRequest} />
+            <ThreadFooter thread={thread} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
-        <ThreadUserMessage username={user.username} userPicture={user.picture} message={promptRequest.content} />
+        <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.prompt.content} />
         <ThreadAssistantLoadingMessage />
     </Stack>
 }
