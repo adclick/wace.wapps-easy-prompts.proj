@@ -38,7 +38,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
     const [chatMessages, setChatMessages] = useState<PromptChatMessage[]>(promptChatMessages);
 
-    const { data, error } = useChatQuery(thread, chatMessages);
+    const { data, error } = useChatQuery(user, thread, chatMessages);
 
     const updateChatMessages = (role: string, message: string) => {
         const newChatMessages = [
