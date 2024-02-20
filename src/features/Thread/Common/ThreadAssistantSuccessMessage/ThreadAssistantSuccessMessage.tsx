@@ -32,13 +32,13 @@ const ThreadAssistantSuccessMessage: FC<ThreadAssistantSuccessMessageProps> = ({
                     <MobileContainer>
                         <Group gap={"xs"}>
                             {copyButton && <ThreadCopyButton value={message} />}
-                            {reloadFn && <ThreadReloadButton reload={reloadFn} />}
+                            {/* {reloadFn && <ThreadReloadButton reload={reloadFn} />} */}
                         </Group>
                     </MobileContainer>
                     <DesktopContainer>
                         <Group gap={"xs"}>
                             {copyButton && hovered && <ThreadCopyButton value={message} />}
-                            {reloadFn && hovered && <ThreadReloadButton reload={reloadFn} />}
+                            {/* {reloadFn && hovered && <ThreadReloadButton reload={reloadFn} />} */}
                         </Group>
                     </DesktopContainer>
                 </Stack>

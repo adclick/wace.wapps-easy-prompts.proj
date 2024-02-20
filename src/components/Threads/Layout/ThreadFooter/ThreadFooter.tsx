@@ -44,19 +44,19 @@ export function ThreadFooter({ thread }: ThreadFooter) {
     const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);
     const mutation = useUpdatePromptMutation(thread.prompt.id);
 
-    // const regenerate = () => {
-    //     console.log(thread);
-    //     const newThread = Thread.clone(thread);
-    //     newThread.id = 0;
-    //     newThread.prompt.id = 0;
-    //     newThread.key = thread.key + 1;
-    //     newThread.response = "";
+    const regenerate = () => {
+        console.log(thread);
+        const newThread = Thread.clone(thread);
+        newThread.id = 0;
+        newThread.prompt.id = 0;
+        newThread.key = thread.key + 1;
+        newThread.response = "";
 
-    //     setThreads([
-    //         ...threads,
-    //         newThread
-    //     ]);
-    // }
+        setThreads([
+            ...threads,
+            newThread
+        ]);
+    }
 
     return (
         <>
@@ -70,7 +70,7 @@ export function ThreadFooter({ thread }: ThreadFooter) {
                         thread.prompt.status === PromptStatus.DRAFT &&
                         <ThreadSaveButton onClick={newPromptModalHandle.open} />
                     }
-                    {/* <Button
+                    <Button
                         variant="transparent"
                         color="--mantine-color-text"
                         size="xs"
@@ -78,7 +78,7 @@ export function ThreadFooter({ thread }: ThreadFooter) {
                         onClick={regenerate}
                     >
                         Regenerate
-                    </Button> */}
+                    </Button>
                 </Group>
                 <Badge size={"sm"} variant="dot" h={"auto"}>
                     <ProviderLabel
