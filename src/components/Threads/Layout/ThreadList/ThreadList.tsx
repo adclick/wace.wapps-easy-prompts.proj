@@ -53,7 +53,7 @@ export function ThreadList() {
         if (threadsData) {
             setThreads(threadsData);
         }
-    }, [threadsData])
+    }, [threadsData, setThreads])
 
     const technologiesQuery = useTechnologiesQuery(user);
 

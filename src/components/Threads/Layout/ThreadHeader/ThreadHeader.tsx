@@ -1,10 +1,11 @@
-import { ActionIcon, Group, Text, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Button, Group, Text, Tooltip, UnstyledButton } from "@mantine/core"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
 import { Template } from "../../../../models/Template"
 import { Modifier } from "../../../../models/Modifier"
 import { Technology } from "../../../../models/Technology"
 import { Thread } from "../../../../models/Thread"
+import { PromptStatus } from "../../../../enums"
 
 interface ThreadHeader {
     deleteThread: any,
@@ -46,6 +47,22 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread }
                         </Text>
                     </Group>
                     <Group wrap="nowrap" justify="flex-end">
+                        {
+                            thread.prompt.status === PromptStatus.DRAFT &&
+                            <Tooltip label="This prompt is only visible in this workspace">
+                                <Button component="a" variant="transparent" color="--mantine-color-gray" size="compact-xs">
+                                    {thread.prompt.status}
+                                </Button>
+                            </Tooltip>
+                        }
+                        {
+                            thread.prompt.status === PromptStatus.PUBLISHED &&
+                            <Tooltip label="This prompt is published in your repositories">
+                                <Button component="a" variant="transparent" size="compact-xs">
+                                    {thread.prompt.status}
+                                </Button>
+                            </Tooltip>
+                        }
                         {
                             minimized
                                 ? iconChevronUp("xs")

@@ -25,7 +25,15 @@ const AppMenu: FC = () => {
 
     const { data } = useWorkspacesQuery(user);
 
-    let menus: MenuItemProps[] = [];
+    let menus: MenuItemProps[] = [
+        {
+            id: "clear",
+            type: MenuType.button,
+            icon: <IconClearAll size={14} />,
+            label: "Clear",
+        }
+    ];
+
 
     useEffect(() => {
         if (data) {

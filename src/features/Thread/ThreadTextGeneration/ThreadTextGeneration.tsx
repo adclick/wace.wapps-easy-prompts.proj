@@ -8,7 +8,7 @@ import { ThreadFooter } from "../../../components/Threads/Layout/ThreadFooter/Th
 import { parseError } from "../../../services/ThreadService";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
 import { Thread } from "../../../models/Thread";
-import { useCreateThreadMutation, useUpdateThreadMutation } from "../../../api/threadsApi";
+import { useCreateThreadMutation, useDeleteThreadMutation, useUpdateThreadMutation } from "../../../api/threadsApi";
 import { useCreatePromptMutation } from "../../../api/promptsApi";
 import { PromptStatus } from "../../../enums";
 
@@ -31,23 +31,29 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         state.selectedWorkspace
     ]));
 
-    const { data, isSuccess, error } = useTextGenerationQuery(thread);
+    const { data, refetch, isSuccess, error } = useTextGenerationQuery(thread);
     const createPromptMutation = useCreatePromptMutation();
     const createThreadMutation = useCreateThreadMutation();
     const updateThreadMutation = useUpdateThreadMutation(thread.id)
+    const deleteThreadMutation = useDeleteThreadMutation();
     const [promptSaved, setPromptSaved] = useState(false);
     const [threadSaved, setThreadSaved] = useState(false);
+    const [regeneratedThread, setRegeneratedThread] = useState<Thread>(thread);
 
     const regenerate = () => {
-        const newThread = new Thread();
-        newThread.prompt = Prompt.clone(thread.prompt);
+        const newThread = Thread.clone(thread);
         newThread.key = thread.key + 1;
         newThread.response = "";
 
-        const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
+        setRegeneratedThread(newThread);
 
-        setThreads(newThreads);
+        
+        // const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
+        
+        // setThreads(newThreads);
+        // refetch();
     }
+
 
     if (error) {
         const message = parseError(error);
@@ -71,6 +77,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
             const defaultWorkspace = user.workspaces.find(w => w.default === true);
 
             if (defaultRepository && defaultWorkspace) {
+                console.log(thread);
                 createPromptMutation.mutate({
                     title: thread.prompt.content,
                     content: thread.prompt.content,
@@ -81,8 +88,8 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
                     technology_id: thread.prompt.technology.id.toString(),
                     provider_id: thread.prompt.provider.id.toString(),
                     user_id: user.external_id,
-                    templates_ids: thread.prompt.metadata.templates.map(t => t.id.toString()),
-                    modifiers_ids: thread.prompt.metadata.modifiers.map(t => t.id.toString()),
+                    templates_ids: thread.prompt.prompts_templates.map(t => t.template.id.toString()),
+                    modifiers_ids: thread.prompt.prompts_modifiers.map(m => m.modifier.id.toString()),
                     prompt_chat_messages: [],
                     prompt_parameters: []
                 });
@@ -93,7 +100,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         }
     }
 
-    if (thread.id > 0) {
+    if (thread.response !== "") {
         return <Stack gap={"lg"}>
             {
                 thread.prompt.id > 0 &&
@@ -109,6 +116,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
     }
 
     if (data) {
+        console.log("data");
         if (!threadSaved) {
             if (thread.response === "" && thread.prompt.id > 0) {
                 updateThreadMutation.mutate({

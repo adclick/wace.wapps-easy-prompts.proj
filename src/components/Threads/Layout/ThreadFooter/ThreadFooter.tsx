@@ -1,4 +1,4 @@
-import { Badge, Group, Modal } from "@mantine/core";
+import { Badge, Button, Group, Modal } from "@mantine/core";
 import { ThreadSaveButton } from "../../Buttons/ThreadSaveButton/ThreadSaveButton";
 import { useDisclosure } from "@mantine/hooks";
 import { User } from "../../../../models/User";
@@ -11,6 +11,7 @@ import { Template } from "../../../../models/Template";
 import { Modifier } from "../../../../models/Modifier";
 import { Thread } from "../../../../models/Thread";
 import { PromptStatus } from "../../../../enums";
+import { IconReload } from "@tabler/icons-react";
 
 interface ThreadFooter {
     thread: Thread,
@@ -43,26 +44,52 @@ export function ThreadFooter({ thread }: ThreadFooter) {
     const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);
     const mutation = useUpdatePromptMutation(thread.prompt.id);
 
+    // const regenerate = () => {
+    //     console.log(thread);
+    //     const newThread = Thread.clone(thread);
+    //     newThread.id = 0;
+    //     newThread.prompt.id = 0;
+    //     newThread.key = thread.key + 1;
+    //     newThread.response = "";
+
+    //     setThreads([
+    //         ...threads,
+    //         newThread
+    //     ]);
+    // }
+
     return (
         <>
             <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title="Create Prompt" size={"lg"}>
                 <PromptForm handle={newPromptModalHandle} prompt={thread.prompt} mutation={mutation} />
             </Modal>
-            {
-                thread.prompt.status === PromptStatus.DRAFT &&
-                <Group justify="space-between">
-                    <ThreadSaveButton onClick={newPromptModalHandle.open} />
-                    <Badge size={"sm"} variant="dot" h={"auto"}>
-                        <ProviderLabel
-                            size="sm"
-                            technology={thread.prompt.technology}
-                            provider={thread.prompt.provider}
-                            templates={templates}
-                            modifiers={modifiers}
-                        />
-                    </Badge>
+            <Group justify="space-between">
+                <Group>
+
+                    {
+                        thread.prompt.status === PromptStatus.DRAFT &&
+                        <ThreadSaveButton onClick={newPromptModalHandle.open} />
+                    }
+                    {/* <Button
+                        variant="transparent"
+                        color="--mantine-color-text"
+                        size="xs"
+                        leftSection={<IconReload size={14} />}
+                        onClick={regenerate}
+                    >
+                        Regenerate
+                    </Button> */}
                 </Group>
-            }
+                <Badge size={"sm"} variant="dot" h={"auto"}>
+                    <ProviderLabel
+                        size="sm"
+                        technology={thread.prompt.technology}
+                        provider={thread.prompt.provider}
+                        templates={templates}
+                        modifiers={modifiers}
+                    />
+                </Badge>
+            </Group>
         </>
     )
 }
