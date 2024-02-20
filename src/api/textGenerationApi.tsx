@@ -23,5 +23,6 @@ export const useTextGenerationQuery = (thread: Thread) => {
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        enabled: thread.id <= 0
     });
 };

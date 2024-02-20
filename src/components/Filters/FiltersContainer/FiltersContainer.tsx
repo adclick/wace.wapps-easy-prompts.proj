@@ -7,7 +7,7 @@ import { iconClose } from "../../../utils/iconsUtils";
 import { SelectedFilters } from "../../../models/SelectedFilters";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
-import { usePrivateFiltersQuery } from "../../../api/filtersApi";
+import { useFiltersQuery, usePrivateFiltersQuery } from "../../../api/filtersApi";
 import { useEffect } from "react";
 import { BooleanHandle } from "../../../types";
 
@@ -30,7 +30,7 @@ export function FiltersContainer({
         state.setSelectedPrivateFilters,
 
     ]));
-    const selectedFiltersQuery = usePrivateFiltersQuery(user);
+    const selectedFiltersQuery = useFiltersQuery(user);
 
     // Init selectedFilters
     useEffect(() => {

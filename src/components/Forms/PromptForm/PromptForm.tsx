@@ -16,6 +16,7 @@ import { ModifiersField } from "../Fields/ModifiersField";
 import { Prompt } from "../../../models/Prompt";
 import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
 import { ParametersList } from "../../../models/ParametersList";
+import { PromptStatus } from "../../../enums";
 
 interface PromptForm {
     prompt?: Prompt,
@@ -36,8 +37,8 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     const initialValues: PromptFormValues = {
         title: '',
         description: '',
+        status: PromptStatus.DRAFT,
         content: '',
-        response: '',
         language_id: '',
         repository_id: '',
         technology_id: '',
@@ -63,15 +64,15 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
 
         initialValues.title = promptPrivate.title;
         initialValues.description = promptPrivate.description;
+        initialValues.status = promptPrivate.status;
         initialValues.content = promptPrivate.content;
-        initialValues.response = promptPrivate.response;
         initialValues.language_id = promptPrivate.language.id.toString();
         initialValues.repository_id = promptPrivate.repository.id.toString();
         initialValues.technology_id = promptPrivate.technology.id.toString();
         if (promptPrivate.provider) {
             initialValues.provider_id = promptPrivate.provider.id.toString();
         }
-        initialValues.user_id = user.id;
+        initialValues.user_id = user.external_id;
         initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.id.toString());
         initialValues.prompt_chat_messages = [];
@@ -95,13 +96,13 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
 
         initialValues.title = prompt.title;
         initialValues.description = prompt.description;
+        initialValues.status = PromptStatus.PUBLISHED;
         initialValues.content = prompt.content;
-        initialValues.response = prompt.response;
         initialValues.language_id = prompt.language.id.toString();
         initialValues.repository_id = prompt.repository.id.toString();
         initialValues.technology_id = prompt.technology.id.toString();
         initialValues.provider_id = prompt.provider.id.toString();
-        initialValues.user_id = user.id;
+        initialValues.user_id = user.external_id;
         initialValues.templates_ids = prompt.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = prompt.prompts_modifiers.map(pm => pm.modifier.id.toString());
         initialValues.prompt_chat_messages = prompt.prompts_chat_messages;

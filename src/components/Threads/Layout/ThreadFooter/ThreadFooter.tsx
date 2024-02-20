@@ -5,11 +5,12 @@ import { User } from "../../../../models/User";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
-import { useCreatePromptMutation } from "../../../../api/promptsApi";
+import { useCreatePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { Template } from "../../../../models/Template";
 import { Modifier } from "../../../../models/Modifier";
 import { Thread } from "../../../../models/Thread";
+import { PromptStatus } from "../../../../enums";
 
 interface ThreadFooter {
     thread: Thread,
@@ -40,30 +41,15 @@ export function ThreadFooter({ thread }: ThreadFooter) {
     }
 
     const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);
-    const createMutation = useCreatePromptMutation();
+    const mutation = useUpdatePromptMutation(thread.prompt.id);
 
     return (
         <>
             <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title="Create Prompt" size={"lg"}>
-                <PromptForm handle={newPromptModalHandle} prompt={thread.prompt} mutation={createMutation} />
+                <PromptForm handle={newPromptModalHandle} prompt={thread.prompt} mutation={mutation} />
             </Modal>
             {
-                User.hasPrompt(user, thread.prompt) && thread.prompt.id <= 0 &&
-                <Group justify="space-between">
-                    <ThreadSaveButton onClick={newPromptModalHandle.open} />
-                    <Badge size={"sm"} variant="dot" h={"auto"}>
-                        <ProviderLabel
-                            size="sm"
-                            technology={thread.prompt.technology}
-                            provider={thread.prompt.provider}
-                            templates={templates}
-                            modifiers={modifiers}
-                        />
-                    </Badge>
-                </Group>
-            }
-            {
-                !User.hasPrompt(user, thread.prompt) && thread.prompt.id <= 0 &&
+                thread.prompt.status === PromptStatus.DRAFT &&
                 <Group justify="space-between">
                     <ThreadSaveButton onClick={newPromptModalHandle.open} />
                     <Badge size={"sm"} variant="dot" h={"auto"}>

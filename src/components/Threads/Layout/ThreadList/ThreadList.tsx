@@ -14,10 +14,12 @@ import { Provider } from "../../../../models/Provider";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { Thread } from "../../../../models/Thread";
+import { useThreadsQuery } from "../../../../api/threadsApi";
 
 export function ThreadList() {
     const [
         user,
+        selectedWorkspace,
         threads,
         nextThread,
         setThreads,
@@ -26,6 +28,7 @@ export function ThreadList() {
         setNextThread
     ] = useStore(useShallow(state => [
         state.user,
+        state.selectedWorkspace,
         state.threads,
         state.nextThread,
         state.setThreads,
@@ -43,6 +46,14 @@ export function ThreadList() {
     const { data: urlTemplate } = useTemplateQuery(urlTemplateId);
     const { data: urlModifier } = useModifierQuery(urlModifierId);
     const [urlUsed, setUrlUsed] = useState(false);
+
+    const {data: threadsData} = useThreadsQuery(user, selectedWorkspace.id);
+
+    useEffect(() => {
+        if (threadsData) {
+            setThreads(threadsData);
+        }
+    }, [threadsData])
 
     const technologiesQuery = useTechnologiesQuery(user);
 

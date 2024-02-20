@@ -26,8 +26,8 @@ const AppOverlay: FC = () => {
         if (userLoginQuery.data && !user.isLoggedIn) {
             setUser({
                 ...user,
-                history_repository_id: userLoginQuery.data.history_repository_id,
-                isLoggedIn: true
+                isLoggedIn: true,
+                ...userLoginQuery.data
             });
 
             overlayHandle.close();

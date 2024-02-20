@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Text, UnstyledButton } from "@mantine/core";
 import { Menu } from "../../components/UI/Menu";
 import { IconChevronDown, IconClearAll } from "@tabler/icons-react";
@@ -10,6 +10,7 @@ import FlexAlign from "../../enums/FlexAlign";
 import FlexWrap from "../../enums/FlexWrap";
 import { useWorkspacesQuery } from "../../api/workspacesApi";
 import { Workspace } from "../../models/Workspace";
+import { MenuItemProps } from "../../components/UI/Menu/Menu";
 
 const AppMenu: FC = () => {
     const [
@@ -24,21 +25,24 @@ const AppMenu: FC = () => {
 
     const { data } = useWorkspacesQuery(user);
 
-    let menus = [];
+    let menus: MenuItemProps[] = [];
 
-    if (data && data.length > 0) {
-        if (selectedWorkspace.id <= 0) {
-            setSelectedWorkspace(data[0]);
-        }
-
-        menus = data.map((w: Workspace) => {
-            return {
-                type: MenuType.button,
-                id: w.id,
-                label: w.name,
+    useEffect(() => {
+        if (data) {
+            if (selectedWorkspace.id <= 0) {
+                setSelectedWorkspace(data[0]);
             }
-        })
-    }
+    
+            menus = data.map((w: Workspace) => {
+                return {
+                    type: MenuType.button,
+                    id: w.id,
+                    label: w.name,
+                }
+            })
+        }
+    }, [data])
+
 
     const target = <UnstyledButton px={0}>
         {

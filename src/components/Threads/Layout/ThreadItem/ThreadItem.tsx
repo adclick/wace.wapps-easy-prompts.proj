@@ -7,6 +7,7 @@ import ThreadChat from "../../../../features/Thread/ThreadChat/ThreadChat";
 import ThreadTextGeneration from "../../../../features/Thread/ThreadTextGeneration/ThreadTextGeneration";
 import ThreadImageGeneration from "../../../../features/Thread/ThreadImageGeneration/ThreadImageGeneration";
 import { Thread } from "../../../../models/Thread";
+import { useDeleteThreadMutation } from "../../../../api/threadsApi";
 
 interface ThreadItem {
     thread: Thread,
@@ -23,9 +24,11 @@ export function ThreadItem({ thread, scrollIntoView }: ThreadItem) {
     ]));
 
     const [minimized, minimizeHandle] = useDisclosure(false);
+    const deleteThreadMutation = useDeleteThreadMutation();
 
     const deleteThread = (thread: Thread) => {
         setThreads(threads.filter((t) => t.key !== thread.key));
+        deleteThreadMutation.mutate(thread.id);
     }
 
     let threadComponent = <></>;

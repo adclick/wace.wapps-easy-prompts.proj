@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { Button, Group, Menu, Stack } from "@mantine/core";
+import { Button, Group, Menu, Stack, Title } from "@mantine/core";
 import { FC } from "react";
 import SidebarHamburgerSwitcher from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
@@ -52,32 +52,7 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                             navbarHandle={navbarMobileHandle}
                         />
                     </MobileContainer>
-                    <Menu>
-                        <Menu.Target>
-                            <Button
-                                rightSection={iconChevronDown("xs", 3)}
-                                color="--mantine-color-text"
-                                variant="transparent"
-                                size="compact-lg"
-                                px={0}
-                                onClick={databaseTypeHandle.toggle}
-                            >
-                                My Database
-                            </Button>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Item>
-                                Public Database
-                            </Menu.Item>
-                            <Menu.Item>
-                                Favorites
-                            </Menu.Item>
-                            <Menu.Divider />
-                            <Menu.Item  leftSection={<IconPlus size={14} />}>
-                                New Filter Set
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
+                    <Title order={4}>Everything</Title>
                 </FlexRow>
                 <FlexRow gap={Size.xs}>
                     <DatabaseAddIcon

@@ -3,7 +3,7 @@ import { Menu as MantineMenu } from "@mantine/core";
 import { Color, MenuType, Position } from "../../../enums";
 
 
-interface MenuItemProps {
+export interface MenuItemProps {
     type: MenuType
     id: number | string;
     label?: ReactNode;

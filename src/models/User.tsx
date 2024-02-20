@@ -1,5 +1,7 @@
 import { Language } from "./Language";
 import { Prompt } from "./Prompt";
+import { Repository } from "./Repository";
+import { Workspace } from "./Workspace";
 
 export class User {
     isEmpty: boolean;
@@ -11,6 +13,9 @@ export class User {
     theme: string;
     external_id: string;
     history_repository_id: number;
+    language: Language;
+    repositories: Repository[]
+    workspaces: Workspace[];
 
     constructor() {
         this.isEmpty = true;
@@ -22,6 +27,9 @@ export class User {
         this.theme = "";
         this.external_id = "";
         this.history_repository_id = 0;
+        this.language = new Language();
+        this.repositories = [];
+        this.workspaces = [];
     }
 
     static buildFromAuth0(auth0User: any) {

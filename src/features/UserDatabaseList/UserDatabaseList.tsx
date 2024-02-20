@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { PromptsList } from "../../components/Database/Prompts/PromptsList/PromptsList";
-import { usePrivatePromptsQuery } from "../../api/promptsApi";
+import { usePrivatePromptsQuery, usePromptsQuery } from "../../api/promptsApi";
 import { usePrivateTemplatesQuery } from "../../api/templatesApi";
 import { usePrivateModifiersQuery } from "../../api/modifiersApi";
 import { Type } from "../../models/SelectedDatabaseType";
@@ -21,7 +21,7 @@ const UserDatabaseList: FC = () => {
         state.selectedPrivateDatabaseType
     ]));
     
-    const promptsQuery = usePrivatePromptsQuery(user, selectedPrivateFilters);
+    const promptsQuery = usePromptsQuery(user, selectedPrivateFilters);
     const templatesQuery = usePrivateTemplatesQuery(user, selectedPrivateFilters);
     const modifiersQuery = usePrivateModifiersQuery(user, selectedPrivateFilters);
 

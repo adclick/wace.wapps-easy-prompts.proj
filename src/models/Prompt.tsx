@@ -1,4 +1,4 @@
-import { Color } from "../enums";
+import { Color, PromptStatus } from "../enums";
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
 import { Parameter } from "./Parameter";
@@ -38,6 +38,7 @@ export class Prompt {
     id: number;
     title: string;
     slug: string;
+    status: PromptStatus;
     content: string;
     description: string;
     response: string;
@@ -61,6 +62,7 @@ export class Prompt {
         this.id = 0;
         this.title = "";
         this.slug = "";
+        this.status = PromptStatus.DRAFT;
         this.content = "";
         this.description = "";
         this.response = "";
@@ -87,6 +89,7 @@ export class Prompt {
         newPrompt.id = prompt.id;
         newPrompt.title = prompt.title;
         newPrompt.slug = prompt.slug;
+        newPrompt.status = prompt.status;
         newPrompt.content = prompt.content;
         newPrompt.description = prompt.description;
         newPrompt.response = prompt.response;

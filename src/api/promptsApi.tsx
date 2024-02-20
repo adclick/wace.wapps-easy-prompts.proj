@@ -19,12 +19,12 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
     });
 };
 
-export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
+export const usePromptsQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["prompts", selectedFilters],
         queryFn: async ({ pageParam }) => {
             const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
-                user_external_id: userId,
+                user_external_id: user.external_id,
                 search_term: selectedFilters.search_term,
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
@@ -41,7 +41,7 @@ export const usePromptsQuery = (userId: string, selectedFilters: SelectedFilters
 
             return LIST_LIMIT * pages.length;
         },
-        enabled: !!userId && !selectedFilters.isEmpty && enabled
+        enabled: !!user.id && user.isLoggedIn && !selectedFilters.isEmpty && enabled
     });
 };
 
@@ -79,9 +79,9 @@ export const useCreatePromptMutation = () => {
             const { data } = await axios.post(`${API_URL}/prompts`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
+                status: formData.status,
                 description: formData.description,
                 content: formData.content,
-                response: formData.response,
                 language_id: formData.language_id,
                 repository_id: formData.repository_id,
                 technology_id: formData.technology_id,
