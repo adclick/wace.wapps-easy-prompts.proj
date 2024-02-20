@@ -110,7 +110,6 @@ export function ThreadList() {
                 setUrlUsed(true);
             }
         } else if (technologiesQuery.data) {
-            console.log('here');
             technology = technologiesQuery.data[0];
         }
 
