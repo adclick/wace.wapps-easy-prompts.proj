@@ -28,10 +28,10 @@ export function PromptOptionsProvidersField() {
         state.setNextThread
     ]));
 
-    const providersQuery = useProvidersQuery(nextThread.prompt.technology.id);
+    const providersQuery = useProvidersQuery(nextThread.technology.id);
 
     useEffect(() => {
-        if (providersQuery.data && nextThread.prompt.provider.id <= 0) {
+        if (providersQuery.data && nextThread.provider.id <= 0) {
             const firstProvider = Provider.clone(providersQuery.data[0]);
             updateProvider(firstProvider.id.toString());
         }
@@ -41,8 +41,8 @@ export function PromptOptionsProvidersField() {
         const provider: Provider|undefined = providersQuery.data.find((p: Provider) => p.id === parseInt(providerId as string));
         if (provider) {
             const newNextThread = Thread.clone(nextThread);
-            newNextThread.prompt.provider = Provider.clone(provider);
-            newNextThread.prompt.parametersList = ParametersList.buildFromProvider(provider);
+            newNextThread.provider = Provider.clone(provider);
+            newNextThread.parametersList = ParametersList.buildFromProvider(provider);
 
             setNextThread(newNextThread);
         }
@@ -57,7 +57,7 @@ export function PromptOptionsProvidersField() {
             }
         });
 
-        const parameters = nextThread.prompt.provider.parameters.map(parameter => {
+        const parameters = nextThread.provider.parameters.map(parameter => {
             switch (parameter.slug) {
                 case 'num_images':
                     return <PromptOptionsNumImagesField key={parameter.id} parameter={parameter} />
@@ -74,7 +74,7 @@ export function PromptOptionsProvidersField() {
                     variant="unstyled"
                     allowDeselect={false}
                     comboboxProps={{ withinPortal: false }}
-                    value={nextThread.prompt.provider.id.toString()}
+                    value={nextThread.provider.id.toString()}
                     data={data}
                     onChange={updateProvider}
                 />

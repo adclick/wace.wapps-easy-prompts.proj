@@ -31,14 +31,14 @@ const UserPrompt: FC = () => {
         const newNextThread = Thread.clone(nextThread);
         newNextThread.key = Date.now();
         newNextThread.title = value;
-        newNextThread.prompt.content = value;
-        newNextThread.prompt.prompts_chat_messages = [{role: PromptChatMessageRole.USER, message: value}];
+        newNextThread.content = value;
+        newNextThread.threads_chat_messages = [{role: PromptChatMessageRole.USER, message: value}];
         setNextThread(newNextThread);
     }
 
     const submit = () => {
-        nextThread.prompt.metadata.modifiers = selectedModifiers;
-        nextThread.prompt.metadata.templates = selectedTemplates;
+        nextThread.metadata.modifiers = selectedModifiers;
+        nextThread.metadata.templates = selectedTemplates;
         setThreads([...threads, nextThread]);
 
         updateNextThread("");
@@ -58,7 +58,7 @@ const UserPrompt: FC = () => {
                 autofocus={true}
                 size={Size.lg}
                 radius={Size.xl}
-                value={nextThread.prompt.content}
+                value={nextThread.content}
                 onChange={e => updateNextThread(e.target.value)}
                 onKeyDown={e => onKeyDown(e)}
                 className={classes.textarea}

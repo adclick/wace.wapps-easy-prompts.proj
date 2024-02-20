@@ -79,7 +79,6 @@ export const useCreatePromptMutation = () => {
             const { data } = await axios.post(`${API_URL}/prompts`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
-                status: formData.status,
                 description: formData.description,
                 content: formData.content,
                 language_id: formData.language_id,

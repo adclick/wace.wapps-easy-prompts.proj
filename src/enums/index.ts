@@ -5,7 +5,6 @@ import FlexJustify from "./FlexJustify";
 import MenuType from "./MenuType";
 import Position from "./Position";
 import PromptChatMessageRole from "./PromptChatMessageRole";
-import PromptStatus from "./PromptStatus";
 import Size from "./Size";
 import Variant from "./Variant";
 
@@ -17,7 +16,6 @@ export {
     MenuType,
     Position,
     PromptChatMessageRole,
-    PromptStatus,
     Size,
     Variant
 }

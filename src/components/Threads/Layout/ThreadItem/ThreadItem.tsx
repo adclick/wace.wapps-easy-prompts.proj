@@ -33,7 +33,7 @@ export function ThreadItem({ thread, scrollIntoView }: ThreadItem) {
 
     let threadComponent = <></>;
 
-    switch (thread.prompt.technology.slug) {
+    switch (thread.technology.slug) {
         case 'text-generation':
             threadComponent = <ThreadTextGeneration
                 thread={thread}

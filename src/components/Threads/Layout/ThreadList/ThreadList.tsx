@@ -69,8 +69,7 @@ export function ThreadList() {
             setUrlPromptId(parseInt(promptId));
 
             if (urlPrompt) {
-                const newNextThread = Thread.clone(nextThread);
-                newNextThread.prompt = Prompt.clone(urlPrompt);
+                const newNextThread = Thread.buildFromPrompt(urlPrompt);
                 newNextThread.key = Date.now();
 
                 setThreads([
@@ -120,10 +119,10 @@ export function ThreadList() {
             technology = technologiesQuery.data[0];
         }
 
-        if (technology.id > 0 && nextThread.prompt.technology.id <= 0) {
+        if (technology.id > 0 && nextThread.technology.id <= 0) {
             const newNextThread = Thread.clone(nextThread);
-            newNextThread.prompt.technology = Technology.clone(technology);
-            newNextThread.prompt.provider = Provider.clone(provider);
+            newNextThread.technology = Technology.clone(technology);
+            newNextThread.provider = Provider.clone(provider);
             setNextThread(newNextThread);
         }
     }, [technologiesQuery, nextThread, setNextThread])

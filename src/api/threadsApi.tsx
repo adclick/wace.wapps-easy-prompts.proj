@@ -27,11 +27,17 @@ export const useCreateThreadMutation = () => {
         mutationFn: async (formData: ThreadFormValues) => {
             const { data } = await axios.post(`${API_URL}/threads`, {
                 title: formData.title,
-                response: formData.response,
-                prompt_id: formData.prompt_id,
-                workspace_id: formData.workspace_id,
                 key: formData.key,
-                user_external_id: formData.user_id
+                content: formData.content,
+                response: formData.response,
+                user_external_id: formData.user_external_id,
+                workspace_id: formData.workspace_id,
+                technology_id: formData.technology_id,
+                provider_id: formData.provider_id,
+                templates_ids: JSON.stringify(formData.templates_ids),
+                modifiers_ids: JSON.stringify(formData.modifiers_ids),
+                chat_messages: JSON.stringify(formData.chat_messages),
+                thread_parameters: JSON.stringify(formData.thread_parameters),
             })
 
             return data;
@@ -49,13 +55,19 @@ export const useUpdateThreadMutation = (threadId: number) => {
 
     return useMutation({
         mutationFn: async (formData: ThreadFormValues) => {
-            const { data } = await axios.post(`${API_URL}/threads/${threadId}`, {
+            const { data } = await axios.put(`${API_URL}/threads/${threadId}`, {
                 title: formData.title,
-                response: formData.response,
-                prompt_id: formData.prompt_id,
-                workspace_id: formData.workspace_id,
                 key: formData.key,
-                user_external_id: formData.user_id
+                content: formData.content,
+                response: formData.response,
+                user_external_id: formData.user_external_id,
+                workspace_id: formData.workspace_id,
+                technology_id: formData.technology_id,
+                provider_id: formData.provider_id,
+                templates_ids: JSON.stringify(formData.templates_ids),
+                modifiers_ids: JSON.stringify(formData.modifiers_ids),
+                chat_messages: JSON.stringify(formData.chat_messages),
+                thread_parameters: JSON.stringify(formData.thread_parameters),
             })
 
             return data;
@@ -74,6 +86,27 @@ export const useDeleteThreadMutation = () => {
     return useMutation({
         mutationFn: async (threadId: number) => {
             const { data } = await axios.delete(`${API_URL}/threads/${threadId}`)
+
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["threads"]
+            })
+        }
+    })
+};
+
+export const useDeleteThreadsMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (workspaceId: number) => {
+            const { data } = await axios.delete(`${API_URL}/threads/`, {
+                data: {
+                    workspace_id: workspaceId.toString()
+                }
+            })
 
             return data;
         },

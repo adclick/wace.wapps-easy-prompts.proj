@@ -16,10 +16,10 @@ import { ModifiersField } from "../Fields/ModifiersField";
 import { Prompt } from "../../../models/Prompt";
 import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
 import { ParametersList } from "../../../models/ParametersList";
-import { PromptStatus } from "../../../enums";
+import { Thread } from "../../../models/Thread";
 
 interface PromptForm {
-    prompt?: Prompt,
+    prompt?: Prompt|Thread,
     mutation: any,
     handle: any
 }
@@ -37,7 +37,6 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     const initialValues: PromptFormValues = {
         title: '',
         description: '',
-        status: PromptStatus.DRAFT,
         content: '',
         language_id: '',
         repository_id: '',
@@ -64,7 +63,6 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
 
         initialValues.title = promptPrivate.title;
         initialValues.description = promptPrivate.description;
-        initialValues.status = promptPrivate.status;
         initialValues.content = promptPrivate.content;
         initialValues.language_id = promptPrivate.language.id.toString();
         initialValues.repository_id = promptPrivate.repository.id.toString();
@@ -81,37 +79,30 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         form.initialize(initialValues);
     }
 
-    // Create form based on prompt
-    if (prompt && prompt.id <= 0) {
-        console.log(prompt);
+    // Create form based on thread
+    if (prompt && "response" in prompt) {
+        const thread = prompt as Thread;
 
-        const parameters = ParametersList.getActiveParameters(prompt.parametersList);
+        // const parameters = ParametersList.getActiveParameters(thread.parametersList);
+        // const promptParameters = parameters.map(p => {
+        //     return {
+        //         parameter_id: p.id,
+        //         value: p.value
+        //     }
+        // })
 
-        const promptParameters = parameters.map(p => {
-            return {
-                parameter_id: p.id,
-                value: p.value
-            }
-        })
-
-        initialValues.title = prompt.title;
-        initialValues.description = prompt.description;
-        initialValues.status = PromptStatus.PUBLISHED;
-        initialValues.content = prompt.content;
-        initialValues.language_id = prompt.language.id.toString();
-        initialValues.repository_id = prompt.repository.id.toString();
-        initialValues.technology_id = prompt.technology.id.toString();
-        initialValues.provider_id = prompt.provider.id.toString();
+        initialValues.title = thread.title;
+        initialValues.content = thread.content;
+        initialValues.technology_id = thread.technology.id.toString();
+        initialValues.provider_id = thread.provider.id.toString();
         initialValues.user_id = user.external_id;
-        initialValues.templates_ids = prompt.prompts_templates.map(pt => pt.template.id.toString());
-        initialValues.modifiers_ids = prompt.prompts_modifiers.map(pm => pm.modifier.id.toString());
-        initialValues.prompt_chat_messages = prompt.prompts_chat_messages;
-        initialValues.prompt_parameters = promptParameters
+        initialValues.templates_ids = thread.threads_templates.map(pt => pt.template.id.toString());
+        initialValues.modifiers_ids = thread.threads_modifiers.map(pm => pm.modifier.id.toString());
+        initialValues.prompt_chat_messages = thread.threads_chat_messages;
+        // initialValues.prompt_parameters = promptParameters
 
         form.initialize(initialValues);
     }
-
-    
 
     const submit = () => {
         mutation.mutate(form.values);

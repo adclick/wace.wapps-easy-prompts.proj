@@ -11,6 +11,7 @@ import FlexWrap from "../../enums/FlexWrap";
 import { useWorkspacesQuery } from "../../api/workspacesApi";
 import { Workspace } from "../../models/Workspace";
 import { MenuItemProps } from "../../components/UI/Menu/Menu";
+import { useDeleteThreadsMutation } from "../../api/threadsApi";
 
 const AppMenu: FC = () => {
     const [
@@ -24,6 +25,7 @@ const AppMenu: FC = () => {
     ]));
 
     const { data } = useWorkspacesQuery(user);
+    const deleteAllThreadsMutation = useDeleteThreadsMutation();
 
     let menus: MenuItemProps[] = [
         {
@@ -31,6 +33,7 @@ const AppMenu: FC = () => {
             type: MenuType.button,
             icon: <IconClearAll size={14} />,
             label: "Clear",
+            onClick: () => deleteAllThreadsMutation.mutate(selectedWorkspace.id)
         }
     ];
 

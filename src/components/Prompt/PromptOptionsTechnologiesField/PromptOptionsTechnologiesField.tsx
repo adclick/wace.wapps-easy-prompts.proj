@@ -33,8 +33,8 @@ export function PromptOptionsTechnologiesField() {
         const technology = technologiesQuery.data.find((t: Technology) => t.id === parseInt(technologyId as string));
         if (technology) {
             const newNextThread = Thread.clone(nextThread);
-            newNextThread.prompt.technology = Technology.clone(technology);
-            newNextThread.prompt.provider = new Provider();
+            newNextThread.technology = Technology.clone(technology);
+            newNextThread.provider = new Provider();
             setNextThread(newNextThread);
         }
     }
@@ -55,7 +55,7 @@ export function PromptOptionsTechnologiesField() {
             checkIconPosition="right"
             size="md"
             comboboxProps={{ withinPortal: false }}
-            value={nextThread.prompt.technology.id.toString()}
+            value={nextThread.technology.id.toString()}
             data={data}
             onChange={onChangeTechnology}
         />

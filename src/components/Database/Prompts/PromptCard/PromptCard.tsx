@@ -42,13 +42,12 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
     const play = async (e: any) => {
         e.stopPropagation();
 
-        const newThread = new Thread();
-        newThread.prompt = Prompt.clone(prompt);
+        const newThread = Thread.buildFromPrompt(prompt);
         newThread.key = Date.now();
 
         // If there is no provider, get the default one
-        if (!newThread.prompt.provider) {
-            newThread.prompt.provider = await getDefaultProvider(newThread.prompt.technology.id);
+        if (!newThread.provider) {
+            newThread.provider = await getDefaultProvider(newThread.technology.id);
         }
 
         // navbarMobileHandle.close();

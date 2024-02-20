@@ -8,12 +8,12 @@ export const useTextGenerationQuery = (thread: Thread) => {
     return useQuery({
         queryKey: ["textGeneration", thread.key],
         queryFn: async () => {
-            const modifiersIds = thread.prompt.metadata && "modifiers" in thread.prompt.metadata ? thread.prompt.metadata.modifiers.map(m => m.id) : [];
-            const templatesIds = thread.prompt.metadata && "templates" in thread.prompt.metadata ? thread.prompt.metadata.templates.map(t => t.id) : [];
+            const modifiersIds = thread.metadata && "modifiers" in thread.metadata ? thread.metadata.modifiers.map(m => m.id) : [];
+            const templatesIds = thread.metadata && "templates" in thread.metadata ? thread.metadata.templates.map(t => t.id) : [];
 
                 const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
-                    text: thread.prompt.content,
-                    provider_id: thread.prompt.provider.id.toString(),
+                    text: thread.content,
+                    provider_id: thread.provider.id.toString(),
                     modifiers_ids: JSON.stringify(modifiersIds),
                     templates_ids: JSON.stringify(templatesIds)
                 });
@@ -23,6 +23,6 @@ export const useTextGenerationQuery = (thread: Thread) => {
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: thread.id <= 0
+        enabled: thread.response === ""
     });
 };

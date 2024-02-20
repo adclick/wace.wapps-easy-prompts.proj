@@ -1,11 +1,9 @@
 import { createFormContext } from '@mantine/form';
 import { PromptChatMessage } from '../models/PromptChatMessage';
-import { PromptStatus } from '../enums';
 
 export interface PromptFormValues {
     title: string;
     description: string;
-    status: PromptStatus;
     content: string;
     language_id: string;
     repository_id: string;

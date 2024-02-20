@@ -42,8 +42,8 @@ export function PromptModeSwitcher() {
                     <Popover.Target>
                         <Badge style={{ cursor: "pointer" }} size={"sm"} variant="dot" h={"auto"}>
                             <ProviderLabel
-                                technology={nextThread.prompt.technology}
-                                provider={nextThread.prompt.provider}
+                                technology={nextThread.technology}
+                                provider={nextThread.provider}
                                 templates={selectedTemplates}
                                 modifiers={selectedModifiers}
                                 size="md"
