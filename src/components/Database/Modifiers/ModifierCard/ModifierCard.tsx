@@ -12,6 +12,7 @@ import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { useUser } from "../../../../context/UserContext";
 import { MouseEvent } from "react";
+import { encrypt } from "../../../../utils/uiUtils";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -70,7 +71,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
 
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?modifier_id=' + modifier.id);
+        clipboard.copy(window.location.origin + window.location.pathname + '?modifier_id=' + encrypt(modifier.id));
 
         notifications.show({
             title: "URL Copied",

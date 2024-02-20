@@ -18,6 +18,7 @@ import { useUserPromptRequest } from "../../../../context/UserPromptRequestConte
 import { Provider } from "../../../../models/Provider";
 import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTypeContext";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../../models/SelectedDatabaseType";
+import { decrypt } from "../../../../utils/uiUtils";
 
 export function ThreadList() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
@@ -39,13 +40,14 @@ export function ThreadList() {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const promptId = params.get('prompt_id');
-        const templateId = params.get('template_id');
-        const modifierId = params.get('modifier_id');
+        const promptId = decrypt(params.get('prompt_id') as string);
+        const templateId = decrypt(params.get('template_id') as string);
+        const modifierId = decrypt(params.get('modifier_id') as string);
         let technology = new Technology();
         let provider = new Provider();
 
-        if (promptId && !isNaN(parseInt(promptId)) && !urlUsed) {
+
+        if (promptId && promptId !== "" && !isNaN(parseInt(promptId)) && !urlUsed) {
             setUrlPromptId(parseInt(promptId));
 
             if (urlPrompt) {
@@ -61,7 +63,7 @@ export function ThreadList() {
 
                 setUrlUsed(true);
             }
-        } else if (templateId && !isNaN(parseInt(templateId)) && !urlUsed) {
+        } else if (templateId && templateId !== "" && !isNaN(parseInt(templateId)) && !urlUsed) {
             setUrlTemplateId(parseInt(templateId));
 
             if (urlTemplate) {
@@ -84,7 +86,7 @@ export function ThreadList() {
 
                 setUrlUsed(true);
             }
-        } else if (modifierId && !isNaN(parseInt(modifierId)) && !urlUsed) {
+        } else if (modifierId && modifierId !== "" && !isNaN(parseInt(modifierId)) && !urlUsed) {
             setUrlModifierId(parseInt(modifierId));
 
             if (urlModifier) {
@@ -108,6 +110,7 @@ export function ThreadList() {
                 setUrlUsed(true);
             }
         } else if (technologiesQuery.data) {
+            console.log('here');
             technology = technologiesQuery.data[0];
         }
 

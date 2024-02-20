@@ -11,6 +11,7 @@ import { useUser } from "../../../../context/UserContext";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { UpdateTemplateForm } from "../../../../forms/UpdateTemplateForm/UpdateTemplateForm";
+import { encrypt } from "../../../../utils/uiUtils";
 
 interface TemplateCard {
     template: Template,
@@ -68,7 +69,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
     
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + template.id);
+        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + encrypt(template.id));
 
         notifications.show({
             title: "URL Copied",

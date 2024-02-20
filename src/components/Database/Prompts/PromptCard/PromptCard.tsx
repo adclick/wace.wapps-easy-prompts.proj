@@ -14,6 +14,7 @@ import { useUser } from "../../../../context/UserContext";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { UpdatePromptForm } from "../../../../forms/UpdatePromptForm/UpdatePromptForm";
+import { decrypt, encrypt } from "../../../../utils/uiUtils";
 
 interface PromptCard {
     prompt: Prompt,
@@ -94,7 +95,8 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
 
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?prompt_id=' + prompt.id);
+
+        clipboard.copy(window.location.origin + window.location.pathname + '?prompt_id=' + encrypt(prompt.id));
 
         notifications.show({
             title: "URL Copied",
