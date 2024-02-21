@@ -38,6 +38,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
     const [threadSaved, setThreadSaved] = useState(false);
     const [needUpdate, setNeedUpdate] = useState(false);
     const [regeneratedThread, setRegeneratedThread] = useState<Thread>(thread);
+    const [threadProcessed, setThreadProcessed] = useState(false);
 
     const regenerate = () => {
         // console.log(thread);
@@ -49,48 +50,28 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         // const newThreads = threads.map(t => t.id === thread.id ? newThread : t);
 
         // setThreads(newThreads);
-        refetch();
-        setNeedUpdate(true);
+        // refetch();
+        // setNeedUpdate(true);
+
+
+        updateThreadMutation.mutate({
+            title: thread.title,
+            key: (Number(thread.key) + 1).toString(),
+            content: thread.content,
+            response: "",
+            user_external_id: user.external_id,
+            workspace_id: selectedWorkspace.id.toString(),
+            technology_id: thread.technology.id.toString(),
+            provider_id: thread.provider.id.toString(),
+            templates_ids: [],
+            modifiers_ids: [],
+            chat_messages: [],
+            thread_parameters: []
+        });
+
+        setThreadProcessed(false);
     }
 
-    if (isSuccess) {
-        if (thread.id <= 0) {
-            createThreadMutation.mutate({
-                title: thread.title,
-                key: thread.key.toString(),
-                content: thread.content,
-                response: data.trim(),
-                user_external_id: user.external_id,
-                workspace_id: selectedWorkspace.id.toString(),
-                technology_id: thread.technology.id.toString(),
-                provider_id: thread.provider.id.toString(),
-                templates_ids: thread.metadata.templates.map(t => t.id.toString()),
-                modifiers_ids: thread.metadata.modifiers.map(t => t.id.toString()),
-                chat_messages: [],
-                thread_parameters: []
-            });
-
-            setThreadSaved(true);
-        } else if (needUpdate) {
-            console.log('update with', data.trim());
-            updateThreadMutation.mutate({
-                title: thread.title,
-                key: (thread.key + 1).toString(),
-                content: thread.content,
-                response: data.trim(),
-                user_external_id: user.external_id,
-                workspace_id: selectedWorkspace.id.toString(),
-                technology_id: thread.technology.id.toString(),
-                provider_id: thread.provider.id.toString(),
-                templates_ids: [],
-                modifiers_ids: [],
-                chat_messages: [],
-                thread_parameters: []
-            });
-
-            setNeedUpdate(false);
-        }
-    }
 
     if (error) {
         const message = parseError(error);
@@ -124,6 +105,43 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
     }
 
     if (data) {
+        if (!threadProcessed) {
+            if (thread.id > 0) {
+                updateThreadMutation.mutate({
+                    title: thread.title,
+                    key: (Number(thread.key) + 1).toString(),
+                    content: thread.content,
+                    response: data.trim(),
+                    user_external_id: user.external_id,
+                    workspace_id: selectedWorkspace.id.toString(),
+                    technology_id: thread.technology.id.toString(),
+                    provider_id: thread.provider.id.toString(),
+                    templates_ids: [],
+                    modifiers_ids: [],
+                    chat_messages: [],
+                    thread_parameters: []
+                });
+            } else  {
+                createThreadMutation.mutate({
+                    title: thread.title,
+                    key: thread.key.toString(),
+                    content: thread.content,
+                    response: data.trim(),
+                    user_external_id: user.external_id,
+                    workspace_id: selectedWorkspace.id.toString(),
+                    technology_id: thread.technology.id.toString(),
+                    provider_id: thread.provider.id.toString(),
+                    templates_ids: thread.metadata.templates.map(t => t.id.toString()),
+                    modifiers_ids: thread.metadata.modifiers.map(t => t.id.toString()),
+                    chat_messages: [],
+                    thread_parameters: []
+                });
+            }
+            setThreadProcessed(true);
+        }
+
+
+
         return <Stack gap={"lg"}>
             {
                 thread.id <= 0 &&
