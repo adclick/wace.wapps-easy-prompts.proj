@@ -7,7 +7,7 @@ import { PromptFormValues } from '../context/PromptFormContext';
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 10;
 
-export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
+export const usePromptQuery = (user: User, promptId: number, enabled: boolean = true) => {
     return useQuery({
         queryKey: ["prompts", promptId],
         queryFn: async () => {
@@ -15,7 +15,7 @@ export const usePromptQuery = (promptId: number, enabled: boolean = true) => {
 
             return data;
         },
-        enabled: promptId > 0 && enabled
+        enabled: user.isLoggedIn && promptId > 0 && enabled
     });
 };
 

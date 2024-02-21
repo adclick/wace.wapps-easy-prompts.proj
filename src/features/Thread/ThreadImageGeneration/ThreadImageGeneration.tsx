@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { useImageGenerationQuery } from "../../../api/imageGenerationApi";
@@ -11,11 +11,17 @@ import { ThreadDownloadButton } from "../../../components/Threads/Buttons/Thread
 import { Thread } from "../../../models/Thread";
 
 interface ThreadImageGenerationProps {
-    thread: Thread
+    thread: Thread,
+    createThread: (response: string) => void,
+    updateThreadResponse: (response: string) => void,
+    scrollIntoView: any
 }
 
 const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
-    thread
+    thread,
+    createThread,
+    updateThreadResponse,
+    scrollIntoView
 }: ThreadImageGenerationProps) => {
     const [
         user,
@@ -27,26 +33,28 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         state.setThreads
     ]));
 
-    const { data, error } = useImageGenerationQuery(thread);
+    const [threadProcessed, setThreadProcessed] = useState(false);
+    const [processing, setProcessing] = useState(false);
+
+    const { data, isFetching, error } = useImageGenerationQuery(thread);
 
     const regenerate = () => {
-        const newThread = new Thread();
-        newThread.prompt = Prompt.clone(thread.prompt);
-        newThread.key = thread.key + 1;
-        newThread.response = "";
-
-        const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
-
-        setThreads(newThreads);
+        updateThreadResponse("");
+        setProcessing(true);
+        setThreadProcessed(false);
     }
 
     if (error) {
         const message = parseError(error);
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.prompt.content} />
+            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
+    }
+
+    if (isFetching) {
+        scrollIntoView({alignment: 'start'});
     }
 
     if (data) {
@@ -65,14 +73,14 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         </Stack>
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.prompt.content} />
+            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate}  />
             <ThreadFooter thread={thread} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
-        <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.prompt.content} />
+        <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
         <ThreadAssistantLoadingMessage />
     </Stack>
 }

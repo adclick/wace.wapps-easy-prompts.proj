@@ -7,62 +7,25 @@ import { ThreadFooter } from "../../../components/Threads/Layout/ThreadFooter/Th
 import { parseError } from "../../../services/ThreadService";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
 import { Thread } from "../../../models/Thread";
-import { useCreateThreadMutation, useUpdateThreadMutation } from "../../../api/threadsApi";
 
 interface ThreadTextGenerationProps {
-    thread: Thread
+    thread: Thread,
+    createThread: (response: string) => void,
+    updateThreadResponse: (response: string) => void,
+    scrollIntoView: any
 }
 
 const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
-    thread
+    thread,
+    createThread,
+    updateThreadResponse,
+    scrollIntoView
 }: ThreadTextGenerationProps) => {
-    const [
-        user,
-        selectedWorkspace
-    ] = useStore(useShallow(state => [
-        state.user,
-        state.selectedWorkspace
-    ]));
+    const [user] = useStore(useShallow(state => [state.user]));
 
-    const { data, error } = useTextGenerationQuery(thread);
-    const createThreadMutation = useCreateThreadMutation();
-    const updateThreadMutation = useUpdateThreadMutation(thread.id)
+    const { data, isFetching, error } = useTextGenerationQuery(thread);
     const [threadProcessed, setThreadProcessed] = useState(false);
     const [processing, setProcessing] = useState(false);
-
-    const createThread = (response: string) => {
-        createThreadMutation.mutate({
-            title: thread.title,
-            key: thread.key.toString(),
-            content: thread.content,
-            response: response,
-            user_external_id: user.external_id,
-            workspace_id: selectedWorkspace.id.toString(),
-            technology_id: thread.technology.id.toString(),
-            provider_id: thread.provider.id.toString(),
-            templates_ids: thread.metadata.templates.map(t => t.id.toString()),
-            modifiers_ids: thread.metadata.modifiers.map(t => t.id.toString()),
-            chat_messages: [],
-            thread_parameters: []
-        });
-    }
-
-    const updateThreadResponse = (response: string) => {
-        updateThreadMutation.mutate({
-            title: thread.title,
-            key: (Number(thread.key) + 1).toString(),
-            content: thread.content,
-            response,
-            user_external_id: user.external_id,
-            workspace_id: selectedWorkspace.id.toString(),
-            technology_id: thread.technology.id.toString(),
-            provider_id: thread.provider.id.toString(),
-            templates_ids: [],
-            modifiers_ids: [],
-            chat_messages: [],
-            thread_parameters: []
-        });
-    }
 
     const regenerate = () => {
         updateThreadResponse("");
@@ -86,6 +49,10 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         </Stack>
     }
 
+    if (isFetching) {
+        scrollIntoView({alignment: 'start'});
+    }
+
     if (!processing && thread.response !== "") {
         return <Stack gap={"lg"}>
             <ThreadUserMessage
@@ -99,7 +66,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
     }
 
     if (data) {
-        setProcessing(false);
+        scrollIntoView({alignment: 'start'});
 
         if (!threadProcessed) {
             if (thread.id > 0) {
@@ -111,28 +78,22 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         }
 
         return <Stack gap={"lg"}>
-            {
-                thread.id <= 0 &&
-                <ThreadUserMessage
-                    username={user.username}
-                    userPicture={user.picture}
-                    message={thread.content}
-                />
-            }
+            <ThreadUserMessage
+                username={user.username}
+                userPicture={user.picture}
+                message={thread.content}
+            />
             <ThreadAssistantSuccessMessage message={data.trim()} reloadFn={regenerate} />
             <ThreadFooter thread={thread} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
-        {
-            thread.id <= 0 &&
-            <ThreadUserMessage
-                username={user.username}
-                userPicture={user.picture}
-                message={thread.content}
-            />
-        }
+        <ThreadUserMessage
+            username={user.username}
+            userPicture={user.picture}
+            message={thread.content}
+        />
         <ThreadAssistantLoadingMessage />
     </Stack>
 

@@ -5,6 +5,7 @@ import { Provider } from "../../../models/Provider";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { Thread } from "../../../models/Thread";
+import { useEffect } from "react";
 
 export interface TechnologyDataItem {
     label: string,
@@ -28,6 +29,15 @@ export function PromptOptionsTechnologiesField() {
     ]));
 
     const technologiesQuery = useTechnologiesQuery(user);
+
+    useEffect(() => {
+        if (technologiesQuery.data && nextThread.technology.id <= 0) {
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.technology = technologiesQuery.data[0];
+            newNextThread.provider = new Provider();
+            setNextThread(newNextThread);
+        }
+    }, [technologiesQuery])
 
     const onChangeTechnology = (technologyId: string | null) => {
         const technology = technologiesQuery.data.find((t: Technology) => t.id === parseInt(technologyId as string));

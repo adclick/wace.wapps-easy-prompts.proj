@@ -1,4 +1,4 @@
-import { FC, KeyboardEvent } from "react";
+import { FC, KeyboardEvent, useEffect, useState } from "react";
 import { Textarea } from "../../components/UI/Inputs/Textarea";
 import { IconButton } from "../../components/UI/Buttons/IconButton";
 import classes from "./UserPrompt.module.css";
@@ -20,19 +20,18 @@ const UserPrompt: FC = () => {
     ] = useStore(useShallow(state => [
         state.nextThread,
         state.setNextThread,
-        state.threads,
+        state.threads,  
         state.setThreads,
         state.selectedModifiers,
         state.selectedTemplates,
     ]));
-
 
     const updateNextThread = (value: string) => {
         const newNextThread = Thread.clone(nextThread);
         newNextThread.key = Date.now();
         newNextThread.title = value;
         newNextThread.content = value;
-        newNextThread.threads_chat_messages = [{role: PromptChatMessageRole.USER, message: value}];
+        newNextThread.threads_chat_messages = [{ role: PromptChatMessageRole.USER, message: value }];
         setNextThread(newNextThread);
     }
 
