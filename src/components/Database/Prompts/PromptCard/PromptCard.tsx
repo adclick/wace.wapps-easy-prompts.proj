@@ -1,7 +1,7 @@
 import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Center, Button, Divider, Grid, Tooltip } from "@mantine/core";
 import { IconClock, IconCopy, IconDotsVertical, IconEdit, IconEye, IconFileDescription, IconPencil, IconTrash, IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../../models/Prompt";
-import { useClipboard, useDisclosure } from "@mantine/hooks";
+import { useClipboard, useDisclosure, useHover } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { useDeletePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
@@ -120,6 +120,9 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         editHandle.open();
     }
 
+    const hoverCard = useHover();
+    const hoverMenu = useHover();
+
     const updateMutation = useUpdatePromptMutation(prompt.id);
 
     return (
@@ -133,7 +136,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
                 <PromptForm mutation={updateMutation} prompt={prompt} handle={editHandle} />
             </Modal>
-            <Accordion.Item className={classes.card} ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
+            <Accordion.Item className={classes.card} ref={hoverCard.ref} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="center">
@@ -157,9 +160,9 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 </Stack>
                             </Group>
                             <Group wrap="nowrap" gap={"xs"}>
-                                <Menu>
+                                <Menu classNames={{dropdown: classes.menuDropdown}}>
                                     <Menu.Target>
-                                        <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
+                                        <ActionIcon className={classes.menuTarget} variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
                                             <IconDots size={16} />
                                         </ActionIcon>
                                     </Menu.Target>
@@ -186,6 +189,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                         }
                                     </Menu.Dropdown>
                                 </Menu>
+
                                 <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
                                     {iconPlay(12)}
                                 </ActionIcon>
@@ -211,13 +215,8 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 <Accordion.Panel>
                     <Stack gap={"lg"}>
                         <Group wrap="nowrap" justify="space-between" align="flex-start">
-                            <Text size="xs" fw={500}>{prompt.title}</Text>
-                            <Badge variant="dot" size="sm">{prompt.provider.model_name}</Badge>
+                            <Text size="xs" fw={500}>{prompt.description}</Text>
                         </Group>
-                        {
-                            prompt.description !== "" &&
-                            <Text c={"dimmed"} size="xs">{prompt.description}</Text>
-                        }
                         {/* <Group>
                             <Button
                                 className={classes.readMore}
@@ -235,10 +234,17 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                             <ActionIcon variant="default" size="sm" radius={"xs"}><IconTrash color="pink" size={14} /></ActionIcon>
                         </Group> */}
 
-<Divider />
-<Group>
-    <Text size="xs" fw={500}>Actions</Text>
-</Group>
+                        <Group justify="space-between">
+
+                            <Group gap={4}>
+                                <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
+                                <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
+                                <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
+
+                            </Group>
+                            <Badge variant="dot" size="sm">{prompt.provider.model_name}</Badge>
+
+                        </Group>
 
                         {/* <Group justify="space-between">
                             <Group gap={"xs"}>
