@@ -1,5 +1,5 @@
 import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Center, Button, Divider, Grid, Tooltip } from "@mantine/core";
-import { IconClock, IconCopy, IconDotsVertical, IconEdit, IconEye, IconFileDescription, IconPencil, IconTrash, IconUser } from "@tabler/icons-react";
+import { IconClock, IconCopy, IconDotsVertical, IconEdit, IconEye, IconFileDescription, IconPencil, IconTrash, IconUser, IconWorld } from "@tabler/icons-react";
 import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure, useHover } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
@@ -160,7 +160,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 </Stack>
                             </Group>
                             <Group wrap="nowrap" gap={"xs"}>
-                                <Menu classNames={{dropdown: classes.menuDropdown}}>
+                                <Menu classNames={{ dropdown: classes.menuDropdown }}>
                                     <Menu.Target>
                                         <ActionIcon className={classes.menuTarget} variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
                                             <IconDots size={16} />
@@ -170,7 +170,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                         <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
                                             Details
                                         </Menu.Item>
-                                        <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                                        <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconWorld size={14} />}>
                                             {
                                                 clipboard.copied ? <>Copied</> : <>Copy URL</>
                                             }
@@ -215,7 +215,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 <Accordion.Panel>
                     <Stack gap={"lg"}>
                         <Group wrap="nowrap" justify="space-between" align="flex-start">
-                            <Text size="xs" fw={500}>{prompt.description}</Text>
+                            <Text size="xs" c={"dimmed"} fw={500}>{prompt.description}</Text>
                         </Group>
                         {/* <Group>
                             <Button
@@ -236,13 +236,12 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
 
                         <Group justify="space-between">
 
-                            <Group gap={4}>
-                                <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
-                                <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
-                                <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
-
-                            </Group>
-                            <Badge variant="dot" size="sm">{prompt.provider.model_name}</Badge>
+                            <Button size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
+                                Details
+                            </Button>
+                            <Badge variant="dot" size="sm">
+                                {prompt.provider.model_name}
+                            </Badge>
 
                         </Group>
 

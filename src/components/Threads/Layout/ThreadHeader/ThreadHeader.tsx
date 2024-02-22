@@ -86,7 +86,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread, 
                             {
                                 Technology.getIcon(thread.technology, 18)
                             }
-                            <Group gap={4}>
+                            <Group gap={4} wrap="nowrap">
                                 <Text lineClamp={1}>
                                     {
                                         thread.title
