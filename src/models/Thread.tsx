@@ -1,8 +1,10 @@
 import { ParametersList } from "./ParametersList";
-import { Metadata, Prompt, PromptModifier, PromptParameter, PromptTemplate } from "./Prompt";
+import { Metadata, Prompt, PromptParameter } from "./Prompt";
 import { PromptChatMessage } from "./PromptChatMessage";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
+import { ThreadModifier } from "./ThreadModifier";
+import { ThreadTemplate } from "./ThreadTemplate";
 import { User } from "./User";
 import { Workspace } from "./Workspace";
 
@@ -21,8 +23,8 @@ export class Thread {
     metadata: Metadata;
     parametersList: ParametersList;
     threads_chat_messages: PromptChatMessage[];
-    threads_modifiers: PromptModifier[];
-    threads_templates: PromptTemplate[];
+    threads_modifiers: ThreadModifier[];
+    threads_templates: ThreadTemplate[];
     threads_parameters: PromptParameter[];
 
     constructor(key: number = 0) {
@@ -74,6 +76,12 @@ export class Thread {
         newThread.technology = Technology.clone(prompt.technology);
         newThread.provider = Provider.clone(prompt.provider);
         newThread.user = prompt.user;
+        newThread.threads_chat_messages = prompt.prompts_chat_messages.map(m => {
+            return {
+                role: m.role,
+                message: m.message
+            }
+        });
 
         return newThread;
     }

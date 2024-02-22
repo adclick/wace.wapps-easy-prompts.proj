@@ -5,9 +5,9 @@ import { Template } from '../models/Template';
 import { PromptChatMessage } from '../models/PromptChatMessage';
 import { Thread } from '../models/Thread';
 import { User } from '../models/User';
+import { PromptChatMessageRole } from '../enums';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
 
 export const useChatQuery = (
     user: User,
@@ -19,14 +19,14 @@ export const useChatQuery = (
     return useQuery({
         queryKey: ["chat", thread.key, chatMessages.length],
         queryFn: async () => {
-            const modifiersIds = thread.prompt.metadata && "modifiers" in thread.prompt.metadata ? thread.prompt.metadata.modifiers.map((m: Modifier) => m.id) : [];
-            const templatesIds = thread.prompt.metadata && "templates" in thread.prompt.metadata ? thread.prompt.metadata.templates.map((t: Template) => t.id) : [];
+            const templatesIds = thread.threads_templates.map(t => Number(t.template.id));
+            const modifiersIds = thread.threads_modifiers.map(m => Number(m.modifier.id));
 
             const { data } = await axios.post(`${API_URL}/ai/chat?` + new URLSearchParams({
-                user_external_id: user.id
+                user_external_id: user.external_id
             }), {
                 text: lastMessage?.message,
-                provider_id: thread.prompt.provider.id,
+                provider_id: thread.provider.id,
                 modifiers_ids: JSON.stringify(modifiersIds),
                 templates_ids: JSON.stringify(templatesIds),
                 chat_messages: JSON.stringify(chatMessages)
@@ -37,6 +37,6 @@ export const useChatQuery = (
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: user.isLoggedIn && lastMessage && lastMessage.role === "user"
+        enabled: user.isLoggedIn  && chatMessages.length > 0 && lastMessage && lastMessage.role === PromptChatMessageRole.USER
     });
 };

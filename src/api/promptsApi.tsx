@@ -41,33 +41,7 @@ export const usePromptsQuery = (user: User, selectedFilters: SelectedFilters, en
 
             return LIST_LIMIT * pages.length;
         },
-        enabled: !!user.id && user.isLoggedIn && !selectedFilters.isEmpty && enabled
-    });
-};
-
-export const usePrivatePromptsQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
-    return useInfiniteQuery({
-        queryKey: ["prompts", "history", selectedFilters],
-        queryFn: async ({ pageParam }) => {
-            const { data } = await axios.get(`${API_URL}/prompts/?` + new URLSearchParams({
-                user_external_id: user.external_id,
-                search_term: selectedFilters.search_term,
-                languages_ids: JSON.stringify(selectedFilters.languages_ids),
-                repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
-                technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
-                limit: LIST_LIMIT.toString(),
-                offset: pageParam.toString()
-            }));
-
-            return data;
-        },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => {
-            if (lastPage.length < LIST_LIMIT) return null;
-
-            return LIST_LIMIT * pages.length;
-        },
-        enabled: !!user.id && !selectedFilters.isEmpty && enabled
+        enabled: !!user.external_id && user.isLoggedIn && !selectedFilters.isEmpty && enabled
     });
 };
 

@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { useImageGenerationQuery } from "../../../api/imageGenerationApi";
-import { Prompt } from "../../../models/Prompt";
 import { parseError } from "../../../services/ThreadService";
 import { Image, Stack } from "@mantine/core";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
@@ -44,37 +43,75 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         setThreadProcessed(false);
     }
 
+    const getMessageFromThreadResponse = (content: string) => {
+        const images = JSON.parse(content);
+        console.log(images);
+
+        return (
+            <Stack>
+                {
+                    images.map((src: string) => {
+                        return (
+                            <Stack gap={"xs"} key={src}>
+                                <Image src={src} />
+                                <ThreadDownloadButton url={src} />
+                            </Stack>
+                        )
+                    })
+                }
+            </Stack>
+        )
+    }
+
     if (error) {
         const message = parseError(error);
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
+            <ThreadUserMessage
+                username={user.username}
+                userPicture={user.picture}
+                message={thread.content}
+            />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
     }
 
     if (isFetching) {
-        scrollIntoView({alignment: 'start'});
+        scrollIntoView({ alignment: 'start' });
+    }
+
+    if (!processing && thread.response !== "") {
+        const message = getMessageFromThreadResponse(thread.response);
+
+        return <Stack gap={"lg"}>
+            <ThreadUserMessage
+                username={user.username}
+                userPicture={user.picture}
+                message={thread.content}
+            />
+            <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate} />
+            <ThreadFooter thread={thread} />
+        </Stack>
     }
 
     if (data) {
-        const message = <Stack>
-            {
-                typeof data === "object" &&
-                data.map((src: string) => {
-                    return (
-                        <Stack gap={"xs"} key={src}>
-                            <Image src={src} />
-                            <ThreadDownloadButton url={src} />
-                        </Stack>
-                    )
-                })
+        scrollIntoView({ alignment: 'start' });
+        const content = JSON.stringify(data);
+
+        if (!threadProcessed) {
+            if (thread.id > 0) {
+                updateThreadResponse(content);
+            } else {
+                createThread(content);
             }
-        </Stack>
+            setThreadProcessed(true);
+        }
+
+        const message = getMessageFromThreadResponse(content);
 
         return <Stack gap={"lg"}>
             <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
-            <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate}  />
+            <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate} />
             <ThreadFooter thread={thread} />
         </Stack>
     }

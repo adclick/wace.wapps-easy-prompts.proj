@@ -37,20 +37,17 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         const message = parseError(error);
 
         return <Stack gap={"lg"}>
-            {
-                thread.id <= 0 &&
-                <ThreadUserMessage
-                    username={user.username}
-                    userPicture={user.picture}
-                    message={thread.content}
-                />
-            }
+            <ThreadUserMessage
+                username={user.username}
+                userPicture={user.picture}
+                message={thread.content}
+            />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
     }
 
     if (isFetching) {
-        scrollIntoView({alignment: 'start'});
+        scrollIntoView({ alignment: 'start' });
     }
 
     if (!processing && thread.response !== "") {
@@ -66,7 +63,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
     }
 
     if (data) {
-        scrollIntoView({alignment: 'start'});
+        scrollIntoView({ alignment: 'start' });
 
         if (!threadProcessed) {
             if (thread.id > 0) {

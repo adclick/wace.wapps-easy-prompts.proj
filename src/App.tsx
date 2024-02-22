@@ -8,7 +8,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ModalsProvider } from '@mantine/modals';
-import AppUpdateModal from './components/Common/AppUpdateModal/AppUpdateModal';
+import AppUpdateModal from './components/Layout/AppUpdateModal/AppUpdateModal';
 
 const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const auth0ClientId = import.meta.env.VITE_AUTH0_CLIENT_ID;

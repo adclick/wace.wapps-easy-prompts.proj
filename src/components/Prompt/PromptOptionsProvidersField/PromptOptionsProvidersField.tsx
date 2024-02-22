@@ -57,14 +57,14 @@ export function PromptOptionsProvidersField() {
             }
         });
 
-        const parameters = nextThread.provider.parameters.map(parameter => {
-            switch (parameter.slug) {
-                case 'num_images':
-                    return <PromptOptionsNumImagesField key={parameter.id} parameter={parameter} />
-                case 'image_resolution':
-                    return <PromptOptionsImageResolution key={parameter.id} parameter={parameter} />
-            }
-        })
+        // const parameters = nextThread.provider.parameters.map(parameter => {
+        //     switch (parameter.slug) {
+        //         case 'num_images':
+        //             return <PromptOptionsNumImagesField key={parameter.id} parameter={parameter} />
+        //         case 'image_resolution':
+        //             return <PromptOptionsImageResolution key={parameter.id} parameter={parameter} />
+        //     }
+        // })
     
         return (
             <Stack>
@@ -78,7 +78,7 @@ export function PromptOptionsProvidersField() {
                     data={data}
                     onChange={updateProvider}
                 />
-                {parameters}
+                {/* {parameters} */}
             </Stack>
         )
     }

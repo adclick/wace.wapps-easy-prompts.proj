@@ -1,4 +1,4 @@
-import { IconMessage, IconPhoto } from "@tabler/icons-react";
+import { IconLetterT, IconMessage, IconMessages, IconPhoto, IconTextSize } from "@tabler/icons-react";
 
 export class Technology {
     id: number;
@@ -28,8 +28,10 @@ export class Technology {
         switch (technology.slug) {
             case 'image-generation':
                 return <IconPhoto size={size} />
+            case 'text-generation':
+                return <IconTextSize size={size} />
             default:
-                return <IconMessage size={size} />
+                return <IconMessages size={size} />
         }
     }
 }

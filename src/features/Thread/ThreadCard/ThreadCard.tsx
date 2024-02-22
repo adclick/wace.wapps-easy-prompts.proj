@@ -1,19 +1,21 @@
 import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
-import { ThreadHeader } from "../ThreadHeader/ThreadHeader";
+import { ThreadHeader } from "../../../components/Threads/Layout/ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { useShallow } from "zustand/react/shallow";
-import { useStore } from "../../../../stores/store";
-import ThreadChat from "../../../../features/Thread/ThreadChat/ThreadChat";
-import ThreadTextGeneration from "../../../../features/Thread/ThreadTextGeneration/ThreadTextGeneration";
-import ThreadImageGeneration from "../../../../features/Thread/ThreadImageGeneration/ThreadImageGeneration";
-import { Thread } from "../../../../models/Thread";
-import { useCreateThreadMutation, useDeleteThreadMutation, useUpdateThreadMutation } from "../../../../api/threadsApi";
+import { useStore } from "../../../stores/store";
+import ThreadChat from "../ThreadChat/ThreadChat";
+import ThreadTextGeneration from "../ThreadTextGeneration/ThreadTextGeneration";
+import ThreadImageGeneration from "../ThreadImageGeneration/ThreadImageGeneration";
+import { Thread } from "../../../models/Thread";
+import { useCreateThreadMutation, useDeleteThreadMutation, useUpdateThreadMutation } from "../../../api/threadsApi";
+import { FC } from "react";
+import { PromptChatMessage } from "../../../models/PromptChatMessage";
 
-interface ThreadItem {
+interface ThreadCardProps {
     thread: Thread,
 }
 
-export function ThreadItem({ thread }: ThreadItem) {
+const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
     const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
     const [
@@ -34,7 +36,7 @@ export function ThreadItem({ thread }: ThreadItem) {
     const updateThreadMutation = useUpdateThreadMutation(thread.id)
     const deleteThreadMutation = useDeleteThreadMutation();
 
-    const createThread = (response: string) => {
+    const createThread = (response: string, chatMessages: PromptChatMessage[] = []) => {
         createThreadMutation.mutate({
             title: thread.title,
             key: thread.key.toString(),
@@ -44,26 +46,26 @@ export function ThreadItem({ thread }: ThreadItem) {
             workspace_id: selectedWorkspace.id.toString(),
             technology_id: thread.technology.id.toString(),
             provider_id: thread.provider.id.toString(),
-            templates_ids: thread.metadata.templates.map(t => t.id.toString()),
-            modifiers_ids: thread.metadata.modifiers.map(t => t.id.toString()),
-            chat_messages: [],
+            templates_ids: thread.threads_templates.map(t => t.template.id.toString()),
+            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.id.toString()),
+            chat_messages: chatMessages,
             thread_parameters: []
         });
     }
 
-    const updateThreadResponse = (response: string) => {
+    const updateThreadResponse = (response?: string, chatMessages?: PromptChatMessage[], title?: string) => {
         updateThreadMutation.mutate({
-            title: thread.title,
+            title: title ? title : thread.title,
             key: (Number(thread.key) + 1).toString(),
             content: thread.content,
-            response,
+            response: response ? response : thread.response,
             user_external_id: user.external_id,
             workspace_id: selectedWorkspace.id.toString(),
             technology_id: thread.technology.id.toString(),
             provider_id: thread.provider.id.toString(),
-            templates_ids: [],
-            modifiers_ids: [],
-            chat_messages: [],
+            templates_ids: thread.threads_templates.map(t => t.template.id.toString()),
+            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.id.toString()),
+            chat_messages: chatMessages ? chatMessages : thread.threads_chat_messages,
             thread_parameters: []
         });
     }
@@ -87,6 +89,9 @@ export function ThreadItem({ thread }: ThreadItem) {
         case 'chat':
             threadComponent = <ThreadChat
                 thread={thread}
+                createThread={createThread}
+                updateThreadResponse={updateThreadResponse}
+                // scrollIntoView={scrollIntoView}
             />
             break;
         case 'image-generation':
@@ -113,6 +118,7 @@ export function ThreadItem({ thread }: ThreadItem) {
                         minimized={minimized}
                         minimizeHandle={minimizeHandle}
                         thread={thread}
+                        updateMutation={updateThreadResponse}
 
                     />
                     <Collapse in={!minimized}>
@@ -125,3 +131,5 @@ export function ThreadItem({ thread }: ThreadItem) {
         </Group>
     )
 }
+
+export default ThreadCard;

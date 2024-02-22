@@ -15,6 +15,7 @@ const SidebarHamburgerSwitcher: FC<SidebarHamburgerSwitcherProps> = ({
             opened={navbarOpened}
             onClick={navbarHandle.toggle}
             size="sm"
+            mb={3}
         />
     )
 }

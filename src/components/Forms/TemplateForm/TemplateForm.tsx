@@ -37,7 +37,7 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
         repository_id: '',
         technology_id: '',
         provider_id: '',
-        user_id: user.id,
+        user_id: user.external_id,
         modifiers_ids: [],
         chat_messages: [],
         template_parameters: []
@@ -63,7 +63,7 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
         if (templatePrivate.provider) {
             initialValues.provider_id = templatePrivate.provider.id.toString();
         }
-        initialValues.user_id = user.id;
+        initialValues.user_id = user.external_id;
         initialValues.modifiers_ids = templatePrivate.templates_modifiers.map(pm => pm.modifier.id.toString());
         initialValues.chat_messages = [];
         initialValues.template_parameters = [];
@@ -79,7 +79,7 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
         initialValues.repository_id = template.repository.id.toString();
         initialValues.technology_id = template.technology.id.toString();
         initialValues.provider_id = template.provider.id.toString();
-        initialValues.user_id = user.id;
+        initialValues.user_id = user.external_id;
         initialValues.modifiers_ids = template.templates_modifiers.map(pm => pm.modifier.id.toString());
         initialValues.chat_messages = [];
         initialValues.template_parameters = [];

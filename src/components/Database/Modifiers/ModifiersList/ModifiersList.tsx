@@ -40,12 +40,12 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
         // Update userPromptRequest based on the first modifier selected
         if (modifiers.length > 0) {
             const newNextThread = Thread.clone(nextThread);
-            newNextThread.prompt.technology = Technology.clone(modifiers[0].technology);
+            newNextThread.technology = Technology.clone(modifiers[0].technology);
 
             if (modifiers[0].provider) {
-                newNextThread.prompt.provider = Provider.clone(modifiers[0].provider);
+                newNextThread.provider = Provider.clone(modifiers[0].provider);
             } else {
-                newNextThread.prompt.provider = new Provider();
+                newNextThread.provider = new Provider();
             }
 
             setNextThread(newNextThread);

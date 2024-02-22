@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { PromptsList } from "../../components/Database/Prompts/PromptsList/PromptsList";
-import { usePrivatePromptsQuery, usePromptsQuery } from "../../api/promptsApi";
-import { usePrivateTemplatesQuery } from "../../api/templatesApi";
-import { usePrivateModifiersQuery } from "../../api/modifiersApi";
+import { usePromptsQuery } from "../../api/promptsApi";
+import { useTemplatesQuery } from "../../api/templatesApi";
+import { useModifiersQuery } from "../../api/modifiersApi";
 import { Type } from "../../models/SelectedDatabaseType";
 import { TemplatesList } from "../../components/Database/Templates/TemplatesList/TemplatesList";
 import { ModifiersList } from "../../components/Database/Modifiers/ModifiersList/ModifiersList";
@@ -22,8 +22,8 @@ const UserDatabaseList: FC = () => {
     ]));
     
     const promptsQuery = usePromptsQuery(user, selectedPrivateFilters);
-    const templatesQuery = usePrivateTemplatesQuery(user, selectedPrivateFilters);
-    const modifiersQuery = usePrivateModifiersQuery(user, selectedPrivateFilters);
+    const templatesQuery = useTemplatesQuery(user, selectedPrivateFilters);
+    const modifiersQuery = useModifiersQuery(user, selectedPrivateFilters);
 
     return (
         <Box>

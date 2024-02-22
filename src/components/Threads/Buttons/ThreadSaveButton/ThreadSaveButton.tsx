@@ -14,7 +14,7 @@ export function ThreadSaveButton({ onClick }: ThreadSaveButton) {
             leftSection={iconAdd(14)}
             onClick={onClick}
         >
-            Publish
+            Save
         </Button>
     )
 }

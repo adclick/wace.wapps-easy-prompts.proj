@@ -1,4 +1,4 @@
-import { Group, Stack, Text } from "@mantine/core";
+import { Box, Group, Stack, Text } from "@mantine/core";
 import { FC } from "react";
 import { ThreadCopyButton } from "../../../../components/Threads/Buttons/ThreadCopyButton/ThreadCopyButton";
 import { ThreadReloadButton } from "../../../../components/Threads/Buttons/ThreadReloadButton/ThreadReloadButton";
@@ -36,9 +36,11 @@ const ThreadAssistantSuccessMessage: FC<ThreadAssistantSuccessMessageProps> = ({
                         </Group>
                     </MobileContainer>
                     <DesktopContainer>
-                        <Group gap={"xs"}>
-                            {copyButton && hovered && <ThreadCopyButton value={message} />}
-                            {reloadFn && hovered && <ThreadReloadButton reload={reloadFn} />}
+                        <Group gap={"xs"} pos={"relative"} my={4}>
+                            <Box pos={"absolute"}>
+                                {copyButton && hovered && <ThreadCopyButton value={message} />}
+                                {reloadFn && hovered && <ThreadReloadButton reload={reloadFn} />}
+                            </Box>
                         </Group>
                     </DesktopContainer>
                 </Stack>

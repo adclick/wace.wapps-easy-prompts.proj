@@ -43,12 +43,12 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
         // Update userPromptRequest based on the first template selected
         if (templates.length > 0) {
             const newNextThread = Thread.clone(nextThread);
-            newNextThread.prompt.technology = Technology.clone(templates[0].technology);
+            newNextThread.technology = Technology.clone(templates[0].technology);
 
             if (templates[0].provider) {
-                newNextThread.prompt.provider = Provider.clone(templates[0].provider);
+                newNextThread.provider = Provider.clone(templates[0].provider);
             } else {
-                newNextThread.prompt.provider = new Provider();
+                newNextThread.provider = new Provider();
             }
 
             setNextThread(newNextThread);

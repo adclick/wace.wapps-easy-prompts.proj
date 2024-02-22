@@ -12,7 +12,7 @@ export function ModifiersField({form}: FieldProps) {
         state.user,
     ]));
 
-    const modifiersQuery = useAllModifiersQuery(user.id);
+    const modifiersQuery = useAllModifiersQuery(user);
 
     if (modifiersQuery.data) {
         const selectData = modifiersQuery.data.map((m: Template) => {

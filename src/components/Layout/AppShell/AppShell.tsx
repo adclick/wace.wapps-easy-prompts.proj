@@ -3,11 +3,11 @@ import { FC } from "react";
 import Sidebar from '../Sidebar/Sidebar';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './AppShell.module.css';
-import { SidebarFooter } from '../SidebarFooter/SidebarFooter';
-import { Main } from '../Main/Main';
-import { Footer } from '../Footer/Footer';
 import Header from '../Header/Header';
+import Main from '../Main/Main';
 import SidebarHeader from '../SidebarHeader/SidebarHeader';
+import SidebarFooter from '../SidebarFooter/SidebarFooter';
+import Footer from '../Footer/Footer';
 
 const AppShell: FC = () => {
     const [navbarMobileOpened, navbarMobileHandle] = useDisclosure(false);

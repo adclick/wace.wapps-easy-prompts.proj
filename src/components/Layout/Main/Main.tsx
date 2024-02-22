@@ -1,8 +1,10 @@
 import { FC } from "react";
-import { ThreadList } from "../../Threads/Layout/ThreadList/ThreadList";
+import { ThreadList } from "../../../features/Thread";
 
-export const Main: FC = () => {
+const Main: FC = () => {
     return (
         <ThreadList />
     )
 }
+
+export default Main;

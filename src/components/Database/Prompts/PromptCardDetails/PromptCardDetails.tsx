@@ -21,7 +21,7 @@ export function PromptCardDetails({
     const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === prompt.user.username && opened
 
-    const itemQuery = usePromptQuery(prompt.id, enabled);
+    const itemQuery = usePromptQuery(user, prompt.id, enabled);
     
     return <DatabaseCardDetails 
         opened={opened}

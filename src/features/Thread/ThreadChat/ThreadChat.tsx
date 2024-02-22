@@ -7,44 +7,51 @@ import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { ThreadFooter } from "../../../components/Threads/Layout/ThreadFooter/ThreadFooter";
 import { PromptChatMessageRole } from "../../../enums";
-import { Prompt } from "../../../models/Prompt";
 import { parseError } from "../../../services/ThreadService";
 import { ThreadAssistantLoadingMessage, ThreadAssistantSuccessMessage, ThreadUserMessage } from "../Common";
 import { Thread } from "../../../models/Thread";
+import { useScrollIntoView } from "@mantine/hooks";
 
 interface ThreadChatProps {
     thread: Thread
+    createThread: (response: string, chatMessages: PromptChatMessage[]) => void,
+    updateThreadResponse: (response: string, chatMessages: PromptChatMessage[]) => void,
+    // scrollIntoView: any
 }
 
 const ThreadChat: FC<ThreadChatProps> = ({
-    thread
+    thread,
+    createThread,
+    updateThreadResponse,
+    // scrollIntoView
 }: ThreadChatProps) => {
+    const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
+
     const [updatedNextThread, setUpdatedNextThread] = useState<Thread>(thread);
     const [
         user,
-        threads,
-        setThreads
     ] = useStore(useShallow(state => [
         state.user,
-        state.threads,
-        state.setThreads
     ]));
     const [reply, setReply] = useState('');
 
-    let promptChatMessages = thread.prompt.prompts_chat_messages;
-    if (thread.prompt.id > 0) {
-        promptChatMessages = [promptChatMessages[promptChatMessages.length - 1]];
-    }
+    let promptChatMessages = thread.threads_chat_messages;
 
     const [chatMessages, setChatMessages] = useState<PromptChatMessage[]>(promptChatMessages);
 
-    const { data, error } = useChatQuery(user, thread, chatMessages);
+    const { data, isFetching, error } = useChatQuery(user, thread, chatMessages);
 
     const updateChatMessages = (role: string, message: string) => {
         const newChatMessages = [
             ...chatMessages,
             { role, message }
         ];
+
+        if (thread.id > 0) {
+            updateThreadResponse(data, newChatMessages);
+        } else {
+            createThread(data, newChatMessages);
+        }
 
         setChatMessages(newChatMessages);
         setReply('');
@@ -53,7 +60,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
     const updatePromptRequest = () => {
         const newThread = thread;
-        newThread.prompt.prompts_chat_messages = chatMessages;
+        newThread.threads_chat_messages = chatMessages;
         setUpdatedNextThread(newThread);
     }
 
@@ -65,12 +72,18 @@ const ThreadChat: FC<ThreadChatProps> = ({
     }
 
     if (data) {
+        scrollIntoView({ alignment: 'start' });
+
         updateChatMessages(PromptChatMessageRole.ASSISTANT, data);
     }
 
     if (error) {
         const message = parseError(error);
         updateChatMessages(PromptChatMessageRole.ASSISTANT, message);
+    }
+
+    if (isFetching) {
+        scrollIntoView({ alignment: 'start' });
     }
 
     const canReply = () => {
@@ -80,14 +93,12 @@ const ThreadChat: FC<ThreadChatProps> = ({
     }
 
     const regenerate = () => {
-        const newThread = new Thread();
-        newThread.prompt = Prompt.clone(thread.prompt);
-        newThread.key = thread.key + 1;
-        newThread.response = "";
-
-        const newThreads = threads.map(t => t.key === thread.key ? newThread : t);
-
-        setThreads(newThreads);
+        const newChatMessages = chatMessages;
+        newChatMessages.pop();
+        // console.log(newChatMessages);
+        updateThreadResponse("", newChatMessages);
+        // setProcessing(true);
+        // setThreadProcessed(false);
     }
 
     return (
@@ -95,39 +106,27 @@ const ThreadChat: FC<ThreadChatProps> = ({
             {
                 chatMessages.map((message, index) => {
                     const isLastMessage = chatMessages.length - 1 === index;
-                    if (message.role === "user") {
+                    if (message.role === PromptChatMessageRole.USER) {
                         if (isLastMessage) {
 
                             // User message with Assistant Loader
                             return <>
-                                {
-                                    thread.prompt.id <= 0
-                                        ? <>
-                                            <Box key={index}>
-                                                {
-                                                    thread.prompt.id <= 0 &&
-                                                    <ThreadUserMessage
-                                                        username={user.username}
-                                                        userPicture={user.picture}
-                                                        message={message.message}
-                                                    />
-                                                }
-                                            </Box>
-                                            <Box key={index + 1}>
-                                                <ThreadAssistantLoadingMessage />
-                                            </Box>
-                                        </>
-                                        : <Box key={index}>
-                                            <ThreadAssistantLoadingMessage />
-                                        </Box>
-                                }
+                                <Box key={index}>
+                                    <ThreadUserMessage
+                                        username={user.username}
+                                        userPicture={user.picture}
+                                        message={message.message}
+                                    />
+                                </Box>
+                                <Box key={index + 1} ref={targetRef}>
+                                    <ThreadAssistantLoadingMessage />
+                                </Box>
                             </>
                         }
 
                         // User Messsage
                         return (
-                            thread.prompt.id <= 0 &&
-                            <Box key={index}>
+                            <Box key={index} ref={targetRef}>
                                 <ThreadUserMessage
                                     username={user.username}
                                     userPicture={user.picture}
@@ -139,7 +138,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
                     // Assistant Messsage
                     return (
-                        <Box key={index}>
+                        <Box key={index} ref={targetRef}>
                             {
                                 isLastMessage
                                     ? <ThreadAssistantSuccessMessage message={message.message} reloadFn={regenerate} />
@@ -149,9 +148,8 @@ const ThreadChat: FC<ThreadChatProps> = ({
                     )
                 })
             }
-
             {
-                thread.prompt.id <= 0 && canReply() &&
+                canReply() &&
                 <Stack>
                     <Group wrap="nowrap">
                         <Avatar src={user.picture} size={"sm"} />

@@ -55,7 +55,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
 
     const enabled = prompt && user.username === prompt.user.username;
     const promptId = prompt ? prompt.id : 0;
-    const { data } = usePromptQuery(promptId, enabled);
+    const { data } = usePromptQuery(user, promptId, enabled);
 
     // Update existing form
     if (prompt && prompt.id > 0 && data) {

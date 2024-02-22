@@ -11,8 +11,6 @@ import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
-import { TemplatesField } from "../Fields/TemplatesField";
-import { ModifiersField } from "../Fields/ModifiersField";
 import { Modifier } from "../../../models/Modifier";
 import { ModifierFormProvider, ModifierFormValues, useModifierForm } from "../../../context/ModifierFormContext";
 
@@ -40,7 +38,7 @@ export function ModifierForm({ modifier, mutation, handle }: ModifierForm) {
         repository_id: '',
         technology_id: '',
         provider_id: '',
-        user_id: user.id,
+        user_id: user.external_id,
     };
 
     const form = useModifierForm({
@@ -64,7 +62,7 @@ export function ModifierForm({ modifier, mutation, handle }: ModifierForm) {
         if (modifierPrivate.provider) {
             initialValues.provider_id = modifierPrivate.provider.id.toString();
         }
-        initialValues.user_id = user.id;
+        initialValues.user_id = user.external_id;
 
         form.initialize(initialValues);
     }

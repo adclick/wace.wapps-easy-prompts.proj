@@ -8,6 +8,8 @@ import { useStore } from "../../stores/store";
 import { PromptChatMessageRole, Size, Variant } from "../../enums";
 import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import { Thread } from "../../models/Thread";
+import { ThreadModifier } from "../../models/ThreadModifier";
+import { ThreadTemplate } from "../../models/ThreadTemplate";
 
 const UserPrompt: FC = () => {
     const [
@@ -36,8 +38,9 @@ const UserPrompt: FC = () => {
     }
 
     const submit = () => {
-        nextThread.metadata.modifiers = selectedModifiers;
-        nextThread.metadata.templates = selectedTemplates;
+        nextThread.threads_modifiers = ThreadModifier.buildFromSelectedModifiers(selectedModifiers);
+        nextThread.threads_templates = ThreadTemplate.buildFromSelectedTemplates(selectedTemplates);
+
         setThreads([...threads, nextThread]);
 
         updateNextThread("");

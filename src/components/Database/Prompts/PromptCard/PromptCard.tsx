@@ -1,5 +1,5 @@
-import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal } from "@mantine/core";
-import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Center, Button, Divider, Grid, Tooltip } from "@mantine/core";
+import { IconClock, IconCopy, IconDotsVertical, IconEdit, IconEye, IconFileDescription, IconPencil, IconTrash, IconUser } from "@tabler/icons-react";
 import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
@@ -15,6 +15,9 @@ import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
 import classes from './PromptCard.module.css'
 import { Thread } from "../../../../models/Thread";
+import dateUtils from "../../../../utils/dateUtils";
+import { IconDots } from "@tabler/icons-react";
+import { Technology } from "../../../../models/Technology";
 
 interface PromptCard {
     prompt: Prompt,
@@ -43,6 +46,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         e.stopPropagation();
 
         const newThread = Thread.buildFromPrompt(prompt);
+        newThread.threads_chat_messages.pop();
         newThread.key = Date.now();
 
         // If there is no provider, get the default one
@@ -132,49 +136,63 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             <Accordion.Item className={classes.card} ref={itemRef} value={`${prompt.type}-${prompt.id}`}>
                 <Accordion.Control>
                     <Stack>
-                        <Group justify="space-between" wrap="nowrap" align="flex-start">
-                            <Stack gap={0}>
-                                <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                    {prompt.repository.name}
-                                </Badge>
-                                <Text size="sm" fw={700} lineClamp={20}>
-                                    {prompt.title}
-                                </Text>
-                            </Stack>
-                            <Menu>
-                                <Menu.Target>
-                                    <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
-                                        <IconDotsVertical size={16} />
-                                    </ActionIcon>
-                                </Menu.Target>
-                                <Menu.Dropdown>
-                                    <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                        <Text size="xs">Details</Text>
-                                    </Menu.Item>
-                                    <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                        <Group justify="space-between" wrap="nowrap" align="center">
+                            <Group wrap="nowrap" gap={"xs"}>
+                                <Tooltip label={prompt.technology.name}>
+                                    <ActionIcon variant="transparent" ml={-4}>
                                         {
-                                            clipboard.copied
-                                                ? <Text size="xs">Copied</Text>
-                                                : <Text size="xs">Copy URL</Text>
+                                            Technology.getIcon(prompt.technology, 18)
                                         }
-                                    </Menu.Item>
-                                    {
-                                        isUserItem &&
-                                        <Menu.Item onClick={e => openEdit(e)} leftSection={<IconEdit size={14} />}>
-                                            Edit
+                                    </ActionIcon>
+                                </Tooltip>
+                                <Stack gap={0}>
+                                    <Badge size="xs" variant="transparent" px={0} color="gray.9">
+                                        {prompt.repository.name}
+                                    </Badge>
+                                    <Tooltip label={prompt.title}>
+                                        <Text size="xs" fw={700} lineClamp={1}>
+                                            {prompt.title}
+                                        </Text>
+                                    </Tooltip>
+                                </Stack>
+                            </Group>
+                            <Group wrap="nowrap" gap={"xs"}>
+                                <Menu>
+                                    <Menu.Target>
+                                        <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
+                                            <IconDots size={16} />
+                                        </ActionIcon>
+                                    </Menu.Target>
+                                    <Menu.Dropdown>
+                                        <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
+                                            Details
                                         </Menu.Item>
-                                    }
-                                    {
-                                        isUserItem &&
-                                        <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
-                                            <Text size="xs">Delete</Text>
+                                        <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
+                                            {
+                                                clipboard.copied ? <>Copied</> : <>Copy URL</>
+                                            }
                                         </Menu.Item>
-                                    }
-                                </Menu.Dropdown>
-                            </Menu>
+                                        {
+                                            isUserItem &&
+                                            <Menu.Item onClick={e => openEdit(e)} leftSection={<IconEdit size={14} />}>
+                                                Edit
+                                            </Menu.Item>
+                                        }
+                                        {
+                                            isUserItem &&
+                                            <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
+                                                Delete
+                                            </Menu.Item>
+                                        }
+                                    </Menu.Dropdown>
+                                </Menu>
+                                <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
+                                    {iconPlay(12)}
+                                </ActionIcon>
+                            </Group>
                         </Group>
 
-                        <Group justify="space-between" wrap="nowrap">
+                        {/* <Group justify="space-between" wrap="nowrap">
                             <Badge size={"xs"} variant="dot" h={"auto"}>
                                 <ProviderLabel
                                     size="xs"
@@ -184,14 +202,59 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                     modifiers={prompt.prompts_modifiers.map(m => m.modifier)}
                                 />
                             </Badge>
-                            <ActionIcon component="a" variant="filled" size={"md"} onClick={(e: any) => play(e)}>
-                                {iconPlay(14)}
+                            <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
+                                {iconPlay(12)}
                             </ActionIcon>
-                        </Group>
+                        </Group> */}
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
-                    <DatabaseCardContent item={prompt} detailsHandle={detailsHandle} />
+                    <Divider mb={"lg"} />
+                    <Stack>
+                        {
+                            prompt.description !== "" &&
+                            <Text size="xs">{prompt.description}</Text>
+                        }
+                        {/* <Group>
+                            <Button
+                                className={classes.readMore}
+                                variant="transparent"
+                                size="xs"
+                                color="--mantine-text-color"
+                                onClick={detailsHandle.open}
+                            >
+                                Read more
+                            </Button>
+                        </Group> */}
+                        <Center>
+                            <Badge size={"xs"} variant="dot" h={"auto"}>
+                                <ProviderLabel
+                                    size="xs"
+                                    technology={prompt.technology}
+                                    provider={prompt.provider}
+                                    templates={prompt.prompts_templates.map(t => t.template)}
+                                    modifiers={prompt.prompts_modifiers.map(m => m.modifier)}
+                                />
+                            </Badge>
+                        </Center>
+                        {/* <Group gap={"xs"}>
+                            <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
+                            <ActionIcon variant="default" size="sm" radius={"xs"}><IconFileDescription size={14} /></ActionIcon>
+                            <ActionIcon variant="default" size="sm" radius={"xs"}><IconTrash color="pink" size={14} /></ActionIcon>
+                        </Group> */}
+
+                        <Group justify="space-between">
+                            <Group gap={"xs"}>
+                                <IconUser size={12} />
+                                <Text size="xs">{prompt.user.username}</Text>
+                            </Group>
+                            <Group gap={"xs"}>
+                                <IconClock size={12} />
+                                <Text size="xs">{dateUtils.timeAgo(new Date(prompt.created_at))}</Text>
+                            </Group>
+                        </Group>
+                    </Stack>
+                    {/* <DatabaseCardContent item={prompt} detailsHandle={detailsHandle} /> */}
                 </Accordion.Panel>
             </Accordion.Item >
         </>

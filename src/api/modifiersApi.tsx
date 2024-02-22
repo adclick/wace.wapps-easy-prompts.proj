@@ -19,26 +19,26 @@ export const useModifierQuery = (modifierId: number, enabled: boolean = true) =>
     });
 };
 
-export const useAllModifiersQuery = (userId: string, enabled: boolean = true) => {
+export const useAllModifiersQuery = (user: User, enabled: boolean = true) => {
     return useQuery({
-        queryKey: ["modifiers", "all", userId],
+        queryKey: ["modifiers", "all", user.external_id],
         queryFn: async () => {
             const { data } = await axios.get(`${API_URL}/modifiers/all?` + new URLSearchParams({
-                user_external_id: userId,
+                user_external_id: user.external_id,
             }));
 
             return data;
         },
-        enabled: !!userId && enabled
+        enabled: user.isLoggedIn && !!user.external_id && enabled
     });
 };
 
-export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilters, enabled: boolean = true) => {
+export const useModifiersQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
     return useInfiniteQuery({
         queryKey: ["modifiers", selectedFilters],
         queryFn: async ({pageParam}) => {
             const { data } = await axios.get(`${API_URL}/modifiers/?` + new URLSearchParams({
-                user_external_id: userId,
+                user_external_id: user.external_id,
                 search_term: selectedFilters.search_term,
                 languages_ids: JSON.stringify(selectedFilters.languages_ids),
                 repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
@@ -55,36 +55,9 @@ export const useModifiersQuery = (userId: string, selectedFilters: SelectedFilte
 
             return LIST_LIMIT * pages.length;
         },
-        enabled: !!userId && !selectedFilters.isEmpty && enabled
+        enabled: user.isLoggedIn && !!user.external_id && !selectedFilters.isEmpty && enabled
     });
 };
-
-export const usePrivateModifiersQuery = (user: User, selectedFilters: SelectedFilters, enabled: boolean = true) => {
-    return useInfiniteQuery({
-        queryKey: ["modifiers", selectedFilters],
-        queryFn: async ({pageParam}) => {
-            const { data } = await axios.get(`${API_URL}/modifiers/?` + new URLSearchParams({
-                user_external_id: user.id,
-                search_term: selectedFilters.search_term,
-                languages_ids: JSON.stringify(selectedFilters.languages_ids),
-                repositories_ids: JSON.stringify(selectedFilters.repositories_ids),
-                technologies_ids: JSON.stringify(selectedFilters.technologies_ids),
-                limit: LIST_LIMIT.toString(),
-                offset: pageParam.toString()
-            }));
-
-            return data;
-        },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => {
-            if (lastPage.length < LIST_LIMIT) return null;
-
-            return LIST_LIMIT * pages.length;
-        },
-        enabled: !!user.id && !selectedFilters.isEmpty && enabled
-    });
-};
-
 
 export const useCreateModifierMutation = () => {
     const queryClient = useQueryClient();
