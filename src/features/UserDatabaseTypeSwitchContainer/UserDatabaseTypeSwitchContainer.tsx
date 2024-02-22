@@ -26,13 +26,11 @@ const UserDatabaseTypeSwitchContainer: FC = () => {
 
     return (
         <SegmentedControl
-            className={classes.switcher}
-            color={color}
-            styles={{
-                label: {
-                    color: "white"
-                }
+            classNames={{
+                root: classes.switcher,
+                label: classes.switcherLabel
             }}
+            color={color}
             size="xs"
             fullWidth
             value={selectedPrivateDatabaseType.type}

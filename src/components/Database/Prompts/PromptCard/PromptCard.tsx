@@ -209,11 +209,14 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
-                    <Divider mb={"lg"} />
-                    <Stack>
+                    <Stack gap={"lg"}>
+                        <Group wrap="nowrap" justify="space-between" align="flex-start">
+                            <Text size="xs" fw={500}>{prompt.title}</Text>
+                            <Badge variant="dot" size="sm">{prompt.provider.model_name}</Badge>
+                        </Group>
                         {
                             prompt.description !== "" &&
-                            <Text size="xs">{prompt.description}</Text>
+                            <Text c={"dimmed"} size="xs">{prompt.description}</Text>
                         }
                         {/* <Group>
                             <Button
@@ -226,24 +229,18 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 Read more
                             </Button>
                         </Group> */}
-                        <Center>
-                            <Badge size={"xs"} variant="dot" h={"auto"}>
-                                <ProviderLabel
-                                    size="xs"
-                                    technology={prompt.technology}
-                                    provider={prompt.provider}
-                                    templates={prompt.prompts_templates.map(t => t.template)}
-                                    modifiers={prompt.prompts_modifiers.map(m => m.modifier)}
-                                />
-                            </Badge>
-                        </Center>
                         {/* <Group gap={"xs"}>
                             <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
                             <ActionIcon variant="default" size="sm" radius={"xs"}><IconFileDescription size={14} /></ActionIcon>
                             <ActionIcon variant="default" size="sm" radius={"xs"}><IconTrash color="pink" size={14} /></ActionIcon>
                         </Group> */}
 
-                        <Group justify="space-between">
+<Divider />
+<Group>
+    <Text size="xs" fw={500}>Actions</Text>
+</Group>
+
+                        {/* <Group justify="space-between">
                             <Group gap={"xs"}>
                                 <IconUser size={12} />
                                 <Text size="xs">{prompt.user.username}</Text>
@@ -252,7 +249,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 <IconClock size={12} />
                                 <Text size="xs">{dateUtils.timeAgo(new Date(prompt.created_at))}</Text>
                             </Group>
-                        </Group>
+                        </Group> */}
                     </Stack>
                     {/* <DatabaseCardContent item={prompt} detailsHandle={detailsHandle} /> */}
                 </Accordion.Panel>

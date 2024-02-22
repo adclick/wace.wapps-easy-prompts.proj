@@ -98,7 +98,7 @@ export const useUpdatePromptMutation = (promptId: number) => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["prompts", "threads"]
+                queryKey: ["prompts"]
             })
         }
     })
