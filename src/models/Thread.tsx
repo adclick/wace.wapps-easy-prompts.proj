@@ -66,7 +66,6 @@ export class Thread {
     }
 
     static buildFromPrompt(prompt: Prompt): Thread {
-        console.log(prompt);
         const newThread = new Thread();
 
         newThread.title = prompt.title;
