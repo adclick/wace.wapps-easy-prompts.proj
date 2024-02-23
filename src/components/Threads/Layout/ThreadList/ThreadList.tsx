@@ -19,6 +19,7 @@ import { Provider } from "../../../../models/Provider";
 import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTypeContext";
 import { Label, LabelPlural, SelectedDatabaseType, Type } from "../../../../models/SelectedDatabaseType";
 import { decrypt } from "../../../../utils/uiUtils";
+import { ParametersList } from "../../../../models/ParametersList";
 
 export function ThreadList() {
     const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
@@ -78,6 +79,8 @@ export function ThreadList() {
                     provider = Provider.clone(urlTemplate.provider);
                 }
 
+                console.log("provider", provider)
+
                 const newType = new SelectedDatabaseType();
                 newType.type = Type.TEMPLATE;
                 newType.label = Label.Tempalate;
@@ -117,6 +120,7 @@ export function ThreadList() {
             const newUserRequest = PromptRequest.clone(userPromptRequest);
             newUserRequest.technology = Technology.clone(technology);
             newUserRequest.provider = Provider.clone(provider);
+            newUserRequest.parametersList = ParametersList.buildFromProvider(provider);
             setUserPromptRequest(newUserRequest);
         }
     }, [technologiesQuery, userPromptRequest, setUserPromptRequest])
