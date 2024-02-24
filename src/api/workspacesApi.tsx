@@ -10,7 +10,7 @@ export const useWorkspacesQuery = (user: User) => {
         queryFn: async () => {
 
             const { data } = await axios.get(`${API_URL}/workspaces/?` + new URLSearchParams({
-                user_external_id: user.id,
+                user_external_id: user.external_id,
             }));
 
             return data;

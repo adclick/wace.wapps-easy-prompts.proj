@@ -25,7 +25,7 @@ const AppMenu: FC = () => {
     ]));
 
     const { data } = useWorkspacesQuery(user);
-    const deleteAllThreadsMutation = useDeleteThreadsMutation();
+    const deleteAllThreadsMutation = useDeleteThreadsMutation(user);
 
     let menus: MenuItemProps[] = [
         {

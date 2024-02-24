@@ -34,7 +34,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
 
     const createThreadMutation = useCreateThreadMutation();
     const updateThreadMutation = useUpdateThreadMutation(thread.id)
-    const deleteThreadMutation = useDeleteThreadMutation();
+    const deleteThreadMutation = useDeleteThreadMutation(user);
 
     const createThread = (response: string, chatMessages: PromptChatMessage[] = []) => {
         createThreadMutation.mutate({

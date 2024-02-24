@@ -10,7 +10,7 @@ export const useThreadsQuery = (user: User, workspaceId: number) => {
         queryKey: ["threads", user.id, workspaceId],
         queryFn: async () => {
             const { data } = await axios.get(`${API_URL}/threads/?` + new URLSearchParams({
-                user_id: user.id.toString(),
+                user_external_id: user.external_id.toString(),
                 workspace_id: workspaceId.toString(),
             }));
 
@@ -80,12 +80,16 @@ export const useUpdateThreadMutation = (threadId: number) => {
     })
 };
 
-export const useDeleteThreadMutation = () => {
+export const useDeleteThreadMutation = (user: User) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (threadId: number) => {
-            const { data } = await axios.delete(`${API_URL}/threads/${threadId}`)
+            const { data } = await axios.delete(`${API_URL}/threads/${threadId}`, {
+                data: {
+                    user_external_id: user.external_id
+                }
+            })
 
             return data;
         },
@@ -97,14 +101,15 @@ export const useDeleteThreadMutation = () => {
     })
 };
 
-export const useDeleteThreadsMutation = () => {
+export const useDeleteThreadsMutation = (user: User) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (workspaceId: number) => {
             const { data } = await axios.delete(`${API_URL}/threads/`, {
                 data: {
-                    workspace_id: workspaceId.toString()
+                    workspace_id: workspaceId.toString(),
+                    user_external_id: user.external_id
                 }
             })
 
