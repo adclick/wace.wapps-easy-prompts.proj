@@ -142,7 +142,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                         <Group justify="space-between" wrap="nowrap" align="center">
                             <Group wrap="nowrap" gap={"xs"}>
                                 <Tooltip label={prompt.technology.name}>
-                                    <ActionIcon variant="transparent" ml={-4}>
+                                    <ActionIcon component="a" variant="transparent" ml={-4}>
                                         {
                                             Technology.getIcon(prompt.technology, 18)
                                         }
