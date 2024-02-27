@@ -61,6 +61,7 @@ export class Thread {
         newThread.provider = Provider.clone(thread.provider);
         newThread.user = thread.user;
         newThread.workspace = thread.workspace;
+        newThread.threads_parameters = thread.threads_parameters;
 
         return newThread;
     }

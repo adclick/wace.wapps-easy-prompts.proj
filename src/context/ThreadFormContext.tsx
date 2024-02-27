@@ -1,3 +1,4 @@
+import { PromptParameter } from "../models/Prompt";
 import { PromptChatMessage } from "../models/PromptChatMessage";
 
 export interface ThreadFormValues {
@@ -12,5 +13,5 @@ export interface ThreadFormValues {
     templates_ids: string[];
     modifiers_ids: string[];
     chat_messages: PromptChatMessage[];
-    thread_parameters: any[]
+    thread_parameters: PromptParameter[];
 }

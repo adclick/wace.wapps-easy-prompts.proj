@@ -49,7 +49,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             templates_ids: thread.threads_templates.map(t => t.template.id.toString()),
             modifiers_ids: thread.threads_modifiers.map(t => t.modifier.id.toString()),
             chat_messages: chatMessages,
-            thread_parameters: []
+            thread_parameters: thread.threads_parameters
         });
     }
 
@@ -66,7 +66,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             templates_ids: thread.threads_templates.map(t => t.template.id.toString()),
             modifiers_ids: thread.threads_modifiers.map(t => t.modifier.id.toString()),
             chat_messages: chatMessages ? chatMessages : thread.threads_chat_messages,
-            thread_parameters: []
+            thread_parameters: thread.threads_parameters
         });
     }
 

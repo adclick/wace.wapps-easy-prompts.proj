@@ -32,6 +32,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         state.setThreads
     ]));
 
+    console.log(thread);
+
     const [threadProcessed, setThreadProcessed] = useState(false);
     const [processing, setProcessing] = useState(false);
 
@@ -45,7 +47,6 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
 
     const getMessageFromThreadResponse = (content: string) => {
         const images = JSON.parse(content);
-        console.log(images);
 
         return (
             <Stack>

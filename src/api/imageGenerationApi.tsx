@@ -5,13 +5,10 @@ import { Thread } from '../models/Thread';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useImageGenerationQuery = (thread: Thread) => {
-    // Hack
-    let num_images = '1';
-    let image_resolution = '1024x1024';
-    // if (thread.parametersList) {
-    //     num_images = thread.parametersList.num_images.value.toString();
-    //     image_resolution = thread.parametersList.image_resolution.value.toString();
-    // }
+    const tpNumImages = thread.threads_parameters.find(tp => tp.parameter.slug === 'num_images');
+    const num_images = tpNumImages ? tpNumImages.value : '1';
+    const tpResolution = thread.threads_parameters.find(tp => tp.parameter.slug === 'image_resolution');
+    const image_resolution = tpResolution ? tpResolution.value : '1024x1024';
 
     return useQuery({
         queryKey: ["imageGeneration", thread.key],

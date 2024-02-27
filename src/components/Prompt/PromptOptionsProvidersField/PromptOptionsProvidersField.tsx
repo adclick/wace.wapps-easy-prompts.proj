@@ -8,6 +8,8 @@ import { ParametersList } from "../../../models/ParametersList";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { Thread } from "../../../models/Thread";
+import PromptOptionParameter from "../PromptOptionParameter/PromptOptionParameter";
+import { Parameter } from "../../../models/Parameter";
 
 export interface ProvidersDataItem {
     label: string,
@@ -38,7 +40,7 @@ export function PromptOptionsProvidersField() {
     })
 
     const updateProvider = (providerId: string | null) => {
-        const provider: Provider|undefined = providersQuery.data.find((p: Provider) => p.id === parseInt(providerId as string));
+        const provider: Provider | undefined = providersQuery.data.find((p: Provider) => p.id === parseInt(providerId as string));
         if (provider) {
             const newNextThread = Thread.clone(nextThread);
             newNextThread.provider = Provider.clone(provider);
@@ -46,6 +48,14 @@ export function PromptOptionsProvidersField() {
 
             setNextThread(newNextThread);
         }
+    }
+
+    const updateParameter = (parameter: Parameter, value: string | null) => {
+        if (!value) return;
+        const newNextThread = Thread.clone(nextThread);
+        newNextThread.threads_parameters = nextThread.threads_parameters.filter(p => p.parameter.id !== parameter.id);
+        newNextThread.threads_parameters.push({ parameter, value });
+        setNextThread(newNextThread);
     }
 
     // Provider List
@@ -57,15 +67,6 @@ export function PromptOptionsProvidersField() {
             }
         });
 
-        // const parameters = nextThread.provider.parameters.map(parameter => {
-        //     switch (parameter.slug) {
-        //         case 'num_images':
-        //             return <PromptOptionsNumImagesField key={parameter.id} parameter={parameter} />
-        //         case 'image_resolution':
-        //             return <PromptOptionsImageResolution key={parameter.id} parameter={parameter} />
-        //     }
-        // })
-    
         return (
             <Stack>
                 <Select
@@ -78,7 +79,24 @@ export function PromptOptionsProvidersField() {
                     data={data}
                     onChange={updateProvider}
                 />
-                {/* {parameters} */}
+                {
+                    nextThread.provider.parameters.map(parameter => {
+                        let tp = nextThread.threads_parameters.find(tp => tp.parameter.id = parameter.id);
+                        const value = tp ? tp.value : parameter.value;
+
+                        return (
+                            <Select
+                                variant="unstyled"
+                                label={parameter.name}
+                                data={parameter.data}
+                                value={value}
+                                allowDeselect={false}
+                                comboboxProps={{ withinPortal: false }}
+                                onChange={(value: string | null) => updateParameter(parameter, value)}
+                            />
+                        )
+                    })
+                }
             </Stack>
         )
     }
