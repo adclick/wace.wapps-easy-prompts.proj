@@ -1,4 +1,4 @@
-import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Menu, ActionIcon } from "@mantine/core";
+import { Accordion, Badge, Group, Stack, Text, Checkbox, Modal, Menu, ActionIcon, Tooltip, Button } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
@@ -6,13 +6,15 @@ import classes from './ModifierCard.module.css';
 import { useDeleteModifierMutation, useUpdateModifierMutation } from "../../../../api/modifiersApi";
 import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDots, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { MouseEvent } from "react";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { ModifierForm } from "../../../Forms/ModifierForm/ModifierForm";
+import { Technology } from "../../../../models/Technology";
+import { Color } from "../../../../enums";
 
 interface ModifierCard {
     modifier: Modifier,
@@ -102,20 +104,29 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
             </Modal>
             <Accordion.Item className={classes.card} ref={itemRef} value={modifier.id.toString()}>
                 <Accordion.Control>
-                    <Stack>
-                        <Group justify="space-between" wrap="nowrap" align="flex-start">
+                    <Group justify="space-between" wrap="nowrap" align="center">
+                        <Group wrap="nowrap" gap={"xs"}>
+                            <Tooltip label={modifier.technology.name}>
+                                <ActionIcon component="a" variant="transparent" ml={-4}>
+                                    {
+                                        Technology.getIcon(modifier.technology, 18, Color.teal)
+                                    }
+                                </ActionIcon>
+                            </Tooltip>
                             <Stack gap={0}>
                                 <Badge size="xs" variant="transparent" px={0} color="gray.9">
                                     {modifier.repository.name}
                                 </Badge>
-                                <Text size="sm" fw={500} lineClamp={20}>
+                                <Text size="xs" fw={700} lineClamp={1}>
                                     {modifier.title}
                                 </Text>
                             </Stack>
+                        </Group>
+                        <Group gap={"xs"} wrap="nowrap">
                             <Menu>
                                 <Menu.Target>
                                     <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
-                                        <IconDotsVertical size={16} />
+                                        <IconDots size={16} />
                                     </ActionIcon>
                                 </Menu.Target>
                                 <Menu.Dropdown>
@@ -143,31 +154,38 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                                     }
                                 </Menu.Dropdown>
                             </Menu>
-                        </Group>
-
-                        <Group justify="space-between" wrap="nowrap">
-                            <Badge size={"xs"} variant="dot" h={"auto"}>
-                                <ProviderLabel
-                                    size="xs"
-                                    technology={modifier.technology}
-                                    provider={modifier.provider}
-                                    templates={[]}
-                                    modifiers={[]}
-                                />
-                            </Badge>
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
                                 }}
                                 value={modifier.id.toString()}
-                                size="md"
+                                size="sm"
                                 onClick={e => e.stopPropagation()}
                             />
                         </Group>
-                    </Stack>
+                    </Group>
                 </Accordion.Control >
                 <Accordion.Panel>
-                    <DatabaseCardContent item={modifier} detailsHandle={modifierDetailsHandle} />
+                    <Stack gap={"lg"}>
+                        <Group wrap="nowrap" justify="space-between" align="flex-start">
+                            <Text size="xs" c={"dimmed"} fw={500}>{modifier.description}</Text>
+                        </Group>
+
+                        <Group justify="space-between">
+
+                            <Button onClick={openDetails} size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
+                                Details
+                            </Button>
+                            {
+                                modifier.provider &&
+                                <Badge variant="dot" size="sm">
+                                    {modifier.provider.model_name}
+                                </Badge>
+
+                            }
+
+                        </Group>
+                    </Stack>
                 </Accordion.Panel>
             </Accordion.Item >
         </>

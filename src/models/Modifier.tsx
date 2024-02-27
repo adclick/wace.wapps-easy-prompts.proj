@@ -1,3 +1,4 @@
+import { Color } from "../enums";
 import { Language } from "./Language";
 import { Provider } from "./Provider";
 import { Repository } from "./Repository";
@@ -59,5 +60,9 @@ export class Modifier {
         newModifier.provider = modifier.provider;
 
         return newModifier;
+    }
+
+    static getColor() {
+        return Color.green;
     }
 }

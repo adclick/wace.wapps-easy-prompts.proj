@@ -42,7 +42,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         repository_id: '',
         technology_id: '',
         provider_id: '',
-        user_id: user.id,
+        user_id: user.external_id,
         templates_ids: [],
         modifiers_ids: [],
         prompt_chat_messages: [],
@@ -50,7 +50,14 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     };
 
     const form = usePromptForm({
-        initialValues
+        initialValues,
+        validate: {
+            title: value => value !== "" ? null : 'Title is required',
+            content: value => value !== "" ? null : 'Content is required',
+            language_id: value => value !== "" ? null : 'Language is required',
+            repository_id: value => value !== "" ? null : 'Repository is required',
+            technology_id: value => value !== "" ? null : 'Technology is required',
+        }
     });
 
     const enabled = prompt && user.username === prompt.user.username;

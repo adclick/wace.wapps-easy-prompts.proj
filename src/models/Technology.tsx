@@ -24,14 +24,14 @@ export class Technology {
         return newTechnology;
     }
 
-    static getIcon(technology: Technology, size: number = 14) {
+    static getIcon(technology: Technology, size: number = 14, color?: string) {
         switch (technology.slug) {
             case 'image-generation':
-                return <IconPhoto size={size} />
+                return <IconPhoto size={size} color={color} />
             case 'text-generation':
-                return <IconTextSize size={size} />
+                return <IconTextSize size={size} color={color} />
             default:
-                return <IconMessages size={size} />
+                return <IconMessages size={size} color={color} />
         }
     }
 }

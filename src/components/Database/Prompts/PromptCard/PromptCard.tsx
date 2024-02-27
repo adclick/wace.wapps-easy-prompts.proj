@@ -167,13 +167,13 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                         </ActionIcon>
                                     </Menu.Target>
                                     <Menu.Dropdown>
-                                        <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                            Details
-                                        </Menu.Item>
                                         <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconWorld size={14} />}>
                                             {
                                                 clipboard.copied ? <>Copied</> : <>Copy URL</>
                                             }
+                                        </Menu.Item>
+                                        <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
+                                            Details
                                         </Menu.Item>
                                         {
                                             isUserItem &&
@@ -196,20 +196,6 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                             </Group>
                         </Group>
 
-                        {/* <Group justify="space-between" wrap="nowrap">
-                            <Badge size={"xs"} variant="dot" h={"auto"}>
-                                <ProviderLabel
-                                    size="xs"
-                                    technology={prompt.technology}
-                                    provider={prompt.provider}
-                                    templates={prompt.prompts_templates.map(t => t.template)}
-                                    modifiers={prompt.prompts_modifiers.map(m => m.modifier)}
-                                />
-                            </Badge>
-                            <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
-                                {iconPlay(12)}
-                            </ActionIcon>
-                        </Group> */}
                     </Stack>
                 </Accordion.Control >
                 <Accordion.Panel>
@@ -217,46 +203,21 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                         <Group wrap="nowrap" justify="space-between" align="flex-start">
                             <Text size="xs" c={"dimmed"} fw={500}>{prompt.description}</Text>
                         </Group>
-                        {/* <Group>
-                            <Button
-                                className={classes.readMore}
-                                variant="transparent"
-                                size="xs"
-                                color="--mantine-text-color"
-                                onClick={detailsHandle.open}
-                            >
-                                Read more
-                            </Button>
-                        </Group> */}
-                        {/* <Group gap={"xs"}>
-                            <ActionIcon variant="default" size="sm" radius={"xs"}><IconPencil size={14} /></ActionIcon>
-                            <ActionIcon variant="default" size="sm" radius={"xs"}><IconFileDescription size={14} /></ActionIcon>
-                            <ActionIcon variant="default" size="sm" radius={"xs"}><IconTrash color="pink" size={14} /></ActionIcon>
-                        </Group> */}
 
                         <Group justify="space-between">
 
-                            <Button size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
+                            <Button onClick={openDetails} size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
                                 Details
                             </Button>
-                            <Badge variant="dot" size="sm">
-                                {prompt.provider.model_name}
-                            </Badge>
+                            {
+                                prompt.provider &&
+                                <Badge variant="dot" size="sm">
+                                    {prompt.provider.model_name}
+                                </Badge>
+                            }
 
                         </Group>
-
-                        {/* <Group justify="space-between">
-                            <Group gap={"xs"}>
-                                <IconUser size={12} />
-                                <Text size="xs">{prompt.user.username}</Text>
-                            </Group>
-                            <Group gap={"xs"}>
-                                <IconClock size={12} />
-                                <Text size="xs">{dateUtils.timeAgo(new Date(prompt.created_at))}</Text>
-                            </Group>
-                        </Group> */}
                     </Stack>
-                    {/* <DatabaseCardContent item={prompt} detailsHandle={detailsHandle} /> */}
                 </Accordion.Panel>
             </Accordion.Item >
         </>

@@ -44,7 +44,13 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
     };
 
     const form = useTemplateForm({
-        initialValues
+        initialValues,
+        validate: {
+            title: value => value !== "" ? null : 'Title is required',
+            language_id: value => value !== "" ? null : 'Language is required',
+            repository_id: value => value !== "" ? null : 'Repository is required',
+            technology_id: value => value !== "" ? null : 'Technology is required',
+        }
     });
 
     const enabled = template && user.username === template.user.username;

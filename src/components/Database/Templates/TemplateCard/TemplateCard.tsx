@@ -1,5 +1,5 @@
-import { Accordion, Badge, Group, Stack, Text, Checkbox, Menu, ActionIcon, Modal } from "@mantine/core";
-import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { Accordion, Badge, Group, Stack, Text, Checkbox, Menu, ActionIcon, Modal, Tooltip, Button } from "@mantine/core";
+import { IconCopy, IconDots, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { Template } from "../../../../models/Template";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
@@ -12,6 +12,8 @@ import { modals } from "@mantine/modals";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { TemplateForm } from "../../../Forms/TemplateForm/TemplateForm";
+import { Technology } from "../../../../models/Technology";
+import { Color } from "../../../../enums";
 
 interface TemplateCard {
     template: Template,
@@ -99,20 +101,29 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             </Modal>
             <Accordion.Item className={classes.card} ref={itemRef} value={template.id.toString()}>
                 <Accordion.Control>
-                    <Stack>
-                        <Group justify="space-between" wrap="nowrap" align="flex-start">
+                    <Group justify="space-between" wrap="nowrap" align="center">
+                        <Group wrap="nowrap" gap={"xs"}>
+                            <Tooltip label={template.technology.name}>
+                                <ActionIcon component="a" variant="transparent" ml={-4}>
+                                    {
+                                        Technology.getIcon(template.technology, 18, Color.orange)
+                                    }
+                                </ActionIcon>
+                            </Tooltip>
                             <Stack gap={0}>
                                 <Badge size="xs" variant="transparent" px={0} color="gray.9">
                                     {template.repository.name}
                                 </Badge>
-                                <Text size="sm" fw={500} lineClamp={20}>
+                                <Text size="xs" fw={700} lineClamp={1}>
                                     {template.title}
                                 </Text>
                             </Stack>
+                        </Group>
+                        <Group gap={"xs"} wrap="nowrap">
                             <Menu>
                                 <Menu.Target>
                                     <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
-                                        <IconDotsVertical size={16} />
+                                        <IconDots size={16} />
                                     </ActionIcon>
                                 </Menu.Target>
                                 <Menu.Dropdown>
@@ -140,30 +151,38 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                                     }
                                 </Menu.Dropdown>
                             </Menu>
-                        </Group>
-
-                        <Group justify="space-between" wrap="nowrap">
-                            <Badge size={"xs"} variant="dot" h={"auto"}>
-                                <ProviderLabel
-                                    size="xs"
-                                    technology={template.technology}
-                                    provider={template.provider}
-                                    templates={[]}
-                                    modifiers={template.templates_modifiers.map(m => m.modifier)}
-                                />
-                            </Badge>
                             <Checkbox
                                 classNames={{
                                     input: classes.inputCheckbox
-                                }} value={template.id.toString()}
-                                size="md"
+                                }}
+                                value={template.id.toString()}
+                                size="sm"
                                 onClick={e => e.stopPropagation()}
                             />
                         </Group>
-                    </Stack>
+                    </Group>
                 </Accordion.Control >
                 <Accordion.Panel>
-                    <DatabaseCardContent item={template} detailsHandle={detailsHandle} />
+                    <Stack gap={"lg"}>
+                        <Group wrap="nowrap" justify="space-between" align="flex-start">
+                            <Text size="xs" c={"dimmed"} fw={500}>{template.description}</Text>
+                        </Group>
+
+                        <Group justify="space-between">
+
+                            <Button onClick={openDetails} size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
+                                Details
+                            </Button>
+                            {
+                                template.provider &&
+                                <Badge variant="dot" size="sm">
+                                    {template.provider.model_name}
+                                </Badge>
+
+                            }
+
+                        </Group>
+                    </Stack>
                 </Accordion.Panel>
             </Accordion.Item >
         </>

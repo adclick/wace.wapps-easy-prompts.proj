@@ -42,7 +42,14 @@ export function ModifierForm({ modifier, mutation, handle }: ModifierForm) {
     };
 
     const form = useModifierForm({
-        initialValues
+        initialValues,
+        validate: {
+            title: value => value !== "" ? null : 'Title is required',
+            content: value => value !== "" ? null : 'Content is required',
+            language_id: value => value !== "" ? null : 'Language is required',
+            repository_id: value => value !== "" ? null : 'Repository is required',
+            technology_id: value => value !== "" ? null : 'Technology is required',
+        }
     });
 
     const enabled = modifier && user.username === modifier.user.username;
