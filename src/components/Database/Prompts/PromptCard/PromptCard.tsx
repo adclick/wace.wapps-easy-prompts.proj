@@ -47,9 +47,11 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         newThread.key = Date.now();
 
         // If there is no provider, get the default one
-        if (!newThread.provider) {
-            newThread.provider = await getDefaultProvider(newThread.technology.id);
+        if (newThread.provider.uuid === "") {
+            newThread.provider = await getDefaultProvider(newThread.technology);
         }
+
+        console.log(newThread);
 
         // navbarMobileHandle.close();
 
@@ -102,7 +104,8 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
 
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?prompt_id=' + prompt.id);
+        console.log(prompt);
+        clipboard.copy(window.location.origin + window.location.pathname + '?prompt_id=' + prompt.uuid);
 
         notifications.show({
             title: "URL Copied",
@@ -120,7 +123,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
     const hoverCard = useHover();
     const hoverMenu = useHover();
 
-    const updateMutation = useUpdatePromptMutation(prompt.id);
+    const updateMutation = useUpdatePromptMutation(prompt.uuid);
 
     return (
         <>

@@ -47,7 +47,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
             { role, message }
         ];
 
-        if (thread.id > 0) {
+        if (thread.uuid !== "") {
             updateThreadResponse(data, newChatMessages);
         } else {
             createThread(data, newChatMessages);

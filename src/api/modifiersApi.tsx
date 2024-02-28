@@ -7,15 +7,15 @@ import { ModifierFormValues } from '../context/ModifierFormContext';
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 10;
 
-export const useModifierQuery = (modifierId: number, enabled: boolean = true) => {
+export const useModifierQuery = (modifierUUID: string, enabled: boolean = true) => {
     return useQuery({
-        queryKey: ["modifiers", modifierId],
+        queryKey: ["modifiers", modifierUUID],
         queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/modifiers/${modifierId}`);
+            const { data } = await axios.get(`${API_URL}/modifiers/${modifierUUID}`);
 
             return data;
         },
-        enabled: modifierId > 0 && enabled
+        enabled: modifierUUID !== "" && enabled
     });
 };
 

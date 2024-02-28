@@ -7,15 +7,15 @@ import { User } from '../models/User';
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 10;
 
-export const useTemplateQuery = (templateId: number, enabled: boolean = true) => {
+export const useTemplateQuery = (templateUUID: string, enabled: boolean = true) => {
     return useQuery({
-        queryKey: ["templates", templateId],
+        queryKey: ["templates", templateUUID],
         queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/templates/${templateId}`);
+            const { data } = await axios.get(`${API_URL}/templates/${templateUUID}`);
 
             return data;
         },
-        enabled: templateId > 0 && enabled
+        enabled: templateUUID !== "" && enabled
     });
 };
 

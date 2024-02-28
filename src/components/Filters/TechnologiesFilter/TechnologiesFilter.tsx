@@ -4,7 +4,7 @@ import { SelectedFilters } from '../../../models/SelectedFilters';
 import { IconBulb } from '@tabler/icons-react';
 
 interface TechnologiesFilter {
-    technologies: { id: number, name: string, slug: string, default: boolean }[],
+    technologies: { id: number, uuid: string, name: string, slug: string, default: boolean }[],
     selectedFilters: SelectedFilters
     setSelectedFilters: any
 }
@@ -22,7 +22,7 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
 
         setSelectedFilters({
             ...selectedFilters,
-            technologies_ids: newValue.map(id => parseInt(id))
+            technologies_ids: newValue
         })
     }
 
@@ -50,11 +50,11 @@ export function TechnologiesFilter({ technologies, selectedFilters, setSelectedF
                     {
                         technologies
                             .map((item) => (
-                                <Combobox.Option value={item.id.toString()} key={item.id} active={selectedIds.includes(item.id.toString())}>
+                                <Combobox.Option value={item.uuid} key={item.uuid} active={selectedIds.includes(item.uuid)}>
                                     <Group gap="sm">
                                         <Checkbox
                                             size='sm'
-                                            checked={selectedIds.includes(item.id.toString())}
+                                            checked={selectedIds.includes(item.uuid)}
                                             onChange={() => { }}
                                             aria-hidden
                                             tabIndex={-1}

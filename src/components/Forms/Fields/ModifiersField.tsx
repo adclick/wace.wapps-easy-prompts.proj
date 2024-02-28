@@ -18,7 +18,7 @@ export function ModifiersField({form}: FieldProps) {
         const selectData = modifiersQuery.data.map((m: Template) => {
             return {
                 label: m.title,
-                value: m.id.toString()
+                value: m.uuid
             }
         });
 

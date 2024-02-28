@@ -19,14 +19,14 @@ export const useChatQuery = (
     return useQuery({
         queryKey: ["chat", thread.key, chatMessages.length],
         queryFn: async () => {
-            const templatesIds = thread.threads_templates.map(t => Number(t.template.id));
-            const modifiersIds = thread.threads_modifiers.map(m => Number(m.modifier.id));
+            const templatesIds = thread.threads_templates.map(t => Number(t.template.uuid));
+            const modifiersIds = thread.threads_modifiers.map(m => Number(m.modifier.uuid));
 
             const { data } = await axios.post(`${API_URL}/ai/chat?` + new URLSearchParams({
                 user_external_id: user.external_id
             }), {
                 text: lastMessage?.message,
-                provider_id: thread.provider.id,
+                provider_id: thread.provider.uuid,
                 modifiers_ids: JSON.stringify(modifiersIds),
                 templates_ids: JSON.stringify(templatesIds),
                 chat_messages: JSON.stringify(chatMessages)

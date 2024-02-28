@@ -21,7 +21,7 @@ const UserPromptOptionProvidersField: FC = () => {
         state.setNextThread
     ]));
 
-    const providersQuery = useProvidersQuery(nextThread.technology.id);
+    const providersQuery = useProvidersQuery(nextThread.technology.uuid);
 
     useEffect(() => {
         if (providersQuery.data && nextThread.provider.id <= 0) {

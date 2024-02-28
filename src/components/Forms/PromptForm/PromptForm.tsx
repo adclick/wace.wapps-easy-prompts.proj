@@ -15,7 +15,6 @@ import { TemplatesField } from "../Fields/TemplatesField";
 import { ModifiersField } from "../Fields/ModifiersField";
 import { Prompt } from "../../../models/Prompt";
 import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
-import { ParametersList } from "../../../models/ParametersList";
 import { Thread } from "../../../models/Thread";
 
 interface PromptForm {
@@ -61,25 +60,25 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     });
 
     const enabled = prompt && user.username === prompt.user.username;
-    const promptId = prompt ? prompt.id : 0;
-    const { data } = usePromptQuery(user, promptId, enabled);
+    const promptUUID = prompt ? prompt.uuid : '';
+    const { data } = usePromptQuery(user, promptUUID, enabled);
 
     // Update existing form
-    if (prompt && prompt.id > 0 && data) {
+    if (prompt && prompt.uuid !== "" && data) {
         const promptPrivate = data as Prompt;
 
         initialValues.title = promptPrivate.title;
         initialValues.description = promptPrivate.description;
         initialValues.content = promptPrivate.content;
-        initialValues.language_id = promptPrivate.language.id.toString();
-        initialValues.repository_id = promptPrivate.repository.id.toString();
-        initialValues.technology_id = promptPrivate.technology.id.toString();
+        initialValues.language_id = promptPrivate.language.uuid;
+        initialValues.repository_id = promptPrivate.repository.uuid;
+        initialValues.technology_id = promptPrivate.technology.uuid;
         if (promptPrivate.provider) {
-            initialValues.provider_id = promptPrivate.provider.id.toString();
+            initialValues.provider_id = promptPrivate.provider.uuid;
         }
         initialValues.user_id = user.external_id;
-        initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.id.toString());
-        initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.id.toString());
+        initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.uuid);
+        initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.uuid);
         initialValues.prompt_chat_messages = [];
         initialValues.prompt_parameters = promptPrivate.prompts_parameters;
 
@@ -100,11 +99,11 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
 
         initialValues.title = thread.title;
         initialValues.content = thread.content;
-        initialValues.technology_id = thread.technology.id.toString();
-        initialValues.provider_id = thread.provider.id.toString();
+        initialValues.technology_id = thread.technology.uuid;
+        initialValues.provider_id = thread.provider.uuid;
         initialValues.user_id = user.external_id;
-        initialValues.templates_ids = thread.threads_templates.map(pt => pt.template.id.toString());
-        initialValues.modifiers_ids = thread.threads_modifiers.map(pm => pm.modifier.id.toString());
+        initialValues.templates_ids = thread.threads_templates.map(pt => pt.template.uuid);
+        initialValues.modifiers_ids = thread.threads_modifiers.map(pm => pm.modifier.uuid);
         initialValues.prompt_chat_messages = thread.threads_chat_messages;
         // initialValues.prompt_parameters = promptParameters
 

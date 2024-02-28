@@ -8,12 +8,12 @@ export const useImageGenerationQuery = (thread: Thread) => {
     return useQuery({
         queryKey: ["imageGeneration", thread.key],
         queryFn: async () => {
-            const modifiersIds = thread.threads_modifiers.map(m => m.modifier.id);
-            const templatesIds = thread.threads_templates.map(t => t.template.id);
+            const modifiersIds = thread.threads_modifiers.map(m => m.modifier.uuid);
+            const templatesIds = thread.threads_templates.map(t => t.template.uuid);
 
             const { data } = await axios.post(`${API_URL}/ai/image-generation?` + new URLSearchParams({
                 text: thread.content,
-                provider_id: thread.provider.id.toString(),
+                provider_id: thread.provider.uuid,
                 modifiers_ids: JSON.stringify(modifiersIds),
                 templates_ids: JSON.stringify(templatesIds),
                 num_images: Thread.getParameterValue(thread, 'num_images', '1'),

@@ -1,7 +1,6 @@
 import { Color } from "../enums";
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
-import { Parameter } from "./Parameter";
 import { ParametersList } from "./ParametersList";
 import { PromptChatMessage } from "./PromptChatMessage";
 import { PromptParameter } from "./PromptParameter";
@@ -32,6 +31,7 @@ export interface PromptTemplate {
 
 export class Prompt {
     id: number;
+    uuid: string;
     title: string;
     slug: string;
     content: string;
@@ -55,6 +55,7 @@ export class Prompt {
     
     constructor() {
         this.id = 0;
+        this.uuid = "";
         this.title = "";
         this.slug = "";
         this.content = "";
@@ -81,6 +82,7 @@ export class Prompt {
         const newPrompt = new Prompt();
 
         newPrompt.id = prompt.id;
+        newPrompt.uuid = prompt.uuid;
         newPrompt.title = prompt.title;
         newPrompt.slug = prompt.slug;
         newPrompt.content = prompt.content;
@@ -101,29 +103,6 @@ export class Prompt {
         newPrompt.prompts_modifiers = prompt.prompts_modifiers;
         newPrompt.prompts_templates = prompt.prompts_templates;
         newPrompt.prompts_parameters = prompt.prompts_parameters;
-
-        return newPrompt;
-    }
-
-    static buildFromTemplate(template: Template): Prompt {
-        const newPrompt = new Prompt();
-
-        newPrompt.id = template.id;
-        newPrompt.title = template.title;
-        newPrompt.slug = template.slug;
-        newPrompt.description = template.description;
-        newPrompt.stars = template.stars;
-        newPrompt.plays = template.plays;
-        newPrompt.created_at = template.created_at;
-        newPrompt.type = template.type;
-        newPrompt.metadata = template.metadata;
-        newPrompt.user = template.user;
-        newPrompt.language = template.language;
-        newPrompt.repository = template.repository;
-        newPrompt.technology = template.technology;
-        newPrompt.provider = template.provider;
-        newPrompt.parametersList = template.parametersList;
-        newPrompt.prompts_parameters = template.templates_parameters;
 
         return newPrompt;
     }

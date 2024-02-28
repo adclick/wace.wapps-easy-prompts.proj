@@ -2,6 +2,7 @@ import { Group, Stack } from "@mantine/core";
 import { FC } from "react";
 import UserPromptOptionsSwitcher from "./UserPromptOptionsSwitcher/UserPromptOptionsSwitcher";
 import UserPromptInput from "./UserPromptInput/UserPromptInput";
+import ShareableLinks from "../ShareableLinks/ShareableLinks";
 
 const UserPrompt: FC = () => {
     return (
@@ -15,6 +16,7 @@ const UserPrompt: FC = () => {
                     py={"md"}
                     px={"md"}
                 >
+                    <ShareableLinks />
                     <UserPromptOptionsSwitcher />
                     <UserPromptInput />
                 </Stack>

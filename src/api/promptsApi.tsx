@@ -7,7 +7,7 @@ import { PromptFormValues } from '../context/PromptFormContext';
 const API_URL = import.meta.env.VITE_API_URL;
 const LIST_LIMIT = 10;
 
-export const usePromptQuery = (user: User, promptId: number, enabled: boolean = true) => {
+export const usePromptQuery = (user: User, promptId: string, enabled: boolean = true) => {
     return useQuery({
         queryKey: ["prompts", promptId],
         queryFn: async () => {
@@ -15,7 +15,7 @@ export const usePromptQuery = (user: User, promptId: number, enabled: boolean = 
 
             return data;
         },
-        enabled: user.isLoggedIn && promptId > 0 && enabled
+        enabled: user.isLoggedIn && promptId !== "" && enabled
     });
 };
 
@@ -75,12 +75,12 @@ export const useCreatePromptMutation = () => {
     })
 }
 
-export const useUpdatePromptMutation = (promptId: number) => {
+export const useUpdatePromptMutation = (promptUUID: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (formData: PromptFormValues) => {
-            const { data } = await axios.put(`${API_URL}/prompts/${promptId}`, {
+            const { data } = await axios.put(`${API_URL}/prompts/${promptUUID}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
                 description: formData.description,

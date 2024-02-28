@@ -63,11 +63,11 @@ export function ModifierForm({ modifier, mutation, handle }: ModifierForm) {
         initialValues.title = modifierPrivate.title;
         initialValues.description = modifierPrivate.description;
         initialValues.content = modifierPrivate.content;
-        initialValues.language_id = modifierPrivate.language.id.toString();
-        initialValues.repository_id = modifierPrivate.repository.id.toString();
-        initialValues.technology_id = modifierPrivate.technology.id.toString();
+        initialValues.language_id = modifierPrivate.language.uuid;
+        initialValues.repository_id = modifierPrivate.repository.uuid;
+        initialValues.technology_id = modifierPrivate.technology.uuid;
         if (modifierPrivate.provider) {
-            initialValues.provider_id = modifierPrivate.provider.id.toString();
+            initialValues.provider_id = modifierPrivate.provider.uuid;
         }
         initialValues.user_id = user.external_id;
 

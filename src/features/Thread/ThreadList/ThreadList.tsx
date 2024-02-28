@@ -19,7 +19,7 @@ const ThreadList: FC = () => {
         state.setThreads,
     ]));
 
-    const { data: threadsData } = useThreadsQuery(user, selectedWorkspace.id);
+    const { data: threadsData } = useThreadsQuery(user, selectedWorkspace);
 
     // Sync server state threads from selected workspace
     useEffect(() => {

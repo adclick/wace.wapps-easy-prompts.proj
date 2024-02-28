@@ -1,4 +1,4 @@
-import { useDisclosure, useScrollIntoView } from "@mantine/hooks";
+import { useScrollIntoView } from "@mantine/hooks";
 import { ThreadHeader } from "../../../components/Threads/Layout/ThreadHeader/ThreadHeader";
 import { Card, Collapse, Group, Stack } from "@mantine/core";
 import { useShallow } from "zustand/react/shallow";
@@ -8,7 +8,7 @@ import ThreadTextGeneration from "../ThreadTextGeneration/ThreadTextGeneration";
 import ThreadImageGeneration from "../ThreadImageGeneration/ThreadImageGeneration";
 import { Thread } from "../../../models/Thread";
 import { useCreateThreadMutation, useDeleteThreadMutation, useUpdateThreadMutation } from "../../../api/threadsApi";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { PromptChatMessage } from "../../../models/PromptChatMessage";
 
 interface ThreadCardProps {
@@ -30,11 +30,11 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         state.setThreads
     ]));
 
-    const [collapsed, collapsedHandle] = useDisclosure(thread.collapsed);
-
     const createThreadMutation = useCreateThreadMutation();
-    const updateThreadMutation = useUpdateThreadMutation(thread.id)
+    const updateThreadMutation = useUpdateThreadMutation(thread);
     const deleteThreadMutation = useDeleteThreadMutation(user);
+
+    const [collapsed, setCollapsed] = useState(thread.collapsed);
 
     const createThread = (response: string, chatMessages: PromptChatMessage[] = []) => {
         createThreadMutation.mutate({
@@ -44,11 +44,11 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             response: response,
             collapsed: false,
             user_external_id: user.external_id,
-            workspace_id: selectedWorkspace.id.toString(),
-            technology_id: thread.technology.id.toString(),
-            provider_id: thread.provider.id.toString(),
-            templates_ids: thread.threads_templates.map(t => t.template.id.toString()),
-            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.id.toString()),
+            workspace_id: selectedWorkspace.uuid,
+            technology_id: thread.technology.uuid,
+            provider_id: thread.provider.uuid,
+            templates_ids: thread.threads_templates.map(t => t.template.uuid),
+            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.uuid),
             chat_messages: chatMessages,
             thread_parameters: thread.threads_parameters
         });
@@ -60,21 +60,23 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             key: (Number(thread.key) + 1).toString(),
             content: thread.content,
             response: response ? response : thread.response,
-            collapsed: collapsed || thread.collapsed,
+            collapsed: collapsed !== undefined ? collapsed : thread.collapsed,
             user_external_id: user.external_id,
-            workspace_id: selectedWorkspace.id.toString(),
-            technology_id: thread.technology.id.toString(),
-            provider_id: thread.provider.id.toString(),
-            templates_ids: thread.threads_templates.map(t => t.template.id.toString()),
-            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.id.toString()),
+            workspace_id: selectedWorkspace.uuid,
+            technology_id: thread.technology.uuid,
+            provider_id: thread.provider.uuid,
+            templates_ids: thread.threads_templates.map(t => t.template.uuid),
+            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.uuid),
             chat_messages: chatMessages ? chatMessages : thread.threads_chat_messages,
             thread_parameters: thread.threads_parameters
         });
     }
 
-    const deleteThread = (thread: Thread) => {
+    const deleteThread = (e: any, thread: Thread) => {
+        e.stopPropagation();
+
         setThreads(threads.filter((t) => t.key !== thread.key));
-        deleteThreadMutation.mutate(thread.id);
+        deleteThreadMutation.mutate(thread.uuid);
     }
 
     let threadComponent = <></>;
@@ -117,13 +119,13 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
                 <Stack gap={"xl"}>
                     <ThreadHeader
                         deleteThread={deleteThread}
-                        collapsed={collapsed}
-                        collapsedHandle={collapsedHandle}
                         thread={thread}
+                        collapsed={collapsed}
+                        setCollapsed={setCollapsed}
                         updateMutation={updateThreadResponse}
 
                     />
-                    <Collapse in={!thread.collapsed}>
+                    <Collapse in={!collapsed}>
                         <Stack gap={"xl"}>
                             {threadComponent}
                         </Stack>

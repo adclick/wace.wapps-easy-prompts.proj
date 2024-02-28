@@ -4,13 +4,13 @@ import { Provider } from "../../../models/Provider";
 import { FieldProps } from "./FieldProps";
 
 export function ProviderField({form}: FieldProps) {
-    const { data } = useProvidersQuery(parseInt(form.values.technology_id));
+    const { data } = useProvidersQuery(form.values.technology_id);
 
     if (data) {
         const selectData = data.map((p: Provider) => {
             return {
                 label: p.model_name,
-                value: p.id.toString()
+                value: p.uuid
             }
         });
 

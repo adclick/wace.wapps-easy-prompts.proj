@@ -21,7 +21,7 @@ export function TemplateCardDetails({
     const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === template.user.username && opened
 
-    const itemQuery = useTemplateQuery(template.id, enabled);
+    const itemQuery = useTemplateQuery(template.uuid, enabled);
 
     return <DatabaseCardDetails
         opened={opened}

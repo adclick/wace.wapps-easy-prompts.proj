@@ -63,14 +63,14 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
 
         initialValues.title = templatePrivate.title;
         initialValues.description = templatePrivate.description;
-        initialValues.language_id = templatePrivate.language.id.toString();
-        initialValues.repository_id = templatePrivate.repository.id.toString();
-        initialValues.technology_id = templatePrivate.technology.id.toString();
+        initialValues.language_id = templatePrivate.language.uuid;
+        initialValues.repository_id = templatePrivate.repository.uuid;
+        initialValues.technology_id = templatePrivate.technology.uuid;
         if (templatePrivate.provider) {
-            initialValues.provider_id = templatePrivate.provider.id.toString();
+            initialValues.provider_id = templatePrivate.provider.uuid;
         }
         initialValues.user_id = user.external_id;
-        initialValues.modifiers_ids = templatePrivate.templates_modifiers.map(pm => pm.modifier.id.toString());
+        initialValues.modifiers_ids = templatePrivate.templates_modifiers.map(pm => pm.modifier.uuid);
         initialValues.chat_messages = [];
         initialValues.template_parameters = [];
 
@@ -81,12 +81,12 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
     if (template && template.id <= 0) {
         initialValues.title = template.title;
         initialValues.description = template.description;
-        initialValues.language_id = template.language.id.toString();
-        initialValues.repository_id = template.repository.id.toString();
-        initialValues.technology_id = template.technology.id.toString();
-        initialValues.provider_id = template.provider.id.toString();
+        initialValues.language_id = template.language.uuid;
+        initialValues.repository_id = template.repository.uuid;
+        initialValues.technology_id = template.technology.uuid;
+        initialValues.provider_id = template.provider.uuid;
         initialValues.user_id = user.external_id;
-        initialValues.modifiers_ids = template.templates_modifiers.map(pm => pm.modifier.id.toString());
+        initialValues.modifiers_ids = template.templates_modifiers.map(pm => pm.modifier.uuid);
         initialValues.chat_messages = [];
         initialValues.template_parameters = [];
 

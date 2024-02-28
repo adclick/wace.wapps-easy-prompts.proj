@@ -2,12 +2,14 @@ import { IconLetterT, IconMessage, IconMessages, IconPhoto, IconTextSize } from 
 
 export class Technology {
     id: number;
+    uuid: string;
     name: string;
     slug: string;
     default: boolean;
 
     constructor(name = "", slug = "") {
         this.id = 0;
+        this.uuid = "";
         this.name = name;
         this.slug = slug;
         this.default = false;
@@ -17,6 +19,7 @@ export class Technology {
         const newTechnology = new Technology();
 
         newTechnology.id = technology.id;
+        newTechnology.uuid = technology.uuid;
         newTechnology.name = technology.name;
         newTechnology.slug = technology.slug;
         newTechnology.default = technology.default;

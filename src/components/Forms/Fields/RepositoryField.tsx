@@ -13,7 +13,7 @@ export function RepositoryField({form}: FieldProps) {
         const selectData = data.repositories.map((r: Repository) => {
             return {
                 label: r.name,
-                value: r.id.toString()
+                value: r.uuid
             }
         });
 

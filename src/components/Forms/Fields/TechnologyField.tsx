@@ -13,7 +13,7 @@ export function TechnologyField({form}: FieldProps) {
         const selectData = data.technologies.map((t: Technology) => {
             return {
                 label: t.name,
-                value: t.id.toString()
+                value: t.uuid
             }
         });
 

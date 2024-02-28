@@ -16,23 +16,54 @@ const UserPromptOptionTechnologiesField: FC = () => {
     const [
         user,
         nextThread,
-        setNextThread
+        setNextThread,
+        selectedTemplates,
+        selectedModifiers,
     ] = useStore(useShallow(state => [
         state.user,
         state.nextThread,
-        state.setNextThread
+        state.setNextThread,
+        state.selectedTemplates,
+        state.selectedModifiers
     ]));
 
     const technologiesQuery = useTechnologiesQuery(user);
 
     useEffect(() => {
+        if (nextThread.technology.id > 0) return;
+
+        // Load from Template URL
+        if (selectedTemplates.length > 0) {
+            const firstTemplate = selectedTemplates[0];
+
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.technology = firstTemplate.technology;
+            newNextThread.provider = firstTemplate.provider ? firstTemplate.provider : new Provider();
+            setNextThread(newNextThread);
+
+            return;
+        }
+
+        // Load from Modifier URL
+        if (selectedModifiers.length > 0) {
+            const firstModifier = selectedModifiers[0];
+
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.technology = firstModifier.technology;
+            newNextThread.provider = firstModifier.provider ? firstModifier.provider : new Provider();
+            setNextThread(newNextThread);
+        }
+
+        // Load default technology from server-side
         if (technologiesQuery.data && nextThread.technology.id <= 0) {
             const newNextThread = Thread.clone(nextThread);
             newNextThread.technology = technologiesQuery.data[0];
             newNextThread.provider = new Provider();
             setNextThread(newNextThread);
+
+            return;
         }
-    }, [technologiesQuery])
+    }, [technologiesQuery, selectedTemplates])
 
     const onChangeTechnology = (technologyId: string | null) => {
         const technology = technologiesQuery.data.find((t: Technology) => t.id === parseInt(technologyId as string));

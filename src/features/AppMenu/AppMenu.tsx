@@ -33,7 +33,7 @@ const AppMenu: FC = () => {
             type: MenuType.button,
             icon: <IconClearAll size={14} />,
             label: "Clear",
-            onClick: () => deleteAllThreadsMutation.mutate(selectedWorkspace.id)
+            onClick: () => deleteAllThreadsMutation.mutate(selectedWorkspace.uuid)
         }
     ];
 

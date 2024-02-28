@@ -12,12 +12,12 @@ import { useState } from "react"
 interface ThreadHeader {
     deleteThread: any,
     collapsed: boolean,
-    collapsedHandle: any,
+    setCollapsed: any,
     thread: Thread,
     updateMutation: any
 }
 
-export function ThreadHeader({ deleteThread, collapsed, collapsedHandle, thread, updateMutation }: ThreadHeader) {
+export function ThreadHeader({ deleteThread, collapsed, setCollapsed, thread, updateMutation }: ThreadHeader) {
     let templates: Template[] = [];
     let modifiers: Modifier[] = [];
 
@@ -55,9 +55,8 @@ export function ThreadHeader({ deleteThread, collapsed, collapsedHandle, thread,
     }
 
     const updateCollapsed = () => {
-        collapsedHandle.toggle();
-
-        updateMutation(undefined, undefined, undefined, collapsed);
+        setCollapsed(!collapsed);
+        updateMutation(undefined, undefined, undefined, !collapsed);
     }
 
     return (
@@ -108,13 +107,13 @@ export function ThreadHeader({ deleteThread, collapsed, collapsedHandle, thread,
                         </Group>
                         <Group wrap="nowrap" justify="flex-end">
                             {
-                                collapsed ? iconChevronUp("xs") : iconChevronDown("xs")
+                                thread.collapsed ? iconChevronUp("xs") : iconChevronDown("xs")
                             }
                             <ActionIcon
                                 component="div"
                                 className={classes.iconClose}
                                 variant="transparent"
-                                onClick={() => deleteThread(thread)}
+                                onClick={e => deleteThread(e, thread)}
                             >
                                 {iconClose("xs")}
                             </ActionIcon>

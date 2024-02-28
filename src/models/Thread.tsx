@@ -10,6 +10,7 @@ import { Workspace } from "./Workspace";
 
 export class Thread {
     id: number;
+    uuid: string;
     title: string;
     slug: string;
     content: string;
@@ -29,6 +30,7 @@ export class Thread {
 
     constructor(key: number = 0) {
         this.id = 0;
+        this.uuid = "";
         this.title = "";
         this.slug = "";
         this.content = "";
@@ -40,17 +42,17 @@ export class Thread {
         this.provider = new Provider();
         this.user = new User();
         this.workspace = new Workspace();
-        this.metadata = {modifiers: [], history: [], templates: []}
+        this.metadata = { modifiers: [], history: [], templates: [] }
         this.threads_chat_messages = [];
         this.threads_modifiers = [];
         this.threads_templates = [];
         this.threads_parameters = [];
     }
 
-    static clone (thread: Thread): Thread {
+    static clone(thread: Thread): Thread {
         const newThread = new Thread();
 
-        newThread.id = thread.id;
+        newThread.uuid = thread.uuid;
         newThread.title = thread.title;
         newThread.slug = thread.slug;
         newThread.content = thread.content;
@@ -83,13 +85,14 @@ export class Thread {
             }
         });
 
+
         return newThread;
     }
 
     static getParameterValue(thread: Thread, parameterSlug: string, defaultValue: string) {
         const parameter = thread.threads_parameters.find(tp => {
             const parameterFromProvider = thread.provider.parameters.find(p => p.slug = parameterSlug);
-    
+
             return parameterFromProvider && tp.parameter_id === parameterFromProvider.id
         });
 
@@ -97,7 +100,7 @@ export class Thread {
         if (!parameter) {
             return defaultValue;
         }
-        
+
         return parameter.value;
     }
 }

@@ -7,6 +7,7 @@ import { User } from "./User";
 
 export class Modifier {
     id: number;
+    uuid: string;
     title: string;
     slug: string;
     content: string;
@@ -24,6 +25,7 @@ export class Modifier {
     
     constructor() {
         this.id = 0;
+        this.uuid = "";
         this.title = "";
         this.slug = "";
         this.content = "";
@@ -44,6 +46,7 @@ export class Modifier {
         const newModifier = new Modifier();
 
         newModifier.id = modifier.id;
+        newModifier.uuid = modifier.uuid;
         newModifier.title = modifier.title;
         newModifier.slug = modifier.slug;
         newModifier.content = modifier.content;

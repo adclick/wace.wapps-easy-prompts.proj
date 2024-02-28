@@ -4,13 +4,13 @@ import { SelectedFilters } from '../../../models/SelectedFilters';
 import { IconLanguage } from '@tabler/icons-react';
 
 interface LanguagesFilter {
-    languages: { id: number, name: string, slug: string, default: boolean }[],
+    languages: { id: number, uuid: string, name: string, slug: string, default: boolean }[],
     selectedFilters: SelectedFilters,
     setSelectedFilters: any
 }
 
 export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters }: LanguagesFilter) {
-    const selectedIds = selectedFilters.languages_ids.map(id => id.toString());
+    const selectedIds = selectedFilters.languages_ids;
 
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
@@ -23,7 +23,7 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
 
         setSelectedFilters({
             ...selectedFilters,
-            languages_ids: newValue.map(id => parseInt(id))
+            languages_ids: newValue
         })
     }
 
@@ -49,11 +49,11 @@ export function LanguagesFilter({ languages, selectedFilters, setSelectedFilters
                 {
                     languages
                         .map((item) => (
-                            <Combobox.Option value={item.id.toString()} key={item.id} active={selectedIds.includes(item.id.toString())}>
+                            <Combobox.Option value={item.uuid} key={item.uuid} active={selectedIds.includes(item.uuid)}>
                                 <Group gap="sm">
                                     <Checkbox
                                         size='sm'
-                                        checked={selectedIds.includes(item.id.toString())}
+                                        checked={selectedIds.includes(item.uuid)}
                                         onChange={() => { }}
                                         aria-hidden
                                         tabIndex={-1}

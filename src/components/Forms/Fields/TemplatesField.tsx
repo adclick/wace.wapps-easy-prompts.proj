@@ -18,7 +18,7 @@ export function TemplatesField({form}: FieldProps) {
         const selectData = templatesQuery.data.map((t: Template) => {
             return {
                 label: t.title,
-                value: t.id.toString()
+                value: t.uuid
             }
         });
 

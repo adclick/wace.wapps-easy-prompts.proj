@@ -13,7 +13,7 @@ export function LanguageField({form}: FieldProps) {
         const selectData = data.languages.map((l: Language) => {
             return {
                 label: l.name,
-                value: l.id.toString()
+                value: l.uuid
             }
         });
 

@@ -7,6 +7,7 @@ export class User {
     isEmpty: boolean;
     isLoggedIn: boolean;
     id: string;
+    uuid: string;
     username: string;
     email: string;
     picture: string;
@@ -21,6 +22,7 @@ export class User {
         this.isEmpty = true;
         this.isLoggedIn = false;
         this.id = "";
+        this.uuid = "";
         this.username = "";
         this.email = "";
         this.picture = "";

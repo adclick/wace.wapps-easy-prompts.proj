@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Divider, Group, Popover, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Badge, Divider, Group, Popover, Stack, Text, Tooltip } from "@mantine/core";
 import { iconClose } from "../../../utils/iconsUtils";
 import { Modifier } from "../../../models/Modifier";
 import { Template } from "../../../models/Template";

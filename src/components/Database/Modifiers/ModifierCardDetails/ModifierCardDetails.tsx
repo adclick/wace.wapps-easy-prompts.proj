@@ -21,7 +21,7 @@ export function ModifierCardDetails({
     const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === modifier.user.username && opened
 
-    const itemQuery = useModifierQuery(modifier.id, enabled);
+    const itemQuery = useModifierQuery(modifier.uuid, enabled);
 
     return <DatabaseCardDetails
         opened={opened}
