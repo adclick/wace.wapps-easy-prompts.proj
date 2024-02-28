@@ -4,9 +4,7 @@ import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { ModifierCardDetails } from "../ModifierCardDetails/ModifierCardDetails";
 import classes from './ModifierCard.module.css';
 import { useDeleteModifierMutation, useUpdateModifierMutation } from "../../../../api/modifiersApi";
-import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
-import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { IconCopy, IconDots, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDots, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { MouseEvent } from "react";
@@ -131,13 +129,11 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                                 </Menu.Target>
                                 <Menu.Dropdown>
                                     <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                        <Text size="xs">Details</Text>
+                                        Details
                                     </Menu.Item>
                                     <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
                                         {
-                                            clipboard.copied
-                                                ? <Text size="xs">Copied</Text>
-                                                : <Text size="xs">Copy URL</Text>
+                                            clipboard.copied ? 'Copied' : 'Copy URL'
                                         }
                                     </Menu.Item>
                                     {
@@ -149,7 +145,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                                     {
                                         isUserItem &&
                                         <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
-                                            <Text size="xs">Delete</Text>
+                                            Delete
                                         </Menu.Item>
                                     }
                                 </Menu.Dropdown>

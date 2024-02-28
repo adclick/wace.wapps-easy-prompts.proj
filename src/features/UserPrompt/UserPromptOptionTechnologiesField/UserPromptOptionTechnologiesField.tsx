@@ -5,19 +5,14 @@ import { Provider } from "../../../models/Provider";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { Thread } from "../../../models/Thread";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 
 export interface TechnologyDataItem {
     label: string,
     value: string
 }
 
-interface PromptOptionsTechnologiesField {
-    technologyData: TechnologyDataItem[],
-    onChangeTechnology: any
-}
-
-export function PromptOptionsTechnologiesField() {
+const UserPromptOptionTechnologiesField: FC = () => {
     const [
         user,
         nextThread,
@@ -75,3 +70,5 @@ export function PromptOptionsTechnologiesField() {
         <Loader size={"xs"} type="dot" />
     )
 }
+
+export default UserPromptOptionTechnologiesField;

@@ -81,7 +81,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.id.toString());
         initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.id.toString());
         initialValues.prompt_chat_messages = [];
-        initialValues.prompt_parameters = [];
+        initialValues.prompt_parameters = promptPrivate.prompts_parameters;
 
         form.initialize(initialValues);
     }

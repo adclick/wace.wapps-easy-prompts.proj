@@ -5,11 +5,6 @@ import { Thread } from '../models/Thread';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useImageGenerationQuery = (thread: Thread) => {
-    const tpNumImages = thread.threads_parameters.find(tp => tp.parameter.slug === 'num_images');
-    const num_images = tpNumImages ? tpNumImages.value : '1';
-    const tpResolution = thread.threads_parameters.find(tp => tp.parameter.slug === 'image_resolution');
-    const image_resolution = tpResolution ? tpResolution.value : '1024x1024';
-
     return useQuery({
         queryKey: ["imageGeneration", thread.key],
         queryFn: async () => {
@@ -21,8 +16,8 @@ export const useImageGenerationQuery = (thread: Thread) => {
                 provider_id: thread.provider.id.toString(),
                 modifiers_ids: JSON.stringify(modifiersIds),
                 templates_ids: JSON.stringify(templatesIds),
-                num_images,
-                image_resolution,
+                num_images: Thread.getParameterValue(thread, 'num_images', '1'),
+                image_resolution: Thread.getParameterValue(thread, 'image_resolution', '1024x1024'),
             }));
 
             return data;

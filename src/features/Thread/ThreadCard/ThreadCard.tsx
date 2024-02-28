@@ -30,7 +30,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         state.setThreads
     ]));
 
-    const [minimized, minimizeHandle] = useDisclosure(false);
+    const [collapsed, collapsedHandle] = useDisclosure(thread.collapsed);
 
     const createThreadMutation = useCreateThreadMutation();
     const updateThreadMutation = useUpdateThreadMutation(thread.id)
@@ -42,6 +42,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             key: thread.key.toString(),
             content: thread.content,
             response: response,
+            collapsed: false,
             user_external_id: user.external_id,
             workspace_id: selectedWorkspace.id.toString(),
             technology_id: thread.technology.id.toString(),
@@ -53,12 +54,13 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         });
     }
 
-    const updateThreadResponse = (response?: string, chatMessages?: PromptChatMessage[], title?: string) => {
+    const updateThreadResponse = (response?: string, chatMessages?: PromptChatMessage[], title?: string, collapsed?: boolean) => {
         updateThreadMutation.mutate({
             title: title ? title : thread.title,
             key: (Number(thread.key) + 1).toString(),
             content: thread.content,
             response: response ? response : thread.response,
+            collapsed: collapsed || thread.collapsed,
             user_external_id: user.external_id,
             workspace_id: selectedWorkspace.id.toString(),
             technology_id: thread.technology.id.toString(),
@@ -115,13 +117,13 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
                 <Stack gap={"xl"}>
                     <ThreadHeader
                         deleteThread={deleteThread}
-                        minimized={minimized}
-                        minimizeHandle={minimizeHandle}
+                        collapsed={collapsed}
+                        collapsedHandle={collapsedHandle}
                         thread={thread}
                         updateMutation={updateThreadResponse}
 
                     />
-                    <Collapse in={!minimized}>
+                    <Collapse in={!thread.collapsed}>
                         <Stack gap={"xl"}>
                             {threadComponent}
                         </Stack>

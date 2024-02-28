@@ -1,9 +1,9 @@
-import { ParametersList } from "./ParametersList";
-import { Metadata, Prompt, PromptParameter } from "./Prompt";
+import { Metadata, Prompt } from "./Prompt";
 import { PromptChatMessage } from "./PromptChatMessage";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
 import { ThreadModifier } from "./ThreadModifier";
+import { ThreadParameter } from "./ThreadParameter";
 import { ThreadTemplate } from "./ThreadTemplate";
 import { User } from "./User";
 import { Workspace } from "./Workspace";
@@ -14,6 +14,7 @@ export class Thread {
     slug: string;
     content: string;
     response: string;
+    collapsed: boolean;
     created_at: Date;
     key: number;
     technology: Technology;
@@ -21,11 +22,10 @@ export class Thread {
     user: User;
     workspace: Workspace;
     metadata: Metadata;
-    parametersList: ParametersList;
     threads_chat_messages: PromptChatMessage[];
     threads_modifiers: ThreadModifier[];
     threads_templates: ThreadTemplate[];
-    threads_parameters: PromptParameter[];
+    threads_parameters: ThreadParameter[];
 
     constructor(key: number = 0) {
         this.id = 0;
@@ -33,13 +33,13 @@ export class Thread {
         this.slug = "";
         this.content = "";
         this.response = "";
+        this.collapsed = false;
         this.created_at = new Date();
         this.key = key;
         this.technology = new Technology();
         this.provider = new Provider();
         this.user = new User();
         this.workspace = new Workspace();
-        this.parametersList = new ParametersList();
         this.metadata = {modifiers: [], history: [], templates: []}
         this.threads_chat_messages = [];
         this.threads_modifiers = [];
@@ -84,5 +84,20 @@ export class Thread {
         });
 
         return newThread;
+    }
+
+    static getParameterValue(thread: Thread, parameterSlug: string, defaultValue: string) {
+        const parameter = thread.threads_parameters.find(tp => {
+            const parameterFromProvider = thread.provider.parameters.find(p => p.slug = parameterSlug);
+    
+            return parameterFromProvider && tp.parameter_id === parameterFromProvider.id
+        });
+
+
+        if (!parameter) {
+            return defaultValue;
+        }
+        
+        return parameter.value;
     }
 }

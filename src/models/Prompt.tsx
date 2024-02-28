@@ -4,6 +4,7 @@ import { Modifier } from "./Modifier";
 import { Parameter } from "./Parameter";
 import { ParametersList } from "./ParametersList";
 import { PromptChatMessage } from "./PromptChatMessage";
+import { PromptParameter } from "./PromptParameter";
 import { Provider } from "./Provider";
 import { Repository } from "./Repository";
 import { Technology } from "./Technology";
@@ -27,11 +28,6 @@ export interface PromptModifier {
 
 export interface PromptTemplate {
     template: Template
-}
-
-export interface PromptParameter {
-    parameter: Parameter,
-    value: string
 }
 
 export class Prompt {

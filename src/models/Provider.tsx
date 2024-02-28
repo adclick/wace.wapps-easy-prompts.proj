@@ -29,7 +29,10 @@ export class Provider {
         newProvider.model_name = provider.model_name;
         newProvider.model_slug = provider.model_slug;
         newProvider.technology = Technology.clone(provider.technology);
-        newProvider.parameters = provider.parameters.map(p => Parameter.clone(p));
+        newProvider.parameters = provider.parameters.map(p => {
+            return Parameter.clone(p)
+        });
+
 
         return newProvider;
     }

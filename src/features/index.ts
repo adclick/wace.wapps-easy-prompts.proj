@@ -4,8 +4,8 @@ import SidebarCollapseSwitcher from "./SidebarCollapseSwitcher/SidebarCollapseSw
 import SidebarHamburgerSwitcher from "./SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import UserDatabaseList from "./UserDatabaseList/UserDatabaseList";
 import UserDatabseToggleMenu from "./UserDatabaseToggleMenu/UserDatabaseToggleMenu";
-import UserPrompt from "./UserPrompt/UserPrompt";
 import UserMenu from "./UserMenu/UserMenu";
+import UserPrompt from "./UserPrompt/UserPrompt";
 
 export {
     AppMenu,
@@ -14,6 +14,6 @@ export {
     SidebarHamburgerSwitcher,
     UserDatabaseList,
     UserDatabseToggleMenu,
-    UserPrompt,
     UserMenu,
+    UserPrompt
 }

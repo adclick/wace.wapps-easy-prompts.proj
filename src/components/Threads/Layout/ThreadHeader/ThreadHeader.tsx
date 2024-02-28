@@ -11,13 +11,13 @@ import { useState } from "react"
 
 interface ThreadHeader {
     deleteThread: any,
-    minimized: boolean,
-    minimizeHandle: any,
+    collapsed: boolean,
+    collapsedHandle: any,
     thread: Thread,
     updateMutation: any
 }
 
-export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread, updateMutation }: ThreadHeader) {
+export function ThreadHeader({ deleteThread, collapsed, collapsedHandle, thread, updateMutation }: ThreadHeader) {
     let templates: Template[] = [];
     let modifiers: Modifier[] = [];
 
@@ -54,6 +54,12 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread, 
         editTitleHandle.close();
     }
 
+    const updateCollapsed = () => {
+        collapsedHandle.toggle();
+
+        updateMutation(undefined, undefined, undefined, collapsed);
+    }
+
     return (
         <div ref={ref}>
             <Modal opened={editTitleOpened} onClose={editTitleHandle.close} title="Change Title">
@@ -77,7 +83,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread, 
                 </Stack>
             </Modal>
             <Group justify="space-between" wrap="nowrap" gap={"xs"}>
-                <UnstyledButton w={"100%"} onClick={minimizeHandle.toggle}>
+                <UnstyledButton w={"100%"} onClick={updateCollapsed}>
                     <Group justify="space-between" wrap="nowrap">
                         {/* <DesktopContainer>
                         <Badge variant="dot">{promptRequest.technology.name} | {promptRequest.provider.model_name}</Badge>
@@ -102,9 +108,7 @@ export function ThreadHeader({ deleteThread, minimized, minimizeHandle, thread, 
                         </Group>
                         <Group wrap="nowrap" justify="flex-end">
                             {
-                                minimized
-                                    ? iconChevronUp("xs")
-                                    : iconChevronDown("xs")
+                                collapsed ? iconChevronUp("xs") : iconChevronDown("xs")
                             }
                             <ActionIcon
                                 component="div"

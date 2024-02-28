@@ -1,15 +1,16 @@
 import { ActionIcon, Badge, Divider, Group, Popover, Stack, Text, Title, Tooltip } from "@mantine/core";
-import { PromptOptionsProvidersField } from "../PromptOptionsProvidersField/PromptOptionsProvidersField";
-import { PromptOptionsTechnologiesField } from "../PromptOptionsTechnologiesField/PromptOptionsTechnologiesField";
-import classes from './PromptModeSwitcher.module.css';
 import { iconClose } from "../../../utils/iconsUtils";
 import { Modifier } from "../../../models/Modifier";
 import { Template } from "../../../models/Template";
-import { ProviderLabel } from "../../Common/ProviderLabel/ProviderLabel";
+import { ProviderLabel } from "../../../components/Common/ProviderLabel/ProviderLabel";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
+import { FC } from "react";
+import classes from './UserPromptOptionsSwitcher.module.css';
+import UserPromptOptionTechnologiesField from "../UserPromptOptionTechnologiesField/UserPromptOptionTechnologiesField";
+import UserPromptOptionProvidersField from "../UserPromptOptionProvidersField/UserPromptOptionProvidersField";
 
-export function PromptModeSwitcher() {
+const UserPromptOptionsSwitcher:FC = () => {
     const [
         selectedModifiers,
         selectedTemplates,
@@ -53,8 +54,8 @@ export function PromptModeSwitcher() {
                     <Popover.Dropdown className={classes.optionsContainer}>
                         <Stack my={"xs"}>
                             <Stack gap={"md"} my={"xs"} maw={300}>
-                                <PromptOptionsTechnologiesField />
-                                <PromptOptionsProvidersField />
+                                <UserPromptOptionTechnologiesField />
+                                <UserPromptOptionProvidersField />
                                 {
                                     selectedTemplates.length > 0 &&
                                     <Stack>
@@ -104,3 +105,5 @@ export function PromptModeSwitcher() {
         </Stack>
     )
 }
+
+export default UserPromptOptionsSwitcher;

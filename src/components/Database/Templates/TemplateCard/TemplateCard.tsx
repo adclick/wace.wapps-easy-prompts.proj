@@ -1,12 +1,10 @@
 import { Accordion, Badge, Group, Stack, Text, Checkbox, Menu, ActionIcon, Modal, Tooltip, Button } from "@mantine/core";
-import { IconCopy, IconDots, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconDots, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { Template } from "../../../../models/Template";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
 import classes from './TemplateCard.module.css';
 import { useDeleteTemplateMutation, useUpdateTemplateMutation } from "../../../../api/templatesApi";
-import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
-import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { useStore } from "../../../../stores/store";
@@ -128,13 +126,11 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                                 </Menu.Target>
                                 <Menu.Dropdown>
                                     <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                        <Text size="xs">Details</Text>
+                                        Details
                                     </Menu.Item>
                                     <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
                                         {
-                                            clipboard.copied
-                                                ? <Text size="xs">Copied</Text>
-                                                : <Text size="xs">Copy URL</Text>
+                                            clipboard.copied ? 'Copied' : 'Copy URL'
                                         }
                                     </Menu.Item>
                                     {
@@ -146,7 +142,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                                     {
                                         isUserItem &&
                                         <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
-                                            <Text size="xs">Delete</Text>
+                                            Delete
                                         </Menu.Item>
                                     }
                                 </Menu.Dropdown>

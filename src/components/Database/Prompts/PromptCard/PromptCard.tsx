@@ -1,21 +1,18 @@
-import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Center, Button, Divider, Grid, Tooltip } from "@mantine/core";
-import { IconClock, IconCopy, IconDotsVertical, IconEdit, IconEye, IconFileDescription, IconPencil, IconTrash, IconUser, IconWorld } from "@tabler/icons-react";
+import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Button, Tooltip } from "@mantine/core";
+import { IconEdit, IconFileDescription, IconTrash, IconWorld } from "@tabler/icons-react";
 import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure, useHover } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { useDeletePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
-import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
 import { getDefaultProvider } from "../../../../api/providersApi";
-import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
-import classes from './PromptCard.module.css'
+import classes from './PromptCard.module.css';
 import { Thread } from "../../../../models/Thread";
-import dateUtils from "../../../../utils/dateUtils";
 import { IconDots } from "@tabler/icons-react";
 import { Technology } from "../../../../models/Technology";
 
@@ -167,13 +164,13 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                         </ActionIcon>
                                     </Menu.Target>
                                     <Menu.Dropdown>
+                                        <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
+                                            Details
+                                        </Menu.Item>
                                         <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconWorld size={14} />}>
                                             {
                                                 clipboard.copied ? <>Copied</> : <>Copy URL</>
                                             }
-                                        </Menu.Item>
-                                        <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                            Details
                                         </Menu.Item>
                                         {
                                             isUserItem &&

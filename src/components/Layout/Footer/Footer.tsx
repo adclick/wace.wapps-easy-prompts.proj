@@ -1,10 +1,8 @@
 import { FC } from "react";
-import { PromptContainer } from "../../Prompt/PromptContainer/PromptContainer";
+import { UserPrompt } from "../../../features";
 
 const Footer: FC = () => {
-    return (
-        <PromptContainer />
-    )
+    return <UserPrompt />
 }
 
 export default Footer;

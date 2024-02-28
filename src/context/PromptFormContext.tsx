@@ -1,5 +1,6 @@
 import { createFormContext } from '@mantine/form';
 import { PromptChatMessage } from '../models/PromptChatMessage';
+import { PromptParameter } from '../models/PromptParameter';
 
 export interface PromptFormValues {
     title: string;
@@ -13,8 +14,7 @@ export interface PromptFormValues {
     templates_ids: string[],
     modifiers_ids: string[],
     prompt_chat_messages: PromptChatMessage[],
-    prompt_parameters: any[],
-
+    prompt_parameters: PromptParameter[],
 }
 
 export const [
