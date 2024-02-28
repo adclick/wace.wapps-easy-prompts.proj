@@ -59,6 +59,7 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         }
     });
 
+    console.log(prompt);
     const enabled = prompt && user.username === prompt.user.username;
     const promptUUID = prompt ? prompt.uuid : '';
     const { data } = usePromptQuery(user, promptUUID, enabled);

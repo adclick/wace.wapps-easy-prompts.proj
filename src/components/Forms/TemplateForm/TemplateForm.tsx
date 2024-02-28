@@ -54,8 +54,8 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
     });
 
     const enabled = template && user.username === template.user.username;
-    const templateId = template ? template.id : 0;
-    const { data } = useTemplateQuery(templateId, enabled);
+    const templateUUID = template ? template.uuid : '';
+    const { data } = useTemplateQuery(templateUUID, enabled);
 
     // Update existing form
     if (template && template.id > 0 && data) {

@@ -108,8 +108,8 @@ export const useDeletePromptMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id: number) => {
-            const { data } = await axios.delete(`${API_URL}/prompts/${id}`)
+        mutationFn: async (uuid: string) => {
+            const { data } = await axios.delete(`${API_URL}/prompts/${uuid}`)
 
             return data;
         },

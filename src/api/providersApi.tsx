@@ -26,16 +26,3 @@ export const useProvidersQuery = (technologyUUID: string) => {
         enabled: technologyUUID !== ""
     });
 };
-
-export const useDefaultProviderQuery = (technology: Technology) => {
-    return useQuery({
-        queryKey: ["providers", "default", technology.uuid],
-        queryFn: async () => {
-            const { data } = await axios.get(`${API_URL}/providers/default?` + new URLSearchParams({
-                technology_id: technology.uuid
-            }));
-
-            return data;
-        },
-    });
-};

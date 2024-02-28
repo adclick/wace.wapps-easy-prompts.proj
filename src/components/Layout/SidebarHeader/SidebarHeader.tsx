@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { FiltersContainer } from "../../Filters/FiltersContainer/FiltersContainer";
-import { Button, Group, Menu, Stack, Tabs, Title } from "@mantine/core";
+import { Group, Stack, Title } from "@mantine/core";
 import { FC } from "react";
 import SidebarHamburgerSwitcher from "../../../features/SidebarHamburgerSwitcher/SidebarHamburgerSwitcher";
 import { FiltersToggleIcon } from "../../Common/Icons/FiltersToggleIcon/FiltersToggleIcon";
@@ -11,10 +11,7 @@ import { DatabaseAddIcon } from "../../Common/Icons/DatabaseAddIcon/DatabaseAddI
 import { CreateUserItemSection } from "../../../features/CreateUserItemSection/CreateUserItemSection";
 import { DesktopContainer, FlexRow, MobileContainer } from "../../UI/Layout";
 import { BooleanHandle } from "../../../types";
-import { FlexAlign, Size } from "../../../enums";
-import UserDatabaseTypeSwitchContainer from "../../../features/UserDatabaseTypeSwitchContainer/UserDatabaseTypeSwitchContainer";
-import { iconChevronDown } from "../../../utils/iconsUtils";
-import { IconPlug, IconPlus } from "@tabler/icons-react";
+import { Size } from "../../../enums";
 
 interface SidebarHeaderProps {
     navbarMobileOpened: boolean,

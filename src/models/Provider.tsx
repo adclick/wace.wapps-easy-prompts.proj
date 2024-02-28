@@ -36,9 +36,6 @@ export class Provider {
             return Parameter.clone(p)
         });
 
-        console.log(provider);
-
-
         return newProvider;
     }
 }

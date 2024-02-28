@@ -72,7 +72,7 @@ export const useCreateTemplateMutation = () => {
                 repository_id: formData.repository_id,
                 technology_id: formData.technology_id,
                 provider_id: formData.provider_id,
-                modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
+                modifiers_ids: JSON.stringify(formData.modifiers_ids),
                 chat_history: JSON.stringify(formData.chat_messages),
                 template_parameters: JSON.stringify(formData.template_parameters)
             })
@@ -87,12 +87,12 @@ export const useCreateTemplateMutation = () => {
     })
 }
 
-export const useUpdateTemplateMutation = (templateId: number) => {
+export const useUpdateTemplateMutation = (templateUUID: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (formData: TemplateFormValues) => {
-            const { data } = await axios.put(`${API_URL}/templates/${templateId}`, {
+            const { data } = await axios.put(`${API_URL}/templates/${templateUUID}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
                 description: formData.description,
@@ -119,8 +119,8 @@ export const useDeleteTemplateMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id: number) => {
-            const { data } = await axios.delete(`${API_URL}/templates/${id}`)
+        mutationFn: async (templateUUID: string) => {
+            const { data } = await axios.delete(`${API_URL}/templates/${templateUUID}`)
 
             return data;
         },

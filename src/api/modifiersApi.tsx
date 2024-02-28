@@ -85,12 +85,12 @@ export const useCreateModifierMutation = () => {
     })
 }
 
-export const useUpdateModifierMutation = (modifierId: number) => {
+export const useUpdateModifierMutation = (modifierUUID: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (formData: ModifierFormValues) => {
-            const { data } = await axios.put(`${API_URL}/modifiers/${modifierId}`, {
+            const { data } = await axios.put(`${API_URL}/modifiers/${modifierUUID}`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
                 description: formData.description,
@@ -115,8 +115,8 @@ export const useDeleteModifierMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id: number) => {
-            const { data } = await axios.delete(`${API_URL}/modifiers/${id}`)
+        mutationFn: async (modifierUUID: string) => {
+            const { data } = await axios.delete(`${API_URL}/modifiers/${modifierUUID}`)
 
             return data;
         },

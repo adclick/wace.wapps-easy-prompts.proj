@@ -65,7 +65,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
             labels: { confirm: 'Delete', cancel: "Cancel" },
             confirmProps: { color: 'red' },
             onCancel: () => console.log('Cancel'),
-            onConfirm: () => deleteMutation.mutate(modifier.id),
+            onConfirm: () => deleteMutation.mutate(modifier.uuid),
         });
     }
 
@@ -87,7 +87,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
         editHandle.open();
     }
 
-    const updateMutation = useUpdateModifierMutation(modifier.id);
+    const updateMutation = useUpdateModifierMutation(modifier.uuid);
 
     return (
         <>

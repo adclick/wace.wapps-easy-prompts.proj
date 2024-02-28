@@ -98,7 +98,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             labels: { confirm: 'Delete', cancel: "Cancel" },
             confirmProps: { color: 'red' },
             onCancel: () => console.log('Cancel'),
-            onConfirm: () => deleteMutation.mutate(prompt.id),
+            onConfirm: () => deleteMutation.mutate(prompt.uuid),
         });
     }
 

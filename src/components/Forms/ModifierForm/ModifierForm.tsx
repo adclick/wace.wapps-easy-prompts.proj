@@ -53,8 +53,8 @@ export function ModifierForm({ modifier, mutation, handle }: ModifierForm) {
     });
 
     const enabled = modifier && user.username === modifier.user.username;
-    const modifierId = modifier ? modifier.id : 0;
-    const { data } = useModifierQuery(modifierId, enabled);
+    const modifierUUID = modifier ? modifier.uuid : '';
+    const { data } = useModifierQuery(modifierUUID, enabled);
 
     // Update existing form
     if (modifier && modifier.id > 0 && data) {
