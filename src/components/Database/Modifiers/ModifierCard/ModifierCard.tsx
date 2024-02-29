@@ -71,7 +71,7 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
 
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?modifier_id=' + modifier.id);
+        clipboard.copy(window.location.origin + window.location.pathname + '?modifier_id=' + modifier.uuid);
 
         notifications.show({
             title: "URL Copied",

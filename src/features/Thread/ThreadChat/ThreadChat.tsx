@@ -16,14 +16,12 @@ interface ThreadChatProps {
     thread: Thread
     createThread: (response: string, chatMessages: PromptChatMessage[]) => void,
     updateThreadResponse: (response: string, chatMessages: PromptChatMessage[]) => void,
-    // scrollIntoView: any
 }
 
 const ThreadChat: FC<ThreadChatProps> = ({
     thread,
     createThread,
     updateThreadResponse,
-    // scrollIntoView
 }: ThreadChatProps) => {
     const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
@@ -55,10 +53,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
         setChatMessages(newChatMessages);
         setReply('');
-        updatePromptRequest();
-    }
-
-    const updatePromptRequest = () => {
+        
         const newThread = thread;
         newThread.threads_chat_messages = chatMessages;
         setUpdatedNextThread(newThread);
@@ -95,10 +90,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
     const regenerate = () => {
         const newChatMessages = chatMessages;
         newChatMessages.pop();
-        // console.log(newChatMessages);
         updateThreadResponse("", newChatMessages);
-        // setProcessing(true);
-        // setThreadProcessed(false);
     }
 
     return (
@@ -110,18 +102,18 @@ const ThreadChat: FC<ThreadChatProps> = ({
                         if (isLastMessage) {
 
                             // User message with Assistant Loader
-                            return <>
-                                <Box key={index}>
+                            return <Stack gap={"lg"} key={index}>
+                                <Box >
                                     <ThreadUserMessage
                                         username={user.username}
                                         userPicture={user.picture}
                                         message={message.message}
                                     />
                                 </Box>
-                                <Box key={index + 1} ref={targetRef}>
+                                <Box  ref={targetRef}>
                                     <ThreadAssistantLoadingMessage />
                                 </Box>
-                            </>
+                            </Stack>
                         }
 
                         // User Messsage

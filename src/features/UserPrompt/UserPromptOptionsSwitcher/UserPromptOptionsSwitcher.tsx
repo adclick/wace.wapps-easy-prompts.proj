@@ -59,7 +59,7 @@ const UserPromptOptionsSwitcher:FC = () => {
                                 {
                                     selectedTemplates.length > 0 &&
                                     <Stack>
-                                        <Divider label="Templates" />
+                                        <Divider  label="Templates" />
                                         {
                                             selectedTemplates.map((template: Template) => {
                                                 return (

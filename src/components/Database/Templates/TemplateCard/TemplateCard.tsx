@@ -63,13 +63,13 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             labels: { confirm: 'Delete', cancel: "Cancel" },
             confirmProps: { color: 'red' },
             onCancel: () => console.log('Cancel'),
-            onConfirm: () => deleteMutation.mutate(template.id),
+            onConfirm: () => deleteMutation.mutate(template.uuid),
         });
     }
 
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + template.id);
+        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + template.uuid);
 
         notifications.show({
             title: "URL Copied",
@@ -84,7 +84,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
         editHandle.open();
     }
 
-    const updateMudation = useUpdateTemplateMutation(template.id);
+    const updateMudation = useUpdateTemplateMutation(template.uuid);
 
     return (
         <>

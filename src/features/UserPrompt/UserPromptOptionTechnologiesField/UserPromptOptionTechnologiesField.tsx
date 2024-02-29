@@ -30,7 +30,7 @@ const UserPromptOptionTechnologiesField: FC = () => {
     const technologiesQuery = useTechnologiesQuery(user);
 
     useEffect(() => {
-        if (nextThread.technology.id > 0) return;
+        if (nextThread.technology.uuid !== "") return;
 
         // Load from Template URL
         if (selectedTemplates.length > 0) {
@@ -55,7 +55,7 @@ const UserPromptOptionTechnologiesField: FC = () => {
         }
 
         // Load default technology from server-side
-        if (technologiesQuery.data && nextThread.technology.id <= 0) {
+        if (technologiesQuery.data) {
             const newNextThread = Thread.clone(nextThread);
             newNextThread.technology = technologiesQuery.data[0];
             newNextThread.provider = new Provider();

@@ -8,8 +8,8 @@ export const useTextGenerationQuery = (thread: Thread) => {
     return useQuery({
         queryKey: ["textGeneration", thread.key],
         queryFn: async () => {
-            const templatesIds = thread.threads_templates.map(m => Number(m.template.uuid));
-            const modifiersIds = thread.threads_modifiers.map(m => Number(m.modifier.uuid));
+            const templatesIds = thread.threads_templates.map(m => m.template.uuid);
+            const modifiersIds = thread.threads_modifiers.map(m => m.modifier.uuid);
 
             const { data } = await axios.post(`${API_URL}/ai/text-generation`, {
                 text: thread.content,

@@ -1,4 +1,4 @@
-import { Metadata, Prompt } from "./Prompt";
+import { Prompt } from "./Prompt";
 import { PromptChatMessage } from "./PromptChatMessage";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
@@ -22,7 +22,6 @@ export class Thread {
     provider: Provider;
     user: User;
     workspace: Workspace;
-    metadata: Metadata;
     threads_chat_messages: PromptChatMessage[];
     threads_modifiers: ThreadModifier[];
     threads_templates: ThreadTemplate[];
@@ -42,7 +41,6 @@ export class Thread {
         this.provider = new Provider();
         this.user = new User();
         this.workspace = new Workspace();
-        this.metadata = { modifiers: [], history: [], templates: [] }
         this.threads_chat_messages = [];
         this.threads_modifiers = [];
         this.threads_templates = [];

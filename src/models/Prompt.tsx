@@ -10,17 +10,6 @@ import { Technology } from "./Technology";
 import { Template } from "./Template";
 import { User } from "./User";
 
-interface ChatHistory {
-    role: string,
-    message: string
-}
-
-export interface Metadata {
-    modifiers: Modifier[],
-    templates: Template[],
-    history: ChatHistory[]
-}
-
 export interface PromptModifier {
     modifier: Modifier
 }
@@ -37,11 +26,8 @@ export class Prompt {
     content: string;
     description: string;
     response: string;
-    stars: number;
-    plays: number;
     created_at: Date;
     type: string;
-    metadata: Metadata;
     user: User
     language: Language;
     repository: Repository;
@@ -61,11 +47,8 @@ export class Prompt {
         this.content = "";
         this.description = "";
         this.response = "";
-        this.stars = 0;
-        this.plays = 0;
         this.created_at = new Date();
         this.type = "";
-        this.metadata = {modifiers: [], history: [], templates: []}
         this.user = new User()
         this.language = new Language();
         this.repository = new Repository();
@@ -88,11 +71,8 @@ export class Prompt {
         newPrompt.content = prompt.content;
         newPrompt.description = prompt.description;
         newPrompt.response = prompt.response;
-        newPrompt.stars = prompt.stars;
-        newPrompt.plays = prompt.plays;
         newPrompt.created_at = prompt.created_at;
         newPrompt.type = prompt.type;
-        newPrompt.metadata = prompt.metadata;
         newPrompt.user = prompt.user;
         newPrompt.language = prompt.language;
         newPrompt.repository = prompt.repository;
