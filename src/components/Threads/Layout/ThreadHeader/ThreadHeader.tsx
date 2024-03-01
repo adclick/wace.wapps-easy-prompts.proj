@@ -1,12 +1,10 @@
-import { ActionIcon, Button, Group, Modal, Stack, Text, TextInput, Tooltip, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Button, Group, Modal, Stack, Text, TextInput, UnstyledButton } from "@mantine/core"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
-import { Template } from "../../../../models/Template"
-import { Modifier } from "../../../../models/Modifier"
 import { Technology } from "../../../../models/Technology"
 import { Thread } from "../../../../models/Thread"
 import { useDisclosure, useHover } from "@mantine/hooks"
-import { IconCheck, IconPencil, IconPlus } from "@tabler/icons-react"
+import { IconCheck, IconPencil } from "@tabler/icons-react"
 import { useState } from "react"
 
 interface ThreadHeader {
@@ -18,19 +16,6 @@ interface ThreadHeader {
 }
 
 export function ThreadHeader({ deleteThread, collapsed, setCollapsed, thread, updateMutation }: ThreadHeader) {
-    let templates: Template[] = [];
-    let modifiers: Modifier[] = [];
-
-    if ("metadata" in thread && thread.metadata) {
-        if ("templates" in thread.metadata) {
-            templates = thread.metadata.templates;
-        }
-
-        if ("modifiers" in thread.metadata) {
-            modifiers = thread.metadata.modifiers;
-        }
-    }
-
     const { hovered, ref } = useHover();
 
     const [threadTitle, setThreadTitle] = useState(thread.title);
