@@ -61,6 +61,9 @@ export class Thread {
         newThread.provider = Provider.clone(thread.provider);
         newThread.user = thread.user;
         newThread.workspace = thread.workspace;
+        newThread.threads_templates = thread.threads_templates;
+        newThread.threads_modifiers = thread.threads_modifiers;
+        newThread.threads_chat_messages = thread.threads_chat_messages;
         newThread.threads_parameters = thread.threads_parameters;
 
         return newThread;
@@ -76,6 +79,9 @@ export class Thread {
         newThread.technology = Technology.clone(prompt.technology);
         newThread.provider = Provider.clone(prompt.provider);
         newThread.user = prompt.user;
+        newThread.threads_templates = prompt.prompts_templates;
+        newThread.threads_modifiers = prompt.prompts_modifiers;
+        newThread.threads_parameters = prompt.prompts_parameters;
         newThread.threads_chat_messages = prompt.prompts_chat_messages.map(m => {
             return {
                 role: m.role,

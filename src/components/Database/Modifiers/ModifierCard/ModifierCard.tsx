@@ -43,14 +43,6 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
         });
     }
 
-    if (deleteMutation.isSuccess) {
-        notifications.show({
-            title: "Item Deleted",
-            message: "",
-            color: "blue"
-        });
-    }
-
     const openDeleteModal = (e: any) => {
         e.stopPropagation();
 

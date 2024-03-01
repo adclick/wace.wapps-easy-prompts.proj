@@ -76,14 +76,6 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         });
     }
 
-    if (deleteMutation.isSuccess) {
-        notifications.show({
-            title: "Item Deleted",
-            message: "",
-            color: "blue"
-        });
-    }
-
     const openDeleteModal = (e: any) => {
         e.stopPropagation();
 
