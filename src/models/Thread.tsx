@@ -85,7 +85,8 @@ export class Thread {
         newThread.threads_chat_messages = prompt.prompts_chat_messages.map(m => {
             return {
                 role: m.role,
-                message: m.message
+                message: m.message,
+                threads_chat_messages_modifiers: m.threads_chat_messages_modifiers
             }
         });
 

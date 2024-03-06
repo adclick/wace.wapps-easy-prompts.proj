@@ -54,7 +54,8 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         });
     }
 
-    const updateThreadResponse = (response?: string, chatMessages?: PromptChatMessage[], title?: string, collapsed?: boolean) => {
+    const updateThreadResponse = (response?: string, chatMessages: PromptChatMessage[] = [], title?: string, collapsed?: boolean) => {
+        console.log(chatMessages);
         updateThreadMutation.mutate({
             title: title ? title : thread.title,
             key: (Number(thread.key) + 1).toString(),
@@ -67,7 +68,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             provider_id: thread.provider.uuid,
             templates_ids: thread.threads_templates.map(t => t.template.uuid),
             modifiers_ids: thread.threads_modifiers.map(t => t.modifier.uuid),
-            chat_messages: chatMessages ? chatMessages : thread.threads_chat_messages,
+            chat_messages: chatMessages,
             thread_parameters: thread.threads_parameters
         });
     }

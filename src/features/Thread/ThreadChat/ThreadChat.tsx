@@ -25,35 +25,38 @@ const ThreadChat: FC<ThreadChatProps> = ({
 }: ThreadChatProps) => {
     const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
-    const [updatedNextThread, setUpdatedNextThread] = useState<Thread>(thread);
     const [
         user,
+        selectedModifiers
     ] = useStore(useShallow(state => [
         state.user,
+        state.selectedModifiers
     ]));
+    const [updatedNextThread, setUpdatedNextThread] = useState<Thread>(thread);
     const [reply, setReply] = useState('');
+    const [chatMessages, setChatMessages] = useState<PromptChatMessage[]>(thread.threads_chat_messages);
 
-    let promptChatMessages = thread.threads_chat_messages;
-
-    const [chatMessages, setChatMessages] = useState<PromptChatMessage[]>(promptChatMessages);
+    console.log(thread);
 
     const { data, isFetching, error } = useChatQuery(user, thread, chatMessages);
 
     const updateChatMessages = (role: string, message: string) => {
         const newChatMessages = [
             ...chatMessages,
-            { role, message }
+            {
+                role,
+                message,
+                threads_chat_messages_modifiers: selectedModifiers.map(m => {
+                    return {
+                        modifier: m
+                    }
+                })
+            }
         ];
-
-        if (thread.uuid !== "") {
-            updateThreadResponse(data, newChatMessages);
-        } else {
-            createThread(data, newChatMessages);
-        }
 
         setChatMessages(newChatMessages);
         setReply('');
-        
+
         const newThread = thread;
         newThread.threads_chat_messages = chatMessages;
         setUpdatedNextThread(newThread);
@@ -68,6 +71,21 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
     if (data) {
         scrollIntoView({ alignment: 'start' });
+
+        const newChatMessages = [
+            ...chatMessages,
+            {
+                role: PromptChatMessageRole.ASSISTANT,
+                message: data,
+                threads_chat_messages_modifiers: []
+            }
+        ];
+
+        if (thread.uuid !== "") {
+            updateThreadResponse(data, newChatMessages);
+        } else {
+            createThread(data, newChatMessages);
+        }
 
         updateChatMessages(PromptChatMessageRole.ASSISTANT, data);
     }
@@ -108,9 +126,10 @@ const ThreadChat: FC<ThreadChatProps> = ({
                                         username={user.username}
                                         userPicture={user.picture}
                                         message={message.message}
+                                        modifiers={message.threads_chat_messages_modifiers.map(m => m.modifier)}
                                     />
                                 </Box>
-                                <Box  ref={targetRef}>
+                                <Box ref={targetRef}>
                                     <ThreadAssistantLoadingMessage />
                                 </Box>
                             </Stack>
@@ -123,6 +142,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
                                     username={user.username}
                                     userPicture={user.picture}
                                     message={message.message}
+                                    modifiers={message.threads_chat_messages_modifiers.map(m => m.modifier)}
                                 />
                             </Box>
                         )

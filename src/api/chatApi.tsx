@@ -43,6 +43,9 @@ export const useChatQuery = (
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: user.isLoggedIn && chatMessages.length > 0 && lastMessage && lastMessage.role === PromptChatMessageRole.USER && enabled
+        enabled: user.isLoggedIn 
+            && chatMessages.length > 0 
+            && lastMessage.role === PromptChatMessageRole.USER 
+            && enabled
     });
 };
