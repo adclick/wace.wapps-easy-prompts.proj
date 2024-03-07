@@ -42,7 +42,7 @@ export function ThreadFooter({ thread }: ThreadFooter) {
                             thread.provider &&
                             <>
                                 <Divider orientation="vertical" />
-                                {thread.provider.name}
+                                {thread.provider.model_name}
                             </>
                         }
                         {

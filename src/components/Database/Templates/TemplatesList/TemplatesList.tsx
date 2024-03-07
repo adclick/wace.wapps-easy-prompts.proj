@@ -82,7 +82,7 @@ export function TemplatesList({ templatesQuery }: TemplatesList) {
 
                                     return <TemplateCard
                                         itemRef={undefined}
-                                        key={template.id}
+                                        key={template.uuid}
                                         template={template}
                                     />
                                 })

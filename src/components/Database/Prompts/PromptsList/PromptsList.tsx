@@ -1,4 +1,4 @@
-import { Accordion, Center, Loader, Stack } from "@mantine/core";
+import { Accordion, Box, Center, Loader, Stack } from "@mantine/core";
 import { Prompt } from "../../../../models/Prompt";
 import { PromptCard } from "../PromptCard/PromptCard";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
@@ -27,10 +27,10 @@ export function PromptsList({ promptsQuery, navbarMobileHandle }: PromptsList) {
                         promptsQuery.data !== undefined &&
                         promptsQuery.data.pages.map((page: any) => {
 
-                            return page.map((prompt: Prompt, index: number) => {
+                            return page.map((prompt: Prompt) => {
                                 return (
                                     <PromptCard
-                                        key={prompt.id}
+                                        key={prompt.uuid}
                                         itemRef={undefined}
                                         prompt={prompt}
                                         navbarMobileHandle={navbarMobileHandle}

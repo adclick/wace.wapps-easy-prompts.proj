@@ -36,29 +36,30 @@ const ThreadChat: FC<ThreadChatProps> = ({
     const [reply, setReply] = useState('');
     const [chatMessages, setChatMessages] = useState<PromptChatMessage[]>(thread.threads_chat_messages);
 
-    console.log(thread);
-
     const { data, isFetching, error } = useChatQuery(user, thread, chatMessages);
+
+    const buildNewChatMessage = (role: string, message: string) => {
+        return {
+            role,
+            message,
+            threads_chat_messages_modifiers: selectedModifiers.map(m => {
+                return {
+                    modifier: m
+                }
+            })
+        }
+    }
 
     const updateChatMessages = (role: string, message: string) => {
         const newChatMessages = [
             ...chatMessages,
-            {
-                role,
-                message,
-                threads_chat_messages_modifiers: selectedModifiers.map(m => {
-                    return {
-                        modifier: m
-                    }
-                })
-            }
+            buildNewChatMessage(role, message)
         ];
 
         setChatMessages(newChatMessages);
         setReply('');
 
-        const newThread = thread;
-        newThread.threads_chat_messages = chatMessages;
+        const newThread = Thread.clone(thread);
         setUpdatedNextThread(newThread);
     }
 
@@ -74,15 +75,11 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
         const newChatMessages = [
             ...chatMessages,
-            {
-                role: PromptChatMessageRole.ASSISTANT,
-                message: data,
-                threads_chat_messages_modifiers: []
-            }
+            buildNewChatMessage(PromptChatMessageRole.ASSISTANT, data)
         ];
 
         if (thread.uuid !== "") {
-            updateThreadResponse(data, newChatMessages);
+            updateThreadResponse(data, newChatMessages.slice(-2));
         } else {
             createThread(data, newChatMessages);
         }

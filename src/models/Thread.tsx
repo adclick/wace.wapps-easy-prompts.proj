@@ -86,6 +86,7 @@ export class Thread {
             return {
                 role: m.role,
                 message: m.message,
+                modifiers_ids: m.modifiers_ids,
                 threads_chat_messages_modifiers: m.threads_chat_messages_modifiers
             }
         });

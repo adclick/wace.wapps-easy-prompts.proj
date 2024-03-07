@@ -72,6 +72,7 @@ const AppMenu: FC = () => {
             target={target}
             position={Position.bottom_start}
             items={menus}
+            width="target"
         />
     )
 }

@@ -72,7 +72,7 @@ export function ModifiersList({ modifiersQuery }: ModifiersList) {
                                 return page.map((modifier: Modifier, index: number) => {
                                     return <ModifierCard
                                         itemRef={undefined}
-                                        key={modifier.id}
+                                        key={modifier.uuid}
                                         modifier={modifier}
                                     />;
                                 })

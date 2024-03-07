@@ -23,11 +23,13 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         selectedWorkspace,
         threads,
         setThreads,
+        selectedModifiers,
     ] = useStore(useShallow(state => [
         state.user,
         state.selectedWorkspace,
         state.threads,
-        state.setThreads
+        state.setThreads,
+        state.selectedModifiers
     ]));
 
     const createThreadMutation = useCreateThreadMutation();
@@ -54,20 +56,19 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         });
     }
 
-    const updateThreadResponse = (response?: string, chatMessages: PromptChatMessage[] = [], title?: string, collapsed?: boolean) => {
-        console.log(chatMessages);
+    const updateThreadResponse = (response: string, chatMessages: PromptChatMessage[] = [], title?: string, collapsed?: boolean) => {
         updateThreadMutation.mutate({
             title: title ? title : thread.title,
             key: (Number(thread.key) + 1).toString(),
             content: thread.content,
-            response: response ? response : thread.response,
+            response: response,
             collapsed: collapsed !== undefined ? collapsed : thread.collapsed,
             user_external_id: user.external_id,
             workspace_id: selectedWorkspace.uuid,
             technology_id: thread.technology.uuid,
             provider_id: thread.provider.uuid,
             templates_ids: thread.threads_templates.map(t => t.template.uuid),
-            modifiers_ids: thread.threads_modifiers.map(t => t.modifier.uuid),
+            modifiers_ids: thread.threads_modifiers.map(m => m.modifier.uuid),
             chat_messages: chatMessages,
             thread_parameters: thread.threads_parameters
         });
