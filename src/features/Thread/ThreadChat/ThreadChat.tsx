@@ -124,6 +124,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
                                         username={user.username}
                                         userPicture={user.picture}
                                         message={message.message}
+                                        templates={message.threads_chat_messages_templates.map(t => t.template)}
                                         modifiers={message.threads_chat_messages_modifiers.map(m => m.modifier)}
                                     />
                                 </Box>
@@ -140,6 +141,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
                                     username={user.username}
                                     userPicture={user.picture}
                                     message={message.message}
+                                    templates={message.threads_chat_messages_templates.map(t => t.template)}
                                     modifiers={message.threads_chat_messages_modifiers.map(m => m.modifier)}
                                 />
                             </Box>

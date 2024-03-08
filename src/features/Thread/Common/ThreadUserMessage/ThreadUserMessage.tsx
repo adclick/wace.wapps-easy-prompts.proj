@@ -2,11 +2,13 @@ import { ActionIcon, Avatar, Group, Popover, Stack, Text } from "@mantine/core";
 import { FC } from "react";
 import { Modifier } from "../../../../models/Modifier";
 import { IconSparkles } from "@tabler/icons-react";
+import { Template } from "../../../../models/Template";
 
 interface ThreadUserMessageProps {
     username: string
     userPicture: string
     message: any,
+    templates: Template[],
     modifiers: Modifier[]
 }
 
@@ -14,6 +16,7 @@ const ThreadUserMessage: FC<ThreadUserMessageProps> = ({
     username,
     userPicture,
     message,
+    templates,
     modifiers
 }: ThreadUserMessageProps) => {
     return (
