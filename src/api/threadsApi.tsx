@@ -38,7 +38,11 @@ export const useCreateThreadMutation = () => {
                 provider_id: formData.provider_id,
                 templates_ids: JSON.stringify(formData.templates_ids),
                 modifiers_ids: JSON.stringify(formData.modifiers_ids),
-                chat_messages: JSON.stringify(formData.chat_messages),
+                chat_messages: formData.chat_messages.map(ch => ({
+                    role: ch.role, 
+                    message: ch.message, 
+                    modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)
+                })),
                 thread_parameters: JSON.stringify(formData.thread_parameters),
             })
 
@@ -69,7 +73,11 @@ export const useUpdateThreadMutation = (thread: Thread) => {
                 provider_id: formData.provider_id,
                 templates_ids: JSON.stringify(formData.templates_ids),
                 modifiers_ids: JSON.stringify(formData.modifiers_ids),
-                chat_messages: JSON.stringify(formData.chat_messages),
+                chat_messages: formData.chat_messages.map(ch => ({
+                    role: ch.role, 
+                    message: ch.message, 
+                    modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)
+                })),
                 thread_parameters: JSON.stringify(formData.thread_parameters),
             })
 

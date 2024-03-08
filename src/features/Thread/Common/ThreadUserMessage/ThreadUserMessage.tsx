@@ -26,8 +26,8 @@ const ThreadUserMessage: FC<ThreadUserMessageProps> = ({
                         modifiers.length > 0 &&
                         <Popover>
                             <Popover.Target>
-                                <ActionIcon color="teal" size={"sm"} variant="transparent">
-                                    <IconSparkles size={14} />
+                                <ActionIcon color="teal" size={"sm"} variant="subtle">
+                                    <IconSparkles size={12} />
                                 </ActionIcon>
                             </Popover.Target>
                             <Popover.Dropdown>

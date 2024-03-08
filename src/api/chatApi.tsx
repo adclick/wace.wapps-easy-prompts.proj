@@ -7,28 +7,6 @@ import { PromptChatMessageRole } from '../enums';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const chatQuery = async (
-    thread: Thread,
-    user: User,
-    chatMessages: PromptChatMessage[]
-) => {
-    const lastMessage = chatMessages[chatMessages.length - 1];
-    const templatesIds = thread.threads_templates.map(t => t.template.uuid);
-    const modifiersIds = thread.threads_modifiers.map(m => m.modifier.uuid);
-
-    const { data } = await axios.post(`${API_URL}/ai/chat?` + new URLSearchParams({
-        user_external_id: user.external_id
-    }), {
-        text: lastMessage?.message,
-        provider_id: thread.provider.uuid,
-        modifiers_ids: JSON.stringify(modifiersIds),
-        templates_ids: JSON.stringify(templatesIds),
-        chat_messages: JSON.stringify(chatMessages)
-    });
-
-    return data;
-}
-
 export const useChatQuery = (
     user: User,
     thread: Thread,
@@ -39,13 +17,22 @@ export const useChatQuery = (
 
     return useQuery({
         queryKey: ["chat", thread.key, chatMessages.length],
-        queryFn: () => chatQuery(thread, user, chatMessages),
+        queryFn: async () => {
+            const { data } = await axios.post(`${API_URL}/ai/chat?` + new URLSearchParams({
+                user_external_id: user.external_id
+            }), {
+                provider_id: thread.provider.uuid,
+                chat_messages: chatMessages.map(ch => ({role: ch.role, message: ch.message, modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)}))
+            });
+
+            return data;
+        },
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: user.isLoggedIn 
-            && chatMessages.length > 0 
-            && lastMessage.role === PromptChatMessageRole.USER 
+        enabled: user.isLoggedIn
+            && chatMessages.length > 0
+            && lastMessage.role === PromptChatMessageRole.USER
             && enabled
     });
 };
