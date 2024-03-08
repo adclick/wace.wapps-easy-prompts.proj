@@ -27,10 +27,12 @@ const ThreadChat: FC<ThreadChatProps> = ({
 
     const [
         user,
-        selectedModifiers
+        selectedModifiers,
+        selectedTemplates
     ] = useStore(useShallow(state => [
         state.user,
-        state.selectedModifiers
+        state.selectedModifiers,
+        state.selectedTemplates
     ]));
     const [updatedNextThread, setUpdatedNextThread] = useState<Thread>(thread);
     const [reply, setReply] = useState('');
@@ -42,11 +44,8 @@ const ThreadChat: FC<ThreadChatProps> = ({
         return {
             role,
             message,
-            threads_chat_messages_modifiers: selectedModifiers.map(m => {
-                return {
-                    modifier: m
-                }
-            })
+            threads_chat_messages_modifiers: selectedModifiers.map(m => ({modifier: m})),
+            threads_chat_messages_templates: selectedTemplates.map(t => ({template: t}))
         }
     }
 
@@ -55,6 +54,8 @@ const ThreadChat: FC<ThreadChatProps> = ({
             ...chatMessages,
             buildNewChatMessage(role, message)
         ];
+
+        console.log(newChatMessages);
 
         setChatMessages(newChatMessages);
         setReply('');

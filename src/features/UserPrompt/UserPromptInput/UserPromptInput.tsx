@@ -38,11 +38,8 @@ const UserPromptInput: FC = () => {
         newNextThread.threads_chat_messages = [{ 
             role: PromptChatMessageRole.USER, 
             message: value,
-            threads_chat_messages_modifiers: selectedModifiers.map(m => {
-                return {
-                    modifier: m
-                }
-            })
+            threads_chat_messages_templates: selectedTemplates.map(t => ({template: t})),
+            threads_chat_messages_modifiers: selectedModifiers.map(m => ({modifier: m})),
         }];
         setNextThread(newNextThread);
     }

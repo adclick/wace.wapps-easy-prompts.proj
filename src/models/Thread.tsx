@@ -3,6 +3,7 @@ import { Prompt } from "./Prompt";
 import { PromptChatMessage } from "./PromptChatMessage";
 import { Provider } from "./Provider";
 import { Technology } from "./Technology";
+import { Template } from "./Template";
 import { ThreadModifier } from "./ThreadModifier";
 import { ThreadParameter } from "./ThreadParameter";
 import { ThreadTemplate } from "./ThreadTemplate";
@@ -25,6 +26,7 @@ export class Thread {
     workspace: Workspace;
     threads_chat_messages: PromptChatMessage[];
     threads_modifiers: ThreadModifier[];
+    templates: Template[];
     modifiers: Modifier[];
     threads_templates: ThreadTemplate[];
     threads_parameters: ThreadParameter[];
@@ -45,6 +47,7 @@ export class Thread {
         this.workspace = new Workspace();
         this.threads_chat_messages = [];
         this.threads_modifiers = [];
+        this.templates = [];
         this.modifiers = [];
         this.threads_templates = [];
         this.threads_parameters = [];
@@ -90,6 +93,7 @@ export class Thread {
             return {
                 role: m.role,
                 message: m.message,
+                threads_chat_messages_templates: m.threads_chat_messages_templates,
                 threads_chat_messages_modifiers: m.threads_chat_messages_modifiers
             }
         });

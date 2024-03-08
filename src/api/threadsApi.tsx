@@ -76,7 +76,8 @@ export const useUpdateThreadMutation = (thread: Thread) => {
                 chat_messages: formData.chat_messages.map(ch => ({
                     role: ch.role, 
                     message: ch.message, 
-                    modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)
+                    modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid),
+                    templates_ids: ch.threads_chat_messages_templates.map(t => t.template.uuid),
                 })),
                 thread_parameters: JSON.stringify(formData.thread_parameters),
             })

@@ -22,7 +22,12 @@ export const useChatQuery = (
                 user_external_id: user.external_id
             }), {
                 provider_id: thread.provider.uuid,
-                chat_messages: chatMessages.map(ch => ({role: ch.role, message: ch.message, modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)}))
+                chat_messages: chatMessages.map(ch => ({
+                    role: ch.role,
+                    message: ch.message,
+                    templates_ids: ch.threads_chat_messages_templates.map(t => t.template.uuid),
+                    modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)
+                }))
             });
 
             return data;

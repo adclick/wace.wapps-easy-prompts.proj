@@ -67,7 +67,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
             workspace_id: selectedWorkspace.uuid,
             technology_id: thread.technology.uuid,
             provider_id: thread.provider.uuid,
-            templates_ids: thread.threads_templates.map(t => t.template.uuid),
+            templates_ids: thread.templates.map(t => t.uuid),
             modifiers_ids: thread.modifiers.map(m => m.uuid),
             chat_messages: chatMessages,
             thread_parameters: thread.threads_parameters

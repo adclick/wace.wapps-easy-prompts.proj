@@ -20,7 +20,7 @@ const ThreadUserMessage: FC<ThreadUserMessageProps> = ({
         <Group align="flex-start" wrap="nowrap">
             <Avatar src={userPicture} size={"sm"} />
             <Stack gap={"xs"}>
-                <Group>
+                <Group gap={"xs"}>
                     <Text size="sm" fw={700}>{username}</Text>
                     {
                         modifiers.length > 0 &&
