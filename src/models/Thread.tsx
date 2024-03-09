@@ -104,7 +104,7 @@ export class Thread {
 
     static getParameterValue(thread: Thread, parameterSlug: string, defaultValue: string) {
         const parameter = thread.threads_parameters.find(tp => {
-            const parameterFromProvider = thread.provider.parameters.find(p => p.slug = parameterSlug);
+            const parameterFromProvider = thread.provider.parameters.find(p => p.slug ===  parameterSlug);
 
             return parameterFromProvider && tp.parameter_id === parameterFromProvider.id
         });
