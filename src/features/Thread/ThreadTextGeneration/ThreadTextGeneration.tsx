@@ -41,6 +41,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
+                templates={thread.templates}
                 modifiers={thread.modifiers}
             />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
@@ -57,6 +58,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
+                templates={thread.templates}
                 modifiers={thread.modifiers}
             />
             <ThreadAssistantSuccessMessage message={thread.response.trim()} reloadFn={regenerate} />
@@ -81,6 +83,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
+                templates={thread.templates}
                 modifiers={thread.modifiers}
             />
             <ThreadAssistantSuccessMessage message={data.trim()} reloadFn={regenerate} />
@@ -93,6 +96,7 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
             username={user.username}
             userPicture={user.picture}
             message={thread.content}
+            templates={thread.templates}
             modifiers={thread.modifiers}
         />
         <ThreadAssistantLoadingMessage />

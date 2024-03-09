@@ -44,8 +44,8 @@ const ThreadChat: FC<ThreadChatProps> = ({
         return {
             role,
             message,
-            threads_chat_messages_modifiers: selectedModifiers.map(m => ({modifier: m})),
-            threads_chat_messages_templates: selectedTemplates.map(t => ({template: t}))
+            threads_chat_messages_modifiers: selectedModifiers.map(m => ({ modifier: m })),
+            threads_chat_messages_templates: selectedTemplates.map(t => ({ template: t }))
         }
     }
 
@@ -54,8 +54,6 @@ const ThreadChat: FC<ThreadChatProps> = ({
             ...chatMessages,
             buildNewChatMessage(role, message)
         ];
-
-        console.log(newChatMessages);
 
         setChatMessages(newChatMessages);
         setReply('');
@@ -80,7 +78,7 @@ const ThreadChat: FC<ThreadChatProps> = ({
         ];
 
         if (thread.uuid !== "") {
-            updateThreadResponse(data, newChatMessages.slice(-2));
+            updateThreadResponse(data, newChatMessages);
         } else {
             createThread(data, newChatMessages);
         }
@@ -104,9 +102,14 @@ const ThreadChat: FC<ThreadChatProps> = ({
     }
 
     const regenerate = () => {
+        console.log("regenerating")
         const newChatMessages = chatMessages;
         newChatMessages.pop();
-        updateThreadResponse("", newChatMessages);
+        const userMessage = newChatMessages.pop();
+        if (userMessage) {
+            updateChatMessages(PromptChatMessageRole.USER, userMessage.message);
+        }
+        // updateThreadResponse("", newChatMessages);
     }
 
     return (

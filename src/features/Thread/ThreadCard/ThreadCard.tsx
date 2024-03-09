@@ -56,7 +56,12 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
         });
     }
 
-    const updateThreadResponse = (response: string, chatMessages: PromptChatMessage[] = [], title?: string, collapsed?: boolean) => {
+    const updateThreadResponse = (
+        response: string,
+        chatMessages: PromptChatMessage[] = thread.threads_chat_messages,
+        title?: string,
+        collapsed?: boolean
+    ) => {
         updateThreadMutation.mutate({
             title: title ? title : thread.title,
             key: (Number(thread.key) + 1).toString(),
@@ -97,7 +102,7 @@ const ThreadCard: FC<ThreadCardProps> = ({ thread }: ThreadCardProps) => {
                 thread={thread}
                 createThread={createThread}
                 updateThreadResponse={updateThreadResponse}
-                // scrollIntoView={scrollIntoView}
+            // scrollIntoView={scrollIntoView}
             />
             break;
         case 'image-generation':

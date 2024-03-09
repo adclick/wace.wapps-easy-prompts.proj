@@ -41,10 +41,15 @@ const UserPromptInput: FC = () => {
             threads_chat_messages_templates: selectedTemplates.map(t => ({template: t})),
             threads_chat_messages_modifiers: selectedModifiers.map(m => ({modifier: m})),
         }];
+
+        console.log(newNextThread.content);
         setNextThread(newNextThread);
     }
 
     const submit = () => {
+        console.log(nextThread.content);
+
+
         nextThread.threads_modifiers = ThreadModifier.buildFromSelectedModifiers(selectedModifiers);
         nextThread.threads_templates = ThreadTemplate.buildFromSelectedTemplates(selectedTemplates);
 

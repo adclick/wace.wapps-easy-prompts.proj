@@ -109,7 +109,6 @@ export class Thread {
             return parameterFromProvider && tp.parameter_id === parameterFromProvider.id
         });
 
-
         if (!parameter) {
             return defaultValue;
         }

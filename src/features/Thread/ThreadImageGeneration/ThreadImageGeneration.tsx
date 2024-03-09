@@ -35,6 +35,7 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
     const [threadProcessed, setThreadProcessed] = useState(false);
     const [processing, setProcessing] = useState(false);
 
+
     const { data, isFetching, error } = useImageGenerationQuery(thread);
 
     const regenerate = () => {
@@ -70,6 +71,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
+                templates={thread.templates}
+                modifiers={thread.modifiers}
             />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
@@ -87,6 +90,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
+                templates={thread.templates}
+                modifiers={thread.modifiers}
             />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate} />
             <ThreadFooter thread={thread} />
@@ -109,14 +114,26 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
         const message = getMessageFromThreadResponse(content);
 
         return <Stack gap={"lg"}>
-            <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
+            <ThreadUserMessage
+                username={user.username}
+                userPicture={user.picture}
+                message={thread.content}
+                templates={thread.templates}
+                modifiers={thread.modifiers}
+            />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate} />
             <ThreadFooter thread={thread} />
         </Stack>
     }
 
     return <Stack gap={"lg"}>
-        <ThreadUserMessage username={user.username} userPicture={user.picture} message={thread.content} />
+        <ThreadUserMessage
+            username={user.username}
+            userPicture={user.picture}
+            message={thread.content}
+            templates={thread.templates}
+            modifiers={thread.modifiers}
+        />
         <ThreadAssistantLoadingMessage />
     </Stack>
 }

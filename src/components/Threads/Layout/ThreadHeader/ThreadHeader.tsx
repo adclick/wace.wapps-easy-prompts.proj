@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Modal, Stack, Text, TextInput, UnstyledButton } from "@mantine/core"
+import { ActionIcon, Button, Group, Modal, Stack, Text, TextInput, Tooltip, UnstyledButton } from "@mantine/core"
 import { iconChevronDown, iconChevronUp, iconClose } from "../../../../utils/iconsUtils"
 import classes from './ThreadHeader.module.css'
 import { Technology } from "../../../../models/Technology"
@@ -52,6 +52,7 @@ export function ThreadHeader({ deleteThread, collapsed, setCollapsed, thread, up
                         value={threadTitle}
                         onChange={e => setThreadTitle(e.target.value)}
                         onKeyDown={e => onKeyDownThreadTitle(e)}
+                        autoFocus
                     />
                     <Group justify="flex-end">
                         <Button
@@ -84,9 +85,11 @@ export function ThreadHeader({ deleteThread, collapsed, setCollapsed, thread, up
                                 </Text>
                                 {
                                     hovered &&
-                                    <ActionIcon component="a" variant="transparent" color="gray" onClick={e => openEditTitle(e)}>
-                                        <IconPencil size={14} />
-                                    </ActionIcon>
+                                    <Tooltip label="Change Title">
+                                        <ActionIcon component="a" variant="transparent" color="gray" onClick={e => openEditTitle(e)}>
+                                            <IconPencil size={14} />
+                                        </ActionIcon>
+                                    </Tooltip>
                                 }
                             </Group>
                         </Group>

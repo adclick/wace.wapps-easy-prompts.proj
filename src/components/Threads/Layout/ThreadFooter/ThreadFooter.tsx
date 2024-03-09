@@ -45,26 +45,7 @@ export function ThreadFooter({ thread }: ThreadFooter) {
                                 {thread.provider.model_name}
                             </>
                         }
-                        {
-                            thread.threads_templates.length > 0 &&
-                            <>
-                                <Divider orientation="vertical" />
-                                <Group gap={4}>
-                                    <IconTemplate size={14} />
-                                    <Text fw={600} size={"xs"}>{thread.threads_templates.length}</Text>
-                                </Group>
-                            </>
-                        }
-                        {
-                            thread.threads_modifiers.length > 0 &&
-                            <>
-                                <Divider orientation="vertical" />
-                                <Group gap={4}>
-                                    <IconSparkles size={14} />
-                                    <Text fw={600} size={"xs"}>{thread.threads_modifiers.length}</Text>
-                                </Group>
-                            </>
-                        }
+                        
                     </Group>
                 </Badge>
             </Group>
