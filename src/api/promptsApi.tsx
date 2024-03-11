@@ -61,7 +61,7 @@ export const useCreatePromptMutation = () => {
                 provider_id: formData.provider_id,
                 templates_ids: JSON.stringify(formData.templates_ids),
                 modifiers_ids: JSON.stringify(formData.modifiers_ids),
-                chat_messages: JSON.stringify(formData.prompt_chat_messages),
+                chat_messages: formData.prompt_chat_messages,
                 prompt_parameters: JSON.stringify(formData.prompt_parameters),
             })
 
