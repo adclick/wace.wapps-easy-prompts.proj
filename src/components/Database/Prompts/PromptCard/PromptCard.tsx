@@ -1,5 +1,5 @@
-import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Button, Tooltip } from "@mantine/core";
-import { IconEdit, IconFileDescription, IconTrash, IconWorld } from "@tabler/icons-react";
+import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Button, Tooltip, SimpleGrid } from "@mantine/core";
+import { IconBulb, IconEdit, IconEye, IconFileDescription, IconLink, IconPencil, IconTrash, IconWorld } from "@tabler/icons-react";
 import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure, useHover } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
@@ -150,36 +150,6 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                                 </Stack>
                             </Group>
                             <Group wrap="nowrap" gap={"xs"}>
-                                <Menu classNames={{ dropdown: classes.menuDropdown }}>
-                                    <Menu.Target>
-                                        <ActionIcon className={classes.menuTarget} variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
-                                            <IconDots size={16} />
-                                        </ActionIcon>
-                                    </Menu.Target>
-                                    <Menu.Dropdown>
-                                        <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                            Details
-                                        </Menu.Item>
-                                        <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconWorld size={14} />}>
-                                            {
-                                                clipboard.copied ? <>Copied</> : <>Copy URL</>
-                                            }
-                                        </Menu.Item>
-                                        {
-                                            isUserItem &&
-                                            <Menu.Item onClick={e => openEdit(e)} leftSection={<IconEdit size={14} />}>
-                                                Edit
-                                            </Menu.Item>
-                                        }
-                                        {
-                                            isUserItem &&
-                                            <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
-                                                Delete
-                                            </Menu.Item>
-                                        }
-                                    </Menu.Dropdown>
-                                </Menu>
-
                                 <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
                                     {iconPlay(12)}
                                 </ActionIcon>
@@ -191,10 +161,30 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 <Accordion.Panel>
                     <Stack gap={"lg"}>
 
-                        <Group justify="flex-end">
-                            <ActionIcon color="red" variant="subtle">
-                                <IconTrash size={14} />
-                            </ActionIcon>
+                        <Group justify="space-between">
+                            <Group>
+                                {
+                                    prompt.provider &&
+                                    <Badge variant="dot" size="sm">
+                                        {prompt.provider.model_name}
+                                    </Badge>
+                                }
+                            </Group>
+                            <Group gap={"xs"}>
+                                <Tooltip label="Copy link">
+                                    <ActionIcon onClick={openEdit} variant="subtle">
+                                        <IconPencil size={14} />
+                                    </ActionIcon>
+                                </Tooltip>
+                                <Tooltip label="Copy link">
+                                    <ActionIcon onClick={copyPublicURL} variant="subtle">
+                                        <IconLink size={14} />
+                                    </ActionIcon>
+                                </Tooltip>
+                                <ActionIcon onClick={openDeleteModal} color="red" variant="subtle">
+                                    <IconTrash size={14} />
+                                </ActionIcon>
+                            </Group>
                         </Group>
 
                         {
@@ -204,24 +194,9 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                             </Group>
                         }
 
-                        <Group justify="space-between">
-
-                            <Button onClick={openDetails} size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
-                                Details
-                            </Button>
-                            {
-                                prompt.provider &&
-                                <Badge variant="dot" size="sm">
-                                    {prompt.provider.model_name}
-                                </Badge>
-                            }
-
-                        </Group>
-
-                        <Button radius={"md"} variant="light"
-
+                        <Button leftSection={<IconEye size={14} />} onClick={openDetails}  variant="light"
                         >
-                            Edit
+                            Open
                         </Button>
                     </Stack>
                 </Accordion.Panel>

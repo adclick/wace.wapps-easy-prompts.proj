@@ -69,10 +69,6 @@ const SidebarHeader: FC<SidebarHeaderProps> = ({
                 </FlexRow>
             </Group>
 
-            <CreateUserItemSection
-                opened={createItemOpened}
-                handle={createItemHandle}
-            />
              <FiltersContainer
                 opened={filtersOpened}
                 handle={filtersHandle}

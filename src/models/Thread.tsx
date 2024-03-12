@@ -85,6 +85,8 @@ export class Thread {
         newThread.created_at = prompt.created_at;
         newThread.technology = Technology.clone(prompt.technology);
         newThread.provider = Provider.clone(prompt.provider);
+        newThread.templates = prompt.templates;
+        newThread.modifiers = prompt.modifiers;
         newThread.user = prompt.user;
         newThread.threads_templates = prompt.prompts_templates;
         newThread.threads_modifiers = prompt.prompts_modifiers;
