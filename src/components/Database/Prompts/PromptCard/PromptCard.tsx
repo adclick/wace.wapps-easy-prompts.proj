@@ -190,9 +190,19 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 </Accordion.Control >
                 <Accordion.Panel>
                     <Stack gap={"lg"}>
-                        <Group wrap="nowrap" justify="space-between" align="flex-start">
-                            <Text size="xs" c={"dimmed"} fw={500}>{prompt.description}</Text>
+
+                        <Group justify="flex-end">
+                            <ActionIcon color="red" variant="subtle">
+                                <IconTrash size={14} />
+                            </ActionIcon>
                         </Group>
+
+                        {
+                            prompt.description &&
+                            <Group wrap="nowrap" justify="space-between" align="flex-start">
+                                <Text size="xs" c={"dimmed"} fw={500}>{prompt.description}</Text>
+                            </Group>
+                        }
 
                         <Group justify="space-between">
 
@@ -207,6 +217,12 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                             }
 
                         </Group>
+
+                        <Button radius={"md"} variant="light"
+
+                        >
+                            Edit
+                        </Button>
                     </Stack>
                 </Accordion.Panel>
             </Accordion.Item >
