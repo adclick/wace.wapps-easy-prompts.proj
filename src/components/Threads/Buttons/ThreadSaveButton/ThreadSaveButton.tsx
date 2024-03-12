@@ -1,5 +1,6 @@
 import { Button } from "@mantine/core";
 import { iconAdd } from "../../../../utils/iconsUtils";
+import classes from './ThreadSaveButton.module.css'
 
 interface ThreadSaveButton {
     onClick: any
@@ -8,8 +9,8 @@ interface ThreadSaveButton {
 export function ThreadSaveButton({ onClick }: ThreadSaveButton) {
     return (
         <Button
+            className={classes.button}
             variant="transparent"
-            color="--mantine-color-text"
             size="xs"
             leftSection={iconAdd(14)}
             onClick={onClick}
