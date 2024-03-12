@@ -93,8 +93,10 @@ export class Thread {
             return {
                 role: m.role,
                 message: m.message,
-                threads_chat_messages_templates: m.threads_chat_messages_templates,
-                threads_chat_messages_modifiers: m.threads_chat_messages_modifiers
+                prompts_chat_messages_templates: [],
+                prompts_chat_messages_modifiers: [],
+                threads_chat_messages_templates: m.prompts_chat_messages_templates,
+                threads_chat_messages_modifiers: m.prompts_chat_messages_modifiers
             }
         });
 
