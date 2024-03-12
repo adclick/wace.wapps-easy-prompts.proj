@@ -1,5 +1,4 @@
 import { Button, Group, Stack } from "@mantine/core";
-import { usePromptQuery } from "../../../api/promptsApi";
 import { LanguageField } from "../Fields/LanguageField";
 import { RepositoryField } from "../Fields/RepositoryField";
 import { TechnologyField } from "../Fields/TechnologyField";
@@ -11,19 +10,17 @@ import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
-import { TemplatesField } from "../Fields/TemplatesField";
-import { ModifiersField } from "../Fields/ModifiersField";
-import { Prompt } from "../../../models/Prompt";
-import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
+import { PromptFormProvider } from "../../../context/PromptFormContext";
 import { Thread } from "../../../models/Thread";
+import { ModifierFormProvider, ModifierFormValues, useModifierForm } from "../../../context/ModifierFormContext";
 
-interface PromptForm {
-    prompt?: Prompt | Thread,
+interface ThreadModifierForm {
+    thread: Thread,
     mutation: any,
     handle: any
 }
 
-export function PromptForm({ prompt, mutation, handle }: PromptForm) {
+export function ThreadModifierForm({ thread, mutation, handle }: ThreadModifierForm) {
     const [
         user,
         setSelectedPrivateDatabaseType,
@@ -33,22 +30,18 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     ]));
 
     // Create new form
-    const initialValues: PromptFormValues = {
-        title: '',
+    const initialValues: ModifierFormValues = {
+        title: thread.title,
         description: '',
-        content: '',
+        content: thread.content,
         language_id: '',
         repository_id: '',
-        technology_id: '',
-        provider_id: '',
+        technology_id: thread.technology.uuid,
+        provider_id: thread.provider.uuid,
         user_id: user.external_id,
-        templates_ids: [],
-        modifiers_ids: [],
-        prompt_chat_messages: [],
-        prompt_parameters: []
     };
 
-    const form = usePromptForm({
+    const form = useModifierForm({
         initialValues,
         validate: {
             title: value => value !== "" ? null : 'Title is required',
@@ -59,44 +52,18 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
         }
     });
 
-    const enabled = prompt && user.username === prompt.user.username;
-    const promptUUID = prompt ? prompt.uuid : '';
-    const { data } = usePromptQuery(user, promptUUID, enabled);
-
-    // Update existing form
-    if (prompt && prompt.uuid !== "" && data) {
-        const promptPrivate = data as Prompt;
-
-        initialValues.title = promptPrivate.title;
-        initialValues.description = promptPrivate.description;
-        initialValues.content = promptPrivate.content;
-        initialValues.language_id = promptPrivate.language.uuid;
-        initialValues.repository_id = promptPrivate.repository.uuid;
-        initialValues.technology_id = promptPrivate.technology.uuid;
-        if (promptPrivate.provider) {
-            initialValues.provider_id = promptPrivate.provider.uuid;
-        }
-        initialValues.user_id = user.external_id;
-        initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.uuid);
-        initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.uuid);
-        initialValues.prompt_chat_messages = promptPrivate.prompts_chat_messages;
-        initialValues.prompt_parameters = promptPrivate.prompts_parameters;
-
-        form.initialize(initialValues);
-    }
-
     const submit = () => {
         mutation.mutate(form.values);
 
         setSelectedPrivateDatabaseType(
-            new SelectedDatabaseType(Type.PROMPT)
+            new SelectedDatabaseType(Type.MODIFIER)
         );
 
         handle.close();
     }
 
     return (
-        <PromptFormProvider form={form}>
+        <ModifierFormProvider form={form}>
             <form onSubmit={form.onSubmit(submit)}>
                 <Stack gap={"xs"}>
                     <TitleField form={form} />
@@ -106,8 +73,6 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
                     <RepositoryField form={form} />
                     <TechnologyField form={form} />
                     <ProviderField form={form} />
-                    <TemplatesField form={form} />
-                    <ModifiersField form={form} />
 
                     <Group justify="flex-end">
                         <Button
@@ -121,6 +86,6 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
                     </Group>
                 </Stack>
             </form>
-        </PromptFormProvider>
+        </ModifierFormProvider>
     )
 }

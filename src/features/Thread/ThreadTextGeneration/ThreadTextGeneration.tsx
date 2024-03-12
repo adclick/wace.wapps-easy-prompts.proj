@@ -33,6 +33,8 @@ const ThreadTextGeneration: FC<ThreadTextGenerationProps> = ({
         setThreadProcessed(false);
     }
 
+    console.log(thread);
+
     if (error) {
         const message = parseError(error);
 

@@ -43,15 +43,13 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         e.stopPropagation();
 
         const newThread = Thread.buildFromPrompt(prompt);
-        newThread.threads_chat_messages.pop();
+        // newThread.threads_chat_messages.pop();
         newThread.key = Date.now();
 
         // If there is no provider, get the default one
         if (newThread.provider.uuid === "") {
             newThread.provider = await getDefaultProvider(newThread.technology);
         }
-
-        console.log(newThread);
 
         // navbarMobileHandle.close();
 
@@ -128,7 +126,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
                 <PromptForm mutation={updateMutation} prompt={prompt} handle={editHandle} />
             </Modal>
-            <Accordion.Item className={classes.card} ref={hoverCard.ref} value={`${prompt.type}-${prompt.id}`}>
+            <Accordion.Item className={classes.card} ref={hoverCard.ref} value={prompt.uuid}>
                 <Accordion.Control>
                     <Stack>
                         <Group justify="space-between" wrap="nowrap" align="center">

@@ -71,8 +71,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
-                templates={thread.templates}
-                modifiers={thread.modifiers}
+                templates={thread.threads_templates.map(t => t.template)}
+                modifiers={thread.threads_modifiers.map(m => m.modifier)}
             />
             <ThreadAssistantSuccessMessage message={message} reloadFn={regenerate} />
         </Stack>
@@ -90,8 +90,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
-                templates={thread.templates}
-                modifiers={thread.modifiers}
+                templates={thread.threads_templates.map(t => t.template)}
+                modifiers={thread.threads_modifiers.map(m => m.modifier)}
             />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate} />
             <ThreadFooter thread={thread} />
@@ -118,8 +118,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
                 username={user.username}
                 userPicture={user.picture}
                 message={thread.content}
-                templates={thread.templates}
-                modifiers={thread.modifiers}
+                templates={thread.threads_templates.map(t => t.template)}
+                modifiers={thread.threads_modifiers.map(m => m.modifier)}
             />
             <ThreadAssistantSuccessMessage message={message} copyButton={false} reloadFn={regenerate} />
             <ThreadFooter thread={thread} />
@@ -131,8 +131,8 @@ const ThreadImageGeneration: FC<ThreadImageGenerationProps> = ({
             username={user.username}
             userPicture={user.picture}
             message={thread.content}
-            templates={thread.templates}
-            modifiers={thread.modifiers}
+            templates={thread.threads_templates.map(t => t.template)}
+            modifiers={thread.threads_modifiers.map(m => m.modifier)}
         />
         <ThreadAssistantLoadingMessage />
     </Stack>

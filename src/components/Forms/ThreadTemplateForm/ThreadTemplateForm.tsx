@@ -1,29 +1,25 @@
 import { Button, Group, Stack } from "@mantine/core";
-import { usePromptQuery } from "../../../api/promptsApi";
 import { LanguageField } from "../Fields/LanguageField";
 import { RepositoryField } from "../Fields/RepositoryField";
 import { TechnologyField } from "../Fields/TechnologyField";
 import { ProviderField } from "../Fields/ProviderField";
 import { TitleField } from "../Fields/TitleField";
 import { DescriptionField } from "../Fields/DescriptionField";
-import { ContentField } from "../Fields/ContentField";
 import { IconCheck } from "@tabler/icons-react";
 import { useStore } from "../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { SelectedDatabaseType, Type } from "../../../models/SelectedDatabaseType";
-import { TemplatesField } from "../Fields/TemplatesField";
 import { ModifiersField } from "../Fields/ModifiersField";
-import { Prompt } from "../../../models/Prompt";
-import { PromptFormProvider, PromptFormValues, usePromptForm } from "../../../context/PromptFormContext";
 import { Thread } from "../../../models/Thread";
+import { TemplateFormProvider, TemplateFormValues, useTemplateForm } from "../../../context/TemplateFormContext";
 
-interface PromptForm {
-    prompt?: Prompt | Thread,
+interface ThreadForm {
+    thread: Thread,
     mutation: any,
     handle: any
 }
 
-export function PromptForm({ prompt, mutation, handle }: PromptForm) {
+export function ThreadTemplateForm({ thread, mutation, handle }: ThreadForm) {
     const [
         user,
         setSelectedPrivateDatabaseType,
@@ -33,80 +29,49 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
     ]));
 
     // Create new form
-    const initialValues: PromptFormValues = {
-        title: '',
+    const initialValues: TemplateFormValues = {
+        title: thread.title,
         description: '',
-        content: '',
         language_id: '',
         repository_id: '',
-        technology_id: '',
-        provider_id: '',
+        technology_id: thread.technology.uuid,
+        provider_id: thread.provider.uuid,
         user_id: user.external_id,
-        templates_ids: [],
-        modifiers_ids: [],
-        prompt_chat_messages: [],
-        prompt_parameters: []
+        modifiers_ids: thread.threads_modifiers.map(m => m.modifier.uuid),
+        chat_messages: thread.threads_chat_messages,
+        template_parameters: thread.threads_parameters
     };
 
-    const form = usePromptForm({
+    const form = useTemplateForm({
         initialValues,
         validate: {
             title: value => value !== "" ? null : 'Title is required',
-            content: value => value !== "" ? null : 'Content is required',
             language_id: value => value !== "" ? null : 'Language is required',
             repository_id: value => value !== "" ? null : 'Repository is required',
             technology_id: value => value !== "" ? null : 'Technology is required',
         }
     });
 
-    const enabled = prompt && user.username === prompt.user.username;
-    const promptUUID = prompt ? prompt.uuid : '';
-    const { data } = usePromptQuery(user, promptUUID, enabled);
-
-    // Update existing form
-    if (prompt && prompt.uuid !== "" && data) {
-        const promptPrivate = data as Prompt;
-
-        initialValues.title = promptPrivate.title;
-        initialValues.description = promptPrivate.description;
-        initialValues.content = promptPrivate.content;
-        initialValues.language_id = promptPrivate.language.uuid;
-        initialValues.repository_id = promptPrivate.repository.uuid;
-        initialValues.technology_id = promptPrivate.technology.uuid;
-        if (promptPrivate.provider) {
-            initialValues.provider_id = promptPrivate.provider.uuid;
-        }
-        initialValues.user_id = user.external_id;
-        initialValues.templates_ids = promptPrivate.prompts_templates.map(pt => pt.template.uuid);
-        initialValues.modifiers_ids = promptPrivate.prompts_modifiers.map(pm => pm.modifier.uuid);
-        initialValues.prompt_chat_messages = promptPrivate.prompts_chat_messages;
-        initialValues.prompt_parameters = promptPrivate.prompts_parameters;
-
-        form.initialize(initialValues);
-    }
-
     const submit = () => {
         mutation.mutate(form.values);
 
         setSelectedPrivateDatabaseType(
-            new SelectedDatabaseType(Type.PROMPT)
+            new SelectedDatabaseType(Type.TEMPLATE)
         );
 
         handle.close();
     }
 
     return (
-        <PromptFormProvider form={form}>
+        <TemplateFormProvider form={form}>
             <form onSubmit={form.onSubmit(submit)}>
                 <Stack gap={"xs"}>
                     <TitleField form={form} />
                     <DescriptionField form={form} />
-                    <ContentField form={form} />
                     <LanguageField form={form} />
                     <RepositoryField form={form} />
                     <TechnologyField form={form} />
                     <ProviderField form={form} />
-                    <TemplatesField form={form} />
                     <ModifiersField form={form} />
 
                     <Group justify="flex-end">
@@ -121,6 +86,6 @@ export function PromptForm({ prompt, mutation, handle }: PromptForm) {
                     </Group>
                 </Stack>
             </form>
-        </PromptFormProvider>
+        </TemplateFormProvider>
     )
 }
