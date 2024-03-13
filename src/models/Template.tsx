@@ -38,7 +38,6 @@ export class Template {
         this.plays = 0;
         this.created_at = new Date();
         this.type = "";
-        this.metadata = {modifiers: [], history: [], templates: []};
         this.user = new User()
         this.language = new Language();
         this.repository = new Repository();
