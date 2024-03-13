@@ -9,14 +9,18 @@ interface TemplateCardDetails {
     opened: boolean,
     handle: any,
     template: Template,
-    deleteMutation: any
+    deleteMutation: any,
+    openEdit: any,
+    copyURL: any
 }
 
 export function TemplateCardDetails({
     opened,
     handle,
     template,
-    deleteMutation
+    deleteMutation,
+    openEdit,
+    copyURL
 }: TemplateCardDetails) {
     const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === template.user.username && opened
@@ -32,6 +36,8 @@ export function TemplateCardDetails({
         hasModifiers={true}
         hasTemplates={false}
         typeLabel={Label.Tempalate}
+        openEdit={openEdit}
+        copyURL={copyURL}
         deleteMutation={deleteMutation}
     />
 }

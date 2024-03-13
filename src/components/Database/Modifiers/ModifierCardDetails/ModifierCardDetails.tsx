@@ -9,14 +9,18 @@ interface ModifierCardDetails {
     opened: boolean,
     handle: any,
     modifier: Modifier,
-    deleteMutation: any
+    deleteMutation: any,
+    openEdit: any,
+    copyURL: any
 }
 
 export function ModifierCardDetails({
     opened,
     handle,
     modifier,
-    deleteMutation
+    deleteMutation,
+    openEdit,
+    copyURL
 }: ModifierCardDetails) {
     const [user] = useStore(useShallow(state => [state.user]));
     const enabled = user.username === modifier.user.username && opened
@@ -33,5 +37,7 @@ export function ModifierCardDetails({
         hasTemplates={false}
         typeLabel={Label.Modifier}
         deleteMutation={deleteMutation}
+        openEdit={openEdit}
+        copyURL={copyURL}
     />
 }

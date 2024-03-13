@@ -3,7 +3,7 @@ import { Prompt } from "../../../../models/Prompt";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { iconPlay } from "../../../../utils/iconsUtils";
-import { useDeletePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
+import { useDeletePromptMutation, usePromptQuery, useUpdatePromptMutation } from "../../../../api/promptsApi";
 import { getDefaultProvider } from "../../../../api/providersApi";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
@@ -12,6 +12,7 @@ import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
 import { Thread } from "../../../../models/Thread";
 import DatabaseCard from "../../../../features/DatabaseCard/DatabaseCard";
+import { DatabaseCardDetails } from "../../Common/DatabaseCardDetails/DatabaseCardDetails";
 
 interface PromptCard {
     prompt: Prompt,
@@ -121,6 +122,8 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 handle={detailsHandle}
                 prompt={prompt}
                 deleteMutation={deleteMutation}
+                openEdit={openEdit}
+                copyURL={copyPublicURL}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
                 <PromptForm mutation={updateMutation} prompt={prompt} handle={editHandle} />

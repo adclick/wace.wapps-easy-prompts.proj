@@ -93,8 +93,6 @@ export function TemplateForm({ template, mutation, handle }: TemplateForm) {
         form.initialize(initialValues);
     }
 
-    
-
     const submit = () => {
         mutation.mutate(form.values);
 

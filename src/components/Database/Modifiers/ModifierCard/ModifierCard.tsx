@@ -98,6 +98,8 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                 handle={modifierDetailsHandle}
                 modifier={modifier}
                 deleteMutation={deleteMutation}
+                openEdit={openEdit}
+                copyURL={copyPublicURL}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Modifier" size={"lg"}>
                 <ModifierForm mutation={updateMutation} modifier={modifier} handle={editHandle} />

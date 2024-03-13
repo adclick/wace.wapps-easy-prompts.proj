@@ -1,5 +1,5 @@
 import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
-import { IconBulb, IconDatabase, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react";
+import { IconBulb, IconDatabase, IconLanguage, IconLink, IconPencil, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react";
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 import { Modifier } from "../../../../models/Modifier";
 import { Prompt } from "../../../../models/Prompt";
@@ -19,7 +19,9 @@ interface DatabaseCardDetails {
     hasModifiers: boolean,
     hasTemplates: boolean,
     typeLabel: Label,
-    deleteMutation: any
+    deleteMutation: any,
+    openEdit: any,
+    copyURL: any
 }
 
 export function DatabaseCardDetails({
@@ -31,7 +33,9 @@ export function DatabaseCardDetails({
     hasModifiers,
     hasTemplates,
     typeLabel,
-    deleteMutation
+    deleteMutation,
+    openEdit,
+    copyURL
 }: DatabaseCardDetails) {
     const [user] = useStore(useShallow(state => [state.user]));
 
@@ -70,8 +74,9 @@ export function DatabaseCardDetails({
     }
 
     return (
-        <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
-            <Stack my={"md"}>
+        <Modal opened={opened} onClose={handle.close} title={title} size={"md"} styles={{
+        }}>
+            <Stack>
                 <Card className={classes.card}>
                     <Stack>
                         {
@@ -85,7 +90,7 @@ export function DatabaseCardDetails({
                             </>
                         }
                         <Title order={6}>Specifications</Title>
-                        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                        <SimpleGrid cols={{ base: 1, sm: 1 }}>
                             <Stack>
                                 <SimpleGrid cols={2} spacing={"xs"}>
                                     <Group gap={"xs"}>
@@ -200,20 +205,40 @@ export function DatabaseCardDetails({
                         </Stack>
                     </Card>
                 }
-                {
-                    user.username === item.user.username &&
-                    <Group>
-                        <Button
-                            color="red"
-                            size="xs"
-                            variant="subtle"
-                            onClick={openDeleteModal}
-                            leftSection={<IconTrash size={14} />}
-                        >
-                            Delete
-                        </Button>
-                    </Group>
-                }
+                <Stack>
+                    <Button
+                        size="xs"
+                        color="gray"
+                        variant="filled"
+                        onClick={copyURL}
+                        leftSection={<IconLink size={14} />}
+                    >
+                        Copy Link
+                    </Button>
+                    {
+                        user.username === item.user.username &&
+                        <>
+                            <Button
+                                size="xs"
+                                color="gray"
+                                variant="filled"
+                                onClick={openEdit}
+                                leftSection={<IconPencil size={14} />}
+                            >
+                                Edit
+                            </Button>
+                            <Button
+                                color="red"
+                                size="xs"
+                                variant="light"
+                                onClick={openDeleteModal}
+                                leftSection={<IconTrash size={14} />}
+                            >
+                                Delete
+                            </Button>
+                        </>
+                    }
+                </Stack>
             </Stack>
         </Modal>
     )

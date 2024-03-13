@@ -95,6 +95,8 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                 handle={detailsHandle}
                 template={template}
                 deleteMutation={deleteMutation}
+                openEdit={openEdit}
+                copyURL={copyPublicURL}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template" size={"lg"}>
                 <TemplateForm mutation={updateMudation} template={template} handle={editHandle} />

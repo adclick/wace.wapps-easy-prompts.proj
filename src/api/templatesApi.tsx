@@ -64,6 +64,7 @@ export const useCreateTemplateMutation = () => {
 
     return useMutation({
         mutationFn: async (formData: TemplateFormValues) => {
+            
             const { data } = await axios.post(`${API_URL}/templates`, {
                 user_external_id: formData.user_id,
                 title: formData.title,
