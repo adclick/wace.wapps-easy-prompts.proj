@@ -135,7 +135,7 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 openDeleteModal={openDeleteModal}
                 copyURL={copyPublicURL}
                 actionElement={actionElement}
-                color="blue"
+                color={Prompt.getColor()}
             />
         </>
     )

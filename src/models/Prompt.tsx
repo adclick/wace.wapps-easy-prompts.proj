@@ -40,7 +40,7 @@ export class Prompt {
     prompts_modifiers: PromptModifier[];
     prompts_templates: PromptTemplate[];
     prompts_parameters: PromptParameter[];
-    
+
     constructor() {
         this.id = 0;
         this.uuid = "";
@@ -93,7 +93,7 @@ export class Prompt {
         return newPrompt;
     }
 
-    static getColor(): Color {
-        return Color.blue;
+    static getColor(): string | Color {
+        return "#1864AB";
     }
 }

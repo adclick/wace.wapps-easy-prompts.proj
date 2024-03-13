@@ -1,5 +1,5 @@
 import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
-import { IconBulb, IconDatabase, IconLanguage, IconLink, IconPencil, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react";
+import { IconBulb, IconDatabase, IconLanguage, IconLink, IconPencil, IconSparkles, IconTemplate, IconTrash, IconUser, IconWorld } from "@tabler/icons-react";
 import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 import { Modifier } from "../../../../models/Modifier";
 import { Prompt } from "../../../../models/Prompt";
@@ -73,6 +73,9 @@ export function DatabaseCardDetails({
         });
     }
 
+    const date = new Date(item.created_at)
+    const formattedDate = `${date.toLocaleDateString('en-GB')} ${date.toLocaleTimeString('en-GB')}`;
+
     return (
         <Modal opened={opened} onClose={handle.close} title={title} size={"md"} styles={{
         }}>
@@ -91,44 +94,53 @@ export function DatabaseCardDetails({
                         }
                         <Title order={6}>Specifications</Title>
                         <SimpleGrid cols={{ base: 1, sm: 1 }}>
-                            <Stack>
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconBulb size={12} />
+                                    <Text size="xs">Technology</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.technology.name}</Text>
+                            </SimpleGrid>
+                            {
+                                item.provider &&
                                 <SimpleGrid cols={2} spacing={"xs"}>
                                     <Group gap={"xs"}>
-                                        <IconLanguage size={12} />
-                                        <Text size="xs">Language</Text>
+                                        <IconWorld size={12} />
+                                        <Text size="xs">Provider</Text>
                                     </Group>
-                                    <Text fw={700} size="xs">{item.language.name}</Text>
+                                    <Text fw={700} size="xs">{item.provider.model_name}</Text>
                                 </SimpleGrid>
-                                <SimpleGrid cols={2} spacing={"xs"}>
-                                    <Group gap={"xs"}>
-                                        <IconDatabase size={12} />
-                                        <Text size="xs">Repository</Text>
-                                    </Group>
-                                    <Text fw={700} size="xs">{item.repository.name}</Text>
-                                </SimpleGrid>
-                            </Stack>
-                            <Stack>
-                                <SimpleGrid cols={2} spacing={"xs"}>
-                                    <Group gap={"xs"}>
-                                        <IconBulb size={12} />
-                                        <Text size="xs">Technology</Text>
-                                    </Group>
-                                    <Text fw={700} size="xs">{item.technology.name}</Text>
-                                </SimpleGrid>
-                                {
-                                    item.provider &&
-                                    <SimpleGrid cols={2} spacing={"xs"}>
-                                        <Group gap={"xs"}>
-                                            <IconWorld size={12} />
-                                            <Text size="xs">Provider</Text>
-                                        </Group>
-                                        <Text fw={700} size="xs">{item.provider.model_name}</Text>
-                                    </SimpleGrid>
-                                }
-                            </Stack>
+                            }
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconLanguage size={12} />
+                                    <Text size="xs">Language</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.language.name}</Text>
+                            </SimpleGrid>
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconDatabase size={12} />
+                                    <Text size="xs">Repository</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.repository.name}</Text>
+                            </SimpleGrid>
+
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconUser size={12} />
+                                    <Text size="xs">Author</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.user.username}</Text>
+                            </SimpleGrid>
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconUser size={12} />
+                                    <Text size="xs">Published</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{formattedDate}</Text>
+                            </SimpleGrid>
                         </SimpleGrid>
-                        <Divider />
-                        <CardDetailsAuthor item={item} />
                     </Stack>
                 </Card>
                 {
