@@ -1,15 +1,15 @@
 import { FC, KeyboardEvent, useEffect, useState } from "react";
-import { Textarea } from "../../../components/UI/Inputs/Textarea";
 import { IconButton } from "../../../components/UI/Buttons/IconButton";
 import classes from "./UserPromptInput.module.css";
 import { FlexRow } from "../../../components/UI/Layout";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "../../../stores/store";
 import { PromptChatMessageRole, Size, Variant } from "../../../enums";
-import { IconPlayerPlayFilled } from "@tabler/icons-react";
+import { IconPlayerPlayFilled, IconSparkles, IconTemplate } from "@tabler/icons-react";
 import { Thread } from "../../../models/Thread";
 import { ThreadModifier } from "../../../models/ThreadModifier";
 import { ThreadTemplate } from "../../../models/ThreadTemplate";
+import { ActionIcon, Indicator, Textarea } from "@mantine/core";
 
 const UserPromptInput: FC = () => {
     const [
@@ -35,11 +35,13 @@ const UserPromptInput: FC = () => {
         newNextThread.key = Date.now();
         newNextThread.title = value;
         newNextThread.content = value;
-        newNextThread.threads_chat_messages = [{ 
-            role: PromptChatMessageRole.USER, 
+        newNextThread.threads_chat_messages = [{
+            role: PromptChatMessageRole.USER,
             message: value,
-            threads_chat_messages_templates: selectedTemplates.map(t => ({template: t})),
-            threads_chat_messages_modifiers: selectedModifiers.map(m => ({modifier: m})),
+            threads_chat_messages_templates: selectedTemplates.map(t => ({ template: t })),
+            threads_chat_messages_modifiers: selectedModifiers.map(m => ({ modifier: m })),
+            prompts_chat_messages_modifiers: [],
+            prompts_chat_messages_templates: []
         }];
 
         setNextThread(newNextThread);
@@ -65,9 +67,12 @@ const UserPromptInput: FC = () => {
         <FlexRow>
             <Textarea
                 placeholder="Create a new prompt"
-                autofocus={true}
-                size={Size.lg}
-                radius={Size.xl}
+                autoFocus
+                autosize
+                size={"lg"}
+                radius={"xl"}
+                minRows={1}
+                maxRows={6}
                 value={nextThread.content}
                 onChange={e => updateNextThread(e.target.value)}
                 onKeyDown={e => onKeyDown(e)}

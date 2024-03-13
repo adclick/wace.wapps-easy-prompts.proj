@@ -12,6 +12,7 @@ import { useShallow } from "zustand/react/shallow";
 import { TemplateForm } from "../../../Forms/TemplateForm/TemplateForm";
 import { Technology } from "../../../../models/Technology";
 import { Color } from "../../../../enums";
+import DatabaseCard from "../../../../features/DatabaseCard/DatabaseCard";
 
 interface TemplateCard {
     template: Template,
@@ -78,6 +79,15 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
 
     const updateMudation = useUpdateTemplateMutation(template.uuid);
 
+    const actionElement = <Checkbox
+        classNames={{
+            input: classes.inputCheckbox
+        }}
+        value={template.id.toString()}
+        size="sm"
+        onClick={e => e.stopPropagation()}
+    />;
+
     return (
         <>
             <TemplateCardDetails
@@ -89,90 +99,15 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template" size={"lg"}>
                 <TemplateForm mutation={updateMudation} template={template} handle={editHandle} />
             </Modal>
-            <Accordion.Item className={classes.card} ref={itemRef} value={template.uuid}>
-                <Accordion.Control>
-                    <Group justify="space-between" wrap="nowrap" align="center">
-                        <Group wrap="nowrap" gap={"xs"}>
-                            <Tooltip label={template.technology.name}>
-                                <ActionIcon component="a" variant="transparent" ml={-4}>
-                                    {
-                                        Technology.getIcon(template.technology, 18, Color.orange)
-                                    }
-                                </ActionIcon>
-                            </Tooltip>
-                            <Stack gap={0}>
-                                <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                    {template.repository.name}
-                                </Badge>
-                                <Text size="xs" fw={700} lineClamp={1}>
-                                    {template.title}
-                                </Text>
-                            </Stack>
-                        </Group>
-                        <Group gap={"xs"} wrap="nowrap">
-                            <Menu>
-                                <Menu.Target>
-                                    <ActionIcon variant="transparent" color="--mantine-color-text" component="a" onClick={e => e.stopPropagation()}>
-                                        <IconDots size={16} />
-                                    </ActionIcon>
-                                </Menu.Target>
-                                <Menu.Dropdown>
-                                    <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                        Details
-                                    </Menu.Item>
-                                    <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
-                                        {
-                                            clipboard.copied ? 'Copied' : 'Copy URL'
-                                        }
-                                    </Menu.Item>
-                                    {
-                                        isUserItem &&
-                                        <Menu.Item onClick={e => openEdit(e)} leftSection={<IconEdit size={14} />}>
-                                            Edit
-                                        </Menu.Item>
-                                    }
-                                    {
-                                        isUserItem &&
-                                        <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
-                                            Delete
-                                        </Menu.Item>
-                                    }
-                                </Menu.Dropdown>
-                            </Menu>
-                            <Checkbox
-                                classNames={{
-                                    input: classes.inputCheckbox
-                                }}
-                                value={template.id.toString()}
-                                size="sm"
-                                onClick={e => e.stopPropagation()}
-                            />
-                        </Group>
-                    </Group>
-                </Accordion.Control >
-                <Accordion.Panel>
-                    <Stack gap={"lg"}>
-                        <Group wrap="nowrap" justify="space-between" align="flex-start">
-                            <Text size="xs" c={"dimmed"} fw={500}>{template.description}</Text>
-                        </Group>
-
-                        <Group justify="space-between">
-
-                            <Button onClick={openDetails} size="xs" variant="transparent" color="--mantine-text-color" px={0} leftSection={<IconFileDescription size={14} />}>
-                                Details
-                            </Button>
-                            {
-                                template.provider &&
-                                <Badge variant="dot" size="sm">
-                                    {template.provider.model_name}
-                                </Badge>
-
-                            }
-
-                        </Group>
-                    </Stack>
-                </Accordion.Panel>
-            </Accordion.Item >
+            <DatabaseCard
+                item={template}
+                openDetails={openDetails}
+                openEdit={openEdit}
+                openDeleteModal={openDeleteModal}
+                copyURL={copyPublicURL}
+                actionElement={actionElement}
+                color="orange"
+            />
         </>
     )
 }

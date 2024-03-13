@@ -1,4 +1,4 @@
-import { Badge, Box, Divider, Group, Modal, Radio, Stack, Text, rem } from "@mantine/core";
+import { ActionIcon, Badge, Box, Divider, Group, Modal, Radio, Stack, Text, Tooltip, rem } from "@mantine/core";
 import { ThreadSaveButton } from "../../Buttons/ThreadSaveButton/ThreadSaveButton";
 import { useDisclosure } from "@mantine/hooks";
 import { useStore } from "../../../../stores/store";
@@ -14,6 +14,8 @@ import { useCreateTemplateMutation } from "../../../../api/templatesApi";
 import { useCreateModifierMutation } from "../../../../api/modifiersApi";
 import { ThreadTemplateForm } from "../../../Forms/ThreadTemplateForm/ThreadTemplateForm";
 import { ThreadModifierForm } from "../../../Forms/ThreadModifierForm/ThreadModifierForm";
+import { Template } from "../../../../models/Template";
+import { iconClose } from "../../../../utils/iconsUtils";
 
 interface ThreadFooter {
     thread: Thread,
@@ -24,10 +26,16 @@ export function ThreadFooter({ thread }: ThreadFooter) {
         user,
         threads,
         setThreads,
+        nextThread,
+        selectedTemplates,
+        selectedModifiers
     ] = useStore(useShallow(state => [
         state.user,
         state.threads,
         state.setThreads,
+        state.nextThread,
+        state.selectedTemplates,
+        state.selectedModifiers
     ]));
 
     const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);

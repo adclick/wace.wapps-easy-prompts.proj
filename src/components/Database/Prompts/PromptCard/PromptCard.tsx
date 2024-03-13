@@ -1,7 +1,6 @@
-import { Accordion, ActionIcon, Badge, Group, Stack, Text, Menu, Modal, Button, Tooltip, SimpleGrid } from "@mantine/core";
-import { IconBulb, IconEdit, IconEye, IconFileDescription, IconLink, IconPencil, IconTrash, IconWorld } from "@tabler/icons-react";
+import { ActionIcon, Text, Modal, Tooltip } from "@mantine/core";
 import { Prompt } from "../../../../models/Prompt";
-import { useClipboard, useDisclosure, useHover } from "@mantine/hooks";
+import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { PromptCardDetails } from "../PromptCardDetails/PromptCardDetails";
 import { iconPlay } from "../../../../utils/iconsUtils";
 import { useDeletePromptMutation, useUpdatePromptMutation } from "../../../../api/promptsApi";
@@ -11,10 +10,8 @@ import { modals } from "@mantine/modals";
 import { useStore } from "../../../../stores/store";
 import { useShallow } from "zustand/react/shallow";
 import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
-import classes from './PromptCard.module.css';
 import { Thread } from "../../../../models/Thread";
-import { IconDots } from "@tabler/icons-react";
-import { Technology } from "../../../../models/Technology";
+import DatabaseCard from "../../../../features/DatabaseCard/DatabaseCard";
 
 interface PromptCard {
     prompt: Prompt,
@@ -94,7 +91,6 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
 
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        console.log(prompt);
         clipboard.copy(window.location.origin + window.location.pathname + '?prompt_id=' + prompt.uuid);
 
         notifications.show({
@@ -110,10 +106,13 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
         editHandle.open();
     }
 
-    const hoverCard = useHover();
-    const hoverMenu = useHover();
-
     const updateMutation = useUpdatePromptMutation(prompt.uuid);
+
+    const actionElement = <Tooltip label="Play">
+        <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
+            {iconPlay(12)}
+        </ActionIcon>
+    </Tooltip>;
 
     return (
         <>
@@ -126,81 +125,15 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
             <Modal opened={editOpened} onClose={editHandle.close} title="Update Prompt" size={"lg"}>
                 <PromptForm mutation={updateMutation} prompt={prompt} handle={editHandle} />
             </Modal>
-            <Accordion.Item className={classes.card} ref={hoverCard.ref} value={prompt.uuid}>
-                <Accordion.Control>
-                    <Stack>
-                        <Group justify="space-between" wrap="nowrap" align="center">
-                            <Group wrap="nowrap" gap={"xs"}>
-                                <Tooltip label={prompt.technology.name}>
-                                    <ActionIcon component="a" variant="transparent" ml={-4}>
-                                        {
-                                            Technology.getIcon(prompt.technology, 18)
-                                        }
-                                    </ActionIcon>
-                                </Tooltip>
-                                <Stack gap={0}>
-                                    <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                        {prompt.repository.name}
-                                    </Badge>
-                                    <Tooltip label={prompt.title}>
-                                        <Text size="xs" fw={700} lineClamp={1}>
-                                            {prompt.title}
-                                        </Text>
-                                    </Tooltip>
-                                </Stack>
-                            </Group>
-                            <Group wrap="nowrap" gap={"xs"}>
-                                <ActionIcon component="a" variant="filled" size={"sm"} onClick={(e: any) => play(e)}>
-                                    {iconPlay(12)}
-                                </ActionIcon>
-                            </Group>
-                        </Group>
-
-                    </Stack>
-                </Accordion.Control >
-                <Accordion.Panel>
-                    <Stack gap={"lg"}>
-
-                        <Group justify="space-between">
-                            <Group>
-                                {
-                                    prompt.provider &&
-                                    <Badge variant="dot" size="sm">
-                                        {prompt.provider.model_name}
-                                    </Badge>
-                                }
-                            </Group>
-                            <Group gap={"xs"}>
-                                <Tooltip label="Copy link">
-                                    <ActionIcon onClick={openEdit} variant="subtle">
-                                        <IconPencil size={14} />
-                                    </ActionIcon>
-                                </Tooltip>
-                                <Tooltip label="Copy link">
-                                    <ActionIcon onClick={copyPublicURL} variant="subtle">
-                                        <IconLink size={14} />
-                                    </ActionIcon>
-                                </Tooltip>
-                                <ActionIcon onClick={openDeleteModal} color="red" variant="subtle">
-                                    <IconTrash size={14} />
-                                </ActionIcon>
-                            </Group>
-                        </Group>
-
-                        {
-                            prompt.description &&
-                            <Group wrap="nowrap" justify="space-between" align="flex-start">
-                                <Text size="xs" c={"dimmed"} fw={500}>{prompt.description}</Text>
-                            </Group>
-                        }
-
-                        <Button leftSection={<IconEye size={14} />} onClick={openDetails}  variant="light"
-                        >
-                            Open
-                        </Button>
-                    </Stack>
-                </Accordion.Panel>
-            </Accordion.Item >
+            <DatabaseCard
+                item={prompt}
+                openDetails={openDetails}
+                openEdit={openEdit}
+                openDeleteModal={openDeleteModal}
+                copyURL={copyPublicURL}
+                actionElement={actionElement}
+                color="blue"
+            />
         </>
     )
 }

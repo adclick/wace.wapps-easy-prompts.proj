@@ -46,7 +46,7 @@ export function ThreadHeader({ deleteThread, collapsed, setCollapsed, thread, up
 
     return (
         <div ref={ref}>
-            <Modal opened={editTitleOpened} onClose={editTitleHandle.close} title="Change Title">
+            <Modal opened={editTitleOpened} onClose={editTitleHandle.close} title="Rename">
                 <Stack>
                     <TextInput
                         value={threadTitle}
@@ -85,7 +85,7 @@ export function ThreadHeader({ deleteThread, collapsed, setCollapsed, thread, up
                                 </Text>
                                 {
                                     hovered &&
-                                    <Tooltip label="Change Title">
+                                    <Tooltip label="Rename">
                                         <ActionIcon component="a" variant="transparent" color="gray" onClick={e => openEditTitle(e)}>
                                             <IconPencil size={14} />
                                         </ActionIcon>

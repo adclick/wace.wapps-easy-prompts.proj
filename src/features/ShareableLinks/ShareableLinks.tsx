@@ -66,6 +66,8 @@ const ShareableLinks: FC = () => {
                 thread.provider = await getDefaultProvider(thread.technology);
             }
 
+            console.log(thread);
+
             createThreadMutation.mutate({
                 title: thread.title,
                 key: thread.key.toString(),

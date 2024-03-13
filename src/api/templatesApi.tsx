@@ -100,7 +100,7 @@ export const useUpdateTemplateMutation = (templateUUID: string) => {
                 repository_id: formData.repository_id,
                 technology_id: formData.technology_id,
                 provider_id: formData.provider_id,
-                modifiers_ids: JSON.stringify(formData.modifiers_ids.map(id => parseInt(id))),
+                modifiers_ids: JSON.stringify(formData.modifiers_ids),
                 chat_history: formData.chat_messages,
                 template_parameters: formData.template_parameters
             })
