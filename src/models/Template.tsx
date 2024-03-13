@@ -1,8 +1,5 @@
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
-import { Parameter } from "./Parameter";
-import { ParametersList } from "./ParametersList";
-import { Metadata } from "./Prompt";
 import { Provider } from "./Provider";
 import { Repository } from "./Repository";
 import { Technology } from "./Technology";
@@ -23,13 +20,11 @@ export class Template {
     plays: number;
     created_at: Date;
     type: string;
-    metadata: Metadata;
     user: User
     language: Language;
     repository: Repository;
     technology: Technology;
     provider: Provider;
-    parametersList: ParametersList;
     templates_modifiers: TemplateModifier[];
     templates_parameters: TemplateParameter[];
     
@@ -49,7 +44,6 @@ export class Template {
         this.repository = new Repository();
         this.technology = new Technology();
         this.provider = new Provider();
-        this.parametersList = new ParametersList()
         this.templates_modifiers = [];
         this.templates_parameters = [];
     }
@@ -66,12 +60,10 @@ export class Template {
         newTemplate.plays = template.plays;
         newTemplate.created_at = template.created_at;
         newTemplate.type = template.type;
-        newTemplate.metadata = template.metadata;
         newTemplate.user = template.user;
         newTemplate.language = template.language;
         newTemplate.repository = template.repository;
         newTemplate.provider = template.provider;
-        newTemplate.parametersList = template.parametersList;
         newTemplate.templates_modifiers = template.templates_modifiers;
         newTemplate.templates_parameters = template.templates_parameters;
 

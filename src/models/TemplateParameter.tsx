@@ -1,9 +1,11 @@
+import { Parameter } from "./Parameter";
+
 export class TemplateParameter {
-    parameter_id: number;
+    parameter: Parameter;
     value: string;
 
     constructor() {
-        this.parameter_id = 0;
+        this.parameter = new Parameter();
         this.value = "";
     }
 }

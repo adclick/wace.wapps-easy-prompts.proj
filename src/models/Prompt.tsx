@@ -1,7 +1,6 @@
 import { Color } from "../enums";
 import { Language } from "./Language";
 import { Modifier } from "./Modifier";
-import { ParametersList } from "./ParametersList";
 import { PromptChatMessage } from "./PromptChatMessage";
 import { PromptParameter } from "./PromptParameter";
 import { Provider } from "./Provider";
@@ -35,7 +34,6 @@ export class Prompt {
     provider: Provider;
     templates: Template[];
     modifiers: Modifier[];
-    parametersList: ParametersList;
     prompts_chat_messages: PromptChatMessage[];
     prompts_modifiers: PromptModifier[];
     prompts_templates: PromptTemplate[];
@@ -58,7 +56,6 @@ export class Prompt {
         this.provider = new Provider();
         this.templates = [];
         this.modifiers = [];
-        this.parametersList = new ParametersList();
         this.prompts_chat_messages = [];
         this.prompts_modifiers = [];
         this.prompts_templates = [];
@@ -84,7 +81,6 @@ export class Prompt {
         newPrompt.provider = prompt.provider;
         newPrompt.templates = prompt.templates;
         newPrompt.modifiers = prompt.modifiers;
-        newPrompt.parametersList = prompt.parametersList;
         newPrompt.prompts_chat_messages = prompt.prompts_chat_messages;
         newPrompt.prompts_modifiers = prompt.prompts_modifiers;
         newPrompt.prompts_templates = prompt.prompts_templates;

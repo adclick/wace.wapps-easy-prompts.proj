@@ -45,7 +45,9 @@ const ThreadChat: FC<ThreadChatProps> = ({
             role,
             message,
             threads_chat_messages_modifiers: selectedModifiers.map(m => ({ modifier: m })),
-            threads_chat_messages_templates: selectedTemplates.map(t => ({ template: t }))
+            threads_chat_messages_templates: selectedTemplates.map(t => ({ template: t })),
+            prompts_chat_messages_modifiers: [],
+            prompts_chat_messages_templates: [],
         }
     }
 
