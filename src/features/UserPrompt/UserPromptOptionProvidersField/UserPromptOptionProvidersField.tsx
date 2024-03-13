@@ -37,7 +37,7 @@ const UserPromptOptionProvidersField: FC = () => {
             newNextThread.provider = Provider.clone(provider);
             newNextThread.threads_parameters = newNextThread.provider.parameters.map(p => {
                 return {
-                    parameter_id: p.id,
+                    parameter: p,
                     value: p.value
                 }
             })
@@ -49,8 +49,8 @@ const UserPromptOptionProvidersField: FC = () => {
     const updateParameter = (parameter: Parameter, value: string | null) => {
         if (!value) return;
         const newNextThread = Thread.clone(nextThread);
-        newNextThread.threads_parameters = nextThread.threads_parameters.filter(p => p.parameter_id !== parameter.id);
-        newNextThread.threads_parameters.push({ parameter_id: parameter.id, value });
+        newNextThread.threads_parameters = nextThread.threads_parameters.filter(p => p.parameter.id !== parameter.id);
+        newNextThread.threads_parameters.push({ parameter: parameter, value });
 
         setNextThread(newNextThread);
     }
@@ -78,7 +78,7 @@ const UserPromptOptionProvidersField: FC = () => {
                 />
                 {
                     nextThread.provider.parameters.map(parameter => {
-                        let tp = nextThread.threads_parameters.find(tp => tp.parameter_id === parameter.id);
+                        let tp = nextThread.threads_parameters.find(tp => tp.parameter.id === parameter.id);
                         const value = tp ? tp.value : parameter.value;
 
                         return (
