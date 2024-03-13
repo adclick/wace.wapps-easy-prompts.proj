@@ -1,49 +1,48 @@
-import { ActionIcon, Anchor, Box, Button, Group, Title } from "@mantine/core";
-import { HeaderBurgerMenu } from "../HeaderBurgerMenu/HeaderBurgerMenu";
-import { ThreadsMenu } from "../../Threads/Layout/ThreadsMenu/ThreadsMenu";
-import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
-import { UserMenu } from "../../User/UserMenu/UserMenu";
-import { NavbarToggleIcon } from "../../Common/Icons/NavbarToggleIcon/NavbarToggleIcon";
-import { IconClearAll, IconHome, IconPlayerPlayFilled } from "@tabler/icons-react";
+import { DesktopContainer, FlexRow, MobileContainer } from "../../UI/Layout";
+import { FlexAlign, FlexJustify, Size } from "../../../enums";
+import { AppMenu, ColorThemeSwitcher, SidebarCollapseSwitcher, SidebarHamburgerSwitcher, UserMenu } from "../../../features";
+import { BooleanHandle } from "../../../types";
+import { FC } from "react";
 
-interface Header {
+interface HeaderProps {
     navbarMobileOpened: boolean,
     navbarDesktopOpened: boolean,
-    navbarMobileHandle: any,
-    navbarDesktopHandle: any,
+    navbarMobileHandle: BooleanHandle,
+    navbarDesktopHandle: BooleanHandle,
 }
 
-export function Header({
+const Header: FC<HeaderProps> = ({
     navbarMobileOpened,
     navbarDesktopOpened,
     navbarMobileHandle,
     navbarDesktopHandle,
-}: Header) {
+}: HeaderProps) => {
     return (
-        <Group h={"100%"} justify="space-between" align="center">
-            <Group h={"100%"} gap={"xs"}>
-                <Box visibleFrom="sm" >
-                    {
-                        !navbarDesktopOpened && <NavbarToggleIcon navbarOpened={navbarDesktopOpened} navbarToggle={navbarDesktopHandle.toggle} />
-                    }
-                </Box>
-                <Box hiddenFrom="sm" mb={3}>
-                    <HeaderBurgerMenu navbarOpened={navbarMobileOpened} navbarHandle={navbarMobileHandle} />
-                </Box>
-                {/* <Anchor c={"gray"} underline="never" href="/">
-                    <Title order={3}>
-                        EasyPrompts
-                    </Title>
-                </Anchor>
-                <ActionIcon>
-                    <IconClearAll />
-                </ActionIcon> */}
-                <ThreadsMenu />
-            </Group>
-            <Group>
-                <ColorSchemeToggle />
+        <FlexRow justify={FlexJustify.spaceBetween} align={FlexAlign.center}>
+            <FlexRow gap={Size.xs}>
+                {
+                    !navbarDesktopOpened &&
+                    <DesktopContainer>
+                        <SidebarCollapseSwitcher
+                            navbarOpened={navbarDesktopOpened}
+                            navbarToggle={navbarDesktopHandle.toggle}
+                        />
+                    </DesktopContainer>
+                }
+                <MobileContainer>
+                    <SidebarHamburgerSwitcher
+                        navbarOpened={navbarMobileOpened}
+                        navbarHandle={navbarMobileHandle}
+                    />
+                </MobileContainer>
+                <AppMenu />
+            </FlexRow>
+            <FlexRow>
+                <ColorThemeSwitcher />
                 <UserMenu />
-            </Group>
-        </Group>
+            </FlexRow>
+        </FlexRow>
     )
 }
+
+export default Header;

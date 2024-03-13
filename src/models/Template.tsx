@@ -15,6 +15,7 @@ interface TemplateModifier {
 
 export class Template {
     id: number;
+    uuid: string;
     title: string;
     slug: string;
     description: string;
@@ -34,6 +35,7 @@ export class Template {
     
     constructor() {
         this.id = 0;
+        this.uuid = "";
         this.title = "";
         this.slug = "";
         this.description = "";
@@ -56,6 +58,7 @@ export class Template {
         const newTemplate = new Template();
 
         newTemplate.id = template.id;
+        newTemplate.uuid = template.uuid;
         newTemplate.title = template.title;
         newTemplate.slug = template.slug;
         newTemplate.description = template.description;

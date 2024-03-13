@@ -1,9 +1,9 @@
 export class SelectedFilters {
     isEmpty: boolean;
     search_term: string;
-    languages_ids: number[];
-    repositories_ids: number[];
-    technologies_ids: number[];
+    languages_ids: string[];
+    repositories_ids: string[];
+    technologies_ids: string[];
 
     constructor() {
         this.isEmpty = true;
@@ -17,9 +17,9 @@ export class SelectedFilters {
         const newFilters = new SelectedFilters();
 
         newFilters.search_term = data.searchTerm;
-        newFilters.languages_ids = data.languages.map((l: {id: number}) => l.id);
-        newFilters.repositories_ids = data.repositories.map((r: {id: number}) => r.id);
-        newFilters.technologies_ids = data.technologies.map((t: {id: number}) => t.id);
+        newFilters.languages_ids = data.languages.map((l: {uuid: string}) => l.uuid);
+        newFilters.repositories_ids = data.repositories.map((r: {uuid: string}) => r.uuid);
+        newFilters.technologies_ids = data.technologies.map((t: {uuid: string}) => t.uuid);
         newFilters.isEmpty = false;
 
         return newFilters;

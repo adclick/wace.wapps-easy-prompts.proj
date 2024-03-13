@@ -1,5 +1,6 @@
 export class Parameter {
     id: number;
+    uuid: string;
     name: string;
     slug: string;
     data: any;
@@ -7,6 +8,7 @@ export class Parameter {
 
     constructor(name: string = "", slug: string = "", data: string = "", value: any = null) {
         this.id = 0;
+        this.uuid = "";
         this.name = name;
         this.slug = slug;
         this.data = data;
@@ -17,6 +19,7 @@ export class Parameter {
         const newParameter = new Parameter();
 
         newParameter.id = parameter.id;
+        newParameter.uuid = parameter.uuid;
         newParameter.name = parameter.name;
         newParameter.slug = parameter.slug;
         newParameter.data = parameter.data;

@@ -4,7 +4,7 @@ import { SelectedFilters } from '../../../models/SelectedFilters';
 import { IconDatabase } from '@tabler/icons-react';
 
 interface RepositoriesFilter {
-    repositories: { id: number, name: string, slug: string, default: boolean }[],
+    repositories: { id: number, uuid: string, name: string, slug: string, default: boolean }[],
     selectedFilters: SelectedFilters,
     setSelectedFilters: any
 }
@@ -22,7 +22,7 @@ export function RepositoriesFilter({ repositories, selectedFilters, setSelectedF
 
         setSelectedFilters({
             ...selectedFilters,
-            repositories_ids: newValue.map(id => parseInt(id))
+            repositories_ids: newValue
         })
     }
 
@@ -48,11 +48,11 @@ export function RepositoriesFilter({ repositories, selectedFilters, setSelectedF
                 {
                     repositories
                         .map((item) => (
-                            <Combobox.Option value={item.id.toString()} key={item.id} active={selectedIds.includes(item.id.toString())}>
+                            <Combobox.Option value={item.uuid} key={item.uuid} active={selectedIds.includes(item.uuid)}>
                                 <Group gap="sm">
                                     <Checkbox
                                         size='sm'
-                                        checked={selectedIds.includes(item.id.toString())}
+                                        checked={selectedIds.includes(item.uuid)}
                                         onChange={() => { }}
                                         aria-hidden
                                         tabIndex={-1}

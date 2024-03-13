@@ -1,13 +1,11 @@
 import { FC, MouseEvent, ReactNode } from "react";
 import { Menu as MantineMenu } from "@mantine/core";
-import { Position } from "../../../enums/Position";
-import { Color } from "../../../enums/Color";
-import { MenuType } from "../../../enums/MenuType";
+import { Color, MenuType, Position } from "../../../enums";
 
 
-interface MenuItemProps {
+export interface MenuItemProps {
     type: MenuType
-    id: number;
+    id: number | string;
     label?: ReactNode;
     icon?: ReactNode;
     color?: Color;
@@ -18,13 +16,14 @@ interface MenuItemProps {
 
 interface MenuProps {
     target: ReactNode,
-    position?: Position
-    items: MenuItemProps[]
+    position?: Position,
+    items: MenuItemProps[],
+    width?: string
 }
 
-const Menu: FC<MenuProps> = ({ target, position, items }: MenuProps) => {
+const Menu: FC<MenuProps> = ({ target, position, items, width }: MenuProps) => {
     return (
-        <MantineMenu position={position}>
+        <MantineMenu position={position} width={width}>
             <MantineMenu.Target>
                 {target}
             </MantineMenu.Target>

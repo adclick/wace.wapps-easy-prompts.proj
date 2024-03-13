@@ -1,17 +1,18 @@
-import { Accordion, Badge, Group, Stack, Text, Checkbox, Menu, ActionIcon, Modal } from "@mantine/core";
-import { IconCopy, IconDotsVertical, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
+import { Accordion, Badge, Group, Stack, Text, Checkbox, Menu, ActionIcon, Modal, Tooltip, Button } from "@mantine/core";
+import { IconCopy, IconDots, IconEdit, IconFileDescription, IconTrash } from "@tabler/icons-react";
 import { Template } from "../../../../models/Template";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { TemplateCardDetails } from "../TemplateCardDetails/TemplateCardDetails";
 import classes from './TemplateCard.module.css';
-import { useDeleteTemplateMutation } from "../../../../api/templatesApi";
-import { ProviderLabel } from "../../../Common/ProviderLabel/ProviderLabel";
-import { DatabaseCardContent } from "../../Common/DatabaseCardContent/DatabaseCardContent";
-import { useUser } from "../../../../context/UserContext";
+import { useDeleteTemplateMutation, useUpdateTemplateMutation } from "../../../../api/templatesApi";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
-import { UpdateTemplateForm } from "../../../../forms/UpdateTemplateForm/UpdateTemplateForm";
-import { encrypt } from "../../../../utils/uiUtils";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
+import { TemplateForm } from "../../../Forms/TemplateForm/TemplateForm";
+import { Technology } from "../../../../models/Technology";
+import { Color } from "../../../../enums";
+import DatabaseCard from "../../../../features/DatabaseCard/DatabaseCard";
 
 interface TemplateCard {
     template: Template,
@@ -24,7 +25,7 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
     const deleteMutation = useDeleteTemplateMutation();
     const clipboard = useClipboard({ timeout: 500 });
 
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const isUserItem = user.external_id === template.user.external_id;
 
@@ -38,14 +39,6 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             title: "Error",
             message: deleteMutation.error.message,
             color: "red"
-        });
-    }
-
-    if (deleteMutation.isSuccess) {
-        notifications.show({
-            title: "Item Deleted",
-            message: "",
-            color: "blue"
         });
     }
 
@@ -63,13 +56,13 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
             labels: { confirm: 'Delete', cancel: "Cancel" },
             confirmProps: { color: 'red' },
             onCancel: () => console.log('Cancel'),
-            onConfirm: () => deleteMutation.mutate(template.id),
+            onConfirm: () => deleteMutation.mutate(template.uuid),
         });
     }
-    
+
     const copyPublicURL = (e: any) => {
         e.stopPropagation();
-        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + encrypt(template.id));
+        clipboard.copy(window.location.origin + window.location.pathname + '?template_id=' + template.uuid);
 
         notifications.show({
             title: "URL Copied",
@@ -84,6 +77,17 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
         editHandle.open();
     }
 
+    const updateMudation = useUpdateTemplateMutation(template.uuid);
+
+    const actionElement = <Checkbox
+        classNames={{
+            input: classes.inputCheckbox
+        }}
+        value={template.id.toString()}
+        size="sm"
+        onClick={e => e.stopPropagation()}
+    />;
+
     return (
         <>
             <TemplateCardDetails
@@ -91,79 +95,21 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                 handle={detailsHandle}
                 template={template}
                 deleteMutation={deleteMutation}
+                openEdit={openEdit}
+                copyURL={copyPublicURL}
             />
             <Modal opened={editOpened} onClose={editHandle.close} title="Edit Template" size={"lg"}>
-                <UpdateTemplateForm template={template} handle={editHandle} />
+                <TemplateForm mutation={updateMudation} template={template} handle={editHandle} />
             </Modal>
-            <Accordion.Item ref={itemRef} value={template.id.toString()}>
-                <Accordion.Control>
-                    <Stack>
-                        <Group justify="space-between" wrap="nowrap" align="flex-start">
-                            <Stack gap={0}>
-                                <Badge size="xs" variant="transparent" px={0} color="gray.9">
-                                    {template.repository.name}
-                                </Badge>
-                                <Text size="sm" fw={500} lineClamp={20}>
-                                    {template.title}
-                                </Text>
-                            </Stack>
-                            <Menu>
-                                <Menu.Target>
-                                    <ActionIcon variant="transparent" color="gray.9" component="a" onClick={e => e.stopPropagation()}>
-                                        <IconDotsVertical size={16} />
-                                    </ActionIcon>
-                                </Menu.Target>
-                                <Menu.Dropdown>
-                                    <Menu.Item onClick={openDetails} leftSection={<IconFileDescription size={14} />}>
-                                        <Text size="xs">Details</Text>
-                                    </Menu.Item>
-                                    <Menu.Item onClick={e => copyPublicURL(e)} leftSection={<IconCopy size={14} />}>
-                                        {
-                                            clipboard.copied
-                                                ? <Text size="xs">Copied</Text>
-                                                : <Text size="xs">Copy URL</Text>
-                                        }
-                                    </Menu.Item>
-                                    {
-                                        isUserItem &&
-                                        <Menu.Item onClick={e => openEdit(e)} leftSection={<IconEdit size={14} />}>
-                                            Edit
-                                        </Menu.Item>
-                                    }
-                                    {
-                                        isUserItem &&
-                                        <Menu.Item onClick={e => openDeleteModal(e)} leftSection={<IconTrash size={14} />} color="red">
-                                            <Text size="xs">Delete</Text>
-                                        </Menu.Item>
-                                    }
-                                </Menu.Dropdown>
-                            </Menu>
-                        </Group>
-
-                        <Group justify="space-between" wrap="nowrap">
-                            <Badge size={"xs"} variant="dot" h={"auto"}>
-                                <ProviderLabel
-                                    size="xs"
-                                    technology={template.technology}
-                                    provider={template.provider}
-                                    templates={[]}
-                                    modifiers={template.templates_modifiers.map(m => m.modifier)}
-                                />
-                            </Badge>
-                            <Checkbox
-                                classNames={{
-                                    input: classes.inputCheckbox
-                                }} value={template.id.toString()}
-                                size="md"
-                                onClick={e => e.stopPropagation()}
-                            />
-                        </Group>
-                    </Stack>
-                </Accordion.Control >
-                <Accordion.Panel>
-                    <DatabaseCardContent item={template} detailsHandle={detailsHandle} />
-                </Accordion.Panel>
-            </Accordion.Item >
+            <DatabaseCard
+                item={template}
+                openDetails={openDetails}
+                openEdit={openEdit}
+                openDeleteModal={openDeleteModal}
+                copyURL={copyPublicURL}
+                actionElement={actionElement}
+                color="orange"
+            />
         </>
     )
 }

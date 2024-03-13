@@ -1,25 +1,33 @@
 import axios from 'axios';
-import { PromptRequest } from '../models/PromptRequest';
-import { Technology } from '../models/Technology';
-import { Provider } from '../models/Provider';
-import { Modifier } from '../models/Modifier';
 import { useQuery } from '@tanstack/react-query';
-import { Template } from '../models/Template';
+import { PromptChatMessage } from '../models/PromptChatMessage';
+import { Thread } from '../models/Thread';
+import { User } from '../models/User';
+import { PromptChatMessageRole } from '../enums';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const ERROR_MESSAGE = "Something went wrong. Please try again later or contact support";
 
-export const useChatQuery = (request: PromptRequest, text: string, providerId: number, history: { role: string, message: string }[], modifiers: Modifier[]) => {
+export const useChatQuery = (
+    user: User,
+    thread: Thread,
+    chatMessages: PromptChatMessage[],
+    enabled: boolean = true
+) => {
+    const lastMessage = chatMessages[chatMessages.length - 1];
+
     return useQuery({
-        queryKey: ["chat", request.key],
+        queryKey: ["chat", thread.key, chatMessages.length],
         queryFn: async () => {
-            const modifiersIds = modifiers.map(m => m.id);
-
-            const { data } = await axios.post(`${API_URL}/ai/chat`, {
-                text: request.content,
-                provider_id: providerId,
-                providers_ids: JSON.stringify(providerId),
-                modifiers_ids: JSON.stringify(modifiersIds),
+            const { data } = await axios.post(`${API_URL}/ai/chat?` + new URLSearchParams({
+                user_external_id: user.external_id
+            }), {
+                provider_id: thread.provider.uuid,
+                chat_messages: chatMessages.map(ch => ({
+                    role: ch.role,
+                    message: ch.message,
+                    templates_ids: ch.threads_chat_messages_templates.map(t => t.template.uuid),
+                    modifiers_ids: ch.threads_chat_messages_modifiers.map(m => m.modifier.uuid)
+                }))
             });
 
             return data;
@@ -27,47 +35,9 @@ export const useChatQuery = (request: PromptRequest, text: string, providerId: n
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        enabled: user.isLoggedIn
+            && chatMessages.length > 0
+            && lastMessage.role === PromptChatMessageRole.USER
+            && enabled
     });
-};
-
-export const chat = async (
-    text: string,
-    providerId: number,
-    history: { role: string, message: string }[],
-    modifiers: Modifier[],
-    templates: Template[]
-): Promise<string> => {
-    try {
-        const modifiersIds = modifiers.map(m => m.id);
-        const templatesIds = templates.map(t => t.id);
-
-        const { data } = await axios.post(`${API_URL}/ai/chat`, {
-            text,
-            provider_id: providerId,
-            modifiers_ids: JSON.stringify(modifiersIds),
-            templates_ids: JSON.stringify(templatesIds),
-            chat_messages: JSON.stringify(history)
-        });
-
-        return data;
-    } catch (e) {
-        console.error(e);
-        return ERROR_MESSAGE;
-    }
-};
-
-export const chatByPromptId = async (promptId: number) => {
-    try {
-        const { data } = await axios.post(`${API_URL}/ai/chat/prompt/${promptId}`);
-
-        console.log(data);
-        return data;
-    } catch (e) {
-        console.error(e);
-        return {
-            response: ERROR_MESSAGE,
-            technology: undefined,
-            provider: undefined
-        };
-    }
 };

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { User } from '../models/User';
 
-export const useTechnologiesQuery = () => {
+export const useTechnologiesQuery = (user: User) => {
     return useQuery({
         queryKey: ["technologies"],
         queryFn: async () => {
@@ -9,6 +10,7 @@ export const useTechnologiesQuery = () => {
 
             return data;
         },
+        enabled: user.isLoggedIn
     });
 };
 

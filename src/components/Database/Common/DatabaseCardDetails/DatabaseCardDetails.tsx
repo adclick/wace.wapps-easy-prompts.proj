@@ -1,13 +1,14 @@
-import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { IconBulb, IconDatabase, IconEdit, IconLanguage, IconSparkles, IconTemplate, IconTrash, IconWorld } from "@tabler/icons-react"
-import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor"
-import { useUser } from "../../../../context/UserContext";
+import { Button, Card, Center, Divider, Grid, Group, Loader, Modal, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { IconBulb, IconDatabase, IconLanguage, IconLink, IconPencil, IconSparkles, IconTemplate, IconTrash, IconUser, IconWorld } from "@tabler/icons-react";
+import { CardDetailsAuthor } from "../../../Common/CardDetailsAuthor/CardDetailsAuthor";
 import { Modifier } from "../../../../models/Modifier";
 import { Prompt } from "../../../../models/Prompt";
 import { Template } from "../../../../models/Template";
 import { Label } from "../../../../models/SelectedDatabaseType";
 import { modals } from "@mantine/modals";
-import classes from './DatabaseCardDetails.module.css'
+import classes from './DatabaseCardDetails.module.css';
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface DatabaseCardDetails {
     opened: boolean,
@@ -18,7 +19,9 @@ interface DatabaseCardDetails {
     hasModifiers: boolean,
     hasTemplates: boolean,
     typeLabel: Label,
-    deleteMutation: any
+    deleteMutation: any,
+    openEdit: any,
+    copyURL: any
 }
 
 export function DatabaseCardDetails({
@@ -30,9 +33,11 @@ export function DatabaseCardDetails({
     hasModifiers,
     hasTemplates,
     typeLabel,
-    deleteMutation
+    deleteMutation,
+    openEdit,
+    copyURL
 }: DatabaseCardDetails) {
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     let modifiers = [];
     let templates = [];
@@ -68,9 +73,13 @@ export function DatabaseCardDetails({
         });
     }
 
+    const date = new Date(item.created_at)
+    const formattedDate = `${date.toLocaleDateString('en-GB')} ${date.toLocaleTimeString('en-GB')}`;
+
     return (
-        <Modal opened={opened} onClose={handle.close} title={title} size={"lg"}>
-            <Stack my={"md"}>
+        <Modal opened={opened} onClose={handle.close} title={title} size={"md"} styles={{
+        }}>
+            <Stack>
                 <Card className={classes.card}>
                     <Stack>
                         {
@@ -84,45 +93,54 @@ export function DatabaseCardDetails({
                             </>
                         }
                         <Title order={6}>Specifications</Title>
-                        <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                            <Stack>
+                        <SimpleGrid cols={{ base: 1, sm: 1 }}>
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconBulb size={12} />
+                                    <Text size="xs">Technology</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.technology.name}</Text>
+                            </SimpleGrid>
+                            {
+                                item.provider &&
                                 <SimpleGrid cols={2} spacing={"xs"}>
                                     <Group gap={"xs"}>
-                                        <IconLanguage size={12} />
-                                        <Text size="xs">Language</Text>
+                                        <IconWorld size={12} />
+                                        <Text size="xs">Provider</Text>
                                     </Group>
-                                    <Text fw={700} size="xs">{item.language.name}</Text>
+                                    <Text fw={700} size="xs">{item.provider.model_name}</Text>
                                 </SimpleGrid>
-                                <SimpleGrid cols={2} spacing={"xs"}>
-                                    <Group gap={"xs"}>
-                                        <IconDatabase size={12} />
-                                        <Text size="xs">Repository</Text>
-                                    </Group>
-                                    <Text fw={700} size="xs">{item.repository.name}</Text>
-                                </SimpleGrid>
-                            </Stack>
-                            <Stack>
-                                <SimpleGrid cols={2} spacing={"xs"}>
-                                    <Group gap={"xs"}>
-                                        <IconBulb size={12} />
-                                        <Text size="xs">Technology</Text>
-                                    </Group>
-                                    <Text fw={700} size="xs">{item.technology.name}</Text>
-                                </SimpleGrid>
-                                {
-                                    item.provider &&
-                                    <SimpleGrid cols={2} spacing={"xs"}>
-                                        <Group gap={"xs"}>
-                                            <IconWorld size={12} />
-                                            <Text size="xs">Provider</Text>
-                                        </Group>
-                                        <Text fw={700} size="xs">{item.provider.model_name}</Text>
-                                    </SimpleGrid>
-                                }
-                            </Stack>
+                            }
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconLanguage size={12} />
+                                    <Text size="xs">Language</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.language.name}</Text>
+                            </SimpleGrid>
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconDatabase size={12} />
+                                    <Text size="xs">Repository</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.repository.name}</Text>
+                            </SimpleGrid>
+
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconUser size={12} />
+                                    <Text size="xs">Author</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{item.user.username}</Text>
+                            </SimpleGrid>
+                            <SimpleGrid cols={2} spacing={"xs"}>
+                                <Group gap={"xs"}>
+                                    <IconUser size={12} />
+                                    <Text size="xs">Published</Text>
+                                </Group>
+                                <Text fw={700} size="xs">{formattedDate}</Text>
+                            </SimpleGrid>
                         </SimpleGrid>
-                        <Divider />
-                        <CardDetailsAuthor item={item} />
                     </Stack>
                 </Card>
                 {
@@ -151,14 +169,6 @@ export function DatabaseCardDetails({
                                             })
 
                                         }
-                                        <Grid gutter={2}>
-                                            <Grid.Col span={{ base: 12, sm: 2 }}>
-                                                <Text size="xs" fw={700}>user</Text>
-                                            </Grid.Col>
-                                            <Grid.Col span={{ base: 12, sm: 10 }}>
-                                                <Text size="xs">{itemQuery.data.content}</Text>
-                                            </Grid.Col>
-                                        </Grid>
                                     </Stack>
                                     : <Text size="xs">{itemQuery.data.content}</Text>
                             }
@@ -207,20 +217,40 @@ export function DatabaseCardDetails({
                         </Stack>
                     </Card>
                 }
-                {
-                    user.username === item.user.username &&
-                    <Group>
-                        <Button
-                            color="red"
-                            size="xs"
-                            variant="subtle"
-                            onClick={openDeleteModal}
-                            leftSection={<IconTrash size={14} />}
-                        >
-                            Delete
-                        </Button>
-                    </Group>
-                }
+                <Stack>
+                    <Button
+                        size="xs"
+                        color="gray"
+                        variant="filled"
+                        onClick={copyURL}
+                        leftSection={<IconLink size={14} />}
+                    >
+                        Copy Link
+                    </Button>
+                    {
+                        user.username === item.user.username &&
+                        <>
+                            <Button
+                                size="xs"
+                                color="gray"
+                                variant="filled"
+                                onClick={openEdit}
+                                leftSection={<IconPencil size={14} />}
+                            >
+                                Edit
+                            </Button>
+                            <Button
+                                color="red"
+                                size="xs"
+                                variant="light"
+                                onClick={openDeleteModal}
+                                leftSection={<IconTrash size={14} />}
+                            >
+                                Delete
+                            </Button>
+                        </>
+                    }
+                </Stack>
             </Stack>
         </Modal>
     )

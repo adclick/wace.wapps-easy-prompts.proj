@@ -1,0 +1,12 @@
+.switcher {
+    background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6));
+}
+
+.switcherLabel {
+    color: light-dark(var(--mantine-color-dark-6), var(--mantine-color-gray-2));
+    
+    &[data-active="true"] {
+        color: var(--mantine-color-gray-2);
+        
+    }
+}

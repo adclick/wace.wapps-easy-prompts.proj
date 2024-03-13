@@ -1,27 +1,34 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Template } from "../../../../models/Template";
 import { TemplateCard } from "../TemplateCard/TemplateCard";
-import { RefObject, useEffect, useState } from "react";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
-import { PromptRequest } from "../../../../models/PromptRequest";
+import { useState } from "react";
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
-import { useIntersection } from "@mantine/hooks";
-import { ParametersList } from "../../../../models/ParametersList";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../../stores/store";
+import { Thread } from "../../../../models/Thread";
 
 interface TemplatesList {
     templatesQuery: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function TemplatesList({ templatesQuery, databaseListContainerRef }: TemplatesList) {
-    const { selectedTemplates, setSelectedTemplates } = useSelectedTemplates();
-    const { setSelectedModifiers } = useSelectedModifiers();
+export function TemplatesList({ templatesQuery }: TemplatesList) {
+    const [
+        selectedTemplates,
+        nextThread,
+        setSelectedTemplates,
+        setSelectedModifiers,
+        setNextThread,
+    ] = useStore(useShallow(state => [
+        state.selectedTemplates,
+        state.nextThread,
+        state.setSelectedTemplates,
+        state.setSelectedModifiers,
+        state.setNextThread
+    ]));
+
     const [value, setValue] = useState<string | null>(null);
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
 
     const onChange = async (ids: string[]) => {
         const templates: Template[] = [];
@@ -35,34 +42,21 @@ export function TemplatesList({ templatesQuery, databaseListContainerRef }: Temp
 
         // Update userPromptRequest based on the first template selected
         if (templates.length > 0) {
-            const newUserRequest = PromptRequest.clone(userPromptRequest);
-            newUserRequest.technology = Technology.clone(templates[0].technology);
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.technology = Technology.clone(templates[0].technology);
 
             if (templates[0].provider) {
-                newUserRequest.provider = Provider.clone(templates[0].provider);
+                newNextThread.provider = Provider.clone(templates[0].provider);
             } else {
-                newUserRequest.provider = new Provider();
+                newNextThread.provider = new Provider();
             }
 
-            setUserPromptRequest(newUserRequest);
+            setNextThread(newNextThread);
         }
 
-        setSelectedModifiers([]);
         setSelectedTemplates(templates);
     }
 
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = templatesQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
 
     return (
         <Box>
@@ -85,11 +79,10 @@ export function TemplatesList({ templatesQuery, databaseListContainerRef }: Temp
                             templatesQuery.data !== undefined &&
                             templatesQuery.data.pages.map((page: any) => {
                                 return page.map((template: Template, index: number) => {
-                                    const isTarget = index === page.length / 2;
 
                                     return <TemplateCard
-                                        itemRef={isTarget ? ref : undefined}
-                                        key={template.id}
+                                        itemRef={undefined}
+                                        key={template.uuid}
                                         template={template}
                                     />
                                 })

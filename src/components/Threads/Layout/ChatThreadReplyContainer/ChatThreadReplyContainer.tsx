@@ -1,7 +1,8 @@
 import { Avatar, Button, Group, Textarea } from "@mantine/core";
 import { useState } from "react";
-import { useUser } from "../../../../context/UserContext";
 import { iconPlay } from "../../../../utils/iconsUtils";
+import { useStore } from "../../../../stores/store";
+import { useShallow } from "zustand/react/shallow";
 
 interface ChatThreadReplyContainer {
     reply: any
@@ -9,7 +10,7 @@ interface ChatThreadReplyContainer {
 
 export function ChatThreadReplyContainer({ reply }: ChatThreadReplyContainer) {
     const [replyValue, setReplyValue] = useState('');
-    const { user } = useUser();
+    const [user] = useStore(useShallow(state => [state.user]));
 
     const onKeyDown = async (e: any) => {
         if (e.keyCode === 13 && e.shiftKey === false) {

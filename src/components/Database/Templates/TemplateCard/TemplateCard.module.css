@@ -1,8 +1,13 @@
+.card {
+    border-left-color: #E67700;
+    border-width: medium;
+}
+
 .inputCheckbox {
     background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7));
 }
 
 .inputCheckbox:checked {
-    background-color: var(--mantine-color-blue-9);
-    border-color: var(--mantine-color-blue-9);
+    background-color: #E67700;
+    border-color: #E67700;
 }

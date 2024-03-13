@@ -1,8 +1,8 @@
-import { ActionIcon, CopyButton, Tooltip } from "@mantine/core"
-import { IconCheck, IconCopy } from "@tabler/icons-react"
+import { ActionIcon, CopyButton, Tooltip } from "@mantine/core";
+import { IconCheck, IconCopy } from "@tabler/icons-react";
 
 interface ThreadCopyButton {
-    value: string
+    value: string,
 }
 export function ThreadCopyButton({ value }: ThreadCopyButton) {
     return (

@@ -1,25 +1,31 @@
 import { Accordion, Box, Center, Checkbox, Loader, Stack } from "@mantine/core";
 import { Modifier } from "../../../../models/Modifier";
 import { ModifierCard } from "../ModifierCard/ModifierCard";
-import { useSelectedModifiers } from "../../../../context/SelectedModifiersContext";
-import { useSelectedTemplates } from "../../../../context/SelectedTemplatesContext";
-import { PromptRequest } from "../../../../models/PromptRequest";
-import { useUserPromptRequest } from "../../../../context/UserPromptRequestContext";
 import { Technology } from "../../../../models/Technology";
 import { Provider } from "../../../../models/Provider";
 import { DatabaseLoadMoreLoader } from "../../Common/DatabaseLoadMoreLoader/DatabaseLoadMoreLoader";
-import { useIntersection } from "@mantine/hooks";
-import { RefObject, useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { useStore } from "../../../../stores/store";
+import { Thread } from "../../../../models/Thread";
 
 interface ModifiersList {
     modifiersQuery: any,
-    databaseListContainerRef: RefObject<HTMLDivElement>
 }
 
-export function ModifiersList({ modifiersQuery, databaseListContainerRef }: ModifiersList) {
-    const { selectedModifiers, setSelectedModifiers } = useSelectedModifiers();
-    const { setSelectedTemplates } = useSelectedTemplates();
-    const { userPromptRequest, setUserPromptRequest } = useUserPromptRequest();
+export function ModifiersList({ modifiersQuery }: ModifiersList) {
+    const [
+        selectedModifiers,
+        nextThread,
+        setSelectedTemplates,
+        setSelectedModifiers,
+        setNextThread
+    ] = useStore(useShallow(state => [
+        state.selectedModifiers,
+        state.nextThread,
+        state.setSelectedTemplates,
+        state.setSelectedModifiers,
+        state.setNextThread
+    ]));
 
     const onChange = async (ids: string[]) => {
         const modifiers: Modifier[] = [];
@@ -33,34 +39,21 @@ export function ModifiersList({ modifiersQuery, databaseListContainerRef }: Modi
 
         // Update userPromptRequest based on the first modifier selected
         if (modifiers.length > 0) {
-            const newUserRequest = PromptRequest.clone(userPromptRequest);
-            newUserRequest.technology = Technology.clone(modifiers[0].technology);
+            const newNextThread = Thread.clone(nextThread);
+            newNextThread.technology = Technology.clone(modifiers[0].technology);
 
             if (modifiers[0].provider) {
-                newUserRequest.provider = Provider.clone(modifiers[0].provider);
+                newNextThread.provider = Provider.clone(modifiers[0].provider);
             } else {
-                newUserRequest.provider = new Provider();
+                newNextThread.provider = new Provider();
             }
 
-            setUserPromptRequest(newUserRequest);
+            setNextThread(newNextThread);
         }
 
-        setSelectedTemplates([]);
         setSelectedModifiers(modifiers);
     }
 
-    const { ref, entry } = useIntersection({
-        root: databaseListContainerRef.current,
-        threshold: 1,
-    });
-
-    const {hasNextPage, fetchNextPage} = modifiersQuery;
-
-    useEffect(() => {
-        if (entry?.isIntersecting && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [entry, hasNextPage, fetchNextPage])
 
     return (
         <Box>
@@ -77,11 +70,9 @@ export function ModifiersList({ modifiersQuery, databaseListContainerRef }: Modi
                             modifiersQuery.data !== undefined &&
                             modifiersQuery.data.pages.map((page: any) => {
                                 return page.map((modifier: Modifier, index: number) => {
-                                    const isTarget = index === page.length / 2;
-
                                     return <ModifierCard
-                                        itemRef={isTarget ? ref : undefined}
-                                        key={modifier.id}
+                                        itemRef={undefined}
+                                        key={modifier.uuid}
                                         modifier={modifier}
                                     />;
                                 })

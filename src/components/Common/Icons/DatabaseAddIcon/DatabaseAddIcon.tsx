@@ -1,27 +1,64 @@
-import { ActionIcon, Menu, Modal, Tooltip } from "@mantine/core";
+import { ActionIcon, Group, Modal, Radio, Stack, Tooltip } from "@mantine/core";
 import { iconAdd } from "../../../../utils/iconsUtils";
 import classes from './DatabaseAddIcon.module.css';
-import { SaveModal } from "../../SaveModal/SaveModal";
 import { useDisclosure } from "@mantine/hooks";
-import { useSelectedDatabaseType } from "../../../../context/SelectedDatabaseTypeContext";
+import { useCreatePromptMutation } from "../../../../api/promptsApi";
+import { useCreateTemplateMutation } from "../../../../api/templatesApi";
+import { useCreateModifierMutation } from "../../../../api/modifiersApi";
+import { useState } from "react";
+import { TemplateForm } from "../../../Forms/TemplateForm/TemplateForm";
+import { ModifierForm } from "../../../Forms/ModifierForm/ModifierForm";
+import { PromptForm } from "../../../Forms/PromptForm/PromptForm";
 
-export function DatabaseAddIcon() {
-    const [opened, handle] = useDisclosure(false);
-    const { selectedDatabaseType } = useSelectedDatabaseType();
+interface DatabaseAddIcon {
+    onClick: any,
+    createItemOpened: boolean
+}
 
+export function DatabaseAddIcon({ onClick, createItemOpened }: DatabaseAddIcon) {
+    const variant = createItemOpened ? "light" : "subtle";
+
+    const [newPromptModalOpened, newPromptModalHandle] = useDisclosure(false);
+    const promptCreateMutation = useCreatePromptMutation();
+    const templateCreateMutation = useCreateTemplateMutation();
+    const modifierCreateMutation = useCreateModifierMutation();
+
+    const [formType, setFormType] = useState('prompt');
     return (
         <>
-            <SaveModal
-                opened={opened}
-                handle={handle}
-                promptRequest={undefined}
-            />
+            <Modal opened={newPromptModalOpened} onClose={newPromptModalHandle.close} title={`Create ${formType}`} size={"lg"}>
+                <Stack>
+                    <Radio.Group
+                        value={formType}
+                        onChange={setFormType}
+                        withAsterisk
+                    >
+                        <Group>
+                            <Radio value="prompt" label="Prompt" />
+                            <Radio value="template" label="Template" />
+                            <Radio value="modifier" label="Modifier" />
+                        </Group>
+                    </Radio.Group>
+
+                    {
+                        formType === 'prompt' && <PromptForm handle={newPromptModalHandle} mutation={promptCreateMutation} />
+                    }
+                    {
+                        formType === 'template' && <TemplateForm handle={newPromptModalHandle} mutation={templateCreateMutation} />
+                    }
+                    {
+                        formType === 'modifier' && <ModifierForm handle={newPromptModalHandle} mutation={modifierCreateMutation} />
+                    }
+                </Stack>
+
+            </Modal>
             <Tooltip label={"Create"}>
                 <ActionIcon
                     className={classes.icon}
                     size="lg"
-                    onClick={handle.open}
-                    variant="transparent"
+                    onClick={newPromptModalHandle.open}
+                    variant={variant}
+                    color="gray"
                 >
                     {
                         iconAdd("md")
