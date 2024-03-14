@@ -12,7 +12,7 @@ export function TemplatesField({form}: FieldProps) {
         state.user,
     ]));
 
-    const templatesQuery = useAllTemplatesQuery(user.id);
+    const templatesQuery = useAllTemplatesQuery(user.external_id);
 
     if (templatesQuery.data) {
         const selectData = templatesQuery.data.map((t: Template) => {
