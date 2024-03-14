@@ -109,6 +109,8 @@ export function TemplateCard({ template, itemRef }: TemplateCard) {
                 copyURL={copyPublicURL}
                 actionElement={actionElement}
                 color="orange"
+                numTemplates={0}
+                numModifiers={template.templates_modifiers.length}
             />
         </>
     )

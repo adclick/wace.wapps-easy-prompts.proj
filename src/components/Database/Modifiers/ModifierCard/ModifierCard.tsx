@@ -29,8 +29,6 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
 
     const [user] = useStore(useShallow(state => [state.user]));
 
-    const isUserItem = user.external_id === modifier.user.external_id;
-
     const openDetails = (e: any) => {
         e.stopPropagation();
         modifierDetailsHandle.open()
@@ -112,6 +110,8 @@ export function ModifierCard({ modifier, itemRef }: ModifierCard) {
                 copyURL={copyPublicURL}
                 actionElement={actionElement}
                 color="teal"
+                numTemplates={0}
+                numModifiers={0}
             />
         </>
     )

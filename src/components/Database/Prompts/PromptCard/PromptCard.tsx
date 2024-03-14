@@ -136,6 +136,8 @@ export function PromptCard({ prompt, navbarMobileHandle, itemRef }: PromptCard) 
                 copyURL={copyPublicURL}
                 actionElement={actionElement}
                 color={Prompt.getColor()}
+                numTemplates={prompt.prompts_templates.length}
+                numModifiers={prompt.prompts_modifiers.length}
             />
         </>
     )

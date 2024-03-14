@@ -16,7 +16,9 @@ interface DatabaseCardProps {
     openDeleteModal: any,
     copyURL: any,
     actionElement: ReactNode,
-    color: string
+    color: string,
+    numTemplates: number,
+    numModifiers: number
 }
 
 const DatabaseCard: FC<DatabaseCardProps> = ({
@@ -26,15 +28,15 @@ const DatabaseCard: FC<DatabaseCardProps> = ({
     openDeleteModal,
     copyURL,
     actionElement,
-    color
+    color,
+    numTemplates,
+    numModifiers
 }: DatabaseCardProps) => {
     const [
         user,
     ] = useStore(useShallow(state => [
         state.user,
     ]));
-
-    const isUserItem = user.external_id === item.user.external_id;
 
     return (
         <Accordion.Item value={item.uuid} styles={{
@@ -75,13 +77,23 @@ const DatabaseCard: FC<DatabaseCardProps> = ({
                     <Group justify="space-between">
                         {
                             item.provider &&
-                            <Badge variant="light" size="sm" color={color}>
+                            <Badge variant="dot" size="sm" color={color}>
                                 {item.provider.model_name}
                             </Badge>
                         }
                         <Group gap={"lg"}>
-                            <Button color="--mantine-color-text" leftSection={<IconTemplate size={14} />} variant="transparent" size="xs" px={0}>4</Button>
-                            <Button color="--mantine-color-text" leftSection={<IconSparkles size={14} />} variant="transparent" size="xs" px={0}>3</Button>
+                            {
+                                numTemplates > 0 &&
+                                <Button color="--mantine-color-text" leftSection={<IconTemplate size={14} />} variant="transparent" size="xs" px={0}>
+                                    {numTemplates}
+                                </Button>
+                            }
+                            {
+                                numModifiers > 0 &&
+                                <Button color="--mantine-color-text" leftSection={<IconSparkles size={14} />} variant="transparent" size="xs" px={0}>
+                                    {numModifiers}
+                                </Button>
+                            }
                         </Group>
                     </Group>
 
